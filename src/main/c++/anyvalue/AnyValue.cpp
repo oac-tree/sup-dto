@@ -26,6 +26,8 @@ namespace sup
 namespace dto
 {
 
+AnyValue::AnyValue() = default;
+
 }  // namespace sequencer
 
 }  // namespace sup

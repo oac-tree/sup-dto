@@ -40,6 +40,8 @@ namespace dto
  */
 class AnyValue
 {
+public:
+  AnyValue();
 };
 
 }  // namespace dto
