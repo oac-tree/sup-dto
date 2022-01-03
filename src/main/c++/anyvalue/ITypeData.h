@@ -40,13 +40,13 @@ namespace dto
 class ITypeData
 {
 public:
-  virtual ~ITypeData();
+  virtual ~ITypeData() = 0;
 
-  virtual ITypeData* Clone() const;
-  virtual TypeCode GetTypeCode() const;
+  virtual ITypeData* Clone() const = 0;
+  virtual TypeCode GetTypeCode() const = 0;
 
-  virtual AnyType& operator[](std::string fieldname);
-  virtual const AnyType& operator[](std::string fieldname) const;
+  virtual AnyType& operator[](std::string fieldname) = 0;
+  virtual const AnyType& operator[](std::string fieldname) const = 0;
 };
 
 ITypeData* CreateTypeData(TypeCode type_code, std::string name);
