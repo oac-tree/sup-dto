@@ -113,6 +113,11 @@ private:
   std::unique_ptr<ITypeData> data;
 };
 
+bool IsEmptyTypeCode(TypeCode type_code);
+bool IsStructTypeCode(TypeCode type_code);
+bool IsArrayTypeCode(TypeCode type_code);
+bool IsScalarTypeCode(TypeCode type_code);
+
 bool IsEmptyType(const AnyType& anytype);
 bool IsStructType(const AnyType& anytype);
 bool IsArrayType(const AnyType& anytype);

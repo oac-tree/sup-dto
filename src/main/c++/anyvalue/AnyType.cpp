@@ -88,26 +88,45 @@ const AnyType& AnyType::operator[](std::string fieldname) const
   return (*data)[fieldname];
 }
 
+bool IsEmptyTypeCode(TypeCode type_code)
+{
+  return type_code == TypeCode::Empty;
+}
+
+bool IsStructTypeCode(TypeCode type_code)
+{
+  return type_code == TypeCode::Struct;
+}
+
+bool IsArrayTypeCode(TypeCode type_code)
+{
+  return type_code == TypeCode::Array;
+}
+
+bool IsScalarTypeCode(TypeCode type_code)
+{
+  static auto scalar_types = ScalarTypes();
+  return scalar_types.count(type_code) == 1;
+}
+
 bool IsEmptyType(const AnyType& anytype)
 {
-  return anytype.GetTypeCode() == TypeCode::Empty;
+  return IsEmptyTypeCode(anytype.GetTypeCode());
 }
 
 bool IsStructType(const AnyType& anytype)
 {
-  return anytype.GetTypeCode() == TypeCode::Struct;
+  return IsStructTypeCode(anytype.GetTypeCode());
 }
 
 bool IsArrayType(const AnyType& anytype)
 {
-  return anytype.GetTypeCode() == TypeCode::Array;
+  return IsArrayTypeCode(anytype.GetTypeCode());
 }
 
 bool IsScalarType(const AnyType& anytype)
 {
-  static auto scalar_types = ScalarTypes();
-  auto type_code = anytype.GetTypeCode();
-  return scalar_types.count(type_code) == 1;
+  return IsScalarTypeCode(anytype.GetTypeCode());
 }
 
 namespace
