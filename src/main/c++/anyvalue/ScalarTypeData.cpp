@@ -8,7 +8,7 @@
  *
  * Author        : Walter Van Herck (IO)
  *
- * Copyright (c) : 2010-2021 ITER Organization,
+ * Copyright (c) : 2010-2022 ITER Organization,
  *                 CS 90 046
  *                 13067 St. Paul-lez-Durance Cedex
  *                 France
@@ -19,14 +19,39 @@
  * of the distribution package.
  ******************************************************************************/
 
-#include "AnyValue.h"
+#include "ScalarTypeData.h"
+
+#include <stdexcept>
 
 namespace sup
 {
 namespace dto
 {
 
-AnyValue::AnyValue() = default;
+ScalarTypeData::ScalarTypeData(TypeCode type_code_)
+  : type_code{type_code_}
+{}
+
+ScalarTypeData::~ScalarTypeData() = default;
+
+ScalarTypeData* ScalarTypeData::Clone() const
+{
+  return new ScalarTypeData(type_code);
+}
+
+TypeCode ScalarTypeData::GetTypeCode() const
+{
+  return type_code;
+}
+
+AnyType& ScalarTypeData::operator[](std::string fieldname)
+{
+  throw std::out_of_range("Index operator not supported for scalar types");
+}
+const AnyType& ScalarTypeData::operator[](std::string fieldname) const
+{
+  throw std::out_of_range("Index operator not supported for scalar types");
+}
 
 }  // namespace dto
 

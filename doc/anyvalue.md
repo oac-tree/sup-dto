@@ -36,13 +36,26 @@ What do types need to contain?
 * Element type: this could be a reference to the unique identifier, or a pointer to a real Type object.
 * [optional] Number of elements.
 
-## Construction of scalar values
+## Construction of types and values
+
+### Scalar values
 
 ```c++
 // From global scalar type tags:
-AnyType my_int32(Tag::Int32, "my_int32");
+extern const AnyType Int32;
 
-AnyValue my_int32_v(Tag::Int32, 24)
+AnyValue my_default_int32(Types::Int32)
+AnyValue my_int32(Types::Int32, 24)
+```
+
+### Structured values
+
+```c++
+// From global scalar type tags:
+AnyType my_struct_t(Tag::Struct, "my_struct_name").addMember("membername", Tag::Int32);
+
+AnyValue my_default_struct(Tag::Struct, "my_struct_name")
+AnyValue my_int32(Tag::Int32, 24)
 ```
 
 ## API based on pvxs

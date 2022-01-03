@@ -8,7 +8,7 @@
  *
  * Author        : Walter Van Herck (IO)
  *
- * Copyright (c) : 2010-2021 ITER Organization,
+ * Copyright (c) : 2010-2022 ITER Organization,
  *                 CS 90 046
  *                 13067 St. Paul-lez-Durance Cedex
  *                 France
@@ -19,15 +19,38 @@
  * of the distribution package.
  ******************************************************************************/
 
-#include "AnyValue.h"
+/**
+ * @file ITypeData.h
+ * @brief Header file for ITypeData.
+ * @date 03/01/2022
+ * @author Walter Van Herck (IO)
+ * @copyright 2010-2022 ITER Organization
+ * @details This header file contains the definition of the ITypeData interface.
+ */
+
+#ifndef _SUP_ITypeData_h_
+#define _SUP_ITypeData_h_
+
+#include "AnyType.h"
 
 namespace sup
 {
 namespace dto
 {
+class ITypeData
+{
+public:
+  virtual ~ITypeData();
 
-AnyValue::AnyValue() = default;
+  virtual ITypeData* Clone() const;
+  virtual TypeCode GetTypeCode() const;
+
+  virtual AnyType& operator[](std::string fieldname);
+  virtual const AnyType& operator[](std::string fieldname) const;
+};
 
 }  // namespace dto
 
 }  // namespace sup
+
+#endif  // _SUP_ITypeData_h_
