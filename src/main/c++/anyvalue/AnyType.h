@@ -59,6 +59,7 @@ public:
    * @brief Default constructor creates empty type.
    */
   AnyType();
+
   /**
    * @brief Constructor with typecode and optional name.
    *
@@ -71,6 +72,7 @@ public:
    * @brief Copy constructor.
    */
   AnyType(const AnyType& other);
+
   /**
    * @brief Copy assignment.
    */
@@ -80,12 +82,18 @@ public:
    * @brief Move constructor.
    */
   AnyType(AnyType&& other);
+
   /**
    * @brief Move assignment.
    */
   AnyType& operator=(AnyType&& other);
 
   ~AnyType();
+
+  /**
+   * @brief Get type code.
+   */
+  TypeCode GetTypeCode() const;
 
   /**
    * @brief Index operators.

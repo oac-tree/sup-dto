@@ -19,40 +19,38 @@
  * of the distribution package.
  ******************************************************************************/
 
-/**
- * @file ITypeData.h
- * @brief Header file for ITypeData.
- * @date 03/01/2022
- * @author Walter Van Herck (IO)
- * @copyright 2010-2022 ITER Organization
- * @details This header file contains the definition of the ITypeData interface.
- */
+#include "EmptyTypeData.h"
 
-#ifndef _SUP_ITypeData_h_
-#define _SUP_ITypeData_h_
-
-#include "AnyType.h"
+#include <stdexcept>
 
 namespace sup
 {
 namespace dto
 {
-class ITypeData
+
+EmptyTypeData::EmptyTypeData() = default;
+
+EmptyTypeData::~EmptyTypeData() = default;
+
+EmptyTypeData* EmptyTypeData::Clone() const
 {
-public:
-  virtual ~ITypeData();
+  return new EmptyTypeData();
+}
 
-  virtual ITypeData* Clone() const;
-  virtual TypeCode GetTypeCode() const;
+TypeCode EmptyTypeData::GetTypeCode() const
+{
+  return TypeCode::Empty;
+}
 
-  virtual AnyType& operator[](std::string fieldname);
-  virtual const AnyType& operator[](std::string fieldname) const;
-};
-
-ITypeData* CreateTypeData(TypeCode type_code, std::string name);
+AnyType& EmptyTypeData::operator[](std::string fieldname)
+{
+  throw std::out_of_range("Index operator not supported for empty type");
+}
+const AnyType& EmptyTypeData::operator[](std::string fieldname) const
+{
+  throw std::out_of_range("Index operator not supported for empty type");
+}
 
 }  // namespace dto
 
 }  // namespace sup
-
-#endif  // _SUP_ITypeData_h_

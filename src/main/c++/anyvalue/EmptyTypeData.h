@@ -20,39 +20,38 @@
  ******************************************************************************/
 
 /**
- * @file ITypeData.h
- * @brief Header file for ITypeData.
+ * @file EmptyTypeData.h
+ * @brief Header file for EmptyTypeData.
  * @date 03/01/2022
  * @author Walter Van Herck (IO)
  * @copyright 2010-2022 ITER Organization
- * @details This header file contains the definition of the ITypeData interface.
+ * @details This header file contains the definition of the EmptyTypeData class.
  */
 
-#ifndef _SUP_ITypeData_h_
-#define _SUP_ITypeData_h_
+#ifndef _SUP_EmptyTypeData_h_
+#define _SUP_EmptyTypeData_h_
 
-#include "AnyType.h"
+#include "ITypeData.h"
 
 namespace sup
 {
 namespace dto
 {
-class ITypeData
+class EmptyTypeData : public ITypeData
 {
 public:
-  virtual ~ITypeData();
+  EmptyTypeData();
+  ~EmptyTypeData() override;
 
-  virtual ITypeData* Clone() const;
-  virtual TypeCode GetTypeCode() const;
+  EmptyTypeData* Clone() const override;
+  TypeCode GetTypeCode() const override;
 
-  virtual AnyType& operator[](std::string fieldname);
-  virtual const AnyType& operator[](std::string fieldname) const;
+  AnyType& operator[](std::string fieldname) override;
+  const AnyType& operator[](std::string fieldname) const override;
 };
-
-ITypeData* CreateTypeData(TypeCode type_code, std::string name);
 
 }  // namespace dto
 
 }  // namespace sup
 
-#endif  // _SUP_ITypeData_h_
+#endif  // _SUP_EmptyTypeData_h_

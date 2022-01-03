@@ -20,39 +20,49 @@
  ******************************************************************************/
 
 /**
- * @file ITypeData.h
- * @brief Header file for ITypeData.
+ * @file AnyTypeTraits.h
+ * @brief Header file for AnyTypeTraits.
  * @date 03/01/2022
  * @author Walter Van Herck (IO)
  * @copyright 2010-2022 ITER Organization
- * @details This header file contains the definition of the ITypeData interface.
+ * @details This header file contains the definition of the AnyTypeTraits class templates.
  */
 
-#ifndef _SUP_ITypeData_h_
-#define _SUP_ITypeData_h_
+#ifndef _SUP_AnyTypeTraits_h_
+#define _SUP_AnyTypeTraits_h_
 
 #include "AnyType.h"
+
+#include <type_traits>
 
 namespace sup
 {
 namespace dto
 {
-class ITypeData
-{
-public:
-  virtual ~ITypeData();
 
-  virtual ITypeData* Clone() const;
-  virtual TypeCode GetTypeCode() const;
+/**
+ * @brief Type trait indicating a scalar type.
+ */
+template<TypeCode t>
+struct IsScalar : std::false_type
+{};
 
-  virtual AnyType& operator[](std::string fieldname);
-  virtual const AnyType& operator[](std::string fieldname) const;
-};
+template<>
+struct IsScalar<TypeCode::Int8> : std::true_type
+{};
 
-ITypeData* CreateTypeData(TypeCode type_code, std::string name);
+template<>
+struct IsScalar<TypeCode::UInt8> : std::true_type
+{};
+
+/**
+ * @brief Variable template for IsScalar<>.
+ */
+template<TypeCode t>
+constexpr bool IsScalar_v = IsScalar<t>::value;
 
 }  // namespace dto
 
 }  // namespace sup
 
-#endif  // _SUP_ITypeData_h_
+#endif  // _SUP_AnyTypeTraits_h_
