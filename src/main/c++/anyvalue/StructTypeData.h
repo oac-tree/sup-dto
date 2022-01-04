@@ -53,6 +53,8 @@ public:
   TypeCode GetTypeCode() const override;
   std::string GetTypeName() const override;
 
+  std::vector<std::string> MemberNames() const;
+
   AnyType& operator[](std::string fieldname) override;
   const AnyType& operator[](std::string fieldname) const override;
 

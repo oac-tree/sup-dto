@@ -73,6 +73,16 @@ std::string StructTypeData::GetTypeName() const
   return name;
 }
 
+std::vector<std::string> StructTypeData::MemberNames() const
+{
+  std::vector<std::string> result;
+  for (auto& member : members)
+  {
+    result.push_back(member.first);
+  }
+  return result;
+}
+
 AnyType& StructTypeData::operator[](std::string fieldname)
 {
   throw std::out_of_range("REPLACE THIS!!!");
