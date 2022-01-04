@@ -31,8 +31,10 @@
 #ifndef _SUP_AnyType_h_
 #define _SUP_AnyType_h_
 
+#include <initializer_list>
 #include <memory>
 #include <string>
+#include <utility>
 
 namespace sup
 {
@@ -45,6 +47,11 @@ enum class TypeCode
   Array,
   Int8,
   UInt8
+};
+
+struct StructTag
+{
+  static constexpr TypeCode type_code = TypeCode::Struct;
 };
 
 class ITypeData;
@@ -66,6 +73,14 @@ public:
    * @param type_code typecode.
    */
   AnyType(TypeCode type_code);
+
+  /**
+   * @brief Constructor for structures.
+   *
+   * @param tag tag for structured types.
+   * @param members list of member types.
+   */
+  AnyType(StructTag tag, std::initializer_list<std::pair<std::string, AnyType>> members);
 
   /**
    * @brief Copy constructor.
