@@ -38,6 +38,27 @@ What do types need to contain?
 
 ## Construction of types and values
 
+### In Python (pvapy)
+
+```python
+request = pva.PvObject(
+    {'qualifier': pva.STRING,
+     'value': {
+         'name': pva.STRING,
+         'config': pva.DOUBLE,
+         'input': {
+              'lowercutoff': pva.DOUBLE,
+              'uppercutoff': pva.DOUBLE,
+              'mode': pva.USHORT
+         }
+     }})
+
+request['qualifier'] = 'process'
+request['value.name'] = 'SUPDemo::PS1::cvvf::ValidateFilterSettings/v1.0'
+request['value.config'] = 1500
+request['value.input'] = response['value']
+```
+
 ### Scalar values
 
 ```c++

@@ -46,6 +46,7 @@ AnyType& EmptyTypeData::operator[](std::string fieldname)
 {
   throw std::out_of_range("Index operator not supported for empty type");
 }
+
 const AnyType& EmptyTypeData::operator[](std::string fieldname) const
 {
   throw std::out_of_range("Index operator not supported for empty type");

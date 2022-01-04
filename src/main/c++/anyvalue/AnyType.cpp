@@ -38,8 +38,8 @@ AnyType::AnyType()
   : data{new EmptyTypeData()}
 {}
 
-AnyType::AnyType(TypeCode type_code, std::string name)
-  : data{CreateTypeData(type_code, name)}
+AnyType::AnyType(TypeCode type_code)
+  : data{CreateTypeData(type_code)}
 {}
 
 AnyType::AnyType(const AnyType& other)
@@ -76,6 +76,11 @@ AnyType::~AnyType() = default;
 TypeCode AnyType::GetTypeCode() const
 {
   return data->GetTypeCode();
+}
+
+std::string AnyType::GetTypeName() const
+{
+  return data->GetTypeName();
 }
 
 AnyType& AnyType::operator[](std::string fieldname)

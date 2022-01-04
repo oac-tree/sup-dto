@@ -61,12 +61,11 @@ public:
   AnyType();
 
   /**
-   * @brief Constructor with typecode and optional name.
+   * @brief Constructor with typecode.
    *
    * @param type_code typecode.
-   * @param name optional name.
    */
-  AnyType(TypeCode type_code, std::string name = {});
+  AnyType(TypeCode type_code);
 
   /**
    * @brief Copy constructor.
@@ -94,6 +93,11 @@ public:
    * @brief Get type code.
    */
   TypeCode GetTypeCode() const;
+
+  /**
+   * @brief Get type name.
+   */
+  std::string GetTypeName() const;
 
   /**
    * @brief Index operators.

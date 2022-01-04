@@ -44,12 +44,13 @@ public:
 
   virtual ITypeData* Clone() const = 0;
   virtual TypeCode GetTypeCode() const = 0;
+  virtual std::string GetTypeName() const;
 
   virtual AnyType& operator[](std::string fieldname) = 0;
   virtual const AnyType& operator[](std::string fieldname) const = 0;
 };
 
-ITypeData* CreateTypeData(TypeCode type_code, std::string name);
+ITypeData* CreateTypeData(TypeCode type_code);
 
 }  // namespace dto
 
