@@ -107,9 +107,10 @@ AnyValue MyStructure = AnyType(TypeCode::Struct, "CustomerListType",
 Construction of values:
 
 ```c++
-// Directly from literals
+// Directly from literals or with type specification
 AnyValue a{15};
 AnyValue s{"my name"};
+AnyValue u{UnsignedInteger16, 20};
 
 // Partial specification of nested values (unspecified members are untouched)
 auto customer_a = AnyValue(MyStructureType,
