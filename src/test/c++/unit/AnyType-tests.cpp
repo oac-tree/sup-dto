@@ -70,7 +70,7 @@ TEST_F(AnyTypeTest, EmptyType)
   EXPECT_FALSE(IsScalarType(empty_type));
   EXPECT_EQ(empty_type.GetTypeCode(), TypeCode::Empty);
   EXPECT_EQ(empty_type.GetTypeName(), EMPTY_TYPE_NAME);
-  EXPECT_THROW(empty_type["field"], std::out_of_range);
+  EXPECT_THROW(empty_type["field"], KeyNotAllowedException);
 
   const AnyType copy = empty_type;
   EXPECT_TRUE(IsEmptyType(copy));
@@ -79,7 +79,7 @@ TEST_F(AnyTypeTest, EmptyType)
   EXPECT_FALSE(IsScalarType(copy));
   EXPECT_EQ(copy.GetTypeCode(), TypeCode::Empty);
   EXPECT_EQ(copy.GetTypeName(), EMPTY_TYPE_NAME);
-  EXPECT_THROW(copy["field"], std::out_of_range);
+  EXPECT_THROW(copy["field"], KeyNotAllowedException);
 
   AnyType moved = std::move(empty_type);
   EXPECT_TRUE(IsEmptyType(empty_type)); // Moved from type is always empty
@@ -89,7 +89,7 @@ TEST_F(AnyTypeTest, EmptyType)
   EXPECT_FALSE(IsScalarType(moved));
   EXPECT_EQ(moved.GetTypeCode(), TypeCode::Empty);
   EXPECT_EQ(moved.GetTypeName(), EMPTY_TYPE_NAME);
-  EXPECT_THROW(moved["field"], std::out_of_range);
+  EXPECT_THROW(moved["field"], KeyNotAllowedException);
 }
 
 TEST_F(AnyTypeTest, StructOfScalarType)
@@ -122,7 +122,7 @@ TEST_F(AnyTypeTest, ScalarTypes)
   EXPECT_TRUE(IsScalarType(int8_type));
   EXPECT_EQ(int8_type.GetTypeCode(), TypeCode::Int8);
   EXPECT_EQ(int8_type.GetTypeName(), INT8_TYPE_NAME);
-  EXPECT_THROW(int8_type["field"], std::out_of_range);
+  EXPECT_THROW(int8_type["field"], KeyNotAllowedException);
 
   AnyType uint8_type{TypeCode::UInt8};
   EXPECT_FALSE(IsEmptyType(uint8_type));
@@ -131,7 +131,7 @@ TEST_F(AnyTypeTest, ScalarTypes)
   EXPECT_TRUE(IsScalarType(uint8_type));
   EXPECT_EQ(uint8_type.GetTypeCode(), TypeCode::UInt8);
   EXPECT_EQ(uint8_type.GetTypeName(), UINT8_TYPE_NAME);
-  EXPECT_THROW(uint8_type["field"], std::out_of_range);
+  EXPECT_THROW(uint8_type["field"], KeyNotAllowedException);
 
   AnyType copy_int8 = int8_type;
   EXPECT_FALSE(IsEmptyType(copy_int8));
@@ -140,7 +140,7 @@ TEST_F(AnyTypeTest, ScalarTypes)
   EXPECT_TRUE(IsScalarType(copy_int8));
   EXPECT_EQ(copy_int8.GetTypeCode(), TypeCode::Int8);
   EXPECT_EQ(copy_int8.GetTypeName(), INT8_TYPE_NAME);
-  EXPECT_THROW(copy_int8["field"], std::out_of_range);
+  EXPECT_THROW(copy_int8["field"], KeyNotAllowedException);
 
   AnyType moved_uint8 = std::move(uint8_type);
   EXPECT_TRUE(IsEmptyType(uint8_type)); // Moved from type is always empty
@@ -150,7 +150,7 @@ TEST_F(AnyTypeTest, ScalarTypes)
   EXPECT_TRUE(IsScalarType(moved_uint8));
   EXPECT_EQ(moved_uint8.GetTypeCode(), TypeCode::UInt8);
   EXPECT_EQ(moved_uint8.GetTypeName(), UINT8_TYPE_NAME);
-  EXPECT_THROW(moved_uint8["field"], std::out_of_range);
+  EXPECT_THROW(moved_uint8["field"], KeyNotAllowedException);
 }
 
 AnyTypeTest::AnyTypeTest() = default;

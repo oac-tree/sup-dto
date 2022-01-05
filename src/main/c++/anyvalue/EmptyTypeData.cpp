@@ -21,7 +21,7 @@
 
 #include "EmptyTypeData.h"
 
-#include <stdexcept>
+#include "AnyValueExceptions.h"
 
 namespace sup
 {
@@ -44,12 +44,12 @@ TypeCode EmptyTypeData::GetTypeCode() const
 
 AnyType& EmptyTypeData::operator[](const std::string& fieldname)
 {
-  throw std::out_of_range("Index operator not supported for empty type");
+  throw KeyNotAllowedException("Index operator not supported for empty type");
 }
 
 const AnyType& EmptyTypeData::operator[](const std::string& fieldname) const
 {
-  throw std::out_of_range("Index operator not supported for empty type");
+  throw KeyNotAllowedException("Index operator not supported for empty type");
 }
 
 }  // namespace dto

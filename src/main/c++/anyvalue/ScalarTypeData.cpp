@@ -23,8 +23,6 @@
 
 #include "AnyValueExceptions.h"
 
-#include <stdexcept>
-
 namespace sup
 {
 namespace dto
@@ -48,12 +46,12 @@ TypeCode ScalarTypeData::GetTypeCode() const
 
 AnyType& ScalarTypeData::operator[](const std::string& fieldname)
 {
-  throw std::out_of_range("Index operator not supported for scalar types");
+  throw KeyNotAllowedException("Index operator not supported for scalar types");
 }
 
 const AnyType& ScalarTypeData::operator[](const std::string& fieldname) const
 {
-  throw std::out_of_range("Index operator not supported for scalar types");
+  throw KeyNotAllowedException("Index operator not supported for scalar types");
 }
 
 ScalarTypeData* CreateScalarData(TypeCode type_code)

@@ -60,7 +60,7 @@ public:
 };
 
 /**
- * @brief Exception thrown when trying to create a key that's not allowed.
+ * @brief Exception thrown when using a key that's not allowed.
  */
 class KeyNotAllowedException : public MessageException
 {
