@@ -149,6 +149,10 @@ bool IsScalarType(const AnyType& anytype)
   return IsScalarTypeCode(anytype.GetTypeCode());
 }
 
+const AnyType EmptyType{};
+const AnyType SignedInteger8{TypeCode::Int8};
+const AnyType UnsignedInteger8{TypeCode::UInt8};
+
 namespace
 {
 std::unordered_set<TypeCode> ScalarTypes()

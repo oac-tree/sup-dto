@@ -95,8 +95,8 @@ TEST_F(AnyTypeTest, StructOfScalarType)
 {
   const std::string two_scalar_name = "scalar_pair";
   AnyType two_scalars{{
-    {"signed", AnyType(TypeCode::Int8)},
-    {"unsigned", AnyType(TypeCode::UInt8)}
+    {"signed", SignedInteger8},
+    {"unsigned", UnsignedInteger8}
   }, two_scalar_name};
   EXPECT_FALSE(IsEmptyType(two_scalars));
   EXPECT_TRUE(IsStructType(two_scalars));

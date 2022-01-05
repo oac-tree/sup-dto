@@ -142,6 +142,10 @@ bool IsStructType(const AnyType& anytype);
 bool IsArrayType(const AnyType& anytype);
 bool IsScalarType(const AnyType& anytype);
 
+extern const AnyType EmptyType;
+extern const AnyType SignedInteger8;
+extern const AnyType UnsignedInteger8;
+
 }  // namespace dto
 
 }  // namespace sup
