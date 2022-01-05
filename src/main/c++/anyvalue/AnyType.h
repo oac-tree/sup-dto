@@ -128,6 +128,12 @@ public:
   AnyType& operator[](std::string fieldname);
   const AnyType& operator[](std::string fieldname) const;
 
+  /**
+   * @brief Comparison operators.
+   */
+  bool operator==(const AnyType& other) const;
+  bool operator!=(const AnyType& other) const;
+
 private:
   std::unique_ptr<ITypeData> data;
 };

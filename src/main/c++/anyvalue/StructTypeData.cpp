@@ -114,6 +114,30 @@ const AnyType& StructTypeData::operator[](const std::string& fieldname) const
   return member_type[fields.second];
 }
 
+bool StructTypeData::Equals(const ITypeData* other) const
+{
+  if (other->GetTypeCode() != TypeCode::Struct)
+  {
+    return false;
+  }
+  for (auto& member : members)
+  {
+    try
+    {
+      auto& other_member_type = (*other)[member.first];
+      if (member.second != other_member_type)
+      {
+        return false;
+      }
+    }
+    catch(const UnknownKeyException& e)
+    {
+      return false;
+    }
+  }
+  return true;
+}
+
 void StructTypeData::VerifyMemberName(const std::string& name) const
 {
   if (name.empty())

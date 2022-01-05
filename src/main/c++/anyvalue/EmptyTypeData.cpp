@@ -52,6 +52,11 @@ const AnyType& EmptyTypeData::operator[](const std::string& fieldname) const
   throw KeyNotAllowedException("Index operator not supported for empty type");
 }
 
+bool EmptyTypeData::Equals(const ITypeData* other) const
+{
+  return other->GetTypeCode() == TypeCode::Empty;
+}
+
 }  // namespace dto
 
 }  // namespace sup

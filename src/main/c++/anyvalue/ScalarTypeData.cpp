@@ -54,6 +54,11 @@ const AnyType& ScalarTypeData::operator[](const std::string& fieldname) const
   throw KeyNotAllowedException("Index operator not supported for scalar types");
 }
 
+bool ScalarTypeData::Equals(const ITypeData* other) const
+{
+  return other->GetTypeCode() == GetTypeCode();
+}
+
 ScalarTypeData* CreateScalarData(TypeCode type_code)
 {
   if (!IsScalarTypeCode(type_code))

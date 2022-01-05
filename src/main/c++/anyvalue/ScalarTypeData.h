@@ -49,6 +49,8 @@ public:
   AnyType& operator[](const std::string& fieldname) override;
   const AnyType& operator[](const std::string& fieldname) const override;
 
+  bool Equals(const ITypeData* other) const override;
+
 private:
   TypeCode type_code;
 };

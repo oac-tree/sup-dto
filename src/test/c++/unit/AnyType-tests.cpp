@@ -64,6 +64,8 @@ TEST_F(AnyTypeTest, TypeCodes)
 TEST_F(AnyTypeTest, EmptyType)
 {
   AnyType empty_type{};
+  EXPECT_EQ(empty_type, EmptyType);
+  EXPECT_NE(empty_type, SignedInteger8);
   EXPECT_TRUE(IsEmptyType(empty_type));
   EXPECT_FALSE(IsStructType(empty_type));
   EXPECT_FALSE(IsArrayType(empty_type));
@@ -74,6 +76,7 @@ TEST_F(AnyTypeTest, EmptyType)
 
   const AnyType copy = empty_type;
   EXPECT_TRUE(IsEmptyType(copy));
+  EXPECT_EQ(copy, EmptyType);
   EXPECT_FALSE(IsStructType(copy));
   EXPECT_FALSE(IsArrayType(copy));
   EXPECT_FALSE(IsScalarType(copy));
@@ -83,7 +86,9 @@ TEST_F(AnyTypeTest, EmptyType)
 
   AnyType moved = std::move(empty_type);
   EXPECT_TRUE(IsEmptyType(empty_type)); // Moved from type is always empty
+  EXPECT_EQ(empty_type, EmptyType);
   EXPECT_TRUE(IsEmptyType(moved));
+  EXPECT_EQ(copy, EmptyType);
   EXPECT_FALSE(IsStructType(moved));
   EXPECT_FALSE(IsArrayType(moved));
   EXPECT_FALSE(IsScalarType(moved));
@@ -111,6 +116,9 @@ TEST_F(AnyTypeTest, StructOfScalarType)
   auto& unsigned_type = two_scalars["unsigned"];
   EXPECT_EQ(signed_type.GetTypeCode(), TypeCode::Int8);
   EXPECT_EQ(unsigned_type.GetTypeCode(), TypeCode::UInt8);
+
+  AnyType copy = two_scalars;
+  EXPECT_EQ(copy, two_scalars);
 }
 
 TEST_F(AnyTypeTest, StructOfStructType)
@@ -150,6 +158,7 @@ TEST_F(AnyTypeTest, StructOfStructType)
       {"second", SignedInteger8}
     }, embedded_name}}
   }, nested_with_name_name};
+  EXPECT_EQ(nested_type_with_name, nested_type); // struct names are ignored?
   EXPECT_FALSE(IsEmptyType(nested_type_with_name));
   EXPECT_TRUE(IsStructType(nested_type_with_name));
   EXPECT_FALSE(IsArrayType(nested_type_with_name));
@@ -168,6 +177,8 @@ TEST_F(AnyTypeTest, StructOfStructType)
 TEST_F(AnyTypeTest, ScalarTypes)
 {
   AnyType int8_type{TypeCode::Int8};
+  EXPECT_EQ(int8_type, SignedInteger8);
+  EXPECT_NE(int8_type, UnsignedInteger8);
   EXPECT_FALSE(IsEmptyType(int8_type));
   EXPECT_FALSE(IsStructType(int8_type));
   EXPECT_FALSE(IsArrayType(int8_type));
@@ -177,6 +188,8 @@ TEST_F(AnyTypeTest, ScalarTypes)
   EXPECT_THROW(int8_type["field"], KeyNotAllowedException);
 
   AnyType uint8_type{TypeCode::UInt8};
+  EXPECT_EQ(uint8_type, UnsignedInteger8);
+  EXPECT_NE(uint8_type, SignedInteger8);
   EXPECT_FALSE(IsEmptyType(uint8_type));
   EXPECT_FALSE(IsStructType(uint8_type));
   EXPECT_FALSE(IsArrayType(uint8_type));
@@ -186,6 +199,8 @@ TEST_F(AnyTypeTest, ScalarTypes)
   EXPECT_THROW(uint8_type["field"], KeyNotAllowedException);
 
   AnyType copy_int8 = int8_type;
+  EXPECT_EQ(copy_int8, SignedInteger8);
+  EXPECT_NE(copy_int8, UnsignedInteger8);
   EXPECT_FALSE(IsEmptyType(copy_int8));
   EXPECT_FALSE(IsStructType(copy_int8));
   EXPECT_FALSE(IsArrayType(copy_int8));
@@ -195,7 +210,10 @@ TEST_F(AnyTypeTest, ScalarTypes)
   EXPECT_THROW(copy_int8["field"], KeyNotAllowedException);
 
   AnyType moved_uint8 = std::move(uint8_type);
+  EXPECT_EQ(moved_uint8, UnsignedInteger8);
+  EXPECT_NE(moved_uint8, SignedInteger8);
   EXPECT_TRUE(IsEmptyType(uint8_type)); // Moved from type is always empty
+  EXPECT_EQ(uint8_type, EmptyType);
   EXPECT_FALSE(IsEmptyType(moved_uint8));
   EXPECT_FALSE(IsStructType(moved_uint8));
   EXPECT_FALSE(IsArrayType(moved_uint8));

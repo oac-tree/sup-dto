@@ -108,6 +108,16 @@ const AnyType& AnyType::operator[](std::string fieldname) const
   return (*data)[fieldname];
 }
 
+bool AnyType::operator==(const AnyType& other) const
+{
+  return data->Equals(other.data.get());
+}
+
+bool AnyType::operator!=(const AnyType& other) const
+{
+  return !(this->operator==(other));
+}
+
 bool IsEmptyTypeCode(TypeCode type_code)
 {
   return type_code == TypeCode::Empty;

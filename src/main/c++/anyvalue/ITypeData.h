@@ -48,6 +48,8 @@ public:
 
   virtual AnyType& operator[](const std::string& fieldname) = 0;
   virtual const AnyType& operator[](const std::string& fieldname) const = 0;
+
+  virtual bool Equals(const ITypeData* other) const = 0;
 };
 
 }  // namespace dto
