@@ -46,8 +46,8 @@ public:
   virtual TypeCode GetTypeCode() const = 0;
   virtual std::string GetTypeName() const;
 
-  virtual AnyType& operator[](std::string fieldname) = 0;
-  virtual const AnyType& operator[](std::string fieldname) const = 0;
+  virtual AnyType& operator[](const std::string& fieldname) = 0;
+  virtual const AnyType& operator[](const std::string& fieldname) const = 0;
 };
 
 }  // namespace dto

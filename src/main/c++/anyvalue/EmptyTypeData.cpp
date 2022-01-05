@@ -42,12 +42,12 @@ TypeCode EmptyTypeData::GetTypeCode() const
   return TypeCode::Empty;
 }
 
-AnyType& EmptyTypeData::operator[](std::string fieldname)
+AnyType& EmptyTypeData::operator[](const std::string& fieldname)
 {
   throw std::out_of_range("Index operator not supported for empty type");
 }
 
-const AnyType& EmptyTypeData::operator[](std::string fieldname) const
+const AnyType& EmptyTypeData::operator[](const std::string& fieldname) const
 {
   throw std::out_of_range("Index operator not supported for empty type");
 }

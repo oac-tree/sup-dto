@@ -23,6 +23,8 @@
 
 #include "AnyValueExceptions.h"
 
+#include <algorithm>
+
 namespace sup
 {
 namespace dto
@@ -83,22 +85,62 @@ std::vector<std::string> StructTypeData::MemberNames() const
   return result;
 }
 
-AnyType& StructTypeData::operator[](std::string fieldname)
+AnyType& StructTypeData::operator[](const std::string& fieldname)
 {
-  throw std::out_of_range("REPLACE THIS!!!");
+  return const_cast<AnyType&>(static_cast<const StructTypeData&>(*this)[fieldname]);
 }
 
-const AnyType& StructTypeData::operator[](std::string fieldname) const
+const AnyType& StructTypeData::operator[](const std::string& fieldname) const
 {
-  throw std::out_of_range("REPLACE THIS!!!");
+  using pair_type = decltype(members)::value_type;
+  if (fieldname.empty())
+  {
+    throw EmptyKeyException("Trying to access a member with empty field name");
+  }
+  auto fields = StripFirstFieldName(fieldname);
+  auto it = std::find_if(members.cbegin(), members.cend(),
+                      [&fields](const pair_type& member){
+                        return member.first == fields.first;
+                      });
+  if (it == members.cend())
+  {
+    throw UnknownKeyException("Trying to access a member with unknown field name");
+  }
+  auto& member_type = it->second;
+  if (fields.second.empty())
+  {
+    return member_type;
+  }
+  return member_type[fields.second];
 }
 
 void StructTypeData::VerifyMemberName(const std::string& name) const
 {
+  if (name.empty())
+  {
+    throw KeyNotAllowedException("Member names cannot be empty");
+  }
   if (name.find_first_of(" [].") != std::string::npos)
   {
     throw KeyNotAllowedException("Member names cannot contain spaces, square brackets or dots");
   }
+}
+
+std::pair<std::string, std::string> StripFirstFieldName(const std::string& fieldname)
+{
+  auto pos = fieldname.find_first_of("[.");
+  if (pos == std::string::npos)
+  {
+    return { fieldname, ""};
+  }
+  auto first = fieldname.substr(0, pos);
+  auto rest = fieldname.substr(pos);
+  if (rest[0] == '.')
+  {
+    // Only strip dots
+    rest = rest.substr(1);
+  }
+  return { first, rest };
 }
 
 }  // namespace dto

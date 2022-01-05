@@ -43,6 +43,10 @@ KeyNotAllowedException::KeyNotAllowedException(const std::string& message)
   : MessageException{message}
 {}
 
+EmptyKeyException::EmptyKeyException(const std::string& message)
+  : MessageException{message}
+{}
+
 UnknownKeyException::UnknownKeyException(const std::string& message)
   : MessageException{message}
 {}

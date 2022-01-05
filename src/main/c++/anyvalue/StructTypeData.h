@@ -55,14 +55,16 @@ public:
 
   std::vector<std::string> MemberNames() const;
 
-  AnyType& operator[](std::string fieldname) override;
-  const AnyType& operator[](std::string fieldname) const override;
+  AnyType& operator[](const std::string& fieldname) override;
+  const AnyType& operator[](const std::string& fieldname) const override;
 
 private:
   std::string name;
   std::vector<std::pair<std::string, AnyType>> members;
   void VerifyMemberName(const std::string& name) const;
 };
+
+std::pair<std::string, std::string> StripFirstFieldName(const std::string& fieldname);
 
 }  // namespace dto
 

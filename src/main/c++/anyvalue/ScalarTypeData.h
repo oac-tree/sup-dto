@@ -46,8 +46,8 @@ public:
   ScalarTypeData* Clone() const override;
   TypeCode GetTypeCode() const override;
 
-  AnyType& operator[](std::string fieldname) override;
-  const AnyType& operator[](std::string fieldname) const override;
+  AnyType& operator[](const std::string& fieldname) override;
+  const AnyType& operator[](const std::string& fieldname) const override;
 
 private:
   TypeCode type_code;

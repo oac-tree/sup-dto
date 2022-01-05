@@ -22,6 +22,7 @@
 #include <gtest/gtest.h>
 
 #include "AnyType.h"
+#include "AnyValueExceptions.h"
 
 using namespace sup::dto;
 
@@ -104,7 +105,12 @@ TEST_F(AnyTypeTest, StructOfScalarType)
   EXPECT_FALSE(IsScalarType(two_scalars));
   EXPECT_EQ(two_scalars.GetTypeCode(), TypeCode::Struct);
   EXPECT_EQ(two_scalars.GetTypeName(), two_scalar_name);
-  EXPECT_THROW(two_scalars["unknownfield"], std::out_of_range);
+  EXPECT_THROW(two_scalars[""], EmptyKeyException);
+  EXPECT_THROW(two_scalars["unknownfield"], UnknownKeyException);
+  auto& signed_type = two_scalars["signed"];
+  auto& unsigned_type = two_scalars["unsigned"];
+  EXPECT_EQ(signed_type.GetTypeCode(), TypeCode::Int8);
+  EXPECT_EQ(unsigned_type.GetTypeCode(), TypeCode::UInt8);
 }
 
 TEST_F(AnyTypeTest, ScalarTypes)
