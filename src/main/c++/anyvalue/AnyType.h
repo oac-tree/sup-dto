@@ -49,11 +49,6 @@ enum class TypeCode
   UInt8
 };
 
-struct StructTag
-{
-  static constexpr TypeCode type_code = TypeCode::Struct;
-};
-
 class ITypeData;
 
 /**
@@ -68,19 +63,20 @@ public:
   AnyType();
 
   /**
-   * @brief Constructor with typecode.
+   * @brief Constructor with typecode. Only for scalar types.
    *
    * @param type_code typecode.
    */
-  AnyType(TypeCode type_code);
+  explicit AnyType(TypeCode type_code);
 
   /**
    * @brief Constructor for structures.
    *
-   * @param tag tag for structured types.
    * @param members list of member names and types.
+   * @param name Optional name for the type.
    */
-  AnyType(StructTag tag, std::initializer_list<std::pair<std::string, AnyType>> members);
+  AnyType(std::initializer_list<std::pair<std::string, AnyType>> members,
+          const std::string& name = {});
 
   /**
    * @brief Copy constructor.

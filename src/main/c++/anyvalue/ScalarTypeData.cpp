@@ -21,6 +21,8 @@
 
 #include "ScalarTypeData.h"
 
+#include "AnyValueExceptions.h"
+
 #include <stdexcept>
 
 namespace sup
@@ -52,6 +54,15 @@ AnyType& ScalarTypeData::operator[](std::string fieldname)
 const AnyType& ScalarTypeData::operator[](std::string fieldname) const
 {
   throw std::out_of_range("Index operator not supported for scalar types");
+}
+
+ScalarTypeData* CreateScalarData(TypeCode type_code)
+{
+  if (!IsScalarTypeCode(type_code))
+  {
+    throw KeyNotAllowedException("Not a known scalar type code");
+  }
+  return new ScalarTypeData(type_code);
 }
 
 }  // namespace dto

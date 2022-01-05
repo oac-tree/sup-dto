@@ -20,7 +20,10 @@
  ******************************************************************************/
 
 #include "AnyType.h"
+
 #include "EmptyTypeData.h"
+#include "ScalarTypeData.h"
+#include "StructTypeData.h"
 
 #include <unordered_set>
 
@@ -39,8 +42,20 @@ AnyType::AnyType()
 {}
 
 AnyType::AnyType(TypeCode type_code)
-  : data{CreateTypeData(type_code)}
+  : data{CreateScalarData(type_code)}
 {}
+
+AnyType::AnyType(std::initializer_list<std::pair<std::string, AnyType>> members,
+                 const std::string& name)
+  : data{new EmptyTypeData()}
+{
+  auto struct_data = std::make_unique<StructTypeData>(name);
+  for (auto& member : members)
+  {
+    struct_data->AddMember(member.first, member.second);
+  }
+  data = std::move(struct_data);
+}
 
 AnyType::AnyType(const AnyType& other)
   : data{other.data->Clone()}

@@ -50,8 +50,6 @@ public:
   virtual const AnyType& operator[](std::string fieldname) const = 0;
 };
 
-ITypeData* CreateTypeData(TypeCode type_code);
-
 }  // namespace dto
 
 }  // namespace sup

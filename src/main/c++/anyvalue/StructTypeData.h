@@ -43,7 +43,7 @@ namespace dto
 class StructTypeData : public ITypeData
 {
 public:
-  StructTypeData(std::string name = {});
+  StructTypeData(std::string name);
   ~StructTypeData() override;
 
   void AddMember(std::string name, const AnyType& type);

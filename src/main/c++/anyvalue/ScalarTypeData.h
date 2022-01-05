@@ -53,6 +53,8 @@ private:
   TypeCode type_code;
 };
 
+ScalarTypeData* CreateScalarData(TypeCode type_code);
+
 }  // namespace dto
 
 }  // namespace sup
