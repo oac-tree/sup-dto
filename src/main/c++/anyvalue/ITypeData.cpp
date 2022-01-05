@@ -2,7 +2,7 @@
  * $HeadURL: $
  * $Id: $
  *
- * Project       : SUP - Sequencer
+ * Project       : SUP - DTO
  *
  * Description   : Data transfer objects for SUP
  *
@@ -33,6 +33,8 @@ namespace
 {
 std::string TypeCodeToString(TypeCode type_code);
 }  // unnamed namespace
+
+ITypeData::~ITypeData() = default;
 
 std::string ITypeData::GetTypeName() const
 {

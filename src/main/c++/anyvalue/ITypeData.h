@@ -2,7 +2,7 @@
  * $HeadURL: $
  * $Id: $
  *
- * Project       : SUP - Sequencer
+ * Project       : SUP - DTO
  *
  * Description   : Data transfer objects for SUP
  *
@@ -40,7 +40,7 @@ namespace dto
 class ITypeData
 {
 public:
-  virtual ~ITypeData() = 0;
+  virtual ~ITypeData();
 
   virtual ITypeData* Clone() const = 0;
   virtual TypeCode GetTypeCode() const = 0;

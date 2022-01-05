@@ -4,7 +4,7 @@
  *
  * Project       : SUP - DTO
  *
- * Description   : Data transfer objects for SUP
+ * Description   : Unit test code
  *
  * Author        : Walter Van Herck (IO)
  *
@@ -19,34 +19,25 @@
  * of the distribution package.
  ******************************************************************************/
 
-#include "AnyValueExceptions.h"
+#include <gtest/gtest.h>
 
-namespace sup
-{
-namespace dto
-{
+#include "AnyType.h"
 
-MessageException::MessageException(std::string message_)
-  : message{std::move(message_)}
-{}
+using namespace sup::dto;
 
-const char* MessageException::what() const noexcept
+class AnyTypeTest : public ::testing::Test
 {
-  return message.c_str();
+protected:
+  AnyTypeTest();
+  virtual ~AnyTypeTest();
+};
+
+TEST_F(AnyTypeTest, EmptyType)
+{
+  AnyType empty_type{};
+  EXPECT_EQ(empty_type.GetTypeCode(), TypeCode::Empty);
 }
 
-DuplicateKeyException::DuplicateKeyException(const std::string& message)
-  : MessageException{message}
-{}
+AnyTypeTest::AnyTypeTest() = default;
 
-KeyNotAllowedException::KeyNotAllowedException(const std::string& message)
-  : MessageException{message}
-{}
-
-UnknownKeyException::UnknownKeyException(const std::string& message)
-  : MessageException{message}
-{}
-
-}  // namespace dto
-
-}  // namespace sup
+AnyTypeTest::~AnyTypeTest() = default;
