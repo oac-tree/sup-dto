@@ -41,6 +41,9 @@ namespace dto
 class AnyValue
 {
 public:
+  /**
+   * @brief Default constructor creates empty value.
+   */
   AnyValue();
 };
 
