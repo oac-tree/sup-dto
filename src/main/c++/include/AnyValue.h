@@ -31,6 +31,8 @@
 #ifndef _SUP_AnyValue_h_
 #define _SUP_AnyValue_h_
 
+#include "AnyType.h"
+
 namespace sup
 {
 namespace dto

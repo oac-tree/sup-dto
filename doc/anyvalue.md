@@ -63,10 +63,12 @@ request['value.input'] = response['value']
 
 ```c++
 // From global scalar type tags:
-extern const AnyType Int32;
+extern const AnyType SignedInteger8;
 
-AnyValue my_default_int32(Types::Int32)
-AnyValue my_int32(Types::Int32, 24)
+AnyValue my_default_int8(SignedInteger8);
+AnyValue my_int8(SignedInteger8, 24);
+
+my_default_int8 = 74;
 ```
 
 ### Structured values
@@ -85,16 +87,14 @@ Construction of types and default values for these types:
 
 ```c++
 // Full specification of the type:
-AnyValue MyStructure = AnyType(TypeCode::Struct, "CustomerType",
-                          {
-                            Members::Struct("account", "account_t",
-                              {
-                                 Members::String("bank"),
-                                 Members::Uint64("client_id")
-                              }),
-                            Members::Uint32("index"),
-                            Members::String("name")
-                          }).create();
+AnyType MyStructureType{{
+                          {"account", {{
+                            {"bank", String},
+                            {"client_id", UnsignedInteger64}
+                          }, "account_t"},
+                          {"index", UnsignedInteger32},
+                          {"name", String}
+                        }, "CustomerType"}};
 
 // Specification depending on previously registered named types:
 AnyValue MyStructure = AnyType(TypeCode::Struct, "CustomerListType",
@@ -107,8 +107,12 @@ AnyValue MyStructure = AnyType(TypeCode::Struct, "CustomerListType",
 Construction of values:
 
 ```c++
+// Directly from literals
+AnyValue a{15};
+AnyValue s{"my name"};
+
 // Partial specification of nested values (unspecified members are untouched)
-auto customer_a = AnyValue("CustomerType",
+auto customer_a = AnyValue(MyStructureType,
                     {
                       {"account",
                         {
