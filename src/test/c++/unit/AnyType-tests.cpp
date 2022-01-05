@@ -113,6 +113,58 @@ TEST_F(AnyTypeTest, StructOfScalarType)
   EXPECT_EQ(unsigned_type.GetTypeCode(), TypeCode::UInt8);
 }
 
+TEST_F(AnyTypeTest, StructOfStructType)
+{
+  const std::string nested_name = "nested_struct";
+  AnyType two_scalars{{
+    {"signed", SignedInteger8},
+    {"unsigned", UnsignedInteger8}
+  }};
+  AnyType nested_type{{
+    {"scalars", two_scalars},
+    {"single", {
+      {"first", SignedInteger8},
+      {"second", SignedInteger8}
+    }}
+  }, nested_name};
+  EXPECT_FALSE(IsEmptyType(nested_type));
+  EXPECT_TRUE(IsStructType(nested_type));
+  EXPECT_FALSE(IsArrayType(nested_type));
+  EXPECT_FALSE(IsScalarType(nested_type));
+  EXPECT_EQ(nested_type.GetTypeCode(), TypeCode::Struct);
+  EXPECT_EQ(nested_type.GetTypeName(), nested_name);
+  EXPECT_THROW(nested_type[""], EmptyKeyException);
+  EXPECT_THROW(nested_type["unknownfield"], UnknownKeyException);
+  auto& scalars_type = nested_type["scalars"];
+  auto& signed_type = nested_type["single.first"];
+  EXPECT_EQ(scalars_type.GetTypeCode(), TypeCode::Struct);
+  EXPECT_EQ(scalars_type.GetTypeName(), "");
+  EXPECT_EQ(signed_type.GetTypeCode(), TypeCode::Int8);
+
+  const std::string nested_with_name_name = "nested_struct_with_name";
+  const std::string embedded_name = "embedded_name";
+  AnyType nested_type_with_name{{
+    {"scalars", two_scalars},
+    {"single", {{
+      {"first", SignedInteger8},
+      {"second", SignedInteger8}
+    }, embedded_name}}
+  }, nested_with_name_name};
+  EXPECT_FALSE(IsEmptyType(nested_type_with_name));
+  EXPECT_TRUE(IsStructType(nested_type_with_name));
+  EXPECT_FALSE(IsArrayType(nested_type_with_name));
+  EXPECT_FALSE(IsScalarType(nested_type_with_name));
+  EXPECT_EQ(nested_type_with_name.GetTypeCode(), TypeCode::Struct);
+  EXPECT_EQ(nested_type_with_name.GetTypeName(), nested_with_name_name);
+  EXPECT_THROW(nested_type_with_name[""], EmptyKeyException);
+  EXPECT_THROW(nested_type_with_name["unknownfield"], UnknownKeyException);
+  auto& single_type = nested_type_with_name["single"];
+  auto& signed_type2 = nested_type_with_name["scalars.signed"];
+  EXPECT_EQ(single_type.GetTypeCode(), TypeCode::Struct);
+  EXPECT_EQ(single_type.GetTypeName(), embedded_name);
+  EXPECT_EQ(signed_type2.GetTypeCode(), TypeCode::Int8);
+}
+
 TEST_F(AnyTypeTest, ScalarTypes)
 {
   AnyType int8_type{TypeCode::Int8};
