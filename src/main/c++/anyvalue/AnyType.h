@@ -49,6 +49,10 @@ enum class TypeCode
   UInt8
 };
 
+const std::string EMPTY_TYPE_NAME = "empty";
+const std::string INT8_TYPE_NAME = "int8";
+const std::string UINT8_TYPE_NAME = "uint8";
+
 class ITypeData;
 
 /**

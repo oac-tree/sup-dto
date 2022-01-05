@@ -46,9 +46,9 @@ namespace
 std::string TypeCodeToString(TypeCode type_code)
 {
   static const std::map<TypeCode, std::string> type_map({
-    { TypeCode::Empty, "empty" },
-    { TypeCode::Int8, "int8" },
-    { TypeCode::UInt8, "uint8" }
+    { TypeCode::Empty, EMPTY_TYPE_NAME },
+    { TypeCode::Int8, INT8_TYPE_NAME },
+    { TypeCode::UInt8, UINT8_TYPE_NAME }
   });
   auto it = type_map.find(type_code);
   if (it == type_map.end())
