@@ -19,40 +19,43 @@
  * of the distribution package.
  ******************************************************************************/
 
-#include "ScalarTypeData.h"
+#include "ITypeData.h"
 
-#include <stdexcept>
+#include "AnyValueExceptions.h"
+#include <map>
 
 namespace sup
 {
 namespace dto
 {
 
-ScalarTypeData::ScalarTypeData(TypeCode type_code_)
-  : type_code{type_code_}
-{}
-
-ScalarTypeData::~ScalarTypeData() = default;
-
-ScalarTypeData* ScalarTypeData::Clone() const
+namespace
 {
-  return new ScalarTypeData(type_code);
+std::string TypeCodeToString(TypeCode type_code);
+}  // unnamed namespace
+
+std::string ITypeData::GetTypeName() const
+{
+  return TypeCodeToString(GetTypeCode());
 }
 
-TypeCode ScalarTypeData::GetTypeCode() const
+namespace
 {
-  return type_code;
-}
-
-AnyType& ScalarTypeData::operator[](std::string fieldname)
+std::string TypeCodeToString(TypeCode type_code)
 {
-  throw std::out_of_range("Index operator not supported for scalar types");
+  static const std::map<TypeCode, std::string> type_map({
+    { TypeCode::Empty, "empty" },
+    { TypeCode::Int8, "int8" },
+    { TypeCode::UInt8, "uint8" }
+  });
+  auto it = type_map.find(type_code);
+  if (it == type_map.end())
+  {
+    throw UnknownKeyException("Unknown typecode");
+  }
+  return it->second;
 }
-
-const AnyType& ScalarTypeData::operator[](std::string fieldname) const
-{
-  throw std::out_of_range("Index operator not supported for scalar types");
-}
+}  // unnamed namespace
 
 }  // namespace dto
 

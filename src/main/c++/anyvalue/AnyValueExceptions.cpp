@@ -26,23 +26,26 @@ namespace sup
 namespace dto
 {
 
-DuplicateKeyException::DuplicateKeyException(std::string message_)
+MessageException::MessageException(std::string message_)
   : message{std::move(message_)}
 {}
 
-const char* DuplicateKeyException::what() const noexcept
+const char* MessageException::what() const noexcept
 {
   return message.c_str();
 }
 
-KeyNotAllowedException::KeyNotAllowedException(std::string message_)
-  : message{std::move(message_)}
+DuplicateKeyException::DuplicateKeyException(const std::string& message)
+  : MessageException{message}
 {}
 
-const char* KeyNotAllowedException::what() const noexcept
-{
-  return message.c_str();
-}
+KeyNotAllowedException::KeyNotAllowedException(const std::string& message)
+  : MessageException{message}
+{}
+
+UnknownKeyException::UnknownKeyException(const std::string& message)
+  : MessageException{message}
+{}
 
 }  // namespace dto
 

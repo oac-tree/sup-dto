@@ -78,7 +78,7 @@ public:
    * @brief Constructor for structures.
    *
    * @param tag tag for structured types.
-   * @param members list of member types.
+   * @param members list of member names and types.
    */
   AnyType(StructTag tag, std::initializer_list<std::pair<std::string, AnyType>> members);
 

@@ -38,28 +38,43 @@ namespace sup
 {
 namespace dto
 {
-/**
- * @brief Exception thrown when trying to create a duplicate key.
+  /**
+ * @brief Base Exception class with message.
  */
-class DuplicateKeyException : public std::exception
+class MessageException : public std::exception
 {
 public:
-  DuplicateKeyException(std::string message);
+  MessageException(std::string message);
   const char* what() const noexcept override;
 private:
   std::string message;
 };
 
 /**
- * @brief Exception thrown when trying to create a key that's not allowed.
+ * @brief Exception thrown when trying to create a duplicate key.
  */
-class KeyNotAllowedException : public std::exception
+class DuplicateKeyException : public MessageException
 {
 public:
-  KeyNotAllowedException(std::string message);
-  const char* what() const noexcept override;
-private:
-  std::string message;
+  DuplicateKeyException(const std::string& message);
+};
+
+/**
+ * @brief Exception thrown when trying to create a key that's not allowed.
+ */
+class KeyNotAllowedException : public MessageException
+{
+public:
+  KeyNotAllowedException(const std::string& message);
+};
+
+/**
+ * @brief Exception thrown when trying to access an element with unknown key.
+ */
+class UnknownKeyException : public MessageException
+{
+public:
+  UnknownKeyException(const std::string& message);
 };
 
 }  // namespace dto
