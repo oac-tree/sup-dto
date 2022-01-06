@@ -21,14 +21,45 @@
 
 #include "AnyValue.h"
 
-#include "IValueData.h"
+#include "EmptyValueData.h"
 
 namespace sup
 {
 namespace dto
 {
 
-AnyValue::AnyValue() = default;
+AnyValue::AnyValue()
+  : data{new EmptyValueData{}}
+{}
+
+AnyValue::AnyValue(const AnyValue& other)
+  : data{other.data->Clone()}
+{}
+
+AnyValue& AnyValue::operator=(const AnyValue& other)
+{
+  if (this != &other)
+  {
+    data.reset(other.data->Clone());
+  }
+  return *this;
+}
+
+AnyValue::AnyValue(AnyValue&& other)
+  : data{other.data.release()}
+{
+  other.data.reset(new EmptyValueData());
+}
+
+AnyValue& AnyValue::operator=(AnyValue&& other)
+{
+  if (this != &other)
+  {
+    data.reset(other.data.release());
+    other.data.reset(new EmptyValueData());
+  }
+  return *this;
+}
 
 AnyValue::~AnyValue() = default;
 

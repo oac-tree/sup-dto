@@ -20,42 +20,41 @@
  ******************************************************************************/
 
 /**
- * @file IValueData.h
- * @brief Header file for IValueData.
+ * @file EmptyValueData.h
+ * @brief Header file for EmptyValueData.
  * @date 06/01/2022
  * @author Walter Van Herck (IO)
  * @copyright 2010-2022 ITER Organization
- * @details This header file contains the definition of the IValueData interface.
+ * @details This header file contains the definition of the EmptyValueData class.
  */
 
-#ifndef _SUP_IValueData_h_
-#define _SUP_IValueData_h_
+#ifndef _SUP_EmptyValueData_h_
+#define _SUP_EmptyValueData_h_
 
-#include "AnyValue.h"
+#include "IValueData.h"
 
 namespace sup
 {
 namespace dto
 {
-class IValueData
+class EmptyValueData : public IValueData
 {
 public:
-  virtual ~IValueData();
+  EmptyValueData();
+  ~EmptyValueData() override;
 
-  virtual IValueData* Clone() const = 0;
-  virtual TypeCode GetTypeCode() const = 0;
-  virtual std::string GetTypeName() const;
+  EmptyValueData* Clone() const override;
+  TypeCode GetTypeCode() const override;
+  ITypeData* GetType() const override;
 
-  virtual ITypeData* GetType() const = 0;
+  AnyValue& operator[](const std::string& fieldname) override;
+  const AnyValue& operator[](const std::string& fieldname) const override;
 
-  virtual AnyValue& operator[](const std::string& fieldname) = 0;
-  virtual const AnyValue& operator[](const std::string& fieldname) const = 0;
-
-  virtual bool Equals(const IValueData* other) const = 0;
+  bool Equals(const IValueData* other) const override;
 };
 
 }  // namespace dto
 
 }  // namespace sup
 
-#endif  // _SUP_IValueData_h_
+#endif  // _SUP_EmptyValueData_h_

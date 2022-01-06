@@ -1,0 +1,68 @@
+/******************************************************************************
+ * $HeadURL: $
+ * $Id: $
+ *
+ * Project       : SUP - DTO
+ *
+ * Description   : Data transfer objects for SUP
+ *
+ * Author        : Walter Van Herck (IO)
+ *
+ * Copyright (c) : 2010-2022 ITER Organization,
+ *                 CS 90 046
+ *                 13067 St. Paul-lez-Durance Cedex
+ *                 France
+ *
+ * This file is part of ITER CODAC software.
+ * For the terms and conditions of redistribution or use of this software
+ * refer to the file ITER-LICENSE.TXT located in the top level directory
+ * of the distribution package.
+ ******************************************************************************/
+
+#include "EmptyValueData.h"
+
+#include "AnyValueExceptions.h"
+#include "EmptyTypeData.h"
+
+namespace sup
+{
+namespace dto
+{
+
+EmptyValueData::EmptyValueData() = default;
+
+EmptyValueData::~EmptyValueData() = default;
+
+EmptyValueData* EmptyValueData::Clone() const
+{
+  return new EmptyValueData();
+}
+
+TypeCode EmptyValueData::GetTypeCode() const
+{
+  return TypeCode::Empty;
+}
+
+ITypeData* EmptyValueData::GetType() const
+{
+  return new EmptyTypeData();
+}
+
+AnyValue& EmptyValueData::operator[](const std::string& fieldname)
+{
+  throw KeyNotAllowedException("Index operator not supported for empty value");
+}
+
+const AnyValue& EmptyValueData::operator[](const std::string& fieldname) const
+{
+  throw KeyNotAllowedException("Index operator not supported for empty value");
+}
+
+bool EmptyValueData::Equals(const IValueData* other) const
+{
+  return other->GetTypeCode() == TypeCode::Empty;
+}
+
+}  // namespace dto
+
+}  // namespace sup

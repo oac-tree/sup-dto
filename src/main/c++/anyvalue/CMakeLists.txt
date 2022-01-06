@@ -4,6 +4,7 @@ target_sources(sup-dto-obj
         ${CMAKE_CURRENT_LIST_DIR}/AnyValue.cpp
         ${CMAKE_CURRENT_LIST_DIR}/AnyValueExceptions.cpp
         ${CMAKE_CURRENT_LIST_DIR}/EmptyTypeData.cpp
+        ${CMAKE_CURRENT_LIST_DIR}/EmptyValueData.cpp
         ${CMAKE_CURRENT_LIST_DIR}/ITypeData.cpp
         ${CMAKE_CURRENT_LIST_DIR}/IValueData.cpp
         ${CMAKE_CURRENT_LIST_DIR}/ScalarTypeData.cpp
