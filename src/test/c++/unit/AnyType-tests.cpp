@@ -158,7 +158,7 @@ TEST_F(AnyTypeTest, StructOfStructType)
       {"second", SignedInteger8}
     }, embedded_name}}
   }, nested_with_name_name};
-  EXPECT_EQ(nested_type_with_name, nested_type); // struct names are ignored?
+  EXPECT_NE(nested_type_with_name, nested_type); // struct names are different
   EXPECT_FALSE(IsEmptyType(nested_type_with_name));
   EXPECT_TRUE(IsStructType(nested_type_with_name));
   EXPECT_FALSE(IsArrayType(nested_type_with_name));

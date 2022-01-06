@@ -120,6 +120,10 @@ bool StructTypeData::Equals(const ITypeData* other) const
   {
     return false;
   }
+  if (GetTypeName() != other->GetTypeName())
+  {
+    return false;
+  }
   for (auto& member : members)
   {
     try

@@ -94,6 +94,16 @@ public:
   TypeCode GetTypeCode() const;
 
   /**
+   * @brief Get type specification.
+   */
+  AnyType GetType() const;
+
+  /**
+   * @brief Get type name.
+   */
+  std::string GetTypeName() const;
+
+  /**
    * @brief Index operators.
    *
    * @details Retrieves the embedded AnyValue by following the fields in fieldname, seperated
@@ -115,6 +125,11 @@ public:
 private:
   std::unique_ptr<IValueData> data;
 };
+
+bool IsEmptyValue(const AnyValue& anyvalue);
+bool IsStructValue(const AnyValue& anyvalue);
+bool IsArrayValue(const AnyValue& anyvalue);
+bool IsScalarValue(const AnyValue& anyvalue);
 
 }  // namespace dto
 

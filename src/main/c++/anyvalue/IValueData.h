@@ -46,7 +46,7 @@ public:
   virtual TypeCode GetTypeCode() const = 0;
   virtual std::string GetTypeName() const;
 
-  virtual ITypeData* GetType() const = 0;
+  virtual AnyType GetType() const = 0;
 
   virtual AnyValue& operator[](const std::string& fieldname) = 0;
   virtual const AnyValue& operator[](const std::string& fieldname) const = 0;

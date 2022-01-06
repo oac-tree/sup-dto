@@ -63,6 +63,61 @@ AnyValue& AnyValue::operator=(AnyValue&& other)
 
 AnyValue::~AnyValue() = default;
 
+TypeCode AnyValue::GetTypeCode() const
+{
+  return data->GetTypeCode();
+}
+
+AnyType AnyValue::GetType() const
+{
+  return data->GetType();
+}
+
+std::string AnyValue::GetTypeName() const
+{
+  return data->GetTypeName();
+}
+
+AnyValue& AnyValue::operator[](std::string fieldname)
+{
+  return (*data)[fieldname];
+}
+
+const AnyValue& AnyValue::operator[](std::string fieldname) const
+{
+  return (*data)[fieldname];
+}
+
+bool AnyValue::operator==(const AnyValue& other) const
+{
+  return data->Equals(other.data.get());
+}
+
+bool AnyValue::operator!=(const AnyValue& other) const
+{
+  return !(this->operator==(other));
+}
+
+bool IsEmptyValue(const AnyValue& anyvalue)
+{
+  return IsEmptyTypeCode(anyvalue.GetTypeCode());
+}
+
+bool IsStructValue(const AnyValue& anyvalue)
+{
+  return IsStructTypeCode(anyvalue.GetTypeCode());
+}
+
+bool IsArrayValue(const AnyValue& anyvalue)
+{
+  return IsArrayTypeCode(anyvalue.GetTypeCode());
+}
+
+bool IsScalarValue(const AnyValue& anyvalue)
+{
+  return IsScalarTypeCode(anyvalue.GetTypeCode());
+}
+
 }  // namespace dto
 
 }  // namespace sup

@@ -45,7 +45,7 @@ public:
 
   EmptyValueData* Clone() const override;
   TypeCode GetTypeCode() const override;
-  ITypeData* GetType() const override;
+  AnyType GetType() const override;
 
   AnyValue& operator[](const std::string& fieldname) override;
   const AnyValue& operator[](const std::string& fieldname) const override;

@@ -43,9 +43,9 @@ TypeCode EmptyValueData::GetTypeCode() const
   return TypeCode::Empty;
 }
 
-ITypeData* EmptyValueData::GetType() const
+AnyType EmptyValueData::GetType() const
 {
-  return new EmptyTypeData();
+  return AnyType{};
 }
 
 AnyValue& EmptyValueData::operator[](const std::string& fieldname)
