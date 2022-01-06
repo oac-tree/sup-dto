@@ -19,43 +19,23 @@
  * of the distribution package.
  ******************************************************************************/
 
-/**
- * @file ITypeData.h
- * @brief Header file for ITypeData.
- * @date 03/01/2022
- * @author Walter Van Herck (IO)
- * @copyright 2010-2022 ITER Organization
- * @details This header file contains the definition of the ITypeData interface.
- */
+#include "IValueData.h"
 
-#ifndef _SUP_ITypeData_h_
-#define _SUP_ITypeData_h_
-
-#include "AnyType.h"
+#include "AnyValueExceptions.h"
+#include "ITypeData.h"
 
 namespace sup
 {
 namespace dto
 {
-class ITypeData
+
+IValueData::~IValueData() = default;
+
+std::string IValueData::GetTypeName() const
 {
-public:
-  virtual ~ITypeData();
-
-  virtual ITypeData* Clone() const = 0;
-  virtual TypeCode GetTypeCode() const = 0;
-  virtual std::string GetTypeName() const;
-
-  virtual AnyType& operator[](const std::string& fieldname) = 0;
-  virtual const AnyType& operator[](const std::string& fieldname) const = 0;
-
-  virtual bool Equals(const ITypeData* other) const = 0;
-};
-
-std::string TypeCodeToString(TypeCode type_code);
+  return TypeCodeToString(GetTypeCode());
+}
 
 }  // namespace dto
 
 }  // namespace sup
-
-#endif  // _SUP_ITypeData_h_

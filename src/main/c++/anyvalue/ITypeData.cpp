@@ -22,17 +22,13 @@
 #include "ITypeData.h"
 
 #include "AnyValueExceptions.h"
+
 #include <map>
 
 namespace sup
 {
 namespace dto
 {
-
-namespace
-{
-std::string TypeCodeToString(TypeCode type_code);
-}  // unnamed namespace
 
 ITypeData::~ITypeData() = default;
 
@@ -41,8 +37,6 @@ std::string ITypeData::GetTypeName() const
   return TypeCodeToString(GetTypeCode());
 }
 
-namespace
-{
 std::string TypeCodeToString(TypeCode type_code)
 {
   static const std::map<TypeCode, std::string> type_map({
@@ -57,7 +51,6 @@ std::string TypeCodeToString(TypeCode type_code)
   }
   return it->second;
 }
-}  // unnamed namespace
 
 }  // namespace dto
 

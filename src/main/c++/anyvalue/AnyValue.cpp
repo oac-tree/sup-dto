@@ -21,6 +21,8 @@
 
 #include "AnyValue.h"
 
+#include "IValueData.h"
+
 namespace sup
 {
 namespace dto

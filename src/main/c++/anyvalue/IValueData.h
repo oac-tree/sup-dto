@@ -20,42 +20,40 @@
  ******************************************************************************/
 
 /**
- * @file ITypeData.h
- * @brief Header file for ITypeData.
- * @date 03/01/2022
+ * @file IValueData.h
+ * @brief Header file for IValueData.
+ * @date 06/01/2022
  * @author Walter Van Herck (IO)
  * @copyright 2010-2022 ITER Organization
- * @details This header file contains the definition of the ITypeData interface.
+ * @details This header file contains the definition of the IValueData interface.
  */
 
-#ifndef _SUP_ITypeData_h_
-#define _SUP_ITypeData_h_
+#ifndef _SUP_IValueData_h_
+#define _SUP_IValueData_h_
 
-#include "AnyType.h"
+#include "AnyValue.h"
 
 namespace sup
 {
 namespace dto
 {
-class ITypeData
+class IValueData
 {
 public:
-  virtual ~ITypeData();
+  virtual ~IValueData();
 
-  virtual ITypeData* Clone() const = 0;
+  virtual IValueData* Clone() const = 0;
   virtual TypeCode GetTypeCode() const = 0;
   virtual std::string GetTypeName() const;
 
-  virtual AnyType& operator[](const std::string& fieldname) = 0;
-  virtual const AnyType& operator[](const std::string& fieldname) const = 0;
+  virtual AnyValue& operator[](const std::string& fieldname) = 0;
+  virtual const AnyValue& operator[](const std::string& fieldname) const = 0;
 
-  virtual bool Equals(const ITypeData* other) const = 0;
+  virtual bool Equals(const IValueData* other) const = 0;
 };
-
-std::string TypeCodeToString(TypeCode type_code);
 
 }  // namespace dto
 
 }  // namespace sup
 
-#endif  // _SUP_ITypeData_h_
+#endif  // _SUP_IValueData_h_
