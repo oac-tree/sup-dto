@@ -20,45 +20,45 @@
  ******************************************************************************/
 
 /**
- * @file ScalarTypeData.h
- * @brief Header file for ScalarTypeData.
- * @date 03/01/2022
+ * @file ScalarValueData.h
+ * @brief Header file for ScalarValueData.
+ * @date 06/01/2022
  * @author Walter Van Herck (IO)
  * @copyright 2010-2022 ITER Organization
- * @details This header file contains the definition of the ScalarTypeData class.
+ * @details This header file contains the definition of the ScalarValueData class.
  */
 
-#ifndef _SUP_ScalarTypeData_h_
-#define _SUP_ScalarTypeData_h_
+#ifndef _SUP_ScalarValueData_h_
+#define _SUP_ScalarValueData_h_
 
-#include "ITypeData.h"
+#include "IValueData.h"
 
 namespace sup
 {
 namespace dto
 {
-class ScalarTypeData : public ITypeData
+class ScalarValueData : public IValueData
 {
 public:
-  ScalarTypeData(TypeCode type_code);
-  ~ScalarTypeData() override;
+  ScalarValueData(TypeCode type_code);
+  ~ScalarValueData() override;
 
-  ScalarTypeData* Clone() const override;
+  ScalarValueData* Clone() const override;
   TypeCode GetTypeCode() const override;
 
-  AnyType& operator[](const std::string& fieldname) override;
-  const AnyType& operator[](const std::string& fieldname) const override;
+  AnyType GetType() const override;
 
-  bool Equals(const ITypeData* other) const override;
+  AnyValue& operator[](const std::string& fieldname) override;
+  const AnyValue& operator[](const std::string& fieldname) const override;
+
+  bool Equals(const IValueData* other) const override;
 
 private:
   TypeCode type_code;
 };
 
-ScalarTypeData* CreateScalarData(TypeCode type_code);
-
 }  // namespace dto
 
 }  // namespace sup
 
-#endif  // _SUP_ScalarTypeData_h_
+#endif  // _SUP_ScalarValueData_h_
