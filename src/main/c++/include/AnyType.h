@@ -102,6 +102,9 @@ public:
    */
   AnyType& operator=(AnyType&& other);
 
+  /**
+   * @brief Destructor.
+   */
   ~AnyType();
 
   /**

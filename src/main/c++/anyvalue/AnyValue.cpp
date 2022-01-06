@@ -28,6 +28,8 @@ namespace dto
 
 AnyValue::AnyValue() = default;
 
+AnyValue::~AnyValue() = default;
+
 }  // namespace dto
 
 }  // namespace sup

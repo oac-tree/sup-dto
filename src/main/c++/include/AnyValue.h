@@ -33,10 +33,17 @@
 
 #include "AnyType.h"
 
+#include <initializer_list>
+#include <memory>
+#include <string>
+#include <utility>
+
 namespace sup
 {
 namespace dto
 {
+class IValueData;
+
 /**
  * @brief Class for structured data transfer objects.
  */
@@ -47,6 +54,66 @@ public:
    * @brief Default constructor creates empty value.
    */
   AnyValue();
+
+  /**
+   * @brief Constructor with type specification.
+   *
+   * @param anytype type specification.
+   * @note This constructor default initializes all its leaf values.
+   */
+  explicit AnyValue(AnyType anytype);
+
+  /**
+   * @brief Copy constructor.
+   */
+  AnyValue(const AnyValue& other);
+
+  /**
+   * @brief Copy assignment.
+   */
+  AnyValue& operator=(const AnyValue& other);
+
+  /**
+   * @brief Move constructor.
+   */
+  AnyValue(AnyValue&& other);
+
+  /**
+   * @brief Move assignment.
+   */
+  AnyValue& operator=(AnyValue&& other);
+
+  /**
+   * @brief Destructor.
+   */
+  ~AnyValue();
+
+  /**
+   * @brief Get type code.
+   */
+  TypeCode GetTypeCode() const;
+
+  /**
+   * @brief Index operators.
+   *
+   * @details Retrieves the embedded AnyValue by following the fields in fieldname, seperated
+   * by '[index]' and '.'.
+   * @code
+     // Get value of first message from a structure with field 'messages', which is an array of messages:
+     auto message_value = my_value["messages[0]"]
+     @endcode
+   */
+  AnyValue& operator[](std::string fieldname);
+  const AnyValue& operator[](std::string fieldname) const;
+
+  /**
+   * @brief Comparison operators.
+   */
+  bool operator==(const AnyValue& other) const;
+  bool operator!=(const AnyValue& other) const;
+
+private:
+  // std::unique_ptr<IValueData> data;
 };
 
 }  // namespace dto
