@@ -23,10 +23,25 @@
 
 #include "AnyValueExceptions.h"
 
+#include <type_traits>
+
 namespace sup
 {
 namespace dto
 {
+template<typename T,
+         typename = std::enable_if<std::is_integral<T>::value>>
+class IntegerStore
+{
+public:
+  IntegerStore(T val) : value(val) {}
+
+  template<typename U,
+           typename = std::enable_if<std::is_integral<U>::value>>
+  U as() const;
+private:
+  T value;
+};
 
 ScalarValueData::ScalarValueData(TypeCode type_code_)
   : type_code{type_code_}
