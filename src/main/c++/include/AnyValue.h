@@ -33,6 +33,9 @@
 
 #include "AnyType.h"
 
+#include "AnyValueExceptions.h"
+#include "BasicScalarTypes.h"
+
 #include <initializer_list>
 #include <memory>
 #include <string>
@@ -104,6 +107,23 @@ public:
   std::string GetTypeName() const;
 
   /**
+   * @brief Cast to given type.
+   *
+   * @note Throws when conversion is not supported.
+   */
+  template <typename T>
+  T As() const;
+
+  /**
+   * @brief Cast to given type.
+   *
+   * @return true on success.
+   * @note Does not throw on invalid conversions.
+   */
+  template <typename T>
+  bool As(T& value) const;
+
+  /**
    * @brief Index operators.
    *
    * @details Retrieves the embedded AnyValue by following the fields in fieldname, seperated
@@ -125,6 +145,32 @@ public:
 private:
   std::unique_ptr<IValueData> data;
 };
+
+template <typename T>
+T AnyValue::As() const
+{
+  throw InvalidConversionException("Conversion not supported");
+}
+
+template <>
+int8 AnyValue::As<int8>() const;
+
+template <>
+uint8 AnyValue::As<uint8>() const;
+
+template <typename T>
+bool AnyValue::As(T& value) const
+{
+  try
+  {
+    value = As<T>();
+    return true;
+  }
+  catch(const InvalidConversionException& e)
+  {
+    return false;
+  }
+}
 
 bool IsEmptyValue(const AnyValue& anyvalue);
 bool IsStructValue(const AnyValue& anyvalue);

@@ -45,8 +45,10 @@ public:
   virtual IValueData* Clone() const = 0;
   virtual TypeCode GetTypeCode() const = 0;
   virtual std::string GetTypeName() const;
-
   virtual AnyType GetType() const = 0;
+
+  virtual int8 AsSignedInteger8() const;
+  virtual uint8 AsUnsignedInteger8() const;
 
   virtual AnyValue& operator[](const std::string& fieldname) = 0;
   virtual const AnyValue& operator[](const std::string& fieldname) const = 0;

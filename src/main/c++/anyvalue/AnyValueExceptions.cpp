@@ -51,6 +51,10 @@ UnknownKeyException::UnknownKeyException(const std::string& message)
   : MessageException{message}
 {}
 
+InvalidConversionException::InvalidConversionException(const std::string& message)
+  : MessageException{message}
+{}
+
 }  // namespace dto
 
 }  // namespace sup

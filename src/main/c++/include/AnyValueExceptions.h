@@ -86,6 +86,15 @@ public:
   UnknownKeyException(const std::string& message);
 };
 
+/**
+ * @brief Exception thrown when trying to perform an invalid conversion.
+ */
+class InvalidConversionException : public MessageException
+{
+public:
+  InvalidConversionException(const std::string& message);
+};
+
 }  // namespace dto
 
 }  // namespace sup

@@ -36,6 +36,16 @@ std::string IValueData::GetTypeName() const
   return TypeCodeToString(GetTypeCode());
 }
 
+int8 IValueData::AsSignedInteger8() const
+{
+  throw InvalidConversionException("Conversion to int8 not supported for this type");
+}
+
+uint8 IValueData::AsUnsignedInteger8() const
+{
+  throw InvalidConversionException("Conversion to uint8 not supported for this type");
+}
+
 }  // namespace dto
 
 }  // namespace sup

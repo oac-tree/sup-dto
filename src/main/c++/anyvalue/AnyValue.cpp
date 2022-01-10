@@ -98,6 +98,18 @@ bool AnyValue::operator!=(const AnyValue& other) const
   return !(this->operator==(other));
 }
 
+template <>
+int8 AnyValue::As<int8>() const
+{
+  return data->AsSignedInteger8();
+}
+
+template <>
+uint8 AnyValue::As<uint8>() const
+{
+  return data->AsUnsignedInteger8();
+}
+
 bool IsEmptyValue(const AnyValue& anyvalue)
 {
   return IsEmptyTypeCode(anyvalue.GetTypeCode());
