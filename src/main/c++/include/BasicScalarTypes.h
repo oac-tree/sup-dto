@@ -36,6 +36,7 @@ namespace sup
 namespace dto
 {
 
+using boolean = bool;
 using int8 = signed char;
 using uint8 = unsigned char;
 

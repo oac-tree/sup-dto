@@ -174,7 +174,32 @@ TEST_F(AnyTypeTest, StructOfStructType)
   EXPECT_EQ(signed_type2.GetTypeCode(), TypeCode::Int8);
 }
 
-TEST_F(AnyTypeTest, ScalarTypes)
+TEST_F(AnyTypeTest, Boolean)
+{
+  AnyType boolean_type{TypeCode::Bool};
+  EXPECT_EQ(boolean_type, Boolean);
+  EXPECT_NE(boolean_type, UnsignedInteger8);
+  EXPECT_FALSE(IsEmptyType(boolean_type));
+  EXPECT_FALSE(IsStructType(boolean_type));
+  EXPECT_FALSE(IsArrayType(boolean_type));
+  EXPECT_TRUE(IsScalarType(boolean_type));
+  EXPECT_EQ(boolean_type.GetTypeCode(), TypeCode::Bool);
+  EXPECT_EQ(boolean_type.GetTypeName(), BOOLEAN_TYPE_NAME);
+  EXPECT_THROW(boolean_type["field"], KeyNotAllowedException);
+
+  AnyType copy_boolean = boolean_type;
+  EXPECT_EQ(copy_boolean, Boolean);
+  EXPECT_NE(copy_boolean, UnsignedInteger8);
+  EXPECT_FALSE(IsEmptyType(copy_boolean));
+  EXPECT_FALSE(IsStructType(copy_boolean));
+  EXPECT_FALSE(IsArrayType(copy_boolean));
+  EXPECT_TRUE(IsScalarType(copy_boolean));
+  EXPECT_EQ(copy_boolean.GetTypeCode(), TypeCode::Bool);
+  EXPECT_EQ(copy_boolean.GetTypeName(), BOOLEAN_TYPE_NAME);
+  EXPECT_THROW(copy_boolean["field"], KeyNotAllowedException);
+}
+
+TEST_F(AnyTypeTest, SignedInteger8)
 {
   AnyType int8_type{TypeCode::Int8};
   EXPECT_EQ(int8_type, SignedInteger8);
@@ -187,17 +212,6 @@ TEST_F(AnyTypeTest, ScalarTypes)
   EXPECT_EQ(int8_type.GetTypeName(), INT8_TYPE_NAME);
   EXPECT_THROW(int8_type["field"], KeyNotAllowedException);
 
-  AnyType uint8_type{TypeCode::UInt8};
-  EXPECT_EQ(uint8_type, UnsignedInteger8);
-  EXPECT_NE(uint8_type, SignedInteger8);
-  EXPECT_FALSE(IsEmptyType(uint8_type));
-  EXPECT_FALSE(IsStructType(uint8_type));
-  EXPECT_FALSE(IsArrayType(uint8_type));
-  EXPECT_TRUE(IsScalarType(uint8_type));
-  EXPECT_EQ(uint8_type.GetTypeCode(), TypeCode::UInt8);
-  EXPECT_EQ(uint8_type.GetTypeName(), UINT8_TYPE_NAME);
-  EXPECT_THROW(uint8_type["field"], KeyNotAllowedException);
-
   AnyType copy_int8 = int8_type;
   EXPECT_EQ(copy_int8, SignedInteger8);
   EXPECT_NE(copy_int8, UnsignedInteger8);
@@ -208,6 +222,20 @@ TEST_F(AnyTypeTest, ScalarTypes)
   EXPECT_EQ(copy_int8.GetTypeCode(), TypeCode::Int8);
   EXPECT_EQ(copy_int8.GetTypeName(), INT8_TYPE_NAME);
   EXPECT_THROW(copy_int8["field"], KeyNotAllowedException);
+}
+
+TEST_F(AnyTypeTest, UnsignedInteger8)
+{
+  AnyType uint8_type{TypeCode::UInt8};
+  EXPECT_EQ(uint8_type, UnsignedInteger8);
+  EXPECT_NE(uint8_type, SignedInteger8);
+  EXPECT_FALSE(IsEmptyType(uint8_type));
+  EXPECT_FALSE(IsStructType(uint8_type));
+  EXPECT_FALSE(IsArrayType(uint8_type));
+  EXPECT_TRUE(IsScalarType(uint8_type));
+  EXPECT_EQ(uint8_type.GetTypeCode(), TypeCode::UInt8);
+  EXPECT_EQ(uint8_type.GetTypeName(), UINT8_TYPE_NAME);
+  EXPECT_THROW(uint8_type["field"], KeyNotAllowedException);
 
   AnyType moved_uint8 = std::move(uint8_type);
   EXPECT_EQ(moved_uint8, UnsignedInteger8);
