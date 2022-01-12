@@ -19,7 +19,7 @@
  * of the distribution package.
  ******************************************************************************/
 
-#include "ScalarValueData.h"
+#include "ScalarValueDataBase.h"
 
 #include "AnyValueExceptions.h"
 #include "ScalarValueDataT.h"

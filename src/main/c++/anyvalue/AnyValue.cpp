@@ -22,6 +22,7 @@
 #include "AnyValue.h"
 
 #include "EmptyValueData.h"
+#include "ScalarValueDataT.h"
 
 namespace sup
 {
@@ -32,6 +33,28 @@ AnyValue::AnyValue()
   : data{new EmptyValueData{}}
 {}
 
+AnyValue::AnyValue(boolean val)
+  : data{new ScalarValueDataT<boolean>(val)}
+{}
+
+AnyValue::AnyValue(int8 val)
+  : data{new ScalarValueDataT<int8>(val)}
+{}
+
+AnyValue::AnyValue(uint8 val)
+  : data{new ScalarValueDataT<uint8>(val)}
+{}
+
+AnyValue::AnyValue(const AnyType& anytype)
+  : data{CreateValueData(anytype)}
+{}
+
+AnyValue::AnyValue(const AnyType& anytype, const AnyValue& anyvalue)
+  : data{CreateValueData(anytype)}
+{
+  data->Assign(anyvalue);
+}
+
 AnyValue::AnyValue(const AnyValue& other)
   : data{other.data->Clone()}
 {}
@@ -40,7 +63,7 @@ AnyValue& AnyValue::operator=(const AnyValue& other)
 {
   if (this != &other)
   {
-    data.reset(other.data->Clone());
+    data->Assign(other);
   }
   return *this;
 }
@@ -53,10 +76,10 @@ AnyValue::AnyValue(AnyValue&& other)
 
 AnyValue& AnyValue::operator=(AnyValue&& other)
 {
+  // Same as copy assignment
   if (this != &other)
   {
-    data.reset(other.data.release());
-    other.data.reset(new EmptyValueData());
+    data->Assign(other);
   }
   return *this;
 }
@@ -96,6 +119,12 @@ bool AnyValue::operator==(const AnyValue& other) const
 bool AnyValue::operator!=(const AnyValue& other) const
 {
   return !(this->operator==(other));
+}
+
+template <>
+AnyValue AnyValue::As<AnyValue>() const
+{
+  return *this;
 }
 
 template <>

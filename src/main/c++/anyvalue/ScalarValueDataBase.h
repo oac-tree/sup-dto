@@ -20,16 +20,16 @@
  ******************************************************************************/
 
 /**
- * @file ScalarValueData.h
- * @brief Header file for ScalarValueData.
+ * @file ScalarValueDataBase.h
+ * @brief Header file for ScalarValueDataBase.
  * @date 06/01/2022
  * @author Walter Van Herck (IO)
  * @copyright 2010-2022 ITER Organization
- * @details This header file contains the definition of the ScalarValueData class.
+ * @details This header file contains the definition of the ScalarValueDataBase class.
  */
 
-#ifndef _SUP_ScalarValueData_h_
-#define _SUP_ScalarValueData_h_
+#ifndef _SUP_ScalarValueDataBase_h_
+#define _SUP_ScalarValueDataBase_h_
 
 #include "IValueData.h"
 
@@ -65,4 +65,4 @@ ScalarValueDataBase* CreateScalarValueData(TypeCode type_code);
 
 }  // namespace sup
 
-#endif  // _SUP_ScalarValueData_h_
+#endif  // _SUP_ScalarValueDataBase_h_

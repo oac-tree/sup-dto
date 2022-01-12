@@ -31,7 +31,7 @@
 #ifndef _SUP_ScalarValueDataT_h_
 #define _SUP_ScalarValueDataT_h_
 
-#include "ScalarValueData.h"
+#include "ScalarValueDataBase.h"
 #include "ScalarConversion.h"
 
 namespace sup
@@ -67,6 +67,8 @@ public:
   ScalarValueDataT(T value = {});
   ~ScalarValueDataT() override = default;
 
+  void Assign(const AnyValue& value) override;
+
   boolean AsBoolean() const override;
   int8 AsSignedInteger8() const override;
   uint8 AsUnsignedInteger8() const override;
@@ -80,6 +82,12 @@ ScalarValueDataT<T>::ScalarValueDataT(T value_)
   : ScalarValueDataBase{TypeToCode<T>::code}
   , value{value_}
 {}
+
+template <typename T>
+void ScalarValueDataT<T>::Assign(const AnyValue& value_)
+{
+  value = value_.As<T>();
+}
 
 template <typename T>
 boolean ScalarValueDataT<T>::AsBoolean() const

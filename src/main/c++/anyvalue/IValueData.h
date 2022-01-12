@@ -47,6 +47,8 @@ public:
   virtual std::string GetTypeName() const;
   virtual AnyType GetType() const = 0;
 
+  virtual void Assign(const AnyValue& value);
+
   virtual boolean AsBoolean() const;
   virtual int8 AsSignedInteger8() const;
   virtual uint8 AsUnsignedInteger8() const;
@@ -56,6 +58,8 @@ public:
 
   virtual bool Equals(const IValueData* other) const = 0;
 };
+
+IValueData* CreateValueData(const AnyType& anytype);
 
 }  // namespace dto
 

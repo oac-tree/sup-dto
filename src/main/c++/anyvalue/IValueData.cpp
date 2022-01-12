@@ -23,6 +23,7 @@
 
 #include "AnyValueExceptions.h"
 #include "ITypeData.h"
+#include "ScalarValueDataBase.h"
 
 namespace sup
 {
@@ -34,6 +35,11 @@ IValueData::~IValueData() = default;
 std::string IValueData::GetTypeName() const
 {
   return TypeCodeToString(GetTypeCode());
+}
+
+void IValueData::Assign(const AnyValue&)
+{
+  throw InvalidConversionException("Cannot assign incompatible AnyValue");
 }
 
 boolean IValueData::AsBoolean() const
@@ -49,6 +55,12 @@ int8 IValueData::AsSignedInteger8() const
 uint8 IValueData::AsUnsignedInteger8() const
 {
   throw InvalidConversionException("Conversion to uint8 not supported for this type");
+}
+
+IValueData* CreateValueData(const AnyType& anytype)
+{
+  // TODO: add creation of structures
+  return CreateScalarValueData(anytype.GetTypeCode());
 }
 
 }  // namespace dto

@@ -64,7 +64,26 @@ public:
    * @param anytype type specification.
    * @note This constructor default initializes all its leaf values.
    */
-  explicit AnyValue(AnyType anytype);
+  explicit AnyValue(const AnyType& anytype);
+
+  /**
+   * @brief Constructor from scalar value.
+   *
+   * @param val scalar value.
+   * @note These constructors must be implicit for other constructors to work as expected.
+   */
+  AnyValue(boolean val);
+  AnyValue(int8 val);
+  AnyValue(uint8 val);
+
+  /**
+   * @brief Constructor with type and value specification.
+   *
+   * @param anytype type specification.
+   * @param anyvalue value specification.
+   * @note This constructor performs possible conversion of scalar types.
+   */
+  AnyValue(const AnyType& anytype, const AnyValue& anyvalue);
 
   /**
    * @brief Copy constructor.
@@ -151,6 +170,9 @@ T AnyValue::As() const
 {
   throw InvalidConversionException("Conversion not supported");
 }
+
+template <>
+AnyValue AnyValue::As<AnyValue>() const;
 
 template <>
 boolean AnyValue::As<boolean>() const;

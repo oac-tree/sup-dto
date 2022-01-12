@@ -9,7 +9,7 @@ target_sources(sup-dto-obj
         ${CMAKE_CURRENT_LIST_DIR}/ITypeData.cpp
         ${CMAKE_CURRENT_LIST_DIR}/IValueData.cpp
         ${CMAKE_CURRENT_LIST_DIR}/ScalarTypeData.cpp
-        ${CMAKE_CURRENT_LIST_DIR}/ScalarValueData.cpp
+        ${CMAKE_CURRENT_LIST_DIR}/ScalarValueDataBase.cpp
         ${CMAKE_CURRENT_LIST_DIR}/StructTypeData.cpp
 )
 
