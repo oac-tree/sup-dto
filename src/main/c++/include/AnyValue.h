@@ -153,6 +153,9 @@ T AnyValue::As() const
 }
 
 template <>
+boolean AnyValue::As<boolean>() const;
+
+template <>
 int8 AnyValue::As<int8>() const;
 
 template <>

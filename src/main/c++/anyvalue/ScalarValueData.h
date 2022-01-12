@@ -37,13 +37,12 @@ namespace sup
 {
 namespace dto
 {
-class ScalarValueData : public IValueData
+class ScalarValueDataBase : public IValueData
 {
 public:
-  ScalarValueData(TypeCode type_code);
-  ~ScalarValueData() override;
+  ~ScalarValueDataBase() override;
 
-  ScalarValueData* Clone() const override;
+  ScalarValueDataBase* Clone() const override;
   TypeCode GetTypeCode() const override;
 
   AnyType GetType() const override;
@@ -53,9 +52,14 @@ public:
 
   bool Equals(const IValueData* other) const override;
 
+protected:
+  ScalarValueDataBase(TypeCode type_code);
+
 private:
   TypeCode type_code;
 };
+
+ScalarValueDataBase* CreateScalarValueData(TypeCode type_code);
 
 }  // namespace dto
 

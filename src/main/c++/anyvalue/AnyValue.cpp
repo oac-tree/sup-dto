@@ -99,6 +99,12 @@ bool AnyValue::operator!=(const AnyValue& other) const
 }
 
 template <>
+boolean AnyValue::As<boolean>() const
+{
+  return data->AsBoolean();
+}
+
+template <>
 int8 AnyValue::As<int8>() const
 {
   return data->AsSignedInteger8();

@@ -47,6 +47,7 @@ public:
   virtual std::string GetTypeName() const;
   virtual AnyType GetType() const = 0;
 
+  virtual boolean AsBoolean() const;
   virtual int8 AsSignedInteger8() const;
   virtual uint8 AsUnsignedInteger8() const;
 

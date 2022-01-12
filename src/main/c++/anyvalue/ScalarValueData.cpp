@@ -22,6 +22,7 @@
 #include "ScalarValueData.h"
 
 #include "AnyValueExceptions.h"
+#include "ScalarValueDataT.h"
 
 #include <type_traits>
 
@@ -29,54 +30,52 @@ namespace sup
 {
 namespace dto
 {
-template<typename T,
-         typename = std::enable_if<std::is_integral<T>::value>>
-class IntegerStore
-{
-public:
-  IntegerStore(T val) : value(val) {}
 
-  template<typename U,
-           typename = std::enable_if<std::is_integral<U>::value>>
-  U as() const;
-private:
-  T value;
-};
-
-ScalarValueData::ScalarValueData(TypeCode type_code_)
+ScalarValueDataBase::ScalarValueDataBase(TypeCode type_code_)
   : type_code{type_code_}
 {}
 
-ScalarValueData::~ScalarValueData() = default;
+ScalarValueDataBase::~ScalarValueDataBase() = default;
 
-ScalarValueData* ScalarValueData::Clone() const
+ScalarValueDataBase* ScalarValueDataBase::Clone() const
 {
-  return new ScalarValueData(type_code);
+  return new ScalarValueDataBase(type_code);
 }
 
-TypeCode ScalarValueData::GetTypeCode() const
+TypeCode ScalarValueDataBase::GetTypeCode() const
 {
   return type_code;
 }
 
-AnyType ScalarValueData::GetType() const
+AnyType ScalarValueDataBase::GetType() const
 {
   return AnyType(type_code);
 }
 
-AnyValue& ScalarValueData::operator[](const std::string& fieldname)
+AnyValue& ScalarValueDataBase::operator[](const std::string& fieldname)
 {
   throw KeyNotAllowedException("Index operator not supported for scalar values");
 }
 
-const AnyValue& ScalarValueData::operator[](const std::string& fieldname) const
+const AnyValue& ScalarValueDataBase::operator[](const std::string& fieldname) const
 {
   throw KeyNotAllowedException("Index operator not supported for scalar values");
 }
 
-bool ScalarValueData::Equals(const IValueData* other) const
+bool ScalarValueDataBase::Equals(const IValueData* other) const
 {
   return other->GetTypeCode() == GetTypeCode();
+}
+
+ScalarValueDataBase* CreateScalarValueData(TypeCode type_code)
+{
+  switch (type_code)
+  {
+    case TypeCode::Bool: return new ScalarValueDataT<boolean>();
+    case TypeCode::Int8: return new ScalarValueDataT<int8>();
+    case TypeCode::UInt8: return new ScalarValueDataT<uint8>();
+  }
+  throw KeyNotAllowedException("Not a known scalar type code");
 }
 
 }  // namespace dto
