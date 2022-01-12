@@ -82,8 +82,12 @@ TEST_F(AnyValueTest, BooleanValue)
   EXPECT_EQ(boolean_value.GetTypeName(), BOOLEAN_TYPE_NAME);
   EXPECT_THROW(boolean_value["field"], KeyNotAllowedException);
   EXPECT_EQ(boolean_value.As<boolean>(), false);
+  EXPECT_EQ(boolean_value.As<int8>(), 0);
+  EXPECT_EQ(boolean_value.As<uint8>(), 0);
   boolean_value = true;
   EXPECT_EQ(boolean_value.As<boolean>(), true);
+  EXPECT_EQ(boolean_value.As<int8>(), 1);
+  EXPECT_EQ(boolean_value.As<uint8>(), 1u);
 
   const AnyValue copy = boolean_value;
   EXPECT_TRUE(IsScalarValue(copy));
@@ -95,6 +99,8 @@ TEST_F(AnyValueTest, BooleanValue)
   EXPECT_EQ(copy.GetTypeName(), BOOLEAN_TYPE_NAME);
   EXPECT_THROW(copy["field"], KeyNotAllowedException);
   EXPECT_EQ(copy.As<boolean>(), true);
+  EXPECT_EQ(copy.As<int8>(), 1);
+  EXPECT_EQ(copy.As<uint8>(), 1u);
 
   AnyValue moved = std::move(boolean_value);
   EXPECT_TRUE(IsEmptyValue(boolean_value)); // Moved from value is always empty
@@ -108,6 +114,8 @@ TEST_F(AnyValueTest, BooleanValue)
   EXPECT_EQ(moved.GetTypeName(), BOOLEAN_TYPE_NAME);
   EXPECT_THROW(moved["field"], KeyNotAllowedException);
   EXPECT_EQ(moved.As<boolean>(), true);
+  EXPECT_EQ(moved.As<int8>(), 1);
+  EXPECT_EQ(moved.As<uint8>(), 1u);
 
   AnyValue boolean_from_literal = true;
   EXPECT_EQ(boolean_from_literal.GetType(), Boolean);
@@ -122,6 +130,8 @@ TEST_F(AnyValueTest, BooleanValue)
   EXPECT_EQ(boolean_from_literal.As<boolean>(), true);
   boolean_from_literal = false;
   EXPECT_EQ(boolean_from_literal.As<boolean>(), false);
+  EXPECT_EQ(boolean_from_literal.As<int8>(), 0);
+  EXPECT_EQ(boolean_from_literal.As<uint8>(), 0);
 
   int8 init = 9;
   AnyValue boolean_from_typed_literal = {Boolean, init};
@@ -137,6 +147,8 @@ TEST_F(AnyValueTest, BooleanValue)
   EXPECT_EQ(boolean_from_typed_literal.As<boolean>(), true);
   boolean_from_typed_literal = false;
   EXPECT_EQ(boolean_from_typed_literal.As<boolean>(), false);
+  EXPECT_EQ(boolean_from_typed_literal.As<int8>(), 0);
+  EXPECT_EQ(boolean_from_typed_literal.As<uint8>(), 0);
 }
 
 AnyValueTest::AnyValueTest() = default;
