@@ -42,7 +42,6 @@ class ScalarValueDataBase : public IValueData
 public:
   ~ScalarValueDataBase() override;
 
-  ScalarValueDataBase* Clone() const override;
   TypeCode GetTypeCode() const override;
 
   AnyType GetType() const override;

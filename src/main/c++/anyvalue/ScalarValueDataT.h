@@ -67,6 +67,8 @@ public:
   ScalarValueDataT(T value = {});
   ~ScalarValueDataT() override = default;
 
+  ScalarValueDataT<T>* Clone() const override;
+
   void Assign(const AnyValue& value) override;
 
   boolean AsBoolean() const override;
@@ -82,6 +84,12 @@ ScalarValueDataT<T>::ScalarValueDataT(T value_)
   : ScalarValueDataBase{TypeToCode<T>::code}
   , value{value_}
 {}
+
+template <typename T>
+ScalarValueDataT<T>* ScalarValueDataT<T>::Clone() const
+{
+  return new ScalarValueDataT<T>(value);
+}
 
 template <typename T>
 void ScalarValueDataT<T>::Assign(const AnyValue& value_)

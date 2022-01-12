@@ -37,11 +37,6 @@ ScalarValueDataBase::ScalarValueDataBase(TypeCode type_code_)
 
 ScalarValueDataBase::~ScalarValueDataBase() = default;
 
-ScalarValueDataBase* ScalarValueDataBase::Clone() const
-{
-  return new ScalarValueDataBase(type_code);
-}
-
 TypeCode ScalarValueDataBase::GetTypeCode() const
 {
   return type_code;

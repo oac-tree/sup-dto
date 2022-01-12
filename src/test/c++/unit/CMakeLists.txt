@@ -4,6 +4,7 @@ target_sources(unit-tests
     PRIVATE
         ${CMAKE_CURRENT_LIST_DIR}/AnyType-tests.cpp
         ${CMAKE_CURRENT_LIST_DIR}/AnyValue-tests.cpp
+        ${CMAKE_CURRENT_LIST_DIR}/ScalarConversion-tests.cpp
 )
 
 target_include_directories(unit-tests
