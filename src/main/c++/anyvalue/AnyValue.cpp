@@ -100,9 +100,18 @@ AnyValue::AnyValue(AnyValue&& other)
 
 AnyValue& AnyValue::operator=(AnyValue&& other)
 {
-  // Same as copy assignment
-  if (this != &other)
+  if (this == &other)
   {
+    return *this;
+  }
+  if (GetType() == other.GetType())
+  {
+    data.reset(other.data.release());
+    other.data.reset(new EmptyValueData());
+  }
+  else
+  {
+    // Fallback to copy
     data->Assign(other);
   }
   return *this;
