@@ -50,16 +50,64 @@ struct IsStrictlyInteger
       !std::is_same<std::remove_cv_t<T>, bool>::value;
 };
 
-// Conversion between strictly integer types
+template <typename T>
+struct IsSignedInteger
+{
+  static constexpr bool value = IsStrictlyInteger<T>::value && std::is_signed<T>::value;
+};
+
+template <typename T>
+struct IsUnsignedInteger
+{
+  static constexpr bool value = IsStrictlyInteger<T>::value && !std::is_signed<T>::value;
+};
+
+// Conversion between signed integer types
 template <typename To, typename From,
-  std::enable_if_t<IsStrictlyInteger<To>::value && IsStrictlyInteger<From>::value, bool> = true>
+  std::enable_if_t<IsSignedInteger<To>::value && IsSignedInteger<From>::value, bool> = true>
 To ConvertScalar(const From& value)
 {
   if (value < std::numeric_limits<To>::min() || value > std::numeric_limits<To>::max())
   {
     throw InvalidConversionException("Source value doesn't fit in destination type");
   }
-  return value;
+  return static_cast<To>(value);
+}
+
+// Conversion between unsigned integer types
+template <typename To, typename From,
+  std::enable_if_t<IsUnsignedInteger<To>::value && IsUnsignedInteger<From>::value, bool> = true>
+To ConvertScalar(const From& value)
+{
+  if (value > std::numeric_limits<To>::max())
+  {
+    throw InvalidConversionException("Source value doesn't fit in destination type");
+  }
+  return static_cast<To>(value);
+}
+
+// Conversion from signed to unsigned integer types
+template <typename To, typename From,
+  std::enable_if_t<IsUnsignedInteger<To>::value && IsSignedInteger<From>::value, bool> = true>
+To ConvertScalar(const From& value)
+{
+  if (value < 0 || value > std::numeric_limits<To>::max())
+  {
+    throw InvalidConversionException("Source value doesn't fit in destination type");
+  }
+  return static_cast<To>(value);
+}
+
+// Conversion from unsigned to signed integer types
+template <typename To, typename From,
+  std::enable_if_t<IsSignedInteger<To>::value && IsUnsignedInteger<From>::value, bool> = true>
+To ConvertScalar(const From& value)
+{
+  if (value > std::numeric_limits<To>::max())
+  {
+    throw InvalidConversionException("Source value doesn't fit in destination type");
+  }
+  return static_cast<To>(value);
 }
 
 // Conversion from any integer type to boolean type
@@ -71,7 +119,7 @@ To ConvertScalar(const From& value)
   return value;
 }
 
-// Conversion from boolean type to integer type
+// Conversion from boolean type to strict integer type (to avoid duplicate declaration)
 template <typename To, typename From,
   std::enable_if_t<IsStrictlyInteger<To>::value &&
     std::is_same<std::remove_cv_t<From>, bool>::value, bool> = true>

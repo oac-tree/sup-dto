@@ -69,6 +69,12 @@ ScalarValueDataBase* CreateScalarValueData(TypeCode type_code)
     case TypeCode::Bool: return new ScalarValueDataT<boolean>();
     case TypeCode::Int8: return new ScalarValueDataT<int8>();
     case TypeCode::UInt8: return new ScalarValueDataT<uint8>();
+    case TypeCode::Int16: return new ScalarValueDataT<int16>();
+    case TypeCode::UInt16: return new ScalarValueDataT<uint16>();
+    case TypeCode::Int32: return new ScalarValueDataT<int32>();
+    case TypeCode::UInt32: return new ScalarValueDataT<uint32>();
+    case TypeCode::Int64: return new ScalarValueDataT<int64>();
+    case TypeCode::UInt64: return new ScalarValueDataT<uint64>();
   }
   throw KeyNotAllowedException("Not a known scalar type code");
 }
