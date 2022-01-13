@@ -251,6 +251,162 @@ TEST_F(AnyTypeTest, UnsignedInteger8)
   EXPECT_THROW(moved_uint8["field"], KeyNotAllowedException);
 }
 
+TEST_F(AnyTypeTest, SignedInteger16)
+{
+  AnyType int16_type{TypeCode::Int16};
+  EXPECT_EQ(int16_type, SignedInteger16);
+  EXPECT_NE(int16_type, UnsignedInteger16);
+  EXPECT_FALSE(IsEmptyType(int16_type));
+  EXPECT_FALSE(IsStructType(int16_type));
+  EXPECT_FALSE(IsArrayType(int16_type));
+  EXPECT_TRUE(IsScalarType(int16_type));
+  EXPECT_EQ(int16_type.GetTypeCode(), TypeCode::Int16);
+  EXPECT_EQ(int16_type.GetTypeName(), INT16_TYPE_NAME);
+  EXPECT_THROW(int16_type["field"], KeyNotAllowedException);
+
+  AnyType copy_int16 = int16_type;
+  EXPECT_EQ(copy_int16, SignedInteger16);
+  EXPECT_NE(copy_int16, UnsignedInteger16);
+  EXPECT_FALSE(IsEmptyType(copy_int16));
+  EXPECT_FALSE(IsStructType(copy_int16));
+  EXPECT_FALSE(IsArrayType(copy_int16));
+  EXPECT_TRUE(IsScalarType(copy_int16));
+  EXPECT_EQ(copy_int16.GetTypeCode(), TypeCode::Int16);
+  EXPECT_EQ(copy_int16.GetTypeName(), INT16_TYPE_NAME);
+  EXPECT_THROW(copy_int16["field"], KeyNotAllowedException);
+}
+
+TEST_F(AnyTypeTest, UnsignedInteger16)
+{
+  AnyType uint16_type{TypeCode::UInt16};
+  EXPECT_EQ(uint16_type, UnsignedInteger16);
+  EXPECT_NE(uint16_type, SignedInteger16);
+  EXPECT_FALSE(IsEmptyType(uint16_type));
+  EXPECT_FALSE(IsStructType(uint16_type));
+  EXPECT_FALSE(IsArrayType(uint16_type));
+  EXPECT_TRUE(IsScalarType(uint16_type));
+  EXPECT_EQ(uint16_type.GetTypeCode(), TypeCode::UInt16);
+  EXPECT_EQ(uint16_type.GetTypeName(), UINT16_TYPE_NAME);
+  EXPECT_THROW(uint16_type["field"], KeyNotAllowedException);
+
+  AnyType moved_uint16 = std::move(uint16_type);
+  EXPECT_EQ(moved_uint16, UnsignedInteger16);
+  EXPECT_NE(moved_uint16, SignedInteger16);
+  EXPECT_TRUE(IsEmptyType(uint16_type)); // Moved from type is always empty
+  EXPECT_EQ(uint16_type, EmptyType);
+  EXPECT_FALSE(IsEmptyType(moved_uint16));
+  EXPECT_FALSE(IsStructType(moved_uint16));
+  EXPECT_FALSE(IsArrayType(moved_uint16));
+  EXPECT_TRUE(IsScalarType(moved_uint16));
+  EXPECT_EQ(moved_uint16.GetTypeCode(), TypeCode::UInt16);
+  EXPECT_EQ(moved_uint16.GetTypeName(), UINT16_TYPE_NAME);
+  EXPECT_THROW(moved_uint16["field"], KeyNotAllowedException);
+}
+
+TEST_F(AnyTypeTest, SignedInteger32)
+{
+  AnyType int32_type{TypeCode::Int32};
+  EXPECT_EQ(int32_type, SignedInteger32);
+  EXPECT_NE(int32_type, UnsignedInteger32);
+  EXPECT_FALSE(IsEmptyType(int32_type));
+  EXPECT_FALSE(IsStructType(int32_type));
+  EXPECT_FALSE(IsArrayType(int32_type));
+  EXPECT_TRUE(IsScalarType(int32_type));
+  EXPECT_EQ(int32_type.GetTypeCode(), TypeCode::Int32);
+  EXPECT_EQ(int32_type.GetTypeName(), INT32_TYPE_NAME);
+  EXPECT_THROW(int32_type["field"], KeyNotAllowedException);
+
+  AnyType copy_int32 = int32_type;
+  EXPECT_EQ(copy_int32, SignedInteger32);
+  EXPECT_NE(copy_int32, UnsignedInteger32);
+  EXPECT_FALSE(IsEmptyType(copy_int32));
+  EXPECT_FALSE(IsStructType(copy_int32));
+  EXPECT_FALSE(IsArrayType(copy_int32));
+  EXPECT_TRUE(IsScalarType(copy_int32));
+  EXPECT_EQ(copy_int32.GetTypeCode(), TypeCode::Int32);
+  EXPECT_EQ(copy_int32.GetTypeName(), INT32_TYPE_NAME);
+  EXPECT_THROW(copy_int32["field"], KeyNotAllowedException);
+}
+
+TEST_F(AnyTypeTest, UnsignedInteger32)
+{
+  AnyType uint32_type{TypeCode::UInt32};
+  EXPECT_EQ(uint32_type, UnsignedInteger32);
+  EXPECT_NE(uint32_type, SignedInteger32);
+  EXPECT_FALSE(IsEmptyType(uint32_type));
+  EXPECT_FALSE(IsStructType(uint32_type));
+  EXPECT_FALSE(IsArrayType(uint32_type));
+  EXPECT_TRUE(IsScalarType(uint32_type));
+  EXPECT_EQ(uint32_type.GetTypeCode(), TypeCode::UInt32);
+  EXPECT_EQ(uint32_type.GetTypeName(), UINT32_TYPE_NAME);
+  EXPECT_THROW(uint32_type["field"], KeyNotAllowedException);
+
+  AnyType moved_uint32 = std::move(uint32_type);
+  EXPECT_EQ(moved_uint32, UnsignedInteger32);
+  EXPECT_NE(moved_uint32, SignedInteger32);
+  EXPECT_TRUE(IsEmptyType(uint32_type)); // Moved from type is always empty
+  EXPECT_EQ(uint32_type, EmptyType);
+  EXPECT_FALSE(IsEmptyType(moved_uint32));
+  EXPECT_FALSE(IsStructType(moved_uint32));
+  EXPECT_FALSE(IsArrayType(moved_uint32));
+  EXPECT_TRUE(IsScalarType(moved_uint32));
+  EXPECT_EQ(moved_uint32.GetTypeCode(), TypeCode::UInt32);
+  EXPECT_EQ(moved_uint32.GetTypeName(), UINT32_TYPE_NAME);
+  EXPECT_THROW(moved_uint32["field"], KeyNotAllowedException);
+}
+
+TEST_F(AnyTypeTest, SignedInteger64)
+{
+  AnyType int64_type{TypeCode::Int64};
+  EXPECT_EQ(int64_type, SignedInteger64);
+  EXPECT_NE(int64_type, UnsignedInteger64);
+  EXPECT_FALSE(IsEmptyType(int64_type));
+  EXPECT_FALSE(IsStructType(int64_type));
+  EXPECT_FALSE(IsArrayType(int64_type));
+  EXPECT_TRUE(IsScalarType(int64_type));
+  EXPECT_EQ(int64_type.GetTypeCode(), TypeCode::Int64);
+  EXPECT_EQ(int64_type.GetTypeName(), INT64_TYPE_NAME);
+  EXPECT_THROW(int64_type["field"], KeyNotAllowedException);
+
+  AnyType copy_int64 = int64_type;
+  EXPECT_EQ(copy_int64, SignedInteger64);
+  EXPECT_NE(copy_int64, UnsignedInteger64);
+  EXPECT_FALSE(IsEmptyType(copy_int64));
+  EXPECT_FALSE(IsStructType(copy_int64));
+  EXPECT_FALSE(IsArrayType(copy_int64));
+  EXPECT_TRUE(IsScalarType(copy_int64));
+  EXPECT_EQ(copy_int64.GetTypeCode(), TypeCode::Int64);
+  EXPECT_EQ(copy_int64.GetTypeName(), INT64_TYPE_NAME);
+  EXPECT_THROW(copy_int64["field"], KeyNotAllowedException);
+}
+
+TEST_F(AnyTypeTest, UnsignedInteger64)
+{
+  AnyType uint64_type{TypeCode::UInt64};
+  EXPECT_EQ(uint64_type, UnsignedInteger64);
+  EXPECT_NE(uint64_type, SignedInteger64);
+  EXPECT_FALSE(IsEmptyType(uint64_type));
+  EXPECT_FALSE(IsStructType(uint64_type));
+  EXPECT_FALSE(IsArrayType(uint64_type));
+  EXPECT_TRUE(IsScalarType(uint64_type));
+  EXPECT_EQ(uint64_type.GetTypeCode(), TypeCode::UInt64);
+  EXPECT_EQ(uint64_type.GetTypeName(), UINT64_TYPE_NAME);
+  EXPECT_THROW(uint64_type["field"], KeyNotAllowedException);
+
+  AnyType moved_uint64 = std::move(uint64_type);
+  EXPECT_EQ(moved_uint64, UnsignedInteger64);
+  EXPECT_NE(moved_uint64, SignedInteger64);
+  EXPECT_TRUE(IsEmptyType(uint64_type)); // Moved from type is always empty
+  EXPECT_EQ(uint64_type, EmptyType);
+  EXPECT_FALSE(IsEmptyType(moved_uint64));
+  EXPECT_FALSE(IsStructType(moved_uint64));
+  EXPECT_FALSE(IsArrayType(moved_uint64));
+  EXPECT_TRUE(IsScalarType(moved_uint64));
+  EXPECT_EQ(moved_uint64.GetTypeCode(), TypeCode::UInt64);
+  EXPECT_EQ(moved_uint64.GetTypeName(), UINT64_TYPE_NAME);
+  EXPECT_THROW(moved_uint64["field"], KeyNotAllowedException);
+}
+
 AnyTypeTest::AnyTypeTest() = default;
 
 AnyTypeTest::~AnyTypeTest() = default;

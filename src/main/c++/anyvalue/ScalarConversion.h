@@ -62,10 +62,10 @@ To ConvertScalar(const From& value)
   return value;
 }
 
-// Conversion from integer to boolean type
+// Conversion from any integer type to boolean type
 template <typename To, typename From,
   std::enable_if_t<std::is_same<std::remove_cv_t<To>, bool>::value &&
-    IsStrictlyInteger<From>::value, bool> = true>
+    std::is_integral<From>::value, bool> = true>
 To ConvertScalar(const From& value)
 {
   return value;
@@ -74,15 +74,6 @@ To ConvertScalar(const From& value)
 // Conversion from boolean type to integer type
 template <typename To, typename From,
   std::enable_if_t<IsStrictlyInteger<To>::value &&
-    std::is_same<std::remove_cv_t<From>, bool>::value, bool> = true>
-To ConvertScalar(const From& value)
-{
-  return value;
-}
-
-// Conversion from boolean type to boolean type
-template <typename To, typename From,
-  std::enable_if_t<std::is_same<std::remove_cv_t<To>, bool>::value &&
     std::is_same<std::remove_cv_t<From>, bool>::value, bool> = true>
 To ConvertScalar(const From& value)
 {

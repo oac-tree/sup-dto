@@ -43,7 +43,13 @@ std::string TypeCodeToString(TypeCode type_code)
     { TypeCode::Empty, EMPTY_TYPE_NAME },
     { TypeCode::Bool, BOOLEAN_TYPE_NAME },
     { TypeCode::Int8, INT8_TYPE_NAME },
-    { TypeCode::UInt8, UINT8_TYPE_NAME }
+    { TypeCode::UInt8, UINT8_TYPE_NAME },
+    { TypeCode::Int16, INT16_TYPE_NAME },
+    { TypeCode::UInt16, UINT16_TYPE_NAME },
+    { TypeCode::Int32, INT32_TYPE_NAME },
+    { TypeCode::UInt32, UINT32_TYPE_NAME },
+    { TypeCode::Int64, INT64_TYPE_NAME },
+    { TypeCode::UInt64, UINT64_TYPE_NAME },
   });
   auto it = type_map.find(type_code);
   if (it == type_map.end())

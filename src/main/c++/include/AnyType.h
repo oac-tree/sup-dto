@@ -47,13 +47,25 @@ enum class TypeCode
   Array,
   Bool,
   Int8,
-  UInt8
+  UInt8,
+  Int16,
+  UInt16,
+  Int32,
+  UInt32,
+  Int64,
+  UInt64,
 };
 
 const std::string EMPTY_TYPE_NAME = "empty";
 const std::string BOOLEAN_TYPE_NAME = "bool";
 const std::string INT8_TYPE_NAME = "int8";
 const std::string UINT8_TYPE_NAME = "uint8";
+const std::string INT16_TYPE_NAME = "int16";
+const std::string UINT16_TYPE_NAME = "uint16";
+const std::string INT32_TYPE_NAME = "int32";
+const std::string UINT32_TYPE_NAME = "uint32";
+const std::string INT64_TYPE_NAME = "int64";
+const std::string UINT64_TYPE_NAME = "uint64";
 
 class ITypeData;
 
@@ -157,6 +169,12 @@ extern const AnyType EmptyType;
 extern const AnyType Boolean;
 extern const AnyType SignedInteger8;
 extern const AnyType UnsignedInteger8;
+extern const AnyType SignedInteger16;
+extern const AnyType UnsignedInteger16;
+extern const AnyType SignedInteger32;
+extern const AnyType UnsignedInteger32;
+extern const AnyType SignedInteger64;
+extern const AnyType UnsignedInteger64;
 
 }  // namespace dto
 
