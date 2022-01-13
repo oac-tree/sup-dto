@@ -109,6 +109,7 @@ TEST_F(AnyValueTest, BooleanValue)
   EXPECT_EQ(boolean_value.As<uint32>(), 1);
   EXPECT_EQ(boolean_value.As<int64>(), 1);
   EXPECT_EQ(boolean_value.As<uint64>(), 1);
+  EXPECT_EQ(boolean_value, true);
 
   const AnyValue copy = boolean_value;
   EXPECT_TRUE(IsScalarValue(copy));
@@ -122,6 +123,7 @@ TEST_F(AnyValueTest, BooleanValue)
   EXPECT_EQ(copy.As<boolean>(), true);
   EXPECT_EQ(copy.As<int8>(), 1);
   EXPECT_EQ(copy.As<uint8>(), 1u);
+  EXPECT_EQ(copy, true);
 
   AnyValue moved = std::move(boolean_value);
   EXPECT_TRUE(IsEmptyValue(boolean_value)); // Moved from value is always empty
@@ -202,6 +204,7 @@ TEST_F(AnyValueTest, SignedInteger8Value)
   EXPECT_EQ(int8_value.As<uint32>(), 25);
   EXPECT_EQ(int8_value.As<int64>(), 25);
   EXPECT_EQ(int8_value.As<uint64>(), 25);
+  EXPECT_EQ(int8_value, 25);
 
   const AnyValue copy = int8_value;
   EXPECT_TRUE(IsScalarValue(copy));
@@ -214,6 +217,7 @@ TEST_F(AnyValueTest, SignedInteger8Value)
   EXPECT_THROW(copy["field"], KeyNotAllowedException);
   EXPECT_EQ(copy.As<boolean>(), true);
   EXPECT_EQ(copy.As<int32>(), 25);
+  EXPECT_EQ(copy, 25);
 
   AnyValue moved = std::move(int8_value);
   EXPECT_TRUE(IsEmptyValue(int8_value)); // Moved from value is always empty
@@ -294,6 +298,7 @@ TEST_F(AnyValueTest, UnsignedInteger8Value)
   EXPECT_EQ(uint8_value.As<uint32>(), 25);
   EXPECT_EQ(uint8_value.As<int64>(), 25);
   EXPECT_EQ(uint8_value.As<uint64>(), 25);
+  EXPECT_EQ(uint8_value, 25);
 
   const AnyValue copy = uint8_value;
   EXPECT_TRUE(IsScalarValue(copy));
@@ -306,6 +311,7 @@ TEST_F(AnyValueTest, UnsignedInteger8Value)
   EXPECT_THROW(copy["field"], KeyNotAllowedException);
   EXPECT_EQ(copy.As<boolean>(), true);
   EXPECT_EQ(copy.As<int32>(), 25);
+  EXPECT_EQ(copy, 25);
 
   AnyValue moved = std::move(uint8_value);
   EXPECT_TRUE(IsEmptyValue(uint8_value)); // Moved from value is always empty
@@ -387,6 +393,7 @@ TEST_F(AnyValueTest, SignedInteger16Value)
   EXPECT_EQ(int16_value.As<uint32>(), new_val);
   EXPECT_EQ(int16_value.As<int64>(), new_val);
   EXPECT_EQ(int16_value.As<uint64>(), new_val);
+  EXPECT_EQ(int16_value, 25);
 
   const AnyValue copy = int16_value;
   EXPECT_TRUE(IsScalarValue(copy));
@@ -399,6 +406,7 @@ TEST_F(AnyValueTest, SignedInteger16Value)
   EXPECT_THROW(copy["field"], KeyNotAllowedException);
   EXPECT_EQ(copy.As<boolean>(), true);
   EXPECT_EQ(copy.As<int32>(), new_val);
+  EXPECT_EQ(copy, 25);
 
   AnyValue moved = std::move(int16_value);
   EXPECT_TRUE(IsEmptyValue(int16_value)); // Moved from value is always empty
@@ -480,6 +488,7 @@ TEST_F(AnyValueTest, UnsignedInteger16Value)
   EXPECT_EQ(uint16_value.As<uint32>(), new_val);
   EXPECT_EQ(uint16_value.As<int64>(), new_val);
   EXPECT_EQ(uint16_value.As<uint64>(), new_val);
+  EXPECT_EQ(uint16_value, new_val);
 
   const AnyValue copy = uint16_value;
   EXPECT_TRUE(IsScalarValue(copy));
@@ -492,6 +501,7 @@ TEST_F(AnyValueTest, UnsignedInteger16Value)
   EXPECT_THROW(copy["field"], KeyNotAllowedException);
   EXPECT_EQ(copy.As<uint16>(), new_val);
   EXPECT_EQ(copy.As<int32>(), new_val);
+  EXPECT_EQ(copy, new_val);
 
   AnyValue moved = std::move(uint16_value);
   EXPECT_TRUE(IsEmptyValue(uint16_value)); // Moved from value is always empty
@@ -573,6 +583,7 @@ TEST_F(AnyValueTest, SignedInteger32Value)
   EXPECT_EQ(int32_value.As<uint32>(), new_val);
   EXPECT_EQ(int32_value.As<int64>(), new_val);
   EXPECT_EQ(int32_value.As<uint64>(), new_val);
+  EXPECT_EQ(int32_value, new_val);
 
   const AnyValue copy = int32_value;
   EXPECT_TRUE(IsScalarValue(copy));
@@ -585,6 +596,7 @@ TEST_F(AnyValueTest, SignedInteger32Value)
   EXPECT_THROW(copy["field"], KeyNotAllowedException);
   EXPECT_EQ(copy.As<boolean>(), true);
   EXPECT_EQ(copy.As<int32>(), new_val);
+  EXPECT_EQ(copy, new_val);
 
   AnyValue moved = std::move(int32_value);
   EXPECT_TRUE(IsEmptyValue(int32_value)); // Moved from value is always empty
@@ -666,6 +678,7 @@ TEST_F(AnyValueTest, UnsignedInteger32Value)
   EXPECT_EQ(uint32_value.As<uint32>(), new_val);
   EXPECT_EQ(uint32_value.As<int64>(), new_val);
   EXPECT_EQ(uint32_value.As<uint64>(), new_val);
+  EXPECT_EQ(uint32_value, new_val);
 
   const AnyValue copy = uint32_value;
   EXPECT_TRUE(IsScalarValue(copy));
@@ -678,6 +691,7 @@ TEST_F(AnyValueTest, UnsignedInteger32Value)
   EXPECT_THROW(copy["field"], KeyNotAllowedException);
   EXPECT_EQ(copy.As<uint32>(), new_val);
   EXPECT_EQ(copy.As<int32>(), new_val);
+  EXPECT_EQ(copy, new_val);
 
   AnyValue moved = std::move(uint32_value);
   EXPECT_TRUE(IsEmptyValue(uint32_value)); // Moved from value is always empty
@@ -759,6 +773,7 @@ TEST_F(AnyValueTest, SignedInteger64Value)
   EXPECT_EQ(int64_value.As<uint32>(), new_val);
   EXPECT_EQ(int64_value.As<int64>(), new_val);
   EXPECT_EQ(int64_value.As<uint64>(), new_val);
+  EXPECT_EQ(int64_value, new_val);
 
   const AnyValue copy = int64_value;
   EXPECT_TRUE(IsScalarValue(copy));
@@ -771,6 +786,7 @@ TEST_F(AnyValueTest, SignedInteger64Value)
   EXPECT_THROW(copy["field"], KeyNotAllowedException);
   EXPECT_EQ(copy.As<boolean>(), true);
   EXPECT_EQ(copy.As<int64>(), new_val);
+  EXPECT_EQ(copy, new_val);
 
   AnyValue moved = std::move(int64_value);
   EXPECT_TRUE(IsEmptyValue(int64_value)); // Moved from value is always empty
@@ -852,6 +868,7 @@ TEST_F(AnyValueTest, UnsignedInteger64Value)
   EXPECT_EQ(uint64_value.As<uint32>(), new_val);
   EXPECT_EQ(uint64_value.As<int64>(), new_val);
   EXPECT_EQ(uint64_value.As<uint64>(), new_val);
+  EXPECT_EQ(uint64_value, new_val);
 
   const AnyValue copy = uint64_value;
   EXPECT_TRUE(IsScalarValue(copy));
@@ -864,6 +881,7 @@ TEST_F(AnyValueTest, UnsignedInteger64Value)
   EXPECT_THROW(copy["field"], KeyNotAllowedException);
   EXPECT_EQ(copy.As<uint64>(), new_val);
   EXPECT_EQ(copy.As<int32>(), new_val);
+  EXPECT_EQ(copy, new_val);
 
   AnyValue moved = std::move(uint64_value);
   EXPECT_TRUE(IsEmptyValue(uint64_value)); // Moved from value is always empty

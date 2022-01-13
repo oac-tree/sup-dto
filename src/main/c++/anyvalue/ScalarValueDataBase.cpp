@@ -57,11 +57,6 @@ const AnyValue& ScalarValueDataBase::operator[](const std::string& fieldname) co
   throw KeyNotAllowedException("Index operator not supported for scalar values");
 }
 
-bool ScalarValueDataBase::Equals(const IValueData* other) const
-{
-  return other->GetTypeCode() == GetTypeCode();
-}
-
 ScalarValueDataBase* CreateScalarValueData(TypeCode type_code)
 {
   switch (type_code)

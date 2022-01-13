@@ -137,7 +137,7 @@ const AnyValue& AnyValue::operator[](std::string fieldname) const
 
 bool AnyValue::operator==(const AnyValue& other) const
 {
-  return data->Equals(other.data.get());
+  return data->Equals(other);
 }
 
 bool AnyValue::operator!=(const AnyValue& other) const

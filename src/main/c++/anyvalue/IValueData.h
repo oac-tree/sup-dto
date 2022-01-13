@@ -62,7 +62,7 @@ public:
   virtual AnyValue& operator[](const std::string& fieldname) = 0;
   virtual const AnyValue& operator[](const std::string& fieldname) const = 0;
 
-  virtual bool Equals(const IValueData* other) const = 0;
+  virtual bool Equals(const AnyValue& other) const = 0;
 };
 
 IValueData* CreateValueData(const AnyType& anytype);

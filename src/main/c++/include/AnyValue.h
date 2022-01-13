@@ -215,7 +215,7 @@ bool AnyValue::As(T& value) const
     value = As<T>();
     return true;
   }
-  catch(const InvalidConversionException& e)
+  catch(const InvalidConversionException&)
   {
     return false;
   }

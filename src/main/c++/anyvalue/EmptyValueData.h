@@ -50,7 +50,7 @@ public:
   AnyValue& operator[](const std::string& fieldname) override;
   const AnyValue& operator[](const std::string& fieldname) const override;
 
-  bool Equals(const IValueData* other) const override;
+  bool Equals(const AnyValue& other) const override;
 };
 
 }  // namespace dto

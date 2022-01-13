@@ -58,9 +58,9 @@ const AnyValue& EmptyValueData::operator[](const std::string& fieldname) const
   throw KeyNotAllowedException("Index operator not supported for empty value");
 }
 
-bool EmptyValueData::Equals(const IValueData* other) const
+bool EmptyValueData::Equals(const AnyValue& other) const
 {
-  return other->GetTypeCode() == TypeCode::Empty;
+  return other.GetTypeCode() == TypeCode::Empty;
 }
 
 }  // namespace dto

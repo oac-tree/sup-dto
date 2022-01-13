@@ -117,6 +117,8 @@ public:
   int64 AsSignedInteger64() const override;
   uint64 AsUnsignedInteger64() const override;
 
+  bool Equals(const AnyValue& other) const override;
+
 private:
   T value;
 };
@@ -192,6 +194,28 @@ uint64 ScalarValueDataT<T>::AsUnsignedInteger64() const
 {
   return ConvertScalar<uint64, T>(value);
 }
+
+template <typename T>
+bool ScalarValueDataT<T>::Equals(const AnyValue& other) const
+{
+  if (!IsScalarValue(other))
+  {
+    return false;
+  }
+  try
+  {
+    if (value == other.As<T>())
+    {
+      return true;
+    }
+  }
+  catch(const InvalidConversionException&)
+  {
+    return false;
+  }
+  return false;
+}
+
 
 }  // namespace dto
 
