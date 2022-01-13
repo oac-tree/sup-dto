@@ -49,7 +49,7 @@ AnyType::AnyType(std::initializer_list<std::pair<std::string, AnyType>> members,
                  const std::string& name)
   : data{new EmptyTypeData()}
 {
-  auto struct_data = std::make_unique<StructTypeData>(name);
+  auto struct_data = std::unique_ptr<StructTypeData>(new StructTypeData(name));
   for (auto& member : members)
   {
     struct_data->AddMember(member.first, member.second);

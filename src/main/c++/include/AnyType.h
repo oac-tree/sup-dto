@@ -103,6 +103,8 @@ public:
 
   /**
    * @brief Copy assignment.
+   *
+   * @note Always succeeds and overwrites the currently hold type.
    */
   AnyType& operator=(const AnyType& other);
 
@@ -113,6 +115,8 @@ public:
 
   /**
    * @brief Move assignment.
+   *
+   * @note Always succeeds and overwrites the currently hold type.
    */
   AnyType& operator=(AnyType&& other);
 

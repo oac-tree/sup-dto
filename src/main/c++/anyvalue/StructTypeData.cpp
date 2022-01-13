@@ -60,7 +60,7 @@ bool StructTypeData::HasMember(const std::string& name) const
 
 StructTypeData* StructTypeData::Clone() const
 {
-  auto result = std::make_unique<StructTypeData>(name);
+  auto result = std::unique_ptr<StructTypeData>(new StructTypeData(name));
   result->members = members;
   return result.release();
 }

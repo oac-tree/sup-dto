@@ -47,7 +47,7 @@ template <typename T>
 struct IsStrictlyInteger
 {
   static constexpr bool value = std::is_integral<T>::value &&
-      !std::is_same<std::remove_cv_t<T>, bool>::value;
+      !std::is_same<typename std::remove_cv<T>::type, bool>::value;
 };
 
 template <typename T>
@@ -64,7 +64,8 @@ struct IsUnsignedInteger
 
 // Conversion between signed integer types
 template <typename To, typename From,
-  std::enable_if_t<IsSignedInteger<To>::value && IsSignedInteger<From>::value, bool> = true>
+  typename std::enable_if<IsSignedInteger<To>::value &&
+                          IsSignedInteger<From>::value, bool>::type = true>
 To ConvertScalar(const From& value)
 {
   if (value < std::numeric_limits<To>::min() || value > std::numeric_limits<To>::max())
@@ -76,7 +77,8 @@ To ConvertScalar(const From& value)
 
 // Conversion between unsigned integer types
 template <typename To, typename From,
-  std::enable_if_t<IsUnsignedInteger<To>::value && IsUnsignedInteger<From>::value, bool> = true>
+  typename std::enable_if<IsUnsignedInteger<To>::value &&
+                          IsUnsignedInteger<From>::value, bool>::type = true>
 To ConvertScalar(const From& value)
 {
   if (value > std::numeric_limits<To>::max())
@@ -88,7 +90,8 @@ To ConvertScalar(const From& value)
 
 // Conversion from signed to unsigned integer types
 template <typename To, typename From,
-  std::enable_if_t<IsUnsignedInteger<To>::value && IsSignedInteger<From>::value, bool> = true>
+  typename std::enable_if<IsUnsignedInteger<To>::value &&
+                          IsSignedInteger<From>::value, bool>::type = true>
 To ConvertScalar(const From& value)
 {
   if (value < 0 || value > std::numeric_limits<To>::max())
@@ -100,7 +103,8 @@ To ConvertScalar(const From& value)
 
 // Conversion from unsigned to signed integer types
 template <typename To, typename From,
-  std::enable_if_t<IsSignedInteger<To>::value && IsUnsignedInteger<From>::value, bool> = true>
+  typename std::enable_if<IsSignedInteger<To>::value &&
+                          IsUnsignedInteger<From>::value, bool>::type = true>
 To ConvertScalar(const From& value)
 {
   if (value > std::numeric_limits<To>::max())
@@ -112,8 +116,8 @@ To ConvertScalar(const From& value)
 
 // Conversion from any integer type to boolean type
 template <typename To, typename From,
-  std::enable_if_t<std::is_same<std::remove_cv_t<To>, bool>::value &&
-    std::is_integral<From>::value, bool> = true>
+  typename std::enable_if<std::is_same<typename std::remove_cv<To>::type, bool>::value &&
+    std::is_integral<From>::value, bool>::type = true>
 To ConvertScalar(const From& value)
 {
   return value;
@@ -121,8 +125,8 @@ To ConvertScalar(const From& value)
 
 // Conversion from boolean type to strict integer type (to avoid duplicate declaration)
 template <typename To, typename From,
-  std::enable_if_t<IsStrictlyInteger<To>::value &&
-    std::is_same<std::remove_cv_t<From>, bool>::value, bool> = true>
+  typename std::enable_if<IsStrictlyInteger<To>::value &&
+    std::is_same<typename std::remove_cv<From>::type, bool>::value, bool>::type = true>
 To ConvertScalar(const From& value)
 {
   return value;
