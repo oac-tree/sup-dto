@@ -45,6 +45,30 @@ AnyValue::AnyValue(uint8 val)
   : data{new ScalarValueDataT<uint8>(val)}
 {}
 
+AnyValue::AnyValue(int16 val)
+  : data{new ScalarValueDataT<int16>(val)}
+{}
+
+AnyValue::AnyValue(uint16 val)
+  : data{new ScalarValueDataT<uint16>(val)}
+{}
+
+AnyValue::AnyValue(int32 val)
+  : data{new ScalarValueDataT<int32>(val)}
+{}
+
+AnyValue::AnyValue(uint32 val)
+  : data{new ScalarValueDataT<uint32>(val)}
+{}
+
+AnyValue::AnyValue(int64 val)
+  : data{new ScalarValueDataT<int64>(val)}
+{}
+
+AnyValue::AnyValue(uint64 val)
+  : data{new ScalarValueDataT<uint64>(val)}
+{}
+
 AnyValue::AnyValue(const AnyType& anytype)
   : data{CreateValueData(anytype)}
 {}
@@ -143,6 +167,42 @@ template <>
 uint8 AnyValue::As<uint8>() const
 {
   return data->AsUnsignedInteger8();
+}
+
+template <>
+int16 AnyValue::As<int16>() const
+{
+  return data->AsSignedInteger16();
+}
+
+template <>
+uint16 AnyValue::As<uint16>() const
+{
+  return data->AsUnsignedInteger16();
+}
+
+template <>
+int32 AnyValue::As<int32>() const
+{
+  return data->AsSignedInteger32();
+}
+
+template <>
+uint32 AnyValue::As<uint32>() const
+{
+  return data->AsUnsignedInteger32();
+}
+
+template <>
+int64 AnyValue::As<int64>() const
+{
+  return data->AsSignedInteger64();
+}
+
+template <>
+uint64 AnyValue::As<uint64>() const
+{
+  return data->AsUnsignedInteger64();
 }
 
 bool IsEmptyValue(const AnyValue& anyvalue)

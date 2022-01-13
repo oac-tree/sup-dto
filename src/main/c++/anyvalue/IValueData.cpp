@@ -57,6 +57,36 @@ uint8 IValueData::AsUnsignedInteger8() const
   throw InvalidConversionException("Conversion to uint8 not supported for this type");
 }
 
+int16 IValueData::AsSignedInteger16() const
+{
+  throw InvalidConversionException("Conversion to int16 not supported for this type");
+}
+
+uint16 IValueData::AsUnsignedInteger16() const
+{
+  throw InvalidConversionException("Conversion to uint16 not supported for this type");
+}
+
+int32 IValueData::AsSignedInteger32() const
+{
+  throw InvalidConversionException("Conversion to int32 not supported for this type");
+}
+
+uint32 IValueData::AsUnsignedInteger32() const
+{
+  throw InvalidConversionException("Conversion to uint32 not supported for this type");
+}
+
+int64 IValueData::AsSignedInteger64() const
+{
+  throw InvalidConversionException("Conversion to int64 not supported for this type");
+}
+
+uint64 IValueData::AsUnsignedInteger64() const
+{
+  throw InvalidConversionException("Conversion to uint64 not supported for this type");
+}
+
 IValueData* CreateValueData(const AnyType& anytype)
 {
   // TODO: add creation of structures

@@ -75,6 +75,12 @@ public:
   AnyValue(boolean val);
   AnyValue(int8 val);
   AnyValue(uint8 val);
+  AnyValue(int16 val);
+  AnyValue(uint16 val);
+  AnyValue(int32 val);
+  AnyValue(uint32 val);
+  AnyValue(int64 val);
+  AnyValue(uint64 val);
 
   /**
    * @brief Constructor with type and value specification.
@@ -182,6 +188,24 @@ int8 AnyValue::As<int8>() const;
 
 template <>
 uint8 AnyValue::As<uint8>() const;
+
+template <>
+int16 AnyValue::As<int16>() const;
+
+template <>
+uint16 AnyValue::As<uint16>() const;
+
+template <>
+int32 AnyValue::As<int32>() const;
+
+template <>
+uint32 AnyValue::As<uint32>() const;
+
+template <>
+int64 AnyValue::As<int64>() const;
+
+template <>
+uint64 AnyValue::As<uint64>() const;
 
 template <typename T>
 bool AnyValue::As(T& value) const

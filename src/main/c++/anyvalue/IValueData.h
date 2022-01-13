@@ -52,6 +52,12 @@ public:
   virtual boolean AsBoolean() const;
   virtual int8 AsSignedInteger8() const;
   virtual uint8 AsUnsignedInteger8() const;
+  virtual int16 AsSignedInteger16() const;
+  virtual uint16 AsUnsignedInteger16() const;
+  virtual int32 AsSignedInteger32() const;
+  virtual uint32 AsUnsignedInteger32() const;
+  virtual int64 AsSignedInteger64() const;
+  virtual uint64 AsUnsignedInteger64() const;
 
   virtual AnyValue& operator[](const std::string& fieldname) = 0;
   virtual const AnyValue& operator[](const std::string& fieldname) const = 0;

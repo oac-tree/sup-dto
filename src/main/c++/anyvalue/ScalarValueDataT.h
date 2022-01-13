@@ -60,6 +60,42 @@ struct TypeToCode<uint8>
   static constexpr TypeCode code = TypeCode::UInt8;
 };
 
+template <>
+struct TypeToCode<int16>
+{
+  static constexpr TypeCode code = TypeCode::Int16;
+};
+
+template <>
+struct TypeToCode<uint16>
+{
+  static constexpr TypeCode code = TypeCode::UInt16;
+};
+
+template <>
+struct TypeToCode<int32>
+{
+  static constexpr TypeCode code = TypeCode::Int32;
+};
+
+template <>
+struct TypeToCode<uint32>
+{
+  static constexpr TypeCode code = TypeCode::UInt32;
+};
+
+template <>
+struct TypeToCode<int64>
+{
+  static constexpr TypeCode code = TypeCode::Int64;
+};
+
+template <>
+struct TypeToCode<uint64>
+{
+  static constexpr TypeCode code = TypeCode::UInt64;
+};
+
 template <typename T>
 class ScalarValueDataT : public ScalarValueDataBase
 {
@@ -74,6 +110,12 @@ public:
   boolean AsBoolean() const override;
   int8 AsSignedInteger8() const override;
   uint8 AsUnsignedInteger8() const override;
+  int16 AsSignedInteger16() const override;
+  uint16 AsUnsignedInteger16() const override;
+  int32 AsSignedInteger32() const override;
+  uint32 AsUnsignedInteger32() const override;
+  int64 AsSignedInteger64() const override;
+  uint64 AsUnsignedInteger64() const override;
 
 private:
   T value;
@@ -113,6 +155,42 @@ template <typename T>
 uint8 ScalarValueDataT<T>::AsUnsignedInteger8() const
 {
   return ConvertScalar<uint8, T>(value);
+}
+
+template <typename T>
+int16 ScalarValueDataT<T>::AsSignedInteger16() const
+{
+  return ConvertScalar<int16, T>(value);
+}
+
+template <typename T>
+uint16 ScalarValueDataT<T>::AsUnsignedInteger16() const
+{
+  return ConvertScalar<uint16, T>(value);
+}
+
+template <typename T>
+int32 ScalarValueDataT<T>::AsSignedInteger32() const
+{
+  return ConvertScalar<int32, T>(value);
+}
+
+template <typename T>
+uint32 ScalarValueDataT<T>::AsUnsignedInteger32() const
+{
+  return ConvertScalar<uint32, T>(value);
+}
+
+template <typename T>
+int64 ScalarValueDataT<T>::AsSignedInteger64() const
+{
+  return ConvertScalar<int64, T>(value);
+}
+
+template <typename T>
+uint64 ScalarValueDataT<T>::AsUnsignedInteger64() const
+{
+  return ConvertScalar<uint64, T>(value);
 }
 
 }  // namespace dto
