@@ -46,7 +46,7 @@ public:
   virtual TypeCode GetTypeCode() const = 0;
   virtual std::string GetTypeName() const;
 
-  virtual void AddMember(std::string name, const AnyType& type);
+  virtual void AddMember(const std::string& name, const AnyType& type);
   virtual bool HasMember(const std::string& name) const;
   virtual std::vector<std::string> MemberNames() const;
   virtual std::size_t NumberOfMembers() const;

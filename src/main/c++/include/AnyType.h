@@ -144,7 +144,7 @@ public:
    * @note Only supported for structured types. Throws otherwise.
    * Also throws when member couldn't be added (e.g. invalid name).
    */
-  void AddMember(std::string name, const AnyType& type);
+  void AddMember(const std::string& name, const AnyType& type);
 
   /**
    * @brief Checks if this type has a member with the given name.

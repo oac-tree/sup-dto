@@ -31,15 +31,15 @@ namespace sup
 namespace dto
 {
 
-StructValueData::StructValueData(std::string name_)
-  : name{std::move(name_)}
+StructValueData::StructValueData(std::string type_name_)
+  : type_name{std::move(type_name_)}
 {}
 
 StructValueData::~StructValueData() = default;
 
 StructValueData* StructValueData::Clone() const
 {
-  auto result = std::unique_ptr<StructValueData>(new StructValueData(name));
+  auto result = std::unique_ptr<StructValueData>(new StructValueData(type_name));
   result->members = members;
   return result.release();
 }
@@ -57,7 +57,7 @@ AnyType StructValueData::GetType() const
 
 std::string StructValueData::GetTypeName() const
 {
-  return name;
+  return type_name;
 }
 
 void StructValueData::Assign(const AnyValue& value)
@@ -66,16 +66,26 @@ void StructValueData::Assign(const AnyValue& value)
   {
     IValueData::Assign(value);
   }
+  if (value.NumberOfMembers() != NumberOfMembers())
+  {
+    throw InvalidConversionException("Can't convert AnyValues between differently"
+                                     " sized structures");
+  }
   for (auto &member : members)
   {
+    if (!value.HasMember(member.first))
+    {
+      throw InvalidConversionException("Can't convert AnyValues with differently named"
+                                       " member names");
+    }
     auto &other_member_value = value[member.first];
     member.second = other_member_value;
   }
 }
 
-void StructValueData::AddMember(std::string name, const AnyValue& value)
+void StructValueData::AddMember(const std::string& name, const AnyValue& value)
 {
-  //TODO: verify member name
+  VerifyMemberName(name);
   if (HasMember(name))
   {
     throw DuplicateKeyException("Cannot add duplicate member names");
@@ -100,6 +110,11 @@ std::vector<std::string> StructValueData::MemberNames() const
                    return member.first;
                  });
   return result;
+}
+
+std::size_t StructValueData::NumberOfMembers() const
+{
+  return members.size();
 }
 
 AnyValue& StructValueData::operator[](const std::string& fieldname)
@@ -138,6 +153,10 @@ bool StructValueData::Equals(const AnyValue& other) const
     return false;
   }
   if (other.GetTypeName() != GetTypeName())
+  {
+    return false;
+  }
+  if (other.NumberOfMembers() != NumberOfMembers())
   {
     return false;
   }

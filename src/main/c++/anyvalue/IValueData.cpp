@@ -37,6 +37,26 @@ std::string IValueData::GetTypeName() const
   return TypeCodeToString(GetTypeCode());
 }
 
+void IValueData::AddMember(const std::string&, const AnyValue&)
+{
+  throw InvalidOperationException("Add member only supported for structured types");
+}
+
+bool IValueData::HasMember(const std::string&) const
+{
+  return false;
+}
+
+std::vector<std::string> IValueData::MemberNames() const
+{
+  return {};
+}
+
+std::size_t IValueData::NumberOfMembers() const
+{
+  return 0;
+}
+
 void IValueData::Assign(const AnyValue&)
 {
   throw InvalidConversionException("Cannot assign incompatible AnyValue");

@@ -92,6 +92,15 @@ public:
   AnyValue(const AnyType& anytype, const AnyValue& anyvalue);
 
   /**
+   * @brief Constructor for structures.
+   *
+   * @param members list of member names and values.
+   * @param type_name Optional name for the underlying structured type.
+   */
+  AnyValue(std::initializer_list<std::pair<std::string, AnyValue>> members,
+          const std::string& type_name = {});
+
+  /**
    * @brief Copy constructor.
    */
   AnyValue(const AnyValue& other);
@@ -130,6 +139,40 @@ public:
    * @brief Get type name.
    */
   std::string GetTypeName() const;
+
+  /**
+   * @brief Add member value.
+   *
+   * @param name Name to use for registering the member value.
+   * @param value AnyValue to register as a member value.
+   * @note Only supported for structured values. Throws otherwise.
+   * Also throws when member couldn't be added (e.g. invalid name).
+   */
+  void AddMember(const std::string& name, const AnyValue& value);
+
+  /**
+   * @brief Checks if this value has a member with the given name.
+   *
+   * @param name Name of the member to check.
+   * @return true if a member with the given name exists.
+   * @note Doesn't throw when the type doesn't support members, but returns false.
+   */
+  bool HasMember(const std::string& name) const;
+
+  /**
+   * @brief Get list of member names.
+   *
+   * @return List of member names.
+   * @note Returns empty list when type doesn't support member types.
+   */
+  std::vector<std::string> MemberNames() const;
+
+  /**
+   * @brief Return number of member values.
+   *
+   * @return Number of member values or zero if member values are not supported.
+   */
+  std::size_t NumberOfMembers() const;
 
   /**
    * @brief Cast to given type.

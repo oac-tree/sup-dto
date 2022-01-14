@@ -42,7 +42,7 @@ namespace dto
 class StructValueData : public IValueData
 {
 public:
-  StructValueData(std::string name);
+  StructValueData(std::string type_name);
   ~StructValueData() override;
 
   StructValueData* Clone() const override;
@@ -51,9 +51,10 @@ public:
   std::string GetTypeName() const override;
   void Assign(const AnyValue& value) override;
 
-  void AddMember(std::string name, const AnyValue& value);
-  bool HasMember(const std::string& name) const;
-  std::vector<std::string> MemberNames() const;
+  void AddMember(const std::string& name, const AnyValue& value) override;
+  bool HasMember(const std::string& name) const override;
+  std::vector<std::string> MemberNames() const override;
+  std::size_t NumberOfMembers() const override;
 
   AnyValue& operator[](const std::string& fieldname) override;
   const AnyValue& operator[](const std::string& fieldname) const override;
@@ -61,7 +62,7 @@ public:
   bool Equals(const AnyValue& other) const override;
 
 private:
-  std::string name;
+  std::string type_name;
   std::vector<std::pair<std::string, AnyValue>> members;
 };
 

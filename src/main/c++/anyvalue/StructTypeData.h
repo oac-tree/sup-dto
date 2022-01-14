@@ -50,7 +50,7 @@ public:
   TypeCode GetTypeCode() const override;
   std::string GetTypeName() const override;
 
-  void AddMember(std::string name, const AnyType& type) override;
+  void AddMember(const std::string& name, const AnyType& type) override;
   bool HasMember(const std::string& name) const override;
   std::vector<std::string> MemberNames() const override;
   std::size_t NumberOfMembers() const override;

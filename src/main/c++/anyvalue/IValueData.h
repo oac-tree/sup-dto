@@ -47,6 +47,11 @@ public:
   virtual std::string GetTypeName() const;
   virtual AnyType GetType() const = 0;
 
+  virtual void AddMember(const std::string& name, const AnyValue& type);
+  virtual bool HasMember(const std::string& name) const;
+  virtual std::vector<std::string> MemberNames() const;
+  virtual std::size_t NumberOfMembers() const;
+
   virtual void Assign(const AnyValue& value);
 
   virtual boolean AsBoolean() const;

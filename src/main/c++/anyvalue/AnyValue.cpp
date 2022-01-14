@@ -23,6 +23,7 @@
 
 #include "EmptyValueData.h"
 #include "ScalarValueDataT.h"
+#include "StructValueData.h"
 
 namespace sup
 {
@@ -79,6 +80,18 @@ AnyValue::AnyValue(const AnyType& anytype, const AnyValue& anyvalue)
   data->Assign(anyvalue);
 }
 
+AnyValue::AnyValue(std::initializer_list<std::pair<std::string, AnyValue>> members,
+                   const std::string& type_name)
+  : data{new EmptyValueData{}}
+{
+  auto struct_data = std::unique_ptr<StructValueData>(new StructValueData(type_name));
+  for (auto& member : members)
+  {
+    struct_data->AddMember(member.first, member.second);
+  }
+  data = std::move(struct_data);
+}
+
 AnyValue::AnyValue(const AnyValue& other)
   : data{other.data->Clone()}
 {}
@@ -132,6 +145,26 @@ AnyType AnyValue::GetType() const
 std::string AnyValue::GetTypeName() const
 {
   return data->GetTypeName();
+}
+
+void AnyValue::AddMember(const std::string& name, const AnyValue& value)
+{
+  return data->AddMember(name, value);
+}
+
+bool AnyValue::HasMember(const std::string& name) const
+{
+  return data->HasMember(name);
+}
+
+std::vector<std::string> AnyValue::MemberNames() const
+{
+  return data->MemberNames();
+}
+
+std::size_t AnyValue::NumberOfMembers() const
+{
+  return data->NumberOfMembers();
 }
 
 AnyValue& AnyValue::operator[](std::string fieldname)

@@ -53,7 +53,7 @@ std::string StructTypeData::GetTypeName() const
   return name;
 }
 
-void StructTypeData::AddMember(std::string name, const AnyType& type)
+void StructTypeData::AddMember(const std::string& name, const AnyType& type)
 {
   VerifyMemberName(name);
   if (HasMember(name))

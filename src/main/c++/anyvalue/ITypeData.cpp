@@ -37,7 +37,7 @@ std::string ITypeData::GetTypeName() const
   return TypeCodeToString(GetTypeCode());
 }
 
-void ITypeData::AddMember(std::string name, const AnyType& type)
+void ITypeData::AddMember(const std::string&, const AnyType&)
 {
   throw InvalidOperationException("Add member only supported for structured types");
 }
