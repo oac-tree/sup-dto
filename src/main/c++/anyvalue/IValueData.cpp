@@ -24,6 +24,7 @@
 #include "AnyValueExceptions.h"
 #include "ITypeData.h"
 #include "ScalarValueDataBase.h"
+#include "StructValueData.h"
 
 namespace sup
 {
@@ -109,8 +110,15 @@ uint64 IValueData::AsUnsignedInteger64() const
 
 IValueData* CreateValueData(const AnyType& anytype)
 {
-  // TODO: add creation of structures
-  return CreateScalarValueData(anytype.GetTypeCode());
+  if (IsScalarType(anytype))
+  {
+    return CreateScalarValueData(anytype.GetTypeCode());
+  }
+  if (IsStructType(anytype))
+  {
+    return CreateStructValueData(anytype);
+  }
+  throw KeyNotAllowedException("Unsupported AnyType for creating AnyValue");
 }
 
 }  // namespace dto

@@ -66,6 +66,8 @@ private:
   std::vector<std::pair<std::string, AnyValue>> members;
 };
 
+StructValueData* CreateStructValueData(const AnyType& anytype);
+
 }  // namespace dto
 
 }  // namespace sup

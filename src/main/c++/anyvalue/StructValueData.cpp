@@ -182,6 +182,16 @@ bool StructValueData::Equals(const AnyValue& other) const
   return true;
 }
 
+StructValueData* CreateStructValueData(const AnyType& anytype)
+{
+  auto result = std::unique_ptr<StructValueData>(new StructValueData(anytype.GetTypeName()));
+  for (const auto& member_name : anytype.MemberNames())
+  {
+    result->AddMember(member_name, AnyValue(anytype[member_name]));
+  }
+  return result.release();
+}
+
 }  // namespace dto
 
 }  // namespace sup
