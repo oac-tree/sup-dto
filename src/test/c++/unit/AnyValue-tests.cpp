@@ -78,6 +78,22 @@ TEST_F(AnyValueTest, EmptyValue)
   EXPECT_THROW(moved["field"], KeyNotAllowedException);
 }
 
+TEST_F(AnyValueTest, StructValue)
+{
+  AnyValue my_struct{{
+    {"index", {UnsignedInteger64, 1}},
+    {"coordinates", {{
+      {"x", 0},
+      {"y", 5}
+    }, "coord_t"}},
+    {"enabled", true}
+  }, "my_struct_t"};
+  EXPECT_EQ(my_struct["index"], 1);
+  EXPECT_EQ(my_struct["coordinates.x"], 0);
+  EXPECT_EQ(my_struct["coordinates.y"], 5);
+  EXPECT_EQ(my_struct["enabled"], true);
+}
+
 TEST_F(AnyValueTest, BooleanValue)
 {
   AnyValue boolean_value{Boolean};
