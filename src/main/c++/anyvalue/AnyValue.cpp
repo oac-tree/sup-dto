@@ -247,6 +247,11 @@ uint64 AnyValue::As<uint64>() const
   return data->AsUnsignedInteger64();
 }
 
+AnyValue EmptyStructValue(const std::string& type_name)
+{
+  return AnyValue(EmptyStructType(type_name));
+}
+
 bool IsEmptyValue(const AnyValue& anyvalue)
 {
   return IsEmptyTypeCode(anyvalue.GetTypeCode());

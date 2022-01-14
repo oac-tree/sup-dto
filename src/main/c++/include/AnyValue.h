@@ -264,6 +264,8 @@ bool AnyValue::As(T& value) const
   }
 }
 
+AnyValue EmptyStructValue(const std::string& type_name);
+
 bool IsEmptyValue(const AnyValue& anyvalue);
 bool IsStructValue(const AnyValue& anyvalue);
 bool IsArrayValue(const AnyValue& anyvalue);
