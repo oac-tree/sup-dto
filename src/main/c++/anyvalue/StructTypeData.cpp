@@ -126,6 +126,10 @@ bool StructTypeData::Equals(const AnyType& other) const
   {
     return false;
   }
+  if (other.NumberOfMembers() != NumberOfMembers())
+  {
+    return false;
+  }
   for (auto& member : members)
   {
     try
