@@ -52,6 +52,11 @@ std::vector<std::string> ITypeData::MemberNames() const
   return {};
 }
 
+std::size_t ITypeData::NumberOfMembers() const
+{
+  return 0;
+}
+
 std::string TypeCodeToString(TypeCode type_code)
 {
   static const std::map<TypeCode, std::string> type_map({

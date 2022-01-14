@@ -113,6 +113,11 @@ std::vector<std::string> AnyType::MemberNames() const
   return data->MemberNames();
 }
 
+std::size_t AnyType::NumberOfMembers() const
+{
+  return data->NumberOfMembers();
+}
+
 AnyType& AnyType::operator[](std::string fieldname)
 {
   return (*data)[fieldname];

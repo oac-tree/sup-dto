@@ -49,6 +49,7 @@ public:
   virtual void AddMember(std::string name, const AnyType& type);
   virtual bool HasMember(const std::string& name) const;
   virtual std::vector<std::string> MemberNames() const;
+  virtual std::size_t NumberOfMembers() const;
 
   virtual AnyType& operator[](const std::string& fieldname) = 0;
   virtual const AnyType& operator[](const std::string& fieldname) const = 0;

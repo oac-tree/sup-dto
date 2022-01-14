@@ -82,6 +82,11 @@ std::vector<std::string> StructTypeData::MemberNames() const
   return result;
 }
 
+std::size_t StructTypeData::NumberOfMembers() const
+{
+  return members.size();
+}
+
 AnyType& StructTypeData::operator[](const std::string& fieldname)
 {
   return const_cast<AnyType&>(static_cast<const StructTypeData&>(*this)[fieldname]);

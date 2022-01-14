@@ -164,6 +164,13 @@ public:
   std::vector<std::string> MemberNames() const;
 
   /**
+   * @brief Return number of member types.
+   *
+   * @return Number of member types or zero if member types are not supported.
+   */
+  std::size_t NumberOfMembers() const;
+
+  /**
    * @brief Index operators.
    *
    * @details Retrieves the embedded AnyType by following the fields in fieldname, seperated
