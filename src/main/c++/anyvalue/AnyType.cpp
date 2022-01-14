@@ -138,6 +138,11 @@ bool AnyType::operator!=(const AnyType& other) const
   return !(this->operator==(other));
 }
 
+AnyType EmptyStructType(const std::string& name)
+{
+  return AnyType(std::initializer_list<std::pair<std::string, AnyType>>{}, name);
+}
+
 bool IsEmptyTypeCode(TypeCode type_code)
 {
   return type_code == TypeCode::Empty;

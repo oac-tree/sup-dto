@@ -51,8 +51,12 @@ TypeCode StructValueData::GetTypeCode() const
 
 AnyType StructValueData::GetType() const
 {
-  //TODO: return correct structured type
-  return {};
+  auto result = EmptyStructType(type_name);
+  for (const auto& member : members)
+  {
+    result.AddMember(member.first, member.second.GetType());
+  }
+  return result;
 }
 
 std::string StructValueData::GetTypeName() const

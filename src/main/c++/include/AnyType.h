@@ -194,6 +194,8 @@ private:
   std::unique_ptr<ITypeData> data;
 };
 
+AnyType EmptyStructType(const std::string& name);
+
 bool IsEmptyTypeCode(TypeCode type_code);
 bool IsStructTypeCode(TypeCode type_code);
 bool IsArrayTypeCode(TypeCode type_code);
