@@ -48,14 +48,11 @@ void StructTypeData::AddMember(std::string name, const AnyType& type)
 
 bool StructTypeData::HasMember(const std::string& name) const
 {
-  for (auto& member : members)
-  {
-    if (name == member.first)
-    {
-      return true;
-    }
-  }
-  return false;
+  auto it = std::find_if(members.begin(), members.end(),
+                         [name](typename decltype(members)::const_reference member){
+                           return member.first == name;
+                         });
+  return it != members.end();
 }
 
 StructTypeData* StructTypeData::Clone() const
@@ -78,10 +75,10 @@ std::string StructTypeData::GetTypeName() const
 std::vector<std::string> StructTypeData::MemberNames() const
 {
   std::vector<std::string> result;
-  for (auto& member : members)
-  {
-    result.push_back(member.first);
-  }
+  std::transform(members.begin(), members.end(), std::back_inserter(result),
+                 [](typename decltype(members)::const_reference member){
+                   return member.first;
+                 });
   return result;
 }
 
@@ -92,14 +89,14 @@ AnyType& StructTypeData::operator[](const std::string& fieldname)
 
 const AnyType& StructTypeData::operator[](const std::string& fieldname) const
 {
-  using pair_type = decltype(members)::value_type;
+  using cref_pair_type = decltype(members)::const_reference;
   if (fieldname.empty())
   {
     throw EmptyKeyException("Trying to access a member with empty field name");
   }
   auto fields = StripFirstFieldName(fieldname);
   auto it = std::find_if(members.cbegin(), members.cend(),
-                      [&fields](const pair_type& member){
+                      [&fields](cref_pair_type member){
                         return member.first == fields.first;
                       });
   if (it == members.cend())
@@ -120,7 +117,7 @@ bool StructTypeData::Equals(const ITypeData* other) const
   {
     return false;
   }
-  if (GetTypeName() != other->GetTypeName())
+  if (other->GetTypeName() != GetTypeName())
   {
     return false;
   }
@@ -129,7 +126,7 @@ bool StructTypeData::Equals(const ITypeData* other) const
     try
     {
       auto& other_member_type = (*other)[member.first];
-      if (member.second != other_member_type)
+      if (other_member_type != member.second)
       {
         return false;
       }
