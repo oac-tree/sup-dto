@@ -95,6 +95,15 @@ public:
   InvalidConversionException(const std::string& message);
 };
 
+/**
+ * @brief Exception thrown when trying to call an operation that is not supported by the object.
+ */
+class InvalidOperationException : public MessageException
+{
+public:
+  InvalidOperationException(const std::string& message);
+};
+
 }  // namespace dto
 
 }  // namespace sup

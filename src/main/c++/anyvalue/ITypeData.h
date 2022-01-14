@@ -46,10 +46,14 @@ public:
   virtual TypeCode GetTypeCode() const = 0;
   virtual std::string GetTypeName() const;
 
+  virtual void AddMember(std::string name, const AnyType& type);
+  virtual bool HasMember(const std::string& name) const;
+  virtual std::vector<std::string> MemberNames() const;
+
   virtual AnyType& operator[](const std::string& fieldname) = 0;
   virtual const AnyType& operator[](const std::string& fieldname) const = 0;
 
-  virtual bool Equals(const ITypeData* other) const = 0;
+  virtual bool Equals(const AnyType& other) const = 0;
 };
 
 std::string TypeCodeToString(TypeCode type_code);

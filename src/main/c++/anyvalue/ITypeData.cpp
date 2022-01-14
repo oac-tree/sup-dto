@@ -37,6 +37,21 @@ std::string ITypeData::GetTypeName() const
   return TypeCodeToString(GetTypeCode());
 }
 
+void ITypeData::AddMember(std::string name, const AnyType& type)
+{
+  throw InvalidOperationException("Add member only supported for structured types");
+}
+
+bool ITypeData::HasMember(const std::string&) const
+{
+  return false;
+}
+
+std::vector<std::string> ITypeData::MemberNames() const
+{
+  return {};
+}
+
 std::string TypeCodeToString(TypeCode type_code)
 {
   static const std::map<TypeCode, std::string> type_map({

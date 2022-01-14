@@ -46,26 +46,25 @@ public:
   StructTypeData(std::string name);
   ~StructTypeData() override;
 
-  void AddMember(std::string name, const AnyType& type);
-  bool HasMember(const std::string& name) const;
-
   StructTypeData* Clone() const override;
   TypeCode GetTypeCode() const override;
   std::string GetTypeName() const override;
 
-  std::vector<std::string> MemberNames() const;
+  void AddMember(std::string name, const AnyType& type) override;
+  bool HasMember(const std::string& name) const override;
+  std::vector<std::string> MemberNames() const override;
 
   AnyType& operator[](const std::string& fieldname) override;
   const AnyType& operator[](const std::string& fieldname) const override;
 
-  bool Equals(const ITypeData* other) const override;
+  bool Equals(const AnyType& other) const override;
 
 private:
   std::string name;
   std::vector<std::pair<std::string, AnyType>> members;
-  void VerifyMemberName(const std::string& name) const;
 };
 
+void VerifyMemberName(const std::string& name);
 std::pair<std::string, std::string> StripFirstFieldName(const std::string& fieldname);
 
 }  // namespace dto

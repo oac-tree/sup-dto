@@ -36,6 +36,23 @@ StructTypeData::StructTypeData(std::string name_)
 
 StructTypeData::~StructTypeData() = default;
 
+StructTypeData* StructTypeData::Clone() const
+{
+  auto result = std::unique_ptr<StructTypeData>(new StructTypeData(name));
+  result->members = members;
+  return result.release();
+}
+
+TypeCode StructTypeData::GetTypeCode() const
+{
+  return TypeCode::Struct;
+}
+
+std::string StructTypeData::GetTypeName() const
+{
+  return name;
+}
+
 void StructTypeData::AddMember(std::string name, const AnyType& type)
 {
   VerifyMemberName(name);
@@ -53,23 +70,6 @@ bool StructTypeData::HasMember(const std::string& name) const
                            return member.first == name;
                          });
   return it != members.end();
-}
-
-StructTypeData* StructTypeData::Clone() const
-{
-  auto result = std::unique_ptr<StructTypeData>(new StructTypeData(name));
-  result->members = members;
-  return result.release();
-}
-
-TypeCode StructTypeData::GetTypeCode() const
-{
-  return TypeCode::Struct;
-}
-
-std::string StructTypeData::GetTypeName() const
-{
-  return name;
 }
 
 std::vector<std::string> StructTypeData::MemberNames() const
@@ -111,13 +111,13 @@ const AnyType& StructTypeData::operator[](const std::string& fieldname) const
   return member_type[fields.second];
 }
 
-bool StructTypeData::Equals(const ITypeData* other) const
+bool StructTypeData::Equals(const AnyType& other) const
 {
-  if (other->GetTypeCode() != TypeCode::Struct)
+  if (other.GetTypeCode() != TypeCode::Struct)
   {
     return false;
   }
-  if (other->GetTypeName() != GetTypeName())
+  if (other.GetTypeName() != GetTypeName())
   {
     return false;
   }
@@ -125,7 +125,7 @@ bool StructTypeData::Equals(const ITypeData* other) const
   {
     try
     {
-      auto& other_member_type = (*other)[member.first];
+      auto& other_member_type = other[member.first];
       if (other_member_type != member.second)
       {
         return false;
@@ -139,7 +139,7 @@ bool StructTypeData::Equals(const ITypeData* other) const
   return true;
 }
 
-void StructTypeData::VerifyMemberName(const std::string& name) const
+void VerifyMemberName(const std::string& name)
 {
   if (name.empty())
   {

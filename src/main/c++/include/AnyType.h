@@ -35,6 +35,7 @@
 #include <memory>
 #include <string>
 #include <utility>
+#include <vector>
 
 namespace sup
 {
@@ -134,6 +135,33 @@ public:
    * @brief Get type name.
    */
   std::string GetTypeName() const;
+
+  /**
+   * @brief Add member type.
+   *
+   * @param name Name to use for registering the member type.
+   * @param type AnyType to register as a member type.
+   * @note Only supported for structured types. Throws otherwise.
+   * Also throws when member couldn't be added (e.g. invalid name).
+   */
+  void AddMember(std::string name, const AnyType& type);
+
+  /**
+   * @brief Checks if this type has a member with the given name.
+   *
+   * @param name Name of the member to check.
+   * @return true if a member with the given name exists.
+   * @note Doesn't throw when the type doesn't support members, but returns false.
+   */
+  bool HasMember(const std::string& name) const;
+
+  /**
+   * @brief Get list of member names.
+   *
+   * @return List of member names.
+   * @note Returns empty list when type doesn't support member types.
+   */
+  std::vector<std::string> MemberNames() const;
 
   /**
    * @brief Index operators.

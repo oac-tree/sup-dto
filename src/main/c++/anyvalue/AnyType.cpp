@@ -98,6 +98,21 @@ std::string AnyType::GetTypeName() const
   return data->GetTypeName();
 }
 
+void AnyType::AddMember(std::string name, const AnyType& type)
+{
+  return data->AddMember(name, type);
+}
+
+bool AnyType::HasMember(const std::string& name) const
+{
+  return data->HasMember(name);
+}
+
+std::vector<std::string> AnyType::MemberNames() const
+{
+  return data->MemberNames();
+}
+
 AnyType& AnyType::operator[](std::string fieldname)
 {
   return (*data)[fieldname];
@@ -110,7 +125,7 @@ const AnyType& AnyType::operator[](std::string fieldname) const
 
 bool AnyType::operator==(const AnyType& other) const
 {
-  return data->Equals(other.data.get());
+  return data->Equals(other);
 }
 
 bool AnyType::operator!=(const AnyType& other) const
