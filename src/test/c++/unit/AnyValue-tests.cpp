@@ -92,6 +92,8 @@ TEST_F(AnyValueTest, StructValue)
   EXPECT_EQ(my_struct["coordinates.x"], 0);
   EXPECT_EQ(my_struct["coordinates.y"], 5);
   EXPECT_EQ(my_struct["enabled"], true);
+  my_struct["coordinates.x"] = 23;
+  EXPECT_EQ(my_struct["coordinates.x"], 23);
 }
 
 TEST_F(AnyValueTest, BooleanValue)
