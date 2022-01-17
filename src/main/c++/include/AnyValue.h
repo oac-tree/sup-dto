@@ -148,7 +148,7 @@ public:
    * @note Only supported for structured values. Throws otherwise.
    * Also throws when member couldn't be added (e.g. invalid name).
    */
-  void AddMember(const std::string& name, const AnyValue& value);
+  AnyValue& AddMember(const std::string& name, const AnyValue& value);
 
   /**
    * @brief Checks if this value has a member with the given name.

@@ -147,9 +147,10 @@ std::string AnyValue::GetTypeName() const
   return data->GetTypeName();
 }
 
-void AnyValue::AddMember(const std::string& name, const AnyValue& value)
+AnyValue& AnyValue::AddMember(const std::string& name, const AnyValue& value)
 {
-  return data->AddMember(name, value);
+  data->AddMember(name, value);
+  return *this;
 }
 
 bool AnyValue::HasMember(const std::string& name) const

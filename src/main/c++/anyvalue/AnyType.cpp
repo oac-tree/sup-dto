@@ -98,9 +98,10 @@ std::string AnyType::GetTypeName() const
   return data->GetTypeName();
 }
 
-void AnyType::AddMember(const std::string& name, const AnyType& type)
+AnyType& AnyType::AddMember(const std::string& name, const AnyType& type)
 {
-  return data->AddMember(name, type);
+  data->AddMember(name, type);
+  return *this;
 }
 
 bool AnyType::HasMember(const std::string& name) const
