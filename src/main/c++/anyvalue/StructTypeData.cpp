@@ -65,11 +65,21 @@ void StructTypeData::AddMember(const std::string& name, const AnyType& type)
 
 bool StructTypeData::HasMember(const std::string& name) const
 {
+  auto fields = StripFirstFieldName(name);
   auto it = std::find_if(members.begin(), members.end(),
-                         [name](typename decltype(members)::const_reference member){
-                           return member.first == name;
+                         [&fields](typename decltype(members)::const_reference member){
+                           return member.first == fields.first;
                          });
-  return it != members.end();
+  if (fields.second.empty())
+  {
+    return it != members.end();
+  }
+  if (it == members.end())
+  {
+    return false;
+  }
+  auto& member_type = it->second;
+  return member_type.HasMember(fields.second);
 }
 
 std::vector<std::string> StructTypeData::MemberNames() const

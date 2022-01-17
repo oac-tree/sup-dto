@@ -486,6 +486,187 @@ TEST_F(AnyTypeTest, Float64)
   EXPECT_THROW(moved_float64["field"], KeyNotAllowedException);
 }
 
+TEST_F(AnyTypeTest, CopyConstruction)
+{
+  const std::string nested_name = "nested_struct";
+  AnyType two_scalars{{
+    {"signed", SignedInteger8},
+    {"unsigned", UnsignedInteger8}
+  }};
+  AnyType nested_type{{
+    {"scalars", two_scalars},
+    {"single", {
+      {"first", SignedInteger8},
+      {"second", SignedInteger8}
+    }}
+  }, nested_name};
+  EXPECT_TRUE(IsStructType(nested_type));
+  EXPECT_EQ(nested_type.GetTypeCode(), TypeCode::Struct);
+  EXPECT_EQ(nested_type.GetTypeName(), nested_name);
+
+  AnyType copy = nested_type;
+  EXPECT_EQ(copy, nested_type);
+  EXPECT_TRUE(IsStructType(copy));
+  EXPECT_EQ(copy.GetTypeCode(), TypeCode::Struct);
+  EXPECT_EQ(copy.GetTypeName(), nested_name);
+  EXPECT_TRUE(copy.HasMember("scalars"));
+  EXPECT_TRUE(copy.HasMember("single"));
+  EXPECT_FALSE(copy.HasMember("index"));
+
+  copy.AddMember("index", UnsignedInteger64);
+  EXPECT_NE(copy, nested_type);
+  EXPECT_TRUE(IsStructType(copy));
+  EXPECT_EQ(copy.GetTypeCode(), TypeCode::Struct);
+  EXPECT_EQ(copy.GetTypeName(), nested_name);
+  EXPECT_TRUE(copy.HasMember("scalars"));
+  EXPECT_TRUE(copy.HasMember("single"));
+  EXPECT_TRUE(copy.HasMember("index"));
+}
+
+TEST_F(AnyTypeTest, CopyAssignment)
+{
+  const std::string nested_name = "nested_struct";
+  AnyType two_scalars{{
+    {"signed", SignedInteger8},
+    {"unsigned", UnsignedInteger8}
+  }};
+  AnyType nested_type{{
+    {"scalars", two_scalars},
+    {"single", {
+      {"first", SignedInteger8},
+      {"second", SignedInteger8}
+    }}
+  }, nested_name};
+  EXPECT_TRUE(IsStructType(nested_type));
+  EXPECT_EQ(nested_type.GetTypeCode(), TypeCode::Struct);
+  EXPECT_EQ(nested_type.GetTypeName(), nested_name);
+
+  AnyType copy;
+  copy = nested_type;
+  EXPECT_EQ(copy, nested_type);
+  EXPECT_TRUE(IsStructType(copy));
+  EXPECT_EQ(copy.GetTypeCode(), TypeCode::Struct);
+  EXPECT_EQ(copy.GetTypeName(), nested_name);
+
+  copy.AddMember("index", UnsignedInteger64);
+  EXPECT_NE(copy, nested_type);
+  EXPECT_TRUE(IsStructType(copy));
+  EXPECT_EQ(copy.GetTypeCode(), TypeCode::Struct);
+  EXPECT_EQ(copy.GetTypeName(), nested_name);
+}
+
+TEST_F(AnyTypeTest, MoveConstruction)
+{
+  const std::string nested_name = "nested_struct";
+  AnyType two_scalars{{
+    {"signed", SignedInteger8},
+    {"unsigned", UnsignedInteger8}
+  }};
+  AnyType nested_type{{
+    {"scalars", two_scalars},
+    {"single", {
+      {"first", SignedInteger8},
+      {"second", SignedInteger8}
+    }}
+  }, nested_name};
+  EXPECT_TRUE(IsStructType(nested_type));
+  EXPECT_EQ(nested_type.GetTypeCode(), TypeCode::Struct);
+  EXPECT_EQ(nested_type.GetTypeName(), nested_name);
+
+  AnyType moved = std::move(nested_type);
+  EXPECT_NE(moved, nested_type);
+  EXPECT_TRUE(IsEmptyType(nested_type));
+  EXPECT_TRUE(IsStructType(moved));
+  EXPECT_EQ(moved.GetTypeCode(), TypeCode::Struct);
+  EXPECT_EQ(moved.GetTypeName(), nested_name);
+  EXPECT_TRUE(moved.HasMember("scalars"));
+  EXPECT_TRUE(moved.HasMember("single"));
+  EXPECT_FALSE(moved.HasMember("index"));
+
+  moved.AddMember("index", UnsignedInteger64);
+  EXPECT_NE(moved, nested_type);
+  EXPECT_TRUE(IsStructType(moved));
+  EXPECT_EQ(moved.GetTypeCode(), TypeCode::Struct);
+  EXPECT_EQ(moved.GetTypeName(), nested_name);
+  EXPECT_TRUE(moved.HasMember("scalars"));
+  EXPECT_TRUE(moved.HasMember("single"));
+  EXPECT_TRUE(moved.HasMember("index"));
+}
+
+TEST_F(AnyTypeTest, MoveAssignment)
+{
+  const std::string nested_name = "nested_struct";
+  AnyType two_scalars{{
+    {"signed", SignedInteger8},
+    {"unsigned", UnsignedInteger8}
+  }};
+  AnyType nested_type{{
+    {"scalars", two_scalars},
+    {"single", {
+      {"first", SignedInteger8},
+      {"second", SignedInteger8}
+    }}
+  }, nested_name};
+  EXPECT_TRUE(IsStructType(nested_type));
+  EXPECT_EQ(nested_type.GetTypeCode(), TypeCode::Struct);
+  EXPECT_EQ(nested_type.GetTypeName(), nested_name);
+
+  AnyType moved;
+  moved = std::move(nested_type);
+  EXPECT_NE(moved, nested_type);
+  EXPECT_TRUE(IsEmptyType(nested_type));
+  EXPECT_TRUE(IsStructType(moved));
+  EXPECT_EQ(moved.GetTypeCode(), TypeCode::Struct);
+  EXPECT_EQ(moved.GetTypeName(), nested_name);
+  EXPECT_TRUE(moved.HasMember("scalars"));
+  EXPECT_TRUE(moved.HasMember("single"));
+  EXPECT_FALSE(moved.HasMember("index"));
+
+  moved.AddMember("index", UnsignedInteger64);
+  EXPECT_NE(moved, nested_type);
+  EXPECT_TRUE(IsStructType(moved));
+  EXPECT_EQ(moved.GetTypeCode(), TypeCode::Struct);
+  EXPECT_EQ(moved.GetTypeName(), nested_name);
+  EXPECT_TRUE(moved.HasMember("scalars"));
+  EXPECT_TRUE(moved.HasMember("single"));
+  EXPECT_TRUE(moved.HasMember("index"));
+}
+
+TEST_F(AnyTypeTest, MemberAccess)
+{
+  const std::string nested_name = "nested_struct";
+  AnyType two_scalars{{
+    {"signed", SignedInteger8},
+    {"unsigned", UnsignedInteger8}
+  }};
+  AnyType nested_type = (EmptyStructType(nested_name)
+                            .AddMember("scalars", two_scalars)
+                            .AddMember("single", EmptyStructType()
+                                .AddMember("first", SignedInteger8)
+                                .AddMember("second", SignedInteger8)));
+  EXPECT_TRUE(IsStructType(nested_type));
+  EXPECT_EQ(nested_type.GetTypeCode(), TypeCode::Struct);
+  EXPECT_EQ(nested_type.GetTypeName(), nested_name);
+  EXPECT_TRUE(nested_type.HasMember("scalars"));
+  EXPECT_TRUE(nested_type.HasMember("single"));
+  EXPECT_FALSE(nested_type.HasMember("index"));
+  auto member_fields = nested_type.MemberNames();
+  EXPECT_EQ(member_fields.size(), 2);
+  EXPECT_EQ(member_fields[0], "scalars");
+  EXPECT_EQ(member_fields[1], "single");
+  nested_type.AddMember("index", UnsignedInteger64);
+  EXPECT_TRUE(nested_type.HasMember("index"));
+  member_fields = nested_type.MemberNames();
+  EXPECT_EQ(member_fields.size(), 3);
+  EXPECT_EQ(member_fields[0], "scalars");
+  EXPECT_EQ(member_fields[1], "single");
+  EXPECT_EQ(member_fields[2], "index");
+
+  // test presence of composite field indices
+  EXPECT_TRUE(nested_type.HasMember("scalars.signed"));
+  EXPECT_FALSE(nested_type.HasMember("scalars.unknown"));
+}
+
 AnyTypeTest::AnyTypeTest() = default;
 
 AnyTypeTest::~AnyTypeTest() = default;
