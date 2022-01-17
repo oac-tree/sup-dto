@@ -110,7 +110,7 @@ bool StructValueData::Equals(const AnyValue& other) const
   return member_data.Equals(other);
 }
 
-StructValueData::StructValueData(StructDataT<AnyValue> member_data_)
+StructValueData::StructValueData(const StructDataT<AnyValue>& member_data_)
   : member_data{member_data_}
 {}
 

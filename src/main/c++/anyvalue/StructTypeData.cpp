@@ -83,7 +83,7 @@ bool StructTypeData::Equals(const AnyType& other) const
   return member_data.Equals(other);
 }
 
-StructTypeData::StructTypeData(StructDataT<AnyType> member_data_)
+StructTypeData::StructTypeData(const StructDataT<AnyType>& member_data_)
   : member_data{member_data_}
 {}
 
