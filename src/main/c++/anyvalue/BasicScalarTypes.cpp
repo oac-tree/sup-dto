@@ -35,6 +35,8 @@ static_assert(sizeof(int32) == 4, "int32 type needs to have size 4 bytes");
 static_assert(sizeof(uint32) == 4, "uint32 type needs to have size 4 bytes");
 static_assert(sizeof(int64) == 8, "int64 type needs to have size 8 bytes");
 static_assert(sizeof(uint64) == 8, "uint64 type needs to have size 8 bytes");
+static_assert(sizeof(float32) == 4, "float32 type needs to have size 8 bytes");
+static_assert(sizeof(float64) == 8, "float64 type needs to have size 8 bytes");
 
 }  // namespace dto
 

@@ -432,6 +432,60 @@ TEST_F(AnyTypeTest, UnsignedInteger64)
   EXPECT_THROW(moved_uint64["field"], KeyNotAllowedException);
 }
 
+TEST_F(AnyTypeTest, Float32)
+{
+  AnyType float32_type{TypeCode::Float32};
+  EXPECT_EQ(float32_type, Float32);
+  EXPECT_NE(float32_type, SignedInteger64);
+  EXPECT_FALSE(IsEmptyType(float32_type));
+  EXPECT_FALSE(IsStructType(float32_type));
+  EXPECT_FALSE(IsArrayType(float32_type));
+  EXPECT_TRUE(IsScalarType(float32_type));
+  EXPECT_EQ(float32_type.GetTypeCode(), TypeCode::Float32);
+  EXPECT_EQ(float32_type.GetTypeName(), FLOAT32_TYPE_NAME);
+  EXPECT_THROW(float32_type["field"], KeyNotAllowedException);
+
+  AnyType moved_float32 = std::move(float32_type);
+  EXPECT_EQ(moved_float32, Float32);
+  EXPECT_NE(moved_float32, SignedInteger64);
+  EXPECT_TRUE(IsEmptyType(float32_type)); // Moved from type is always empty
+  EXPECT_EQ(float32_type, EmptyType);
+  EXPECT_FALSE(IsEmptyType(moved_float32));
+  EXPECT_FALSE(IsStructType(moved_float32));
+  EXPECT_FALSE(IsArrayType(moved_float32));
+  EXPECT_TRUE(IsScalarType(moved_float32));
+  EXPECT_EQ(moved_float32.GetTypeCode(), TypeCode::Float32);
+  EXPECT_EQ(moved_float32.GetTypeName(), FLOAT32_TYPE_NAME);
+  EXPECT_THROW(moved_float32["field"], KeyNotAllowedException);
+}
+
+TEST_F(AnyTypeTest, Float64)
+{
+  AnyType float64_type{TypeCode::Float64};
+  EXPECT_EQ(float64_type, Float64);
+  EXPECT_NE(float64_type, SignedInteger64);
+  EXPECT_FALSE(IsEmptyType(float64_type));
+  EXPECT_FALSE(IsStructType(float64_type));
+  EXPECT_FALSE(IsArrayType(float64_type));
+  EXPECT_TRUE(IsScalarType(float64_type));
+  EXPECT_EQ(float64_type.GetTypeCode(), TypeCode::Float64);
+  EXPECT_EQ(float64_type.GetTypeName(), FLOAT64_TYPE_NAME);
+  EXPECT_THROW(float64_type["field"], KeyNotAllowedException);
+
+  AnyType moved_float64 = std::move(float64_type);
+  EXPECT_EQ(moved_float64, Float64);
+  EXPECT_NE(moved_float64, SignedInteger64);
+  EXPECT_TRUE(IsEmptyType(float64_type)); // Moved from type is always empty
+  EXPECT_EQ(float64_type, EmptyType);
+  EXPECT_FALSE(IsEmptyType(moved_float64));
+  EXPECT_FALSE(IsStructType(moved_float64));
+  EXPECT_FALSE(IsArrayType(moved_float64));
+  EXPECT_TRUE(IsScalarType(moved_float64));
+  EXPECT_EQ(moved_float64.GetTypeCode(), TypeCode::Float64);
+  EXPECT_EQ(moved_float64.GetTypeName(), FLOAT64_TYPE_NAME);
+  EXPECT_THROW(moved_float64["field"], KeyNotAllowedException);
+}
+
 AnyTypeTest::AnyTypeTest() = default;
 
 AnyTypeTest::~AnyTypeTest() = default;

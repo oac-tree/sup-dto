@@ -113,6 +113,16 @@ uint64 IValueData::AsUnsignedInteger64() const
   throw InvalidConversionException("Conversion to uint64 not supported for this type");
 }
 
+float32 IValueData::AsFloat32() const
+{
+  throw InvalidConversionException("Conversion to float32 not supported for this type");
+}
+
+float64 IValueData::AsFloat64() const
+{
+  throw InvalidConversionException("Conversion to float64 not supported for this type");
+}
+
 IValueData* CreateValueData(const AnyType& anytype)
 {
   if (IsScalarType(anytype))

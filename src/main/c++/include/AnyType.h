@@ -56,6 +56,8 @@ enum class TypeCode
   UInt32,
   Int64,
   UInt64,
+  Float32,
+  Float64,
 };
 
 const std::string EMPTY_TYPE_NAME = "empty";
@@ -69,6 +71,8 @@ const std::string INT32_TYPE_NAME = "int32";
 const std::string UINT32_TYPE_NAME = "uint32";
 const std::string INT64_TYPE_NAME = "int64";
 const std::string UINT64_TYPE_NAME = "uint64";
+const std::string FLOAT32_TYPE_NAME = "float32";
+const std::string FLOAT64_TYPE_NAME = "float64";
 
 class ITypeData;
 
@@ -219,6 +223,8 @@ extern const AnyType SignedInteger32;
 extern const AnyType UnsignedInteger32;
 extern const AnyType SignedInteger64;
 extern const AnyType UnsignedInteger64;
+extern const AnyType Float32;
+extern const AnyType Float64;
 
 }  // namespace dto
 

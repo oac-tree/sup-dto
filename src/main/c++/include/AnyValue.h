@@ -82,6 +82,8 @@ public:
   AnyValue(uint32 val);
   AnyValue(int64 val);
   AnyValue(uint64 val);
+  AnyValue(float32 val);
+  AnyValue(float64 val);
 
   /**
    * @brief Constructor with type and value specification.
@@ -253,6 +255,12 @@ int64 AnyValue::As<int64>() const;
 
 template <>
 uint64 AnyValue::As<uint64>() const;
+
+template <>
+float32 AnyValue::As<float32>() const;
+
+template <>
+float64 AnyValue::As<float64>() const;
 
 template <typename T>
 bool AnyValue::As(T& value) const

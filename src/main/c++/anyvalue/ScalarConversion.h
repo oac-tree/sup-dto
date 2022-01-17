@@ -51,6 +51,13 @@ struct IsStrictlyInteger
 };
 
 template <typename T>
+struct IsStrictlyArithmetic
+{
+  static constexpr bool value = std::is_arithmetic<T>::value &&
+      !std::is_same<typename std::remove_cv<T>::type, bool>::value;
+};
+
+template <typename T>
 struct IsSignedInteger
 {
   static constexpr bool value = IsStrictlyInteger<T>::value && std::is_signed<T>::value;
@@ -114,22 +121,45 @@ To ConvertScalar(const From& value)
   return static_cast<To>(value);
 }
 
-// Conversion from any integer type to boolean type
+// Conversion from any arithmetic type to boolean type
 template <typename To, typename From,
   typename std::enable_if<std::is_same<typename std::remove_cv<To>::type, bool>::value &&
-    std::is_integral<From>::value, bool>::type = true>
+    std::is_arithmetic<From>::value, bool>::type = true>
 To ConvertScalar(const From& value)
 {
   return value;
 }
 
-// Conversion from boolean type to strict integer type (to avoid duplicate declaration)
+// Conversion from boolean type to strict arithmetic type (to avoid duplicate declaration)
 template <typename To, typename From,
-  typename std::enable_if<IsStrictlyInteger<To>::value &&
+  typename std::enable_if<IsStrictlyArithmetic<To>::value &&
     std::is_same<typename std::remove_cv<From>::type, bool>::value, bool>::type = true>
 To ConvertScalar(const From& value)
 {
   return value;
+}
+
+// Conversion from strict integer type to floating type
+template <typename To, typename From,
+  typename std::enable_if<std::is_floating_point<To>::value &&
+    IsStrictlyInteger<From>::value, bool>::type = true>
+To ConvertScalar(const From& value)
+{
+  return value;
+}
+
+// Conversion from floating type to strictly arithmetic type
+template <typename To, typename From,
+  typename std::enable_if<IsStrictlyArithmetic<To>::value &&
+    std::is_floating_point<From>::value, bool>::type = true>
+To ConvertScalar(const From& value)
+{
+  if (value < static_cast<To>(std::numeric_limits<To>::lowest()) ||
+      value > static_cast<To>(std::numeric_limits<To>::max()))
+  {
+    throw InvalidConversionException("Source value doesn't fit in destination type");
+  }
+  return static_cast<To>(value);
 }
 
 }  // namespace dto

@@ -71,6 +71,8 @@ std::string TypeCodeToString(TypeCode type_code)
     { TypeCode::UInt32, UINT32_TYPE_NAME },
     { TypeCode::Int64, INT64_TYPE_NAME },
     { TypeCode::UInt64, UINT64_TYPE_NAME },
+    { TypeCode::Float32, FLOAT32_TYPE_NAME },
+    { TypeCode::Float64, FLOAT64_TYPE_NAME },
   });
   auto it = type_map.find(type_code);
   if (it == type_map.end())

@@ -196,6 +196,8 @@ const AnyType SignedInteger32{TypeCode::Int32};
 const AnyType UnsignedInteger32{TypeCode::UInt32};
 const AnyType SignedInteger64{TypeCode::Int64};
 const AnyType UnsignedInteger64{TypeCode::UInt64};
+const AnyType Float32{TypeCode::Float32};
+const AnyType Float64{TypeCode::Float64};
 
 namespace
 {
@@ -204,7 +206,8 @@ std::unordered_set<TypeCode> ScalarTypes()
   std::unordered_set<TypeCode> result;
   result.insert({ TypeCode::Bool, TypeCode::Char8,
                   TypeCode::Int8, TypeCode::UInt8, TypeCode::Int16, TypeCode::UInt16,
-                  TypeCode::Int32, TypeCode::UInt32, TypeCode::Int64, TypeCode::UInt64 });
+                  TypeCode::Int32, TypeCode::UInt32, TypeCode::Int64, TypeCode::UInt64,
+                  TypeCode::Float32, TypeCode::Float64 });
   return result;
 }
 }  // unnamed namespace

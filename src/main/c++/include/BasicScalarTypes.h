@@ -46,6 +46,8 @@ using int32 = signed int;
 using uint32 = unsigned int;
 using int64 = signed long;
 using uint64 = unsigned long;
+using float32 = float;
+using float64 = double;
 
 }  // namespace dto
 
