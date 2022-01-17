@@ -32,6 +32,7 @@
 #define _SUP_StructValueData_h_
 
 #include "IValueData.h"
+#include "StructDataT.h"
 
 #include <vector>
 
@@ -42,7 +43,7 @@ namespace dto
 class StructValueData : public IValueData
 {
 public:
-  StructValueData(std::string type_name);
+  StructValueData(const std::string& type_name);
   ~StructValueData() override;
 
   StructValueData* Clone() const override;
@@ -62,8 +63,8 @@ public:
   bool Equals(const AnyValue& other) const override;
 
 private:
-  std::string type_name;
-  std::vector<std::pair<std::string, AnyValue>> members;
+  StructValueData(StructDataT<AnyValue> member_data);
+  StructDataT<AnyValue> member_data;
 };
 
 StructValueData* CreateStructValueData(const AnyType& anytype);

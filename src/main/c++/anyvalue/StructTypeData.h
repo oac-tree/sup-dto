@@ -32,8 +32,8 @@
 #define _SUP_StructTypeData_h_
 
 #include "ITypeData.h"
+#include "StructDataT.h"
 
-#include <utility>
 #include <vector>
 
 namespace sup
@@ -43,7 +43,7 @@ namespace dto
 class StructTypeData : public ITypeData
 {
 public:
-  StructTypeData(std::string name);
+  StructTypeData(const std::string& name);
   ~StructTypeData() override;
 
   StructTypeData* Clone() const override;
@@ -61,12 +61,9 @@ public:
   bool Equals(const AnyType& other) const override;
 
 private:
-  std::string name;
-  std::vector<std::pair<std::string, AnyType>> members;
+  StructTypeData(StructDataT<AnyType> member_data);
+  StructDataT<AnyType> member_data;
 };
-
-void VerifyMemberName(const std::string& name);
-std::pair<std::string, std::string> StripFirstFieldName(const std::string& fieldname);
 
 }  // namespace dto
 

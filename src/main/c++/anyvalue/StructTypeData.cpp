@@ -21,171 +21,71 @@
 
 #include "StructTypeData.h"
 
-#include "AnyValueExceptions.h"
-
-#include <algorithm>
-
 namespace sup
 {
 namespace dto
 {
 
-StructTypeData::StructTypeData(std::string name_)
-  : name{std::move(name_)}
+StructTypeData::StructTypeData(const std::string& name)
+  : member_data{name}
 {}
 
 StructTypeData::~StructTypeData() = default;
 
 StructTypeData* StructTypeData::Clone() const
 {
-  auto result = std::unique_ptr<StructTypeData>(new StructTypeData(name));
-  result->members = members;
+  auto result = std::unique_ptr<StructTypeData>(new StructTypeData(member_data));
   return result.release();
 }
 
 TypeCode StructTypeData::GetTypeCode() const
 {
-  return TypeCode::Struct;
+  return member_data.GetTypeCode();
 }
 
 std::string StructTypeData::GetTypeName() const
 {
-  return name;
+  return member_data.GetTypeName();
 }
 
 void StructTypeData::AddMember(const std::string& name, const AnyType& type)
 {
-  VerifyMemberName(name);
-  if (HasMember(name))
-  {
-    throw DuplicateKeyException("Cannot add duplicate member keys");
-  }
-  members.push_back({name, type});
+  return member_data.AddMember(name, type);
 }
 
 bool StructTypeData::HasMember(const std::string& name) const
 {
-  auto fields = StripFirstFieldName(name);
-  auto it = std::find_if(members.cbegin(), members.cend(),
-                         [&fields](typename decltype(members)::const_reference member){
-                           return member.first == fields.first;
-                         });
-  if (fields.second.empty())
-  {
-    return it != members.cend();
-  }
-  if (it == members.cend())
-  {
-    return false;
-  }
-  auto& member_type = it->second;
-  return member_type.HasMember(fields.second);
+  return member_data.HasMember(name);
 }
 
 std::vector<std::string> StructTypeData::MemberNames() const
 {
-  std::vector<std::string> result;
-  std::transform(members.begin(), members.end(), std::back_inserter(result),
-                 [](typename decltype(members)::const_reference member){
-                   return member.first;
-                 });
-  return result;
+  return member_data.MemberNames();
 }
 
 std::size_t StructTypeData::NumberOfMembers() const
 {
-  return members.size();
+  return member_data.NumberOfMembers();
 }
 
 AnyType& StructTypeData::operator[](const std::string& fieldname)
 {
-  return const_cast<AnyType&>(static_cast<const StructTypeData&>(*this)[fieldname]);
+  return member_data[fieldname];
 }
 
 const AnyType& StructTypeData::operator[](const std::string& fieldname) const
 {
-  using cref_pair_type = decltype(members)::const_reference;
-  if (fieldname.empty())
-  {
-    throw EmptyKeyException("Trying to access a member with empty field name");
-  }
-  auto fields = StripFirstFieldName(fieldname);
-  auto it = std::find_if(members.cbegin(), members.cend(),
-                      [&fields](cref_pair_type member){
-                        return member.first == fields.first;
-                      });
-  if (it == members.cend())
-  {
-    throw UnknownKeyException("Trying to access a member with unknown field name");
-  }
-  auto& member_type = it->second;
-  if (fields.second.empty())
-  {
-    return member_type;
-  }
-  return member_type[fields.second];
+  return member_data[fieldname];
 }
 
 bool StructTypeData::Equals(const AnyType& other) const
 {
-  if (other.GetTypeCode() != TypeCode::Struct)
-  {
-    return false;
-  }
-  if (other.GetTypeName() != GetTypeName())
-  {
-    return false;
-  }
-  if (other.NumberOfMembers() != NumberOfMembers())
-  {
-    return false;
-  }
-  for (auto& member : members)
-  {
-    try
-    {
-      auto& other_member_type = other[member.first];
-      if (other_member_type != member.second)
-      {
-        return false;
-      }
-    }
-    catch(const UnknownKeyException& e)
-    {
-      return false;
-    }
-  }
-  return true;
+  return member_data.Equals(other);
 }
 
-void VerifyMemberName(const std::string& name)
-{
-  if (name.empty())
-  {
-    throw KeyNotAllowedException("Member names cannot be empty");
-  }
-  if (name.find_first_of(" [].") != std::string::npos)
-  {
-    throw KeyNotAllowedException("Member names cannot contain spaces, square brackets or dots");
-  }
-}
-
-std::pair<std::string, std::string> StripFirstFieldName(const std::string& fieldname)
-{
-  auto pos = fieldname.find_first_of("[.");
-  if (pos == std::string::npos)
-  {
-    return { fieldname, ""};
-  }
-  auto first = fieldname.substr(0, pos);
-  auto rest = fieldname.substr(pos);
-  if (rest[0] == '.')
-  {
-    // Only strip dots
-    rest = rest.substr(1);
-  }
-  return { first, rest };
-}
+StructTypeData::StructTypeData(StructDataT<AnyType> member_data_)
+  : member_data{member_data_}
+{}
 
 }  // namespace dto
 
