@@ -21,10 +21,15 @@
 
 #include "BasicScalarTypes.h"
 
+#include <climits>
+
 namespace sup
 {
 namespace dto
 {
+
+// Ensure a byte is 8 bits
+static_assert(CHAR_BIT == 8, "bytes need to have 8 bits");
 
 static_assert(sizeof(char8) == 1, "char8 type needs to have size 1 byte");
 static_assert(sizeof(int8) == 1, "int8 type needs to have size 1 byte");
