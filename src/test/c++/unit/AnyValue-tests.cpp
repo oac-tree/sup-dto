@@ -285,6 +285,102 @@ TEST_F(AnyValueTest, SignedInteger8Value)
   EXPECT_EQ(int8_from_typed_literal.As<int32>(), 0);
 }
 
+TEST_F(AnyValueTest, Character8Value)
+{
+  AnyValue char8_value{Character8};
+  EXPECT_EQ(char8_value.GetType(), Character8);
+  EXPECT_NE(char8_value.GetType(), UnsignedInteger8);
+  EXPECT_FALSE(IsEmptyValue(char8_value));
+  EXPECT_FALSE(IsStructValue(char8_value));
+  EXPECT_FALSE(IsArrayValue(char8_value));
+  EXPECT_TRUE(IsScalarValue(char8_value));
+  EXPECT_EQ(char8_value.GetTypeCode(), TypeCode::Char8);
+  EXPECT_EQ(char8_value.GetTypeName(), CHAR8_TYPE_NAME);
+  EXPECT_THROW(char8_value["field"], KeyNotAllowedException);
+  EXPECT_EQ(char8_value.As<boolean>(), false);
+  EXPECT_EQ(char8_value.As<int8>(), 0);
+  EXPECT_EQ(char8_value.As<uint8>(), 0);
+  EXPECT_EQ(char8_value.As<int16>(), 0);
+  EXPECT_EQ(char8_value.As<uint16>(), 0);
+  EXPECT_EQ(char8_value.As<int32>(), 0);
+  EXPECT_EQ(char8_value.As<uint32>(), 0);
+  EXPECT_EQ(char8_value.As<int64>(), 0);
+  EXPECT_EQ(char8_value.As<uint64>(), 0);
+  char init_val = 'b';
+  char8_value = init_val;
+  EXPECT_EQ(char8_value.As<boolean>(), true);
+  EXPECT_EQ(char8_value.As<char8>(), init_val);
+  EXPECT_EQ(char8_value.As<int8>(), init_val);
+  EXPECT_EQ(char8_value.As<uint8>(), init_val);
+  EXPECT_EQ(char8_value.As<int16>(), init_val);
+  EXPECT_EQ(char8_value.As<uint16>(), init_val);
+  EXPECT_EQ(char8_value.As<int32>(), init_val);
+  EXPECT_EQ(char8_value.As<uint32>(), init_val);
+  EXPECT_EQ(char8_value.As<int64>(), init_val);
+  EXPECT_EQ(char8_value.As<uint64>(), init_val);
+  EXPECT_EQ(char8_value, init_val);
+
+  const AnyValue copy = char8_value;
+  EXPECT_TRUE(IsScalarValue(copy));
+  EXPECT_EQ(copy, char8_value);
+  EXPECT_FALSE(IsEmptyValue(copy));
+  EXPECT_FALSE(IsStructValue(copy));
+  EXPECT_FALSE(IsArrayValue(copy));
+  EXPECT_EQ(copy.GetTypeCode(), TypeCode::Char8);
+  EXPECT_EQ(copy.GetTypeName(), CHAR8_TYPE_NAME);
+  EXPECT_THROW(copy["field"], KeyNotAllowedException);
+  EXPECT_EQ(copy.As<boolean>(), true);
+  EXPECT_EQ(copy.As<char8>(), init_val);
+  EXPECT_EQ(copy, init_val);
+
+  AnyValue moved = std::move(char8_value);
+  EXPECT_TRUE(IsEmptyValue(char8_value)); // Moved from value is always empty
+  EXPECT_EQ(char8_value.GetType(), EmptyType);
+  EXPECT_TRUE(IsScalarValue(moved));
+  EXPECT_EQ(moved, copy);
+  EXPECT_FALSE(IsEmptyValue(moved));
+  EXPECT_FALSE(IsStructValue(moved));
+  EXPECT_FALSE(IsArrayValue(moved));
+  EXPECT_EQ(moved.GetTypeCode(), TypeCode::Char8);
+  EXPECT_EQ(moved.GetTypeName(), CHAR8_TYPE_NAME);
+  EXPECT_THROW(moved["field"], KeyNotAllowedException);
+  EXPECT_EQ(moved.As<boolean>(), true);
+  EXPECT_EQ(moved.As<char8>(), init_val);
+
+  char8 literal = 'L';
+  AnyValue char8_from_literal = literal;
+  EXPECT_EQ(char8_from_literal.GetType(), Character8);
+  EXPECT_NE(char8_from_literal.GetType(), SignedInteger32);
+  EXPECT_FALSE(IsEmptyValue(char8_from_literal));
+  EXPECT_FALSE(IsStructValue(char8_from_literal));
+  EXPECT_FALSE(IsArrayValue(char8_from_literal));
+  EXPECT_TRUE(IsScalarValue(char8_from_literal));
+  EXPECT_EQ(char8_from_literal.GetTypeCode(), TypeCode::Char8);
+  EXPECT_EQ(char8_from_literal.GetTypeName(), CHAR8_TYPE_NAME);
+  EXPECT_THROW(char8_from_literal["field"], KeyNotAllowedException);
+  EXPECT_EQ(char8_from_literal.As<char8>(), literal);
+  char8_from_literal = 'M';
+  EXPECT_EQ(char8_from_literal.As<boolean>(), true);
+  EXPECT_EQ(char8_from_literal.As<char8>(), 'M');
+  EXPECT_EQ(char8_from_literal.As<int32>(), 'M');
+
+  AnyValue char8_from_typed_literal = {Character8, 5};
+  EXPECT_EQ(char8_from_typed_literal.GetType(), Character8);
+  EXPECT_NE(char8_from_typed_literal.GetType(), Boolean);
+  EXPECT_FALSE(IsEmptyValue(char8_from_typed_literal));
+  EXPECT_FALSE(IsStructValue(char8_from_typed_literal));
+  EXPECT_FALSE(IsArrayValue(char8_from_typed_literal));
+  EXPECT_TRUE(IsScalarValue(char8_from_typed_literal));
+  EXPECT_EQ(char8_from_typed_literal.GetTypeCode(), TypeCode::Char8);
+  EXPECT_EQ(char8_from_typed_literal.GetTypeName(), CHAR8_TYPE_NAME);
+  EXPECT_THROW(char8_from_typed_literal["field"], KeyNotAllowedException);
+  EXPECT_EQ(char8_from_typed_literal.As<int8>(), 5);
+  char8_from_typed_literal = 0;
+  EXPECT_EQ(char8_from_typed_literal.As<boolean>(), false);
+  EXPECT_EQ(char8_from_typed_literal.As<int8>(), 0);
+  EXPECT_EQ(char8_from_typed_literal.As<int32>(), 0);
+}
+
 TEST_F(AnyValueTest, UnsignedInteger8Value)
 {
   AnyValue uint8_value{UnsignedInteger8};
@@ -947,6 +1043,206 @@ TEST_F(AnyValueTest, UnsignedInteger64Value)
   EXPECT_EQ(uint64_from_typed_literal.As<boolean>(), false);
   EXPECT_EQ(uint64_from_typed_literal.As<uint64>(), 0);
   EXPECT_EQ(uint64_from_typed_literal.As<int32>(), 0);
+}
+
+TEST_F(AnyValueTest, Float32Value)
+{
+  AnyValue float32_value{Float32};
+  EXPECT_EQ(float32_value.GetType(), Float32);
+  EXPECT_NE(float32_value.GetType(), SignedInteger64);
+  EXPECT_FALSE(IsEmptyValue(float32_value));
+  EXPECT_FALSE(IsStructValue(float32_value));
+  EXPECT_FALSE(IsArrayValue(float32_value));
+  EXPECT_TRUE(IsScalarValue(float32_value));
+  EXPECT_EQ(float32_value.GetTypeCode(), TypeCode::Float32);
+  EXPECT_EQ(float32_value.GetTypeName(), FLOAT32_TYPE_NAME);
+  EXPECT_THROW(float32_value["field"], KeyNotAllowedException);
+  EXPECT_EQ(float32_value.As<boolean>(), false);
+  EXPECT_EQ(float32_value.As<int8>(), 0);
+  EXPECT_EQ(float32_value.As<uint8>(), 0);
+  EXPECT_EQ(float32_value.As<int16>(), 0);
+  EXPECT_EQ(float32_value.As<uint16>(), 0);
+  EXPECT_EQ(float32_value.As<int32>(), 0);
+  EXPECT_EQ(float32_value.As<uint32>(), 0);
+  EXPECT_EQ(float32_value.As<int64>(), 0);
+  EXPECT_EQ(float32_value.As<uint64>(), 0);
+  EXPECT_DOUBLE_EQ(float32_value.As<float32>(), 0.0);
+  EXPECT_DOUBLE_EQ(float32_value.As<float64>(), 0.0);
+  auto new_val = 8.25;
+  int trunc_val = new_val;
+  float32_value = new_val;
+  EXPECT_EQ(float32_value.As<boolean>(), true);
+  EXPECT_EQ(float32_value.As<int8>(), trunc_val);
+  EXPECT_EQ(float32_value.As<uint8>(), trunc_val);
+  EXPECT_EQ(float32_value.As<int16>(), trunc_val);
+  EXPECT_EQ(float32_value.As<uint16>(), trunc_val);
+  EXPECT_EQ(float32_value.As<int32>(), trunc_val);
+  EXPECT_EQ(float32_value.As<uint32>(), trunc_val);
+  EXPECT_EQ(float32_value.As<int64>(), trunc_val);
+  EXPECT_EQ(float32_value.As<uint64>(), trunc_val);
+  EXPECT_DOUBLE_EQ(float32_value.As<float32>(), new_val);
+  EXPECT_DOUBLE_EQ(float32_value.As<float64>(), new_val);
+  EXPECT_EQ(float32_value, new_val);
+
+  const AnyValue copy = float32_value;
+  EXPECT_TRUE(IsScalarValue(copy));
+  EXPECT_EQ(copy, float32_value);
+  EXPECT_FALSE(IsEmptyValue(copy));
+  EXPECT_FALSE(IsStructValue(copy));
+  EXPECT_FALSE(IsArrayValue(copy));
+  EXPECT_EQ(copy.GetTypeCode(), TypeCode::Float32);
+  EXPECT_EQ(copy.GetTypeName(), FLOAT32_TYPE_NAME);
+  EXPECT_THROW(copy["field"], KeyNotAllowedException);
+  EXPECT_DOUBLE_EQ(copy.As<float32>(), new_val);
+  EXPECT_EQ(copy.As<int32>(), trunc_val);
+  EXPECT_EQ(copy, new_val);
+
+  AnyValue moved = std::move(float32_value);
+  EXPECT_TRUE(IsEmptyValue(float32_value)); // Moved from value is always empty
+  EXPECT_EQ(float32_value.GetType(), EmptyType);
+  EXPECT_TRUE(IsScalarValue(moved));
+  EXPECT_EQ(moved, copy);
+  EXPECT_FALSE(IsEmptyValue(moved));
+  EXPECT_FALSE(IsStructValue(moved));
+  EXPECT_FALSE(IsArrayValue(moved));
+  EXPECT_EQ(moved.GetTypeCode(), TypeCode::Float32);
+  EXPECT_EQ(moved.GetTypeName(), FLOAT32_TYPE_NAME);
+  EXPECT_THROW(moved["field"], KeyNotAllowedException);
+  EXPECT_EQ(moved.As<boolean>(), true);
+  EXPECT_DOUBLE_EQ(moved.As<float32>(), new_val);
+
+  float32 literal = -4.5;
+  AnyValue float32_from_literal = literal;
+  EXPECT_EQ(float32_from_literal.GetType(), Float32);
+  EXPECT_NE(float32_from_literal.GetType(), SignedInteger64);
+  EXPECT_FALSE(IsEmptyValue(float32_from_literal));
+  EXPECT_FALSE(IsStructValue(float32_from_literal));
+  EXPECT_FALSE(IsArrayValue(float32_from_literal));
+  EXPECT_TRUE(IsScalarValue(float32_from_literal));
+  EXPECT_EQ(float32_from_literal.GetTypeCode(), TypeCode::Float32);
+  EXPECT_EQ(float32_from_literal.GetTypeName(), FLOAT32_TYPE_NAME);
+  EXPECT_THROW(float32_from_literal["field"], KeyNotAllowedException);
+  EXPECT_DOUBLE_EQ(float32_from_literal.As<float32>(), literal);
+  float32_from_literal = 88.125;
+  EXPECT_EQ(float32_from_literal.As<boolean>(), true);
+  EXPECT_EQ(float32_from_literal.As<float32>(), 88.125);
+  EXPECT_EQ(float32_from_literal.As<int32>(), (int32)88.125);
+
+  AnyValue float32_from_typed_literal = {Float32, 5};
+  EXPECT_EQ(float32_from_typed_literal.GetType(), Float32);
+  EXPECT_NE(float32_from_typed_literal.GetType(), Boolean);
+  EXPECT_FALSE(IsEmptyValue(float32_from_typed_literal));
+  EXPECT_FALSE(IsStructValue(float32_from_typed_literal));
+  EXPECT_FALSE(IsArrayValue(float32_from_typed_literal));
+  EXPECT_TRUE(IsScalarValue(float32_from_typed_literal));
+  EXPECT_EQ(float32_from_typed_literal.GetTypeCode(), TypeCode::Float32);
+  EXPECT_EQ(float32_from_typed_literal.GetTypeName(), FLOAT32_TYPE_NAME);
+  EXPECT_THROW(float32_from_typed_literal["field"], KeyNotAllowedException);
+  EXPECT_DOUBLE_EQ(float32_from_typed_literal.As<float32>(), 5.0);
+  float32_from_typed_literal = 0;
+  EXPECT_EQ(float32_from_typed_literal.As<boolean>(), false);
+  EXPECT_DOUBLE_EQ(float32_from_typed_literal.As<float32>(), 0);
+  EXPECT_EQ(float32_from_typed_literal.As<int32>(), 0);
+}
+
+TEST_F(AnyValueTest, Float64Value)
+{
+  AnyValue float64_value{Float64};
+  EXPECT_EQ(float64_value.GetType(), Float64);
+  EXPECT_NE(float64_value.GetType(), SignedInteger64);
+  EXPECT_FALSE(IsEmptyValue(float64_value));
+  EXPECT_FALSE(IsStructValue(float64_value));
+  EXPECT_FALSE(IsArrayValue(float64_value));
+  EXPECT_TRUE(IsScalarValue(float64_value));
+  EXPECT_EQ(float64_value.GetTypeCode(), TypeCode::Float64);
+  EXPECT_EQ(float64_value.GetTypeName(), FLOAT64_TYPE_NAME);
+  EXPECT_THROW(float64_value["field"], KeyNotAllowedException);
+  EXPECT_EQ(float64_value.As<boolean>(), false);
+  EXPECT_EQ(float64_value.As<int8>(), 0);
+  EXPECT_EQ(float64_value.As<uint8>(), 0);
+  EXPECT_EQ(float64_value.As<int16>(), 0);
+  EXPECT_EQ(float64_value.As<uint16>(), 0);
+  EXPECT_EQ(float64_value.As<int32>(), 0);
+  EXPECT_EQ(float64_value.As<uint32>(), 0);
+  EXPECT_EQ(float64_value.As<int64>(), 0);
+  EXPECT_EQ(float64_value.As<uint64>(), 0);
+  EXPECT_DOUBLE_EQ(float64_value.As<float32>(), 0.0);
+  EXPECT_DOUBLE_EQ(float64_value.As<float64>(), 0.0);
+  auto new_val = 8.25;
+  int trunc_val = new_val;
+  float64_value = new_val;
+  EXPECT_EQ(float64_value.As<boolean>(), true);
+  EXPECT_EQ(float64_value.As<int8>(), trunc_val);
+  EXPECT_EQ(float64_value.As<uint8>(), trunc_val);
+  EXPECT_EQ(float64_value.As<int16>(), trunc_val);
+  EXPECT_EQ(float64_value.As<uint16>(), trunc_val);
+  EXPECT_EQ(float64_value.As<int32>(), trunc_val);
+  EXPECT_EQ(float64_value.As<uint32>(), trunc_val);
+  EXPECT_EQ(float64_value.As<int64>(), trunc_val);
+  EXPECT_EQ(float64_value.As<uint64>(), trunc_val);
+  EXPECT_DOUBLE_EQ(float64_value.As<float32>(), new_val);
+  EXPECT_DOUBLE_EQ(float64_value.As<float64>(), new_val);
+  EXPECT_EQ(float64_value, new_val);
+
+  const AnyValue copy = float64_value;
+  EXPECT_TRUE(IsScalarValue(copy));
+  EXPECT_EQ(copy, float64_value);
+  EXPECT_FALSE(IsEmptyValue(copy));
+  EXPECT_FALSE(IsStructValue(copy));
+  EXPECT_FALSE(IsArrayValue(copy));
+  EXPECT_EQ(copy.GetTypeCode(), TypeCode::Float64);
+  EXPECT_EQ(copy.GetTypeName(), FLOAT64_TYPE_NAME);
+  EXPECT_THROW(copy["field"], KeyNotAllowedException);
+  EXPECT_DOUBLE_EQ(copy.As<float64>(), new_val);
+  EXPECT_EQ(copy.As<int32>(), trunc_val);
+  EXPECT_EQ(copy, new_val);
+
+  AnyValue moved = std::move(float64_value);
+  EXPECT_TRUE(IsEmptyValue(float64_value)); // Moved from value is always empty
+  EXPECT_EQ(float64_value.GetType(), EmptyType);
+  EXPECT_TRUE(IsScalarValue(moved));
+  EXPECT_EQ(moved, copy);
+  EXPECT_FALSE(IsEmptyValue(moved));
+  EXPECT_FALSE(IsStructValue(moved));
+  EXPECT_FALSE(IsArrayValue(moved));
+  EXPECT_EQ(moved.GetTypeCode(), TypeCode::Float64);
+  EXPECT_EQ(moved.GetTypeName(), FLOAT64_TYPE_NAME);
+  EXPECT_THROW(moved["field"], KeyNotAllowedException);
+  EXPECT_EQ(moved.As<boolean>(), true);
+  EXPECT_DOUBLE_EQ(moved.As<float64>(), new_val);
+
+  float64 literal = -4.5;
+  AnyValue float64_from_literal = literal;
+  EXPECT_EQ(float64_from_literal.GetType(), Float64);
+  EXPECT_NE(float64_from_literal.GetType(), SignedInteger64);
+  EXPECT_FALSE(IsEmptyValue(float64_from_literal));
+  EXPECT_FALSE(IsStructValue(float64_from_literal));
+  EXPECT_FALSE(IsArrayValue(float64_from_literal));
+  EXPECT_TRUE(IsScalarValue(float64_from_literal));
+  EXPECT_EQ(float64_from_literal.GetTypeCode(), TypeCode::Float64);
+  EXPECT_EQ(float64_from_literal.GetTypeName(), FLOAT64_TYPE_NAME);
+  EXPECT_THROW(float64_from_literal["field"], KeyNotAllowedException);
+  EXPECT_DOUBLE_EQ(float64_from_literal.As<float64>(), literal);
+  float64_from_literal = 88.125;
+  EXPECT_EQ(float64_from_literal.As<boolean>(), true);
+  EXPECT_EQ(float64_from_literal.As<float64>(), 88.125);
+  EXPECT_EQ(float64_from_literal.As<int32>(), (int32)88.125);
+
+  AnyValue float64_from_typed_literal = {Float64, 5};
+  EXPECT_EQ(float64_from_typed_literal.GetType(), Float64);
+  EXPECT_NE(float64_from_typed_literal.GetType(), Boolean);
+  EXPECT_FALSE(IsEmptyValue(float64_from_typed_literal));
+  EXPECT_FALSE(IsStructValue(float64_from_typed_literal));
+  EXPECT_FALSE(IsArrayValue(float64_from_typed_literal));
+  EXPECT_TRUE(IsScalarValue(float64_from_typed_literal));
+  EXPECT_EQ(float64_from_typed_literal.GetTypeCode(), TypeCode::Float64);
+  EXPECT_EQ(float64_from_typed_literal.GetTypeName(), FLOAT64_TYPE_NAME);
+  EXPECT_THROW(float64_from_typed_literal["field"], KeyNotAllowedException);
+  EXPECT_DOUBLE_EQ(float64_from_typed_literal.As<float64>(), 5.0);
+  float64_from_typed_literal = 0;
+  EXPECT_EQ(float64_from_typed_literal.As<boolean>(), false);
+  EXPECT_DOUBLE_EQ(float64_from_typed_literal.As<float64>(), 0);
+  EXPECT_EQ(float64_from_typed_literal.As<int32>(), 0);
 }
 
 AnyValueTest::AnyValueTest() = default;
