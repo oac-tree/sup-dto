@@ -24,6 +24,8 @@
 #include "AnyValueExceptions.h"
 #include "ScalarValueDataT.h"
 
+#include <functional>
+#include <map>
 #include <type_traits>
 
 namespace sup
@@ -57,24 +59,34 @@ const AnyValue& ScalarValueDataBase::operator[](const std::string& fieldname) co
   throw KeyNotAllowedException("Index operator not supported for scalar values");
 }
 
+template <typename T>
+ScalarValueDataBase* ScalarValueConstructor()
+{
+    return new ScalarValueDataT<T>{};
+}
+
 ScalarValueDataBase* CreateScalarValueData(TypeCode type_code)
 {
-  switch (type_code)
+  static const std::map<TypeCode, std::function<ScalarValueDataBase*()>> constructor_map{
+    {TypeCode::Bool, ScalarValueConstructor<boolean> },
+    {TypeCode::Char8, ScalarValueConstructor<char8> },
+    {TypeCode::Int8, ScalarValueConstructor<int8> },
+    {TypeCode::UInt8, ScalarValueConstructor<uint8> },
+    {TypeCode::Int16, ScalarValueConstructor<int16> },
+    {TypeCode::UInt16, ScalarValueConstructor<uint16> },
+    {TypeCode::Int32, ScalarValueConstructor<int32> },
+    {TypeCode::UInt32, ScalarValueConstructor<uint32> },
+    {TypeCode::Int64, ScalarValueConstructor<int64> },
+    {TypeCode::UInt64, ScalarValueConstructor<uint64> },
+    {TypeCode::Float32, ScalarValueConstructor<float32> },
+    {TypeCode::Float64, ScalarValueConstructor<float64> }
+  };
+  auto it = constructor_map.find(type_code);
+  if (it == constructor_map.end())
   {
-    case TypeCode::Bool: return new ScalarValueDataT<boolean>();
-    case TypeCode::Char8: return new ScalarValueDataT<char8>();
-    case TypeCode::Int8: return new ScalarValueDataT<int8>();
-    case TypeCode::UInt8: return new ScalarValueDataT<uint8>();
-    case TypeCode::Int16: return new ScalarValueDataT<int16>();
-    case TypeCode::UInt16: return new ScalarValueDataT<uint16>();
-    case TypeCode::Int32: return new ScalarValueDataT<int32>();
-    case TypeCode::UInt32: return new ScalarValueDataT<uint32>();
-    case TypeCode::Int64: return new ScalarValueDataT<int64>();
-    case TypeCode::UInt64: return new ScalarValueDataT<uint64>();
-    case TypeCode::Float32: return new ScalarValueDataT<float32>();
-    case TypeCode::Float64: return new ScalarValueDataT<float64>();
+    throw KeyNotAllowedException("Not a known scalar type code");
   }
-  throw KeyNotAllowedException("Not a known scalar type code");
+  return it->second();
 }
 
 }  // namespace dto
