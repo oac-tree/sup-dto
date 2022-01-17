@@ -110,9 +110,17 @@ AnyValue::AnyValue(const AnyValue& other)
 
 AnyValue& AnyValue::operator=(const AnyValue& other)
 {
-  if (this != &other)
+  if (this == &other)
+  {
+    return *this;
+  }
+  if (!IsEmptyValue(*this))
   {
     data->Assign(other);
+  }
+  else
+  {
+    data.reset(other.data->Clone());
   }
   return *this;
 }
@@ -129,7 +137,7 @@ AnyValue& AnyValue::operator=(AnyValue&& other)
   {
     return *this;
   }
-  if (GetType() == other.GetType())
+  if (GetType() == other.GetType() || IsEmptyValue(*this))
   {
     data.reset(other.data.release());
     other.data.reset(new EmptyValueData());
