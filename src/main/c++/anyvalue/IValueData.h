@@ -55,6 +55,7 @@ public:
   virtual void Assign(const AnyValue& value);
 
   virtual boolean AsBoolean() const;
+  virtual char8 AsCharacter8() const;
   virtual int8 AsSignedInteger8() const;
   virtual uint8 AsUnsignedInteger8() const;
   virtual int16 AsSignedInteger16() const;

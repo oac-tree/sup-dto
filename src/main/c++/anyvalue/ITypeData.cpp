@@ -62,6 +62,7 @@ std::string TypeCodeToString(TypeCode type_code)
   static const std::map<TypeCode, std::string> type_map({
     { TypeCode::Empty, EMPTY_TYPE_NAME },
     { TypeCode::Bool, BOOLEAN_TYPE_NAME },
+    { TypeCode::Char8, CHAR8_TYPE_NAME },
     { TypeCode::Int8, INT8_TYPE_NAME },
     { TypeCode::UInt8, UINT8_TYPE_NAME },
     { TypeCode::Int16, INT16_TYPE_NAME },

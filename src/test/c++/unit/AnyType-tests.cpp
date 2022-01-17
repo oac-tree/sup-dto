@@ -199,6 +199,31 @@ TEST_F(AnyTypeTest, Boolean)
   EXPECT_THROW(copy_boolean["field"], KeyNotAllowedException);
 }
 
+TEST_F(AnyTypeTest, Character8)
+{
+  AnyType char_type{TypeCode::Char8};
+  EXPECT_EQ(char_type, Character8);
+  EXPECT_NE(char_type, UnsignedInteger8);
+  EXPECT_FALSE(IsEmptyType(char_type));
+  EXPECT_FALSE(IsStructType(char_type));
+  EXPECT_FALSE(IsArrayType(char_type));
+  EXPECT_TRUE(IsScalarType(char_type));
+  EXPECT_EQ(char_type.GetTypeCode(), TypeCode::Char8);
+  EXPECT_EQ(char_type.GetTypeName(), CHAR8_TYPE_NAME);
+  EXPECT_THROW(char_type["field"], KeyNotAllowedException);
+
+  AnyType copy_char8 = char_type;
+  EXPECT_EQ(copy_char8, Character8);
+  EXPECT_NE(copy_char8, UnsignedInteger8);
+  EXPECT_FALSE(IsEmptyType(copy_char8));
+  EXPECT_FALSE(IsStructType(copy_char8));
+  EXPECT_FALSE(IsArrayType(copy_char8));
+  EXPECT_TRUE(IsScalarType(copy_char8));
+  EXPECT_EQ(copy_char8.GetTypeCode(), TypeCode::Char8);
+  EXPECT_EQ(copy_char8.GetTypeName(), CHAR8_TYPE_NAME);
+  EXPECT_THROW(copy_char8["field"], KeyNotAllowedException);
+}
+
 TEST_F(AnyTypeTest, SignedInteger8)
 {
   AnyType int8_type{TypeCode::Int8};

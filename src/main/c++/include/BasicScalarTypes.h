@@ -37,6 +37,7 @@ namespace dto
 {
 
 using boolean = bool;
+using char8 = char;
 using int8 = signed char;
 using uint8 = unsigned char;
 using int16 = signed short;

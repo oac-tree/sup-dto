@@ -49,6 +49,12 @@ struct TypeToCode<boolean>
 };
 
 template <>
+struct TypeToCode<char8>
+{
+  static constexpr TypeCode code = TypeCode::Char8;
+};
+
+template <>
 struct TypeToCode<int8>
 {
   static constexpr TypeCode code = TypeCode::Int8;
@@ -108,6 +114,7 @@ public:
   void Assign(const AnyValue& value) override;
 
   boolean AsBoolean() const override;
+  char8 AsCharacter8() const override;
   int8 AsSignedInteger8() const override;
   uint8 AsUnsignedInteger8() const override;
   int16 AsSignedInteger16() const override;
@@ -145,6 +152,12 @@ template <typename T>
 boolean ScalarValueDataT<T>::AsBoolean() const
 {
   return ConvertScalar<boolean, T>(value);
+}
+
+template <typename T>
+char8 ScalarValueDataT<T>::AsCharacter8() const
+{
+  return ConvertScalar<char8, T>(value);
 }
 
 template <typename T>

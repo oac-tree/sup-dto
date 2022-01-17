@@ -68,6 +68,11 @@ boolean IValueData::AsBoolean() const
   throw InvalidConversionException("Conversion to boolean not supported for this type");
 }
 
+char8 IValueData::AsCharacter8() const
+{
+  throw InvalidConversionException("Conversion to char8 not supported for this type");
+}
+
 int8 IValueData::AsSignedInteger8() const
 {
   throw InvalidConversionException("Conversion to int8 not supported for this type");

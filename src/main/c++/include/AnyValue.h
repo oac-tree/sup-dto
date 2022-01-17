@@ -73,6 +73,7 @@ public:
    * @note These constructors must be implicit for other constructors to work as expected.
    */
   AnyValue(boolean val);
+  AnyValue(char8 val);
   AnyValue(int8 val);
   AnyValue(uint8 val);
   AnyValue(int16 val);
@@ -225,6 +226,9 @@ AnyValue AnyValue::As<AnyValue>() const;
 
 template <>
 boolean AnyValue::As<boolean>() const;
+
+template <>
+char8 AnyValue::As<char8>() const;
 
 template <>
 int8 AnyValue::As<int8>() const;

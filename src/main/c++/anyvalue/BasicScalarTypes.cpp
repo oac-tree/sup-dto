@@ -26,6 +26,7 @@ namespace sup
 namespace dto
 {
 
+static_assert(sizeof(char8) == 1, "char8 type needs to have size 1 byte");
 static_assert(sizeof(int8) == 1, "int8 type needs to have size 1 byte");
 static_assert(sizeof(uint8) == 1, "uint8 type needs to have size 1 byte");
 static_assert(sizeof(int16) == 2, "int16 type needs to have size 2 bytes");

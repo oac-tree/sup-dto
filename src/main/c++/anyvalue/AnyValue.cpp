@@ -38,6 +38,10 @@ AnyValue::AnyValue(boolean val)
   : data{new ScalarValueDataT<boolean>(val)}
 {}
 
+AnyValue::AnyValue(char8 val)
+  : data{new ScalarValueDataT<char8>(val)}
+{}
+
 AnyValue::AnyValue(int8 val)
   : data{new ScalarValueDataT<int8>(val)}
 {}
@@ -198,6 +202,12 @@ template <>
 boolean AnyValue::As<boolean>() const
 {
   return data->AsBoolean();
+}
+
+template <>
+char8 AnyValue::As<char8>() const
+{
+  return data->AsCharacter8();
 }
 
 template <>

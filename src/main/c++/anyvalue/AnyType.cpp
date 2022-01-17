@@ -187,6 +187,7 @@ bool IsScalarType(const AnyType& anytype)
 
 const AnyType EmptyType{};
 const AnyType Boolean{TypeCode::Bool};
+const AnyType Character8{TypeCode::Char8};
 const AnyType SignedInteger8{TypeCode::Int8};
 const AnyType UnsignedInteger8{TypeCode::UInt8};
 const AnyType SignedInteger16{TypeCode::Int16};
@@ -201,7 +202,7 @@ namespace
 std::unordered_set<TypeCode> ScalarTypes()
 {
   std::unordered_set<TypeCode> result;
-  result.insert({ TypeCode::Bool,
+  result.insert({ TypeCode::Bool, TypeCode::Char8,
                   TypeCode::Int8, TypeCode::UInt8, TypeCode::Int16, TypeCode::UInt16,
                   TypeCode::Int32, TypeCode::UInt32, TypeCode::Int64, TypeCode::UInt64 });
   return result;

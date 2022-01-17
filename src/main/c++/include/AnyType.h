@@ -47,6 +47,7 @@ enum class TypeCode
   Struct,
   Array,
   Bool,
+  Char8,
   Int8,
   UInt8,
   Int16,
@@ -59,6 +60,7 @@ enum class TypeCode
 
 const std::string EMPTY_TYPE_NAME = "empty";
 const std::string BOOLEAN_TYPE_NAME = "bool";
+const std::string CHAR8_TYPE_NAME = "char8";
 const std::string INT8_TYPE_NAME = "int8";
 const std::string UINT8_TYPE_NAME = "uint8";
 const std::string INT16_TYPE_NAME = "int16";
@@ -208,6 +210,7 @@ bool IsScalarType(const AnyType& anytype);
 
 extern const AnyType EmptyType;
 extern const AnyType Boolean;
+extern const AnyType Character8;
 extern const AnyType SignedInteger8;
 extern const AnyType UnsignedInteger8;
 extern const AnyType SignedInteger16;
