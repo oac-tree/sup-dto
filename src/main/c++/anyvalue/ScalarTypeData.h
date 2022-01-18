@@ -47,7 +47,6 @@ public:
   TypeCode GetTypeCode() const override;
 
   AnyType& operator[](const std::string& fieldname) override;
-  const AnyType& operator[](const std::string& fieldname) const override;
 
   bool Equals(const AnyType& other) const override;
 

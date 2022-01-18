@@ -47,7 +47,6 @@ public:
   AnyType GetType() const override;
 
   AnyValue& operator[](const std::string& fieldname) override;
-  const AnyValue& operator[](const std::string& fieldname) const override;
 
 protected:
   ScalarValueDataBase(TypeCode type_code);

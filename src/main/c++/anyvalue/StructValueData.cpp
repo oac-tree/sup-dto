@@ -100,11 +100,6 @@ AnyValue& StructValueData::operator[](const std::string& fieldname)
   return member_data[fieldname];
 }
 
-const AnyValue& StructValueData::operator[](const std::string& fieldname) const
-{
-  return member_data[fieldname];
-}
-
 bool StructValueData::Equals(const AnyValue& other) const
 {
   return member_data.Equals(other);

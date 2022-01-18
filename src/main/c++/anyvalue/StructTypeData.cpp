@@ -73,11 +73,6 @@ AnyType& StructTypeData::operator[](const std::string& fieldname)
   return member_data[fieldname];
 }
 
-const AnyType& StructTypeData::operator[](const std::string& fieldname) const
-{
-  return member_data[fieldname];
-}
-
 bool StructTypeData::Equals(const AnyType& other) const
 {
   return member_data.Equals(other);

@@ -53,11 +53,6 @@ AnyValue& EmptyValueData::operator[](const std::string& fieldname)
   throw KeyNotAllowedException("Index operator not supported for empty value");
 }
 
-const AnyValue& EmptyValueData::operator[](const std::string& fieldname) const
-{
-  throw KeyNotAllowedException("Index operator not supported for empty value");
-}
-
 bool EmptyValueData::Equals(const AnyValue& other) const
 {
   return other.GetTypeCode() == TypeCode::Empty;

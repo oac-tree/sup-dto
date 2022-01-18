@@ -54,11 +54,6 @@ AnyValue& ScalarValueDataBase::operator[](const std::string& fieldname)
   throw KeyNotAllowedException("Index operator not supported for scalar values");
 }
 
-const AnyValue& ScalarValueDataBase::operator[](const std::string& fieldname) const
-{
-  throw KeyNotAllowedException("Index operator not supported for scalar values");
-}
-
 template <typename T>
 ScalarValueDataBase* ScalarValueConstructor()
 {

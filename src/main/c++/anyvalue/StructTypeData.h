@@ -56,7 +56,6 @@ public:
   std::size_t NumberOfMembers() const override;
 
   AnyType& operator[](const std::string& fieldname) override;
-  const AnyType& operator[](const std::string& fieldname) const override;
 
   bool Equals(const AnyType& other) const override;
 

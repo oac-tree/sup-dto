@@ -52,7 +52,6 @@ public:
   virtual std::size_t NumberOfMembers() const;
 
   virtual AnyType& operator[](const std::string& fieldname) = 0;
-  virtual const AnyType& operator[](const std::string& fieldname) const = 0;
 
   virtual bool Equals(const AnyType& other) const = 0;
 };

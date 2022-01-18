@@ -48,7 +48,6 @@ public:
   AnyType GetType() const override;
 
   AnyValue& operator[](const std::string& fieldname) override;
-  const AnyValue& operator[](const std::string& fieldname) const override;
 
   bool Equals(const AnyValue& other) const override;
 };
