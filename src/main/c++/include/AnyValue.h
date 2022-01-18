@@ -106,6 +106,17 @@ public:
           const std::string& type_name = {});
 
   /**
+   * @brief Constructor for bounded arrays.
+   *
+   * @param elements list of element values.
+   * @param type_name Optional name for the underlying structured type.
+   * @note The type of the first element in the list determines the element type of
+   * the array.
+   */
+  // AnyValue(std::initializer_list<AnyValue> elements,
+  //          const std::string& type_name = {});
+
+  /**
    * @brief Copy constructor.
    */
   AnyValue(const AnyValue& other);
