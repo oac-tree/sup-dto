@@ -26,14 +26,7 @@
 
 using namespace sup::dto;
 
-class AnyValueTest : public ::testing::Test
-{
-protected:
-  AnyValueTest();
-  virtual ~AnyValueTest();
-};
-
-TEST_F(AnyValueTest, EmptyValue)
+TEST(AnyValueTest, EmptyValue)
 {
   AnyValue empty_value{};
   EXPECT_EQ(empty_value.GetType(), EmptyType);
@@ -44,6 +37,7 @@ TEST_F(AnyValueTest, EmptyValue)
   EXPECT_FALSE(IsScalarValue(empty_value));
   EXPECT_EQ(empty_value.GetTypeCode(), TypeCode::Empty);
   EXPECT_EQ(empty_value.GetTypeName(), EMPTY_TYPE_NAME);
+  EXPECT_EQ(empty_value.NumberOfMembers(), 0);
   EXPECT_THROW(empty_value["field"], KeyNotAllowedException);
   EXPECT_THROW(empty_value.As<boolean>(), InvalidConversionException);
   EXPECT_THROW(empty_value.As<int8>(), InvalidConversionException);
@@ -78,7 +72,7 @@ TEST_F(AnyValueTest, EmptyValue)
   EXPECT_THROW(moved["field"], KeyNotAllowedException);
 }
 
-TEST_F(AnyValueTest, StructValue)
+TEST(AnyValueTest, StructValue)
 {
   AnyValue my_struct{{
     {"index", {UnsignedInteger64, 1}},
@@ -96,7 +90,7 @@ TEST_F(AnyValueTest, StructValue)
   EXPECT_EQ(my_struct["coordinates.x"], 23);
 }
 
-TEST_F(AnyValueTest, BooleanValue)
+TEST(AnyValueTest, BooleanValue)
 {
   AnyValue boolean_value{Boolean};
   EXPECT_EQ(boolean_value.GetType(), Boolean);
@@ -191,7 +185,7 @@ TEST_F(AnyValueTest, BooleanValue)
   EXPECT_EQ(boolean_from_typed_literal.As<uint8>(), 0);
 }
 
-TEST_F(AnyValueTest, SignedInteger8Value)
+TEST(AnyValueTest, SignedInteger8Value)
 {
   AnyValue int8_value{SignedInteger8};
   EXPECT_EQ(int8_value.GetType(), SignedInteger8);
@@ -285,7 +279,7 @@ TEST_F(AnyValueTest, SignedInteger8Value)
   EXPECT_EQ(int8_from_typed_literal.As<int32>(), 0);
 }
 
-TEST_F(AnyValueTest, Character8Value)
+TEST(AnyValueTest, Character8Value)
 {
   AnyValue char8_value{Character8};
   EXPECT_EQ(char8_value.GetType(), Character8);
@@ -381,7 +375,7 @@ TEST_F(AnyValueTest, Character8Value)
   EXPECT_EQ(char8_from_typed_literal.As<int32>(), 0);
 }
 
-TEST_F(AnyValueTest, UnsignedInteger8Value)
+TEST(AnyValueTest, UnsignedInteger8Value)
 {
   AnyValue uint8_value{UnsignedInteger8};
   EXPECT_EQ(uint8_value.GetType(), UnsignedInteger8);
@@ -475,7 +469,7 @@ TEST_F(AnyValueTest, UnsignedInteger8Value)
   EXPECT_EQ(uint8_from_typed_literal.As<int32>(), 0);
 }
 
-TEST_F(AnyValueTest, SignedInteger16Value)
+TEST(AnyValueTest, SignedInteger16Value)
 {
   AnyValue int16_value{SignedInteger16};
   EXPECT_EQ(int16_value.GetType(), SignedInteger16);
@@ -570,7 +564,7 @@ TEST_F(AnyValueTest, SignedInteger16Value)
   EXPECT_EQ(int16_from_typed_literal.As<int32>(), 0);
 }
 
-TEST_F(AnyValueTest, UnsignedInteger16Value)
+TEST(AnyValueTest, UnsignedInteger16Value)
 {
   AnyValue uint16_value{UnsignedInteger16};
   EXPECT_EQ(uint16_value.GetType(), UnsignedInteger16);
@@ -665,7 +659,7 @@ TEST_F(AnyValueTest, UnsignedInteger16Value)
   EXPECT_EQ(uint16_from_typed_literal.As<int32>(), 0);
 }
 
-TEST_F(AnyValueTest, SignedInteger32Value)
+TEST(AnyValueTest, SignedInteger32Value)
 {
   AnyValue int32_value{SignedInteger32};
   EXPECT_EQ(int32_value.GetType(), SignedInteger32);
@@ -760,7 +754,7 @@ TEST_F(AnyValueTest, SignedInteger32Value)
   EXPECT_EQ(int32_from_typed_literal.As<int32>(), 0);
 }
 
-TEST_F(AnyValueTest, UnsignedInteger32Value)
+TEST(AnyValueTest, UnsignedInteger32Value)
 {
   AnyValue uint32_value{UnsignedInteger32};
   EXPECT_EQ(uint32_value.GetType(), UnsignedInteger32);
@@ -855,7 +849,7 @@ TEST_F(AnyValueTest, UnsignedInteger32Value)
   EXPECT_EQ(uint32_from_typed_literal.As<int32>(), 0);
 }
 
-TEST_F(AnyValueTest, SignedInteger64Value)
+TEST(AnyValueTest, SignedInteger64Value)
 {
   AnyValue int64_value{SignedInteger64};
   EXPECT_EQ(int64_value.GetType(), SignedInteger64);
@@ -950,7 +944,7 @@ TEST_F(AnyValueTest, SignedInteger64Value)
   EXPECT_EQ(int64_from_typed_literal.As<int64>(), 0);
 }
 
-TEST_F(AnyValueTest, UnsignedInteger64Value)
+TEST(AnyValueTest, UnsignedInteger64Value)
 {
   AnyValue uint64_value{UnsignedInteger64};
   EXPECT_EQ(uint64_value.GetType(), UnsignedInteger64);
@@ -1045,7 +1039,7 @@ TEST_F(AnyValueTest, UnsignedInteger64Value)
   EXPECT_EQ(uint64_from_typed_literal.As<int32>(), 0);
 }
 
-TEST_F(AnyValueTest, Float32Value)
+TEST(AnyValueTest, Float32Value)
 {
   AnyValue float32_value{Float32};
   EXPECT_EQ(float32_value.GetType(), Float32);
@@ -1145,7 +1139,7 @@ TEST_F(AnyValueTest, Float32Value)
   EXPECT_EQ(float32_from_typed_literal.As<int32>(), 0);
 }
 
-TEST_F(AnyValueTest, Float64Value)
+TEST(AnyValueTest, Float64Value)
 {
   AnyValue float64_value{Float64};
   EXPECT_EQ(float64_value.GetType(), Float64);
@@ -1245,7 +1239,7 @@ TEST_F(AnyValueTest, Float64Value)
   EXPECT_EQ(float64_from_typed_literal.As<int32>(), 0);
 }
 
-TEST_F(AnyValueTest, CopyConstruction)
+TEST(AnyValueTest, CopyConstruction)
 {
   const std::string nested_name = "nested_struct";
   AnyValue two_scalars = {{
@@ -1282,7 +1276,7 @@ TEST_F(AnyValueTest, CopyConstruction)
   EXPECT_TRUE(copy.HasMember("index"));
 }
 
-TEST_F(AnyValueTest, CopyAssignment)
+TEST(AnyValueTest, CopyAssignment)
 {
   const std::string nested_name = "nested_struct";
   AnyValue two_scalars = {{
@@ -1328,7 +1322,7 @@ TEST_F(AnyValueTest, CopyAssignment)
   EXPECT_TRUE(copy_again.HasMember("index"));
 }
 
-TEST_F(AnyValueTest, MoveConstruction)
+TEST(AnyValueTest, MoveConstruction)
 {
   const std::string nested_name = "nested_struct";
   AnyValue two_scalars = {{
@@ -1365,7 +1359,7 @@ TEST_F(AnyValueTest, MoveConstruction)
   EXPECT_TRUE(moved.HasMember("index"));
 }
 
-TEST_F(AnyValueTest, MoveAssignment)
+TEST(AnyValueTest, MoveAssignment)
 {
   const std::string nested_name = "nested_struct";
   AnyValue two_scalars = {{
@@ -1413,7 +1407,7 @@ TEST_F(AnyValueTest, MoveAssignment)
   EXPECT_TRUE(moved_again.HasMember("index"));
 }
 
-TEST_F(AnyValueTest, MemberAccess)
+TEST(AnyValueTest, MemberAccess)
 {
   const std::string nested_name = "nested_struct";
   AnyValue two_scalars = {{
@@ -1445,12 +1439,14 @@ TEST_F(AnyValueTest, MemberAccess)
   EXPECT_FALSE(nested_val.HasMember("index"));
   auto member_fields = nested_val.MemberNames();
   EXPECT_EQ(member_fields.size(), 2);
+  EXPECT_EQ(nested_val.NumberOfMembers(), 2);
   EXPECT_EQ(member_fields[0], "scalars");
   EXPECT_EQ(member_fields[1], "single");
   nested_val.AddMember("index", {UnsignedInteger64, 2022});
   EXPECT_TRUE(nested_val.HasMember("index"));
   member_fields = nested_val.MemberNames();
   EXPECT_EQ(member_fields.size(), 3);
+  EXPECT_EQ(nested_val.NumberOfMembers(), 3);
   EXPECT_EQ(member_fields[0], "scalars");
   EXPECT_EQ(member_fields[1], "single");
   EXPECT_EQ(member_fields[2], "index");
@@ -1467,7 +1463,7 @@ TEST_F(AnyValueTest, MemberAccess)
   EXPECT_EQ(nested_val["index"], 2022);
 }
 
-TEST_F(AnyValueTest, CastToAnyValue)
+TEST(AnyValueTest, CastToAnyValue)
 {
   const std::string nested_name = "nested_struct";
   AnyValue two_scalars = {{
@@ -1501,7 +1497,3 @@ TEST_F(AnyValueTest, CastToAnyValue)
   EXPECT_TRUE(copy.HasMember("single"));
   EXPECT_TRUE(copy.HasMember("index"));
 }
-
-AnyValueTest::AnyValueTest() = default;
-
-AnyValueTest::~AnyValueTest() = default;

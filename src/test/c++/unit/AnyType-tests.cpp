@@ -26,14 +26,7 @@
 
 using namespace sup::dto;
 
-class AnyTypeTest : public ::testing::Test
-{
-protected:
-  AnyTypeTest();
-  virtual ~AnyTypeTest();
-};
-
-TEST_F(AnyTypeTest, TypeCodes)
+TEST(AnyTypeTest, TypeCodes)
 {
   EXPECT_TRUE(IsEmptyTypeCode(TypeCode::Empty));
   EXPECT_FALSE(IsStructTypeCode(TypeCode::Empty));
@@ -61,7 +54,7 @@ TEST_F(AnyTypeTest, TypeCodes)
   EXPECT_TRUE(IsScalarTypeCode(TypeCode::UInt8));
 }
 
-TEST_F(AnyTypeTest, EmptyType)
+TEST(AnyTypeTest, EmptyType)
 {
   AnyType empty_type{};
   EXPECT_EQ(empty_type, EmptyType);
@@ -70,6 +63,7 @@ TEST_F(AnyTypeTest, EmptyType)
   EXPECT_FALSE(IsStructType(empty_type));
   EXPECT_FALSE(IsArrayType(empty_type));
   EXPECT_FALSE(IsScalarType(empty_type));
+  EXPECT_EQ(empty_type.NumberOfMembers(), 0);
   EXPECT_EQ(empty_type.GetTypeCode(), TypeCode::Empty);
   EXPECT_EQ(empty_type.GetTypeName(), EMPTY_TYPE_NAME);
   EXPECT_THROW(empty_type["field"], KeyNotAllowedException);
@@ -97,7 +91,7 @@ TEST_F(AnyTypeTest, EmptyType)
   EXPECT_THROW(moved["field"], KeyNotAllowedException);
 }
 
-TEST_F(AnyTypeTest, StructOfScalarType)
+TEST(AnyTypeTest, StructOfScalarType)
 {
   const std::string two_scalar_name = "scalar_pair";
   AnyType two_scalars{{
@@ -121,7 +115,7 @@ TEST_F(AnyTypeTest, StructOfScalarType)
   EXPECT_EQ(copy, two_scalars);
 }
 
-TEST_F(AnyTypeTest, StructOfStructType)
+TEST(AnyTypeTest, StructOfStructType)
 {
   const std::string nested_name = "nested_struct";
   AnyType two_scalars{{
@@ -174,7 +168,7 @@ TEST_F(AnyTypeTest, StructOfStructType)
   EXPECT_EQ(signed_type2.GetTypeCode(), TypeCode::Int8);
 }
 
-TEST_F(AnyTypeTest, Boolean)
+TEST(AnyTypeTest, Boolean)
 {
   AnyType boolean_type{TypeCode::Bool};
   EXPECT_EQ(boolean_type, Boolean);
@@ -199,7 +193,7 @@ TEST_F(AnyTypeTest, Boolean)
   EXPECT_THROW(copy_boolean["field"], KeyNotAllowedException);
 }
 
-TEST_F(AnyTypeTest, Character8)
+TEST(AnyTypeTest, Character8)
 {
   AnyType char_type{TypeCode::Char8};
   EXPECT_EQ(char_type, Character8);
@@ -224,7 +218,7 @@ TEST_F(AnyTypeTest, Character8)
   EXPECT_THROW(copy_char8["field"], KeyNotAllowedException);
 }
 
-TEST_F(AnyTypeTest, SignedInteger8)
+TEST(AnyTypeTest, SignedInteger8)
 {
   AnyType int8_type{TypeCode::Int8};
   EXPECT_EQ(int8_type, SignedInteger8);
@@ -249,7 +243,7 @@ TEST_F(AnyTypeTest, SignedInteger8)
   EXPECT_THROW(copy_int8["field"], KeyNotAllowedException);
 }
 
-TEST_F(AnyTypeTest, UnsignedInteger8)
+TEST(AnyTypeTest, UnsignedInteger8)
 {
   AnyType uint8_type{TypeCode::UInt8};
   EXPECT_EQ(uint8_type, UnsignedInteger8);
@@ -276,7 +270,7 @@ TEST_F(AnyTypeTest, UnsignedInteger8)
   EXPECT_THROW(moved_uint8["field"], KeyNotAllowedException);
 }
 
-TEST_F(AnyTypeTest, SignedInteger16)
+TEST(AnyTypeTest, SignedInteger16)
 {
   AnyType int16_type{TypeCode::Int16};
   EXPECT_EQ(int16_type, SignedInteger16);
@@ -301,7 +295,7 @@ TEST_F(AnyTypeTest, SignedInteger16)
   EXPECT_THROW(copy_int16["field"], KeyNotAllowedException);
 }
 
-TEST_F(AnyTypeTest, UnsignedInteger16)
+TEST(AnyTypeTest, UnsignedInteger16)
 {
   AnyType uint16_type{TypeCode::UInt16};
   EXPECT_EQ(uint16_type, UnsignedInteger16);
@@ -328,7 +322,7 @@ TEST_F(AnyTypeTest, UnsignedInteger16)
   EXPECT_THROW(moved_uint16["field"], KeyNotAllowedException);
 }
 
-TEST_F(AnyTypeTest, SignedInteger32)
+TEST(AnyTypeTest, SignedInteger32)
 {
   AnyType int32_type{TypeCode::Int32};
   EXPECT_EQ(int32_type, SignedInteger32);
@@ -353,7 +347,7 @@ TEST_F(AnyTypeTest, SignedInteger32)
   EXPECT_THROW(copy_int32["field"], KeyNotAllowedException);
 }
 
-TEST_F(AnyTypeTest, UnsignedInteger32)
+TEST(AnyTypeTest, UnsignedInteger32)
 {
   AnyType uint32_type{TypeCode::UInt32};
   EXPECT_EQ(uint32_type, UnsignedInteger32);
@@ -380,7 +374,7 @@ TEST_F(AnyTypeTest, UnsignedInteger32)
   EXPECT_THROW(moved_uint32["field"], KeyNotAllowedException);
 }
 
-TEST_F(AnyTypeTest, SignedInteger64)
+TEST(AnyTypeTest, SignedInteger64)
 {
   AnyType int64_type{TypeCode::Int64};
   EXPECT_EQ(int64_type, SignedInteger64);
@@ -405,7 +399,7 @@ TEST_F(AnyTypeTest, SignedInteger64)
   EXPECT_THROW(copy_int64["field"], KeyNotAllowedException);
 }
 
-TEST_F(AnyTypeTest, UnsignedInteger64)
+TEST(AnyTypeTest, UnsignedInteger64)
 {
   AnyType uint64_type{TypeCode::UInt64};
   EXPECT_EQ(uint64_type, UnsignedInteger64);
@@ -432,7 +426,7 @@ TEST_F(AnyTypeTest, UnsignedInteger64)
   EXPECT_THROW(moved_uint64["field"], KeyNotAllowedException);
 }
 
-TEST_F(AnyTypeTest, Float32)
+TEST(AnyTypeTest, Float32)
 {
   AnyType float32_type{TypeCode::Float32};
   EXPECT_EQ(float32_type, Float32);
@@ -459,7 +453,7 @@ TEST_F(AnyTypeTest, Float32)
   EXPECT_THROW(moved_float32["field"], KeyNotAllowedException);
 }
 
-TEST_F(AnyTypeTest, Float64)
+TEST(AnyTypeTest, Float64)
 {
   AnyType float64_type{TypeCode::Float64};
   EXPECT_EQ(float64_type, Float64);
@@ -486,7 +480,7 @@ TEST_F(AnyTypeTest, Float64)
   EXPECT_THROW(moved_float64["field"], KeyNotAllowedException);
 }
 
-TEST_F(AnyTypeTest, CopyConstruction)
+TEST(AnyTypeTest, CopyConstruction)
 {
   const std::string nested_name = "nested_struct";
   AnyType two_scalars{{
@@ -523,7 +517,7 @@ TEST_F(AnyTypeTest, CopyConstruction)
   EXPECT_TRUE(copy.HasMember("index"));
 }
 
-TEST_F(AnyTypeTest, CopyAssignment)
+TEST(AnyTypeTest, CopyAssignment)
 {
   const std::string nested_name = "nested_struct";
   AnyType two_scalars{{
@@ -555,7 +549,7 @@ TEST_F(AnyTypeTest, CopyAssignment)
   EXPECT_EQ(copy.GetTypeName(), nested_name);
 }
 
-TEST_F(AnyTypeTest, MoveConstruction)
+TEST(AnyTypeTest, MoveConstruction)
 {
   const std::string nested_name = "nested_struct";
   AnyType two_scalars{{
@@ -593,7 +587,7 @@ TEST_F(AnyTypeTest, MoveConstruction)
   EXPECT_TRUE(moved.HasMember("index"));
 }
 
-TEST_F(AnyTypeTest, MoveAssignment)
+TEST(AnyTypeTest, MoveAssignment)
 {
   const std::string nested_name = "nested_struct";
   AnyType two_scalars{{
@@ -632,7 +626,7 @@ TEST_F(AnyTypeTest, MoveAssignment)
   EXPECT_TRUE(moved.HasMember("index"));
 }
 
-TEST_F(AnyTypeTest, MemberAccess)
+TEST(AnyTypeTest, MemberAccess)
 {
   const std::string nested_name = "nested_struct";
   AnyType two_scalars{{
@@ -652,12 +646,14 @@ TEST_F(AnyTypeTest, MemberAccess)
   EXPECT_FALSE(nested_type.HasMember("index"));
   auto member_fields = nested_type.MemberNames();
   EXPECT_EQ(member_fields.size(), 2);
+  EXPECT_EQ(nested_type.NumberOfMembers(), 2);
   EXPECT_EQ(member_fields[0], "scalars");
   EXPECT_EQ(member_fields[1], "single");
   nested_type.AddMember("index", UnsignedInteger64);
   EXPECT_TRUE(nested_type.HasMember("index"));
   member_fields = nested_type.MemberNames();
   EXPECT_EQ(member_fields.size(), 3);
+  EXPECT_EQ(nested_type.NumberOfMembers(), 3);
   EXPECT_EQ(member_fields[0], "scalars");
   EXPECT_EQ(member_fields[1], "single");
   EXPECT_EQ(member_fields[2], "index");
@@ -666,7 +662,3 @@ TEST_F(AnyTypeTest, MemberAccess)
   EXPECT_TRUE(nested_type.HasMember("scalars.signed"));
   EXPECT_FALSE(nested_type.HasMember("scalars.unknown"));
 }
-
-AnyTypeTest::AnyTypeTest() = default;
-
-AnyTypeTest::~AnyTypeTest() = default;

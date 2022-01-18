@@ -2,8 +2,9 @@ add_executable(unit-tests)
 
 target_sources(unit-tests
     PRIVATE
-        ${CMAKE_CURRENT_LIST_DIR}/AnyType-tests.cpp
         ${CMAKE_CURRENT_LIST_DIR}/AnyValue-tests.cpp
+        ${CMAKE_CURRENT_LIST_DIR}/AnyType-tests.cpp
+        ${CMAKE_CURRENT_LIST_DIR}/AnyValueExceptions-tests.cpp
         ${CMAKE_CURRENT_LIST_DIR}/ScalarConversion-tests.cpp
 )
 
