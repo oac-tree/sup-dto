@@ -45,6 +45,7 @@ public:
 
   EmptyTypeData* Clone() const override;
   TypeCode GetTypeCode() const override;
+  std::string GetTypeName() const override;
 
   AnyType& operator[](const std::string& fieldname) override;
 

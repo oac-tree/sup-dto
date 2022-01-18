@@ -661,4 +661,18 @@ TEST(AnyTypeTest, MemberAccess)
   // test presence of composite field indices
   EXPECT_TRUE(nested_type.HasMember("scalars.signed"));
   EXPECT_FALSE(nested_type.HasMember("scalars.unknown"));
+
+  // test member access for empty type
+  AnyType empty_type = EmptyType;
+  EXPECT_THROW(empty_type.AddMember("throws", Boolean), InvalidOperationException);
+  EXPECT_FALSE(empty_type.HasMember("throws"));
+  EXPECT_EQ(empty_type.MemberNames().size(), 0);
+  EXPECT_EQ(empty_type.NumberOfMembers(), 0);
+
+  // test member access for scalar type
+  AnyType scalar_type = Float32;
+  EXPECT_THROW(scalar_type.AddMember("throws", SignedInteger64), InvalidOperationException);
+  EXPECT_FALSE(scalar_type.HasMember("throws"));
+  EXPECT_EQ(scalar_type.MemberNames().size(), 0);
+  EXPECT_EQ(scalar_type.NumberOfMembers(), 0);
 }

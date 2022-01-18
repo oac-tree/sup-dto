@@ -23,6 +23,7 @@
 
 #include "AnyValueExceptions.h"
 #include "ITypeData.h"
+#include "EmptyValueData.h"
 #include "ScalarValueDataBase.h"
 #include "StructValueData.h"
 
@@ -35,7 +36,7 @@ IValueData::~IValueData() = default;
 
 std::string IValueData::GetTypeName() const
 {
-  return TypeCodeToString(GetTypeCode());
+  return GetType().GetTypeName();
 }
 
 void IValueData::AddMember(const std::string&, const AnyValue&)
@@ -133,7 +134,7 @@ IValueData* CreateValueData(const AnyType& anytype)
   {
     return CreateStructValueData(anytype);
   }
-  throw KeyNotAllowedException("Unsupported AnyType for creating AnyValue");
+  return new EmptyValueData{};
 }
 
 }  // namespace dto

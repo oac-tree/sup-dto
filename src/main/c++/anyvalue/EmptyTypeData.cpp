@@ -42,6 +42,11 @@ TypeCode EmptyTypeData::GetTypeCode() const
   return TypeCode::Empty;
 }
 
+std::string EmptyTypeData::GetTypeName() const
+{
+  return EMPTY_TYPE_NAME;
+}
+
 AnyType& EmptyTypeData::operator[](const std::string& fieldname)
 {
   throw KeyNotAllowedException("Index operator not supported for empty type");

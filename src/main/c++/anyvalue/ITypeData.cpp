@@ -23,19 +23,12 @@
 
 #include "AnyValueExceptions.h"
 
-#include <map>
-
 namespace sup
 {
 namespace dto
 {
 
 ITypeData::~ITypeData() = default;
-
-std::string ITypeData::GetTypeName() const
-{
-  return TypeCodeToString(GetTypeCode());
-}
 
 void ITypeData::AddMember(const std::string&, const AnyType&)
 {
@@ -55,31 +48,6 @@ std::vector<std::string> ITypeData::MemberNames() const
 std::size_t ITypeData::NumberOfMembers() const
 {
   return 0;
-}
-
-std::string TypeCodeToString(TypeCode type_code)
-{
-  static const std::map<TypeCode, std::string> type_map({
-    { TypeCode::Empty, EMPTY_TYPE_NAME },
-    { TypeCode::Bool, BOOLEAN_TYPE_NAME },
-    { TypeCode::Char8, CHAR8_TYPE_NAME },
-    { TypeCode::Int8, INT8_TYPE_NAME },
-    { TypeCode::UInt8, UINT8_TYPE_NAME },
-    { TypeCode::Int16, INT16_TYPE_NAME },
-    { TypeCode::UInt16, UINT16_TYPE_NAME },
-    { TypeCode::Int32, INT32_TYPE_NAME },
-    { TypeCode::UInt32, UINT32_TYPE_NAME },
-    { TypeCode::Int64, INT64_TYPE_NAME },
-    { TypeCode::UInt64, UINT64_TYPE_NAME },
-    { TypeCode::Float32, FLOAT32_TYPE_NAME },
-    { TypeCode::Float64, FLOAT64_TYPE_NAME },
-  });
-  auto it = type_map.find(type_code);
-  if (it == type_map.end())
-  {
-    throw UnknownKeyException("Unknown typecode");
-  }
-  return it->second;
 }
 
 }  // namespace dto

@@ -44,7 +44,7 @@ public:
 
   virtual ITypeData* Clone() const = 0;
   virtual TypeCode GetTypeCode() const = 0;
-  virtual std::string GetTypeName() const;
+  virtual std::string GetTypeName() const = 0;
 
   virtual void AddMember(const std::string& name, const AnyType& type);
   virtual bool HasMember(const std::string& name) const;
@@ -55,8 +55,6 @@ public:
 
   virtual bool Equals(const AnyType& other) const = 0;
 };
-
-std::string TypeCodeToString(TypeCode type_code);
 
 }  // namespace dto
 

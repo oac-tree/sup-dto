@@ -40,6 +40,7 @@ TEST(AnyValueTest, EmptyValue)
   EXPECT_EQ(empty_value.NumberOfMembers(), 0);
   EXPECT_THROW(empty_value["field"], KeyNotAllowedException);
   EXPECT_THROW(empty_value.As<boolean>(), InvalidConversionException);
+  EXPECT_THROW(empty_value.As<char8>(), InvalidConversionException);
   EXPECT_THROW(empty_value.As<int8>(), InvalidConversionException);
   EXPECT_THROW(empty_value.As<uint8>(), InvalidConversionException);
   EXPECT_THROW(empty_value.As<int16>(), InvalidConversionException);
@@ -48,6 +49,8 @@ TEST(AnyValueTest, EmptyValue)
   EXPECT_THROW(empty_value.As<uint32>(), InvalidConversionException);
   EXPECT_THROW(empty_value.As<int64>(), InvalidConversionException);
   EXPECT_THROW(empty_value.As<uint64>(), InvalidConversionException);
+  EXPECT_THROW(empty_value.As<float32>(), InvalidConversionException);
+  EXPECT_THROW(empty_value.As<float64>(), InvalidConversionException);
 
   const AnyValue copy = empty_value;
   EXPECT_TRUE(IsEmptyValue(copy));
@@ -70,6 +73,17 @@ TEST(AnyValueTest, EmptyValue)
   EXPECT_EQ(moved.GetTypeCode(), TypeCode::Empty);
   EXPECT_EQ(moved.GetTypeName(), EMPTY_TYPE_NAME);
   EXPECT_THROW(moved["field"], KeyNotAllowedException);
+
+  AnyValue empty_from_type{EmptyType};
+  EXPECT_TRUE(IsEmptyValue(empty_from_type));
+  EXPECT_EQ(empty_from_type.GetType(), EmptyType);
+  EXPECT_EQ(empty_from_type, moved);
+  EXPECT_FALSE(IsStructValue(empty_from_type));
+  EXPECT_FALSE(IsArrayValue(empty_from_type));
+  EXPECT_FALSE(IsScalarValue(empty_from_type));
+  EXPECT_EQ(empty_from_type.GetTypeCode(), TypeCode::Empty);
+  EXPECT_EQ(empty_from_type.GetTypeName(), EMPTY_TYPE_NAME);
+  EXPECT_THROW(empty_from_type["field"], KeyNotAllowedException);
 }
 
 TEST(AnyValueTest, StructValue)
@@ -1461,6 +1475,20 @@ TEST(AnyValueTest, MemberAccess)
   EXPECT_EQ(nested_val["single.first"], 0);
   EXPECT_EQ(nested_val["single.second"], 5);
   EXPECT_EQ(nested_val["index"], 2022);
+
+  // test member access for empty value
+  AnyValue empty_value;
+  EXPECT_THROW(empty_value.AddMember("throws", true), InvalidOperationException);
+  EXPECT_FALSE(empty_value.HasMember("throws"));
+  EXPECT_EQ(empty_value.MemberNames().size(), 0);
+  EXPECT_EQ(empty_value.NumberOfMembers(), 0);
+
+  // test member access for scalar value
+  AnyValue scalar_value(Float32);
+  EXPECT_THROW(scalar_value.AddMember("throws", 1.0), InvalidOperationException);
+  EXPECT_FALSE(scalar_value.HasMember("throws"));
+  EXPECT_EQ(scalar_value.MemberNames().size(), 0);
+  EXPECT_EQ(scalar_value.NumberOfMembers(), 0);
 }
 
 TEST(AnyValueTest, CastToAnyValue)
