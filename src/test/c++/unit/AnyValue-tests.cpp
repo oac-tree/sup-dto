@@ -62,6 +62,17 @@ TEST(AnyValueTest, EmptyValue)
   EXPECT_EQ(copy.GetTypeName(), EMPTY_TYPE_NAME);
   EXPECT_THROW(copy["field"], KeyNotAllowedException);
 
+  AnyValue copy_again;
+  copy_again = empty_value;
+  EXPECT_TRUE(IsEmptyValue(copy_again));
+  EXPECT_EQ(copy_again, empty_value);
+  EXPECT_FALSE(IsStructValue(copy_again));
+  EXPECT_FALSE(IsArrayValue(copy_again));
+  EXPECT_FALSE(IsScalarValue(copy_again));
+  EXPECT_EQ(copy_again.GetTypeCode(), TypeCode::Empty);
+  EXPECT_EQ(copy_again.GetTypeName(), EMPTY_TYPE_NAME);
+  EXPECT_THROW(copy_again["field"], KeyNotAllowedException);
+
   AnyValue moved = std::move(empty_value);
   EXPECT_TRUE(IsEmptyValue(empty_value)); // Moved from value is always empty
   EXPECT_EQ(empty_value.GetType(), EmptyType);
