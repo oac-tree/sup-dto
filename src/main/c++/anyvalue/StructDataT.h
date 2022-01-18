@@ -184,25 +184,16 @@ bool StructDataT<T>::Equals(const T& other) const
   {
     return false;
   }
-  for (auto& member : members)
+  for (auto &member : members)
   {
-    try
-    {
-      auto& other_member_type = other[member.first];
-      if (other_member_type != member.second)
-      {
-        return false;
-      }
-    }
-    catch(const UnknownKeyException& e)
+    auto &other_member_type = other[member.first];
+    if (other_member_type != member.second)
     {
       return false;
     }
   }
   return true;
 }
-
-
 
 }  // namespace dto
 

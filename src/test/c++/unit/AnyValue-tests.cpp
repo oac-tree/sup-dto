@@ -115,6 +115,63 @@ TEST(AnyValueTest, StructValue)
   EXPECT_EQ(my_struct["coordinates.x"], 23);
 }
 
+TEST(AnyValueTest, InvalidMemberFieldName)
+{
+  AnyValue two_scalars{{
+    {"signed", {SignedInteger8, -5}},
+    {"unsigned", {UnsignedInteger8, 22}}
+  }};
+  EXPECT_THROW(two_scalars.AddMember("", true), KeyNotAllowedException);
+  EXPECT_THROW(two_scalars.AddMember("signed.subfield", true), KeyNotAllowedException);
+  EXPECT_THROW(two_scalars.AddMember("signed", true), DuplicateKeyException);
+}
+
+TEST(AnyValueTest, StructEqualityName)
+{
+  AnyValue two_scalars{{
+    {"signed", {SignedInteger8, -5}},
+    {"unsigned", {UnsignedInteger8, 22}}
+  }};
+  AnyValue other(two_scalars);
+  EXPECT_EQ(two_scalars, other);
+  two_scalars.AddMember("status", true);
+  EXPECT_NE(two_scalars, other);
+  EXPECT_NE(other, two_scalars);
+}
+
+TEST(AnyValueTest, InvalidStructAssign)
+{
+  AnyValue two_scalars{{
+    {"signed", {SignedInteger8, -5}},
+    {"unsigned", {UnsignedInteger8, 22}}
+  }};
+  AnyValue other(two_scalars);
+  EXPECT_EQ(two_scalars, other);
+  two_scalars.AddMember("status", true);
+  EXPECT_NE(two_scalars, other);
+
+  EXPECT_THROW(two_scalars = other, InvalidConversionException);
+  EXPECT_NE(two_scalars, other);
+
+  AnyValue index{UnsignedInteger64, 1};
+  EXPECT_THROW(two_scalars = index, InvalidConversionException);
+  EXPECT_NE(two_scalars, index);
+}
+
+TEST(AnyValueTest, ScalarEqualityName)
+{
+  AnyValue two_scalars{{
+    {"signed", {SignedInteger8, -5}},
+    {"unsigned", {UnsignedInteger8, 22}}
+  }};
+  AnyValue scalar{UnsignedInteger16, 35};
+  AnyValue other_scalar{SignedInteger32, -74};
+  EXPECT_NE(scalar, two_scalars);
+  EXPECT_NE(scalar, other_scalar);
+  EXPECT_EQ(scalar, scalar);
+  EXPECT_EQ(scalar, 35);
+}
+
 TEST(AnyValueTest, BooleanValue)
 {
   AnyValue boolean_value{Boolean};

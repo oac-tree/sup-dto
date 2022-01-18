@@ -89,6 +89,9 @@ TEST(AnyTypeTest, EmptyType)
   EXPECT_EQ(moved.GetTypeCode(), TypeCode::Empty);
   EXPECT_EQ(moved.GetTypeName(), EMPTY_TYPE_NAME);
   EXPECT_THROW(moved["field"], KeyNotAllowedException);
+
+  // Creation of non-scalar types using typecode throws
+  EXPECT_THROW(AnyType{TypeCode::Empty}, KeyNotAllowedException);
 }
 
 TEST(AnyTypeTest, StructOfScalarType)
@@ -113,6 +116,9 @@ TEST(AnyTypeTest, StructOfScalarType)
 
   AnyType copy = two_scalars;
   EXPECT_EQ(copy, two_scalars);
+
+  // Creation of non-scalar types using typecode throws
+  EXPECT_THROW(AnyType{TypeCode::Struct}, KeyNotAllowedException);
 }
 
 TEST(AnyTypeTest, StructOfStructType)
@@ -166,6 +172,17 @@ TEST(AnyTypeTest, StructOfStructType)
   EXPECT_EQ(single_type.GetTypeCode(), TypeCode::Struct);
   EXPECT_EQ(single_type.GetTypeName(), embedded_name);
   EXPECT_EQ(signed_type2.GetTypeCode(), TypeCode::Int8);
+}
+
+TEST(AnyTypeTest, InvalidMemberFieldName)
+{
+  AnyType two_scalars{{
+    {"signed", SignedInteger8},
+    {"unsigned", UnsignedInteger8}
+  }};
+  EXPECT_THROW(two_scalars.AddMember("", Boolean), KeyNotAllowedException);
+  EXPECT_THROW(two_scalars.AddMember("signed.subfield", Boolean), KeyNotAllowedException);
+  EXPECT_THROW(two_scalars.AddMember("signed", Boolean), DuplicateKeyException);
 }
 
 TEST(AnyTypeTest, Boolean)
