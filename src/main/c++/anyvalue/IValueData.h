@@ -66,6 +66,7 @@ public:
   virtual uint64 AsUnsignedInteger64() const;
   virtual float32 AsFloat32() const;
   virtual float64 AsFloat64() const;
+  virtual std::string AsString() const;
 
   virtual AnyValue& operator[](const std::string& fieldname) = 0;
 

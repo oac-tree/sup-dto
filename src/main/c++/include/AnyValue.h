@@ -84,6 +84,8 @@ public:
   AnyValue(uint64 val);
   AnyValue(float32 val);
   AnyValue(float64 val);
+  AnyValue(const std::string& val);
+  AnyValue(const char* val);
 
   /**
    * @brief Constructor with type and value specification.
@@ -261,6 +263,9 @@ float32 AnyValue::As<float32>() const;
 
 template <>
 float64 AnyValue::As<float64>() const;
+
+template <>
+std::string AnyValue::As<std::string>() const;
 
 template <typename T>
 bool AnyValue::As(T& value) const

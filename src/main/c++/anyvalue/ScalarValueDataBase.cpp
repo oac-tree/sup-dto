@@ -74,7 +74,8 @@ ScalarValueDataBase* CreateScalarValueData(TypeCode type_code)
     {TypeCode::Int64, ScalarValueConstructor<int64> },
     {TypeCode::UInt64, ScalarValueConstructor<uint64> },
     {TypeCode::Float32, ScalarValueConstructor<float32> },
-    {TypeCode::Float64, ScalarValueConstructor<float64> }
+    {TypeCode::Float64, ScalarValueConstructor<float64> },
+    {TypeCode::String, ScalarValueConstructor<std::string> }
   };
   auto it = constructor_map.find(type_code);
   if (it == constructor_map.end())

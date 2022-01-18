@@ -82,6 +82,14 @@ AnyValue::AnyValue(float64 val)
   : data{new ScalarValueDataT<float64>(val)}
 {}
 
+AnyValue::AnyValue(const std::string& val)
+  : data{new ScalarValueDataT<std::string>(val)}
+{}
+
+AnyValue::AnyValue(const char* val)
+  : data{new ScalarValueDataT<std::string>(val)}
+{}
+
 AnyValue::AnyValue(const AnyType& anytype)
   : data{CreateValueData(anytype)}
 {}
@@ -284,6 +292,12 @@ template <>
 float64 AnyValue::As<float64>() const
 {
   return data->AsFloat64();
+}
+
+template <>
+std::string AnyValue::As<std::string>() const
+{
+  return data->AsString();
 }
 
 AnyValue EmptyStructValue(const std::string& type_name)

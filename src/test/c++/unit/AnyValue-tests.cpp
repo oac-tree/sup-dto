@@ -51,6 +51,7 @@ TEST(AnyValueTest, EmptyValue)
   EXPECT_THROW(empty_value.As<uint64>(), InvalidConversionException);
   EXPECT_THROW(empty_value.As<float32>(), InvalidConversionException);
   EXPECT_THROW(empty_value.As<float64>(), InvalidConversionException);
+  EXPECT_THROW(empty_value.As<std::string>(), InvalidConversionException);
 
   const AnyValue copy = empty_value;
   EXPECT_TRUE(IsEmptyValue(copy));
@@ -193,6 +194,9 @@ TEST(AnyValueTest, BooleanValue)
   EXPECT_EQ(boolean_value.As<uint32>(), 0);
   EXPECT_EQ(boolean_value.As<int64>(), 0);
   EXPECT_EQ(boolean_value.As<uint64>(), 0);
+  EXPECT_EQ(boolean_value.As<float32>(), 0.0);
+  EXPECT_EQ(boolean_value.As<float64>(), 0.0);
+  EXPECT_THROW(boolean_value.As<std::string>(), InvalidConversionException);
   boolean_value = true;
   EXPECT_EQ(boolean_value.As<boolean>(), true);
   EXPECT_EQ(boolean_value.As<int8>(), 1);
@@ -203,6 +207,9 @@ TEST(AnyValueTest, BooleanValue)
   EXPECT_EQ(boolean_value.As<uint32>(), 1);
   EXPECT_EQ(boolean_value.As<int64>(), 1);
   EXPECT_EQ(boolean_value.As<uint64>(), 1);
+  EXPECT_EQ(boolean_value.As<float32>(), 1.0);
+  EXPECT_EQ(boolean_value.As<float64>(), 1.0);
+  EXPECT_THROW(boolean_value.As<std::string>(), InvalidConversionException);
   EXPECT_EQ(boolean_value, true);
 
   const AnyValue copy = boolean_value;
@@ -288,6 +295,9 @@ TEST(AnyValueTest, SignedInteger8Value)
   EXPECT_EQ(int8_value.As<uint32>(), 0);
   EXPECT_EQ(int8_value.As<int64>(), 0);
   EXPECT_EQ(int8_value.As<uint64>(), 0);
+  EXPECT_EQ(int8_value.As<float32>(), 0.0);
+  EXPECT_EQ(int8_value.As<float64>(), 0.0);
+  EXPECT_THROW(int8_value.As<std::string>(), InvalidConversionException);
   int8_value = 25;
   EXPECT_EQ(int8_value.As<boolean>(), true);
   EXPECT_EQ(int8_value.As<int8>(), 25);
@@ -298,6 +308,9 @@ TEST(AnyValueTest, SignedInteger8Value)
   EXPECT_EQ(int8_value.As<uint32>(), 25);
   EXPECT_EQ(int8_value.As<int64>(), 25);
   EXPECT_EQ(int8_value.As<uint64>(), 25);
+  EXPECT_EQ(int8_value.As<float32>(), 25.0);
+  EXPECT_EQ(int8_value.As<float64>(), 25.0);
+  EXPECT_THROW(int8_value.As<std::string>(), InvalidConversionException);
   EXPECT_EQ(int8_value, 25);
 
   const AnyValue copy = int8_value;
@@ -382,6 +395,9 @@ TEST(AnyValueTest, Character8Value)
   EXPECT_EQ(char8_value.As<uint32>(), 0);
   EXPECT_EQ(char8_value.As<int64>(), 0);
   EXPECT_EQ(char8_value.As<uint64>(), 0);
+  EXPECT_EQ(char8_value.As<float32>(), 0.0);
+  EXPECT_EQ(char8_value.As<float64>(), 0.0);
+  EXPECT_THROW(char8_value.As<std::string>(), InvalidConversionException);
   char init_val = 'b';
   char8_value = init_val;
   EXPECT_EQ(char8_value.As<boolean>(), true);
@@ -394,6 +410,9 @@ TEST(AnyValueTest, Character8Value)
   EXPECT_EQ(char8_value.As<uint32>(), init_val);
   EXPECT_EQ(char8_value.As<int64>(), init_val);
   EXPECT_EQ(char8_value.As<uint64>(), init_val);
+  EXPECT_EQ(char8_value.As<float32>(), float(init_val));
+  EXPECT_EQ(char8_value.As<float64>(), double(init_val));
+  EXPECT_THROW(char8_value.As<std::string>(), InvalidConversionException);
   EXPECT_EQ(char8_value, init_val);
 
   const AnyValue copy = char8_value;
@@ -478,6 +497,9 @@ TEST(AnyValueTest, UnsignedInteger8Value)
   EXPECT_EQ(uint8_value.As<uint32>(), 0);
   EXPECT_EQ(uint8_value.As<int64>(), 0);
   EXPECT_EQ(uint8_value.As<uint64>(), 0);
+  EXPECT_EQ(uint8_value.As<float32>(), 0.0);
+  EXPECT_EQ(uint8_value.As<float64>(), 0.0);
+  EXPECT_THROW(uint8_value.As<std::string>(), InvalidConversionException);
   uint8_value = 25;
   EXPECT_EQ(uint8_value.As<boolean>(), true);
   EXPECT_EQ(uint8_value.As<int8>(), 25);
@@ -488,6 +510,9 @@ TEST(AnyValueTest, UnsignedInteger8Value)
   EXPECT_EQ(uint8_value.As<uint32>(), 25);
   EXPECT_EQ(uint8_value.As<int64>(), 25);
   EXPECT_EQ(uint8_value.As<uint64>(), 25);
+  EXPECT_EQ(uint8_value.As<float32>(), 25.0);
+  EXPECT_EQ(uint8_value.As<float64>(), 25.0);
+  EXPECT_THROW(uint8_value.As<std::string>(), InvalidConversionException);
   EXPECT_EQ(uint8_value, 25);
 
   const AnyValue copy = uint8_value;
@@ -572,6 +597,9 @@ TEST(AnyValueTest, SignedInteger16Value)
   EXPECT_EQ(int16_value.As<uint32>(), 0);
   EXPECT_EQ(int16_value.As<int64>(), 0);
   EXPECT_EQ(int16_value.As<uint64>(), 0);
+  EXPECT_EQ(int16_value.As<float32>(), 0.0);
+  EXPECT_EQ(int16_value.As<float64>(), 0.0);
+  EXPECT_THROW(int16_value.As<std::string>(), InvalidConversionException);
   auto new_val = 25;
   int16_value = new_val;
   EXPECT_EQ(int16_value.As<boolean>(), true);
@@ -583,6 +611,9 @@ TEST(AnyValueTest, SignedInteger16Value)
   EXPECT_EQ(int16_value.As<uint32>(), new_val);
   EXPECT_EQ(int16_value.As<int64>(), new_val);
   EXPECT_EQ(int16_value.As<uint64>(), new_val);
+  EXPECT_EQ(int16_value.As<float32>(), new_val);
+  EXPECT_EQ(int16_value.As<float64>(), new_val);
+  EXPECT_THROW(int16_value.As<std::string>(), InvalidConversionException);
   EXPECT_EQ(int16_value, 25);
 
   const AnyValue copy = int16_value;
@@ -667,6 +698,9 @@ TEST(AnyValueTest, UnsignedInteger16Value)
   EXPECT_EQ(uint16_value.As<uint32>(), 0);
   EXPECT_EQ(uint16_value.As<int64>(), 0);
   EXPECT_EQ(uint16_value.As<uint64>(), 0);
+  EXPECT_EQ(uint16_value.As<float32>(), 0.0);
+  EXPECT_EQ(uint16_value.As<float64>(), 0.0);
+  EXPECT_THROW(uint16_value.As<std::string>(), InvalidConversionException);
   auto new_val = 25;
   uint16_value = new_val;
   EXPECT_EQ(uint16_value.As<boolean>(), true);
@@ -678,6 +712,9 @@ TEST(AnyValueTest, UnsignedInteger16Value)
   EXPECT_EQ(uint16_value.As<uint32>(), new_val);
   EXPECT_EQ(uint16_value.As<int64>(), new_val);
   EXPECT_EQ(uint16_value.As<uint64>(), new_val);
+  EXPECT_EQ(uint16_value.As<float32>(), new_val);
+  EXPECT_EQ(uint16_value.As<float64>(), new_val);
+  EXPECT_THROW(uint16_value.As<std::string>(), InvalidConversionException);
   EXPECT_EQ(uint16_value, new_val);
 
   const AnyValue copy = uint16_value;
@@ -762,6 +799,9 @@ TEST(AnyValueTest, SignedInteger32Value)
   EXPECT_EQ(int32_value.As<uint32>(), 0);
   EXPECT_EQ(int32_value.As<int64>(), 0);
   EXPECT_EQ(int32_value.As<uint64>(), 0);
+  EXPECT_EQ(int32_value.As<float32>(), 0.0);
+  EXPECT_EQ(int32_value.As<float64>(), 0.0);
+  EXPECT_THROW(int32_value.As<std::string>(), InvalidConversionException);
   auto new_val = 25;
   int32_value = new_val;
   EXPECT_EQ(int32_value.As<boolean>(), true);
@@ -773,6 +813,9 @@ TEST(AnyValueTest, SignedInteger32Value)
   EXPECT_EQ(int32_value.As<uint32>(), new_val);
   EXPECT_EQ(int32_value.As<int64>(), new_val);
   EXPECT_EQ(int32_value.As<uint64>(), new_val);
+  EXPECT_EQ(int32_value.As<float32>(), new_val);
+  EXPECT_EQ(int32_value.As<float64>(), new_val);
+  EXPECT_THROW(int32_value.As<std::string>(), InvalidConversionException);
   EXPECT_EQ(int32_value, new_val);
 
   const AnyValue copy = int32_value;
@@ -857,6 +900,9 @@ TEST(AnyValueTest, UnsignedInteger32Value)
   EXPECT_EQ(uint32_value.As<uint32>(), 0);
   EXPECT_EQ(uint32_value.As<int64>(), 0);
   EXPECT_EQ(uint32_value.As<uint64>(), 0);
+  EXPECT_EQ(uint32_value.As<float32>(), 0.0);
+  EXPECT_EQ(uint32_value.As<float64>(), 0.0);
+  EXPECT_THROW(uint32_value.As<std::string>(), InvalidConversionException);
   auto new_val = 25;
   uint32_value = new_val;
   EXPECT_EQ(uint32_value.As<boolean>(), true);
@@ -868,6 +914,9 @@ TEST(AnyValueTest, UnsignedInteger32Value)
   EXPECT_EQ(uint32_value.As<uint32>(), new_val);
   EXPECT_EQ(uint32_value.As<int64>(), new_val);
   EXPECT_EQ(uint32_value.As<uint64>(), new_val);
+  EXPECT_EQ(uint32_value.As<float32>(), new_val);
+  EXPECT_EQ(uint32_value.As<float64>(), new_val);
+  EXPECT_THROW(uint32_value.As<std::string>(), InvalidConversionException);
   EXPECT_EQ(uint32_value, new_val);
 
   const AnyValue copy = uint32_value;
@@ -952,6 +1001,9 @@ TEST(AnyValueTest, SignedInteger64Value)
   EXPECT_EQ(int64_value.As<uint32>(), 0);
   EXPECT_EQ(int64_value.As<int64>(), 0);
   EXPECT_EQ(int64_value.As<uint64>(), 0);
+  EXPECT_EQ(int64_value.As<float32>(), 0.0);
+  EXPECT_EQ(int64_value.As<float64>(), 0.0);
+  EXPECT_THROW(int64_value.As<std::string>(), InvalidConversionException);
   auto new_val = 25;
   int64_value = new_val;
   EXPECT_EQ(int64_value.As<boolean>(), true);
@@ -963,6 +1015,9 @@ TEST(AnyValueTest, SignedInteger64Value)
   EXPECT_EQ(int64_value.As<uint32>(), new_val);
   EXPECT_EQ(int64_value.As<int64>(), new_val);
   EXPECT_EQ(int64_value.As<uint64>(), new_val);
+  EXPECT_EQ(int64_value.As<float32>(), new_val);
+  EXPECT_EQ(int64_value.As<float64>(), new_val);
+  EXPECT_THROW(int64_value.As<std::string>(), InvalidConversionException);
   EXPECT_EQ(int64_value, new_val);
 
   const AnyValue copy = int64_value;
@@ -1047,6 +1102,9 @@ TEST(AnyValueTest, UnsignedInteger64Value)
   EXPECT_EQ(uint64_value.As<uint32>(), 0);
   EXPECT_EQ(uint64_value.As<int64>(), 0);
   EXPECT_EQ(uint64_value.As<uint64>(), 0);
+  EXPECT_EQ(uint64_value.As<float32>(), 0.0);
+  EXPECT_EQ(uint64_value.As<float64>(), 0.0);
+  EXPECT_THROW(uint64_value.As<std::string>(), InvalidConversionException);
   auto new_val = 25;
   uint64_value = new_val;
   EXPECT_EQ(uint64_value.As<boolean>(), true);
@@ -1058,6 +1116,9 @@ TEST(AnyValueTest, UnsignedInteger64Value)
   EXPECT_EQ(uint64_value.As<uint32>(), new_val);
   EXPECT_EQ(uint64_value.As<int64>(), new_val);
   EXPECT_EQ(uint64_value.As<uint64>(), new_val);
+  EXPECT_EQ(uint64_value.As<float32>(), new_val);
+  EXPECT_EQ(uint64_value.As<float64>(), new_val);
+  EXPECT_THROW(uint64_value.As<std::string>(), InvalidConversionException);
   EXPECT_EQ(uint64_value, new_val);
 
   const AnyValue copy = uint64_value;
@@ -1144,6 +1205,7 @@ TEST(AnyValueTest, Float32Value)
   EXPECT_EQ(float32_value.As<uint64>(), 0);
   EXPECT_DOUBLE_EQ(float32_value.As<float32>(), 0.0);
   EXPECT_DOUBLE_EQ(float32_value.As<float64>(), 0.0);
+  EXPECT_THROW(float32_value.As<std::string>(), InvalidConversionException);
   auto new_val = 8.25;
   int trunc_val = new_val;
   float32_value = new_val;
@@ -1158,6 +1220,7 @@ TEST(AnyValueTest, Float32Value)
   EXPECT_EQ(float32_value.As<uint64>(), trunc_val);
   EXPECT_DOUBLE_EQ(float32_value.As<float32>(), new_val);
   EXPECT_DOUBLE_EQ(float32_value.As<float64>(), new_val);
+  EXPECT_THROW(float32_value.As<std::string>(), InvalidConversionException);
   EXPECT_EQ(float32_value, new_val);
 
   const AnyValue copy = float32_value;
@@ -1244,6 +1307,7 @@ TEST(AnyValueTest, Float64Value)
   EXPECT_EQ(float64_value.As<uint64>(), 0);
   EXPECT_DOUBLE_EQ(float64_value.As<float32>(), 0.0);
   EXPECT_DOUBLE_EQ(float64_value.As<float64>(), 0.0);
+  EXPECT_THROW(float64_value.As<std::string>(), InvalidConversionException);
   auto new_val = 8.25;
   int trunc_val = new_val;
   float64_value = new_val;
@@ -1258,6 +1322,7 @@ TEST(AnyValueTest, Float64Value)
   EXPECT_EQ(float64_value.As<uint64>(), trunc_val);
   EXPECT_DOUBLE_EQ(float64_value.As<float32>(), new_val);
   EXPECT_DOUBLE_EQ(float64_value.As<float64>(), new_val);
+  EXPECT_THROW(float64_value.As<std::string>(), InvalidConversionException);
   EXPECT_EQ(float64_value, new_val);
 
   const AnyValue copy = float64_value;
@@ -1319,6 +1384,106 @@ TEST(AnyValueTest, Float64Value)
   EXPECT_EQ(float64_from_typed_literal.As<boolean>(), false);
   EXPECT_DOUBLE_EQ(float64_from_typed_literal.As<float64>(), 0);
   EXPECT_EQ(float64_from_typed_literal.As<int32>(), 0);
+}
+
+TEST(AnyValueTest, StringValue)
+{
+  AnyValue string_value{String};
+  EXPECT_EQ(string_value.GetType(), String);
+  EXPECT_NE(string_value.GetType(), SignedInteger64);
+  EXPECT_FALSE(IsEmptyValue(string_value));
+  EXPECT_FALSE(IsStructValue(string_value));
+  EXPECT_FALSE(IsArrayValue(string_value));
+  EXPECT_TRUE(IsScalarValue(string_value));
+  EXPECT_EQ(string_value.GetTypeCode(), TypeCode::String);
+  EXPECT_EQ(string_value.GetTypeName(), STRING_TYPE_NAME);
+  EXPECT_THROW(string_value["field"], KeyNotAllowedException);
+  EXPECT_THROW(string_value.As<boolean>(), InvalidConversionException);
+  EXPECT_THROW(string_value.As<char8>(), InvalidConversionException);
+  EXPECT_THROW(string_value.As<int8>(), InvalidConversionException);
+  EXPECT_THROW(string_value.As<uint8>(), InvalidConversionException);
+  EXPECT_THROW(string_value.As<int16>(), InvalidConversionException);
+  EXPECT_THROW(string_value.As<uint16>(), InvalidConversionException);
+  EXPECT_THROW(string_value.As<int32>(), InvalidConversionException);
+  EXPECT_THROW(string_value.As<uint32>(), InvalidConversionException);
+  EXPECT_THROW(string_value.As<int64>(), InvalidConversionException);
+  EXPECT_THROW(string_value.As<uint64>(), InvalidConversionException);
+  EXPECT_THROW(string_value.As<float32>(), InvalidConversionException);
+  EXPECT_THROW(string_value.As<float64>(), InvalidConversionException);
+  EXPECT_EQ(string_value.As<std::string>(), "");
+  std::string new_val = "new value";
+  string_value = new_val.c_str();
+  EXPECT_THROW(string_value.As<boolean>(), InvalidConversionException);
+  EXPECT_THROW(string_value.As<char8>(), InvalidConversionException);
+  EXPECT_THROW(string_value.As<int8>(), InvalidConversionException);
+  EXPECT_THROW(string_value.As<uint8>(), InvalidConversionException);
+  EXPECT_THROW(string_value.As<int16>(), InvalidConversionException);
+  EXPECT_THROW(string_value.As<uint16>(), InvalidConversionException);
+  EXPECT_THROW(string_value.As<int32>(), InvalidConversionException);
+  EXPECT_THROW(string_value.As<uint32>(), InvalidConversionException);
+  EXPECT_THROW(string_value.As<int64>(), InvalidConversionException);
+  EXPECT_THROW(string_value.As<uint64>(), InvalidConversionException);
+  EXPECT_THROW(string_value.As<float32>(), InvalidConversionException);
+  EXPECT_THROW(string_value.As<float64>(), InvalidConversionException);
+  EXPECT_EQ(string_value.As<std::string>(), new_val);
+  EXPECT_EQ(string_value, new_val);
+
+  const AnyValue copy = string_value;
+  EXPECT_TRUE(IsScalarValue(copy));
+  EXPECT_EQ(copy, string_value);
+  EXPECT_FALSE(IsEmptyValue(copy));
+  EXPECT_FALSE(IsStructValue(copy));
+  EXPECT_FALSE(IsArrayValue(copy));
+  EXPECT_EQ(copy.GetTypeCode(), TypeCode::String);
+  EXPECT_EQ(copy.GetTypeName(), STRING_TYPE_NAME);
+  EXPECT_THROW(copy["field"], KeyNotAllowedException);
+  EXPECT_EQ(copy.As<std::string>(), new_val);
+  EXPECT_THROW(copy.As<int32>(), InvalidConversionException);
+  EXPECT_EQ(copy, new_val);
+
+  AnyValue moved = std::move(string_value);
+  EXPECT_TRUE(IsEmptyValue(string_value)); // Moved from value is always empty
+  EXPECT_EQ(string_value.GetType(), EmptyType);
+  EXPECT_TRUE(IsScalarValue(moved));
+  EXPECT_EQ(moved, copy);
+  EXPECT_FALSE(IsEmptyValue(moved));
+  EXPECT_FALSE(IsStructValue(moved));
+  EXPECT_FALSE(IsArrayValue(moved));
+  EXPECT_EQ(moved.GetTypeCode(), TypeCode::String);
+  EXPECT_EQ(moved.GetTypeName(), STRING_TYPE_NAME);
+  EXPECT_THROW(moved["field"], KeyNotAllowedException);
+  EXPECT_EQ(moved.As<std::string>(), new_val);
+  EXPECT_THROW(moved.As<int32>(), InvalidConversionException);
+
+  std::string literal = "literal";
+  AnyValue string_from_literal = literal;
+  EXPECT_EQ(string_from_literal.GetType(), String);
+  EXPECT_NE(string_from_literal.GetType(), SignedInteger64);
+  EXPECT_FALSE(IsEmptyValue(string_from_literal));
+  EXPECT_FALSE(IsStructValue(string_from_literal));
+  EXPECT_FALSE(IsArrayValue(string_from_literal));
+  EXPECT_TRUE(IsScalarValue(string_from_literal));
+  EXPECT_EQ(string_from_literal.GetTypeCode(), TypeCode::String);
+  EXPECT_EQ(string_from_literal.GetTypeName(), STRING_TYPE_NAME);
+  EXPECT_THROW(string_from_literal["field"], KeyNotAllowedException);
+  EXPECT_EQ(string_from_literal.As<std::string>(), literal);
+  EXPECT_THROW(string_from_literal.As<int32>(), InvalidConversionException);
+  string_from_literal = std::string("assign string");
+  EXPECT_EQ(string_from_literal.As<std::string>(), "assign string");
+  EXPECT_THROW(string_from_literal.As<int32>(), InvalidConversionException);
+
+  AnyValue string_from_typed_literal = {String, "typed literal"};
+  EXPECT_EQ(string_from_typed_literal.GetType(), String);
+  EXPECT_NE(string_from_typed_literal.GetType(), Boolean);
+  EXPECT_FALSE(IsEmptyValue(string_from_typed_literal));
+  EXPECT_FALSE(IsStructValue(string_from_typed_literal));
+  EXPECT_FALSE(IsArrayValue(string_from_typed_literal));
+  EXPECT_TRUE(IsScalarValue(string_from_typed_literal));
+  EXPECT_EQ(string_from_typed_literal.GetTypeCode(), TypeCode::String);
+  EXPECT_EQ(string_from_typed_literal.GetTypeName(), STRING_TYPE_NAME);
+  EXPECT_THROW(string_from_typed_literal["field"], KeyNotAllowedException);
+  EXPECT_EQ(string_from_typed_literal.As<std::string>(), "typed literal");
+  EXPECT_THROW(string_from_typed_literal.As<int32>(), InvalidConversionException);
 }
 
 TEST(AnyValueTest, CopyConstruction)

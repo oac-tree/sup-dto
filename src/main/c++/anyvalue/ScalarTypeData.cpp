@@ -86,7 +86,8 @@ static std::string ScalarTypeCodeToString(TypeCode type_code)
     { TypeCode::Int64, INT64_TYPE_NAME },
     { TypeCode::UInt64, UINT64_TYPE_NAME },
     { TypeCode::Float32, FLOAT32_TYPE_NAME },
-    { TypeCode::Float64, FLOAT64_TYPE_NAME }
+    { TypeCode::Float64, FLOAT64_TYPE_NAME },
+    { TypeCode::String, STRING_TYPE_NAME }
   });
   auto it = type_map.find(type_code);
   return it->second;

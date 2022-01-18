@@ -114,6 +114,12 @@ struct TypeToCode<float64>
   static constexpr TypeCode code = TypeCode::Float64;
 };
 
+template <>
+struct TypeToCode<std::string>
+{
+  static constexpr TypeCode code = TypeCode::String;
+};
+
 template <typename T>
 class ScalarValueDataT : public ScalarValueDataBase
 {
@@ -137,6 +143,7 @@ public:
   uint64 AsUnsignedInteger64() const override;
   float32 AsFloat32() const override;
   float64 AsFloat64() const override;
+  std::string AsString() const override;
 
   bool Equals(const AnyValue& other) const override;
 
@@ -232,6 +239,12 @@ template <typename T>
 float64 ScalarValueDataT<T>::AsFloat64() const
 {
   return ConvertScalar<float64, T>(value);
+}
+
+template <typename T>
+std::string ScalarValueDataT<T>::AsString() const
+{
+  return ConvertScalar<std::string, T>(value);
 }
 
 template <typename T>

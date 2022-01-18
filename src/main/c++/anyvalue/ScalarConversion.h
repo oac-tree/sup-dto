@@ -162,6 +162,33 @@ To ConvertScalar(const From& value)
   return static_cast<To>(value);
 }
 
+// Conversion from any arithmetic type to string type
+template <typename To, typename From,
+  typename std::enable_if<std::is_same<typename std::remove_cv<To>::type, std::string>::value &&
+    std::is_arithmetic<From>::value, bool>::type = true>
+To ConvertScalar(const From& value)
+{
+  throw InvalidConversionException("Cannot convert arithmetic types to string");
+}
+
+// Conversion from string type to any arithmetic type
+template <typename To, typename From,
+  typename std::enable_if<std::is_arithmetic<To>::value &&
+    std::is_same<typename std::remove_cv<From>::type, std::string>::value, bool>::type = true>
+To ConvertScalar(const From& value)
+{
+  throw InvalidConversionException("Cannot convert string to arithmetic types");
+}
+
+// Conversion between string types
+template <typename To, typename From,
+  typename std::enable_if<std::is_same<typename std::remove_cv<To>::type, std::string>::value &&
+    std::is_same<typename std::remove_cv<From>::type, std::string>::value, bool>::type = true>
+To ConvertScalar(const From& value)
+{
+  return value;
+}
+
 }  // namespace dto
 
 }  // namespace sup

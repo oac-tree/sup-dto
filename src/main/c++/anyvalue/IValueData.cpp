@@ -124,6 +124,11 @@ float64 IValueData::AsFloat64() const
   throw InvalidConversionException("Conversion to float64 not supported for this type");
 }
 
+std::string IValueData::AsString() const
+{
+  throw InvalidConversionException("Conversion to string not supported for this type");
+}
+
 IValueData* CreateValueData(const AnyType& anytype)
 {
   if (IsScalarType(anytype))
