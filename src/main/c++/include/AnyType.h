@@ -106,6 +106,15 @@ public:
           const std::string& name = {});
 
   /**
+   * @brief Constructor for arrays.
+   *
+   * @param size number of elements in the array.
+   * @param elem_type type of the elements in the array.
+   * @param name Optional name for the type.
+   */
+  AnyType(std::size_t size, const AnyType& elem_type, const std::string& name = {});
+
+  /**
    * @brief Copy constructor.
    */
   AnyType(const AnyType& other);
@@ -177,6 +186,20 @@ public:
    * @return Number of member types or zero if member types are not supported.
    */
   std::size_t NumberOfMembers() const;
+
+  /**
+   * @brief Return type of elements in the array type.
+   *
+   * @return Number type of elements in the array type or throws if not supported.
+   */
+  AnyType ElementType() const;
+
+  /**
+   * @brief Return number of elements in the array type.
+   *
+   * @return Number of elements in the array type or zero if not supported.
+   */
+  std::size_t NumberOfElements() const;
 
   /**
    * @brief Index operators.

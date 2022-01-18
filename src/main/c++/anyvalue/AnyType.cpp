@@ -21,6 +21,7 @@
 
 #include "AnyType.h"
 
+#include "ArrayTypeData.h"
 #include "EmptyTypeData.h"
 #include "ScalarTypeData.h"
 #include "StructTypeData.h"
@@ -55,6 +56,13 @@ AnyType::AnyType(std::initializer_list<std::pair<std::string, AnyType>> members,
     struct_data->AddMember(member.first, member.second);
   }
   data = std::move(struct_data);
+}
+
+AnyType::AnyType(std::size_t size, const AnyType& elem_type, const std::string& name)
+  : data{new EmptyTypeData()}
+{
+  auto array_data = std::unique_ptr<ArrayTypeData>(new ArrayTypeData(size, elem_type, name));
+  data = std::move(array_data);
 }
 
 AnyType::AnyType(const AnyType& other)
@@ -117,6 +125,16 @@ std::vector<std::string> AnyType::MemberNames() const
 std::size_t AnyType::NumberOfMembers() const
 {
   return data->NumberOfMembers();
+}
+
+AnyType AnyType::ElementType() const
+{
+  return data->ElementType();
+}
+
+std::size_t AnyType::NumberOfElements() const
+{
+  return data->NumberOfElements();
 }
 
 AnyType& AnyType::operator[](std::string fieldname)

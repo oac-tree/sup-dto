@@ -50,6 +50,16 @@ std::size_t ITypeData::NumberOfMembers() const
   return 0;
 }
 
+AnyType ITypeData::ElementType() const
+{
+  throw InvalidOperationException("Element type only supported for array types");
+}
+
+std::size_t ITypeData::NumberOfElements() const
+{
+  return 0;
+}
+
 }  // namespace dto
 
 }  // namespace sup

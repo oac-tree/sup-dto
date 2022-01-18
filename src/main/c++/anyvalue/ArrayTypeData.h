@@ -20,47 +20,48 @@
  ******************************************************************************/
 
 /**
- * @file ITypeData.h
- * @brief Header file for ITypeData.
- * @date 03/01/2022
+ * @file ArrayTypeData.h
+ * @brief Header file for ArrayTypeData.
+ * @date 18/01/2022
  * @author Walter Van Herck (IO)
  * @copyright 2010-2022 ITER Organization
- * @details This header file contains the definition of the ITypeData interface.
+ * @details This header file contains the definition of the ArrayTypeData class.
  */
 
-#ifndef _SUP_ITypeData_h_
-#define _SUP_ITypeData_h_
+#ifndef _SUP_ArrayTypeData_h_
+#define _SUP_ArrayTypeData_h_
 
-#include "AnyType.h"
+#include "ITypeData.h"
 
 namespace sup
 {
 namespace dto
 {
-class ITypeData
+class ArrayTypeData : public ITypeData
 {
 public:
-  virtual ~ITypeData();
+  ArrayTypeData(std::size_t size, const AnyType& elem_type, const std::string& name);
+  ~ArrayTypeData() override;
 
-  virtual ITypeData* Clone() const = 0;
-  virtual TypeCode GetTypeCode() const = 0;
-  virtual std::string GetTypeName() const = 0;
+  ArrayTypeData* Clone() const override;
+  TypeCode GetTypeCode() const override;
+  std::string GetTypeName() const override;
 
-  virtual void AddMember(const std::string& name, const AnyType& type);
-  virtual bool HasMember(const std::string& name) const;
-  virtual std::vector<std::string> MemberNames() const;
-  virtual std::size_t NumberOfMembers() const;
+  AnyType ElementType() const override;
+  std::size_t NumberOfElements() const override;
 
-  virtual AnyType ElementType() const;
-  virtual std::size_t NumberOfElements() const;
+  AnyType& operator[](const std::string& fieldname) override;
 
-  virtual AnyType& operator[](const std::string& fieldname) = 0;
+  bool Equals(const AnyType& other) const override;
 
-  virtual bool Equals(const AnyType& other) const = 0;
+private:
+  std::size_t size;
+  AnyType elem_type;
+  std::string name;
 };
 
 }  // namespace dto
 
 }  // namespace sup
 
-#endif  // _SUP_ITypeData_h_
+#endif  // _SUP_ArrayTypeData_h_
