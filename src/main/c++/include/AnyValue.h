@@ -106,14 +106,13 @@ public:
           const std::string& type_name = {});
 
   /**
-   * @brief Constructor for bounded arrays.
+   * @brief Constructor for arrays.
    *
-   * @param elements list of element values.
-   * @param type_name Optional name for the underlying structured type.
-   * @note The type of the first element in the list determines the element type of
-   * the array.
+   * @param size number of elements in the array.
+   * @param elem_type type of the elements in the array.
+   * @param name Optional name for the type.
    */
-  // AnyValue(std::initializer_list<AnyValue> elements, const std::string& type_name = {});
+  AnyValue(std::size_t size, const AnyType& elem_type, const std::string& name = {});
 
   /**
    * @brief Copy constructor.
@@ -308,7 +307,23 @@ bool AnyValue::As(T& value) const
   }
 }
 
-AnyValue EmptyStructValue(const std::string& type_name = {});
+  /**
+   * @brief Constructs an empty structure.
+   *
+   * @param type_name Optional name for the underlying structured type.
+   * @return AnyValue with empty structure type.
+   */
+AnyValue EmptyStruct(const std::string& type_name = {});
+
+  /**
+   * @brief Constructs a bounded array value.
+   *
+   * @param elements list of element values.
+   * @param type_name Optional name for the underlying structured type.
+   * @note The type of the first element in the list determines the element type of
+   * the array.
+   */
+AnyValue ArrayValue(std::initializer_list<AnyValue> elements, const std::string& type_name = {});
 
 bool IsEmptyValue(const AnyValue& anyvalue);
 bool IsStructValue(const AnyValue& anyvalue);

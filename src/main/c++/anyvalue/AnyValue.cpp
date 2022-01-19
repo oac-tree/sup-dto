@@ -113,22 +113,13 @@ AnyValue::AnyValue(std::initializer_list<std::pair<std::string, AnyValue>> membe
   data = std::move(struct_data);
 }
 
-// AnyValue::AnyValue(std::initializer_list<AnyValue> elements, const std::string& type_name)
-//   : data{new EmptyValueData{}}
-// {
-//   if (elements.size() == 0)
-//   {
-//     throw InvalidOperationException("Cannot construct and array value from an empty list");
-//   }
-//   auto array_data = std::unique_ptr<ArrayValueData>(
-//       new ArrayValueData(elements.size(), elements.begin()->GetType(), type_name));
-//   std::size_t idx = 0;
-//   for (auto it = elements.begin(); it != elements.end(); ++it, ++idx)
-//   {
-//     array_data->operator[](idx) = *it;
-//   }
-//   data = std::move(array_data);
-// }
+AnyValue::AnyValue(std::size_t size, const AnyType& elem_type, const std::string& name)
+  : data{new EmptyValueData{}}
+{
+  auto array_data = std::unique_ptr<ArrayValueData>(
+      new ArrayValueData(size, elem_type, name));
+  data = std::move(array_data);
+}
 
 AnyValue::AnyValue(const AnyValue& other)
   : data{other.data->Clone()}
@@ -333,9 +324,25 @@ std::string AnyValue::As<std::string>() const
   return data->AsString();
 }
 
-AnyValue EmptyStructValue(const std::string& type_name)
+AnyValue EmptyStruct(const std::string& type_name)
 {
   return AnyValue(EmptyStructType(type_name));
+}
+
+AnyValue ArrayValue(std::initializer_list<AnyValue> elements, const std::string& type_name)
+{
+  if (elements.size() == 0)
+  {
+    throw InvalidOperationException("Cannot construct an array value from a list with length zero");
+  }
+  auto it = elements.begin();
+  AnyValue result(elements.size(), it->GetType(), type_name);
+  std::size_t idx = 0;
+  for (; it != elements.end(); ++it, ++idx)
+  {
+    result[idx] = *it;
+  }
+  return result;
 }
 
 bool IsEmptyValue(const AnyValue& anyvalue)

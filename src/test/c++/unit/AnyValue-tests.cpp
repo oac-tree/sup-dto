@@ -1530,9 +1530,9 @@ TEST(AnyValueTest, CopyAssignment)
     {"signed", {SignedInteger8, 1}},
     {"unsigned", {UnsignedInteger8, 12}}
   }};
-  AnyValue nested_val = (EmptyStructValue(nested_name)
+  AnyValue nested_val = (EmptyStruct(nested_name)
                             .AddMember("scalars", two_scalars)
-                            .AddMember("single", EmptyStructValue()
+                            .AddMember("single", EmptyStruct()
                                 .AddMember("first", {SignedInteger8, 0})
                                 .AddMember("second", {SignedInteger8, 5})));
   EXPECT_TRUE(IsStructValue(nested_val));
@@ -1613,9 +1613,9 @@ TEST(AnyValueTest, MoveAssignment)
     {"signed", {SignedInteger8, 1}},
     {"unsigned", {UnsignedInteger8, 12}}
   }};
-  AnyValue nested_val = (EmptyStructValue(nested_name)
+  AnyValue nested_val = (EmptyStruct(nested_name)
                             .AddMember("scalars", two_scalars)
-                            .AddMember("single", EmptyStructValue()
+                            .AddMember("single", EmptyStruct()
                                 .AddMember("first", {SignedInteger8, 0})
                                 .AddMember("second", {SignedInteger8, 5})));
   EXPECT_TRUE(IsStructValue(nested_val));
@@ -1731,9 +1731,9 @@ TEST(AnyValueTest, CastToAnyValue)
     {"signed", {SignedInteger8, 1}},
     {"unsigned", {UnsignedInteger8, 12}}
   }};
-  AnyValue nested_val = (EmptyStructValue(nested_name)
+  AnyValue nested_val = (EmptyStruct(nested_name)
                             .AddMember("scalars", two_scalars)
-                            .AddMember("single", EmptyStructValue()
+                            .AddMember("single", EmptyStruct()
                                 .AddMember("first", {SignedInteger8, 0})
                                 .AddMember("second", {SignedInteger8, 5})));
   EXPECT_TRUE(IsStructValue(nested_val));
