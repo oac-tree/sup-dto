@@ -161,12 +161,12 @@ const T& StructDataT<T>::operator[](const std::string& fieldname) const
   {
     throw UnknownKeyException("Trying to access a member with unknown field name");
   }
-  auto& member_type = it->second;
+  auto& member = it->second;
   if (fields.second.empty())
   {
-    return member_type;
+    return member;
   }
-  return member_type[fields.second];
+  return member[fields.second];
 }
 
 template <typename T>

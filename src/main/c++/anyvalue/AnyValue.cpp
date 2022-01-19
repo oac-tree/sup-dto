@@ -21,6 +21,7 @@
 
 #include "AnyValue.h"
 
+#include "ArrayValueData.h"
 #include "EmptyValueData.h"
 #include "ScalarValueDataT.h"
 #include "StructValueData.h"
@@ -112,6 +113,23 @@ AnyValue::AnyValue(std::initializer_list<std::pair<std::string, AnyValue>> membe
   data = std::move(struct_data);
 }
 
+// AnyValue::AnyValue(std::initializer_list<AnyValue> elements, const std::string& type_name)
+//   : data{new EmptyValueData{}}
+// {
+//   if (elements.size() == 0)
+//   {
+//     throw InvalidOperationException("Cannot construct and array value from an empty list");
+//   }
+//   auto array_data = std::unique_ptr<ArrayValueData>(
+//       new ArrayValueData(elements.size(), elements.begin()->GetType(), type_name));
+//   std::size_t idx = 0;
+//   for (auto it = elements.begin(); it != elements.end(); ++it, ++idx)
+//   {
+//     array_data->operator[](idx) = *it;
+//   }
+//   data = std::move(array_data);
+// }
+
 AnyValue::AnyValue(const AnyValue& other)
   : data{other.data->Clone()}
 {}
@@ -196,6 +214,11 @@ std::size_t AnyValue::NumberOfMembers() const
   return data->NumberOfMembers();
 }
 
+std::size_t AnyValue::NumberOfElements() const
+{
+  return data->NumberOfElements();
+}
+
 AnyValue& AnyValue::operator[](std::string fieldname)
 {
   return (*data)[fieldname];
@@ -204,6 +227,16 @@ AnyValue& AnyValue::operator[](std::string fieldname)
 const AnyValue& AnyValue::operator[](std::string fieldname) const
 {
   return (*data)[fieldname];
+}
+
+AnyValue& AnyValue::operator[](std::size_t idx)
+{
+  return (*data)[idx];
+}
+
+const AnyValue& AnyValue::operator[](std::size_t idx) const
+{
+  return (*data)[idx];
 }
 
 bool AnyValue::operator==(const AnyValue& other) const

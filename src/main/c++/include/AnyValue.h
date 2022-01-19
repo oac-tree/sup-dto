@@ -113,8 +113,7 @@ public:
    * @note The type of the first element in the list determines the element type of
    * the array.
    */
-  // AnyValue(std::initializer_list<AnyValue> elements,
-  //          const std::string& type_name = {});
+  // AnyValue(std::initializer_list<AnyValue> elements, const std::string& type_name = {});
 
   /**
    * @brief Copy constructor.
@@ -191,6 +190,13 @@ public:
   std::size_t NumberOfMembers() const;
 
   /**
+   * @brief Return number of elements in the array type.
+   *
+   * @return Number of elements in the array type or zero if not supported.
+   */
+  std::size_t NumberOfElements() const;
+
+  /**
    * @brief Cast to given type.
    *
    * @note Throws when conversion is not supported.
@@ -219,6 +225,16 @@ public:
    */
   AnyValue& operator[](std::string fieldname);
   const AnyValue& operator[](std::string fieldname) const;
+
+  /**
+   * @brief Retrieves the embedded AnyValue by numeric index.
+   *
+   * @param idx index of the element to access.
+   * @return Element at index idx.
+   * @note Throws when index is out of bound.
+   */
+  AnyValue& operator[](std::size_t idx);
+  const AnyValue& operator[](std::size_t idx) const;
 
   /**
    * @brief Comparison operators.

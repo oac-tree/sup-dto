@@ -33,6 +33,8 @@
 
 #include "IValueData.h"
 
+#include <vector>
+
 namespace sup
 {
 namespace dto
@@ -46,18 +48,21 @@ public:
   ArrayValueData* Clone() const override;
   TypeCode GetTypeCode() const override;
   std::string GetTypeName() const override;
+  AnyType GetType() const override;
 
-  AnyType ElementType() const override;
   std::size_t NumberOfElements() const override;
 
-  AnyType& operator[](const std::string& fieldname) override;
+  void Assign(const AnyValue& value) override;
 
-  bool Equals(const AnyType& other) const override;
+  AnyValue& operator[](const std::string& fieldname) override;
+  AnyValue& operator[](std::size_t idx) override;
+
+  bool Equals(const AnyValue& other) const override;
 
 private:
-  std::size_t size;
   AnyType elem_type;
   std::string name;
+  std::vector<AnyValue> elements;
 };
 
 }  // namespace dto

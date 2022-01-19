@@ -59,6 +59,11 @@ std::size_t IValueData::NumberOfMembers() const
   return 0;
 }
 
+std::size_t IValueData::NumberOfElements() const
+{
+  return 0;
+}
+
 void IValueData::Assign(const AnyValue&)
 {
   throw InvalidConversionException("Cannot assign incompatible AnyValue");
@@ -127,6 +132,11 @@ float64 IValueData::AsFloat64() const
 std::string IValueData::AsString() const
 {
   throw InvalidConversionException("Conversion to string not supported for this type");
+}
+
+AnyValue& IValueData::operator[](std::size_t idx)
+{
+  throw InvalidOperationException("Member access operator with unsigned index not supported");
 }
 
 IValueData* CreateValueData(const AnyType& anytype)

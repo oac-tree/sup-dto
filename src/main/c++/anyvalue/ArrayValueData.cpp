@@ -23,24 +23,28 @@
 
 #include "AnyValueExceptions.h"
 
+#include <utility>
+
 namespace sup
 {
 namespace dto
 {
 
-static std::string StripIndex(const std::string& fieldname);
+static std::pair<std::size_t, std::string> StripIndex(const std::string& fieldname);
 
 ArrayValueData::ArrayValueData(std::size_t size_, const AnyType& elem_type_, const std::string& name_)
-  : size{size_}
-  , elem_type{elem_type_}
+  : elem_type{elem_type_}
   , name{name_}
+  , elements(size_, AnyValue{elem_type_})
 {}
 
 ArrayValueData::~ArrayValueData() = default;
 
 ArrayValueData* ArrayValueData::Clone() const
 {
-  auto result = std::unique_ptr<ArrayValueData>(new ArrayValueData(size, elem_type, name));
+  auto result = std::unique_ptr<ArrayValueData>(
+      new ArrayValueData(NumberOfElements(), elem_type, name));
+  result->elements = elements;
   return result.release();
 }
 
@@ -54,27 +58,49 @@ std::string ArrayValueData::GetTypeName() const
   return name;
 }
 
-AnyType ArrayValueData::ElementType() const
+AnyType ArrayValueData::GetType() const
 {
-  return elem_type;
+  return AnyType(NumberOfElements(), elem_type, name);
 }
 
 std::size_t ArrayValueData::NumberOfElements() const
 {
-  return size;
+  return elements.size();
 }
 
-AnyType& ArrayValueData::operator[](const std::string& fieldname)
+void ArrayValueData::Assign(const AnyValue& value)
 {
-  auto remainder = StripIndex(fieldname);
-  if (remainder.empty())
+  if (value.GetType() != GetType())
   {
-    return elem_type;
+    throw InvalidConversionException("Can't convert AnyValues with different types");
   }
-  return elem_type[remainder];
+  for (std::size_t idx = 0; idx < NumberOfElements(); ++idx)
+  {
+    elements[idx] = value[idx];
+  }
 }
 
-bool ArrayValueData::Equals(const AnyType& other) const
+AnyValue& ArrayValueData::operator[](const std::string& fieldname)
+{
+  auto idx_remainder = StripIndex(fieldname);
+  auto& element = this->operator[](idx_remainder.first);
+  if (idx_remainder.second.empty())
+  {
+    return element;
+  }
+  return element[idx_remainder.second];
+}
+
+AnyValue& ArrayValueData::operator[](std::size_t idx)
+{
+  if (idx >= NumberOfElements())
+  {
+    throw KeyNotAllowedException("Index operator argument out of bounds");
+  }
+  return elements[idx];
+}
+
+bool ArrayValueData::Equals(const AnyValue& other) const
 {
   if (other.GetTypeCode() != TypeCode::Array)
   {
@@ -88,21 +114,36 @@ bool ArrayValueData::Equals(const AnyType& other) const
   {
     return false;
   }
-  return other.ElementType() == ElementType();
+  return true;
 }
 
-static std::string StripIndex(const std::string& fieldname)
+static std::pair<std::size_t, std::string> StripIndex(const std::string& fieldname)
 {
-  if (fieldname.substr(0, 2) != "[]")
+  if (fieldname.substr(0, 1) != "[")
   {
-    throw KeyNotAllowedException("Index operator argument for array type should start with []");
+    throw KeyNotAllowedException("Index operator argument for array value should start with [");
   }
-  std::string result = fieldname.substr(2);
-  if (result.size() > 0 && result[0] == '.')
+  auto remainder = fieldname.substr(1);
+  std::size_t idx = 0;
+  std::size_t pos;
+  try
   {
-    result = result.substr(1);
+    idx = std::stoul(remainder, &pos);
   }
-  return result;
+  catch(const std::invalid_argument&)
+  {
+    throw KeyNotAllowedException("Index operator argument cannot be parsed to an unsigned integer");
+  }
+  catch(const std::out_of_range&)
+  {
+    throw KeyNotAllowedException("Index operator argument cannot be parsed to an unsigned integer");
+  }
+  if (remainder.substr(pos, 1) != "]")
+  {
+    throw KeyNotAllowedException("Index operator argument for array value should be integer in "
+                                 "square brackets");
+  }
+  return { idx, remainder.substr(pos + 1) };
 }
 
 }  // namespace dto
