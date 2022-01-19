@@ -116,8 +116,7 @@ AnyValue::AnyValue(std::initializer_list<std::pair<std::string, AnyValue>> membe
 AnyValue::AnyValue(std::size_t size, const AnyType& elem_type, const std::string& name)
   : data{new EmptyValueData{}}
 {
-  auto array_data = std::unique_ptr<ArrayValueData>(
-      new ArrayValueData(size, elem_type, name));
+  auto array_data = std::unique_ptr<ArrayValueData>(new ArrayValueData(size, elem_type, name));
   data = std::move(array_data);
 }
 

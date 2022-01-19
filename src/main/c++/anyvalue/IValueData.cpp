@@ -23,6 +23,7 @@
 
 #include "AnyValueExceptions.h"
 #include "ITypeData.h"
+#include "ArrayValueData.h"
 #include "EmptyValueData.h"
 #include "ScalarValueDataBase.h"
 #include "StructValueData.h"
@@ -134,6 +135,11 @@ std::string IValueData::AsString() const
   throw InvalidConversionException("Conversion to string not supported for this type");
 }
 
+AnyValue& IValueData::operator[](const std::string& fieldname)
+{
+  throw InvalidOperationException("Index operator with field name not supported for this type");
+}
+
 AnyValue& IValueData::operator[](std::size_t idx)
 {
   throw InvalidOperationException("Member access operator with unsigned index not supported");
@@ -148,6 +154,10 @@ IValueData* CreateValueData(const AnyType& anytype)
   if (IsStructType(anytype))
   {
     return CreateStructValueData(anytype);
+  }
+  if (IsArrayType(anytype))
+  {
+    return CreateArrayValueData(anytype);
   }
   return new EmptyValueData{};
 }

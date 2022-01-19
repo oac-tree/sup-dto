@@ -49,11 +49,6 @@ AnyType ScalarValueDataBase::GetType() const
   return AnyType(type_code);
 }
 
-AnyValue& ScalarValueDataBase::operator[](const std::string& fieldname)
-{
-  throw KeyNotAllowedException("Index operator not supported for scalar values");
-}
-
 template <typename T>
 ScalarValueDataBase* ScalarValueConstructor()
 {

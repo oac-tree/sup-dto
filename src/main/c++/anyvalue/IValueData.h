@@ -69,7 +69,7 @@ public:
   virtual float64 AsFloat64() const;
   virtual std::string AsString() const;
 
-  virtual AnyValue& operator[](const std::string& fieldname) = 0;
+  virtual AnyValue& operator[](const std::string& fieldname);
   virtual AnyValue& operator[](std::size_t idx);
 
   virtual bool Equals(const AnyValue& other) const = 0;

@@ -142,7 +142,18 @@ static std::pair<std::size_t, std::string> StripIndex(const std::string& fieldna
     throw KeyNotAllowedException("Index operator argument for array value should be integer in "
                                  "square brackets");
   }
+  if (remainder.substr(pos + 1, 1) == ".")
+  {
+    ++pos;
+  }
   return { idx, remainder.substr(pos + 1) };
+}
+
+ArrayValueData* CreateArrayValueData(const AnyType& anytype)
+{
+  auto result = std::unique_ptr<ArrayValueData>(
+    new ArrayValueData(anytype.NumberOfElements(), anytype.ElementType(), anytype.GetTypeName()));
+  return result.release();
 }
 
 }  // namespace dto

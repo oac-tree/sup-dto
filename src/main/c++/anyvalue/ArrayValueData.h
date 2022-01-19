@@ -65,6 +65,8 @@ private:
   std::vector<AnyValue> elements;
 };
 
+ArrayValueData* CreateArrayValueData(const AnyType& anytype);
+
 }  // namespace dto
 
 }  // namespace sup

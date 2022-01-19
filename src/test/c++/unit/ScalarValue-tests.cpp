@@ -38,7 +38,7 @@ TEST(ScalarValueTest, EmptyValue)
   EXPECT_EQ(empty_value.GetTypeCode(), TypeCode::Empty);
   EXPECT_EQ(empty_value.GetTypeName(), EMPTY_TYPE_NAME);
   EXPECT_EQ(empty_value.NumberOfMembers(), 0);
-  EXPECT_THROW(empty_value["field"], KeyNotAllowedException);
+  EXPECT_THROW(empty_value["field"], InvalidOperationException);
   EXPECT_THROW(empty_value.As<boolean>(), InvalidConversionException);
   EXPECT_THROW(empty_value.As<char8>(), InvalidConversionException);
   EXPECT_THROW(empty_value.As<int8>(), InvalidConversionException);
@@ -61,7 +61,7 @@ TEST(ScalarValueTest, EmptyValue)
   EXPECT_FALSE(IsScalarValue(copy));
   EXPECT_EQ(copy.GetTypeCode(), TypeCode::Empty);
   EXPECT_EQ(copy.GetTypeName(), EMPTY_TYPE_NAME);
-  EXPECT_THROW(copy["field"], KeyNotAllowedException);
+  EXPECT_THROW(copy["field"], InvalidOperationException);
 
   AnyValue copy_again;
   copy_again = empty_value;
@@ -72,7 +72,7 @@ TEST(ScalarValueTest, EmptyValue)
   EXPECT_FALSE(IsScalarValue(copy_again));
   EXPECT_EQ(copy_again.GetTypeCode(), TypeCode::Empty);
   EXPECT_EQ(copy_again.GetTypeName(), EMPTY_TYPE_NAME);
-  EXPECT_THROW(copy_again["field"], KeyNotAllowedException);
+  EXPECT_THROW(copy_again["field"], InvalidOperationException);
 
   AnyValue moved = std::move(empty_value);
   EXPECT_TRUE(IsEmptyValue(empty_value)); // Moved from value is always empty
@@ -84,7 +84,7 @@ TEST(ScalarValueTest, EmptyValue)
   EXPECT_FALSE(IsScalarValue(moved));
   EXPECT_EQ(moved.GetTypeCode(), TypeCode::Empty);
   EXPECT_EQ(moved.GetTypeName(), EMPTY_TYPE_NAME);
-  EXPECT_THROW(moved["field"], KeyNotAllowedException);
+  EXPECT_THROW(moved["field"], InvalidOperationException);
 
   AnyValue empty_from_type{EmptyType};
   EXPECT_TRUE(IsEmptyValue(empty_from_type));
@@ -95,7 +95,7 @@ TEST(ScalarValueTest, EmptyValue)
   EXPECT_FALSE(IsScalarValue(empty_from_type));
   EXPECT_EQ(empty_from_type.GetTypeCode(), TypeCode::Empty);
   EXPECT_EQ(empty_from_type.GetTypeName(), EMPTY_TYPE_NAME);
-  EXPECT_THROW(empty_from_type["field"], KeyNotAllowedException);
+  EXPECT_THROW(empty_from_type["field"], InvalidOperationException);
 }
 
 TEST(ScalarValueTest, ScalarEqualityName)
@@ -123,7 +123,7 @@ TEST(ScalarValueTest, BooleanValue)
   EXPECT_TRUE(IsScalarValue(boolean_value));
   EXPECT_EQ(boolean_value.GetTypeCode(), TypeCode::Bool);
   EXPECT_EQ(boolean_value.GetTypeName(), BOOLEAN_TYPE_NAME);
-  EXPECT_THROW(boolean_value["field"], KeyNotAllowedException);
+  EXPECT_THROW(boolean_value["field"], InvalidOperationException);
   EXPECT_EQ(boolean_value.As<boolean>(), false);
   EXPECT_EQ(boolean_value.As<int8>(), 0);
   EXPECT_EQ(boolean_value.As<uint8>(), 0);
@@ -159,7 +159,7 @@ TEST(ScalarValueTest, BooleanValue)
   EXPECT_FALSE(IsArrayValue(copy));
   EXPECT_EQ(copy.GetTypeCode(), TypeCode::Bool);
   EXPECT_EQ(copy.GetTypeName(), BOOLEAN_TYPE_NAME);
-  EXPECT_THROW(copy["field"], KeyNotAllowedException);
+  EXPECT_THROW(copy["field"], InvalidOperationException);
   EXPECT_EQ(copy.As<boolean>(), true);
   EXPECT_EQ(copy.As<int8>(), 1);
   EXPECT_EQ(copy.As<uint8>(), 1u);
@@ -175,7 +175,7 @@ TEST(ScalarValueTest, BooleanValue)
   EXPECT_FALSE(IsArrayValue(moved));
   EXPECT_EQ(moved.GetTypeCode(), TypeCode::Bool);
   EXPECT_EQ(moved.GetTypeName(), BOOLEAN_TYPE_NAME);
-  EXPECT_THROW(moved["field"], KeyNotAllowedException);
+  EXPECT_THROW(moved["field"], InvalidOperationException);
   EXPECT_EQ(moved.As<boolean>(), true);
   EXPECT_EQ(moved.As<int8>(), 1);
   EXPECT_EQ(moved.As<uint8>(), 1u);
@@ -189,7 +189,7 @@ TEST(ScalarValueTest, BooleanValue)
   EXPECT_TRUE(IsScalarValue(boolean_from_literal));
   EXPECT_EQ(boolean_from_literal.GetTypeCode(), TypeCode::Bool);
   EXPECT_EQ(boolean_from_literal.GetTypeName(), BOOLEAN_TYPE_NAME);
-  EXPECT_THROW(boolean_from_literal["field"], KeyNotAllowedException);
+  EXPECT_THROW(boolean_from_literal["field"], InvalidOperationException);
   EXPECT_EQ(boolean_from_literal.As<boolean>(), true);
   boolean_from_literal = false;
   EXPECT_EQ(boolean_from_literal.As<boolean>(), false);
@@ -205,7 +205,7 @@ TEST(ScalarValueTest, BooleanValue)
   EXPECT_TRUE(IsScalarValue(boolean_from_typed_literal));
   EXPECT_EQ(boolean_from_typed_literal.GetTypeCode(), TypeCode::Bool);
   EXPECT_EQ(boolean_from_typed_literal.GetTypeName(), BOOLEAN_TYPE_NAME);
-  EXPECT_THROW(boolean_from_typed_literal["field"], KeyNotAllowedException);
+  EXPECT_THROW(boolean_from_typed_literal["field"], InvalidOperationException);
   EXPECT_EQ(boolean_from_typed_literal.As<boolean>(), true);
   boolean_from_typed_literal = false;
   EXPECT_EQ(boolean_from_typed_literal.As<boolean>(), false);
@@ -224,7 +224,7 @@ TEST(ScalarValueTest, Float32Value)
   EXPECT_TRUE(IsScalarValue(float32_value));
   EXPECT_EQ(float32_value.GetTypeCode(), TypeCode::Float32);
   EXPECT_EQ(float32_value.GetTypeName(), FLOAT32_TYPE_NAME);
-  EXPECT_THROW(float32_value["field"], KeyNotAllowedException);
+  EXPECT_THROW(float32_value["field"], InvalidOperationException);
   EXPECT_EQ(float32_value.As<boolean>(), false);
   EXPECT_EQ(float32_value.As<int8>(), 0);
   EXPECT_EQ(float32_value.As<uint8>(), 0);
@@ -262,7 +262,7 @@ TEST(ScalarValueTest, Float32Value)
   EXPECT_FALSE(IsArrayValue(copy));
   EXPECT_EQ(copy.GetTypeCode(), TypeCode::Float32);
   EXPECT_EQ(copy.GetTypeName(), FLOAT32_TYPE_NAME);
-  EXPECT_THROW(copy["field"], KeyNotAllowedException);
+  EXPECT_THROW(copy["field"], InvalidOperationException);
   EXPECT_DOUBLE_EQ(copy.As<float32>(), new_val);
   EXPECT_EQ(copy.As<int32>(), trunc_val);
   EXPECT_EQ(copy, new_val);
@@ -277,7 +277,7 @@ TEST(ScalarValueTest, Float32Value)
   EXPECT_FALSE(IsArrayValue(moved));
   EXPECT_EQ(moved.GetTypeCode(), TypeCode::Float32);
   EXPECT_EQ(moved.GetTypeName(), FLOAT32_TYPE_NAME);
-  EXPECT_THROW(moved["field"], KeyNotAllowedException);
+  EXPECT_THROW(moved["field"], InvalidOperationException);
   EXPECT_EQ(moved.As<boolean>(), true);
   EXPECT_DOUBLE_EQ(moved.As<float32>(), new_val);
 
@@ -291,7 +291,7 @@ TEST(ScalarValueTest, Float32Value)
   EXPECT_TRUE(IsScalarValue(float32_from_literal));
   EXPECT_EQ(float32_from_literal.GetTypeCode(), TypeCode::Float32);
   EXPECT_EQ(float32_from_literal.GetTypeName(), FLOAT32_TYPE_NAME);
-  EXPECT_THROW(float32_from_literal["field"], KeyNotAllowedException);
+  EXPECT_THROW(float32_from_literal["field"], InvalidOperationException);
   EXPECT_DOUBLE_EQ(float32_from_literal.As<float32>(), literal);
   float32_from_literal = 88.125;
   EXPECT_EQ(float32_from_literal.As<boolean>(), true);
@@ -307,7 +307,7 @@ TEST(ScalarValueTest, Float32Value)
   EXPECT_TRUE(IsScalarValue(float32_from_typed_literal));
   EXPECT_EQ(float32_from_typed_literal.GetTypeCode(), TypeCode::Float32);
   EXPECT_EQ(float32_from_typed_literal.GetTypeName(), FLOAT32_TYPE_NAME);
-  EXPECT_THROW(float32_from_typed_literal["field"], KeyNotAllowedException);
+  EXPECT_THROW(float32_from_typed_literal["field"], InvalidOperationException);
   EXPECT_DOUBLE_EQ(float32_from_typed_literal.As<float32>(), 5.0);
   float32_from_typed_literal = 0;
   EXPECT_EQ(float32_from_typed_literal.As<boolean>(), false);
@@ -326,7 +326,7 @@ TEST(ScalarValueTest, Float64Value)
   EXPECT_TRUE(IsScalarValue(float64_value));
   EXPECT_EQ(float64_value.GetTypeCode(), TypeCode::Float64);
   EXPECT_EQ(float64_value.GetTypeName(), FLOAT64_TYPE_NAME);
-  EXPECT_THROW(float64_value["field"], KeyNotAllowedException);
+  EXPECT_THROW(float64_value["field"], InvalidOperationException);
   EXPECT_EQ(float64_value.As<boolean>(), false);
   EXPECT_EQ(float64_value.As<int8>(), 0);
   EXPECT_EQ(float64_value.As<uint8>(), 0);
@@ -364,7 +364,7 @@ TEST(ScalarValueTest, Float64Value)
   EXPECT_FALSE(IsArrayValue(copy));
   EXPECT_EQ(copy.GetTypeCode(), TypeCode::Float64);
   EXPECT_EQ(copy.GetTypeName(), FLOAT64_TYPE_NAME);
-  EXPECT_THROW(copy["field"], KeyNotAllowedException);
+  EXPECT_THROW(copy["field"], InvalidOperationException);
   EXPECT_DOUBLE_EQ(copy.As<float64>(), new_val);
   EXPECT_EQ(copy.As<int32>(), trunc_val);
   EXPECT_EQ(copy, new_val);
@@ -379,7 +379,7 @@ TEST(ScalarValueTest, Float64Value)
   EXPECT_FALSE(IsArrayValue(moved));
   EXPECT_EQ(moved.GetTypeCode(), TypeCode::Float64);
   EXPECT_EQ(moved.GetTypeName(), FLOAT64_TYPE_NAME);
-  EXPECT_THROW(moved["field"], KeyNotAllowedException);
+  EXPECT_THROW(moved["field"], InvalidOperationException);
   EXPECT_EQ(moved.As<boolean>(), true);
   EXPECT_DOUBLE_EQ(moved.As<float64>(), new_val);
 
@@ -393,7 +393,7 @@ TEST(ScalarValueTest, Float64Value)
   EXPECT_TRUE(IsScalarValue(float64_from_literal));
   EXPECT_EQ(float64_from_literal.GetTypeCode(), TypeCode::Float64);
   EXPECT_EQ(float64_from_literal.GetTypeName(), FLOAT64_TYPE_NAME);
-  EXPECT_THROW(float64_from_literal["field"], KeyNotAllowedException);
+  EXPECT_THROW(float64_from_literal["field"], InvalidOperationException);
   EXPECT_DOUBLE_EQ(float64_from_literal.As<float64>(), literal);
   float64_from_literal = 88.125;
   EXPECT_EQ(float64_from_literal.As<boolean>(), true);
@@ -409,7 +409,7 @@ TEST(ScalarValueTest, Float64Value)
   EXPECT_TRUE(IsScalarValue(float64_from_typed_literal));
   EXPECT_EQ(float64_from_typed_literal.GetTypeCode(), TypeCode::Float64);
   EXPECT_EQ(float64_from_typed_literal.GetTypeName(), FLOAT64_TYPE_NAME);
-  EXPECT_THROW(float64_from_typed_literal["field"], KeyNotAllowedException);
+  EXPECT_THROW(float64_from_typed_literal["field"], InvalidOperationException);
   EXPECT_DOUBLE_EQ(float64_from_typed_literal.As<float64>(), 5.0);
   float64_from_typed_literal = 0;
   EXPECT_EQ(float64_from_typed_literal.As<boolean>(), false);
@@ -428,7 +428,7 @@ TEST(ScalarValueTest, StringValue)
   EXPECT_TRUE(IsScalarValue(string_value));
   EXPECT_EQ(string_value.GetTypeCode(), TypeCode::String);
   EXPECT_EQ(string_value.GetTypeName(), STRING_TYPE_NAME);
-  EXPECT_THROW(string_value["field"], KeyNotAllowedException);
+  EXPECT_THROW(string_value["field"], InvalidOperationException);
   EXPECT_THROW(string_value.As<boolean>(), InvalidConversionException);
   EXPECT_THROW(string_value.As<char8>(), InvalidConversionException);
   EXPECT_THROW(string_value.As<int8>(), InvalidConversionException);
@@ -467,7 +467,7 @@ TEST(ScalarValueTest, StringValue)
   EXPECT_FALSE(IsArrayValue(copy));
   EXPECT_EQ(copy.GetTypeCode(), TypeCode::String);
   EXPECT_EQ(copy.GetTypeName(), STRING_TYPE_NAME);
-  EXPECT_THROW(copy["field"], KeyNotAllowedException);
+  EXPECT_THROW(copy["field"], InvalidOperationException);
   EXPECT_EQ(copy.As<std::string>(), new_val);
   EXPECT_THROW(copy.As<int32>(), InvalidConversionException);
   EXPECT_EQ(copy, new_val);
@@ -482,7 +482,7 @@ TEST(ScalarValueTest, StringValue)
   EXPECT_FALSE(IsArrayValue(moved));
   EXPECT_EQ(moved.GetTypeCode(), TypeCode::String);
   EXPECT_EQ(moved.GetTypeName(), STRING_TYPE_NAME);
-  EXPECT_THROW(moved["field"], KeyNotAllowedException);
+  EXPECT_THROW(moved["field"], InvalidOperationException);
   EXPECT_EQ(moved.As<std::string>(), new_val);
   EXPECT_THROW(moved.As<int32>(), InvalidConversionException);
 
@@ -496,7 +496,7 @@ TEST(ScalarValueTest, StringValue)
   EXPECT_TRUE(IsScalarValue(string_from_literal));
   EXPECT_EQ(string_from_literal.GetTypeCode(), TypeCode::String);
   EXPECT_EQ(string_from_literal.GetTypeName(), STRING_TYPE_NAME);
-  EXPECT_THROW(string_from_literal["field"], KeyNotAllowedException);
+  EXPECT_THROW(string_from_literal["field"], InvalidOperationException);
   EXPECT_EQ(string_from_literal.As<std::string>(), literal);
   EXPECT_THROW(string_from_literal.As<int32>(), InvalidConversionException);
   string_from_literal = std::string("assign string");
@@ -512,7 +512,7 @@ TEST(ScalarValueTest, StringValue)
   EXPECT_TRUE(IsScalarValue(string_from_typed_literal));
   EXPECT_EQ(string_from_typed_literal.GetTypeCode(), TypeCode::String);
   EXPECT_EQ(string_from_typed_literal.GetTypeName(), STRING_TYPE_NAME);
-  EXPECT_THROW(string_from_typed_literal["field"], KeyNotAllowedException);
+  EXPECT_THROW(string_from_typed_literal["field"], InvalidOperationException);
   EXPECT_EQ(string_from_typed_literal.As<std::string>(), "typed literal");
   EXPECT_THROW(string_from_typed_literal.As<int32>(), InvalidConversionException);
 }
