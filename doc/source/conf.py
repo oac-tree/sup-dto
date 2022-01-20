@@ -68,7 +68,10 @@ exclude_patterns = []
 # The name of the Pygments (syntax highlighting) style to use.
 pygments_style = 'sphinx'
 
-# Set primary domain to C++
+# Set syntax highlighting default to C++.
+highlight_language = 'cpp'
+
+# Set primary domain to C++.
 primary_domain = 'cpp'
 
 
