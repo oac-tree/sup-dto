@@ -6,14 +6,19 @@
 Welcome to sup-dto's documentation!
 ===================================
 
-**sup-dto** is a C++ library for Data Transfer Objects, used in the Supervision and Automation
-System (SUP). It provides generic data types and values for reliable and easy transfer of structured
-values across architectural boundaries. The values are designed to respect value semantics, allowing
-them to be easily returned from functions/methods and avoiding issues with object slicing. The API
-is designed to be easy to use and intuitive.
+**sup-dto** is a C++ library for Data Transfer Objects, used for transferring generic structured (or
+scalar) types and values accross architectural boundaries. The library is created as a part of the
+ITER CODAC Operation Applications and will be mainly consumed by the Supervision and Automation
+System (SUP) and the Pulse Schedule Preparation System (PSPS).
 
-.. note::
-   This project is part of the ITER CODAC Operation Applications.
+Both the types and values are designed to respect value semantics. This has a number of benefits
+with respect to reference semantics:
+
+* Types/values can be easily passed and returned to/from functions and methods;
+* It avoids memory management issues as no pointers are required as handles to such objects;
+* It presents no issues with object slicing (i.e. reference aliasing);
+* Referential transparency: objects are not modified behind the scenes;
+* They are safer to use in multithreaded environments.
 
 .. toctree::
    :maxdepth: 2

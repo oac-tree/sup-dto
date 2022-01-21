@@ -7,6 +7,11 @@ values. Objects of this type respect value semantics and can easily be passed or
 .. contents::
    :local:
 
+Architecture
+------------
+
+.. image:: /images/AnyType_classes.png
+
 Construction
 ------------
 
