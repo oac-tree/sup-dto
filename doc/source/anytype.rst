@@ -24,14 +24,14 @@ Empty type
 The empty type is provided as a default null type, meaning that corresponding values do not contain
 any data.
 
-Empty types can be created by using the default ``AnyType`` constructor or by copying a global
-constant object ``EmptyType``::
-
-   // Use default constructor to create an empty type:
-   AnyType empty_type{};
+Empty types can be created by copying a global constant object ``EmptyType`` or by using the default
+``AnyType`` constructor::
 
    // Use the globally defined (const) EmptyType:
    auto empty_type = EmptyType;
+
+   // Use default constructor to create an empty type:
+   AnyType empty_type{};
 
 Scalar types
 ^^^^^^^^^^^^
@@ -42,8 +42,30 @@ string.
 
 Similar to the empty type, scalar types can be constructed in one of two ways.
 
-The first option is to pass a ``TypeCode`` enumerator, denoting the scalar type to the
-constructor::
+they can be directly copied from a constant global ``AnyType`` object::
+
+   // Create a boolean type:
+   auto bool_type = Boolean;
+
+The ``AnyType.h`` header currently defines the following global constant scalar type objects (the
+numbers in the identifiers refer to the bit length of the corresponding values)::
+
+   extern const AnyType Boolean;
+   extern const AnyType Character8;
+   extern const AnyType SignedInteger8;
+   extern const AnyType UnsignedInteger8;
+   extern const AnyType SignedInteger16;
+   extern const AnyType UnsignedInteger16;
+   extern const AnyType SignedInteger32;
+   extern const AnyType UnsignedInteger32;
+   extern const AnyType SignedInteger64;
+   extern const AnyType UnsignedInteger64;
+   extern const AnyType Float32;
+   extern const AnyType Float64;
+   extern const AnyType String;
+
+Alternatively, scalar types can be constructed by passing a ``TypeCode`` enumerator, denoting the
+scalar type, to the constructor::
 
    // Create an unsigned 16-bit integer type:
    AnyType uint16_type(TypeCode::UInt16);
@@ -80,9 +102,3 @@ The following scalar type enumerators are supported:
 .. enumerator:: TypeCode::String
 
    Type representing character strings.
-
-Alternatively, they can be directly copied from a constant global ``AnyType`` object::
-
-   // Create a boolean type:
-   auto bool_type = Boolean;
-
