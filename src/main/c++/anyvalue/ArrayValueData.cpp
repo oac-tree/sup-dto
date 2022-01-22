@@ -23,6 +23,7 @@
 
 #include "AnyValueExceptions.h"
 
+#include <stdexcept>
 #include <utility>
 
 namespace sup
