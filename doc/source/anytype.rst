@@ -121,7 +121,7 @@ Array types
 ^^^^^^^^^^^
 
 Array types represent fixed size arrays of values of the same type. The provided element type is not
-allowed to be ampty. These are constructed using a dedicated constructor::
+allowed to be empty. These are constructed using a dedicated constructor::
 
    // Create array type containing 20 boolean values and provide a name:
    AnyType my_bool_array(20, Boolean, "TwentyBooleans");
