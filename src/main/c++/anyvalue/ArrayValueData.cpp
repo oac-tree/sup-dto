@@ -37,7 +37,12 @@ ArrayValueData::ArrayValueData(std::size_t size_, const AnyType& elem_type_, con
   : elem_type{elem_type_}
   , name{name_}
   , elements(size_, AnyValue{elem_type_})
-{}
+{
+  if (elem_type == EmptyType)
+  {
+    throw InvalidOperationException("Empty type is not allowed as element type");
+  }
+}
 
 ArrayValueData::~ArrayValueData() = default;
 
