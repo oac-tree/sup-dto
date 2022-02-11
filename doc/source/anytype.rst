@@ -17,6 +17,10 @@ The following figure shows the relevant part of the class diagram.
 
 .. image:: /images/AnyType_classes.png
 
+Although largely an implementation detail, the underlying ``ITypeData`` of an ``AnyType`` object is
+never shared between different objects. This prevents nasty surprises when using these objects in a
+multithreaded environment.
+
 Construction
 ------------
 
@@ -116,8 +120,8 @@ The following scalar type enumerators are supported:
 Array types
 ^^^^^^^^^^^
 
-Array types represent fixed size arrays of values of the same type. These are constructed using a
-dedicated constructor::
+Array types represent fixed size arrays of values of the same type. The provided element type is not
+allowed to be ampty. These are constructed using a dedicated constructor::
 
    // Create array type containing 20 boolean values and provide a name:
    AnyType my_bool_array(20, Boolean, "TwentyBooleans");
@@ -130,7 +134,8 @@ Structured types
 
 Structured types are key to providing flexible types that are composed of simpler ones. Contrary to
 array types, they can contain different subtypes. This allows users to compose any kind of nested
-structure, with the only restriction that the leaf types need to be scalar (or empty).
+structure, with the only restriction that the leaf types need to be scalar (empty types are not
+allowed as leafs).
 
 A structured type can be constructed by adding subtypes to an originally empty structure. This step
 by step construction is mainly meant to support runtime construction. The following example shows
@@ -195,10 +200,13 @@ Query methods
 The ``AnyType`` API contains a number of methods for querying specific information about the type.
 These are listed here.
 
-.. function:: GetTypeCode() const
+.. function:: TypeCode AnyType::GetTypeCode() const
 
-   Retrieve the typecode enumerator for this object. Besides the scalar type enumerators listed
-   above, there exist three additional enumerators:
+   Retrieve the typecode enumerator for this object.
+
+   :return: TypeCode enumerator.
+
+   Besides the scalar type enumerators listed above, there exist three additional enumerators:
 
 .. enumerator:: TypeCode::Empty
 
@@ -212,37 +220,114 @@ These are listed here.
 
    Enumerator for an array type.
 
-.. function:: GetTypeName() const
+.. function:: std::string GetTypeName() const
 
    Retrieve the type name.
 
-.. function:: HasMember(const std::string& name) const
+   :return: Type name.
+
+.. function:: bool AnyType::HasMember(const std::string& name) const
 
    Check the presence of a member type with the given name. Returns ``false`` when the current type
    is not a structured type.
 
-.. function:: MemberNames() const
+   :param name: Member name to search for.
+   :return: ``true`` when a direct member with the given name exists.
 
-   Retrieve an ordered list of all direct member names.
+.. function:: std::vector<std::string> AnyType::MemberNames() const
 
-.. function:: NumberOfMembers() const
+   Return an ordered list of all direct member names.
+
+   :return: List of member names.
+
+.. function:: std::size_t AnyType::NumberOfMembers() const
 
    Retrieve the number of direct members. This is always zero for non-structured types.
 
-.. function:: ElementType() const
+   :return: Number of direct members for structured types and zero otherwise.
 
-   Retrieve the ``AnyType`` object corresponing to the array elements. Throws an
-   ``InvalidOperationException`` when the current type is not an array type.
+.. function:: AnyType AnyType::ElementType() const
 
-.. function:: NumberOfElements() const
+   Retrieve the ``AnyType`` object corresponing to the array elements.
+
+   :return: Type of elements in this array type.
+   :throws InvalidOperationException: When current type is not an array type.
+
+.. function:: std::size_t AnyType::NumberOfElements() const
 
    Retrieve the number of elements in the array. Returns zero when the current type is not an
    array type.
+
+   :return: Number of elements for an array type and zero otherwise.
 
 Element access
 --------------
 
 The ``AnyType`` class overloads the index operators to provide a natural way to access element types
 of a structured type. Since array types have only one single type associated to their elements, no
-dedicated overload exists (see above).
+dedicated overload exists (see :func:`AnyType::ElementType()`).
 
+The overloaded operators are:
+
+.. function:: AnyType& operator[](std::string fieldname)
+
+   Try to retrieve a reference to the member that is identified by the fieldname. This fieldname
+   can describe non-direct members by encoding the navigation to deeper lying members. A dot (``.``)
+   is used to separate individual names of structure members, while an empty set of square brackets
+   (``[]``) is used to access the element type for array types.
+
+   :param fieldname: String encoding the path to a specific underlying type.
+   :return: ``AnyType`` object if member type was found.
+   :throws KeyNotAllowedException: For types that do not support element access (empty or
+      scalar types) or for fieldnames that cannot be correctly parsed/interpreted (wrong format
+      or unknown key).
+
+.. function:: const AnyType& operator[](std::string fieldname) const
+
+   Const version of the previous operator overload.
+
+Modifier methods
+----------------
+
+The ``AnyType`` API currently contains only one method for modification, which applies only
+to structured types:
+
+.. function:: AnyType& AddMember(const std::string& name, const AnyType& type)
+
+   Add a member type for this structured type with the given name and type. Empty types are
+   not allowed as member types.
+
+   :param name: Member name to use.
+   :param type: ``AnyType`` object for the member type.
+   :return: Reference to ``this`` to allow chaining such calls.
+   :throws InvalidOperationException: If this operation is not supported
+      (not a structured type or trying to add an empty type).
+   :throws DuplicateKeyException: When this structured type already has a field with the given
+      name.
+
+Comparison operators
+--------------------
+
+Simple comparison of ``AnyType`` objects is supported by overloading both the equality and
+inequality operator:
+
+.. function:: bool operator==(const AnyType& other) const
+
+   :param other: Other ``AnyType`` object to compare with the current.
+   :return: ``true`` when equal, ``false`` otherwise.
+
+.. function:: bool operator!=(const AnyType& other) const
+
+   :param other: Other ``AnyType`` object to compare with the current.
+   :return: ``true`` when not equal, ``false`` otherwise.
+
+.. note::
+
+   Equality in the context of ``AnyType`` objects requires exact equality:
+
+   * Empty types are only equal to other empty types.
+   * Scalar types are only equal to the exact same scalar type.
+   * Structured types are only equal to other structured types with the same type name, member names
+     and types.
+   * Array types are only equal to other array types with the same name, same element type and
+     number of elements.
