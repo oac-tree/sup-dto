@@ -98,6 +98,10 @@ void StructDataT<T>::AddMember(const std::string& name, const T& type)
   {
     throw DuplicateKeyException("Cannot add duplicate member keys");
   }
+  if (type == T{})
+  {
+    throw InvalidOperationException("Cannot add empty type/value to structure");
+  }
   members.push_back({name, type});
 }
 

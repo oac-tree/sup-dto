@@ -190,7 +190,7 @@ public:
   /**
    * @brief Return type of elements in the array type.
    *
-   * @return Number type of elements in the array type or throws if not supported.
+   * @return Type of elements in the array type or throws if not supported.
    */
   AnyType ElementType() const;
 
