@@ -68,10 +68,24 @@ Scalar values
 ^^^^^^^^^^^^^
 
 Scalar values provide the elementary building blocks of all ``AnyValue`` objects. They contain a
-single arithmetic number (including booleans) or a string.
+single arithmetic number (including booleans) or a string. The contained fundamental value type is
+an ``std::string`` or one of the following type aliases:
 
-They can be constructed from elementary integral, floating point or string types by using the
-converting constructors:
+.. type:: boolean
+.. type:: char8
+.. type:: int8
+.. type:: uint8
+.. type:: int16
+.. type:: uint16
+.. type:: int32
+.. type:: uint32
+.. type:: int64
+.. type:: uint64
+.. type:: float32
+.. type:: float64
+
+The scalar ``AnyValue`` objects can be constructed from elementary integral, floating point or
+string types by using the converting constructors:
 
 .. function:: AnyValue::AnyValue(boolean val) const
 .. function:: AnyValue::AnyValue(char8 val) const
