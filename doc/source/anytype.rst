@@ -179,9 +179,11 @@ Copy and move
 -------------
 
 The ``AnyType`` class provides copy and move constructors and assignment operators that behave as
-one would expect from objects with value semantics. There is no restriction on assigning another
-``AnyType`` object to an already existing one. This implies that the underlying types are always
-overwritten.
+one would expect from objects with value semantics. In general, the underlying types are always
+overwritten. There is only one restriction: the ``EmptyType`` cannot be assigned to any type other
+than the ``EmptyType`` itself. This restriction is required to prevent subtypes of structured or
+array types to become empty types, which can lead to broken invariants (e.g. array type with
+elements of different type).
 
 The following example shows this behavior::
 
