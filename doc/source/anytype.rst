@@ -129,6 +129,8 @@ allowed to be empty. These are constructed using a dedicated constructor::
 The last argument of this constructor is optional and if not provided, the typename will be an empty
 string.
 
+.. _structured-types:
+
 Structured types
 ^^^^^^^^^^^^^^^^
 
@@ -166,14 +168,14 @@ constructor::
    //   - a number field (UnsignedInteger16)
    //   - a city field (String)
    // And provide a type name: "CustomerType".
-   AnyType customer_type{{
+   AnyType customer_type({
      {"name", String},
      {"address", {
        {"street", String},
        {"number", UnsignedInteger16},
        {"city", String}
      }}
-   }, "CustomerType"};
+   }, "CustomerType");
 
 Copy and move
 -------------
@@ -204,9 +206,9 @@ These are listed here.
 
 .. function:: TypeCode AnyType::GetTypeCode() const
 
-   Retrieve the typecode enumerator for this object.
-
    :return: TypeCode enumerator.
+
+   Retrieve the typecode enumerator for this object.
 
    Besides the scalar type enumerators listed above, there exist three additional enumerators:
 
@@ -224,43 +226,43 @@ These are listed here.
 
 .. function:: std::string AnyType::GetTypeName() const
 
-   Retrieve the type name.
-
    :return: Type name.
 
-.. function:: bool AnyType::HasMember(const std::string& name) const
+   Retrieve the type name.
 
-   Check the presence of a member type with the given name. Returns ``false`` when the current type
-   is not a structured type.
+.. function:: bool AnyType::HasMember(const std::string& name) const
 
    :param name: Member name to search for.
    :return: ``true`` when a direct member with the given name exists.
 
-.. function:: std::vector<std::string> AnyType::MemberNames() const
+   Check the presence of a member type with the given name. Returns ``false`` when the current type
+   is not a structured type.
 
-   Return an ordered list of all direct member names.
+.. function:: std::vector<std::string> AnyType::MemberNames() const
 
    :return: List of member names.
 
-.. function:: std::size_t AnyType::NumberOfMembers() const
+   Return an ordered list of all direct member names.
 
-   Retrieve the number of direct members. This is always zero for non-structured types.
+.. function:: std::size_t AnyType::NumberOfMembers() const
 
    :return: Number of direct members for structured types and zero otherwise.
 
-.. function:: AnyType AnyType::ElementType() const
+   Retrieve the number of direct members. This is always zero for non-structured types.
 
-   Retrieve the ``AnyType`` object corresponing to the array elements.
+.. function:: AnyType AnyType::ElementType() const
 
    :return: Type of elements in this array type.
    :throws InvalidOperationException: When current type is not an array type.
 
+   Retrieve the ``AnyType`` object corresponing to the array elements.
+
 .. function:: std::size_t AnyType::NumberOfElements() const
+
+   :return: Number of elements for an array type and zero otherwise.
 
    Retrieve the number of elements in the array. Returns zero when the current type is not an
    array type.
-
-   :return: Number of elements for an array type and zero otherwise.
 
 Element access
 --------------
@@ -273,16 +275,16 @@ The overloaded operators are:
 
 .. function:: AnyType& AnyType::operator[](std::string fieldname)
 
-   Try to retrieve a reference to the member that is identified by the fieldname. This fieldname
-   can describe non-direct members by encoding the navigation to deeper lying members. A dot (``.``)
-   is used to separate individual names of structure members, while an empty set of square brackets
-   (``[]``) is used to access the element type for array types.
-
    :param fieldname: String encoding the path to a specific underlying type.
    :return: ``AnyType`` object if member type was found.
    :throws KeyNotAllowedException: For types that do not support element access (empty or
       scalar types) or for fieldnames that cannot be correctly parsed/interpreted (wrong format
       or unknown key).
+
+   Try to retrieve a reference to the member that is identified by the fieldname. This fieldname
+   can describe non-direct members by encoding the navigation to deeper lying members. A dot (``.``)
+   is used to separate individual names of structure members, while an empty set of square brackets
+   (``[]``) is used to access the element type for array types.
 
 .. function:: const AnyType& AnyType::operator[](std::string fieldname) const
 
@@ -296,9 +298,6 @@ to structured types:
 
 .. function:: AnyType& AnyType::AddMember(const std::string& name, const AnyType& type)
 
-   Add a member type for this structured type with the given name and type. Empty types are
-   not allowed as member types.
-
    :param name: Member name to use.
    :param type: ``AnyType`` object for the member type.
    :return: Reference to ``this`` to allow chaining such calls.
@@ -306,6 +305,9 @@ to structured types:
       (not a structured type or trying to add an empty type).
    :throws DuplicateKeyException: When this structured type already has a field with the given
       name.
+
+   Add a member type for this structured type with the given name and type. Empty types are
+   not allowed as member types.
 
 Comparison operators
 --------------------

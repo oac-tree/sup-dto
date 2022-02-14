@@ -25,6 +25,7 @@ with respect to reference semantics:
    :caption: Contents:
 
    anytype
+   anyvalue
 
 Indices and tables
 ==================
