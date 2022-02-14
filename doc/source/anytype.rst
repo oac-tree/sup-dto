@@ -222,7 +222,7 @@ These are listed here.
 
    Enumerator for an array type.
 
-.. function:: std::string GetTypeName() const
+.. function:: std::string AnyType::GetTypeName() const
 
    Retrieve the type name.
 
@@ -271,7 +271,7 @@ dedicated overload exists (see :func:`AnyType::ElementType()`).
 
 The overloaded operators are:
 
-.. function:: AnyType& operator[](std::string fieldname)
+.. function:: AnyType& AnyType::operator[](std::string fieldname)
 
    Try to retrieve a reference to the member that is identified by the fieldname. This fieldname
    can describe non-direct members by encoding the navigation to deeper lying members. A dot (``.``)
@@ -284,7 +284,7 @@ The overloaded operators are:
       scalar types) or for fieldnames that cannot be correctly parsed/interpreted (wrong format
       or unknown key).
 
-.. function:: const AnyType& operator[](std::string fieldname) const
+.. function:: const AnyType& AnyType::operator[](std::string fieldname) const
 
    Const version of the previous operator overload.
 
@@ -294,7 +294,7 @@ Modifier methods
 The ``AnyType`` API currently contains only one method for modification, which applies only
 to structured types:
 
-.. function:: AnyType& AddMember(const std::string& name, const AnyType& type)
+.. function:: AnyType& AnyType::AddMember(const std::string& name, const AnyType& type)
 
    Add a member type for this structured type with the given name and type. Empty types are
    not allowed as member types.
@@ -313,12 +313,12 @@ Comparison operators
 Simple comparison of ``AnyType`` objects is supported by overloading both the equality and
 inequality operator:
 
-.. function:: bool operator==(const AnyType& other) const
+.. function:: bool AnyType::operator==(const AnyType& other) const
 
    :param other: Other ``AnyType`` object to compare with the current.
    :return: ``true`` when equal, ``false`` otherwise.
 
-.. function:: bool operator!=(const AnyType& other) const
+.. function:: bool AnyType::operator!=(const AnyType& other) const
 
    :param other: Other ``AnyType`` object to compare with the current.
    :return: ``true`` when not equal, ``false`` otherwise.
