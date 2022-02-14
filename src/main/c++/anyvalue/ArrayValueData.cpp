@@ -76,9 +76,13 @@ std::size_t ArrayValueData::NumberOfElements() const
 
 void ArrayValueData::Assign(const AnyValue& value)
 {
-  if (value.GetType() != GetType())
+  if (value.GetTypeCode() != TypeCode::Array)
   {
-    throw InvalidConversionException("Can't convert AnyValues with different types");
+    IValueData::Assign(value);
+  }
+  if (value.NumberOfElements() != NumberOfElements())
+  {
+    throw InvalidConversionException("Can't convert between array values with different length");
   }
   for (std::size_t idx = 0; idx < NumberOfElements(); ++idx)
   {
