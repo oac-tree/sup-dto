@@ -228,3 +228,40 @@ TEST(AnyValueTest, CastToAnyValue)
   EXPECT_TRUE(copy.HasMember("single"));
   EXPECT_TRUE(copy.HasMember("index"));
 }
+
+TEST(AnyValueTest, CreateEmptyFields)
+{
+  // Do not allow creating a structure value with an empty value as member
+  EXPECT_THROW(AnyValue({
+                 {"number", {SignedInteger16, 8765}},
+                 {"empty", AnyValue{}}
+               }, "EmptyMemberStruct"), InvalidOperationException);
+  AnyValue my_struct = EmptyStruct("MyStruct");
+  EXPECT_NO_THROW(my_struct.AddMember("number", 0));
+  EXPECT_THROW(my_struct.AddMember("empty", AnyValue{}), InvalidOperationException);
+
+  // Do not allow creating an array of empty types
+  EXPECT_THROW(AnyValue(12, EmptyType), InvalidOperationException);
+}
+
+TEST(AnyValueTest, AssignEmptyFields)
+{
+  // Allow assigning the empty value to an empty value
+  AnyValue empty{};
+  EXPECT_NO_THROW(empty = AnyValue{});
+
+  // Do not allow assigning an empty value to a scalar value
+  AnyValue my_scalar = {String, "scalarname"};
+  EXPECT_THROW(my_scalar = AnyValue{}, InvalidConversionException);
+
+  // Do not allow assigning an empty value to a member
+  AnyValue my_struct({
+    {"number", {SignedInteger16, -99}},
+    {"other", false}
+  }, "MyStruct");
+  EXPECT_THROW(my_struct["other"] = AnyValue{}, InvalidConversionException);
+
+  // Do not allow assigning the empty value as the element value of an array
+  AnyValue my_array(4, UnsignedInteger64);
+  EXPECT_THROW(my_array[0] = AnyValue{}, InvalidConversionException);
+}
