@@ -1,0 +1,5 @@
+Changes for 1.0.0:
+
+- Added AnyType for empty, scalar, structured and array types with value semantics
+- Added AnyValue for empty, scalar, structured and array values with value semantics
+- Provided Sphinx documentation
