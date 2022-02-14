@@ -199,3 +199,40 @@ TEST(AnyTypeTest, MoveAssignment)
   EXPECT_TRUE(moved.HasMember("single"));
   EXPECT_TRUE(moved.HasMember("index"));
 }
+
+TEST(AnyTypeTest, CreateEmptyFields)
+{
+  // Do not allow creating a structure type with an empty type as member
+  EXPECT_THROW(AnyType({
+                 {"number", SignedInteger16},
+                 {"empty", EmptyType}
+               }, "EmptyMemberStruct"), InvalidOperationException);
+  AnyType my_struct = EmptyStructType("MyStruct");
+  EXPECT_NO_THROW(my_struct.AddMember("number", UnsignedInteger32));
+  EXPECT_THROW(my_struct.AddMember("empty", EmptyType), InvalidOperationException);
+
+  // Do not allow creating an array of empty types
+  EXPECT_THROW(AnyType(12, EmptyType), InvalidOperationException);
+}
+
+TEST(AnyTypeTest, AssignEmptyFields)
+{
+  // Allow assigning the empty type to an empty type
+  AnyType empty{};
+  EXPECT_NO_THROW(empty = EmptyType);
+
+  // Do not allow assigning an empty type to a scalar type
+  AnyType my_scalar = String;
+  EXPECT_THROW(my_scalar = EmptyType, InvalidOperationException);
+
+  // Do not allow assigning an empty type to a member
+  AnyType my_struct({
+    {"number", SignedInteger16},
+    {"other", Boolean}
+  }, "MyStruct");
+  EXPECT_THROW(my_struct["other"] = EmptyType, InvalidOperationException);
+
+  // Do not allow assigning the empty type as the element type of an array
+  AnyType my_array(4, UnsignedInteger64);
+  EXPECT_THROW(my_array["[]"] = EmptyType, InvalidOperationException);
+}

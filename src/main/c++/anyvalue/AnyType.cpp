@@ -36,6 +36,7 @@ namespace dto
 namespace
 {
 std::unordered_set<TypeCode> ScalarTypes();
+void AssertValidTypeAssignment(const AnyType& lhs, const AnyType& rhs);
 }  // unnamed namespace
 
 AnyType::AnyType()
@@ -73,6 +74,7 @@ AnyType& AnyType::operator=(const AnyType& other)
 {
   if (this != &other)
   {
+    AssertValidTypeAssignment(*this, other);
     data.reset(other.data->Clone());
   }
   return *this;
@@ -88,6 +90,7 @@ AnyType& AnyType::operator=(AnyType&& other)
 {
   if (this != &other)
   {
+    AssertValidTypeAssignment(*this, other);
     data.reset(other.data.release());
     other.data.reset(new EmptyTypeData());
   }
@@ -228,6 +231,14 @@ std::unordered_set<TypeCode> ScalarTypes()
                   TypeCode::Int32, TypeCode::UInt32, TypeCode::Int64, TypeCode::UInt64,
                   TypeCode::Float32, TypeCode::Float64, TypeCode::String });
   return result;
+}
+
+void AssertValidTypeAssignment(const AnyType& lhs, const AnyType& rhs)
+{
+  if (IsEmptyType(rhs) && !IsEmptyType(lhs))
+  {
+    throw InvalidOperationException("Empty type can not be assigned to non-empty type");
+  }
 }
 }  // unnamed namespace
 
