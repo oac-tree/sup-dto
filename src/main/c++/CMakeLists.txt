@@ -20,6 +20,7 @@ add_library(sup-dto-shared SHARED)
 add_library(sup-dto-static STATIC)
 
 add_subdirectory(anyvalue)
+add_subdirectory(serialize)
 add_subdirectory(include)
 
 set_target_properties(sup-dto-shared PROPERTIES
