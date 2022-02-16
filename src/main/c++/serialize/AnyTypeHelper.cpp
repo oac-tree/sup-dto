@@ -21,11 +21,16 @@
 
 #include "AnyTypeHelper.h"
 #include "AnyTypeSerializeStack.h"
+#include "IAnyTypeSerializer.h"
 
 namespace sup
 {
 namespace dto
 {
+
+// TODO: implement in terms of a templated stack
+template <typename T>
+void Serialize(const T& any, ISerializer<T>& serializer);
 
 void SerializeAnyType(const AnyType& anytype, IAnyTypeSerializer& serializer)
 {

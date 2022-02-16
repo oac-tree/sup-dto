@@ -37,29 +37,37 @@ namespace sup
 {
 namespace dto
 {
-class AnyType;
 
-class IAnyTypeSerializer
+template <typename T>
+class ISerializer
 {
 public:
-  virtual ~IAnyTypeSerializer() {};
+  virtual ~ISerializer() {};
 
-  virtual void AddEmptyProlog(const AnyType* anytype) = 0;
-  virtual void AddEmptyEpilog(const AnyType* anytype) = 0;
+  virtual void AddEmptyProlog(const T* val) = 0;
+  virtual void AddEmptyEpilog(const T* val) = 0;
 
-  virtual void AddStructProlog(const AnyType* anytype) = 0;
+  virtual void AddStructProlog(const T* val) = 0;
   virtual void AddStructMemberSeparator() = 0;
-  virtual void AddStructEpilog(const AnyType* anytype) = 0;
+  virtual void AddStructEpilog(const T* val) = 0;
 
-  virtual void AddMemberProlog(const AnyType* anytype, const std::string& member_name) = 0;
-  virtual void AddMemberEpilog(const AnyType* anytype, const std::string& member_name) = 0;
+  virtual void AddMemberProlog(const T* val, const std::string& member_name) = 0;
+  virtual void AddMemberEpilog(const T* val, const std::string& member_name) = 0;
 
-  virtual void AddArrayProlog(const AnyType* anytype) = 0;
+  virtual void AddArrayProlog(const T* val) = 0;
   virtual void AddArrayElementSeparator() = 0;
-  virtual void AddArrayEpilog(const AnyType* anytype) = 0;
+  virtual void AddArrayEpilog(const T* val) = 0;
 
-  virtual void AddScalarProlog(const AnyType* anytype) = 0;
-  virtual void AddScalarEpilog(const AnyType* anytype) = 0;
+  virtual void AddScalarProlog(const T* val) = 0;
+  virtual void AddScalarEpilog(const T* val) = 0;
+};
+
+class AnyType;
+
+class IAnyTypeSerializer : public ISerializer<AnyType>
+{
+public:
+  ~IAnyTypeSerializer() = default;
 };
 }  // namespace dto
 
