@@ -51,8 +51,8 @@ public:
   virtual void AddStructMemberSeparator() = 0;
   virtual void AddStructEpilog(const AnyType* anytype) = 0;
 
-  virtual void AddMemberProlog(const AnyType* anytype, std::string member_name) = 0;
-  virtual void AddMemberEpilog(const AnyType* anytype, std::string member_name) = 0;
+  virtual void AddMemberProlog(const AnyType* anytype, const std::string& member_name) = 0;
+  virtual void AddMemberEpilog(const AnyType* anytype, const std::string& member_name) = 0;
 
   virtual void AddArrayProlog(const AnyType* anytype) = 0;
   virtual void AddArrayElementSeparator() = 0;

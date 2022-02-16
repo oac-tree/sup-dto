@@ -19,22 +19,36 @@
  * of the distribution package.
  ******************************************************************************/
 
-#include "AnyTypeNode.h"
+#include "EmptyTypeSerializeNode.h"
+#include "IAnyTypeSerializer.h"
 
 namespace sup
 {
 namespace dto
 {
 
-AnyTypeDFSNode::AnyTypeDFSNode(const AnyType* anytype_)
-  : anytype{anytype_}
+EmptyTypeSerializeNode::EmptyTypeSerializeNode(const AnyType* anytype)
+  : IAnyTypeSerializeNode{anytype}
 {}
 
-AnyTypeDFSNode::~AnyTypeDFSNode() = default;
+EmptyTypeSerializeNode::~EmptyTypeSerializeNode() = default;
 
-const AnyType* AnyTypeDFSNode::GetAnyType() const
+std::unique_ptr<IAnyTypeSerializeNode> EmptyTypeSerializeNode::NextChild()
 {
-  return anytype;
+  return {};
+}
+
+void EmptyTypeSerializeNode::AddProlog(IAnyTypeSerializer& serializer) const
+{
+  serializer.AddEmptyProlog(GetAnyType());
+}
+
+void EmptyTypeSerializeNode::AddSeparator(IAnyTypeSerializer&) const
+{}
+
+void EmptyTypeSerializeNode::AddEpilog(IAnyTypeSerializer& serializer) const
+{
+  serializer.AddEmptyEpilog(GetAnyType());
 }
 
 }  // namespace dto

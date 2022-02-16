@@ -20,45 +20,41 @@
  ******************************************************************************/
 
 /**
- * @file AnyTypeNode.h
- * @brief Header file for AnyType iterator node classes.
- * @date 15/02/2022
+ * @file ScalarTypeSerializeNode.h
+ * @brief Header file for the ScalarTypeSerializeNode class.
+ * @date 16/02/2022
  * @author Walter Van Herck (IO)
  * @copyright 2010-2022 ITER Organization
- * @details This header file contains the definition of the AnyType iterator node classes.
+ * @details This header file contains the definition of the ScalarTypeSerializeNode class.
  */
 
-#ifndef _SUP_AnyTypeNode_h_
-#define _SUP_AnyTypeNode_h_
+#ifndef _SUP_ScalarTypeSerializeNode_h_
+#define _SUP_ScalarTypeSerializeNode_h_
 
-#include "AnyType.h"
+#include "AnyTypeSerializeNode.h"
 
 namespace sup
 {
 namespace dto
 {
-class IAnyTypeSerializer;
-
-class AnyTypeDFSNode
+/**
+ * @brief Serialization node for structured types.
+ */
+class ScalarTypeSerializeNode : public IAnyTypeSerializeNode
 {
 public:
-  AnyTypeDFSNode(const AnyType* anytype);
-  virtual ~AnyTypeDFSNode();
+  ScalarTypeSerializeNode(const AnyType* anytype);
+  ~ScalarTypeSerializeNode() override;
 
-  const AnyType* GetAnyType() const;
+  std::unique_ptr<IAnyTypeSerializeNode> NextChild() override;
 
-  virtual AnyTypeDFSNode* NextChild() = 0;
-
-  virtual void AddProlog(IAnyTypeSerializer* serializer) = 0;
-  virtual void AddSeparator(IAnyTypeSerializer* serializer) = 0;
-  virtual void AddEpilog(IAnyTypeSerializer* serializer) = 0;
-
-private:
-  const AnyType* anytype;
+  void AddProlog(IAnyTypeSerializer& serializer) const override;
+  void AddSeparator(IAnyTypeSerializer& serializer) const override;
+  void AddEpilog(IAnyTypeSerializer& serializer) const override;
 };
 
 }  // namespace dto
 
 }  // namespace sup
 
-#endif  // _SUP_AnyTypeNode_h_
+#endif  // _SUP_ScalarTypeSerializeNode_h_
