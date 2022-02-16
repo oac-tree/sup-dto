@@ -21,7 +21,7 @@
 
 #include "StructTypeSerializeNode.h"
 #include "MemberTypeSerializeNode.h"
-#include "IAnyTypeSerializer.h"
+#include "IAnySerializer.h"
 
 namespace sup
 {
@@ -37,14 +37,14 @@ StructTypeSerializeNode::~StructTypeSerializeNode() = default;
 
 std::unique_ptr<IAnyTypeSerializeNode> StructTypeSerializeNode::NextChild()
 {
-  auto member_names = GetAnyType()->MemberNames();
+  auto member_names = GetValue()->MemberNames();
   if (next_index >= member_names.size())
   {
     return {};
   }
   auto member_name = member_names[next_index];
   ++next_index;
-  const AnyType *member_type = &GetAnyType()->operator[](member_name);
+  const AnyType *member_type = &GetValue()->operator[](member_name);
   std::unique_ptr<IAnyTypeSerializeNode> result{
       new MemberTypeSerializeNode(member_type, member_name)};
   return result;
@@ -52,7 +52,7 @@ std::unique_ptr<IAnyTypeSerializeNode> StructTypeSerializeNode::NextChild()
 
 void StructTypeSerializeNode::AddProlog(IAnyTypeSerializer& serializer) const
 {
-  serializer.AddStructProlog(GetAnyType());
+  serializer.AddStructProlog(GetValue());
 }
 
 void StructTypeSerializeNode::AddSeparator(IAnyTypeSerializer& serializer) const
@@ -62,7 +62,7 @@ void StructTypeSerializeNode::AddSeparator(IAnyTypeSerializer& serializer) const
 
 void StructTypeSerializeNode::AddEpilog(IAnyTypeSerializer& serializer) const
 {
-  serializer.AddStructEpilog(GetAnyType());
+  serializer.AddStructEpilog(GetValue());
 }
 
 }  // namespace dto

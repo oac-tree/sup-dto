@@ -32,6 +32,7 @@
 #define _SUP_AnyTypeSerializeNode_h_
 
 #include "AnyType.h"
+#include "IAnySerializer.h"
 
 #include <memory>
 
@@ -40,6 +41,31 @@ namespace sup
 namespace dto
 {
 class IAnyTypeSerializer;
+
+/**
+ * @brief Templated interface for thin nodes that iterate over an AnyType/AnyValue tree in
+ * Depth First Search.
+ *
+ * @details This class hierarchy is used for the serialization of AnyType without recursion.
+ */
+template <typename T>
+class IAnySerializeNode
+{
+public:
+  IAnySerializeNode(const T* val);
+  virtual ~IAnySerializeNode() = default;
+
+  const T* GetValue() const;
+
+  virtual std::unique_ptr<IAnySerializeNode> NextChild() = 0;
+
+  virtual void AddProlog(IAnySerializer<T>& serializer) const = 0;
+  virtual void AddSeparator(IAnySerializer<T>& serializer) const = 0;
+  virtual void AddEpilog(IAnySerializer<T>& serializer) const = 0;
+
+private:
+  const T* val;
+};
 
 /**
  * @brief Interface for thin nodes that iterate over an AnyType in Depth First Search.
@@ -52,7 +78,7 @@ public:
   IAnyTypeSerializeNode(const AnyType* anytype);
   virtual ~IAnyTypeSerializeNode();
 
-  const AnyType* GetAnyType() const;
+  const AnyType* GetValue() const;
 
   virtual std::unique_ptr<IAnyTypeSerializeNode> NextChild() = 0;
 
@@ -93,6 +119,18 @@ private:
 std::unique_ptr<IAnyTypeSerializeNode> CreateSerializeNode(const AnyType* anytype);
 
 AnyTypeSerializeNode CreateRootNode(const AnyType* anytype);
+
+template <typename T>
+IAnySerializeNode<T>::IAnySerializeNode(const T* val_)
+  : val{val_}
+{}
+
+template <typename T>
+const T* IAnySerializeNode<T>::GetValue() const
+{
+  return val;
+}
+
 
 }  // namespace dto
 

@@ -20,7 +20,7 @@
  ******************************************************************************/
 
 #include "ScalarTypeSerializeNode.h"
-#include "IAnyTypeSerializer.h"
+#include "IAnySerializer.h"
 
 namespace sup
 {
@@ -40,7 +40,7 @@ std::unique_ptr<IAnyTypeSerializeNode> ScalarTypeSerializeNode::NextChild()
 
 void ScalarTypeSerializeNode::AddProlog(IAnyTypeSerializer& serializer) const
 {
-  serializer.AddScalarProlog(GetAnyType());
+  serializer.AddScalarProlog(GetValue());
 }
 
 void ScalarTypeSerializeNode::AddSeparator(IAnyTypeSerializer&) const
@@ -48,7 +48,7 @@ void ScalarTypeSerializeNode::AddSeparator(IAnyTypeSerializer&) const
 
 void ScalarTypeSerializeNode::AddEpilog(IAnyTypeSerializer& serializer) const
 {
-  serializer.AddScalarEpilog(GetAnyType());
+  serializer.AddScalarEpilog(GetValue());
 }
 
 }  // namespace dto

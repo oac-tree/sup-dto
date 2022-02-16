@@ -20,7 +20,7 @@
  ******************************************************************************/
 
 #include "EmptyTypeSerializeNode.h"
-#include "IAnyTypeSerializer.h"
+#include "IAnySerializer.h"
 
 namespace sup
 {
@@ -40,7 +40,7 @@ std::unique_ptr<IAnyTypeSerializeNode> EmptyTypeSerializeNode::NextChild()
 
 void EmptyTypeSerializeNode::AddProlog(IAnyTypeSerializer& serializer) const
 {
-  serializer.AddEmptyProlog(GetAnyType());
+  serializer.AddEmptyProlog(GetValue());
 }
 
 void EmptyTypeSerializeNode::AddSeparator(IAnyTypeSerializer&) const
@@ -48,7 +48,7 @@ void EmptyTypeSerializeNode::AddSeparator(IAnyTypeSerializer&) const
 
 void EmptyTypeSerializeNode::AddEpilog(IAnyTypeSerializer& serializer) const
 {
-  serializer.AddEmptyEpilog(GetAnyType());
+  serializer.AddEmptyEpilog(GetValue());
 }
 
 }  // namespace dto

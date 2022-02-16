@@ -36,7 +36,7 @@ IAnyTypeSerializeNode::IAnyTypeSerializeNode(const AnyType* anytype_)
 
 IAnyTypeSerializeNode::~IAnyTypeSerializeNode() = default;
 
-const AnyType* IAnyTypeSerializeNode::GetAnyType() const
+const AnyType* IAnyTypeSerializeNode::GetValue() const
 {
   return anytype;
 }

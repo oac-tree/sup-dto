@@ -31,7 +31,7 @@
 #ifndef _SUP_TestSerializers_h_
 #define _SUP_TestSerializers_h_
 
-#include "IAnyTypeSerializer.h"
+#include "IAnySerializer.h"
 
 namespace sup
 {

@@ -20,16 +20,16 @@
  ******************************************************************************/
 
 /**
- * @file IAnyTypeSerializer.h
- * @brief Header file for the IAnyTypeSerializer interface.
+ * @file IAnySerializer.h
+ * @brief Header file for the IAnySerializer templated interface.
  * @date 15/02/2022
  * @author Walter Van Herck (IO)
  * @copyright 2010-2022 ITER Organization
- * @details This header file contains the definition of the IAnyTypeSerializer interface.
+ * @details This header file contains the definition of the IAnySerializer templated interface.
  */
 
-#ifndef _SUP_IAnyTypeSerializer_h_
-#define _SUP_IAnyTypeSerializer_h_
+#ifndef _SUP_IAnySerializer_h_
+#define _SUP_IAnySerializer_h_
 
 #include <string>
 
@@ -39,10 +39,10 @@ namespace dto
 {
 
 template <typename T>
-class ISerializer
+class IAnySerializer
 {
 public:
-  virtual ~ISerializer() {};
+  virtual ~IAnySerializer() {};
 
   virtual void AddEmptyProlog(const T* val) = 0;
   virtual void AddEmptyEpilog(const T* val) = 0;
@@ -64,7 +64,7 @@ public:
 
 class AnyType;
 
-class IAnyTypeSerializer : public ISerializer<AnyType>
+class IAnyTypeSerializer : public IAnySerializer<AnyType>
 {
 public:
   ~IAnyTypeSerializer() = default;
@@ -73,4 +73,4 @@ public:
 
 }  // namespace sup
 
-#endif  // _SUP_IAnyTypeSerializer_h_
+#endif  // _SUP_IAnySerializer_h_

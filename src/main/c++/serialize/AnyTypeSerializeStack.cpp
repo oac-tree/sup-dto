@@ -20,7 +20,7 @@
  ******************************************************************************/
 
 #include "AnyTypeSerializeStack.h"
-#include "IAnyTypeSerializer.h"
+#include "IAnySerializer.h"
 
 namespace sup
 {

@@ -20,7 +20,7 @@
  ******************************************************************************/
 
 #include "MemberTypeSerializeNode.h"
-#include "IAnyTypeSerializer.h"
+#include "IAnySerializer.h"
 
 namespace sup
 {
@@ -43,12 +43,12 @@ std::unique_ptr<IAnyTypeSerializeNode> MemberTypeSerializeNode::NextChild()
     return {};
   }
   child_returned = true;
-  return CreateSerializeNode(GetAnyType());
+  return CreateSerializeNode(GetValue());
 }
 
 void MemberTypeSerializeNode::AddProlog(IAnyTypeSerializer& serializer) const
 {
-  serializer.AddMemberProlog(GetAnyType(), member_name);
+  serializer.AddMemberProlog(GetValue(), member_name);
 }
 
 void MemberTypeSerializeNode::AddSeparator(IAnyTypeSerializer&) const
@@ -56,7 +56,7 @@ void MemberTypeSerializeNode::AddSeparator(IAnyTypeSerializer&) const
 
 void MemberTypeSerializeNode::AddEpilog(IAnyTypeSerializer& serializer) const
 {
-  serializer.AddMemberEpilog(GetAnyType(), member_name);
+  serializer.AddMemberEpilog(GetValue(), member_name);
 }
 
 }  // namespace dto

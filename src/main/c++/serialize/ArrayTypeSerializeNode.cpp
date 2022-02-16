@@ -20,7 +20,7 @@
  ******************************************************************************/
 
 #include "ArrayTypeSerializeNode.h"
-#include "IAnyTypeSerializer.h"
+#include "IAnySerializer.h"
 
 namespace sup
 {
@@ -40,14 +40,14 @@ std::unique_ptr<IAnyTypeSerializeNode> ArrayTypeSerializeNode::NextChild()
   {
     return {};
   }
-  const AnyType *element_type = &GetAnyType()->operator[]("[]");
+  const AnyType *element_type = &GetValue()->operator[]("[]");
   child_returned = true;
   return CreateSerializeNode(element_type);
 }
 
 void ArrayTypeSerializeNode::AddProlog(IAnyTypeSerializer& serializer) const
 {
-  serializer.AddArrayProlog(GetAnyType());
+  serializer.AddArrayProlog(GetValue());
 }
 
 void ArrayTypeSerializeNode::AddSeparator(IAnyTypeSerializer& serializer) const
@@ -57,7 +57,7 @@ void ArrayTypeSerializeNode::AddSeparator(IAnyTypeSerializer& serializer) const
 
 void ArrayTypeSerializeNode::AddEpilog(IAnyTypeSerializer& serializer) const
 {
-  serializer.AddArrayEpilog(GetAnyType());
+  serializer.AddArrayEpilog(GetValue());
 }
 
 }  // namespace dto
