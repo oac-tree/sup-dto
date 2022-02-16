@@ -43,9 +43,7 @@ const AnyType* IAnyTypeSerializeNode::GetAnyType() const
 
 AnyTypeSerializeNode::AnyTypeSerializeNode(std::unique_ptr<IAnyTypeSerializeNode> node_)
   : node{std::move(node_)}
-{
-  // TODO: throw when nullptr?
-}
+{}
 
 AnyTypeSerializeNode::~AnyTypeSerializeNode() = default;
 
