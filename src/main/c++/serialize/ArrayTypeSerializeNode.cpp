@@ -29,19 +29,19 @@ namespace dto
 
 ArrayTypeSerializeNode::ArrayTypeSerializeNode(const AnyType* anytype)
   : IAnyTypeSerializeNode{anytype}
-  , next_index{0}
+  , child_returned{false}
 {}
 
 ArrayTypeSerializeNode::~ArrayTypeSerializeNode() = default;
 
 std::unique_ptr<IAnyTypeSerializeNode> ArrayTypeSerializeNode::NextChild()
 {
-  if (next_index >= GetAnyType()->NumberOfElements())
+  if (child_returned)
   {
     return {};
   }
   const AnyType *element_type = &GetAnyType()->operator[]("[]");
-  ++next_index;
+  child_returned = true;
   return CreateSerializeNode(element_type);
 }
 

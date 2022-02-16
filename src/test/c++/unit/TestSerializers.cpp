@@ -78,7 +78,8 @@ void SimpleAnyTypeSerializer::AddMemberEpilog(const AnyType* anytype, const std:
 
 void SimpleAnyTypeSerializer::AddArrayProlog(const AnyType* anytype)
 {
-  representation += "A[";
+  std::string prolog = "A[" + std::to_string(anytype->NumberOfElements()) + "|";
+  representation += prolog;
 }
 
 void SimpleAnyTypeSerializer::AddArrayElementSeparator()

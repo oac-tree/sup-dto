@@ -38,7 +38,7 @@ namespace sup
 namespace dto
 {
 /**
- * @brief Serialization node for structured types.
+ * @brief Serialization node for scalar types.
  */
 class ScalarTypeSerializeNode : public IAnyTypeSerializeNode
 {

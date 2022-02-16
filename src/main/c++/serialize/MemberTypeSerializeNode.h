@@ -40,7 +40,7 @@ namespace sup
 namespace dto
 {
 /**
- * @brief Serialization node for structured types.
+ * @brief Serialization node for members of structured types.
  */
 class MemberTypeSerializeNode : public IAnyTypeSerializeNode
 {

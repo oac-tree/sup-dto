@@ -38,7 +38,7 @@ namespace sup
 namespace dto
 {
 /**
- * @brief Serialization node for structured types.
+ * @brief Serialization node for array types.
  */
 class ArrayTypeSerializeNode : public IAnyTypeSerializeNode
 {
@@ -53,7 +53,7 @@ public:
   void AddEpilog(IAnyTypeSerializer& serializer) const override;
 
 private:
-  std::size_t next_index;
+  bool child_returned;
 };
 
 }  // namespace dto
