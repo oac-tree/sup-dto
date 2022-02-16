@@ -4,6 +4,7 @@ target_sources(unit-tests
     PRIVATE
         ${CMAKE_CURRENT_LIST_DIR}/AnyValue-tests.cpp
         ${CMAKE_CURRENT_LIST_DIR}/AnyType-tests.cpp
+        ${CMAKE_CURRENT_LIST_DIR}/AnyTypeSerialize-tests.cpp
         ${CMAKE_CURRENT_LIST_DIR}/AnyValueExceptions-tests.cpp
         ${CMAKE_CURRENT_LIST_DIR}/ArrayType-tests.cpp
         ${CMAKE_CURRENT_LIST_DIR}/ArrayValue-tests.cpp
@@ -14,6 +15,7 @@ target_sources(unit-tests
         ${CMAKE_CURRENT_LIST_DIR}/ScalarValue-tests.cpp
         ${CMAKE_CURRENT_LIST_DIR}/StructuredType-tests.cpp
         ${CMAKE_CURRENT_LIST_DIR}/StructuredValue-tests.cpp
+        ${CMAKE_CURRENT_LIST_DIR}/TestSerializers.cpp
 )
 
 target_include_directories(unit-tests
