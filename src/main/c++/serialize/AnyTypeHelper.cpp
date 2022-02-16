@@ -19,30 +19,34 @@
  * of the distribution package.
  ******************************************************************************/
 
-/**
- * @file AnyTypeHelper.h
- * @brief Header file for AnyType helper classes and functions.
- * @date 15/02/2022
- * @author Walter Van Herck (IO)
- * @copyright 2010-2022 ITER Organization
- * @details This header file contains the definition of the AnyType helper classes and functions.
- */
-
-#ifndef _SUP_AnyTypeHelper_h_
-#define _SUP_AnyTypeHelper_h_
-
-#include "AnyType.h"
+#include "AnyTypeHelper.h"
+#include "AnyTypeSerializeStack.h"
 
 namespace sup
 {
 namespace dto
 {
-class IAnyTypeSerializer;
 
-void SerializeAnyType(const AnyType& anytype, IAnyTypeSerializer& serializer);
+void SerializeAnyType(const AnyType& anytype, IAnyTypeSerializer& serializer)
+{
+  AnyTypeSerializeStack node_stack;
+  auto node = CreateRootNode(&anytype);
+  node_stack.push(std::move(node), serializer);
+  while (!node_stack.empty())
+  {
+    auto& top = node_stack.top();
+    auto next_child = top.NextChild();
+    if (next_child.IsValid())
+    {
+      node_stack.push(std::move(next_child), serializer);
+    }
+    else
+    {
+      node_stack.pop(serializer);
+    }
+  }
+}
 
 }  // namespace dto
 
 }  // namespace sup
-
-#endif  // _SUP_AnyTypeHelper_h_

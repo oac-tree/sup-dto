@@ -68,6 +68,11 @@ AnyTypeSerializeNode AnyTypeSerializeNode::NextChild()
   return node->NextChild();
 }
 
+bool AnyTypeSerializeNode::IsValid() const
+{
+  return static_cast<bool>(node);
+}
+
 void AnyTypeSerializeNode::AddProlog(IAnyTypeSerializer& serializer) const
 {
   return node->AddProlog(serializer);

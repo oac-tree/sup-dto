@@ -80,6 +80,7 @@ public:
   AnyTypeSerializeNode& operator=(const AnyTypeSerializeNode& other) = delete;
 
   AnyTypeSerializeNode NextChild();
+  bool IsValid() const;
 
   void AddProlog(IAnyTypeSerializer& serializer) const;
   void AddSeparator(IAnyTypeSerializer& serializer) const;

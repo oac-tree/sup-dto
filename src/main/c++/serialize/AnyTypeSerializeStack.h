@@ -20,18 +20,20 @@
  ******************************************************************************/
 
 /**
- * @file AnyTypeHelper.h
- * @brief Header file for AnyType helper classes and functions.
- * @date 15/02/2022
+ * @file AnyTypeSerializeStack.h
+ * @brief Header file for AnyType serialization stack.
+ * @date 16/02/2022
  * @author Walter Van Herck (IO)
  * @copyright 2010-2022 ITER Organization
- * @details This header file contains the definition of the AnyType helper classes and functions.
+ * @details This header file contains the definition of the AnyType serialization stack.
  */
 
-#ifndef _SUP_AnyTypeHelper_h_
-#define _SUP_AnyTypeHelper_h_
+#ifndef _SUP_AnyTypeSerializeStack_h_
+#define _SUP_AnyTypeSerializeStack_h_
 
-#include "AnyType.h"
+#include "AnyTypeSerializeNode.h"
+
+#include <stack>
 
 namespace sup
 {
@@ -39,10 +41,31 @@ namespace dto
 {
 class IAnyTypeSerializer;
 
-void SerializeAnyType(const AnyType& anytype, IAnyTypeSerializer& serializer);
+/**
+ * @brief AnyType serialization node stack.
+ *
+ * @details This stack handles serialization calls on push/pop.
+ */
+class AnyTypeSerializeStack
+{
+public:
+  AnyTypeSerializeStack();
+  ~AnyTypeSerializeStack() = default;
+
+  bool empty() const;
+
+  AnyTypeSerializeNode& top();
+
+  void push(AnyTypeSerializeNode&& node, IAnyTypeSerializer& serializer);
+  void pop(IAnyTypeSerializer& serializer);
+
+private:
+  std::stack<AnyTypeSerializeNode> node_stack;
+  bool add_separator;
+};
 
 }  // namespace dto
 
 }  // namespace sup
 
-#endif  // _SUP_AnyTypeHelper_h_
+#endif  // _SUP_AnyTypeSerializeStack_h_
