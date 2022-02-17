@@ -56,7 +56,7 @@ public:
 
   const T* GetValue() const;
 
-  virtual std::unique_ptr<IAnySerializeNode> NextChild() = 0;
+  virtual std::unique_ptr<IAnySerializeNode<T>> NextChild() = 0;
 
   virtual void AddProlog(IAnySerializer<T>& serializer) const = 0;
   virtual void AddSeparator(IAnySerializer<T>& serializer) const = 0;
@@ -67,53 +67,34 @@ private:
 };
 
 /**
- * @brief Interface for thin nodes that iterate over an AnyType in Depth First Search.
- *
- * @details This class hierarchy is used for the serialization of AnyType without recursion.
- */
-class IAnyTypeSerializeNode
-{
-public:
-  IAnyTypeSerializeNode(const AnyType* anytype);
-  virtual ~IAnyTypeSerializeNode();
-
-  const AnyType* GetValue() const;
-
-  virtual std::unique_ptr<IAnyTypeSerializeNode> NextChild() = 0;
-
-  virtual void AddProlog(IAnySerializer<AnyType>& serializer) const = 0;
-  virtual void AddSeparator(IAnySerializer<AnyType>& serializer) const = 0;
-  virtual void AddEpilog(IAnySerializer<AnyType>& serializer) const = 0;
-
-private:
-  const AnyType* anytype;
-};
-
-/**
  * @brief RAII class for IAnyTypeSerializeNode classes.
  */
-class AnyTypeSerializeNode
+template <typename T>
+class AnySerializeNode
 {
 public:
-  AnyTypeSerializeNode(std::unique_ptr<IAnyTypeSerializeNode> node);
-  ~AnyTypeSerializeNode();
+  AnySerializeNode(std::unique_ptr<IAnySerializeNode<T>> node);
+  ~AnySerializeNode();
 
-  AnyTypeSerializeNode(AnyTypeSerializeNode&& other);
-  AnyTypeSerializeNode& operator=(AnyTypeSerializeNode&& other);
+  AnySerializeNode(AnySerializeNode&& other);
+  AnySerializeNode& operator=(AnySerializeNode&& other);
 
-  AnyTypeSerializeNode(const AnyTypeSerializeNode&) = delete;
-  AnyTypeSerializeNode& operator=(const AnyTypeSerializeNode& other) = delete;
+  AnySerializeNode(const AnySerializeNode&) = delete;
+  AnySerializeNode& operator=(const AnySerializeNode& other) = delete;
 
-  AnyTypeSerializeNode NextChild();
+  AnySerializeNode NextChild();
   bool IsValid() const;
 
-  void AddProlog(IAnySerializer<AnyType>& serializer) const;
-  void AddSeparator(IAnySerializer<AnyType>& serializer) const;
-  void AddEpilog(IAnySerializer<AnyType>& serializer) const;
+  void AddProlog(IAnySerializer<T>& serializer) const;
+  void AddSeparator(IAnySerializer<T>& serializer) const;
+  void AddEpilog(IAnySerializer<T>& serializer) const;
 
 private:
-  std::unique_ptr<IAnyTypeSerializeNode> node;
+  std::unique_ptr<IAnySerializeNode<T>> node;
 };
+
+using IAnyTypeSerializeNode = IAnySerializeNode<AnyType>;
+using AnyTypeSerializeNode = AnySerializeNode<AnyType>;
 
 std::unique_ptr<IAnyTypeSerializeNode> CreateSerializeNode(const AnyType* anytype);
 
@@ -128,6 +109,60 @@ template <typename T>
 const T* IAnySerializeNode<T>::GetValue() const
 {
   return val;
+}
+
+template <typename T>
+AnySerializeNode<T>::AnySerializeNode(std::unique_ptr<IAnySerializeNode<T>> node_)
+  : node{std::move(node_)}
+{}
+
+template <typename T>
+AnySerializeNode<T>::~AnySerializeNode() = default;
+
+template <typename T>
+AnySerializeNode<T>::AnySerializeNode(AnySerializeNode<T>&& other)
+  : node{std::move(other.node)}
+{}
+
+template <typename T>
+AnySerializeNode<T>& AnySerializeNode<T>::operator=(AnySerializeNode<T>&& other)
+{
+  if (this != &other)
+  {
+    AnySerializeNode moved{std::move(other)};
+    std::swap(this->node, moved.node);
+  }
+  return *this;
+}
+
+template <typename T>
+AnySerializeNode<T> AnySerializeNode<T>::NextChild()
+{
+  return node->NextChild();
+}
+
+template <typename T>
+bool AnySerializeNode<T>::IsValid() const
+{
+  return static_cast<bool>(node);
+}
+
+template <typename T>
+void AnySerializeNode<T>::AddProlog(IAnySerializer<T>& serializer) const
+{
+  return node->AddProlog(serializer);
+}
+
+template <typename T>
+void AnySerializeNode<T>::AddSeparator(IAnySerializer<T>& serializer) const
+{
+  return node->AddSeparator(serializer);
+}
+
+template <typename T>
+void AnySerializeNode<T>::AddEpilog(IAnySerializer<T>& serializer) const
+{
+  return node->AddEpilog(serializer);
 }
 
 

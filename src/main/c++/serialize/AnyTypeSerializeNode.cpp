@@ -30,62 +30,6 @@ namespace sup
 namespace dto
 {
 
-IAnyTypeSerializeNode::IAnyTypeSerializeNode(const AnyType* anytype_)
-  : anytype{anytype_}
-{}
-
-IAnyTypeSerializeNode::~IAnyTypeSerializeNode() = default;
-
-const AnyType* IAnyTypeSerializeNode::GetValue() const
-{
-  return anytype;
-}
-
-AnyTypeSerializeNode::AnyTypeSerializeNode(std::unique_ptr<IAnyTypeSerializeNode> node_)
-  : node{std::move(node_)}
-{}
-
-AnyTypeSerializeNode::~AnyTypeSerializeNode() = default;
-
-AnyTypeSerializeNode::AnyTypeSerializeNode(AnyTypeSerializeNode&& other)
-  : node{std::move(other.node)}
-{}
-
-AnyTypeSerializeNode& AnyTypeSerializeNode::operator=(AnyTypeSerializeNode&& other)
-{
-  if (this != &other)
-  {
-    AnyTypeSerializeNode moved{std::move(other)};
-    std::swap(this->node, moved.node);
-  }
-  return *this;
-}
-
-AnyTypeSerializeNode AnyTypeSerializeNode::NextChild()
-{
-  return node->NextChild();
-}
-
-bool AnyTypeSerializeNode::IsValid() const
-{
-  return static_cast<bool>(node);
-}
-
-void AnyTypeSerializeNode::AddProlog(IAnySerializer<AnyType>& serializer) const
-{
-  return node->AddProlog(serializer);
-}
-
-void AnyTypeSerializeNode::AddSeparator(IAnySerializer<AnyType>& serializer) const
-{
-  return node->AddSeparator(serializer);
-}
-
-void AnyTypeSerializeNode::AddEpilog(IAnySerializer<AnyType>& serializer) const
-{
-  return node->AddEpilog(serializer);
-}
-
 std::unique_ptr<IAnyTypeSerializeNode> CreateSerializeNode(const AnyType* anytype)
 {
   std::unique_ptr<IAnyTypeSerializeNode> result;
