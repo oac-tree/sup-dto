@@ -32,6 +32,7 @@
 #define _SUP_ArraySerializeNode_h_
 
 #include "AnySerializeNode.h"
+#include "CreateAnySerializeNode.h"
 
 namespace sup
 {
@@ -73,7 +74,7 @@ std::unique_ptr<IAnySerializeNode<T>> ArraySerializeNode<T>::NextChild()
   {
     return {};
   }
-  const AnyType *element_type = &this->GetValue()->operator[]("[]");
+  const T *element_type = &this->GetValue()->operator[]("[]");
   child_returned = true;
   return CreateSerializeNode(element_type);
 }

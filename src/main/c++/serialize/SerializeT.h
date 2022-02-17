@@ -32,6 +32,7 @@
 #define _SUP_SerializeT_h_
 
 #include "AnySerializeStack.h"
+#include "CreateAnySerializeNode.h"
 #include "IAnySerializer.h"
 
 namespace sup

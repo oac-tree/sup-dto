@@ -77,7 +77,7 @@ std::unique_ptr<IAnySerializeNode<T>> StructSerializeNode<T>::NextChild()
   }
   auto member_name = member_names[next_index];
   ++next_index;
-  const AnyType *member_type = &this->GetValue()->operator[](member_name);
+  const T *member_type = &this->GetValue()->operator[](member_name);
   std::unique_ptr<IAnySerializeNode<T>> result{
       new MemberSerializeNode<T>(member_type, member_name)};
   return result;

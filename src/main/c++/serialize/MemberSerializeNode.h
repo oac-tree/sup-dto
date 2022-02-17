@@ -32,6 +32,7 @@
 #define _SUP_MemberSerializeNode_h_
 
 #include "AnySerializeNode.h"
+#include "CreateAnySerializeNode.h"
 
 #include <string>
 

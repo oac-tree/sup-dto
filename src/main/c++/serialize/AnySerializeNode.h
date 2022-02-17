@@ -20,18 +20,17 @@
  ******************************************************************************/
 
 /**
- * @file AnyTypeSerializeNode.h
- * @brief Header file for AnyType serialization node classes.
+ * @file AnySerializeNode.h
+ * @brief Header file for serialization node class templates.
  * @date 15/02/2022
  * @author Walter Van Herck (IO)
  * @copyright 2010-2022 ITER Organization
- * @details This header file contains the definition of the AnyType serialization node classes.
+ * @details This header file contains the definition of the serialization node class templates.
  */
 
-#ifndef _SUP_AnyTypeSerializeNode_h_
-#define _SUP_AnyTypeSerializeNode_h_
+#ifndef _SUP_AnySerializeNode_h_
+#define _SUP_AnySerializeNode_h_
 
-#include "AnyType.h"
 #include "IAnySerializer.h"
 
 #include <memory>
@@ -45,7 +44,7 @@ namespace dto
  * @brief Templated interface for thin nodes that iterate over an AnyType/AnyValue tree in
  * Depth First Search.
  *
- * @details This class hierarchy is used for the serialization of AnyType without recursion.
+ * @details This class hierarchy is used for serialization without recursion.
  */
 template <typename T>
 class IAnySerializeNode
@@ -92,10 +91,6 @@ public:
 private:
   std::unique_ptr<IAnySerializeNode<T>> node;
 };
-
-std::unique_ptr<IAnySerializeNode<AnyType>> CreateSerializeNode(const AnyType* anytype);
-
-AnySerializeNode<AnyType> CreateRootNode(const AnyType* anytype);
 
 template <typename T>
 IAnySerializeNode<T>::IAnySerializeNode(const T* val_)
@@ -162,9 +157,8 @@ void AnySerializeNode<T>::AddEpilog(IAnySerializer<T>& serializer) const
   return node->AddEpilog(serializer);
 }
 
-
 }  // namespace dto
 
 }  // namespace sup
 
-#endif  // _SUP_AnyTypeSerializeNode_h_
+#endif  // _SUP_AnySerializeNode_h_
