@@ -48,6 +48,7 @@ public:
   SimpleAnyTypeSerializer();
   ~SimpleAnyTypeSerializer() override;
 
+  void ResetRepresentation() override;
   std::string GetRepresentation() const;
 
   void AddEmptyProlog(const AnyType* anytype) override;

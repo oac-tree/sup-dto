@@ -44,6 +44,8 @@ class IAnySerializer
 public:
   virtual ~IAnySerializer() = default;
 
+  virtual void ResetRepresentation() = 0;
+
   virtual void AddEmptyProlog(const T* val) = 0;
   virtual void AddEmptyEpilog(const T* val) = 0;
 
