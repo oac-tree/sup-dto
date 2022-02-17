@@ -71,17 +71,17 @@ bool AnyTypeSerializeNode::IsValid() const
   return static_cast<bool>(node);
 }
 
-void AnyTypeSerializeNode::AddProlog(IAnyTypeSerializer& serializer) const
+void AnyTypeSerializeNode::AddProlog(IAnySerializer<AnyType>& serializer) const
 {
   return node->AddProlog(serializer);
 }
 
-void AnyTypeSerializeNode::AddSeparator(IAnyTypeSerializer& serializer) const
+void AnyTypeSerializeNode::AddSeparator(IAnySerializer<AnyType>& serializer) const
 {
   return node->AddSeparator(serializer);
 }
 
-void AnyTypeSerializeNode::AddEpilog(IAnyTypeSerializer& serializer) const
+void AnyTypeSerializeNode::AddEpilog(IAnySerializer<AnyType>& serializer) const
 {
   return node->AddEpilog(serializer);
 }

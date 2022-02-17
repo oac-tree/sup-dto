@@ -21,7 +21,6 @@
 
 #include "AnyTypeHelper.h"
 #include "AnyTypeSerializeStack.h"
-#include "IAnySerializer.h"
 
 namespace sup
 {
@@ -32,7 +31,7 @@ namespace dto
 template <typename T>
 void Serialize(const T& any, IAnySerializer<T>& serializer);
 
-void SerializeAnyType(const AnyType& anytype, IAnyTypeSerializer& serializer)
+void SerializeAnyType(const AnyType& anytype, IAnySerializer<AnyType>& serializer)
 {
   AnyTypeSerializeStack node_stack;
   auto node = CreateRootNode(&anytype);

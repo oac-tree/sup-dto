@@ -42,7 +42,7 @@ template <typename T>
 class IAnySerializer
 {
 public:
-  virtual ~IAnySerializer() {};
+  virtual ~IAnySerializer() = default;
 
   virtual void AddEmptyProlog(const T* val) = 0;
   virtual void AddEmptyEpilog(const T* val) = 0;
@@ -62,13 +62,6 @@ public:
   virtual void AddScalarEpilog(const T* val) = 0;
 };
 
-class AnyType;
-
-class IAnyTypeSerializer : public IAnySerializer<AnyType>
-{
-public:
-  ~IAnyTypeSerializer() = default;
-};
 }  // namespace dto
 
 }  // namespace sup

@@ -48,9 +48,9 @@ public:
 
   std::unique_ptr<IAnyTypeSerializeNode> NextChild() override;
 
-  void AddProlog(IAnyTypeSerializer& serializer) const override;
-  void AddSeparator(IAnyTypeSerializer& serializer) const override;
-  void AddEpilog(IAnyTypeSerializer& serializer) const override;
+  void AddProlog(IAnySerializer<AnyType>& serializer) const override;
+  void AddSeparator(IAnySerializer<AnyType>& serializer) const override;
+  void AddEpilog(IAnySerializer<AnyType>& serializer) const override;
 
 private:
   std::size_t next_index;

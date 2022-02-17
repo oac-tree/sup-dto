@@ -32,14 +32,14 @@
 #define _SUP_AnyTypeHelper_h_
 
 #include "AnyType.h"
+#include "IAnySerializer.h"
 
 namespace sup
 {
 namespace dto
 {
-class IAnyTypeSerializer;
 
-void SerializeAnyType(const AnyType& anytype, IAnyTypeSerializer& serializer);
+void SerializeAnyType(const AnyType& anytype, IAnySerializer<AnyType>& serializer);
 
 }  // namespace dto
 

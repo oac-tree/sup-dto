@@ -42,7 +42,7 @@ AnyTypeSerializeNode& AnyTypeSerializeStack::top()
   return node_stack.top();
 }
 
-void AnyTypeSerializeStack::push(AnyTypeSerializeNode&& node, IAnyTypeSerializer& serializer)
+void AnyTypeSerializeStack::push(AnyTypeSerializeNode&& node, IAnySerializer<AnyType>& serializer)
 {
   if (add_separator)
   {
@@ -53,7 +53,7 @@ void AnyTypeSerializeStack::push(AnyTypeSerializeNode&& node, IAnyTypeSerializer
   node_stack.push(std::move(node));
 }
 
-void AnyTypeSerializeStack::pop(IAnyTypeSerializer& serializer)
+void AnyTypeSerializeStack::pop(IAnySerializer<AnyType>& serializer)
 {
   top().AddEpilog(serializer);
   node_stack.pop();

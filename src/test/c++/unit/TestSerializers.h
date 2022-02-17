@@ -37,10 +37,12 @@ namespace sup
 {
 namespace dto
 {
+class AnyType;
+
 /**
  * @brief Simple serialization for AnyType.
  */
-class SimpleAnyTypeSerializer : public IAnyTypeSerializer
+class SimpleAnyTypeSerializer : public IAnySerializer<AnyType>
 {
 public:
   SimpleAnyTypeSerializer();

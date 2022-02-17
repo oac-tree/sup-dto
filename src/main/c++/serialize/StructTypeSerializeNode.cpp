@@ -50,17 +50,17 @@ std::unique_ptr<IAnyTypeSerializeNode> StructTypeSerializeNode::NextChild()
   return result;
 }
 
-void StructTypeSerializeNode::AddProlog(IAnyTypeSerializer& serializer) const
+void StructTypeSerializeNode::AddProlog(IAnySerializer<AnyType>& serializer) const
 {
   serializer.AddStructProlog(GetValue());
 }
 
-void StructTypeSerializeNode::AddSeparator(IAnyTypeSerializer& serializer) const
+void StructTypeSerializeNode::AddSeparator(IAnySerializer<AnyType>& serializer) const
 {
   serializer.AddStructMemberSeparator();
 }
 
-void StructTypeSerializeNode::AddEpilog(IAnyTypeSerializer& serializer) const
+void StructTypeSerializeNode::AddEpilog(IAnySerializer<AnyType>& serializer) const
 {
   serializer.AddStructEpilog(GetValue());
 }

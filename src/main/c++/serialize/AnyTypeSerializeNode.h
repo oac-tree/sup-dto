@@ -40,7 +40,6 @@ namespace sup
 {
 namespace dto
 {
-class IAnyTypeSerializer;
 
 /**
  * @brief Templated interface for thin nodes that iterate over an AnyType/AnyValue tree in
@@ -82,9 +81,9 @@ public:
 
   virtual std::unique_ptr<IAnyTypeSerializeNode> NextChild() = 0;
 
-  virtual void AddProlog(IAnyTypeSerializer& serializer) const = 0;
-  virtual void AddSeparator(IAnyTypeSerializer& serializer) const = 0;
-  virtual void AddEpilog(IAnyTypeSerializer& serializer) const = 0;
+  virtual void AddProlog(IAnySerializer<AnyType>& serializer) const = 0;
+  virtual void AddSeparator(IAnySerializer<AnyType>& serializer) const = 0;
+  virtual void AddEpilog(IAnySerializer<AnyType>& serializer) const = 0;
 
 private:
   const AnyType* anytype;
@@ -108,9 +107,9 @@ public:
   AnyTypeSerializeNode NextChild();
   bool IsValid() const;
 
-  void AddProlog(IAnyTypeSerializer& serializer) const;
-  void AddSeparator(IAnyTypeSerializer& serializer) const;
-  void AddEpilog(IAnyTypeSerializer& serializer) const;
+  void AddProlog(IAnySerializer<AnyType>& serializer) const;
+  void AddSeparator(IAnySerializer<AnyType>& serializer) const;
+  void AddEpilog(IAnySerializer<AnyType>& serializer) const;
 
 private:
   std::unique_ptr<IAnyTypeSerializeNode> node;

@@ -39,7 +39,6 @@ namespace sup
 {
 namespace dto
 {
-class IAnyTypeSerializer;
 
 /**
  * @brief AnyType serialization node stack.
@@ -56,8 +55,8 @@ public:
 
   AnyTypeSerializeNode& top();
 
-  void push(AnyTypeSerializeNode&& node, IAnyTypeSerializer& serializer);
-  void pop(IAnyTypeSerializer& serializer);
+  void push(AnyTypeSerializeNode&& node, IAnySerializer<AnyType>& serializer);
+  void pop(IAnySerializer<AnyType>& serializer);
 
 private:
   std::stack<AnyTypeSerializeNode> node_stack;
