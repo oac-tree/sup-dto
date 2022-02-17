@@ -67,7 +67,7 @@ private:
 };
 
 /**
- * @brief RAII class for IAnyTypeSerializeNode classes.
+ * @brief Templated RAII class for IAnySerializeNode classes.
  */
 template <typename T>
 class AnySerializeNode
@@ -96,9 +96,9 @@ private:
 using IAnyTypeSerializeNode = IAnySerializeNode<AnyType>;
 using AnyTypeSerializeNode = AnySerializeNode<AnyType>;
 
-std::unique_ptr<IAnyTypeSerializeNode> CreateSerializeNode(const AnyType* anytype);
+std::unique_ptr<IAnySerializeNode<AnyType>> CreateSerializeNode(const AnyType* anytype);
 
-AnyTypeSerializeNode CreateRootNode(const AnyType* anytype);
+AnySerializeNode<AnyType> CreateRootNode(const AnyType* anytype);
 
 template <typename T>
 IAnySerializeNode<T>::IAnySerializeNode(const T* val_)

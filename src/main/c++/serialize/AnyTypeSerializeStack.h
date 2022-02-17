@@ -31,7 +31,7 @@
 #ifndef _SUP_AnyTypeSerializeStack_h_
 #define _SUP_AnyTypeSerializeStack_h_
 
-#include "AnyTypeSerializeNode.h"
+#include "AnySerializeNode.h"
 
 #include <stack>
 

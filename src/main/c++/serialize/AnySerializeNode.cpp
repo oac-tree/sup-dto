@@ -19,11 +19,11 @@
  * of the distribution package.
  ******************************************************************************/
 
-#include "AnyTypeSerializeNode.h"
-#include "EmptyTypeSerializeNode.h"
-#include "StructTypeSerializeNode.h"
-#include "ArrayTypeSerializeNode.h"
-#include "ScalarTypeSerializeNode.h"
+#include "AnySerializeNode.h"
+#include "EmptySerializeNode.h"
+#include "StructSerializeNode.h"
+#include "ArraySerializeNode.h"
+#include "ScalarSerializeNode.h"
 
 namespace sup
 {
