@@ -57,8 +57,6 @@ private:
   bool child_returned;
 };
 
-using ArrayTypeSerializeNode = ArraySerializeNode<AnyType>;
-
 template <typename T>
 ArraySerializeNode<T>::ArraySerializeNode(const T* any)
   : IAnySerializeNode<T>{any}

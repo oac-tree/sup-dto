@@ -20,51 +20,48 @@
  ******************************************************************************/
 
 /**
- * @file AnyTypeSerializeStack.h
- * @brief Header file for AnyType serialization stack.
- * @date 16/02/2022
+ * @file SerializeT.h
+ * @brief Header file for the Serialize function template.
+ * @date 17/02/2022
  * @author Walter Van Herck (IO)
  * @copyright 2010-2022 ITER Organization
- * @details This header file contains the definition of the AnyType serialization stack.
+ * @details This header file contains the definition of the Serialize function template.
  */
 
-#ifndef _SUP_AnyTypeSerializeStack_h_
-#define _SUP_AnyTypeSerializeStack_h_
+#ifndef _SUP_SerializeT_h_
+#define _SUP_SerializeT_h_
 
-#include "AnySerializeNode.h"
-
-#include <stack>
+#include "AnySerializeStack.h"
+#include "IAnySerializer.h"
 
 namespace sup
 {
 namespace dto
 {
 
-/**
- * @brief AnyType serialization node stack.
- *
- * @details This stack handles serialization calls on push/pop.
- */
-class AnyTypeSerializeStack
+template <typename T>
+void Serialize(const T& any, IAnySerializer<T>& serializer)
 {
-public:
-  AnyTypeSerializeStack();
-  ~AnyTypeSerializeStack() = default;
-
-  bool empty() const;
-
-  AnyTypeSerializeNode& top();
-
-  void push(AnyTypeSerializeNode&& node, IAnySerializer<AnyType>& serializer);
-  void pop(IAnySerializer<AnyType>& serializer);
-
-private:
-  std::stack<AnyTypeSerializeNode> node_stack;
-  bool add_separator;
-};
+  AnySerializeStack<T> node_stack;
+  auto node = CreateRootNode(&any);
+  node_stack.push(std::move(node), serializer);
+  while (!node_stack.empty())
+  {
+    auto& top = node_stack.top();
+    auto next_child = top.NextChild();
+    if (next_child.IsValid())
+    {
+      node_stack.push(std::move(next_child), serializer);
+    }
+    else
+    {
+      node_stack.pop(serializer);
+    }
+  }
+}
 
 }  // namespace dto
 
 }  // namespace sup
 
-#endif  // _SUP_AnyTypeSerializeStack_h_
+#endif  // _SUP_SerializeT_h_

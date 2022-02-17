@@ -54,8 +54,6 @@ public:
   void AddEpilog(IAnySerializer<T>& serializer) const override;
 };
 
-using ScalarTypeSerializeNode = ScalarSerializeNode<AnyType>;
-
 template <typename T>
 ScalarSerializeNode<T>::ScalarSerializeNode(const T* any)
   : IAnySerializeNode<T>{any}

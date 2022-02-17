@@ -30,28 +30,28 @@ namespace sup
 namespace dto
 {
 
-std::unique_ptr<IAnyTypeSerializeNode> CreateSerializeNode(const AnyType* anytype)
+std::unique_ptr<IAnySerializeNode<AnyType>> CreateSerializeNode(const AnyType* any)
 {
-  std::unique_ptr<IAnyTypeSerializeNode> result;
-  switch (anytype->GetTypeCode())
+  std::unique_ptr<IAnySerializeNode<AnyType>> result;
+  switch (any->GetTypeCode())
   {
   case TypeCode::Empty:
-    result.reset(new EmptyTypeSerializeNode(anytype));
+    result.reset(new EmptySerializeNode<AnyType>(any));
     break;
   case TypeCode::Struct:
-    result.reset(new StructTypeSerializeNode(anytype));
+    result.reset(new StructSerializeNode<AnyType>(any));
     break;
   case TypeCode::Array:
-    result.reset(new ArrayTypeSerializeNode(anytype));
+    result.reset(new ArraySerializeNode<AnyType>(any));
     break;
   default:
-    result.reset(new ScalarTypeSerializeNode(anytype));
+    result.reset(new ScalarSerializeNode<AnyType>(any));
     break;
   }
   return result;
 }
 
-AnyTypeSerializeNode CreateRootNode(const AnyType* anytype)
+AnySerializeNode<AnyType> CreateRootNode(const AnyType* anytype)
 {
   return CreateSerializeNode(anytype);
 }

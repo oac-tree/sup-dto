@@ -20,35 +20,16 @@
  ******************************************************************************/
 
 #include "AnyTypeHelper.h"
-#include "AnyTypeSerializeStack.h"
+#include "SerializeT.h"
 
 namespace sup
 {
 namespace dto
 {
 
-// TODO: implement in terms of a templated stack
-template <typename T>
-void Serialize(const T& any, IAnySerializer<T>& serializer);
-
 void SerializeAnyType(const AnyType& anytype, IAnySerializer<AnyType>& serializer)
 {
-  AnyTypeSerializeStack node_stack;
-  auto node = CreateRootNode(&anytype);
-  node_stack.push(std::move(node), serializer);
-  while (!node_stack.empty())
-  {
-    auto& top = node_stack.top();
-    auto next_child = top.NextChild();
-    if (next_child.IsValid())
-    {
-      node_stack.push(std::move(next_child), serializer);
-    }
-    else
-    {
-      node_stack.pop(serializer);
-    }
-  }
+  return Serialize(anytype, serializer);
 }
 
 }  // namespace dto

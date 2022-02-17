@@ -56,8 +56,6 @@ public:
   void AddEpilog(IAnySerializer<T>& serializer) const override;
 };
 
-using EmptyTypeSerializeNode = EmptySerializeNode<AnyType>;
-
 template <typename T>
 EmptySerializeNode<T>::EmptySerializeNode(const T* any)
   : IAnySerializeNode<T>{any}

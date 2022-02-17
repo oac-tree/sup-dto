@@ -93,9 +93,6 @@ private:
   std::unique_ptr<IAnySerializeNode<T>> node;
 };
 
-using IAnyTypeSerializeNode = IAnySerializeNode<AnyType>;
-using AnyTypeSerializeNode = AnySerializeNode<AnyType>;
-
 std::unique_ptr<IAnySerializeNode<AnyType>> CreateSerializeNode(const AnyType* anytype);
 
 AnySerializeNode<AnyType> CreateRootNode(const AnyType* anytype);

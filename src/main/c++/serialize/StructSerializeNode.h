@@ -58,11 +58,9 @@ private:
   std::size_t next_index;
 };
 
-using StructTypeSerializeNode = StructSerializeNode<AnyType>;
-
 template <typename T>
 StructSerializeNode<T>::StructSerializeNode(const T* any)
-  : IAnyTypeSerializeNode{any}
+  : IAnySerializeNode<T>{any}
   , next_index{0}
 {}
 

@@ -60,8 +60,6 @@ private:
   bool child_returned;
 };
 
-using MemberTypeSerializeNode = MemberSerializeNode<AnyType>;
-
 template <typename T>
 MemberSerializeNode<T>::MemberSerializeNode(const T* any, const std::string& member_name_)
   : IAnySerializeNode<T>{any}
