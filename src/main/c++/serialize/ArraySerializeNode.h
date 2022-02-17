@@ -55,13 +55,13 @@ public:
   void AddEpilog(IAnySerializer<T>& serializer) const override;
 
 private:
-  bool child_returned;
+  std::size_t next_index;
 };
 
 template <typename T>
 ArraySerializeNode<T>::ArraySerializeNode(const T* any)
   : IAnySerializeNode<T>{any}
-  , child_returned{false}
+  , next_index{0}
 {}
 
 template <typename T>
@@ -70,12 +70,12 @@ ArraySerializeNode<T>::~ArraySerializeNode() = default;
 template <typename T>
 std::unique_ptr<IAnySerializeNode<T>> ArraySerializeNode<T>::NextChild()
 {
-  if (child_returned)
+  if (next_index)
   {
     return {};
   }
+  ++next_index;
   const T *element_type = &this->GetValue()->operator[]("[]");
-  child_returned = true;
   return CreateSerializeNode(element_type);
 }
 

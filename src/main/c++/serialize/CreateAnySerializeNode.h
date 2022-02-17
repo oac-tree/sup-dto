@@ -36,6 +36,7 @@
 #include "StructSerializeNode.h"
 #include "ArraySerializeNode.h"
 #include "ScalarSerializeNode.h"
+#include "AnyType.h"
 
 #include <memory>
 
