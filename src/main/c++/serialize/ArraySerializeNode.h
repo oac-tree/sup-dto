@@ -70,7 +70,7 @@ ArraySerializeNode<T>::~ArraySerializeNode() = default;
 template <typename T>
 std::unique_ptr<IAnySerializeNode<T>> ArraySerializeNode<T>::NextChild()
 {
-  if (next_index)
+  if (next_index >= this->GetValue()->NumberOfElements())
   {
     return {};
   }
@@ -78,6 +78,9 @@ std::unique_ptr<IAnySerializeNode<T>> ArraySerializeNode<T>::NextChild()
   const T *element_type = &this->GetValue()->operator[]("[]");
   return CreateSerializeNode(element_type);
 }
+
+template <>
+std::unique_ptr<IAnySerializeNode<AnyType>> ArraySerializeNode<AnyType>::NextChild();
 
 template <typename T>
 void ArraySerializeNode<T>::AddProlog(IAnySerializer<T>& serializer) const

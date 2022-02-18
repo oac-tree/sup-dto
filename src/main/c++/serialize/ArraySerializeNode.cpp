@@ -19,10 +19,24 @@
  * of the distribution package.
  ******************************************************************************/
 
+#include "ArraySerializeNode.h"
+
 namespace sup
 {
 namespace dto
 {
+
+template <>
+std::unique_ptr<IAnySerializeNode<AnyType>> ArraySerializeNode<AnyType>::NextChild()
+{
+  if (next_index)
+  {
+    return {};
+  }
+  ++next_index;
+  const AnyType *element_type = &this->GetValue()->operator[]("[]");
+  return CreateSerializeNode(element_type);
+}
 
 }  // namespace dto
 
