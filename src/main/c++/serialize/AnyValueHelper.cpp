@@ -20,6 +20,8 @@
  ******************************************************************************/
 
 #include "AnyValueHelper.h"
+#include "AnyValue.h"
+#include "ByteSerializer.h"
 #include "SerializeT.h"
 
 namespace sup
@@ -30,6 +32,13 @@ namespace dto
 void SerializeAnyValue(const AnyValue& anyvalue, IAnySerializer<AnyValue>& serializer)
 {
   return Serialize(anyvalue, serializer);
+}
+
+std::vector<uint8> AnyValueToByteArray(const AnyValue& anyvalue)
+{
+  ByteSerializer serializer;
+  SerializeAnyValue(anyvalue, serializer);
+  return serializer.GetRepresentation();
 }
 
 }  // namespace dto

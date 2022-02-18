@@ -22,6 +22,7 @@
 #include <gtest/gtest.h>
 
 #include "AnyValueHelper.h"
+#include "AnyValue.h"
 #include "TestSerializers.h"
 
 using namespace sup::dto;

@@ -20,6 +20,7 @@
  ******************************************************************************/
 
 #include "AnyTypeHelper.h"
+#include "AnyType.h"
 #include "SerializeT.h"
 
 namespace sup

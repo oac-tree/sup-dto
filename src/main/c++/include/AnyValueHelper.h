@@ -31,15 +31,20 @@
 #ifndef _SUP_AnyValueHelper_h_
 #define _SUP_AnyValueHelper_h_
 
-#include "AnyValue.h"
 #include "IAnySerializer.h"
+#include "BasicScalarTypes.h"
+
+#include <vector>
 
 namespace sup
 {
 namespace dto
 {
+class AnyValue;
 
 void SerializeAnyValue(const AnyValue& anyvalue, IAnySerializer<AnyValue>& serializer);
+
+std::vector<uint8> AnyValueToByteArray(const AnyValue& anyvalue);
 
 }  // namespace dto
 

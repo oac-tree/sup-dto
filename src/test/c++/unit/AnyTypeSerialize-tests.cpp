@@ -22,6 +22,7 @@
 #include <gtest/gtest.h>
 
 #include "AnyTypeHelper.h"
+#include "AnyType.h"
 #include "TestSerializers.h"
 
 using namespace sup::dto;

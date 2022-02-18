@@ -31,13 +31,13 @@
 #ifndef _SUP_AnyTypeHelper_h_
 #define _SUP_AnyTypeHelper_h_
 
-#include "AnyType.h"
 #include "IAnySerializer.h"
 
 namespace sup
 {
 namespace dto
 {
+class AnyType;
 
 void SerializeAnyType(const AnyType& anytype, IAnySerializer<AnyType>& serializer);
 

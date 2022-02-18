@@ -34,8 +34,10 @@
 #include "AnyType.h"
 
 #include "AnyValueExceptions.h"
+#include "AnyValueHelper.h"
 #include "BasicScalarTypes.h"
 
+#include <cstring>
 #include <initializer_list>
 #include <memory>
 #include <string>
@@ -248,7 +250,14 @@ private:
 template <typename T>
 T AnyValue::As() const
 {
-  throw InvalidConversionException("Conversion not supported");
+  auto byte_array = AnyValueToByteArray(*this);
+  if (byte_array.size() != sizeof(T))
+  {
+    throw InvalidConversionException("Conversion to C-type: size mismatch");
+  }
+  T result;
+  std::memcpy(&result, byte_array.data(), sizeof(T));
+  return result;
 }
 
 template <>
