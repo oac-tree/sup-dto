@@ -22,7 +22,6 @@
 #include <gtest/gtest.h>
 
 #include "AnyValue.h"
-#include "AnyValueExceptions.h"
 
 using namespace sup::dto;
 

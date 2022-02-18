@@ -76,7 +76,7 @@ void ByteSerializer::AddArrayEpilog(const AnyValue*)
 void ByteSerializer::AddScalarProlog(const AnyValue* anyvalue)
 {
   auto byte_val = ScalarToBytes(*anyvalue);
-  representation.insert(representation.begin(), byte_val.begin(), byte_val.end());
+  representation.insert(representation.end(), byte_val.begin(), byte_val.end());
 }
 
 void ByteSerializer::AddScalarEpilog(const AnyValue*)
