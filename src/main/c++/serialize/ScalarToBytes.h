@@ -20,39 +20,31 @@
  ******************************************************************************/
 
 /**
- * @file BasicScalarTypes.h
- * @brief Header file for BasicScalarTypes.
- * @date 03/01/2022
+ * @file ScalarToBytes.h
+ * @brief Header file for the ScalarToBytes function.
+ * @date 18/02/2022
  * @author Walter Van Herck (IO)
  * @copyright 2010-2022 ITER Organization
- * @details This header file contains the definitions of the BasicScalarTypes.
+ * @details This header file contains the definition of the ScalarToBytes function.
  */
 
-#ifndef _SUP_BasicScalarTypes_h_
-#define _SUP_BasicScalarTypes_h_
+#ifndef _SUP_ScalarToBytes_h_
+#define _SUP_ScalarToBytes_h_
+
+#include "BasicScalarTypes.h"
+
+#include <vector>
 
 namespace sup
 {
 namespace dto
 {
+class AnyValue;
 
-using boolean = bool;
-using char8 = char;
-using int8 = signed char;
-using uint8 = unsigned char;
-using int16 = signed short;
-using uint16 = unsigned short;
-using int32 = signed int;
-using uint32 = unsigned int;
-using int64 = signed long;
-using uint64 = unsigned long;
-using float32 = float;
-using float64 = double;
-
-static const unsigned STRING_MAX_LENGTH = 64;
+std::vector<uint8> ScalarToBytes(const AnyValue& anyvalue);
 
 }  // namespace dto
 
 }  // namespace sup
 
-#endif  // _SUP_BasicScalarTypes_h_
+#endif  // _SUP_ScalarToBytes_h_
