@@ -21,6 +21,7 @@
 
 #include "TestSerializers.h"
 #include "AnyType.h"
+#include "AnyValue.h"
 
 namespace sup
 {
@@ -104,6 +105,85 @@ void SimpleAnyTypeSerializer::AddScalarProlog(const AnyType* anytype)
 }
 
 void SimpleAnyTypeSerializer::AddScalarEpilog(const AnyType*)
+{}
+
+SimpleAnyValueSerializer::SimpleAnyValueSerializer()
+  : representation{}
+{}
+SimpleAnyValueSerializer::~SimpleAnyValueSerializer() = default;
+
+void SimpleAnyValueSerializer::ResetRepresentation()
+{
+  representation.clear();
+}
+
+std::string SimpleAnyValueSerializer::GetRepresentation() const
+{
+  return representation;
+}
+
+void SimpleAnyValueSerializer::AddEmptyProlog(const AnyValue* anyvalue)
+{
+  representation += "E(";
+}
+
+void SimpleAnyValueSerializer::AddEmptyEpilog(const AnyValue* anyvalue)
+{
+  representation += ")E";
+}
+
+
+void SimpleAnyValueSerializer::AddStructProlog(const AnyValue* anyvalue)
+{
+  representation += "S{";
+}
+
+void SimpleAnyValueSerializer::AddStructMemberSeparator()
+{
+  representation += ",";
+}
+
+void SimpleAnyValueSerializer::AddStructEpilog(const AnyValue* anyvalue)
+{
+  representation += "}S";
+}
+
+
+void SimpleAnyValueSerializer::AddMemberProlog(const AnyValue* anyvalue, const std::string& member_name)
+{
+  std::string prolog = "M(" + member_name + ":";
+  representation += prolog;
+}
+
+void SimpleAnyValueSerializer::AddMemberEpilog(const AnyValue* anyvalue, const std::string& member_name)
+{
+  representation += ")M";
+}
+
+
+void SimpleAnyValueSerializer::AddArrayProlog(const AnyValue* anyvalue)
+{
+  std::string prolog = "A[" + std::to_string(anyvalue->NumberOfElements()) + "|";
+  representation += prolog;
+}
+
+void SimpleAnyValueSerializer::AddArrayElementSeparator()
+{
+  representation += ",";
+}
+
+void SimpleAnyValueSerializer::AddArrayEpilog(const AnyValue* anyvalue)
+{
+  representation += "]A";
+}
+
+
+void SimpleAnyValueSerializer::AddScalarProlog(const AnyValue* anyvalue)
+{
+  representation += anyvalue->GetTypeName();
+}
+
+void SimpleAnyValueSerializer::AddScalarEpilog(const AnyValue*)
 {}
 
 }  // namespace dto

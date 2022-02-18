@@ -6,6 +6,7 @@ target_sources(unit-tests
         ${CMAKE_CURRENT_LIST_DIR}/AnyType-tests.cpp
         ${CMAKE_CURRENT_LIST_DIR}/AnyTypeSerialize-tests.cpp
         ${CMAKE_CURRENT_LIST_DIR}/AnyValueExceptions-tests.cpp
+        ${CMAKE_CURRENT_LIST_DIR}/AnyValueSerialize-tests.cpp
         ${CMAKE_CURRENT_LIST_DIR}/ArrayType-tests.cpp
         ${CMAKE_CURRENT_LIST_DIR}/ArrayValue-tests.cpp
         ${CMAKE_CURRENT_LIST_DIR}/IntegerType-tests.cpp

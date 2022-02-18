@@ -38,6 +38,7 @@ namespace sup
 namespace dto
 {
 class AnyType;
+class AnyValue;
 
 /**
  * @brief Simple serialization for AnyType.
@@ -67,6 +68,36 @@ public:
 
   void AddScalarProlog(const AnyType* anytype) override;
   void AddScalarEpilog(const AnyType* anytype) override;
+
+private:
+  std::string representation;
+};
+
+class SimpleAnyValueSerializer : public IAnySerializer<AnyValue>
+{
+public:
+  SimpleAnyValueSerializer();
+  ~SimpleAnyValueSerializer() override;
+
+  void ResetRepresentation() override;
+  std::string GetRepresentation() const;
+
+  void AddEmptyProlog(const AnyValue* anyvalue) override;
+  void AddEmptyEpilog(const AnyValue* anyvalue) override;
+
+  void AddStructProlog(const AnyValue* anyvalue) override;
+  void AddStructMemberSeparator() override;
+  void AddStructEpilog(const AnyValue* anyvalue) override;
+
+  void AddMemberProlog(const AnyValue* anyvalue, const std::string& member_name) override;
+  void AddMemberEpilog(const AnyValue* anyvalue, const std::string& member_name) override;
+
+  void AddArrayProlog(const AnyValue* anyvalue) override;
+  void AddArrayElementSeparator() override;
+  void AddArrayEpilog(const AnyValue* anyvalue) override;
+
+  void AddScalarProlog(const AnyValue* anyvalue) override;
+  void AddScalarEpilog(const AnyValue* anyvalue) override;
 
 private:
   std::string representation;
