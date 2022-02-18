@@ -20,7 +20,7 @@
  ******************************************************************************/
 
 /**
- * @file CreateAnySerializeNode.h
+ * @file CreateAnySerializeNodeT.h
  * @brief Header file for serialization node creation function templates.
  * @date 17/02/2022
  * @author Walter Van Herck (IO)
@@ -29,12 +29,13 @@
  * templates.
  */
 
-#ifndef _SUP_CreateAnySerializeNode_h_
-#define _SUP_CreateAnySerializeNode_h_
+#ifndef _SUP_CreateAnySerializeNodeT_h_
+#define _SUP_CreateAnySerializeNodeT_h_
 
-#include "AnyType.h"
-#include "AnyValue.h"
-#include "AnySerializeNode.h"
+#include "EmptySerializeNode.h"
+#include "StructSerializeNode.h"
+#include "ArraySerializeNode.h"
+#include "ScalarSerializeNode.h"
 
 #include <memory>
 
@@ -43,14 +44,37 @@ namespace sup
 namespace dto
 {
 
-std::unique_ptr<IAnySerializeNode<AnyType>> CreateSerializeNode(const AnyType* anytype);
-std::unique_ptr<IAnySerializeNode<AnyValue>> CreateSerializeNode(const AnyValue* anyvalue);
+template <typename T>
+std::unique_ptr<IAnySerializeNode<T>> CreateSerializeNodeT(const T* any)
+{
+  std::unique_ptr<IAnySerializeNode<T>> result;
+  switch (any->GetTypeCode())
+  {
+  case TypeCode::Empty:
+    result.reset(new EmptySerializeNode<T>(any));
+    break;
+  case TypeCode::Struct:
+    result.reset(new StructSerializeNode<T>(any));
+    break;
+  case TypeCode::Array:
+    result.reset(new ArraySerializeNode<T>(any));
+    break;
+  default:
+    result.reset(new ScalarSerializeNode<T>(any));
+    break;
+  }
+  return result;
+}
 
-AnySerializeNode<AnyType> CreateRootNode(const AnyType* anytype);
-AnySerializeNode<AnyValue> CreateRootNode(const AnyValue* anyvalue);
+template <typename T>
+AnySerializeNode<T> CreateRootNodeT(const T* any)
+{
+    return CreateSerializeNode(any);
+}
+
 
 }  // namespace dto
 
 }  // namespace sup
 
-#endif  // _SUP_CreateAnySerializeNode_h_
+#endif  // _SUP_CreateAnySerializeNodeT_h_

@@ -3,6 +3,7 @@ target_sources(sup-dto-obj
         ${CMAKE_CURRENT_LIST_DIR}/AnyTypeHelper.cpp
         ${CMAKE_CURRENT_LIST_DIR}/AnyValueHelper.cpp
         ${CMAKE_CURRENT_LIST_DIR}/ArraySerializeNode.cpp
+        ${CMAKE_CURRENT_LIST_DIR}/CreateAnySerializeNode.cpp
 )
 
 target_include_directories(sup-dto-obj
