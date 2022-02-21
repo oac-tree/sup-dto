@@ -31,6 +31,12 @@ struct __attribute__((__packed__)) TwoScalarsType
   uint8 unsigned_scalar;
 };
 
+struct __attribute__((__packed__)) AddressType
+{
+  char street[STRING_MAX_LENGTH];
+  uint16 number;
+};
+
 TEST(AnyValueToCTypeTest, Success)
 {
   AnyValue two_scalars = {{
@@ -38,9 +44,26 @@ TEST(AnyValueToCTypeTest, Success)
     {"unsigned", {UnsignedInteger8, 12}}
   }};
   auto two_scalars_c = two_scalars.As<TwoScalarsType>();
-  auto byte_array = AnyValueToByteArray(two_scalars);
-  std::cout << (int)byte_array[0] << ", " << (int)byte_array[1];
-
   EXPECT_EQ(two_scalars_c.signed_scalar, 1);
   EXPECT_EQ(two_scalars_c.unsigned_scalar, 12);
+}
+
+TEST(AnyValueToCTypeTest, StringFields)
+{
+  // Valid string length
+  AnyValue address = {{
+    {"street", {String, "Main street"}},
+    {"number", {UnsignedInteger16, 1033}}
+  }};
+  auto address_c = address.As<AddressType>();
+  EXPECT_STREQ(address_c.street, "Main street");
+  EXPECT_EQ(address_c.number, 1033);
+
+  // String length too long
+  address["street"] =
+      "This streetname is too long to be used for conversion to C-types (75 chars)";
+  EXPECT_FALSE(address.As(address_c));
+  // Fields are unchanged
+  EXPECT_STREQ(address_c.street, "Main street");
+  EXPECT_EQ(address_c.number, 1033);
 }
