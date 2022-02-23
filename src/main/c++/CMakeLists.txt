@@ -23,8 +23,11 @@ add_subdirectory(include)
 add_subdirectory(anyvalue)
 add_subdirectory(serialize)
 add_subdirectory(json)
-add_subdirectory(rapidjson)
 
+target_include_directories(sup-dto-obj
+    PRIVATE
+        ${CMAKE_CURRENT_LIST_DIR}
+)
 
 set_target_properties(sup-dto-shared PROPERTIES
     VERSION ${LIBVERSION}
@@ -36,7 +39,7 @@ target_link_libraries(sup-dto-shared
     PRIVATE
     PUBLIC
         sup-dto-obj
-    )
+)
 
 set_target_properties(sup-dto-static PROPERTIES
     OUTPUT_NAME sup-dto
@@ -51,4 +54,4 @@ target_link_libraries(sup-dto-static
 install(TARGETS sup-dto-shared DESTINATION lib)
 install(TARGETS sup-dto-static DESTINATION lib)
 install(DIRECTORY include/ DESTINATION include
-    FILES_MATCHING PATTERN "*.h")
+        FILES_MATCHING PATTERN "*.h")

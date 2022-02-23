@@ -22,6 +22,7 @@
 #include "AnyTypeHelper.h"
 #include "AnyType.h"
 #include "SerializeT.h"
+#include "JSONSerializer.h"
 
 namespace sup
 {
@@ -31,6 +32,13 @@ namespace dto
 void SerializeAnyType(const AnyType& anytype, IAnySerializer<AnyType>& serializer)
 {
   return Serialize(anytype, serializer);
+}
+
+std::string JSONSerializeAnyType(const AnyType& anytype)
+{
+  JSONTypeSerializer serializer;
+  Serialize(anytype, serializer);
+  return serializer.GetRepresentation();
 }
 
 }  // namespace dto

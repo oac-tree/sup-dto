@@ -22,6 +22,9 @@
 #include "JSONSerializer.h"
 #include "AnyValue.h"
 
+#include "rapidjson/writer.h"
+#include "rapidjson/stringbuffer.h"
+
 namespace sup
 {
 namespace dto
@@ -30,8 +33,17 @@ namespace dto
 class JSONRepresentation
 {
 public:
-  JSONRepresentation() = default;
-  ~JSONRepresentation() = default;
+  JSONRepresentation();
+  ~JSONRepresentation();
+
+  rapidjson::Writer<rapidjson::StringBuffer>& Writer();
+
+  void Reset();
+  std::string GetString() const;
+
+private:
+  rapidjson::StringBuffer buffer;
+  rapidjson::Writer<rapidjson::StringBuffer> writer;
 };
 
 JSONTypeSerializer::JSONTypeSerializer()
@@ -40,59 +52,93 @@ JSONTypeSerializer::JSONTypeSerializer()
 JSONTypeSerializer::~JSONTypeSerializer() = default;
 
 void JSONTypeSerializer::ResetRepresentation()
-{}
+{
+  representation->Reset();
+}
 
 std::string JSONTypeSerializer::GetRepresentation() const
 {
+  if (representation->Writer().IsComplete())
+  {
+    return representation->GetString();
+  }
   return {};
 }
 
 void JSONTypeSerializer::AddEmptyProlog(const AnyType* anytype)
 {
+  representation->Writer().StartObject();
+  representation->Writer().Key("type");
+  auto type_name = anytype->GetTypeName();
+  representation->Writer().String(type_name.c_str(), type_name.size());
 }
 
-void JSONTypeSerializer::AddEmptyEpilog(const AnyType* anytype)
+void JSONTypeSerializer::AddEmptyEpilog(const AnyType*)
 {
+  representation->Writer().EndObject();
 }
 
 void JSONTypeSerializer::AddStructProlog(const AnyType* anytype)
 {
+  representation->Writer().StartObject();
+  representation->Writer().Key("type");
+  auto type_name = anytype->GetTypeName();
+  representation->Writer().String(type_name.c_str(), type_name.size());
+  representation->Writer().Key("attributes");
+  representation->Writer().StartArray();
 }
 
 void JSONTypeSerializer::AddStructMemberSeparator()
-{
-}
+{}
 
-void JSONTypeSerializer::AddStructEpilog(const AnyType* anytype)
+void JSONTypeSerializer::AddStructEpilog(const AnyType*)
 {
+  representation->Writer().EndArray();
+  representation->Writer().EndObject();
 }
 
 void JSONTypeSerializer::AddMemberProlog(const AnyType* anytype, const std::string& member_name)
 {
+  representation->Writer().StartObject();
+  representation->Writer().Key(member_name.c_str());
 }
 
-void JSONTypeSerializer::AddMemberEpilog(const AnyType* anytype, const std::string& member_name)
+void JSONTypeSerializer::AddMemberEpilog(const AnyType*, const std::string&)
 {
+  representation->Writer().EndObject();
 }
 
 void JSONTypeSerializer::AddArrayProlog(const AnyType* anytype)
 {
+  representation->Writer().StartObject();
+  representation->Writer().Key("type");
+  auto type_name = anytype->GetTypeName();
+  representation->Writer().String(type_name.c_str(), type_name.size());
+  representation->Writer().Key("multiplicity");
+  representation->Writer().Uint64(anytype->NumberOfElements());
+  representation->Writer().Key("element");
 }
 
 void JSONTypeSerializer::AddArrayElementSeparator()
-{
-}
+{}
 
-void JSONTypeSerializer::AddArrayEpilog(const AnyType* anytype)
+void JSONTypeSerializer::AddArrayEpilog(const AnyType*)
 {
+  representation->Writer().EndObject();
 }
 
 void JSONTypeSerializer::AddScalarProlog(const AnyType* anytype)
 {
+  representation->Writer().StartObject();
+  representation->Writer().Key("type");
+  auto type_name = anytype->GetTypeName();
+  representation->Writer().String(type_name.c_str(), type_name.size());
 }
 
 void JSONTypeSerializer::AddScalarEpilog(const AnyType*)
-{}
+{
+  representation->Writer().EndObject();
+}
 
 JSONValueSerializer::JSONValueSerializer()
   : representation{}
@@ -142,6 +188,29 @@ void JSONValueSerializer::AddScalarProlog(const AnyValue* anyvalue)
 
 void JSONValueSerializer::AddScalarEpilog(const AnyValue*)
 {}
+
+JSONRepresentation::JSONRepresentation()
+  : buffer{}
+  , writer{buffer}
+{}
+
+JSONRepresentation::~JSONRepresentation() = default;
+
+rapidjson::Writer<rapidjson::StringBuffer>& JSONRepresentation::Writer()
+{
+  return writer;
+}
+
+void JSONRepresentation::Reset()
+{
+  buffer.Clear();
+  writer.Reset(buffer);
+}
+
+std::string JSONRepresentation::GetString() const
+{
+  return buffer.GetString();
+}
 
 }  // namespace dto
 

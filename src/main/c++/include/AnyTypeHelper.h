@@ -39,7 +39,21 @@ namespace dto
 {
 class AnyType;
 
+/**
+ * @brief Serialize an AnyType using the given generic serializer.
+ *
+ * @param anytype AnyType object to serialize.
+ * @param serializer Serializer object to use.
+ */
 void SerializeAnyType(const AnyType& anytype, IAnySerializer<AnyType>& serializer);
+
+/**
+ * @brief Serialize an AnyType using a JSON serializer.
+ *
+ * @param anytype AnyType object to serialize.
+ * @return JSON string if successfull, empty otherwise.
+ */
+std::string JSONSerializeAnyType(const AnyType& anytype);
 
 }  // namespace dto
 
