@@ -19,9 +19,12 @@ set_property(TARGET sup-dto-obj PROPERTY POSITION_INDEPENDENT_CODE 1)
 add_library(sup-dto-shared SHARED)
 add_library(sup-dto-static STATIC)
 
+add_subdirectory(include)
 add_subdirectory(anyvalue)
 add_subdirectory(serialize)
-add_subdirectory(include)
+add_subdirectory(json)
+add_subdirectory(rapidjson)
+
 
 set_target_properties(sup-dto-shared PROPERTIES
     VERSION ${LIBVERSION}
