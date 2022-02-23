@@ -38,7 +38,6 @@ public:
 
   rapidjson::Writer<rapidjson::StringBuffer>& Writer();
 
-  void Reset();
   std::string GetString() const;
 
 private:
@@ -47,13 +46,13 @@ private:
 };
 
 JSONTypeSerializer::JSONTypeSerializer()
-  : representation{}
+  : representation{new JSONRepresentation()}
 {}
 JSONTypeSerializer::~JSONTypeSerializer() = default;
 
 void JSONTypeSerializer::ResetRepresentation()
 {
-  representation->Reset();
+  representation.reset(new JSONRepresentation());
 }
 
 std::string JSONTypeSerializer::GetRepresentation() const
@@ -199,12 +198,6 @@ JSONRepresentation::~JSONRepresentation() = default;
 rapidjson::Writer<rapidjson::StringBuffer>& JSONRepresentation::Writer()
 {
   return writer;
-}
-
-void JSONRepresentation::Reset()
-{
-  buffer.Clear();
-  writer.Reset(buffer);
 }
 
 std::string JSONRepresentation::GetString() const
