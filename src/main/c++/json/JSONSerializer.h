@@ -33,6 +33,7 @@
 
 #include "IAnySerializer.h"
 #include "BasicScalarTypes.h"
+#include "IJSONWriter.h"
 
 #include <memory>
 
@@ -43,6 +44,19 @@ namespace dto
 class AnyType;
 class AnyValue;
 class JSONRepresentation;
+
+class JSONSerializer
+{
+public:
+  JSONSerializer(IJSONWriter* writer);
+  ~JSONSerializer();
+
+  bool SerializeAnyType(const AnyType& anytype);
+  bool SerializeAnyValue(const AnyValue& anyvalue);
+
+private:
+  IJSONWriter* writer;
+};
 
 /**
  * @brief JSON serialization for AnyType.

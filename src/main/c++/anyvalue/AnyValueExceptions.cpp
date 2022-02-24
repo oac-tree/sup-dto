@@ -59,6 +59,10 @@ InvalidOperationException::InvalidOperationException(const std::string& message)
   : MessageException{message}
 {}
 
+InitializationException::InitializationException(const std::string& message)
+  : MessageException{message}
+{}
+
 }  // namespace dto
 
 }  // namespace sup

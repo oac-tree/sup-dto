@@ -104,6 +104,15 @@ public:
   InvalidOperationException(const std::string& message);
 };
 
+/**
+ * @brief Exception thrown when construction of an object is invalid.
+ */
+class InitializationException : public MessageException
+{
+public:
+  InitializationException(const std::string& message);
+};
+
 }  // namespace dto
 
 }  // namespace sup
