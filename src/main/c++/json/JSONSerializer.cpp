@@ -45,6 +45,23 @@ private:
   rapidjson::Writer<rapidjson::StringBuffer> writer;
 };
 
+JSONSerializer::JSONSerializer() = default;
+
+JSONSerializer::~JSONSerializer() = default;
+
+bool JSONSerializer::SerializeAnyType(const AnyType& anytype, IJSONWriter* writer)
+{
+  // construct IAnySerializer<AnyType> from the writer and call serialize
+  return true;
+}
+
+bool JSONSerializer::SerializeAnyValue(const AnyValue& anyvalue, IJSONWriter* writer)
+{
+  // serialize type first
+  // construct IAnySerializer<AnyValue> from the writer and call serialize
+  return true;
+}
+
 JSONTypeSerializer::JSONTypeSerializer()
   : representation{new JSONRepresentation()}
 {}

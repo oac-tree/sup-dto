@@ -48,14 +48,11 @@ class JSONRepresentation;
 class JSONSerializer
 {
 public:
-  JSONSerializer(IJSONWriter* writer);
+  JSONSerializer();
   ~JSONSerializer();
 
-  bool SerializeAnyType(const AnyType& anytype);
-  bool SerializeAnyValue(const AnyValue& anyvalue);
-
-private:
-  IJSONWriter* writer;
+  bool SerializeAnyType(const AnyType& anytype, IJSONWriter* writer);
+  bool SerializeAnyValue(const AnyValue& anyvalue, IJSONWriter* writer);
 };
 
 /**
