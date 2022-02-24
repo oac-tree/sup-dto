@@ -48,15 +48,21 @@ public:
   virtual ~IWriter() = default;
 
   virtual bool Bool(boolean b) = 0;
-  virtual bool Int(int32 i) = 0;
-  virtual bool Uint(uint32 u) = 0;
+  virtual bool Char(char8 c) = 0;
+  virtual bool Int8(int8 i) = 0;
+  virtual bool Uint8(uint8 u) = 0;
+  virtual bool Int16(int16 i) = 0;
+  virtual bool Uint16(uint16 u) = 0;
+  virtual bool Int32(int32 i) = 0;
+  virtual bool Uint32(uint32 u) = 0;
   virtual bool Int64(int64 i) = 0;
   virtual bool Uint64(uint64 u) = 0;
+  virtual bool Float(float32 f) = 0;
   virtual bool Double(float64 d) = 0;
   virtual bool String(const std::string& str) = 0;
-  virtual bool StartObject() = 0;
-  virtual bool Key(const std::string& str) = 0;
-  virtual bool EndObject() = 0;
+  virtual bool StartStructure() = 0;
+  virtual bool Member(const std::string& str) = 0;
+  virtual bool EndStructure() = 0;
   virtual bool StartArray() = 0;
   virtual bool EndArray() = 0;
 };

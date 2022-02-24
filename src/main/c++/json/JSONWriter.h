@@ -31,7 +31,7 @@
 #ifndef _SUP_JSONWriter_h_
 #define _SUP_JSONWriter_h_
 
-#include "WriterT.h"
+#include "IWriter.h"
 
 #include "rapidjson/stringbuffer.h"
 #include "rapidjson/writer.h"
@@ -41,13 +41,30 @@ namespace sup
 namespace dto
 {
 
-class JSONStringWriter : public WriterT<rapidjson::Writer<rapidjson::StringBuffer>>
+class JSONStringWriter : public IWriter
 {
 public:
   JSONStringWriter(rapidjson::StringBuffer& buffer);
   ~JSONStringWriter();
 
-  rapidjson::Writer<rapidjson::StringBuffer>& Impl() override;
+  bool Bool(boolean b) override;
+  bool Char(char8 c) override;
+  bool Int8(int8 i) override;
+  bool Uint8(uint8 u) override;
+  bool Int16(int16 i) override;
+  bool Uint16(uint16 u) override;
+  bool Int32(int32 i) override;
+  bool Uint32(uint32 u) override;
+  bool Int64(int64 i) override;
+  bool Uint64(uint64 u) override;
+  bool Float(float32 f) override;
+  bool Double(float64 d) override;
+  bool String(const std::string& str) override;
+  bool StartStructure() override;
+  bool Member(const std::string& str) override;
+  bool EndStructure() override;
+  bool StartArray() override;
+  bool EndArray() override;
 
 private:
   rapidjson::Writer<rapidjson::StringBuffer> json_writer;

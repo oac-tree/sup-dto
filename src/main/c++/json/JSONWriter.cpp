@@ -32,9 +32,94 @@ JSONStringWriter::JSONStringWriter(rapidjson::StringBuffer& buffer)
 
 JSONStringWriter::~JSONStringWriter() = default;
 
-rapidjson::Writer<rapidjson::StringBuffer>& JSONStringWriter::Impl()
+bool JSONStringWriter::Bool(boolean b)
 {
-  return json_writer;
+  return json_writer.Bool(b);
+}
+
+bool JSONStringWriter::Char(char8 c)
+{
+  return json_writer.Int(c);
+}
+
+bool JSONStringWriter::Int8(int8 i)
+{
+  return json_writer.Int(i);
+}
+
+bool JSONStringWriter::Uint8(uint8 u)
+{
+  return json_writer.Uint(u);
+}
+
+bool JSONStringWriter::Int16(int16 i)
+{
+  return json_writer.Int(i);
+}
+
+bool JSONStringWriter::Uint16(uint16 u)
+{
+  return json_writer.Uint(u);
+}
+
+bool JSONStringWriter::Int32(int32 i)
+{
+  return json_writer.Int(i);
+}
+
+bool JSONStringWriter::Uint32(uint32 u)
+{
+  return json_writer.Uint(u);
+}
+
+bool JSONStringWriter::Int64(int64 i)
+{
+  return json_writer.Int64(i);
+}
+
+bool JSONStringWriter::Uint64(uint64 u)
+{
+  return json_writer.Uint64(u);
+}
+
+bool JSONStringWriter::Float(float32 f)
+{
+  return json_writer.Double(f);
+}
+
+bool JSONStringWriter::Double(float64 d)
+{
+  return json_writer.Double(d);
+}
+
+bool JSONStringWriter::String(const std::string& str)
+{
+  return json_writer.String(str.c_str(), str.size());
+}
+
+bool JSONStringWriter::StartStructure()
+{
+  return json_writer.StartObject();
+}
+
+bool JSONStringWriter::Member(const std::string& str)
+{
+  return json_writer.Key(str.c_str(), str.size());
+}
+
+bool JSONStringWriter::EndStructure()
+{
+  return json_writer.EndObject();
+}
+
+bool JSONStringWriter::StartArray()
+{
+  return json_writer.StartArray();
+}
+
+bool JSONStringWriter::EndArray()
+{
+  return json_writer.EndArray();
 }
 
 }  // namespace dto
