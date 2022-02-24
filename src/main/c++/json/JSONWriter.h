@@ -20,49 +20,41 @@
  ******************************************************************************/
 
 /**
- * @file IJSONWriter.h
- * @brief Header file for the IJSONWriter interface.
+ * @file JSONWriter.h
+ * @brief Header file for the JSONWriter classes.
  * @date 24/02/2022
  * @author Walter Van Herck (IO)
  * @copyright 2010-2022 ITER Organization
- * @details This header file contains the definition of the IJSONWriter interface.
+ * @details This header file contains the definition of the JSONWriter classes.
  */
 
-#ifndef _SUP_IJSONWriter_h_
-#define _SUP_IJSONWriter_h_
+#ifndef _SUP_JSONWriter_h_
+#define _SUP_JSONWriter_h_
 
-#include "BasicScalarTypes.h"
+#include "WriterT.h"
 
-#include <string>
+#include "rapidjson/stringbuffer.h"
+#include "rapidjson/writer.h"
 
 namespace sup
 {
 namespace dto
 {
-/**
- * @brief Interface for writing a JSON representation.
- */
-class IJSONWriter
+
+class JSONStringWriter : public WriterT<rapidjson::Writer<rapidjson::StringBuffer>>
 {
 public:
-  virtual ~IJSONWriter() = default;
+  JSONStringWriter(rapidjson::StringBuffer& buffer);
+  ~JSONStringWriter();
 
-  virtual bool Bool(boolean b) = 0;
-  virtual bool Int(int32 i) = 0;
-  virtual bool UInt(uint32 u) = 0;
-  virtual bool Int64(int64 i) = 0;
-  virtual bool UInt64(uint64 u) = 0;
-  virtual bool Double(float64 d) = 0;
-  virtual bool String(const std::string& str) = 0;
-  virtual bool StartObject() = 0;
-  virtual bool Key(const std::string& str) = 0;
-  virtual bool EndObject() = 0;
-  virtual bool StartArray() = 0;
-  virtual bool EndArray() = 0;
+  rapidjson::Writer<rapidjson::StringBuffer>& Impl() override;
+
+private:
+  rapidjson::Writer<rapidjson::StringBuffer> json_writer;
 };
 
 }  // namespace dto
 
 }  // namespace sup
 
-#endif  // _SUP_IJSONWriter_h_
+#endif  // _SUP_JSONWriter_h_

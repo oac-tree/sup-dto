@@ -20,20 +20,19 @@
  ******************************************************************************/
 
 /**
- * @file JSONSerializer.h
- * @brief Header file for the JSONSerializer class.
- * @date 23/02/2022
+ * @file WriterSerializer.h
+ * @brief Header file for the WriterSerializer class.
+ * @date 24/02/2022
  * @author Walter Van Herck (IO)
  * @copyright 2010-2022 ITER Organization
- * @details This header file contains the definition of the JSONSerializer class.
+ * @details This header file contains the definition of the WriterSerializer class.
  */
 
-#ifndef _SUP_JSONSerializer_h_
-#define _SUP_JSONSerializer_h_
+#ifndef _SUP_WriterSerializer_h_
+#define _SUP_WriterSerializer_h_
 
 #include "IAnySerializer.h"
-#include "BasicScalarTypes.h"
-#include "IJSONWriter.h"
+#include "IWriter.h"
 
 #include <memory>
 
@@ -45,27 +44,16 @@ class AnyType;
 class AnyValue;
 class JSONRepresentation;
 
-class JSONSerializer
-{
-public:
-  JSONSerializer();
-  ~JSONSerializer();
-
-  bool SerializeAnyType(const AnyType& anytype, IJSONWriter* writer);
-  bool SerializeAnyValue(const AnyValue& anyvalue, IJSONWriter* writer);
-};
-
 /**
- * @brief JSON serialization for AnyType.
+ * @brief Serialization for AnyType, using an IWriter service.
  */
-class JSONTypeSerializer : public IAnySerializer<AnyType>
+class WriterTypeSerializer : public IAnySerializer<AnyType>
 {
 public:
-  JSONTypeSerializer();
-  ~JSONTypeSerializer() override;
+  WriterTypeSerializer(IWriter* writer);
+  ~WriterTypeSerializer() override;
 
   void ResetRepresentation() override;
-  std::string GetRepresentation() const;
 
   void AddEmptyProlog(const AnyType* anytype) override;
   void AddEmptyEpilog(const AnyType* anytype) override;
@@ -85,21 +73,20 @@ public:
   void AddScalarEpilog(const AnyType* anytype) override;
 
 private:
-  std::unique_ptr<JSONRepresentation> representation;
+  IWriter* writer;
 };
 
 
 /**
- * @brief JSON serialization for AnyValue.
+ * @brief Serialization for AnyValue, using an IWriter service.
  */
-class JSONValueSerializer : public IAnySerializer<AnyValue>
+class WriterValueSerializer : public IAnySerializer<AnyValue>
 {
 public:
-  JSONValueSerializer();
-  ~JSONValueSerializer() override;
+  WriterValueSerializer(IWriter* writer);
+  ~WriterValueSerializer() override;
 
   void ResetRepresentation() override;
-  std::string GetRepresentation() const;
 
   void AddEmptyProlog(const AnyValue* anyvalue) override;
   void AddEmptyEpilog(const AnyValue* anyvalue) override;
@@ -119,11 +106,11 @@ public:
   void AddScalarEpilog(const AnyValue* anyvalue) override;
 
 private:
-  std::unique_ptr<JSONRepresentation> representation;
+  IWriter* writer;
 };
 
 }  // namespace dto
 
 }  // namespace sup
 
-#endif  // _SUP_JSONSerializer_h_
+#endif  // _SUP_WriterSerializer_h_

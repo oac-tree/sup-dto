@@ -4,6 +4,8 @@ target_sources(sup-dto-obj
         ${CMAKE_CURRENT_LIST_DIR}/ByteSerializer.cpp
         ${CMAKE_CURRENT_LIST_DIR}/CreateAnySerializeNode.cpp
         ${CMAKE_CURRENT_LIST_DIR}/ScalarToBytes.cpp
+        ${CMAKE_CURRENT_LIST_DIR}/Serializer.cpp
+        ${CMAKE_CURRENT_LIST_DIR}/WriterSerializer.cpp
 )
 
 target_include_directories(sup-dto-obj

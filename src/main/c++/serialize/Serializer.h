@@ -19,33 +19,39 @@
  * of the distribution package.
  ******************************************************************************/
 
-#include "AnyTypeHelper.h"
-#include "AnyType.h"
-#include "SerializeT.h"
-#include "Serializer.h"
-#include "JSONWriter.h"
+/**
+ * @file Serializer.h
+ * @brief Header file for the Serializer class.
+ * @date 23/02/2022
+ * @author Walter Van Herck (IO)
+ * @copyright 2010-2022 ITER Organization
+ * @details This header file contains the definition of the Serializer class.
+ */
 
-#include "rapidjson/stringbuffer.h"
+#ifndef _SUP_Serializer_h_
+#define _SUP_Serializer_h_
+
+#include "IWriter.h"
 
 namespace sup
 {
 namespace dto
 {
+class AnyType;
+class AnyValue;
 
-void SerializeAnyType(const AnyType& anytype, IAnySerializer<AnyType>& serializer)
+class Serializer
 {
-  return Serialize(anytype, serializer);
-}
+public:
+  Serializer();
+  ~Serializer();
 
-std::string JSONSerializeAnyType(const AnyType& anytype)
-{
-  rapidjson::StringBuffer buffer;
-  JSONStringWriter writer(buffer);
-  Serializer serializer;
-  serializer.SerializeAnyType(anytype, &writer);
-  return buffer.GetString();
-}
+  bool SerializeAnyType(const AnyType& anytype, IWriter* writer);
+  bool SerializeAnyValue(const AnyValue& anyvalue, IWriter* writer);
+};
 
 }  // namespace dto
 
 }  // namespace sup
+
+#endif  // _SUP_Serializer_h_

@@ -4,7 +4,7 @@
  *
  * Project       : SUP - DTO
  *
- * Description   : Data transfer objects for SUP
+ * Description   : Unit test code
  *
  * Author        : Walter Van Herck (IO)
  *
@@ -19,31 +19,22 @@
  * of the distribution package.
  ******************************************************************************/
 
-#include "AnyTypeHelper.h"
-#include "AnyType.h"
-#include "SerializeT.h"
-#include "Serializer.h"
 #include "JSONWriter.h"
-
-#include "rapidjson/stringbuffer.h"
 
 namespace sup
 {
 namespace dto
 {
 
-void SerializeAnyType(const AnyType& anytype, IAnySerializer<AnyType>& serializer)
-{
-  return Serialize(anytype, serializer);
-}
+JSONStringWriter::JSONStringWriter(rapidjson::StringBuffer& buffer)
+  : json_writer{buffer}
+{}
 
-std::string JSONSerializeAnyType(const AnyType& anytype)
+JSONStringWriter::~JSONStringWriter() = default;
+
+rapidjson::Writer<rapidjson::StringBuffer>& JSONStringWriter::Impl()
 {
-  rapidjson::StringBuffer buffer;
-  JSONStringWriter writer(buffer);
-  Serializer serializer;
-  serializer.SerializeAnyType(anytype, &writer);
-  return buffer.GetString();
+  return json_writer;
 }
 
 }  // namespace dto

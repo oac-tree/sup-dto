@@ -20,18 +20,18 @@
  ******************************************************************************/
 
 /**
- * @file JSONWriterT.h
- * @brief Header file for the JSONWriterT class template.
+ * @file WriterT.h
+ * @brief Header file for the WriterT class template.
  * @date 24/02/2022
  * @author Walter Van Herck (IO)
  * @copyright 2010-2022 ITER Organization
- * @details This header file contains the definition of the JSONWriterT class template.
+ * @details This header file contains the definition of the WriterT class template.
  */
 
-#ifndef _SUP_JSONWriterT_h_
-#define _SUP_JSONWriterT_h_
+#ifndef _SUP_WriterT_h_
+#define _SUP_WriterT_h_
 
-#include "IJSONWriter.h"
+#include "IWriter.h"
 #include "AnyValueExceptions.h"
 
 namespace sup
@@ -42,17 +42,19 @@ namespace dto
  * @brief Class template for writing a JSON representation.
  */
 template <typename Writer>
-class JSONWriterT : public IJSONWriter
+class WriterT : public IWriter
 {
 public:
-  JSONWriterT(Writer* impl);
-  ~JSONWriterT();
+  WriterT();
+  ~WriterT();
+
+  virtual Writer& Impl() = 0;
 
   bool Bool(boolean b) override;
   bool Int(int32 i) override;
-  bool UInt(uint32 u) override;
+  bool Uint(uint32 u) override;
   bool Int64(int64 i) override;
-  bool UInt64(uint64 u) override;
+  bool Uint64(uint64 u) override;
   bool Double(float64 d) override;
   bool String(const std::string& str) override;
   bool StartObject() override;
@@ -60,99 +62,88 @@ public:
   bool EndObject() override;
   bool StartArray() override;
   bool EndArray() override;
-
-private:
-  Writer* impl;
 };
 
 template <typename Writer>
-JSONWriterT<Writer>::JSONWriterT(Writer* impl_)
-  : impl{impl_}
+WriterT<Writer>::WriterT() = default;
+
+template <typename Writer>
+WriterT<Writer>::~WriterT() = default;
+
+template <typename Writer>
+bool WriterT<Writer>::Bool(boolean b)
 {
-  if (impl == nullptr)
-  {
-    throw InitializationException("JSONWriterT constructor requires non-null implementation "
-                                  "pointer");
-  }
+  return Impl().Bool(b);
 }
 
 template <typename Writer>
-JSONWriterT<Writer>::~JSONWriterT() = default;
-
-template <typename Writer>
-bool JSONWriterT<Writer>::Bool(boolean b)
+bool WriterT<Writer>::Int(int32 i)
 {
-  return impl->Bool(b);
+  return Impl().Int(i);
 }
 
 template <typename Writer>
-bool JSONWriterT<Writer>::Int(int32 i)
+bool WriterT<Writer>::Uint(uint32 u)
 {
-  return impl->Int(i);
+  return Impl().Uint(u);
 }
 
 template <typename Writer>
-bool JSONWriterT<Writer>::UInt(uint32 u)
+bool WriterT<Writer>::Int64(int64 i)
 {
-  return impl->UInt(u);
+  return Impl().Int64(i);
 }
 
 template <typename Writer>
-bool JSONWriterT<Writer>::Int64(int64 i)
+bool WriterT<Writer>::Uint64(uint64 u)
 {
-  return impl->Int64(i);
+  return Impl().Uint64(u);
 }
 
 template <typename Writer>
-bool JSONWriterT<Writer>::UInt64(uint64 u)
+bool WriterT<Writer>::Double(float64 d)
 {
-  return impl->UInt64(u);
+  return Impl().Double(d);
 }
 
 template <typename Writer>
-bool JSONWriterT<Writer>::Double(float64 d)
+bool WriterT<Writer>::String(const std::string& str)
 {
-  return impl->Double(d);
+  return Impl().String(str.c_str(), str.size());
 }
 
 template <typename Writer>
-bool JSONWriterT<Writer>::String(const std::string& str)
+bool WriterT<Writer>::StartObject()
 {
-  return impl->String(str.c_str(), str.size());
+  return Impl().StartObject();
 }
 
 template <typename Writer>
-bool JSONWriterT<Writer>::StartObject()
+bool WriterT<Writer>::Key(const std::string& str)
 {
-  return impl->StartObject();
+  return Impl().Key(str.c_str(), str.size());
 }
 
 template <typename Writer>
-bool JSONWriterT<Writer>::Key(const std::string& str)
+bool WriterT<Writer>::EndObject()
 {
-  return impl->Key(str.c_str(), str.size());
+  return Impl().EndObject();
 }
 
 template <typename Writer>
-bool JSONWriterT<Writer>::EndObject()
+bool WriterT<Writer>::StartArray()
 {
-  return impl->EndObject();
+  return Impl().StartArray();
 }
 
 template <typename Writer>
-bool JSONWriterT<Writer>::StartArray()
+bool WriterT<Writer>::EndArray()
 {
-  return impl->StartArray();
-}
-
-template <typename Writer>
-bool JSONWriterT<Writer>::EndArray()
-{
-  return impl->EndArray();
+  return Impl().EndArray();
 }
 
 }  // namespace dto
 
 }  // namespace sup
 
-#endif  // _SUP_JSONWriterT_h_
+#endif  // _SUP_WriterT_h_
