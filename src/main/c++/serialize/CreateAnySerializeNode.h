@@ -46,9 +46,6 @@ namespace dto
 std::unique_ptr<IAnySerializeNode<AnyType>> CreateSerializeNode(const AnyType* anytype);
 std::unique_ptr<IAnySerializeNode<AnyValue>> CreateSerializeNode(const AnyValue* anyvalue);
 
-AnySerializeNode<AnyType> CreateRootNode(const AnyType* anytype);
-AnySerializeNode<AnyValue> CreateRootNode(const AnyValue* anyvalue);
-
 }  // namespace dto
 
 }  // namespace sup

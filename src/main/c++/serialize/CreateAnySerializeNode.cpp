@@ -37,17 +37,6 @@ std::unique_ptr<IAnySerializeNode<AnyValue>> CreateSerializeNode(const AnyValue*
   return CreateSerializeNodeT(anyvalue);
 }
 
-AnySerializeNode<AnyType> CreateRootNode(const AnyType* anytype)
-{
-  return CreateRootNodeT(anytype);
-}
-
-AnySerializeNode<AnyValue> CreateRootNode(const AnyValue* anyvalue)
-{
-  return CreateRootNodeT(anyvalue);
-}
-
-
 }  // namespace dto
 
 }  // namespace sup

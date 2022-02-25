@@ -32,7 +32,7 @@
 #define _SUP_SerializeT_h_
 
 #include "AnySerializeStack.h"
-#include "CreateAnySerializeNode.h"
+#include "CreateAnySerializeNodeT.h"
 #include "IAnySerializer.h"
 
 namespace sup
@@ -44,7 +44,7 @@ template <typename T>
 void Serialize(const T& any, IAnySerializer<T>& serializer)
 {
   AnySerializeStack<T> node_stack;
-  auto node = CreateRootNode(&any);
+  auto node = CreateRootNodeT(&any);
   node_stack.Push(std::move(node), serializer);
   while (!node_stack.empty())
   {
