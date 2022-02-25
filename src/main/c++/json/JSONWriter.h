@@ -44,8 +44,10 @@ namespace dto
 class JSONStringWriter : public IWriter
 {
 public:
-  JSONStringWriter(rapidjson::StringBuffer& buffer);
+  JSONStringWriter();
   ~JSONStringWriter();
+
+  std::string GetRepresentation() const;
 
   bool Bool(boolean b) override;
   bool Char(char8 c) override;
@@ -67,6 +69,7 @@ public:
   bool EndArray() override;
 
 private:
+  rapidjson::StringBuffer buffer;
   rapidjson::Writer<rapidjson::StringBuffer> json_writer;
 };
 

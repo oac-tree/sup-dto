@@ -22,10 +22,8 @@
 #include "AnyTypeHelper.h"
 #include "AnyType.h"
 #include "SerializeT.h"
-#include "Serializer.h"
 #include "JSONWriter.h"
-
-#include "rapidjson/stringbuffer.h"
+#include "WriterSerializer.h"
 
 namespace sup
 {
@@ -39,11 +37,10 @@ void SerializeAnyType(const AnyType& anytype, IAnySerializer<AnyType>& serialize
 
 std::string ToJSONString(const AnyType& anytype)
 {
-  rapidjson::StringBuffer buffer;
-  JSONStringWriter writer(buffer);
-  Serializer serializer;
-  serializer.SerializeAnyType(anytype, &writer);
-  return buffer.GetString();
+  JSONStringWriter writer;
+  WriterTypeSerializer serializer(&writer);
+  SerializeAnyType(anytype, serializer);
+  return writer.GetRepresentation();
 }
 
 }  // namespace dto

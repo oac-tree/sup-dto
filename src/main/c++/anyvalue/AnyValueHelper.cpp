@@ -22,7 +22,9 @@
 #include "AnyValueHelper.h"
 #include "AnyValue.h"
 #include "ByteSerializer.h"
+#include "JSONWriter.h"
 #include "SerializeT.h"
+#include "WriterSerializer.h"
 
 namespace sup
 {
@@ -39,6 +41,15 @@ std::vector<uint8> ToBytes(const AnyValue& anyvalue)
   ByteSerializer serializer;
   SerializeAnyValue(anyvalue, serializer);
   return serializer.GetRepresentation();
+}
+
+std::string ToJSONString(const AnyValue& anyvalue)
+{
+  // TODO: serialize type first
+  JSONStringWriter writer;
+  WriterValueSerializer serializer(&writer);
+  SerializeAnyValue(anyvalue, serializer);
+  return writer.GetRepresentation();
 }
 
 }  // namespace dto

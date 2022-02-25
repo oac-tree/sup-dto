@@ -65,7 +65,7 @@ std::vector<uint8> ToBytes(const AnyValue& anyvalue);
  * @param anyvalue AnyValue object to serialize.
  * @return JSON string if successfull, empty otherwise.
  */
-// std::string ToJSONString(const AnyValue& anyvalue);
+std::string ToJSONString(const AnyValue& anyvalue);
 
 }  // namespace dto
 

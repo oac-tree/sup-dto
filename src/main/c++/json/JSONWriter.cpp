@@ -26,11 +26,17 @@ namespace sup
 namespace dto
 {
 
-JSONStringWriter::JSONStringWriter(rapidjson::StringBuffer& buffer)
-  : json_writer{buffer}
+JSONStringWriter::JSONStringWriter()
+  : buffer{}
+  , json_writer{buffer}
 {}
 
 JSONStringWriter::~JSONStringWriter() = default;
+
+std::string JSONStringWriter::GetRepresentation() const
+{
+  return buffer.GetString();
+}
 
 bool JSONStringWriter::Bool(boolean b)
 {
