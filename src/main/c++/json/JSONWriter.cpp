@@ -38,6 +38,17 @@ std::string JSONStringWriter::GetRepresentation() const
   return buffer.GetString();
 }
 
+void JSONStringWriter::Reset()
+{
+  buffer.Clear();
+  json_writer.Reset(buffer);
+}
+
+bool JSONStringWriter::Null()
+{
+  return json_writer.Null();
+}
+
 bool JSONStringWriter::Bool(boolean b)
 {
   return json_writer.Bool(b);

@@ -39,6 +39,8 @@ namespace sup
 {
 namespace dto
 {
+class AnyValue;
+
 /**
  * @brief Interface for writing a JSON representation.
  */
@@ -47,6 +49,9 @@ class IWriter
 public:
   virtual ~IWriter() = default;
 
+  virtual void Reset() = 0;
+
+  virtual bool Null() = 0;
   virtual bool Bool(boolean b) = 0;
   virtual bool Char(char8 c) = 0;
   virtual bool Int8(int8 i) = 0;
@@ -66,6 +71,8 @@ public:
   virtual bool StartArray() = 0;
   virtual bool EndArray() = 0;
 };
+
+bool WriteScalarValue(const AnyValue& anyvalue, IWriter* writer);
 
 }  // namespace dto
 

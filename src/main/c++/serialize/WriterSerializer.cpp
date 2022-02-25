@@ -33,7 +33,9 @@ WriterTypeSerializer::WriterTypeSerializer(IWriter* writer_)
 WriterTypeSerializer::~WriterTypeSerializer() = default;
 
 void WriterTypeSerializer::ResetRepresentation()
-{}
+{
+  writer->Reset();
+}
 
 void WriterTypeSerializer::AddEmptyProlog(const AnyType* anytype)
 {
@@ -110,46 +112,64 @@ void WriterTypeSerializer::AddScalarEpilog(const AnyType*)
   writer->EndStructure();
 }
 
+/**************************************/
+
 WriterValueSerializer::WriterValueSerializer(IWriter* writer_)
   : writer{writer_}
 {}
 WriterValueSerializer::~WriterValueSerializer() = default;
 
 void WriterValueSerializer::ResetRepresentation()
-{}
+{
+  writer->Reset();
+}
 
 void WriterValueSerializer::AddEmptyProlog(const AnyValue*)
-{}
+{
+  writer->Null();
+}
 
 void WriterValueSerializer::AddEmptyEpilog(const AnyValue*)
 {}
 
 void WriterValueSerializer::AddStructProlog(const AnyValue*)
-{}
+{
+  writer->StartStructure();
+}
 
 void WriterValueSerializer::AddStructMemberSeparator()
 {}
 
 void WriterValueSerializer::AddStructEpilog(const AnyValue*)
-{}
+{
+  writer->EndStructure();
+}
 
-void WriterValueSerializer::AddMemberProlog(const AnyValue*, const std::string&)
-{}
+void WriterValueSerializer::AddMemberProlog(const AnyValue*, const std::string& member_name)
+{
+  writer->Member(member_name);
+}
 
 void WriterValueSerializer::AddMemberEpilog(const AnyValue*, const std::string&)
 {}
 
 void WriterValueSerializer::AddArrayProlog(const AnyValue*)
-{}
+{
+  writer->StartArray();
+}
 
 void WriterValueSerializer::AddArrayElementSeparator()
 {}
 
 void WriterValueSerializer::AddArrayEpilog(const AnyValue*)
-{}
+{
+  writer->EndArray();
+}
 
 void WriterValueSerializer::AddScalarProlog(const AnyValue* anyvalue)
-{}
+{
+  WriteScalarValue(*anyvalue, writer);
+}
 
 void WriterValueSerializer::AddScalarEpilog(const AnyValue*)
 {}

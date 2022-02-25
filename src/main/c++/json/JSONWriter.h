@@ -49,6 +49,9 @@ public:
 
   std::string GetRepresentation() const;
 
+  void Reset() override;
+
+  bool Null() override;
   bool Bool(boolean b) override;
   bool Char(char8 c) override;
   bool Int8(int8 i) override;
