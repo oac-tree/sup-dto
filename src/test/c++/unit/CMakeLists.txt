@@ -7,6 +7,7 @@ target_sources(unit-tests
         ${CMAKE_CURRENT_LIST_DIR}/AnyTypeJSONSerialize-tests.cpp
         ${CMAKE_CURRENT_LIST_DIR}/AnyTypeSerialize-tests.cpp
         ${CMAKE_CURRENT_LIST_DIR}/AnyValueExceptions-tests.cpp
+        ${CMAKE_CURRENT_LIST_DIR}/AnyValueJSONSerialize-tests.cpp
         ${CMAKE_CURRENT_LIST_DIR}/AnyValueSerialize-tests.cpp
         ${CMAKE_CURRENT_LIST_DIR}/AnyValueToCType-tests.cpp
         ${CMAKE_CURRENT_LIST_DIR}/ArrayType-tests.cpp
