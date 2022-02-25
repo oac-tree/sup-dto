@@ -74,9 +74,9 @@ std::unique_ptr<IAnySerializeNode<T>> ArraySerializeNode<T>::NextChild()
   {
     return {};
   }
-  const T *element_type = &this->GetValue()->operator[](next_index);
+  const T *element = &this->GetValue()->operator[](next_index);
   ++next_index;
-  return CreateSerializeNode(element_type);
+  return CreateSerializeNode(element);
 }
 
 template <>

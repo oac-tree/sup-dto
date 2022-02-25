@@ -43,13 +43,18 @@ std::vector<uint8> ToBytes(const AnyValue& anyvalue)
   return serializer.GetRepresentation();
 }
 
-std::string ToJSONString(const AnyValue& anyvalue)
+std::string ValuesToJSONString(const AnyValue& anyvalue)
 {
-  // TODO: serialize type first
   JSONStringWriter writer;
   WriterValueSerializer serializer(&writer);
   SerializeAnyValue(anyvalue, serializer);
   return writer.GetRepresentation();
+}
+
+// TODO: provide implementation
+std::string ToJSONString(const AnyValue& anyvalue)
+{
+  return {};
 }
 
 }  // namespace dto
