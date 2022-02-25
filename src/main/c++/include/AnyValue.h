@@ -250,7 +250,7 @@ private:
 template <typename T>
 T AnyValue::As() const
 {
-  auto byte_array = AnyValueToByteArray(*this);
+  auto byte_array = ToBytes(*this);
   if (byte_array.size() != sizeof(T))
   {
     throw InvalidConversionException("Conversion to C-type: size mismatch");

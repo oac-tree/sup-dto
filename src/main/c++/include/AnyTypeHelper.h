@@ -53,7 +53,7 @@ void SerializeAnyType(const AnyType& anytype, IAnySerializer<AnyType>& serialize
  * @param anytype AnyType object to serialize.
  * @return JSON string if successfull, empty otherwise.
  */
-std::string JSONSerializeAnyType(const AnyType& anytype);
+std::string ToJSONString(const AnyType& anytype);
 
 }  // namespace dto
 

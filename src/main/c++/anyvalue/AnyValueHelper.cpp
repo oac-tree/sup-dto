@@ -34,7 +34,7 @@ void SerializeAnyValue(const AnyValue& anyvalue, IAnySerializer<AnyValue>& seria
   return Serialize(anyvalue, serializer);
 }
 
-std::vector<uint8> AnyValueToByteArray(const AnyValue& anyvalue)
+std::vector<uint8> ToBytes(const AnyValue& anyvalue)
 {
   ByteSerializer serializer;
   SerializeAnyValue(anyvalue, serializer);

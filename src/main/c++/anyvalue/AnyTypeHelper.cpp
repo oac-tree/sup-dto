@@ -37,7 +37,7 @@ void SerializeAnyType(const AnyType& anytype, IAnySerializer<AnyType>& serialize
   return Serialize(anytype, serializer);
 }
 
-std::string JSONSerializeAnyType(const AnyType& anytype)
+std::string ToJSONString(const AnyType& anytype)
 {
   rapidjson::StringBuffer buffer;
   JSONStringWriter writer(buffer);

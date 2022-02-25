@@ -42,9 +42,30 @@ namespace dto
 {
 class AnyValue;
 
+/**
+ * @brief Serialize an AnyValue using the given generic serializer.
+ *
+ * @param anyvalue AnyValue object to serialize.
+ * @param serializer Serializer object to use.
+ */
 void SerializeAnyValue(const AnyValue& anyvalue, IAnySerializer<AnyValue>& serializer);
 
-std::vector<uint8> AnyValueToByteArray(const AnyValue& anyvalue);
+/**
+ * @brief Serialize an AnyValue to an array of bytes.
+ *
+ * @param anyvalue AnyValue object to serialize.
+ *
+ * @note This serialization is used to cast to C-type structures.
+ */
+std::vector<uint8> ToBytes(const AnyValue& anyvalue);
+
+/**
+ * @brief Serialize an AnyValue using a JSON serializer.
+ *
+ * @param anyvalue AnyValue object to serialize.
+ * @return JSON string if successfull, empty otherwise.
+ */
+// std::string ToJSONString(const AnyValue& anyvalue);
 
 }  // namespace dto
 

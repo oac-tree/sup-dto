@@ -66,7 +66,7 @@ TEST(AnyValueToCTypeTest, Empty)
 {
   // Empty AnyValue has empty byte array representation
   AnyValue empty{};
-  auto byte_array = AnyValueToByteArray(empty);
+  auto byte_array = ToBytes(empty);
   EXPECT_EQ(byte_array.size(), 0);
 }
 
