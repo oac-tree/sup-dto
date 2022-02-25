@@ -30,13 +30,13 @@ static const std::string json_empty_val = "null";
 static const std::string json_true_val = "true";
 
 static const std::string json_simple_struct =
-    R"RAW({"type":"","attributes":[{"id":{"type":"string"}},{"number":{"type":"int32"}},{"weight":{"type":"float64"}}]})RAW";
+    R"RAW({"id":"my_id","number":1729,"weight":50.25})RAW";
 
 static const std::string json_simple_array =
-    R"RAW({"type":"","multiplicity":5,"element":{"type":"char8"}})RAW";
+    R"RAW([0,20,40,60,80])RAW";
 
 static const std::string json_complex_val =
-    R"RAW({"type":"","attributes":[{"array":{"type":"","multiplicity":4,"element":{"type":"","attributes":[{"id":{"type":"string"}},{"number":{"type":"uint64"}}]}}},{"nested":{"type":"","attributes":[{"id":{"type":"string"}},{"number":{"type":"uint64"}}]}},{"validated":{"type":"bool"}}]})RAW";
+    R"RAW({"array":[{"id":"","number":23},{"id":"second_id","number":0}],"nested":{"id":"","number":0},"validated":false})RAW";
 
 class AnyValueJSONSerializeTest : public ::testing::Test
 {
@@ -45,6 +45,8 @@ protected:
   virtual ~AnyValueJSONSerializeTest();
 };
 
+// TODO: all these tests are better performed in conjunction with json parsing, so as not to depend
+// on the specific representation in json (e.g. 90.0 vs 9e1 or pretty printing)
 TEST_F(AnyValueJSONSerializeTest, EmptyValue)
 {
   AnyValue empty{};
@@ -59,39 +61,135 @@ TEST_F(AnyValueJSONSerializeTest, BooleanValue)
   EXPECT_EQ(json_string, json_true_val);
 }
 
-// TEST_F(AnyValueJSONSerializeTest, SimpleStructValue)
-// {
-//   AnyValue simple_struct_val({
-//     {"id", String},
-//     {"number", SignedInteger32},
-//     {"weight", Float64}
-//   });
-//   auto json_string = ToJSONString(simple_struct_val);
-//   EXPECT_EQ(json_string, json_simple_struct);
-// }
+TEST_F(AnyValueJSONSerializeTest, Char8Value)
+{
+  AnyValue char8_val = 'a';
+  auto json_string = ToJSONString(char8_val);
+  std::string expected = "97";
+  EXPECT_EQ(json_string, expected);
+}
 
-// TEST_F(AnyValueJSONSerializeTest, SimpleArrayValue)
-// {
-//   AnyValue simple_array_val(5, Character8);
-//   auto json_string = ToJSONString(simple_array_val);
-//   EXPECT_EQ(json_string, json_simple_array);
-// }
+TEST_F(AnyValueJSONSerializeTest, Int8Value)
+{
+  AnyValue int8_val = {SignedInteger8, -7};
+  auto json_string = ToJSONString(int8_val);
+  std::string expected = "-7";
+  EXPECT_EQ(json_string, expected);
+}
 
-// TEST_F(AnyValueJSONSerializeTest, ComplexStructValue)
-// {
-//   AnyValue simple_struct_val({
-//     {"id", String},
-//     {"number", UnsignedInteger64}
-//   });
-//   AnyValue array_of_struct_val(4, simple_struct_val);
-//   AnyValue complex_struct_val({
-//     {"array", array_of_struct_val},
-//     {"nested", simple_struct_val},
-//     {"validated", Boolean}
-//   });
-//   auto json_string = ToJSONString(complex_struct_val);
-//   EXPECT_EQ(json_string, json_complex_val);
-// }
+TEST_F(AnyValueJSONSerializeTest, UInt8Value)
+{
+  AnyValue uint8_val = {UnsignedInteger8, 240};
+  auto json_string = ToJSONString(uint8_val);
+  std::string expected = "240";
+  EXPECT_EQ(json_string, expected);
+}
+
+TEST_F(AnyValueJSONSerializeTest, Int16Value)
+{
+  AnyValue int16_val = {SignedInteger16, -300};
+  auto json_string = ToJSONString(int16_val);
+  std::string expected = "-300";
+  EXPECT_EQ(json_string, expected);
+}
+
+TEST_F(AnyValueJSONSerializeTest, UInt16Value)
+{
+  AnyValue uint16_val = {UnsignedInteger16, 4008};
+  auto json_string = ToJSONString(uint16_val);
+  std::string expected = "4008";
+  EXPECT_EQ(json_string, expected);
+}
+
+TEST_F(AnyValueJSONSerializeTest, Int32Value)
+{
+  AnyValue int32_val = {SignedInteger32, -300001};
+  auto json_string = ToJSONString(int32_val);
+  std::string expected = "-300001";
+  EXPECT_EQ(json_string, expected);
+}
+
+TEST_F(AnyValueJSONSerializeTest, UInt32Value)
+{
+  AnyValue uint32_val = {UnsignedInteger32, 123456};
+  auto json_string = ToJSONString(uint32_val);
+  std::string expected = "123456";
+  EXPECT_EQ(json_string, expected);
+}
+
+TEST_F(AnyValueJSONSerializeTest, Int64Value)
+{
+  AnyValue int64_val = {SignedInteger64, -5001002003004};
+  auto json_string = ToJSONString(int64_val);
+  std::string expected = "-5001002003004";
+  EXPECT_EQ(json_string, expected);
+}
+
+TEST_F(AnyValueJSONSerializeTest, UInt64Value)
+{
+  AnyValue uint64_val = {UnsignedInteger64, 2001002003004005};
+  auto json_string = ToJSONString(uint64_val);
+  std::string expected = "2001002003004005";
+  EXPECT_EQ(json_string, expected);
+}
+
+TEST_F(AnyValueJSONSerializeTest, Float32Value)
+{
+  AnyValue float32_val = {Float32, 90};
+  auto json_string = ToJSONString(float32_val);
+  std::string expected = "90.0";
+  EXPECT_EQ(json_string, expected);
+}
+
+TEST_F(AnyValueJSONSerializeTest, Float64Value)
+{
+  AnyValue float64_val = {Float64, -777.125};
+  auto json_string = ToJSONString(float64_val);
+  std::string expected = "-777.125";
+  EXPECT_EQ(json_string, expected);
+}
+
+TEST_F(AnyValueJSONSerializeTest, SimpleStructValue)
+{
+  AnyValue simple_struct_val({
+    {"id", {String, "my_id"}},
+    {"number", {SignedInteger32, 1729}},
+    {"weight", {Float64, 50.25}}
+  });
+  auto json_string = ToJSONString(simple_struct_val);
+  EXPECT_EQ(json_string, json_simple_struct);
+}
+
+TEST_F(AnyValueJSONSerializeTest, SimpleArrayValue)
+{
+  AnyValue simple_array_val(5, SignedInteger32);
+  for (int i=0; i<5; ++i)
+  {
+    simple_array_val[i] = 20*i;
+  }
+  auto json_string = ToJSONString(simple_array_val);
+  EXPECT_EQ(json_string, json_simple_array);
+}
+
+TEST_F(AnyValueJSONSerializeTest, ComplexStructValue)
+{
+  AnyType simple_struct_type({
+    {"id", String},
+    {"number", UnsignedInteger64}
+  });
+  AnyType array_of_struct_type(2, simple_struct_type);
+  AnyType complex_struct_type({
+    {"array", array_of_struct_type},
+    {"nested", simple_struct_type},
+    {"validated", Boolean}
+  });
+  AnyValue complex_struct_val(complex_struct_type);
+  complex_struct_val["array[1].id"] = "second_id";
+  complex_struct_val["array[0].number"] = 23;
+  complex_struct_val["validated"] = false;
+  auto json_string = ToJSONString(complex_struct_val);
+  EXPECT_EQ(json_string, json_complex_val);
+}
 
 AnyValueJSONSerializeTest::AnyValueJSONSerializeTest() = default;
 
