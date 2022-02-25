@@ -53,8 +53,6 @@ public:
   WriterTypeSerializer(IWriter* writer);
   ~WriterTypeSerializer() override;
 
-  void ResetRepresentation() override;
-
   void AddEmptyProlog(const AnyType* anytype) override;
   void AddEmptyEpilog(const AnyType* anytype) override;
 
@@ -85,8 +83,6 @@ class WriterValueSerializer : public IAnySerializer<AnyValue>
 public:
   WriterValueSerializer(IWriter* writer);
   ~WriterValueSerializer() override;
-
-  void ResetRepresentation() override;
 
   void AddEmptyProlog(const AnyValue* anyvalue) override;
   void AddEmptyEpilog(const AnyValue* anyvalue) override;

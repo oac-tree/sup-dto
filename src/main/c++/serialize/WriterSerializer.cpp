@@ -32,11 +32,6 @@ WriterTypeSerializer::WriterTypeSerializer(IWriter* writer_)
 {}
 WriterTypeSerializer::~WriterTypeSerializer() = default;
 
-void WriterTypeSerializer::ResetRepresentation()
-{
-  writer->Reset();
-}
-
 void WriterTypeSerializer::AddEmptyProlog(const AnyType* anytype)
 {
   writer->StartStructure();
@@ -118,11 +113,6 @@ WriterValueSerializer::WriterValueSerializer(IWriter* writer_)
   : writer{writer_}
 {}
 WriterValueSerializer::~WriterValueSerializer() = default;
-
-void WriterValueSerializer::ResetRepresentation()
-{
-  writer->Reset();
-}
 
 void WriterValueSerializer::AddEmptyProlog(const AnyValue*)
 {

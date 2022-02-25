@@ -48,7 +48,6 @@ public:
   ByteSerializer();
   ~ByteSerializer() override;
 
-  void ResetRepresentation() override;
   std::vector<uint8> GetRepresentation() const;
 
   void AddEmptyProlog(const AnyValue* anyvalue) override;

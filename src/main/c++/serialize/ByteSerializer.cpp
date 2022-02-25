@@ -33,11 +33,6 @@ ByteSerializer::ByteSerializer()
 {}
 ByteSerializer::~ByteSerializer() = default;
 
-void ByteSerializer::ResetRepresentation()
-{
-  representation.clear();
-}
-
 std::vector<uint8> ByteSerializer::GetRepresentation() const
 {
   return representation;

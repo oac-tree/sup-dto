@@ -33,11 +33,6 @@ SimpleAnyTypeSerializer::SimpleAnyTypeSerializer()
 {}
 SimpleAnyTypeSerializer::~SimpleAnyTypeSerializer() = default;
 
-void SimpleAnyTypeSerializer::ResetRepresentation()
-{
-  representation.clear();
-}
-
 std::string SimpleAnyTypeSerializer::GetRepresentation() const
 {
   return representation;
@@ -111,11 +106,6 @@ SimpleAnyValueSerializer::SimpleAnyValueSerializer()
   : representation{}
 {}
 SimpleAnyValueSerializer::~SimpleAnyValueSerializer() = default;
-
-void SimpleAnyValueSerializer::ResetRepresentation()
-{
-  representation.clear();
-}
 
 std::string SimpleAnyValueSerializer::GetRepresentation() const
 {
