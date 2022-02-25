@@ -45,18 +45,18 @@ void Serialize(const T& any, IAnySerializer<T>& serializer)
 {
   AnySerializeStack<T> node_stack;
   auto node = CreateRootNode(&any);
-  node_stack.push(std::move(node), serializer);
+  node_stack.Push(std::move(node), serializer);
   while (!node_stack.empty())
   {
-    auto& top = node_stack.top();
+    auto& top = node_stack.Top();
     auto next_child = top.NextChild();
     if (next_child.IsValid())
     {
-      node_stack.push(std::move(next_child), serializer);
+      node_stack.Push(std::move(next_child), serializer);
     }
     else
     {
-      node_stack.pop(serializer);
+      node_stack.Pop(serializer);
     }
   }
 }
