@@ -20,6 +20,7 @@
  ******************************************************************************/
 
 #include "AnyValueHelper.h"
+#include "AnyTypeHelper.h"
 #include "AnyValue.h"
 #include "ByteSerializer.h"
 #include "JSONWriter.h"
@@ -30,6 +31,12 @@ namespace sup
 {
 namespace dto
 {
+namespace
+{
+void AddEncodingInformation(IWriter& writer);
+void AddDatatypeStart(IWriter& writer);
+void AddValueStart(IWriter& writer);
+}
 
 void SerializeAnyValue(const AnyValue& anyvalue, IAnySerializer<AnyValue>& serializer)
 {
@@ -54,7 +61,36 @@ std::string ValuesToJSONString(const AnyValue& anyvalue)
 // TODO: provide implementation
 std::string ToJSONString(const AnyValue& anyvalue)
 {
-  return {};
+  JSONStringWriter writer;
+  writer.StartStructure();
+  AddEncodingInformation(writer);
+  AddDatatypeStart(writer);
+  WriterTypeSerializer type_serializer(&writer);
+  SerializeAnyType(anyvalue.GetType(), type_serializer);
+  AddValueStart(writer);
+  WriterValueSerializer value_serializer(&writer);
+  SerializeAnyValue(anyvalue, value_serializer);
+  writer.EndStructure();
+  return writer.GetRepresentation();
+}
+
+namespace
+{
+void AddEncodingInformation(IWriter& writer)
+{
+  writer.Member("encoding");
+  writer.String("sup-dto/v1.0/JSON");
+}
+
+void AddDatatypeStart(IWriter& writer)
+{
+  writer.Member("datatype");
+}
+
+void AddValueStart(IWriter& writer)
+{
+  writer.Member("instance");
+}
 }
 
 }  // namespace dto
