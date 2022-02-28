@@ -206,7 +206,6 @@ TEST_F(AnyValueJSONSerializeTest, PrettySimpleStructValue)
     {"weight", {Float64, 50.25}}
   });
   auto json_string = ToJSONString(simple_struct_val, true);
-  std::cout << json_string << std::endl;
   EXPECT_EQ(json_string, pretty_json_simple_struct);
 }
 
