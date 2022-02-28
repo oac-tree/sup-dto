@@ -47,7 +47,7 @@ class AnyValue;
 class IWriter
 {
 public:
-  virtual ~IWriter() = default;
+  virtual ~IWriter();
 
   virtual std::string GetRepresentation() const = 0;
 

@@ -29,6 +29,9 @@ namespace sup
 {
 namespace dto
 {
+
+IWriter::~IWriter() = default;
+
 template <typename T, bool (IWriter::* member_func)(T)>
 bool WriteScalarValueT(const AnyValue& anyvalue, IWriter* writer)
 {
