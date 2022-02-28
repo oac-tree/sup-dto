@@ -74,23 +74,13 @@ std::string ValuesToJSONString(const AnyValue& anyvalue);
  * @brief Serialize an AnyValue using a JSON serializer.
  *
  * @param anyvalue AnyValue object to serialize.
+ * @param pretty Use pretty printing.
  * @return JSON string if successfull, empty otherwise.
  *
  * @note This serialization is meant to be reversible. The JSON string will contain both type
  * information as specific values of leaf nodes.
  */
-std::string ToJSONString(const AnyValue& anyvalue);
-
-/**
- * @brief Serialize an AnyValue using a JSON serializer with pretty printing.
- *
- * @param anyvalue AnyValue object to serialize.
- * @return Pretty JSON string if successfull, empty otherwise.
- *
- * @note This serialization is meant to be reversible. The JSON string will contain both type
- * information as specific values of leaf nodes.
- */
-std::string ToPrettyJSONString(const AnyValue& anyvalue);
+std::string ToJSONString(const AnyValue& anyvalue, bool pretty=false);
 
 }  // namespace dto
 

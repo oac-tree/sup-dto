@@ -154,7 +154,7 @@ TEST_F(AnyTypeJSONSerializeTest, PrettyPrinting)
     {"nested", simple_struct_type},
     {"validated", Boolean}
   });
-  auto json_string = ToPrettyJSONString(complex_struct_type);
+  auto json_string = ToJSONString(complex_struct_type, true);
   EXPECT_EQ(json_string, pretty_json_complex_type);
 }
 

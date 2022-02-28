@@ -59,16 +59,10 @@ std::string ValuesToJSONString(const AnyValue& anyvalue)
   return writer->GetRepresentation();
 }
 
-std::string ToJSONString(const AnyValue& anyvalue)
+std::string ToJSONString(const AnyValue& anyvalue, bool pretty)
 {
-  auto writer = CreateJSONStringWriter();
-  ToJSONWriter(*writer, anyvalue);
-  return writer->GetRepresentation();
-}
-
-std::string ToPrettyJSONString(const AnyValue& anyvalue)
-{
-  auto writer = CreatePrettyJSONStringWriter();
+  auto writer = pretty ? CreatePrettyJSONStringWriter()
+                       : CreateJSONStringWriter();
   ToJSONWriter(*writer, anyvalue);
   return writer->GetRepresentation();
 }

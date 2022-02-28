@@ -35,17 +35,10 @@ void SerializeAnyType(const AnyType& anytype, IAnySerializer<AnyType>& serialize
   return Serialize(anytype, serializer);
 }
 
-std::string ToJSONString(const AnyType& anytype)
+std::string ToJSONString(const AnyType& anytype, bool pretty)
 {
-  auto writer = CreateJSONStringWriter();
-  WriterTypeSerializer serializer(writer.get());
-  SerializeAnyType(anytype, serializer);
-  return writer->GetRepresentation();
-}
-
-std::string ToPrettyJSONString(const AnyType& anytype)
-{
-  auto writer = CreatePrettyJSONStringWriter();
+  auto writer = pretty ? CreatePrettyJSONStringWriter()
+                       : CreateJSONStringWriter();
   WriterTypeSerializer serializer(writer.get());
   SerializeAnyType(anytype, serializer);
   return writer->GetRepresentation();
