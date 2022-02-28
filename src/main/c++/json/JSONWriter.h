@@ -19,38 +19,33 @@
  * of the distribution package.
  ******************************************************************************/
 
-#include "AnyTypeHelper.h"
-#include "AnyType.h"
-#include "SerializeT.h"
-#include "JSONWriter.h"
-#include "WriterSerializer.h"
+/**
+ * @file JSONWriter.h
+ * @brief Header file for the JSONWriter classes.
+ * @date 28/02/2022
+ * @author Walter Van Herck (IO)
+ * @copyright 2010-2022 ITER Organization
+ * @details This header file contains the definition of the JSONWriter classes.
+ */
+
+#ifndef _SUP_JSONWriter_h_
+#define _SUP_JSONWriter_h_
+
+#include "IWriter.h"
+
+#include <memory>
 
 namespace sup
 {
 namespace dto
 {
 
-void SerializeAnyType(const AnyType& anytype, IAnySerializer<AnyType>& serializer)
-{
-  return Serialize(anytype, serializer);
-}
+std::unique_ptr<IWriter> CreateJSONStringWriter();
 
-std::string ToJSONString(const AnyType& anytype)
-{
-  auto writer = CreateJSONStringWriter();
-  WriterTypeSerializer serializer(writer.get());
-  SerializeAnyType(anytype, serializer);
-  return writer->GetRepresentation();
-}
-
-std::string ToPrettyJSONString(const AnyType& anytype)
-{
-  auto writer = CreatePrettyJSONStringWriter();
-  WriterTypeSerializer serializer(writer.get());
-  SerializeAnyType(anytype, serializer);
-  return writer->GetRepresentation();
-}
+std::unique_ptr<IWriter> CreatePrettyJSONStringWriter();
 
 }  // namespace dto
 
 }  // namespace sup
+
+#endif  // _SUP_JSONWriter_h_

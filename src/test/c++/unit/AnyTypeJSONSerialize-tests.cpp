@@ -37,6 +37,9 @@ static const std::string json_simple_array =
 static const std::string json_complex_type =
     R"RAW({"type":"","attributes":[{"array":{"type":"","multiplicity":4,"element":{"type":"","attributes":[{"id":{"type":"string"}},{"number":{"type":"uint64"}}]}}},{"nested":{"type":"","attributes":[{"id":{"type":"string"}},{"number":{"type":"uint64"}}]}},{"validated":{"type":"bool"}}]})RAW";
 
+static const std::string pretty_json_complex_type =
+    R"RAW({"type":"","attributes":[{"array":{"type":"","multiplicity":4,"element":{"type":"","attributes":[{"id":{"type":"string"}},{"number":{"type":"uint64"}}]}}},{"nested":{"type":"","attributes":[{"id":{"type":"string"}},{"number":{"type":"uint64"}}]}},{"validated":{"type":"bool"}}]})RAW";
+
 class AnyTypeJSONSerializeTest : public ::testing::Test
 {
 protected:
@@ -90,6 +93,23 @@ TEST_F(AnyTypeJSONSerializeTest, ComplexStructType)
   });
   auto json_string = ToJSONString(complex_struct_type);
   EXPECT_EQ(json_string, json_complex_type);
+}
+
+TEST_F(AnyTypeJSONSerializeTest, PrettyPrinting)
+{
+  AnyType simple_struct_type({
+    {"id", String},
+    {"number", UnsignedInteger64}
+  });
+  AnyType array_of_struct_type(4, simple_struct_type);
+  AnyType complex_struct_type({
+    {"array", array_of_struct_type},
+    {"nested", simple_struct_type},
+    {"validated", Boolean}
+  });
+  auto json_string = ToPrettyJSONString(complex_struct_type);
+  std::cout << json_string << std::endl;
+  // EXPECT_EQ(json_string, pretty_json_complex_type);
 }
 
 AnyTypeJSONSerializeTest::AnyTypeJSONSerializeTest() = default;

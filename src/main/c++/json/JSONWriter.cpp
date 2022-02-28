@@ -19,36 +19,34 @@
  * of the distribution package.
  ******************************************************************************/
 
-#include "AnyTypeHelper.h"
-#include "AnyType.h"
-#include "SerializeT.h"
 #include "JSONWriter.h"
-#include "WriterSerializer.h"
+#include "JSONWriterT.h"
+
+#include "rapidjson/prettywriter.h"
+#include "rapidjson/stringbuffer.h"
+#include "rapidjson/writer.h"
 
 namespace sup
 {
 namespace dto
 {
 
-void SerializeAnyType(const AnyType& anytype, IAnySerializer<AnyType>& serializer)
+template <typename Buffer>
+using RapidJSONWriter = rapidjson::Writer<Buffer>;
+template <typename Buffer>
+using RapidJSONPrettyWriter = rapidjson::PrettyWriter<Buffer>;
+
+using JSONStringWriter = JSONStringWriterT<rapidjson::StringBuffer, RapidJSONWriter>;
+using PrettyJSONStringWriter = JSONStringWriterT<rapidjson::StringBuffer, RapidJSONPrettyWriter>;
+
+std::unique_ptr<IWriter> CreateJSONStringWriter()
 {
-  return Serialize(anytype, serializer);
+  return std::unique_ptr<IWriter>(new JSONStringWriter());
 }
 
-std::string ToJSONString(const AnyType& anytype)
+std::unique_ptr<IWriter> CreatePrettyJSONStringWriter()
 {
-  auto writer = CreateJSONStringWriter();
-  WriterTypeSerializer serializer(writer.get());
-  SerializeAnyType(anytype, serializer);
-  return writer->GetRepresentation();
-}
-
-std::string ToPrettyJSONString(const AnyType& anytype)
-{
-  auto writer = CreatePrettyJSONStringWriter();
-  WriterTypeSerializer serializer(writer.get());
-  SerializeAnyType(anytype, serializer);
-  return writer->GetRepresentation();
+  return std::unique_ptr<IWriter>(new PrettyJSONStringWriter());
 }
 
 }  // namespace dto

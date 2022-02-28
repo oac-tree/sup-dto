@@ -22,7 +22,7 @@
 /**
  * @file JSONWriterT.h
  * @brief Header file for the JSONWriterT class template.
- * @date 24/02/2022
+ * @date 28/02/2022
  * @author Walter Van Herck (IO)
  * @copyright 2010-2022 ITER Organization
  * @details This header file contains the definition of the JSONWriterT class template.
@@ -32,10 +32,6 @@
 #define _SUP_JSONWriterT_h_
 
 #include "IWriter.h"
-
-#include "rapidjson/prettywriter.h"
-#include "rapidjson/stringbuffer.h"
-#include "rapidjson/writer.h"
 
 namespace sup
 {
@@ -49,7 +45,7 @@ public:
   JSONStringWriterT();
   ~JSONStringWriterT();
 
-  std::string GetRepresentation() const;
+  std::string GetRepresentation() const override;
 
   bool Null() override;
   bool Bool(boolean b) override;
@@ -75,14 +71,6 @@ private:
   Buffer buffer;
   WriterImpl<Buffer> json_writer;
 };
-
-template <typename Buffer>
-using RapidJSONWriter = rapidjson::Writer<Buffer>;
-template <typename Buffer>
-using RapidJSONPrettyWriter = rapidjson::PrettyWriter<Buffer>;
-
-using JSONStringWriter = JSONStringWriterT<rapidjson::StringBuffer, RapidJSONWriter>;
-using PrettyJSONStringWriter = JSONStringWriterT<rapidjson::StringBuffer, RapidJSONPrettyWriter>;
 
 template <typename Buffer, template <typename> typename WriterImpl>
 JSONStringWriterT<Buffer, WriterImpl>::JSONStringWriterT()

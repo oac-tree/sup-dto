@@ -23,7 +23,7 @@
 #include "AnyTypeHelper.h"
 #include "AnyValue.h"
 #include "ByteSerializer.h"
-#include "JSONWriterT.h"
+#include "JSONWriter.h"
 #include "SerializeT.h"
 #include "WriterSerializer.h"
 
@@ -53,24 +53,24 @@ std::vector<uint8> ToBytes(const AnyValue& anyvalue)
 
 std::string ValuesToJSONString(const AnyValue& anyvalue)
 {
-  JSONStringWriter writer;
-  WriterValueSerializer serializer(&writer);
+  auto writer = CreateJSONStringWriter();
+  WriterValueSerializer serializer(writer.get());
   SerializeAnyValue(anyvalue, serializer);
-  return writer.GetRepresentation();
+  return writer->GetRepresentation();
 }
 
 std::string ToJSONString(const AnyValue& anyvalue)
 {
-  JSONStringWriter writer;
-  ToJSONWriter(writer, anyvalue);
-  return writer.GetRepresentation();
+  auto writer = CreateJSONStringWriter();
+  ToJSONWriter(*writer, anyvalue);
+  return writer->GetRepresentation();
 }
 
 std::string ToPrettyJSONString(const AnyValue& anyvalue)
 {
-  PrettyJSONStringWriter writer;
-  ToJSONWriter(writer, anyvalue);
-  return writer.GetRepresentation();
+  auto writer = CreatePrettyJSONStringWriter();
+  ToJSONWriter(*writer, anyvalue);
+  return writer->GetRepresentation();
 }
 
 namespace
