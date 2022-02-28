@@ -55,6 +55,14 @@ void SerializeAnyType(const AnyType& anytype, IAnySerializer<AnyType>& serialize
  */
 std::string ToJSONString(const AnyType& anytype);
 
+/**
+ * @brief Serialize an AnyType using a JSON serializer with pretty printing.
+ *
+ * @param anytype AnyType object to serialize.
+ * @return JSON string if successfull, empty otherwise.
+ */
+std::string ToPrettyJSONString(const AnyType& anytype);
+
 }  // namespace dto
 
 }  // namespace sup

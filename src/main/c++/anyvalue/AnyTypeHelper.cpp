@@ -43,6 +43,14 @@ std::string ToJSONString(const AnyType& anytype)
   return writer.GetRepresentation();
 }
 
+std::string ToPrettyJSONString(const AnyType& anytype)
+{
+  PrettyJSONStringWriter writer;
+  WriterTypeSerializer serializer(&writer);
+  SerializeAnyType(anytype, serializer);
+  return writer.GetRepresentation();
+}
+
 }  // namespace dto
 
 }  // namespace sup

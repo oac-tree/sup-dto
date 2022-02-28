@@ -33,6 +33,7 @@ namespace dto
 {
 namespace
 {
+void ToJSONWriter(IWriter& writer, const AnyValue& anyvalue);
 void AddEncodingInformation(IWriter& writer);
 void AddDatatypeStart(IWriter& writer);
 void AddValueStart(IWriter& writer);
@@ -58,10 +59,24 @@ std::string ValuesToJSONString(const AnyValue& anyvalue)
   return writer.GetRepresentation();
 }
 
-// TODO: provide implementation
 std::string ToJSONString(const AnyValue& anyvalue)
 {
   JSONStringWriter writer;
+  ToJSONWriter(writer, anyvalue);
+  return writer.GetRepresentation();
+}
+
+std::string ToPrettyJSONString(const AnyValue& anyvalue)
+{
+  PrettyJSONStringWriter writer;
+  ToJSONWriter(writer, anyvalue);
+  return writer.GetRepresentation();
+}
+
+namespace
+{
+void ToJSONWriter(IWriter& writer, const AnyValue& anyvalue)
+{
   writer.StartStructure();
   AddEncodingInformation(writer);
   AddDatatypeStart(writer);
@@ -71,11 +86,8 @@ std::string ToJSONString(const AnyValue& anyvalue)
   WriterValueSerializer value_serializer(&writer);
   SerializeAnyValue(anyvalue, value_serializer);
   writer.EndStructure();
-  return writer.GetRepresentation();
 }
 
-namespace
-{
 void AddEncodingInformation(IWriter& writer)
 {
   writer.Member("encoding");

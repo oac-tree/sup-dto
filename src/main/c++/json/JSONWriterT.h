@@ -33,6 +33,7 @@
 
 #include "IWriter.h"
 
+#include "rapidjson/prettywriter.h"
 #include "rapidjson/stringbuffer.h"
 #include "rapidjson/writer.h"
 
@@ -77,8 +78,11 @@ private:
 
 template <typename Buffer>
 using RapidJSONWriter = rapidjson::Writer<Buffer>;
+template <typename Buffer>
+using RapidJSONPrettyWriter = rapidjson::PrettyWriter<Buffer>;
 
 using JSONStringWriter = JSONStringWriterT<rapidjson::StringBuffer, RapidJSONWriter>;
+using PrettyJSONStringWriter = JSONStringWriterT<rapidjson::StringBuffer, RapidJSONPrettyWriter>;
 
 template <typename Buffer, template <typename> typename WriterImpl>
 JSONStringWriterT<Buffer, WriterImpl>::JSONStringWriterT()
