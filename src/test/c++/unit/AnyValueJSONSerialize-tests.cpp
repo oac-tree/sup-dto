@@ -44,6 +44,36 @@ static const std::string json_simple_array_full =
 static const std::string json_complex_val =
     R"RAW({"array":[{"id":"","number":23},{"id":"second_id","number":0}],"nested":{"id":"","number":0},"validated":false})RAW";
 
+static const std::string pretty_json_simple_struct =
+R"RAW({
+  "encoding": "sup-dto/v1.0/JSON",
+  "datatype": {
+    "type": "",
+    "attributes": [
+      {
+        "id": {
+          "type": "string"
+        }
+      },
+      {
+        "number": {
+          "type": "int32"
+        }
+      },
+      {
+        "weight": {
+          "type": "float64"
+        }
+      }
+    ]
+  },
+  "instance": {
+    "id": "my_id",
+    "number": 1729,
+    "weight": 50.25
+  }
+})RAW";
+
 class AnyValueJSONSerializeTest : public ::testing::Test
 {
 protected:
@@ -166,6 +196,18 @@ TEST_F(AnyValueJSONSerializeTest, SimpleStructValue)
   EXPECT_EQ(json_string, json_simple_struct);
   auto json_full = ToJSONString(simple_struct_val);
   EXPECT_EQ(json_full, json_simple_struct_full);
+}
+
+TEST_F(AnyValueJSONSerializeTest, PrettySimpleStructValue)
+{
+  AnyValue simple_struct_val({
+    {"id", {String, "my_id"}},
+    {"number", {SignedInteger32, 1729}},
+    {"weight", {Float64, 50.25}}
+  });
+  auto json_string = ToPrettyJSONString(simple_struct_val);
+  std::cout << json_string << std::endl;
+  EXPECT_EQ(json_string, pretty_json_simple_struct);
 }
 
 TEST_F(AnyValueJSONSerializeTest, SimpleArrayValue)

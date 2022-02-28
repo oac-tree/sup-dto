@@ -46,7 +46,9 @@ std::unique_ptr<IWriter> CreateJSONStringWriter()
 
 std::unique_ptr<IWriter> CreatePrettyJSONStringWriter()
 {
-  return std::unique_ptr<IWriter>(new PrettyJSONStringWriter());
+  std::unique_ptr<PrettyJSONStringWriter> result{new PrettyJSONStringWriter()};
+  result->GetWriterImpl().SetIndent(' ', 2);
+  return std::unique_ptr<IWriter>(result.release());
 }
 
 }  // namespace dto

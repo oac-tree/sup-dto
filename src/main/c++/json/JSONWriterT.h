@@ -46,6 +46,7 @@ public:
   ~JSONStringWriterT();
 
   std::string GetRepresentation() const override;
+  WriterImpl<Buffer>& GetWriterImpl();
 
   bool Null() override;
   bool Bool(boolean b) override;
@@ -85,6 +86,12 @@ template <typename Buffer, template <typename> typename WriterImpl>
 std::string JSONStringWriterT<Buffer, WriterImpl>::GetRepresentation() const
 {
   return buffer.GetString();
+}
+
+template <typename Buffer, template <typename> typename WriterImpl>
+WriterImpl<Buffer>& JSONStringWriterT<Buffer, WriterImpl>::GetWriterImpl()
+{
+  return json_writer;
 }
 
 template <typename Buffer, template <typename> typename WriterImpl>
