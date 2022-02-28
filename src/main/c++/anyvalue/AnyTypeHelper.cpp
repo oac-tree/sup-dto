@@ -22,7 +22,7 @@
 #include "AnyTypeHelper.h"
 #include "AnyType.h"
 #include "SerializeT.h"
-#include "JSONWriter.h"
+#include "JSONWriterT.h"
 #include "WriterSerializer.h"
 
 namespace sup

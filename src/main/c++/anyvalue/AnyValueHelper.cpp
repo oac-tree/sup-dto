@@ -23,7 +23,7 @@
 #include "AnyTypeHelper.h"
 #include "AnyValue.h"
 #include "ByteSerializer.h"
-#include "JSONWriter.h"
+#include "JSONWriterT.h"
 #include "SerializeT.h"
 #include "WriterSerializer.h"
 
