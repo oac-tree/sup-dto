@@ -32,20 +32,43 @@
 #define _SUP_AnyTypeBuilder_h_
 
 #include "AnyType.h"
+#include "BasicScalarTypes.h"
 
-#include <string>
-#include <utility>
-#include <vector>
+#include <memory>
 
 namespace sup
 {
 namespace dto
 {
+class AnyTypeBuildNode;
+class IAnyBuildNode;
+
 class AnyTypeBuilder
 {
 public:
   AnyTypeBuilder();
   ~AnyTypeBuilder();
+
+  AnyType MoveAnyType();
+
+  bool Null();
+  bool Bool(boolean b);
+  bool Int(int32 i);
+  bool Uint(uint32 u);
+  bool Int64(int64 i);
+  bool Uint64(uint64 u);
+  bool Double(float64 d);
+  bool RawNumber(const char* str, std::size_t length, bool copy);
+  bool String(const char* str, std::size_t length, bool copy);
+  bool StartObject();
+  bool Key(const char* str, std::size_t length, bool copy);
+  bool EndObject(std::size_t memberCount);
+  bool StartArray();
+  bool EndArray(std::size_t elementCount);
+
+private:
+  std::unique_ptr<AnyTypeBuildNode> root;
+  IAnyBuildNode* current;
 };
 
 }  // namespace dto
