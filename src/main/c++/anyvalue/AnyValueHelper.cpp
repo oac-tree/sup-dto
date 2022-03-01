@@ -71,30 +71,36 @@ namespace
 {
 void ToJSONWriter(IWriter& writer, const AnyValue& anyvalue)
 {
-  writer.StartStructure();
+  writer.StartArray();
   AddEncodingInformation(writer);
   AddDatatypeStart(writer);
   WriterTypeSerializer type_serializer(&writer);
   SerializeAnyType(anyvalue.GetType(), type_serializer);
+  writer.EndStructure();
   AddValueStart(writer);
   WriterValueSerializer value_serializer(&writer);
   SerializeAnyValue(anyvalue, value_serializer);
   writer.EndStructure();
+  writer.EndArray();
 }
 
 void AddEncodingInformation(IWriter& writer)
 {
+  writer.StartStructure();
   writer.Member("encoding");
   writer.String("sup-dto/v1.0/JSON");
+  writer.EndStructure();
 }
 
 void AddDatatypeStart(IWriter& writer)
 {
+  writer.StartStructure();
   writer.Member("datatype");
 }
 
 void AddValueStart(IWriter& writer)
 {
+  writer.StartStructure();
   writer.Member("instance");
 }
 }
