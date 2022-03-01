@@ -40,7 +40,7 @@ namespace sup
 {
 namespace dto
 {
-class AnyTypeBuildNode;
+class AnyTypeRootBuildNode;
 class IAnyBuildNode;
 
 class AnyTypeBuilder
@@ -67,7 +67,7 @@ public:
   bool EndArray(std::size_t elementCount);
 
 private:
-  std::unique_ptr<AnyTypeBuildNode> root;
+  std::unique_ptr<AnyTypeRootBuildNode> root;
   IAnyBuildNode* current;
 };
 

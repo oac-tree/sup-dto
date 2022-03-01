@@ -21,7 +21,7 @@
 
 #include "AnyTypeBuilder.h"
 
-#include "AnyTypeBuildNode.h"
+#include "AnyTypeRootBuildNode.h"
 #include "AnyValueExceptions.h"
 
 namespace sup
@@ -30,7 +30,7 @@ namespace dto
 {
 
 AnyTypeBuilder::AnyTypeBuilder()
-  : root{new AnyTypeBuildNode{nullptr}}
+  : root{new AnyTypeRootBuildNode{}}
   , current{root.get()}
 {}
 
