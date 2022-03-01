@@ -1,0 +1,104 @@
+/******************************************************************************
+ * $HeadURL: $
+ * $Id: $
+ *
+ * Project       : SUP - DTO
+ *
+ * Description   : Unit test code
+ *
+ * Author        : Walter Van Herck (IO)
+ *
+ * Copyright (c) : 2010-2022 ITER Organization,
+ *                 CS 90 046
+ *                 13067 St. Paul-lez-Durance Cedex
+ *                 France
+ *
+ * This file is part of ITER CODAC software.
+ * For the terms and conditions of redistribution or use of this software
+ * refer to the file ITER-LICENSE.TXT located in the top level directory
+ * of the distribution package.
+ ******************************************************************************/
+
+#include "IAnyBuildNode.h"
+
+#include "AnyValueExceptions.h"
+
+namespace sup
+{
+namespace dto
+{
+
+IAnyBuildNode::~IAnyBuildNode() = default;
+
+bool IAnyBuildNode::Null()
+{
+  throw InvalidOperationException("Parser called unsupported operation for this node (Null)");
+}
+
+bool IAnyBuildNode::Bool(boolean)
+{
+  throw InvalidOperationException("Parser called unsupported operation for this node (Bool)");
+}
+
+bool IAnyBuildNode::Int32(int32)
+{
+  throw InvalidOperationException("Parser called unsupported operation for this node (Int32)");
+}
+
+bool IAnyBuildNode::Uint32(uint32)
+{
+  throw InvalidOperationException("Parser called unsupported operation for this node (Uint32)");
+}
+
+bool IAnyBuildNode::Int64(int64)
+{
+  throw InvalidOperationException("Parser called unsupported operation for this node (Int64)");
+}
+
+bool IAnyBuildNode::Uint64(uint64)
+{
+  throw InvalidOperationException("Parser called unsupported operation for this node (Uint64)");
+}
+
+bool IAnyBuildNode::Double(float64)
+{
+  throw InvalidOperationException("Parser called unsupported operation for this node (Double)");
+}
+
+bool IAnyBuildNode::String(const std::string&)
+{
+  throw InvalidOperationException("Parser called unsupported operation for this node (String)");
+}
+
+bool IAnyBuildNode::Member(const std::string&)
+{
+  throw InvalidOperationException("Parser called unsupported operation for this node (Member)");
+}
+
+IAnyBuildNode* IAnyBuildNode::GetStructureNode()
+{
+  throw InvalidOperationException(
+      "Parser called unsupported operation for this node (GetStructureNode)");
+}
+
+IAnyBuildNode* IAnyBuildNode::GetArrayNode()
+{
+  throw InvalidOperationException(
+      "Parser called unsupported operation for this node (GetArrayNode)");
+}
+
+bool IAnyBuildNode::PopStructureNode(IAnyBuildNode*)
+{
+  throw InvalidOperationException(
+      "Parser called unsupported operation for this node (PopStructureNode)");
+}
+
+bool IAnyBuildNode::PopArrayNode(IAnyBuildNode*)
+{
+  throw InvalidOperationException(
+      "Parser called unsupported operation for this node (PopArrayNode)");
+}
+
+}  // namespace dto
+
+}  // namespace sup
