@@ -4,6 +4,7 @@ target_sources(unit-tests
     PRIVATE
         ${CMAKE_CURRENT_LIST_DIR}/AnyValue-tests.cpp
         ${CMAKE_CURRENT_LIST_DIR}/AnyType-tests.cpp
+        ${CMAKE_CURRENT_LIST_DIR}/AnyTypeJSONParse-tests.cpp
         ${CMAKE_CURRENT_LIST_DIR}/AnyTypeJSONSerialize-tests.cpp
         ${CMAKE_CURRENT_LIST_DIR}/AnyTypeSerialize-tests.cpp
         ${CMAKE_CURRENT_LIST_DIR}/AnyValueExceptions-tests.cpp
