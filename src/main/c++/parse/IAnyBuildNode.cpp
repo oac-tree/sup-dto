@@ -96,13 +96,13 @@ IAnyBuildNode* IAnyBuildNode::GetArrayNode()
       "Parser called unsupported operation for this node (GetArrayNode)");
 }
 
-bool IAnyBuildNode::PopStructureNode(IAnyBuildNode*)
+bool IAnyBuildNode::PopStructureNode()
 {
   throw InvalidOperationException(
       "Parser called unsupported operation for this node (PopStructureNode)");
 }
 
-bool IAnyBuildNode::PopArrayNode(IAnyBuildNode*)
+bool IAnyBuildNode::PopArrayNode()
 {
   throw InvalidOperationException(
       "Parser called unsupported operation for this node (PopArrayNode)");

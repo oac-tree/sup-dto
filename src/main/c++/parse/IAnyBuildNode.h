@@ -59,8 +59,8 @@ public:
 
   virtual IAnyBuildNode* GetStructureNode();
   virtual IAnyBuildNode* GetArrayNode();
-  virtual bool PopStructureNode(IAnyBuildNode* node);
-  virtual bool PopArrayNode(IAnyBuildNode* node);
+  virtual bool PopStructureNode();
+  virtual bool PopArrayNode();
 
 private:
   IAnyBuildNode* parent;

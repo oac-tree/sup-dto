@@ -21,6 +21,7 @@
 
 #include "WriterSerializer.h"
 #include "AnyValue.h"
+#include "SerializationConstants.h"
 
 namespace sup
 {
@@ -35,7 +36,7 @@ WriterTypeSerializer::~WriterTypeSerializer() = default;
 void WriterTypeSerializer::AddEmptyProlog(const AnyType* anytype)
 {
   writer->StartStructure();
-  writer->Member("type");
+  writer->Member(serialization::TYPE_KEY);
   auto type_name = anytype->GetTypeName();
   writer->String(type_name);
 }
@@ -48,10 +49,10 @@ void WriterTypeSerializer::AddEmptyEpilog(const AnyType*)
 void WriterTypeSerializer::AddStructProlog(const AnyType* anytype)
 {
   writer->StartStructure();
-  writer->Member("type");
+  writer->Member(serialization::TYPE_KEY);
   auto type_name = anytype->GetTypeName();
   writer->String(type_name);
-  writer->Member("attributes");
+  writer->Member(serialization::ATTRIBUTES_KEY);
   writer->StartArray();
 }
 
@@ -78,12 +79,12 @@ void WriterTypeSerializer::AddMemberEpilog(const AnyType*, const std::string&)
 void WriterTypeSerializer::AddArrayProlog(const AnyType* anytype)
 {
   writer->StartStructure();
-  writer->Member("type");
+  writer->Member(serialization::TYPE_KEY);
   auto type_name = anytype->GetTypeName();
   writer->String(type_name);
-  writer->Member("multiplicity");
+  writer->Member(serialization::MULTIPLICITY_KEY);
   writer->Uint64(anytype->NumberOfElements());
-  writer->Member("element");
+  writer->Member(serialization::ELEMENT_KEY);
 }
 
 void WriterTypeSerializer::AddArrayElementSeparator()
@@ -97,7 +98,7 @@ void WriterTypeSerializer::AddArrayEpilog(const AnyType*)
 void WriterTypeSerializer::AddScalarProlog(const AnyType* anytype)
 {
   writer->StartStructure();
-  writer->Member("type");
+  writer->Member(serialization::TYPE_KEY);
   auto type_name = anytype->GetTypeName();
   writer->String(type_name);
 }
