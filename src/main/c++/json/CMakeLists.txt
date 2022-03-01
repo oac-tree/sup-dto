@@ -1,5 +1,6 @@
 target_sources(sup-dto-obj
     PRIVATE
+        ${CMAKE_CURRENT_LIST_DIR}/JSONReader.cpp
         ${CMAKE_CURRENT_LIST_DIR}/JSONWriter.cpp
 )
 
