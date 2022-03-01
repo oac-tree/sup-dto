@@ -20,48 +20,50 @@
  ******************************************************************************/
 
 /**
- * @file MemberTypeArrayBuildNode.h
- * @brief Header file for the MemberTypeArrayBuildNode class.
+ * @file MemberTypeBuildNode.h
+ * @brief Header file for the MemberTypeBuildNode class.
  * @date 01/03/2022
  * @author Walter Van Herck (IO)
  * @copyright 2010-2022 ITER Organization
- * @details This header file contains the definition of the MemberTypeArrayBuildNode class.
+ * @details This header file contains the definition of the MemberTypeBuildNode class.
  */
 
-#ifndef _SUP_MemberTypeArrayBuildNode_h_
-#define _SUP_MemberTypeArrayBuildNode_h_
+#ifndef _SUP_MemberTypeBuildNode_h_
+#define _SUP_MemberTypeBuildNode_h_
 
 #include "IAnyBuildNode.h"
 #include "AnyType.h"
 
 #include <memory>
 #include <utility>
-#include <vector>
 
 namespace sup
 {
 namespace dto
 {
-class MemberTypeBuildNode;
+class AnyTypeBuildNode;
 
-class MemberTypeArrayBuildNode : public IAnyBuildNode
+class MemberTypeBuildNode : public IAnyBuildNode
 {
 public:
-  MemberTypeArrayBuildNode(IAnyBuildNode* parent);
-  ~MemberTypeArrayBuildNode();
+  MemberTypeBuildNode(IAnyBuildNode* parent);
+  ~MemberTypeBuildNode();
+
+  bool Member(const std::string& str) override;
 
   IAnyBuildNode* GetStructureNode() override;
   bool PopStructureNode() override;
 
-  std::vector<std::pair<std::string, AnyType>> MoveMemberTypes();
+  std::pair<std::string, AnyType> MoveMemberType();
 
 private:
-  std::unique_ptr<MemberTypeBuildNode> member_node;
-  std::vector<std::pair<std::string, AnyType>> member_types;
+  std::unique_ptr<AnyTypeBuildNode> type_node;
+  std::string member_name;
+  std::pair<std::string, AnyType> member_type;
 };
 
 }  // namespace dto
 
 }  // namespace sup
 
-#endif  // _SUP_MemberTypeArrayBuildNode_h_
+#endif  // _SUP_MemberTypeBuildNode_h_

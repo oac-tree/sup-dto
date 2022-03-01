@@ -35,6 +35,8 @@
 #include "AnyType.h"
 
 #include <memory>
+#include <utility>
+#include <vector>
 
 namespace sup
 {
@@ -60,15 +62,22 @@ public:
   bool PopStructureNode() override;
   bool PopArrayNode() override;
 
-  AnyType GetAnyType() const;
+  AnyType MoveAnyType() const;
 
 private:
-  bool HasChildNode() const;
+  bool IsComplexType() const;
+  AnyType MoveStructuredType() const;
+  AnyType MoveArrayType() const;
+  AnyType MoveSimpleType() const;
   std::unique_ptr<AnyTypeBuildNode> element_node;
   std::unique_ptr<MemberTypeArrayBuildNode> member_array_node;
   std::string current_member_name;
+  bool struct_type;  // true if structure
+  bool array_type;  // true if array
   std::string type_name;
   std::size_t number_elements;
+  std::vector<std::pair<std::string, AnyType>> member_types;
+  AnyType element_type;
 };
 
 }  // namespace dto

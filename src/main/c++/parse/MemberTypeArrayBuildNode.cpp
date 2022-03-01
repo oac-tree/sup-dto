@@ -22,6 +22,7 @@
 #include "MemberTypeArrayBuildNode.h"
 
 #include "AnyValueExceptions.h"
+#include "MemberTypeBuildNode.h"
 
 namespace sup
 {
@@ -30,18 +31,38 @@ namespace dto
 
 MemberTypeArrayBuildNode::MemberTypeArrayBuildNode(IAnyBuildNode* parent)
   : IAnyBuildNode{parent}
+  , member_node{}
+  , member_types{}
 {}
 
 MemberTypeArrayBuildNode::~MemberTypeArrayBuildNode() = default;
 
 IAnyBuildNode* MemberTypeArrayBuildNode::GetStructureNode()
 {
-  return {};
+  if (member_node)
+  {
+    throw InvalidOperationException(
+        "MemberTypeArrayBuildNode::GetStructureNode must be called with an empty member node");
+  }
+  member_node.reset(new MemberTypeBuildNode(this));
+  return member_node.get();
 }
 
 bool MemberTypeArrayBuildNode::PopStructureNode()
 {
-  return {};
+  if (!member_node)
+  {
+    throw InvalidOperationException(
+        "MemberTypeArrayBuildNode::GetStructureNode must be called with a non-empty member node");
+  }
+  member_types.push_back(member_node->MoveMemberType());
+  member_node.reset();
+  return true;
+}
+
+std::vector<std::pair<std::string, AnyType>> MemberTypeArrayBuildNode::MoveMemberTypes()
+{
+  return std::move(member_types);
 }
 
 }  // namespace dto
