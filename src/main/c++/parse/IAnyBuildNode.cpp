@@ -28,7 +28,16 @@ namespace sup
 namespace dto
 {
 
+IAnyBuildNode::IAnyBuildNode(IAnyBuildNode* parent_)
+  : parent{parent_}
+{}
+
 IAnyBuildNode::~IAnyBuildNode() = default;
+
+IAnyBuildNode* IAnyBuildNode::Parent() const
+{
+  return parent;
+}
 
 bool IAnyBuildNode::Null()
 {

@@ -21,6 +21,7 @@ add_library(sup-dto-static STATIC)
 
 add_subdirectory(include)
 add_subdirectory(anyvalue)
+add_subdirectory(parse)
 add_subdirectory(serialize)
 add_subdirectory(json)
 

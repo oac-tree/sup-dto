@@ -42,8 +42,10 @@ namespace dto
 class IAnyBuildNode
 {
 public:
-  IAnyBuildNode();
+  IAnyBuildNode(IAnyBuildNode* parent);
   virtual ~IAnyBuildNode();
+
+  IAnyBuildNode* Parent() const;
 
   virtual bool Null();
   virtual bool Bool(boolean b);
@@ -59,6 +61,9 @@ public:
   virtual IAnyBuildNode* GetArrayNode();
   virtual bool PopStructureNode(IAnyBuildNode* node);
   virtual bool PopArrayNode(IAnyBuildNode* node);
+
+private:
+  IAnyBuildNode* parent;
 };
 
 }  // namespace dto
