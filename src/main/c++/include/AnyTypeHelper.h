@@ -56,6 +56,14 @@ void SerializeAnyType(const AnyType& anytype, IAnySerializer<AnyType>& serialize
  */
 std::string ToJSONString(const AnyType& anytype, bool pretty=false);
 
+/**
+ * @brief Parse an AnyType from a string using a JSON parser.
+ *
+ * @param json_str JSON string.
+ * @return Parsed AnyType.
+ */
+AnyType AnyTypeFromJSONString(const std::string& json_str);
+
 }  // namespace dto
 
 }  // namespace sup

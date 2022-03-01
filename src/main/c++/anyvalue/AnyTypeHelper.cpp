@@ -22,8 +22,11 @@
 #include "AnyTypeHelper.h"
 #include "AnyType.h"
 #include "SerializeT.h"
+#include "JSONReader.h"
 #include "JSONWriter.h"
 #include "WriterSerializer.h"
+
+#include <sstream>
 
 namespace sup
 {
@@ -42,6 +45,12 @@ std::string ToJSONString(const AnyType& anytype, bool pretty)
   WriterTypeSerializer serializer(writer.get());
   SerializeAnyType(anytype, serializer);
   return writer->GetRepresentation();
+}
+
+AnyType AnyTypeFromJSONString(const std::string& json_str)
+{
+  std::istringstream iss(json_str);
+  return JSONParseAnyType(iss);
 }
 
 }  // namespace dto
