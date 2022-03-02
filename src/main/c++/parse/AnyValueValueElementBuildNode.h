@@ -49,6 +49,14 @@ public:
   AnyValueValueElementBuildNode(IAnyBuildNode* parent, AnyValue& anyvalue);
   ~AnyValueValueElementBuildNode();
 
+  bool Null() override;
+  bool Bool(boolean b) override;
+  bool Int32(int32 i) override;
+  bool Uint32(uint32 u) override;
+  bool Int64(int64 i) override;
+  bool Uint64(uint64 u) override;
+  bool Double(float64 d) override;
+  bool String(const std::string& str) override;
   bool Member(const std::string& str) override;
 
   IAnyBuildNode* GetStructureNode() override;

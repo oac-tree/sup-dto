@@ -42,6 +42,102 @@ AnyValueValueElementBuildNode::AnyValueValueElementBuildNode(IAnyBuildNode* pare
 
 AnyValueValueElementBuildNode::~AnyValueValueElementBuildNode() = default;
 
+bool AnyValueValueElementBuildNode::Null()
+{
+  if (member_name != serialization::INSTANCE_KEY)
+  {
+    throw InvalidOperationException(
+        "AnyValueValueElementBuildNode::Null must be called after \"instance\" key");
+  }
+  anyvalue = AnyValue{};
+  member_name.clear();
+  return true;
+}
+
+bool AnyValueValueElementBuildNode::Bool(boolean b)
+{
+  if (member_name != serialization::INSTANCE_KEY)
+  {
+    throw InvalidOperationException(
+        "AnyValueValueElementBuildNode::Bool must be called after \"instance\" key");
+  }
+  anyvalue = b;
+  member_name.clear();
+  return true;
+}
+
+bool AnyValueValueElementBuildNode::Int32(int32 i)
+{
+  if (member_name != serialization::INSTANCE_KEY)
+  {
+    throw InvalidOperationException(
+        "AnyValueValueElementBuildNode::Int32 must be called after \"instance\" key");
+  }
+  anyvalue = i;
+  member_name.clear();
+  return true;
+}
+
+bool AnyValueValueElementBuildNode::Uint32(uint32 u)
+{
+  if (member_name != serialization::INSTANCE_KEY)
+  {
+    throw InvalidOperationException(
+        "AnyValueValueElementBuildNode::Uint32 must be called after \"instance\" key");
+  }
+  anyvalue = u;
+  member_name.clear();
+  return true;
+}
+
+bool AnyValueValueElementBuildNode::Int64(int64 i)
+{
+  if (member_name != serialization::INSTANCE_KEY)
+  {
+    throw InvalidOperationException(
+        "AnyValueValueElementBuildNode::Int64 must be called after \"instance\" key");
+  }
+  anyvalue = i;
+  member_name.clear();
+  return true;
+}
+
+bool AnyValueValueElementBuildNode::Uint64(uint64 u)
+{
+  if (member_name != serialization::INSTANCE_KEY)
+  {
+    throw InvalidOperationException(
+        "AnyValueValueElementBuildNode::Uint64 must be called after \"instance\" key");
+  }
+  anyvalue = u;
+  member_name.clear();
+  return true;
+}
+
+bool AnyValueValueElementBuildNode::Double(float64 d)
+{
+  if (member_name != serialization::INSTANCE_KEY)
+  {
+    throw InvalidOperationException(
+        "AnyValueValueElementBuildNode::Double must be called after \"instance\" key");
+  }
+  anyvalue = d;
+  member_name.clear();
+  return true;
+}
+
+bool AnyValueValueElementBuildNode::String(const std::string& str)
+{
+  if (member_name != serialization::INSTANCE_KEY)
+  {
+    throw InvalidOperationException(
+        "AnyValueValueElementBuildNode::String must be called after \"instance\" key");
+  }
+  anyvalue = str;
+  member_name.clear();
+  return true;
+}
+
 bool AnyValueValueElementBuildNode::Member(const std::string& str)
 {
   if (!member_name.empty() || str != serialization::INSTANCE_KEY)

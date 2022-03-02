@@ -40,9 +40,9 @@ namespace dto
 class AnyType;
 class AnyValue;
 
-AnyType JSONParseAnyType(std::istream& json_str);
+AnyType JSONParseAnyType(std::istream& json_stream);
 
-AnyValue JSONParseAnyValue(std::istream& json_str);
+AnyValue JSONParseAnyValue(std::istream& json_stream);
 
 }  // namespace dto
 
