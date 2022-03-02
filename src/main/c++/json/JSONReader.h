@@ -42,6 +42,8 @@ class AnyValue;
 
 AnyType JSONParseAnyType(std::istream& json_str);
 
+AnyValue JSONParseAnyValue(std::istream& json_str);
+
 }  // namespace dto
 
 }  // namespace sup

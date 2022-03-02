@@ -113,6 +113,15 @@ public:
   InitializationException(const std::string& message);
 };
 
+/**
+ * @brief Exception thrown when parsing to an object failed.
+ */
+class ParseException : public MessageException
+{
+public:
+  ParseException(const std::string& message);
+};
+
 }  // namespace dto
 
 }  // namespace sup

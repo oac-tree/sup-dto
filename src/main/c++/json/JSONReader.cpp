@@ -23,6 +23,8 @@
 
 #include "AnyType.h"
 #include "AnyTypeBuilder.h"
+#include "AnyValue.h"
+#include "AnyValueExceptions.h"
 
 #include "rapidjson/istreamwrapper.h"
 #include "rapidjson/reader.h"
@@ -39,7 +41,16 @@ AnyType JSONParseAnyType(std::istream& json_stream)
   rapidjson::Reader reader;
 
   reader.Parse(istream, builder);
+  if (reader.HasParseError())
+  {
+    throw ParseException("Parsing AnyType from JSON failed");
+  }
   return builder.MoveAnyType();
+}
+
+AnyValue JSONParseAnyValue(std::istream& json_str)
+{
+  return {};
 }
 
 }  // namespace dto
