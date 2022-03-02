@@ -21,7 +21,9 @@
 
 #include "AnyValueArrayBuildNode.h"
 
-#include "AnyValueArrayElementBuildNode.h"
+#include "AnyValueEncodingElementBuildNode.h"
+#include "AnyValueTypeElementBuildNode.h"
+#include "AnyValueValueElementBuildNode.h"
 #include "AnyValueExceptions.h"
 
 namespace sup
@@ -51,7 +53,7 @@ IAnyBuildNode* AnyValueArrayBuildNode::GetStructureNode()
     type_node.reset(new AnyValueTypeElementBuildNode(this));
     return type_node.get();
   case 2:
-    value_node.reset(new AnyValueValueElementBuildNode(this));
+    value_node.reset(new AnyValueValueElementBuildNode(this, anyvalue));
     return value_node.get();
   default:
     throw InvalidOperationException(
@@ -61,15 +63,41 @@ IAnyBuildNode* AnyValueArrayBuildNode::GetStructureNode()
 
 bool AnyValueArrayBuildNode::PopStructureNode()
 {
-  if (!element_node)
+  AnyType anytype;
+  switch (processed_nodes)
   {
+  case 0:
+    if (!encoding_node || !encoding_node->EncodingOK())
+    {
+      throw InvalidOperationException(
+          "AnyValueArrayBuildNode::PopStructureNode called first time with empty encoding node "
+          " or invalid encoding");
+    }
+    encoding_node.reset();
+    break;
+  case 1:
+    if (!type_node)
+    {
+      throw InvalidOperationException(
+          "AnyValueArrayBuildNode::PopStructureNode called second time with empty type node");
+    }
+    anytype = type_node->MoveAnyType();
+    anyvalue = AnyValue(anytype);
+    type_node.reset();
+    break;
+  case 2:
+    if (!value_node)
+    {
+      throw InvalidOperationException(
+          "AnyValueArrayBuildNode::PopStructureNode called third time with empty value node");
+    }
+    value_node.reset();
+    break;
+  default:
     throw InvalidOperationException(
-        "AnyValueArrayBuildNode::PopStructureNode must be called with a non-empty child node");
+      "AnyValueArrayBuildNode::PopStructureNode cannot be called more than 3 times");
   }
-
-  // TODO: move out type or value:
-  // anyvalue = element_node->MoveAnyType();
-  element_node.reset();
+  ++processed_nodes;
   return true;
 }
 

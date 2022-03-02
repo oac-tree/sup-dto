@@ -29,64 +29,160 @@ namespace sup
 namespace dto
 {
 
-AnyValueBuildNode::AnyValueBuildNode(IAnyBuildNode* parent)
+AnyValueBuildNode::AnyValueBuildNode(IAnyBuildNode* parent, AnyValue& anyvalue_)
   : IAnyBuildNode{parent}
   , value_node{}
   , array_node{}
-  , anyvalue{}
+  , member_name{}
+  , anyvalue{anyvalue_}
 {}
 
 AnyValueBuildNode::~AnyValueBuildNode() = default;
 
-IAnyBuildNode* AnyValueBuildNode::GetStructureNode()
+bool AnyValueBuildNode::Bool(boolean b)
 {
-  if (value_node)
+  if (member_name.empty())
   {
     throw InvalidOperationException(
-        "AnyValueBuildNode::GetStructureNode must be called with empty child node");
+        "AnyValueBuildNode::Bool must be called after member name");
   }
-  value_node.reset(new AnyValueBuildNode(this));
+  anyvalue[member_name] = b;
+  member_name.clear();
+  return true;
+}
+
+bool AnyValueBuildNode::Int32(int32 i)
+{
+  if (member_name.empty())
+  {
+    throw InvalidOperationException(
+        "AnyValueBuildNode::Int32 must be called after member name");
+  }
+  anyvalue[member_name] = i;
+  member_name.clear();
+  return true;
+}
+
+bool AnyValueBuildNode::Uint32(uint32 u)
+{
+  if (member_name.empty())
+  {
+    throw InvalidOperationException(
+        "AnyValueBuildNode::Uint32 must be called after member name");
+  }
+  anyvalue[member_name] = u;
+  member_name.clear();
+  return true;
+}
+
+bool AnyValueBuildNode::Int64(int64 i)
+{
+  if (member_name.empty())
+  {
+    throw InvalidOperationException(
+        "AnyValueBuildNode::Int64 must be called after member name");
+  }
+  anyvalue[member_name] = i;
+  member_name.clear();
+  return true;
+}
+
+bool AnyValueBuildNode::Uint64(uint64 u)
+{
+  if (member_name.empty())
+  {
+    throw InvalidOperationException(
+        "AnyValueBuildNode::Uint64 must be called after member name");
+  }
+  anyvalue[member_name] = u;
+  member_name.clear();
+  return true;
+}
+
+bool AnyValueBuildNode::Double(float64 d)
+{
+  if (member_name.empty())
+  {
+    throw InvalidOperationException(
+        "AnyValueBuildNode::Double must be called after member name");
+  }
+  anyvalue[member_name] = d;
+  member_name.clear();
+  return true;
+}
+
+bool AnyValueBuildNode::String(const std::string& str)
+{
+  if (member_name.empty())
+  {
+    throw InvalidOperationException(
+        "AnyValueBuildNode::String must be called after member name");
+  }
+  anyvalue[member_name] = str;
+  member_name.clear();
+  return true;
+}
+
+bool AnyValueBuildNode::Member(const std::string& str)
+{
+  if (!member_name.empty() || str.empty())
+  {
+    throw InvalidOperationException(
+        "AnyValueBuildNode::Member must be called when previous key was resolved and "
+        "with non-empty name");
+  }
+  member_name = str;
+  return true;
+}
+
+IAnyBuildNode* AnyValueBuildNode::GetStructureNode()
+{
+  if (value_node || member_name.empty())
+  {
+    throw InvalidOperationException(
+        "AnyValueBuildNode::GetStructureNode must be called with non-empty member name "
+        "and empty child node");
+  }
+  value_node.reset(new AnyValueBuildNode(this, anyvalue[member_name]));
   return value_node.get();
 }
 
 IAnyBuildNode* AnyValueBuildNode::GetArrayNode()
 {
-  if (array_node)
+  if (array_node || member_name.empty())
   {
     throw InvalidOperationException(
-        "AnyValueBuildNode::GetArrayNode must be called with empty child node");
+        "AnyValueBuildNode::GetArrayNode must be called with non-empty member name "
+        "and empty child node");
   }
-  array_node.reset(new ArrayValueBuildNode(this));
+  array_node.reset(new ArrayValueBuildNode(this, anyvalue[member_name]));
   return array_node.get();
 }
 
 bool AnyValueBuildNode::PopStructureNode()
 {
-  if (!value_node)
+  if (!value_node || member_name.empty())
   {
     throw InvalidOperationException(
-        "AnyValueBuildNode::PopStructureNode must be called with a non-empty child node");
+        "AnyValueBuildNode::PopStructureNode must be called with non-empty member name "
+        "and non-empty child node");
   }
-  anyvalue = value_node->MoveAnyValue();
+  member_name.clear();
   value_node.reset();
   return true;
 }
 
 bool AnyValueBuildNode::PopArrayNode()
 {
-  if (!array_node)
+  if (!array_node || member_name.empty())
   {
     throw InvalidOperationException(
-        "AnyValueBuildNode::PopArrayNode must be called with a non-empty child node");
+        "AnyValueBuildNode::PopArrayNode must be called with non-empty member name "
+        "and non-empty child node");
   }
-  anyvalue = array_node->MoveAnyValue();
+  member_name.clear();
   array_node.reset();
   return true;
-}
-
-AnyValue AnyValueBuildNode::MoveAnyValue() const
-{
-  return std::move(anyvalue);
 }
 
 }  // namespace dto

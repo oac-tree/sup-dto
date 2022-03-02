@@ -3,6 +3,14 @@ target_sources(sup-dto-obj
         ${CMAKE_CURRENT_LIST_DIR}/AnyTypeBuilder.cpp
         ${CMAKE_CURRENT_LIST_DIR}/AnyTypeBuildNode.cpp
         ${CMAKE_CURRENT_LIST_DIR}/AnyTypeRootBuildNode.cpp
+        ${CMAKE_CURRENT_LIST_DIR}/AnyValueArrayBuildNode.cpp
+        ${CMAKE_CURRENT_LIST_DIR}/AnyValueBuilder.cpp
+        ${CMAKE_CURRENT_LIST_DIR}/AnyValueBuildNode.cpp
+        ${CMAKE_CURRENT_LIST_DIR}/AnyValueEncodingElementBuildNode.cpp
+        ${CMAKE_CURRENT_LIST_DIR}/AnyValueRootBuildNode.cpp
+        ${CMAKE_CURRENT_LIST_DIR}/AnyValueTypeElementBuildNode.cpp
+        ${CMAKE_CURRENT_LIST_DIR}/AnyValueValueElementBuildNode.cpp
+        ${CMAKE_CURRENT_LIST_DIR}/ArrayValueBuildNode.cpp
         ${CMAKE_CURRENT_LIST_DIR}/IAnyBuildNode.cpp
         ${CMAKE_CURRENT_LIST_DIR}/MemberTypeArrayBuildNode.cpp
         ${CMAKE_CURRENT_LIST_DIR}/MemberTypeBuildNode.cpp

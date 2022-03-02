@@ -40,20 +40,21 @@ namespace sup
 {
 namespace dto
 {
-class ArrayValueBuildNode;
+class AnyValueBuildNode;
 
 class ArrayValueBuildNode : public IAnyBuildNode
 {
 public:
-  ArrayValueBuildNode(IAnyBuildNode* parent);
+  ArrayValueBuildNode(IAnyBuildNode* parent, AnyValue& anyvalue);
   ~ArrayValueBuildNode();
 
+  bool Bool(boolean b) override;
   bool Int32(int32 i) override;
   bool Uint32(uint32 u) override;
   bool Int64(int64 i) override;
   bool Uint64(uint64 u) override;
+  bool Double(float64 d) override;
   bool String(const std::string& str) override;
-  bool Member(const std::string& str) override;
 
   IAnyBuildNode* GetStructureNode() override;
   IAnyBuildNode* GetArrayNode() override;
@@ -63,9 +64,11 @@ public:
   AnyValue MoveAnyValue() const;
 
 private:
-  std::unique_ptr<ArrayValueBuildNode> value_node;
-  std::unique_ptr<ArrayValueBuildNode> value_node;
-  AnyValue anyvalue;
+  std::unique_ptr<AnyValueBuildNode> value_node;
+  std::unique_ptr<ArrayValueBuildNode> array_node;
+  std::size_t current_index;
+  std::size_t size;
+  AnyValue& anyvalue;
 };
 
 }  // namespace dto

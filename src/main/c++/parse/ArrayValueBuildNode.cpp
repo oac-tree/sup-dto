@@ -21,6 +21,7 @@
 
 #include "ArrayValueBuildNode.h"
 
+#include "AnyValueBuildNode.h"
 #include "AnyValueExceptions.h"
 
 namespace sup
@@ -28,34 +29,115 @@ namespace sup
 namespace dto
 {
 
-ArrayValueBuildNode::ArrayValueBuildNode(IAnyBuildNode* parent)
+ArrayValueBuildNode::ArrayValueBuildNode(IAnyBuildNode* parent, AnyValue& anyvalue_)
   : IAnyBuildNode{parent}
   , value_node{}
   , array_node{}
-  , anyvalue{}
+  , current_index{}
+  , size{anyvalue_.NumberOfElements()}
+  , anyvalue{anyvalue_}
 {}
 
 ArrayValueBuildNode::~ArrayValueBuildNode() = default;
 
-IAnyBuildNode* ArrayValueBuildNode::GetStructureNode()
+bool ArrayValueBuildNode::Bool(boolean b)
 {
-  if (value_node)
+  if (current_index >= size)
   {
     throw InvalidOperationException(
-        "ArrayValueBuildNode::GetStructureNode must be called with empty child node");
+        "AnyValueBuildNode::Bool called more than array size");
   }
-  value_node.reset(new ArrayValueBuildNode(this));
+  anyvalue[current_index++] = b;
+  return true;
+}
+
+bool ArrayValueBuildNode::Int32(int32 i)
+{
+  if (current_index >= size)
+  {
+    throw InvalidOperationException(
+        "AnyValueBuildNode::Int32 called more than array size");
+  }
+  anyvalue[current_index++] = i;
+  return true;
+}
+
+bool ArrayValueBuildNode::Uint32(uint32 u)
+{
+  if (current_index >= size)
+  {
+    throw InvalidOperationException(
+        "AnyValueBuildNode::Uint32 called more than array size");
+  }
+  anyvalue[current_index++] = u;
+  return true;
+}
+
+bool ArrayValueBuildNode::Int64(int64 i)
+{
+  if (current_index >= size)
+  {
+    throw InvalidOperationException(
+        "AnyValueBuildNode::Int64 called more than array size");
+  }
+  anyvalue[current_index++] = i;
+  return true;
+}
+
+bool ArrayValueBuildNode::Uint64(uint64 u)
+{
+  if (current_index >= size)
+  {
+    throw InvalidOperationException(
+        "AnyValueBuildNode::Uint64 called more than array size");
+  }
+  anyvalue[current_index++] = u;
+  return true;
+}
+
+bool ArrayValueBuildNode::Double(float64 d)
+{
+  if (current_index >= size)
+  {
+    throw InvalidOperationException(
+        "AnyValueBuildNode::Double called more than array size");
+  }
+  anyvalue[current_index++] = d;
+  return true;
+}
+
+bool ArrayValueBuildNode::String(const std::string& str)
+{
+  if (current_index >= size)
+  {
+    throw InvalidOperationException(
+        "AnyValueBuildNode::String called more than array size");
+  }
+  anyvalue[current_index++] = str;
+  return true;
+}
+
+IAnyBuildNode* ArrayValueBuildNode::GetStructureNode()
+{
+  if (value_node || current_index >= size)
+  {
+    throw InvalidOperationException(
+        "ArrayValueBuildNode::GetStructureNode must be called with empty child node "
+        "and without exceeding array size");
+  }
+  value_node.reset(new AnyValueBuildNode(this, anyvalue[current_index++]));
   return value_node.get();
 }
 
 IAnyBuildNode* ArrayValueBuildNode::GetArrayNode()
 {
-  if (array_node)
+  if (array_node || current_index >= size)
   {
     throw InvalidOperationException(
-        "ArrayValueBuildNode::GetArrayNode must be called with empty child node");
+        "ArrayValueBuildNode::GetArrayNode must be called with empty child node "
+        "and without exceeding array size");
   }
-  array_node.reset(new ArrayValueBuildNode(this));
+  array_node.reset(new ArrayValueBuildNode(this, anyvalue[current_index++]));
   return array_node.get();
 }
 
@@ -66,7 +148,6 @@ bool ArrayValueBuildNode::PopStructureNode()
     throw InvalidOperationException(
         "ArrayValueBuildNode::PopStructureNode must be called with a non-empty child node");
   }
-  anyvalue = value_node->MoveAnyValue();
   value_node.reset();
   return true;
 }
@@ -78,14 +159,8 @@ bool ArrayValueBuildNode::PopArrayNode()
     throw InvalidOperationException(
         "ArrayValueBuildNode::PopArrayNode must be called with a non-empty child node");
   }
-  anyvalue = array_node->MoveAnyValue();
   array_node.reset();
   return true;
-}
-
-AnyValue ArrayValueBuildNode::MoveAnyValue() const
-{
-  return std::move(anyvalue);
 }
 
 }  // namespace dto

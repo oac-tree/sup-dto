@@ -30,15 +30,15 @@ namespace dto
 {
 
 AnyValueBuilder::AnyValueBuilder()
-  : root{new AnyTypeRootBuildNode{}}
+  : root{new AnyValueRootBuildNode{}}
   , current{root.get()}
 {}
 
 AnyValueBuilder::~AnyValueBuilder() = default;
 
-AnyType AnyValueBuilder::MoveAnyType()
+AnyValue AnyValueBuilder::MoveAnyValue()
 {
-  return root->MoveAnyType();
+  return root->MoveAnyValue();
 }
 
 bool AnyValueBuilder::Null()

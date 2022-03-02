@@ -20,16 +20,16 @@
  ******************************************************************************/
 
 /**
- * @file AnyValueBuildNode.h
- * @brief Header file for the AnyValueBuildNode class.
+ * @file AnyValueValueElementBuildNode.h
+ * @brief Header file for the AnyValueValueElementBuildNode class.
  * @date 02/03/2022
  * @author Walter Van Herck (IO)
  * @copyright 2010-2022 ITER Organization
- * @details This header file contains the definition of the AnyValueBuildNode class.
+ * @details This header file contains the definition of the AnyValueValueElementBuildNode class.
  */
 
-#ifndef _SUP_AnyValueBuildNode_h_
-#define _SUP_AnyValueBuildNode_h_
+#ifndef _SUP_AnyValueValueElementBuildNode_h_
+#define _SUP_AnyValueValueElementBuildNode_h_
 
 #include "IAnyBuildNode.h"
 #include "AnyValue.h"
@@ -40,21 +40,15 @@ namespace sup
 {
 namespace dto
 {
+class AnyValueBuildNode;
 class ArrayValueBuildNode;
 
-class AnyValueBuildNode : public IAnyBuildNode
+class AnyValueValueElementBuildNode : public IAnyBuildNode
 {
 public:
-  AnyValueBuildNode(IAnyBuildNode* parent, AnyValue& anyvalue);
-  ~AnyValueBuildNode();
+  AnyValueValueElementBuildNode(IAnyBuildNode* parent, AnyValue& anyvalue);
+  ~AnyValueValueElementBuildNode();
 
-  bool Bool(boolean b) override;
-  bool Int32(int32 i) override;
-  bool Uint32(uint32 u) override;
-  bool Int64(int64 i) override;
-  bool Uint64(uint64 u) override;
-  bool Double(float64 d) override;
-  bool String(const std::string& str) override;
   bool Member(const std::string& str) override;
 
   IAnyBuildNode* GetStructureNode() override;
@@ -73,4 +67,4 @@ private:
 
 }  // namespace sup
 
-#endif  // _SUP_AnyValueBuildNode_h_
+#endif  // _SUP_AnyValueValueElementBuildNode_h_
