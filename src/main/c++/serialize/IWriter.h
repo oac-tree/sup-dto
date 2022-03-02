@@ -49,8 +49,6 @@ class IWriter
 public:
   virtual ~IWriter();
 
-  virtual std::string GetRepresentation() const = 0;
-
   virtual bool Null() = 0;
   virtual bool Bool(boolean b) = 0;
   virtual bool Char(char8 c) = 0;

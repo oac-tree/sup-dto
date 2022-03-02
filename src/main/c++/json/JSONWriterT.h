@@ -33,20 +33,25 @@
 
 #include "IWriter.h"
 
+#include "rapidjson/prettywriter.h"
+#include "rapidjson/ostreamwrapper.h"
+#include "rapidjson/writer.h"
+
+#include <ostream>
+
 namespace sup
 {
 namespace dto
 {
+using RapidJSONWriter = rapidjson::Writer<rapidjson::OStreamWrapper>;
+using RapidJSONPrettyWriter = rapidjson::PrettyWriter<rapidjson::OStreamWrapper>;
 
-template <typename Buffer, template <typename> typename WriterImpl>
+template <typename WriterImpl>
 class JSONStringWriterT : public IWriter
 {
 public:
-  JSONStringWriterT();
+  JSONStringWriterT(std::ostream& out_stream);
   ~JSONStringWriterT();
-
-  std::string GetRepresentation() const override;
-  WriterImpl<Buffer>& GetWriterImpl();
 
   bool Null() override;
   bool Bool(boolean b) override;
@@ -69,141 +74,137 @@ public:
   bool EndArray() override;
 
 private:
-  Buffer buffer;
-  WriterImpl<Buffer> json_writer;
+  rapidjson::OStreamWrapper osw;
+  WriterImpl json_writer;
 };
 
-template <typename Buffer, template <typename> typename WriterImpl>
-JSONStringWriterT<Buffer, WriterImpl>::JSONStringWriterT()
-  : buffer{}
-  , json_writer{buffer}
+template <typename WriterImpl>
+JSONStringWriterT<WriterImpl>::JSONStringWriterT(std::ostream& out_stream)
+  : osw{out_stream}
+  , json_writer{osw}
 {}
 
-template <typename Buffer, template <typename> typename WriterImpl>
-JSONStringWriterT<Buffer, WriterImpl>::~JSONStringWriterT() = default;
-
-template <typename Buffer, template <typename> typename WriterImpl>
-std::string JSONStringWriterT<Buffer, WriterImpl>::GetRepresentation() const
+template <>
+JSONStringWriterT<RapidJSONPrettyWriter>::JSONStringWriterT(std::ostream& out_stream)
+  : osw{out_stream}
+  , json_writer{osw}
 {
-  return buffer.GetString();
+  json_writer.SetIndent(' ', 2);
 }
 
-template <typename Buffer, template <typename> typename WriterImpl>
-WriterImpl<Buffer>& JSONStringWriterT<Buffer, WriterImpl>::GetWriterImpl()
-{
-  return json_writer;
-}
+template <typename WriterImpl>
+JSONStringWriterT<WriterImpl>::~JSONStringWriterT() = default;
 
-template <typename Buffer, template <typename> typename WriterImpl>
-bool JSONStringWriterT<Buffer, WriterImpl>::Null()
+template <typename WriterImpl>
+bool JSONStringWriterT<WriterImpl>::Null()
 {
   return json_writer.Null();
 }
 
-template <typename Buffer, template <typename> typename WriterImpl>
-bool JSONStringWriterT<Buffer, WriterImpl>::Bool(boolean b)
+template <typename WriterImpl>
+bool JSONStringWriterT<WriterImpl>::Bool(boolean b)
 {
   return json_writer.Bool(b);
 }
 
-template <typename Buffer, template <typename> typename WriterImpl>
-bool JSONStringWriterT<Buffer, WriterImpl>::Char(char8 c)
+template <typename WriterImpl>
+bool JSONStringWriterT<WriterImpl>::Char(char8 c)
 {
   return json_writer.Int(c);
 }
 
-template <typename Buffer, template <typename> typename WriterImpl>
-bool JSONStringWriterT<Buffer, WriterImpl>::Int8(int8 i)
+template <typename WriterImpl>
+bool JSONStringWriterT<WriterImpl>::Int8(int8 i)
 {
   return json_writer.Int(i);
 }
 
-template <typename Buffer, template <typename> typename WriterImpl>
-bool JSONStringWriterT<Buffer, WriterImpl>::Uint8(uint8 u)
+template <typename WriterImpl>
+bool JSONStringWriterT<WriterImpl>::Uint8(uint8 u)
 {
   return json_writer.Uint(u);
 }
 
-template <typename Buffer, template <typename> typename WriterImpl>
-bool JSONStringWriterT<Buffer, WriterImpl>::Int16(int16 i)
+template <typename WriterImpl>
+bool JSONStringWriterT<WriterImpl>::Int16(int16 i)
 {
   return json_writer.Int(i);
 }
 
-template <typename Buffer, template <typename> typename WriterImpl>
-bool JSONStringWriterT<Buffer, WriterImpl>::Uint16(uint16 u)
+template <typename WriterImpl>
+bool JSONStringWriterT<WriterImpl>::Uint16(uint16 u)
 {
   return json_writer.Uint(u);
 }
 
-template <typename Buffer, template <typename> typename WriterImpl>
-bool JSONStringWriterT<Buffer, WriterImpl>::Int32(int32 i)
+template <typename WriterImpl>
+bool JSONStringWriterT<WriterImpl>::Int32(int32 i)
 {
   return json_writer.Int(i);
 }
 
-template <typename Buffer, template <typename> typename WriterImpl>
-bool JSONStringWriterT<Buffer, WriterImpl>::Uint32(uint32 u)
+template <typename WriterImpl>
+bool JSONStringWriterT<WriterImpl>::Uint32(uint32 u)
 {
   return json_writer.Uint(u);
 }
 
-template <typename Buffer, template <typename> typename WriterImpl>
-bool JSONStringWriterT<Buffer, WriterImpl>::Int64(int64 i)
+template <typename WriterImpl>
+bool JSONStringWriterT<WriterImpl>::Int64(int64 i)
 {
   return json_writer.Int64(i);
 }
 
-template <typename Buffer, template <typename> typename WriterImpl>
-bool JSONStringWriterT<Buffer, WriterImpl>::Uint64(uint64 u)
+template <typename WriterImpl>
+bool JSONStringWriterT<WriterImpl>::Uint64(uint64 u)
 {
   return json_writer.Uint64(u);
 }
 
-template <typename Buffer, template <typename> typename WriterImpl>
-bool JSONStringWriterT<Buffer, WriterImpl>::Float(float32 f)
+template <typename WriterImpl>
+bool JSONStringWriterT<WriterImpl>::Float(float32 f)
 {
   return json_writer.Double(f);
 }
 
-template <typename Buffer, template <typename> typename WriterImpl>
-bool JSONStringWriterT<Buffer, WriterImpl>::Double(float64 d)
+template <typename WriterImpl>
+bool JSONStringWriterT<WriterImpl>::Double(float64 d)
 {
   return json_writer.Double(d);
 }
 
-template <typename Buffer, template <typename> typename WriterImpl>
-bool JSONStringWriterT<Buffer, WriterImpl>::String(const std::string& str)
+template <typename WriterImpl>
+bool JSONStringWriterT<WriterImpl>::String(const std::string& str)
 {
   return json_writer.String(str.c_str(), str.size());
 }
 
-template <typename Buffer, template <typename> typename WriterImpl>
-bool JSONStringWriterT<Buffer, WriterImpl>::StartStructure()
+template <typename WriterImpl>
+bool JSONStringWriterT<WriterImpl>::StartStructure()
 {
   return json_writer.StartObject();
 }
 
-template <typename Buffer, template <typename> typename WriterImpl>
-bool JSONStringWriterT<Buffer, WriterImpl>::Member(const std::string& str)
+template <typename WriterImpl>
+bool JSONStringWriterT<WriterImpl>::Member(const std::string& str)
 {
   return json_writer.Key(str.c_str(), str.size());
 }
 
-template <typename Buffer, template <typename> typename WriterImpl>
-bool JSONStringWriterT<Buffer, WriterImpl>::EndStructure()
+template <typename WriterImpl>
+bool JSONStringWriterT<WriterImpl>::EndStructure()
 {
   return json_writer.EndObject();
 }
 
-template <typename Buffer, template <typename> typename WriterImpl>
-bool JSONStringWriterT<Buffer, WriterImpl>::StartArray()
+template <typename WriterImpl>
+bool JSONStringWriterT<WriterImpl>::StartArray()
 {
   return json_writer.StartArray();
 }
 
-template <typename Buffer, template <typename> typename WriterImpl>
-bool JSONStringWriterT<Buffer, WriterImpl>::EndArray()
+template <typename WriterImpl>
+bool JSONStringWriterT<WriterImpl>::EndArray()
 {
   return json_writer.EndArray();
 }

@@ -63,12 +63,13 @@ std::vector<uint8> ToBytes(const AnyValue& anyvalue);
  * @brief Serialize the values of an AnyValue using a JSON serializer.
  *
  * @param anyvalue AnyValue object to serialize.
+ * @param pretty Use pretty printing.
  * @return JSON string if successfull, empty otherwise.
  *
  * @note This serialization only contains a map of the values and is insufficient to reconstruct the
  * exact AnyValue back. Reversible serialization also requires the type (see ToJSONString function).
  */
-std::string ValuesToJSONString(const AnyValue& anyvalue);
+std::string ValuesToJSONString(const AnyValue& anyvalue, bool pretty=false);
 
 /**
  * @brief Serialize an AnyValue using a JSON serializer.

@@ -31,18 +31,22 @@
 #ifndef _SUP_JSONWriter_h_
 #define _SUP_JSONWriter_h_
 
-#include "IWriter.h"
-
-#include <memory>
+#include <ostream>
 
 namespace sup
 {
 namespace dto
 {
+class AnyType;
+class AnyValue;
 
-std::unique_ptr<IWriter> CreateJSONStringWriter();
+void JSONSerializeAnyType(std::ostream& json_stream, const AnyType& anytype, bool pretty = false);
 
-std::unique_ptr<IWriter> CreatePrettyJSONStringWriter();
+void JSONSerializeAnyValue(std::ostream& json_stream, const AnyValue& anyvalue,
+                           bool pretty = false);
+
+void JSONSerializeAnyValueValues(std::ostream& json_stream, const AnyValue& anyvalue,
+                                 bool pretty = false);
 
 }  // namespace dto
 

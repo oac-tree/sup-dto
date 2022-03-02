@@ -21,10 +21,9 @@
 
 #include "AnyTypeHelper.h"
 #include "AnyType.h"
-#include "SerializeT.h"
 #include "JSONReader.h"
 #include "JSONWriter.h"
-#include "WriterSerializer.h"
+#include "SerializeT.h"
 
 #include <sstream>
 
@@ -40,11 +39,9 @@ void SerializeAnyType(const AnyType& anytype, IAnySerializer<AnyType>& serialize
 
 std::string ToJSONString(const AnyType& anytype, bool pretty)
 {
-  auto writer = pretty ? CreatePrettyJSONStringWriter()
-                       : CreateJSONStringWriter();
-  WriterTypeSerializer serializer(writer.get());
-  SerializeAnyType(anytype, serializer);
-  return writer->GetRepresentation();
+  std::ostringstream oss;
+  JSONSerializeAnyType(oss, anytype, pretty);
+  return oss.str();
 }
 
 AnyType AnyTypeFromJSONString(const std::string& json_str)

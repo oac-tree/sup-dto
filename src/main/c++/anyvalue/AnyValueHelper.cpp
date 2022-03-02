@@ -20,24 +20,17 @@
  ******************************************************************************/
 
 #include "AnyValueHelper.h"
-#include "AnyTypeHelper.h"
 #include "AnyValue.h"
 #include "ByteSerializer.h"
 #include "JSONWriter.h"
 #include "SerializeT.h"
-#include "WriterSerializer.h"
+
+#include <sstream>
 
 namespace sup
 {
 namespace dto
 {
-namespace
-{
-void ToJSONWriter(IWriter& writer, const AnyValue& anyvalue);
-void AddEncodingInformation(IWriter& writer);
-void AddDatatypeStart(IWriter& writer);
-void AddValueStart(IWriter& writer);
-}
 
 void SerializeAnyValue(const AnyValue& anyvalue, IAnySerializer<AnyValue>& serializer)
 {
@@ -47,62 +40,22 @@ void SerializeAnyValue(const AnyValue& anyvalue, IAnySerializer<AnyValue>& seria
 std::vector<uint8> ToBytes(const AnyValue& anyvalue)
 {
   ByteSerializer serializer;
-  SerializeAnyValue(anyvalue, serializer);
+  Serialize(anyvalue, serializer);
   return serializer.GetRepresentation();
 }
 
-std::string ValuesToJSONString(const AnyValue& anyvalue)
+std::string ValuesToJSONString(const AnyValue& anyvalue, bool pretty)
 {
-  auto writer = CreateJSONStringWriter();
-  WriterValueSerializer serializer(writer.get());
-  SerializeAnyValue(anyvalue, serializer);
-  return writer->GetRepresentation();
+  std::ostringstream oss;
+  JSONSerializeAnyValueValues(oss, anyvalue, pretty);
+  return oss.str();
 }
 
 std::string ToJSONString(const AnyValue& anyvalue, bool pretty)
 {
-  auto writer = pretty ? CreatePrettyJSONStringWriter()
-                       : CreateJSONStringWriter();
-  ToJSONWriter(*writer, anyvalue);
-  return writer->GetRepresentation();
-}
-
-namespace
-{
-void ToJSONWriter(IWriter& writer, const AnyValue& anyvalue)
-{
-  writer.StartArray();
-  AddEncodingInformation(writer);
-  AddDatatypeStart(writer);
-  WriterTypeSerializer type_serializer(&writer);
-  SerializeAnyType(anyvalue.GetType(), type_serializer);
-  writer.EndStructure();
-  AddValueStart(writer);
-  WriterValueSerializer value_serializer(&writer);
-  SerializeAnyValue(anyvalue, value_serializer);
-  writer.EndStructure();
-  writer.EndArray();
-}
-
-void AddEncodingInformation(IWriter& writer)
-{
-  writer.StartStructure();
-  writer.Member("encoding");
-  writer.String("sup-dto/v1.0/JSON");
-  writer.EndStructure();
-}
-
-void AddDatatypeStart(IWriter& writer)
-{
-  writer.StartStructure();
-  writer.Member("datatype");
-}
-
-void AddValueStart(IWriter& writer)
-{
-  writer.StartStructure();
-  writer.Member("instance");
-}
+  std::ostringstream oss;
+  JSONSerializeAnyValue(oss, anyvalue, pretty);
+  return oss.str();
 }
 
 }  // namespace dto

@@ -20,36 +20,102 @@
  ******************************************************************************/
 
 #include "JSONWriter.h"
-#include "JSONWriterT.h"
 
-#include "rapidjson/prettywriter.h"
-#include "rapidjson/stringbuffer.h"
-#include "rapidjson/writer.h"
+#include "AnyType.h"
+#include "AnyValue.h"
+#include "JSONWriterT.h"
+#include "SerializeT.h"
+#include "WriterSerializer.h"
 
 namespace sup
 {
 namespace dto
 {
-
-template <typename Buffer>
-using RapidJSONWriter = rapidjson::Writer<Buffer>;
-template <typename Buffer>
-using RapidJSONPrettyWriter = rapidjson::PrettyWriter<Buffer>;
-
-using JSONStringWriter = JSONStringWriterT<rapidjson::StringBuffer, RapidJSONWriter>;
-using PrettyJSONStringWriter = JSONStringWriterT<rapidjson::StringBuffer, RapidJSONPrettyWriter>;
-
-std::unique_ptr<IWriter> CreateJSONStringWriter()
+namespace
 {
-  return std::unique_ptr<IWriter>(new JSONStringWriter());
+std::unique_ptr<IWriter> CreateJSONWriter(std::ostream& out_stream);
+std::unique_ptr<IWriter> CreatePrettyJSONWriter(std::ostream& out_stream);
+
+void ToJSONWriter(IWriter& writer, const AnyValue& anyvalue);
+void AddEncodingInformation(IWriter& writer);
+void AddDatatypeStart(IWriter& writer);
+void AddValueStart(IWriter& writer);
 }
 
-std::unique_ptr<IWriter> CreatePrettyJSONStringWriter()
+
+using JSONStringWriter = JSONStringWriterT<RapidJSONWriter>;
+using PrettyJSONStringWriter = JSONStringWriterT<RapidJSONPrettyWriter>;
+
+void JSONSerializeAnyType(std::ostream& json_stream, const AnyType& anytype, bool pretty)
 {
-  std::unique_ptr<PrettyJSONStringWriter> result{new PrettyJSONStringWriter()};
-  result->GetWriterImpl().SetIndent(' ', 2);
-  return std::unique_ptr<IWriter>(result.release());
+  auto writer = pretty ? CreatePrettyJSONWriter(json_stream)
+                       : CreateJSONWriter(json_stream);
+  WriterTypeSerializer serializer(writer.get());
+  Serialize(anytype, serializer);
 }
+
+void JSONSerializeAnyValue(std::ostream& json_stream, const AnyValue& anyvalue, bool pretty)
+{
+  auto writer = pretty ? CreatePrettyJSONWriter(json_stream)
+                       : CreateJSONWriter(json_stream);
+  ToJSONWriter(*writer, anyvalue);
+}
+
+void JSONSerializeAnyValueValues(std::ostream& json_stream, const AnyValue& anyvalue, bool pretty)
+{
+  auto writer = pretty ? CreatePrettyJSONWriter(json_stream)
+                       : CreateJSONWriter(json_stream);
+  WriterValueSerializer serializer(writer.get());
+  Serialize(anyvalue, serializer);
+}
+
+namespace
+{
+std::unique_ptr<IWriter> CreateJSONWriter(std::ostream& out_stream)
+{
+  return std::unique_ptr<IWriter>(new JSONStringWriter(out_stream));
+}
+
+std::unique_ptr<IWriter> CreatePrettyJSONWriter(std::ostream& out_stream)
+{
+  return std::unique_ptr<IWriter>(new PrettyJSONStringWriter(out_stream));
+}
+
+void ToJSONWriter(IWriter& writer, const AnyValue& anyvalue)
+{
+  writer.StartArray();
+  AddEncodingInformation(writer);
+  AddDatatypeStart(writer);
+  WriterTypeSerializer type_serializer(&writer);
+  Serialize(anyvalue.GetType(), type_serializer);
+  writer.EndStructure();
+  AddValueStart(writer);
+  WriterValueSerializer value_serializer(&writer);
+  Serialize(anyvalue, value_serializer);
+  writer.EndStructure();
+  writer.EndArray();
+}
+
+void AddEncodingInformation(IWriter& writer)
+{
+  writer.StartStructure();
+  writer.Member("encoding");
+  writer.String("sup-dto/v1.0/JSON");
+  writer.EndStructure();
+}
+
+void AddDatatypeStart(IWriter& writer)
+{
+  writer.StartStructure();
+  writer.Member("datatype");
+}
+
+void AddValueStart(IWriter& writer)
+{
+  writer.StartStructure();
+  writer.Member("instance");
+}
+}  // unnamed namespace
 
 }  // namespace dto
 
