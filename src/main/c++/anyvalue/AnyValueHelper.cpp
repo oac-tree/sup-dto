@@ -22,6 +22,7 @@
 #include "AnyValueHelper.h"
 #include "AnyValue.h"
 #include "ByteSerializer.h"
+#include "JSONReader.h"
 #include "JSONWriter.h"
 #include "SerializeT.h"
 
@@ -56,6 +57,12 @@ std::string ToJSONString(const AnyValue& anyvalue, bool pretty)
   std::ostringstream oss;
   JSONSerializeAnyValue(oss, anyvalue, pretty);
   return oss.str();
+}
+
+AnyValue AnyValueFromJSONString(const std::string& json_str)
+{
+  std::istringstream iss(json_str);
+  return JSONParseAnyValue(iss);
 }
 
 }  // namespace dto

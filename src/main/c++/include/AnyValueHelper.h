@@ -83,6 +83,14 @@ std::string ValuesToJSONString(const AnyValue& anyvalue, bool pretty=false);
  */
 std::string ToJSONString(const AnyValue& anyvalue, bool pretty=false);
 
+/**
+ * @brief Parse an AnyValue from a string using a JSON parser.
+ *
+ * @param json_str JSON string.
+ * @return Parsed AnyValue.
+ */
+AnyValue AnyValueFromJSONString(const std::string& json_str);
+
 }  // namespace dto
 
 }  // namespace sup
