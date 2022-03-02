@@ -1,0 +1,245 @@
+/******************************************************************************
+ * $HeadURL: $
+ * $Id: $
+ *
+ * Project       : SUP - DTO
+ *
+ * Description   : Unit test code
+ *
+ * Author        : Walter Van Herck (IO)
+ *
+ * Copyright (c) : 2010-2022 ITER Organization,
+ *                 CS 90 046
+ *                 13067 St. Paul-lez-Durance Cedex
+ *                 France
+ *
+ * This file is part of ITER CODAC software.
+ * For the terms and conditions of redistribution or use of this software
+ * refer to the file ITER-LICENSE.TXT located in the top level directory
+ * of the distribution package.
+ ******************************************************************************/
+
+#include <gtest/gtest.h>
+
+#include "AnyValueHelper.h"
+#include "AnyValue.h"
+
+using namespace sup::dto;
+
+static const std::string json_simple_struct_full =
+    R"RAW([{"encoding":"sup-dto/v1.0/JSON"},{"datatype":{"type":"","attributes":[{"id":{"type":"string"}},{"number":{"type":"int32"}},{"weight":{"type":"float64"}}]}},{"instance":{"id":"my_id","number":1729,"weight":50.25}}])RAW";
+
+static const std::string json_simple_array_full =
+    R"RAW([{"encoding":"sup-dto/v1.0/JSON"},{"datatype":{"type":"","multiplicity":5,"element":{"type":"int32"}}},{"instance":[0,20,40,60,80]}])RAW";
+
+static const std::string pretty_json_simple_struct =
+R"RAW([
+  {
+    "encoding": "sup-dto/v1.0/JSON"
+  },
+  {
+    "datatype": {
+      "type": "",
+      "attributes": [
+        {
+          "id": {
+            "type": "string"
+          }
+        },
+        {
+          "number": {
+            "type": "int32"
+          }
+        },
+        {
+          "weight": {
+            "type": "float64"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "instance": {
+      "id": "my_id",
+      "number": 1729,
+      "weight": 50.25
+    }
+  }
+])RAW";
+
+class AnyValueJSONParseTest : public ::testing::Test
+{
+protected:
+  AnyValueJSONParseTest();
+  virtual ~AnyValueJSONParseTest();
+};
+
+TEST_F(AnyValueJSONParseTest, EmptyValue)
+{
+  AnyValue empty{};
+  auto json_string = ToJSONString(empty);
+  auto parsed_val = AnyValueFromJSONString(json_string);
+  EXPECT_EQ(empty, parsed_val);
+}
+
+TEST_F(AnyValueJSONParseTest, BooleanValue)
+{
+  AnyValue bool_val = true;
+  auto json_string = ToJSONString(bool_val);
+  auto parsed_val = AnyValueFromJSONString(json_string);
+  EXPECT_EQ(bool_val, parsed_val);
+}
+
+TEST_F(AnyValueJSONParseTest, Char8Value)
+{
+  AnyValue char8_val = 'a';
+  auto json_string = ToJSONString(char8_val);
+  auto parsed_val = AnyValueFromJSONString(json_string);
+  EXPECT_EQ(char8_val, parsed_val);
+}
+
+TEST_F(AnyValueJSONParseTest, Int8Value)
+{
+  AnyValue int8_val = {SignedInteger8, -7};
+  auto json_string = ToJSONString(int8_val);
+  auto parsed_val = AnyValueFromJSONString(json_string);
+  EXPECT_EQ(int8_val, parsed_val);
+}
+
+TEST_F(AnyValueJSONParseTest, UInt8Value)
+{
+  AnyValue uint8_val = {UnsignedInteger8, 240};
+  auto json_string = ToJSONString(uint8_val);
+  auto parsed_val = AnyValueFromJSONString(json_string);
+  EXPECT_EQ(uint8_val, parsed_val);
+}
+
+TEST_F(AnyValueJSONParseTest, Int16Value)
+{
+  AnyValue int16_val = {SignedInteger16, -300};
+  auto json_string = ToJSONString(int16_val);
+  auto parsed_val = AnyValueFromJSONString(json_string);
+  EXPECT_EQ(int16_val, parsed_val);
+}
+
+TEST_F(AnyValueJSONParseTest, UInt16Value)
+{
+  AnyValue uint16_val = {UnsignedInteger16, 4008};
+  auto json_string = ToJSONString(uint16_val);
+  auto parsed_val = AnyValueFromJSONString(json_string);
+  EXPECT_EQ(uint16_val, parsed_val);
+}
+
+TEST_F(AnyValueJSONParseTest, Int32Value)
+{
+  AnyValue int32_val = {SignedInteger32, -300001};
+  auto json_string = ToJSONString(int32_val);
+  auto parsed_val = AnyValueFromJSONString(json_string);
+  EXPECT_EQ(int32_val, parsed_val);
+}
+
+TEST_F(AnyValueJSONParseTest, UInt32Value)
+{
+  AnyValue uint32_val = {UnsignedInteger32, 123456};
+  auto json_string = ToJSONString(uint32_val);
+  auto parsed_val = AnyValueFromJSONString(json_string);
+  EXPECT_EQ(uint32_val, parsed_val);
+}
+
+TEST_F(AnyValueJSONParseTest, Int64Value)
+{
+  AnyValue int64_val = {SignedInteger64, -5001002003004};
+  auto json_string = ToJSONString(int64_val);
+  auto parsed_val = AnyValueFromJSONString(json_string);
+  EXPECT_EQ(int64_val, parsed_val);
+}
+
+TEST_F(AnyValueJSONParseTest, UInt64Value)
+{
+  AnyValue uint64_val = {UnsignedInteger64, 2001002003004005};
+  auto json_string = ToJSONString(uint64_val);
+  auto parsed_val = AnyValueFromJSONString(json_string);
+  EXPECT_EQ(uint64_val, parsed_val);
+}
+
+TEST_F(AnyValueJSONParseTest, Float32Value)
+{
+  AnyValue float32_val = {Float32, 90};
+  auto json_string = ToJSONString(float32_val);
+  auto parsed_val = AnyValueFromJSONString(json_string);
+  EXPECT_EQ(float32_val, parsed_val);
+}
+
+TEST_F(AnyValueJSONParseTest, Float64Value)
+{
+  AnyValue float64_val = {Float64, -777.125};
+  auto json_string = ToJSONString(float64_val);
+  auto parsed_val = AnyValueFromJSONString(json_string);
+  EXPECT_EQ(float64_val, parsed_val);
+}
+
+TEST_F(AnyValueJSONParseTest, SimpleStructValue)
+{
+  AnyValue simple_struct_val({
+    {"id", {String, "my_id"}},
+    {"number", {SignedInteger32, 1729}},
+    {"weight", {Float64, 50.25}}
+  });
+  auto json_string = ToJSONString(simple_struct_val);
+  auto parsed_val = AnyValueFromJSONString(json_string);
+  EXPECT_EQ(simple_struct_val, parsed_val);
+  auto parsed_val2 = AnyValueFromJSONString(json_simple_struct_full);
+  EXPECT_EQ(simple_struct_val, parsed_val2);
+}
+
+TEST_F(AnyValueJSONParseTest, PrettySimpleStructValue)
+{
+  AnyValue simple_struct_val({
+    {"id", {String, "my_id"}},
+    {"number", {SignedInteger32, 1729}},
+    {"weight", {Float64, 50.25}}
+  });
+  auto parsed_val = AnyValueFromJSONString(pretty_json_simple_struct);
+  EXPECT_EQ(simple_struct_val, parsed_val);
+}
+
+TEST_F(AnyValueJSONParseTest, SimpleArrayValue)
+{
+  AnyValue simple_array_val(5, SignedInteger32);
+  for (int i=0; i<5; ++i)
+  {
+    simple_array_val[i] = 20*i;
+  }
+  auto json_string = ToJSONString(simple_array_val);
+  auto parsed_val = AnyValueFromJSONString(json_string);
+  EXPECT_EQ(simple_array_val, parsed_val);
+  auto parsed_val2 = AnyValueFromJSONString(json_simple_array_full);
+  EXPECT_EQ(simple_array_val, parsed_val2);
+}
+
+TEST_F(AnyValueJSONParseTest, ComplexStructValue)
+{
+  AnyType simple_struct_type({
+    {"id", String},
+    {"number", UnsignedInteger64}
+  });
+  AnyType array_of_struct_type(2, simple_struct_type);
+  AnyType complex_struct_type({
+    {"array", array_of_struct_type},
+    {"nested", simple_struct_type},
+    {"validated", Boolean}
+  });
+  AnyValue complex_struct_val(complex_struct_type);
+  complex_struct_val["array[1].id"] = "second_id";
+  complex_struct_val["array[0].number"] = 23;
+  complex_struct_val["validated"] = false;
+  auto json_string = ToJSONString(complex_struct_val);
+  auto parsed_val = AnyValueFromJSONString(json_string);
+  EXPECT_EQ(complex_struct_val, parsed_val);
+}
+
+AnyValueJSONParseTest::AnyValueJSONParseTest() = default;
+
+AnyValueJSONParseTest::~AnyValueJSONParseTest() = default;
+
