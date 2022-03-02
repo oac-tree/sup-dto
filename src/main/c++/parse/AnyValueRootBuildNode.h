@@ -20,40 +20,46 @@
  ******************************************************************************/
 
 /**
- * @file SerializationConstants.h
- * @brief Header file for the serialization constants.
- * @date 01/03/2022
+ * @file AnyValueRootBuildNode.h
+ * @brief Header file for the AnyValueRootBuildNode class.
+ * @date 02/03/2022
  * @author Walter Van Herck (IO)
  * @copyright 2010-2022 ITER Organization
- * @details This header file contains the definition of the serialization constants.
+ * @details This header file contains the definition of the AnyValueRootBuildNode class.
  */
 
-#ifndef _SUP_SerializationConstants_h_
-#define _SUP_SerializationConstants_h_
+#ifndef _SUP_AnyValueRootBuildNode_h_
+#define _SUP_AnyValueRootBuildNode_h_
 
-#include <string>
+#include "IAnyBuildNode.h"
+#include "AnyValue.h"
+
+#include <memory>
 
 namespace sup
 {
 namespace dto
 {
-namespace serialization
+class AnyValueArrayBuildNode;
+
+class AnyValueRootBuildNode : public IAnyBuildNode
 {
+public:
+  AnyValueRootBuildNode(IAnyBuildNode* parent = nullptr);
+  ~AnyValueRootBuildNode();
 
-static const std::string ENCODING_KEY = "encoding";
-static const std::string JSON_ENCODING_1_0 = "sup-dto/v1.0/JSON";
-static const std::string DATATYPE_KEY = "datatype";
-static const std::string INSTANCE_KEY = "instance";
+  IAnyBuildNode* GetArrayNode() override;
+  bool PopArrayNode() override;
 
-static const std::string TYPE_KEY = "type";
-static const std::string MULTIPLICITY_KEY = "multiplicity";
-static const std::string ELEMENT_KEY = "element";
-static const std::string ATTRIBUTES_KEY = "attributes";
+  AnyValue MoveAnyValue() const;
 
-}  // namespace serialization
+private:
+  std::unique_ptr<AnyValueArrayBuildNode> array_node;
+  AnyValue anyvalue;
+};
 
 }  // namespace dto
 
 }  // namespace sup
 
-#endif  // _SUP_SerializationConstants_h_
+#endif  // _SUP_AnyValueRootBuildNode_h_

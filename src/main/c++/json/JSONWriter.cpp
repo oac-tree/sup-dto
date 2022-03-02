@@ -24,6 +24,7 @@
 #include "AnyType.h"
 #include "AnyValue.h"
 #include "JSONWriterT.h"
+#include "SerializationConstants.h"
 #include "SerializeT.h"
 #include "WriterSerializer.h"
 
@@ -99,21 +100,21 @@ void ToJSONWriter(IWriter& writer, const AnyValue& anyvalue)
 void AddEncodingInformation(IWriter& writer)
 {
   writer.StartStructure();
-  writer.Member("encoding");
-  writer.String("sup-dto/v1.0/JSON");
+  writer.Member(serialization::ENCODING_KEY);
+  writer.String(serialization::JSON_ENCODING_1_0);
   writer.EndStructure();
 }
 
 void AddDatatypeStart(IWriter& writer)
 {
   writer.StartStructure();
-  writer.Member("datatype");
+  writer.Member(serialization::DATATYPE_KEY);
 }
 
 void AddValueStart(IWriter& writer)
 {
   writer.StartStructure();
-  writer.Member("instance");
+  writer.Member(serialization::INSTANCE_KEY);
 }
 }  // unnamed namespace
 
