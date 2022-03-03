@@ -31,4 +31,10 @@ int main()
 {
   auto scalar_mix_t = performance::CreateScalarMix_Type();
   performance::MeasureSerializeParse(scalar_mix_t);
+  auto scalar_mix_array_t = performance::CreateScalarMixArray_Type();
+  performance::MeasureSerializeParse(scalar_mix_array_t);
+  auto system_configs_t = performance::CreateSystemConfigs_Type();
+  performance::MeasureSerializeParse(system_configs_t);
+  auto full_config_t = performance::CreateFullConfig_Type();
+  performance::MeasureSerializeParse(full_config_t);
 }

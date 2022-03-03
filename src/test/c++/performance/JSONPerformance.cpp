@@ -86,6 +86,8 @@ AnyType CreateFullConfig_Type()
 
 void MeasureSerializeParse(const AnyType& anytype)
 {
+  std::cout << "Test JSON serialize/parse performance" << std::endl;
+  std::cout << "*************************************" << std::endl;
   AnyValue value(anytype);
   auto start = std::chrono::system_clock::now();
   auto json_string = AnyValueToJSONString(value);
@@ -125,6 +127,7 @@ void MeasureSerializeParse(const AnyType& anytype)
   auto parse_bytes_per_s = (1000.0 / mean_parse_ms) * json_size;
   std::cout << "  Mean bytes/s (serialize) : " << serialize_bytes_per_s << std::endl;
   std::cout << "  Mean bytes/s (parse)     : " << parse_bytes_per_s << std::endl;
+  std::cout << std::endl;
 }
 
 }  // namespace performance
