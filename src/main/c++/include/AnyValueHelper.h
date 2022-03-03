@@ -72,7 +72,7 @@ std::vector<uint8> ToBytes(const AnyValue& anyvalue);
 std::string ValuesToJSONString(const AnyValue& anyvalue, bool pretty=false);
 
 /**
- * @brief Serialize an AnyValue using a JSON serializer.
+ * @brief Serialize an AnyValue to a JSON string.
  *
  * @param anyvalue AnyValue object to serialize.
  * @param pretty Use pretty printing.
@@ -81,15 +81,35 @@ std::string ValuesToJSONString(const AnyValue& anyvalue, bool pretty=false);
  * @note This serialization is meant to be reversible. The JSON string will contain both type
  * information as specific values of leaf nodes.
  */
-std::string ToJSONString(const AnyValue& anyvalue, bool pretty=false);
+std::string AnyValueToJSONString(const AnyValue& anyvalue, bool pretty=false);
 
 /**
- * @brief Parse an AnyValue from a string using a JSON parser.
+ * @brief Serialize an AnyValue to a JSON file.
+ *
+ * @param anyvalue AnyValue object to serialize.
+ * @param filename Filename to use.
+ * @param pretty Use pretty printing.
+ *
+ * @note This serialization is meant to be reversible. The JSON file will contain both type
+ * information as specific values of leaf nodes.
+ */
+void AnyValueToJSONFile(const AnyValue& anyvalue, const std::string& filename, bool pretty=false);
+
+/**
+ * @brief Parse an AnyValue from a JSON string.
  *
  * @param json_str JSON string.
  * @return Parsed AnyValue.
  */
 AnyValue AnyValueFromJSONString(const std::string& json_str);
+
+/**
+ * @brief Parse an AnyValue from a JSON file.
+ *
+ * @param filename Filename to use.
+ * @return Parsed AnyValue.
+ */
+AnyValue AnyValueFromJSONFile(const std::string& filename);
 
 }  // namespace dto
 

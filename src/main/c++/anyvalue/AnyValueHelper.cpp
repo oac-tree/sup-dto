@@ -26,6 +26,7 @@
 #include "JSONWriter.h"
 #include "SerializeT.h"
 
+#include <fstream>
 #include <sstream>
 
 namespace sup
@@ -52,17 +53,38 @@ std::string ValuesToJSONString(const AnyValue& anyvalue, bool pretty)
   return oss.str();
 }
 
-std::string ToJSONString(const AnyValue& anyvalue, bool pretty)
+std::string AnyValueToJSONString(const AnyValue& anyvalue, bool pretty)
 {
   std::ostringstream oss;
   JSONSerializeAnyValue(oss, anyvalue, pretty);
   return oss.str();
 }
 
+void AnyValueToJSONFile(const AnyValue& anyvalue, const std::string& filename, bool pretty)
+{
+  std::ofstream ofs(filename);
+  if (!ofs.is_open())
+  {
+    throw SerializeException("AnyValueToJSONFile could not open the file for writing");
+  }
+  JSONSerializeAnyValue(ofs, anyvalue, pretty);
+  return;
+}
+
 AnyValue AnyValueFromJSONString(const std::string& json_str)
 {
   std::istringstream iss(json_str);
   return JSONParseAnyValue(iss);
+}
+
+AnyValue AnyValueFromJSONFile(const std::string& filename)
+{
+  std::ifstream ifs(filename);
+  if (!ifs.is_open())
+  {
+    throw ParseException("AnyValueFromJSONFile could not open the file for reading");
+  }
+  return JSONParseAnyValue(ifs);
 }
 
 }  // namespace dto

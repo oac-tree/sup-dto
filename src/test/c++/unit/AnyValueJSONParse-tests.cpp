@@ -78,7 +78,7 @@ protected:
 TEST_F(AnyValueJSONParseTest, EmptyValue)
 {
   AnyValue empty{};
-  auto json_string = ToJSONString(empty);
+  auto json_string = AnyValueToJSONString(empty);
   auto parsed_val = AnyValueFromJSONString(json_string);
   EXPECT_EQ(empty, parsed_val);
 }
@@ -86,7 +86,7 @@ TEST_F(AnyValueJSONParseTest, EmptyValue)
 TEST_F(AnyValueJSONParseTest, BooleanValue)
 {
   AnyValue bool_val = true;
-  auto json_string = ToJSONString(bool_val);
+  auto json_string = AnyValueToJSONString(bool_val);
   auto parsed_val = AnyValueFromJSONString(json_string);
   EXPECT_EQ(bool_val, parsed_val);
 }
@@ -94,7 +94,7 @@ TEST_F(AnyValueJSONParseTest, BooleanValue)
 TEST_F(AnyValueJSONParseTest, Char8Value)
 {
   AnyValue char8_val = 'a';
-  auto json_string = ToJSONString(char8_val);
+  auto json_string = AnyValueToJSONString(char8_val);
   auto parsed_val = AnyValueFromJSONString(json_string);
   EXPECT_EQ(char8_val, parsed_val);
 }
@@ -102,7 +102,7 @@ TEST_F(AnyValueJSONParseTest, Char8Value)
 TEST_F(AnyValueJSONParseTest, Int8Value)
 {
   AnyValue int8_val = {SignedInteger8, -7};
-  auto json_string = ToJSONString(int8_val);
+  auto json_string = AnyValueToJSONString(int8_val);
   auto parsed_val = AnyValueFromJSONString(json_string);
   EXPECT_EQ(int8_val, parsed_val);
 }
@@ -110,7 +110,7 @@ TEST_F(AnyValueJSONParseTest, Int8Value)
 TEST_F(AnyValueJSONParseTest, UInt8Value)
 {
   AnyValue uint8_val = {UnsignedInteger8, 240};
-  auto json_string = ToJSONString(uint8_val);
+  auto json_string = AnyValueToJSONString(uint8_val);
   auto parsed_val = AnyValueFromJSONString(json_string);
   EXPECT_EQ(uint8_val, parsed_val);
 }
@@ -118,7 +118,7 @@ TEST_F(AnyValueJSONParseTest, UInt8Value)
 TEST_F(AnyValueJSONParseTest, Int16Value)
 {
   AnyValue int16_val = {SignedInteger16, -300};
-  auto json_string = ToJSONString(int16_val);
+  auto json_string = AnyValueToJSONString(int16_val);
   auto parsed_val = AnyValueFromJSONString(json_string);
   EXPECT_EQ(int16_val, parsed_val);
 }
@@ -126,7 +126,7 @@ TEST_F(AnyValueJSONParseTest, Int16Value)
 TEST_F(AnyValueJSONParseTest, UInt16Value)
 {
   AnyValue uint16_val = {UnsignedInteger16, 4008};
-  auto json_string = ToJSONString(uint16_val);
+  auto json_string = AnyValueToJSONString(uint16_val);
   auto parsed_val = AnyValueFromJSONString(json_string);
   EXPECT_EQ(uint16_val, parsed_val);
 }
@@ -134,7 +134,7 @@ TEST_F(AnyValueJSONParseTest, UInt16Value)
 TEST_F(AnyValueJSONParseTest, Int32Value)
 {
   AnyValue int32_val = {SignedInteger32, -300001};
-  auto json_string = ToJSONString(int32_val);
+  auto json_string = AnyValueToJSONString(int32_val);
   auto parsed_val = AnyValueFromJSONString(json_string);
   EXPECT_EQ(int32_val, parsed_val);
 }
@@ -142,7 +142,7 @@ TEST_F(AnyValueJSONParseTest, Int32Value)
 TEST_F(AnyValueJSONParseTest, UInt32Value)
 {
   AnyValue uint32_val = {UnsignedInteger32, 123456};
-  auto json_string = ToJSONString(uint32_val);
+  auto json_string = AnyValueToJSONString(uint32_val);
   auto parsed_val = AnyValueFromJSONString(json_string);
   EXPECT_EQ(uint32_val, parsed_val);
 }
@@ -150,7 +150,7 @@ TEST_F(AnyValueJSONParseTest, UInt32Value)
 TEST_F(AnyValueJSONParseTest, Int64Value)
 {
   AnyValue int64_val = {SignedInteger64, -5001002003004};
-  auto json_string = ToJSONString(int64_val);
+  auto json_string = AnyValueToJSONString(int64_val);
   auto parsed_val = AnyValueFromJSONString(json_string);
   EXPECT_EQ(int64_val, parsed_val);
 }
@@ -158,7 +158,7 @@ TEST_F(AnyValueJSONParseTest, Int64Value)
 TEST_F(AnyValueJSONParseTest, UInt64Value)
 {
   AnyValue uint64_val = {UnsignedInteger64, 2001002003004005};
-  auto json_string = ToJSONString(uint64_val);
+  auto json_string = AnyValueToJSONString(uint64_val);
   auto parsed_val = AnyValueFromJSONString(json_string);
   EXPECT_EQ(uint64_val, parsed_val);
 }
@@ -166,7 +166,7 @@ TEST_F(AnyValueJSONParseTest, UInt64Value)
 TEST_F(AnyValueJSONParseTest, Float32Value)
 {
   AnyValue float32_val = {Float32, 90};
-  auto json_string = ToJSONString(float32_val);
+  auto json_string = AnyValueToJSONString(float32_val);
   auto parsed_val = AnyValueFromJSONString(json_string);
   EXPECT_EQ(float32_val, parsed_val);
 }
@@ -174,7 +174,7 @@ TEST_F(AnyValueJSONParseTest, Float32Value)
 TEST_F(AnyValueJSONParseTest, Float64Value)
 {
   AnyValue float64_val = {Float64, -777.125};
-  auto json_string = ToJSONString(float64_val);
+  auto json_string = AnyValueToJSONString(float64_val);
   auto parsed_val = AnyValueFromJSONString(json_string);
   EXPECT_EQ(float64_val, parsed_val);
 }
@@ -186,7 +186,7 @@ TEST_F(AnyValueJSONParseTest, SimpleStructValue)
     {"number", {SignedInteger32, 1729}},
     {"weight", {Float64, 50.25}}
   });
-  auto json_string = ToJSONString(simple_struct_val);
+  auto json_string = AnyValueToJSONString(simple_struct_val);
   auto parsed_val = AnyValueFromJSONString(json_string);
   EXPECT_EQ(simple_struct_val, parsed_val);
   auto parsed_val2 = AnyValueFromJSONString(json_simple_struct_full);
@@ -211,7 +211,7 @@ TEST_F(AnyValueJSONParseTest, SimpleArrayValue)
   {
     simple_array_val[i] = 20*i;
   }
-  auto json_string = ToJSONString(simple_array_val);
+  auto json_string = AnyValueToJSONString(simple_array_val);
   auto parsed_val = AnyValueFromJSONString(json_string);
   EXPECT_EQ(simple_array_val, parsed_val);
   auto parsed_val2 = AnyValueFromJSONString(json_simple_array_full);
@@ -234,7 +234,7 @@ TEST_F(AnyValueJSONParseTest, ComplexStructValue)
   complex_struct_val["array[1].id"] = "second_id";
   complex_struct_val["array[0].number"] = 23;
   complex_struct_val["validated"] = false;
-  auto json_string = ToJSONString(complex_struct_val);
+  auto json_string = AnyValueToJSONString(complex_struct_val);
   auto parsed_val = AnyValueFromJSONString(json_string);
   EXPECT_EQ(complex_struct_val, parsed_val);
 }

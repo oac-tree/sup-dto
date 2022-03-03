@@ -48,21 +48,38 @@ class AnyType;
 void SerializeAnyType(const AnyType& anytype, IAnySerializer<AnyType>& serializer);
 
 /**
- * @brief Serialize an AnyType using a JSON serializer.
+ * @brief Serialize an AnyType to a JSON string.
  *
  * @param anytype AnyType object to serialize.
  * @param pretty Use pretty printing.
  * @return JSON string if successfull, empty otherwise.
  */
-std::string ToJSONString(const AnyType& anytype, bool pretty=false);
+std::string AnyTypeToJSONString(const AnyType& anytype, bool pretty=false);
 
 /**
- * @brief Parse an AnyType from a string using a JSON parser.
+ * @brief Serialize an AnyType to a JSON file.
+ *
+ * @param anytype AnyType object to serialize.
+ * @param filename Filename to use.
+ * @param pretty Use pretty printing.
+ */
+void AnyTypeToJSONFile(const AnyType& anytype, const std::string& filename, bool pretty=false);
+
+/**
+ * @brief Parse an AnyType from a JSON string.
  *
  * @param json_str JSON string.
  * @return Parsed AnyType.
  */
 AnyType AnyTypeFromJSONString(const std::string& json_str);
+
+/**
+ * @brief Parse an AnyType from a JSON file.
+ *
+ * @param filename Filename to use.
+ * @return Parsed AnyType.
+ */
+AnyType AnyTypeFromJSONFile(const std::string& filename);
 
 }  // namespace dto
 

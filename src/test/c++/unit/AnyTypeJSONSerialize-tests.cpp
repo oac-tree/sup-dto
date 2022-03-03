@@ -97,14 +97,14 @@ protected:
 TEST_F(AnyTypeJSONSerializeTest, EmptyType)
 {
   AnyType empty = EmptyType;
-  auto json_string = ToJSONString(empty);
+  auto json_string = AnyTypeToJSONString(empty);
   EXPECT_EQ(json_string, ScalarTypeRepresentation(EMPTY_TYPE_NAME));
 }
 
 TEST_F(AnyTypeJSONSerializeTest, BooleanType)
 {
   AnyType bool_type = Boolean;
-  auto json_string = ToJSONString(bool_type);
+  auto json_string = AnyTypeToJSONString(bool_type);
   EXPECT_EQ(json_string, ScalarTypeRepresentation(BOOLEAN_TYPE_NAME));
 }
 
@@ -115,14 +115,14 @@ TEST_F(AnyTypeJSONSerializeTest, SimpleStructType)
     {"number", SignedInteger32},
     {"weight", Float64}
   });
-  auto json_string = ToJSONString(simple_struct_type);
+  auto json_string = AnyTypeToJSONString(simple_struct_type);
   EXPECT_EQ(json_string, json_simple_struct);
 }
 
 TEST_F(AnyTypeJSONSerializeTest, SimpleArrayType)
 {
   AnyType simple_array_type(5, Character8);
-  auto json_string = ToJSONString(simple_array_type);
+  auto json_string = AnyTypeToJSONString(simple_array_type);
   EXPECT_EQ(json_string, json_simple_array);
 }
 
@@ -138,7 +138,7 @@ TEST_F(AnyTypeJSONSerializeTest, ComplexStructType)
     {"nested", simple_struct_type},
     {"validated", Boolean}
   });
-  auto json_string = ToJSONString(complex_struct_type);
+  auto json_string = AnyTypeToJSONString(complex_struct_type);
   EXPECT_EQ(json_string, json_complex_type);
 }
 
@@ -154,7 +154,7 @@ TEST_F(AnyTypeJSONSerializeTest, PrettyPrinting)
     {"nested", simple_struct_type},
     {"validated", Boolean}
   });
-  auto json_string = ToJSONString(complex_struct_type, true);
+  auto json_string = AnyTypeToJSONString(complex_struct_type, true);
   EXPECT_EQ(json_string, pretty_json_complex_type);
 }
 

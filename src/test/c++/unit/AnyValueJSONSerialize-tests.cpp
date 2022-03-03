@@ -200,7 +200,7 @@ TEST_F(AnyValueJSONSerializeTest, SimpleStructValue)
   });
   auto json_string = ValuesToJSONString(simple_struct_val);
   EXPECT_EQ(json_string, json_simple_struct);
-  auto json_full = ToJSONString(simple_struct_val);
+  auto json_full = AnyValueToJSONString(simple_struct_val);
   EXPECT_EQ(json_full, json_simple_struct_full);
 }
 
@@ -211,7 +211,7 @@ TEST_F(AnyValueJSONSerializeTest, PrettySimpleStructValue)
     {"number", {SignedInteger32, 1729}},
     {"weight", {Float64, 50.25}}
   });
-  auto json_string = ToJSONString(simple_struct_val, true);
+  auto json_string = AnyValueToJSONString(simple_struct_val, true);
   EXPECT_EQ(json_string, pretty_json_simple_struct);
 }
 
@@ -224,7 +224,7 @@ TEST_F(AnyValueJSONSerializeTest, SimpleArrayValue)
   }
   auto json_string = ValuesToJSONString(simple_array_val);
   EXPECT_EQ(json_string, json_simple_array);
-  auto json_full = ToJSONString(simple_array_val);
+  auto json_full = AnyValueToJSONString(simple_array_val);
   EXPECT_EQ(json_full, json_simple_array_full);
 }
 

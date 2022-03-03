@@ -114,6 +114,15 @@ public:
 };
 
 /**
+ * @brief Exception thrown when serializing an object failed.
+ */
+class SerializeException : public MessageException
+{
+public:
+  SerializeException(const std::string& message);
+};
+
+/**
  * @brief Exception thrown when parsing to an object failed.
  */
 class ParseException : public MessageException

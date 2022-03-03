@@ -63,6 +63,10 @@ InitializationException::InitializationException(const std::string& message)
   : MessageException{message}
 {}
 
+SerializeException::SerializeException(const std::string& message)
+  : MessageException{message}
+{}
+
 ParseException::ParseException(const std::string& message)
   : MessageException{message}
 {}
