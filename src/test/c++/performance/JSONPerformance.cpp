@@ -84,6 +84,13 @@ AnyType CreateFullConfig_Type()
   return full_config_t;
 }
 
+AnyType CreateManyFullConfig_t_Type()
+{
+  auto full_config_t = CreateFullConfig_Type();
+  AnyType many_full_config_t(20, full_config_t, "many_full_config_t");
+  return many_full_config_t;
+}
+
 void MeasureSerializeParse(const AnyType& anytype)
 {
   std::cout << "Test JSON serialize/parse performance" << std::endl;
@@ -101,6 +108,7 @@ void MeasureSerializeParse(const AnyType& anytype)
     one_cycle = 1;
   }
   unsigned N = std::min(1000L, 5000 / one_cycle);  // max 5s
+  N = std::max(N, 3u);  // at least 3 iterations
   std::chrono::nanoseconds serialize_duration{0};
   std::chrono::nanoseconds parse_duration{0};
   for (unsigned i=0; i<N; ++i)

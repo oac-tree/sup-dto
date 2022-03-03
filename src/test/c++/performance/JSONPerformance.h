@@ -44,6 +44,8 @@ AnyType CreateScalarMix_Type();
 AnyType CreateScalarMixArray_Type();
 AnyType CreateSystemConfigs_Type();
 AnyType CreateFullConfig_Type();
+AnyType CreateManyFullConfig_t_Type();
+
 
 void MeasureSerializeParse(const AnyType& anytype);
 

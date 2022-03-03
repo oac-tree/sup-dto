@@ -37,4 +37,6 @@ int main()
   performance::MeasureSerializeParse(system_configs_t);
   auto full_config_t = performance::CreateFullConfig_Type();
   performance::MeasureSerializeParse(full_config_t);
+  auto many_full_config_t = performance::CreateManyFullConfig_t_Type();
+  performance::MeasureSerializeParse(many_full_config_t);
 }
