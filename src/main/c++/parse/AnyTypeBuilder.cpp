@@ -38,6 +38,11 @@ AnyTypeBuilder::~AnyTypeBuilder() = default;
 
 AnyType AnyTypeBuilder::MoveAnyType()
 {
+  // Ensure all nodes were popped
+  if (current != root.get())
+  {
+    throw ParseException("AnyTypeBuilder::MoveAnyType called before parsing was finished");
+  }
   return root->MoveAnyType();
 }
 

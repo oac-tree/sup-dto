@@ -38,6 +38,11 @@ AnyValueBuilder::~AnyValueBuilder() = default;
 
 AnyValue AnyValueBuilder::MoveAnyValue()
 {
+  // Ensure all nodes were popped
+  if (current != root.get())
+  {
+    throw ParseException("AnyValueBuilder::MoveAnyValue called before parsing was finished");
+  }
   return root->MoveAnyValue();
 }
 
