@@ -83,8 +83,7 @@ bool AnyTypeBuilder::Double(float64 d)
 
 bool AnyTypeBuilder::RawNumber(const char*, std::size_t, bool)
 {
-  throw InvalidOperationException(
-      "AnyTypeBuilder::RawNumber not supported");
+  throw ParseException("AnyTypeBuilder::RawNumber not supported");
 }
 
 bool AnyTypeBuilder::String(const char* str, std::size_t length, bool copy)
@@ -110,8 +109,7 @@ bool AnyTypeBuilder::EndObject(std::size_t)
   current = current->Parent();
   if (!current)
   {
-    throw InvalidOperationException(
-      "AnyTypeBuilder::EndObject current node is null");
+    throw ParseException("AnyTypeBuilder::EndObject current node is null");
   }
   current->PopStructureNode();
   return true;
@@ -128,8 +126,7 @@ bool AnyTypeBuilder::EndArray(std::size_t elementCount)
   current = current->Parent();
   if (!current)
   {
-    throw InvalidOperationException(
-      "AnyTypeBuilder::EndArray current node is null");
+    throw ParseException("AnyTypeBuilder::EndArray current node is null");
   }
   current->PopArrayNode();
   return true;

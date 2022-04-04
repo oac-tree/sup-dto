@@ -61,7 +61,7 @@ bool AnyTypeBuildNode::Int64(int64 i)
 {
   if (i < 0)
   {
-    throw InvalidOperationException(
+    throw ParseException(
         "AnyTypeBuildNode::Intxx called with negative value");
   }
   return Uint64(i);
@@ -71,7 +71,7 @@ bool AnyTypeBuildNode::Uint64(uint64 u)
 {
   if (current_member_name != serialization::MULTIPLICITY_KEY)
   {
-    throw InvalidOperationException(
+    throw ParseException(
         "AnyTypeBuildNode::Uint64 must be called after \"multiplicity\" key");
   }
   current_member_name.clear();
@@ -83,7 +83,7 @@ bool AnyTypeBuildNode::String(const std::string& str)
 {
   if (current_member_name != serialization::TYPE_KEY)
   {
-    throw InvalidOperationException(
+    throw ParseException(
         "AnyTypeBuildNode::String must be called after \"type\" key");
   }
   current_member_name.clear();
@@ -93,11 +93,6 @@ bool AnyTypeBuildNode::String(const std::string& str)
 
 bool AnyTypeBuildNode::Member(const std::string& str)
 {
-  if (!current_member_name.empty())
-  {
-    throw InvalidOperationException(
-        "AnyTypeBuildNode::Member called when previous member not finished");
-  }
   current_member_name = str;
   return true;
 }
@@ -106,7 +101,7 @@ IAnyBuildNode* AnyTypeBuildNode::GetStructureNode()
 {
   if (IsComplexType() || current_member_name != serialization::ELEMENT_KEY)
   {
-    throw InvalidOperationException(
+    throw ParseException(
         "AnyTypeBuildNode::GetStructureNode must be called after \"element\" key and with "
         "empty child nodes");
   }
@@ -119,7 +114,7 @@ IAnyBuildNode* AnyTypeBuildNode::GetArrayNode()
 {
   if (IsComplexType() || current_member_name != serialization::ATTRIBUTES_KEY)
   {
-    throw InvalidOperationException(
+    throw ParseException(
         "AnyTypeBuildNode::GetArrayNode must be called after \"attributes\" key and with "
         "empty child nodes");
   }
@@ -130,12 +125,6 @@ IAnyBuildNode* AnyTypeBuildNode::GetArrayNode()
 
 bool AnyTypeBuildNode::PopStructureNode()
 {
-  if (!element_node || current_member_name != serialization::ELEMENT_KEY)
-  {
-    throw InvalidOperationException(
-        "AnyTypeBuildNode::PopStructureNode must be called while holding the \"element\" key and "
-        "with a non-empty element node");
-  }
   current_member_name.clear();
   element_type = element_node->MoveAnyType();
   element_node.reset();
@@ -144,11 +133,6 @@ bool AnyTypeBuildNode::PopStructureNode()
 
 bool AnyTypeBuildNode::PopArrayNode()
 {
-  if (!member_array_node || current_member_name != serialization::ATTRIBUTES_KEY)
-  {
-    throw InvalidOperationException(
-      "AnyTypeBuildNode::PopArrayNode called with empty member array node");
-  }
   current_member_name.clear();
   member_types = member_array_node->MoveMemberTypes();
   member_array_node.reset();
@@ -209,7 +193,7 @@ AnyType AnyTypeBuildNode::MoveSimpleType() const
   auto it = type_map.find(type_name);
   if (it == type_map.end())
   {
-    throw InvalidOperationException(
+    throw ParseException(
       "AnyTypeBuildNode::MoveSimpleType called with unknown type name");
   }
   return it->second;

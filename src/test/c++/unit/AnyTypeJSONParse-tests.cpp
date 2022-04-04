@@ -23,6 +23,7 @@
 
 #include "AnyTypeHelper.h"
 #include "AnyType.h"
+#include "AnyValueExceptions.h"
 
 using namespace sup::dto;
 
@@ -158,6 +159,24 @@ TEST_F(AnyTypeJSONParseTest, PrettyPrintedType)
     {"validated", Boolean}
   });
   EXPECT_EQ(parsed_type, expected_type);
+}
+
+TEST_F(AnyTypeJSONParseTest, ParseErrorsBuildNode)
+{
+  const std::string int_in_wrong_place = R"RAW({"type":3})RAW";
+  EXPECT_THROW(AnyTypeFromJSONString(int_in_wrong_place), ParseException);
+  const std::string int_negative = R"RAW({"type":"","multiplicity":-5})RAW";
+  EXPECT_THROW(AnyTypeFromJSONString(int_negative), ParseException);
+  const std::string string_for_non_type_field = R"RAW({"type":"","multiplicity":"5"})RAW";
+  EXPECT_THROW(AnyTypeFromJSONString(string_for_non_type_field), ParseException);
+  const std::string member_in_wrong_place = R"RAW({"type","multiplicity":"5"})RAW";
+  EXPECT_THROW(AnyTypeFromJSONString(string_for_non_type_field), ParseException);
+  const std::string structure_in_wrong_place = R"RAW({"type":{"id":5}})RAW";
+  EXPECT_THROW(AnyTypeFromJSONString(structure_in_wrong_place), ParseException);
+  const std::string array_in_wrong_place = R"RAW({"type":["id"]})RAW";
+  EXPECT_THROW(AnyTypeFromJSONString(array_in_wrong_place), ParseException);
+  const std::string unknown_scalar_type = R"RAW({"type":"unknown"})RAW";
+  EXPECT_THROW(AnyTypeFromJSONString(unknown_scalar_type), ParseException);
 }
 
 AnyTypeJSONParseTest::AnyTypeJSONParseTest() = default;
