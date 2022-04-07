@@ -41,8 +41,8 @@ IAnyBuildNode* AnyValueRootBuildNode::GetArrayNode()
 {
   if (array_node)
   {
-    throw InvalidOperationException(
-        "AnyValueRootBuildNode::GetArrayNode must be called with empty child node");
+    throw ParseException(
+      "AnyValueRootBuildNode::GetArrayNode must be called with empty child node");
   }
   array_node.reset(new AnyValueArrayBuildNode(this));
   return array_node.get();
@@ -52,7 +52,7 @@ bool AnyValueRootBuildNode::PopArrayNode()
 {
   if (!array_node)
   {
-    throw InvalidOperationException(
+    throw ParseException(
         "AnyValueRootBuildNode::PopArrayNode must be called with a non-empty child node");
   }
   anyvalue = array_node->MoveAnyValue();

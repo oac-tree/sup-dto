@@ -83,8 +83,7 @@ bool AnyValueBuilder::Double(float64 d)
 
 bool AnyValueBuilder::RawNumber(const char*, std::size_t, bool)
 {
-  throw InvalidOperationException(
-      "AnyValueBuilder::RawNumber not supported");
+  throw ParseException("AnyValueBuilder::RawNumber not supported");
 }
 
 bool AnyValueBuilder::String(const char* str, std::size_t length, bool copy)
@@ -107,12 +106,11 @@ bool AnyValueBuilder::Key(const char* str, std::size_t length, bool copy)
 
 bool AnyValueBuilder::EndObject(std::size_t)
 {
-  current = current->Parent();
-  if (!current)
+  if (!current->Parent())
   {
-    throw InvalidOperationException(
-      "AnyValueBuilder::EndObject current node is null");
+    throw ParseException("AnyValueBuilder::EndObject current node is null");
   }
+  current = current->Parent();
   current->PopStructureNode();
   return true;
 }
@@ -125,12 +123,11 @@ bool AnyValueBuilder::StartArray()
 
 bool AnyValueBuilder::EndArray(std::size_t elementCount)
 {
-  current = current->Parent();
-  if (!current)
+  if (!current->Parent())
   {
-    throw InvalidOperationException(
-      "AnyValueBuilder::EndArray current node is null");
+    throw ParseException("AnyValueBuilder::EndArray current node is null");
   }
+  current = current->Parent();
   current->PopArrayNode();
   return true;
 }

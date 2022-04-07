@@ -23,6 +23,10 @@
 
 #include "AnyValueHelper.h"
 #include "AnyValue.h"
+#include "AnyValueBuilder.h"
+#include "AnyValueBuildNode.h"
+#include "AnyValueRootBuildNode.h"
+#include "AnyValueArrayBuildNode.h"
 
 using namespace sup::dto;
 
@@ -239,7 +243,85 @@ TEST_F(AnyValueJSONParseTest, ComplexStructValue)
   EXPECT_EQ(complex_struct_val, parsed_val);
 }
 
+TEST_F(AnyValueJSONParseTest, AnyValueBuilderMethods)
+{
+  AnyValueBuilder builder{};
+
+    // Most methods throw when the current node contained is still an AnyValueRootBuildNode:
+  EXPECT_THROW(builder.Null(), ParseException);
+  EXPECT_THROW(builder.Bool(true), ParseException);
+  EXPECT_THROW(builder.Int(5), ParseException);
+  EXPECT_THROW(builder.Uint(5), ParseException);
+  EXPECT_THROW(builder.Int64(5), ParseException);
+  EXPECT_THROW(builder.Uint64(5), ParseException);
+  EXPECT_THROW(builder.Double(1.0), ParseException);
+  EXPECT_THROW(builder.RawNumber("20", 2, true), ParseException);
+  EXPECT_THROW(builder.String("text", 2, true), ParseException);
+  EXPECT_THROW(builder.Key("key", 2, true), ParseException);
+  EXPECT_THROW(builder.StartObject(), ParseException);
+  EXPECT_THROW(builder.EndObject(1), ParseException);
+  EXPECT_THROW(builder.EndArray(0), ParseException);
+
+  // Retrieving the AnyValue throws when the current node is not the root node:
+  EXPECT_TRUE(builder.StartArray());
+  EXPECT_THROW(builder.MoveAnyValue(), ParseException);
+}
+
+TEST_F(AnyValueJSONParseTest, AnyValueBuildNodeMethods)
+{
+  // Exceptions:
+  AnyValue val;
+  AnyValueBuildNode node(nullptr, val);
+  EXPECT_THROW(node.Bool(-1), ParseException);
+  EXPECT_THROW(node.Int32(-1), ParseException);
+  EXPECT_THROW(node.Int64(-1), ParseException);
+  EXPECT_THROW(node.Uint32(1), ParseException);
+  EXPECT_THROW(node.Uint64(1), ParseException);
+  EXPECT_THROW(node.Double(1.0), ParseException);
+  EXPECT_THROW(node.String("wrong moment to pass a string"), ParseException);
+  EXPECT_THROW(node.GetStructureNode(), ParseException);
+  EXPECT_THROW(node.GetArrayNode(), ParseException);
+  EXPECT_THROW(node.PopStructureNode(), ParseException);
+  EXPECT_THROW(node.PopArrayNode(), ParseException);
+  EXPECT_TRUE(node.Member("membername"));
+  EXPECT_THROW(node.Member("othermembername"), ParseException);
+
+  // Populate scalar member:
+  AnyValue struct_val = {{
+    {"flag", false},
+    {"a", 0},
+    {"b", 0},
+    {"c", 0},
+    {"d", 0},
+    {"e", 0.0},
+    {"f", ""}
+  }};
+  AnyValueBuildNode struct_node(nullptr, struct_val);
+  EXPECT_TRUE(struct_node.Member("flag"));
+  EXPECT_TRUE(struct_node.Bool(true));
+  EXPECT_TRUE(struct_node.Member("a"));
+  EXPECT_TRUE(struct_node.Int32(-1));
+  EXPECT_TRUE(struct_node.Member("b"));
+  EXPECT_TRUE(struct_node.Uint32(2));
+  EXPECT_TRUE(struct_node.Member("c"));
+  EXPECT_TRUE(struct_node.Int64(-3));
+  EXPECT_TRUE(struct_node.Member("d"));
+  EXPECT_TRUE(struct_node.Uint64(4));
+  EXPECT_TRUE(struct_node.Member("e"));
+  EXPECT_TRUE(struct_node.Double(7.5));
+  EXPECT_TRUE(struct_node.Member("f"));
+  EXPECT_TRUE(struct_node.String("text"));
+}
+
+TEST_F(AnyValueJSONParseTest, AnyValueRootBuildNodeMethods)
+{
+  AnyValueRootBuildNode node(nullptr);
+  EXPECT_THROW(node.PopArrayNode(), ParseException);
+  auto child = node.GetArrayNode();
+  EXPECT_NE(child, nullptr);
+  EXPECT_THROW(node.GetArrayNode(), ParseException);
+}
+
 AnyValueJSONParseTest::AnyValueJSONParseTest() = default;
 
 AnyValueJSONParseTest::~AnyValueJSONParseTest() = default;
-

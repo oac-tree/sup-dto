@@ -43,7 +43,7 @@ bool AnyValueBuildNode::Bool(boolean b)
 {
   if (member_name.empty())
   {
-    throw InvalidOperationException(
+    throw ParseException(
         "AnyValueBuildNode::Bool must be called after member name");
   }
   anyvalue[member_name] = b;
@@ -55,7 +55,7 @@ bool AnyValueBuildNode::Int32(int32 i)
 {
   if (member_name.empty())
   {
-    throw InvalidOperationException(
+    throw ParseException(
         "AnyValueBuildNode::Int32 must be called after member name");
   }
   anyvalue[member_name] = i;
@@ -67,7 +67,7 @@ bool AnyValueBuildNode::Uint32(uint32 u)
 {
   if (member_name.empty())
   {
-    throw InvalidOperationException(
+    throw ParseException(
         "AnyValueBuildNode::Uint32 must be called after member name");
   }
   anyvalue[member_name] = u;
@@ -79,7 +79,7 @@ bool AnyValueBuildNode::Int64(int64 i)
 {
   if (member_name.empty())
   {
-    throw InvalidOperationException(
+    throw ParseException(
         "AnyValueBuildNode::Int64 must be called after member name");
   }
   anyvalue[member_name] = i;
@@ -91,7 +91,7 @@ bool AnyValueBuildNode::Uint64(uint64 u)
 {
   if (member_name.empty())
   {
-    throw InvalidOperationException(
+    throw ParseException(
         "AnyValueBuildNode::Uint64 must be called after member name");
   }
   anyvalue[member_name] = u;
@@ -103,7 +103,7 @@ bool AnyValueBuildNode::Double(float64 d)
 {
   if (member_name.empty())
   {
-    throw InvalidOperationException(
+    throw ParseException(
         "AnyValueBuildNode::Double must be called after member name");
   }
   anyvalue[member_name] = d;
@@ -115,7 +115,7 @@ bool AnyValueBuildNode::String(const std::string& str)
 {
   if (member_name.empty())
   {
-    throw InvalidOperationException(
+    throw ParseException(
         "AnyValueBuildNode::String must be called after member name");
   }
   anyvalue[member_name] = str;
@@ -127,7 +127,7 @@ bool AnyValueBuildNode::Member(const std::string& str)
 {
   if (!member_name.empty() || str.empty())
   {
-    throw InvalidOperationException(
+    throw ParseException(
         "AnyValueBuildNode::Member must be called when previous key was resolved and "
         "with non-empty name");
   }
@@ -139,7 +139,7 @@ IAnyBuildNode* AnyValueBuildNode::GetStructureNode()
 {
   if (value_node || member_name.empty())
   {
-    throw InvalidOperationException(
+    throw ParseException(
         "AnyValueBuildNode::GetStructureNode must be called with non-empty member name "
         "and empty child node");
   }
@@ -151,7 +151,7 @@ IAnyBuildNode* AnyValueBuildNode::GetArrayNode()
 {
   if (array_node || member_name.empty())
   {
-    throw InvalidOperationException(
+    throw ParseException(
         "AnyValueBuildNode::GetArrayNode must be called with non-empty member name "
         "and empty child node");
   }
@@ -163,7 +163,7 @@ bool AnyValueBuildNode::PopStructureNode()
 {
   if (!value_node || member_name.empty())
   {
-    throw InvalidOperationException(
+    throw ParseException(
         "AnyValueBuildNode::PopStructureNode must be called with non-empty member name "
         "and non-empty child node");
   }
@@ -176,7 +176,7 @@ bool AnyValueBuildNode::PopArrayNode()
 {
   if (!array_node || member_name.empty())
   {
-    throw InvalidOperationException(
+    throw ParseException(
         "AnyValueBuildNode::PopArrayNode must be called with non-empty member name "
         "and non-empty child node");
   }
