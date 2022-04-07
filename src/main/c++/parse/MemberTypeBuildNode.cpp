@@ -76,6 +76,10 @@ bool MemberTypeBuildNode::PopStructureNode()
 
 std::pair<std::string, AnyType> MemberTypeBuildNode::MoveMemberType()
 {
+  if (member_type.first.empty())
+  {
+    throw ParseException("MemberTypeBuildNode::MoveMemberType called with empty member");
+  }
   return std::move(member_type);
 }
 

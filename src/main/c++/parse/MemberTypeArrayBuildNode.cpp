@@ -41,7 +41,7 @@ IAnyBuildNode* MemberTypeArrayBuildNode::GetStructureNode()
 {
   if (member_node)
   {
-    throw InvalidOperationException(
+    throw ParseException(
         "MemberTypeArrayBuildNode::GetStructureNode must be called with an empty member node");
   }
   member_node.reset(new MemberTypeBuildNode(this));
@@ -52,7 +52,7 @@ bool MemberTypeArrayBuildNode::PopStructureNode()
 {
   if (!member_node)
   {
-    throw InvalidOperationException(
+    throw ParseException(
         "MemberTypeArrayBuildNode::GetStructureNode must be called with a non-empty member node");
   }
   member_types.push_back(member_node->MoveMemberType());

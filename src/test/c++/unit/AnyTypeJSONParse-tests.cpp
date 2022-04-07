@@ -28,6 +28,7 @@
 #include "AnyTypeRootBuildNode.h"
 #include "AnyValueExceptions.h"
 #include "MemberTypeBuildNode.h"
+#include "MemberTypeArrayBuildNode.h"
 
 using namespace sup::dto;
 
@@ -243,6 +244,20 @@ TEST_F(AnyTypeJSONParseTest, MemberTypeBuildNodeMethods)
   EXPECT_NE(child, nullptr);
   EXPECT_THROW(node.GetStructureNode(), ParseException);
   // still throws because it can't move the underlying type (not enough information)
+  EXPECT_THROW(node.PopStructureNode(), ParseException);
+}
+
+TEST_F(AnyTypeJSONParseTest, MemberTypeArrayBuildNodeMethods)
+{
+  MemberTypeArrayBuildNode node(nullptr);
+  EXPECT_THROW(node.Member("membername"), ParseException);
+  EXPECT_THROW(node.GetArrayNode(), ParseException);
+  EXPECT_THROW(node.PopArrayNode(), ParseException);
+  EXPECT_THROW(node.PopStructureNode(), ParseException);
+  auto child = node.GetStructureNode();
+  EXPECT_NE(child, nullptr);
+  EXPECT_THROW(node.GetStructureNode(), ParseException);
+  // still throws because it can't move the uninitialized type
   EXPECT_THROW(node.PopStructureNode(), ParseException);
 }
 
