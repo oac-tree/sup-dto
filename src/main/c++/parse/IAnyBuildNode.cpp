@@ -41,70 +41,70 @@ IAnyBuildNode* IAnyBuildNode::Parent() const
 
 bool IAnyBuildNode::Null()
 {
-  throw InvalidOperationException("Parser called unsupported operation for this node (Null)");
+  throw ParseException("Parser called unsupported operation for this node (Null)");
 }
 
 bool IAnyBuildNode::Bool(boolean)
 {
-  throw InvalidOperationException("Parser called unsupported operation for this node (Bool)");
+  throw ParseException("Parser called unsupported operation for this node (Bool)");
 }
 
 bool IAnyBuildNode::Int32(int32)
 {
-  throw InvalidOperationException("Parser called unsupported operation for this node (Int32)");
+  throw ParseException("Parser called unsupported operation for this node (Int32)");
 }
 
 bool IAnyBuildNode::Uint32(uint32)
 {
-  throw InvalidOperationException("Parser called unsupported operation for this node (Uint32)");
+  throw ParseException("Parser called unsupported operation for this node (Uint32)");
 }
 
 bool IAnyBuildNode::Int64(int64)
 {
-  throw InvalidOperationException("Parser called unsupported operation for this node (Int64)");
+  throw ParseException("Parser called unsupported operation for this node (Int64)");
 }
 
 bool IAnyBuildNode::Uint64(uint64)
 {
-  throw InvalidOperationException("Parser called unsupported operation for this node (Uint64)");
+  throw ParseException("Parser called unsupported operation for this node (Uint64)");
 }
 
 bool IAnyBuildNode::Double(float64)
 {
-  throw InvalidOperationException("Parser called unsupported operation for this node (Double)");
+  throw ParseException("Parser called unsupported operation for this node (Double)");
 }
 
 bool IAnyBuildNode::String(const std::string&)
 {
-  throw InvalidOperationException("Parser called unsupported operation for this node (String)");
+  throw ParseException("Parser called unsupported operation for this node (String)");
 }
 
 bool IAnyBuildNode::Member(const std::string&)
 {
-  throw InvalidOperationException("Parser called unsupported operation for this node (Member)");
+  throw ParseException("Parser called unsupported operation for this node (Member)");
 }
 
 IAnyBuildNode* IAnyBuildNode::GetStructureNode()
 {
-  throw InvalidOperationException(
+  throw ParseException(
       "Parser called unsupported operation for this node (GetStructureNode)");
 }
 
 IAnyBuildNode* IAnyBuildNode::GetArrayNode()
 {
-  throw InvalidOperationException(
+  throw ParseException(
       "Parser called unsupported operation for this node (GetArrayNode)");
 }
 
 bool IAnyBuildNode::PopStructureNode()
 {
-  throw InvalidOperationException(
+  throw ParseException(
       "Parser called unsupported operation for this node (PopStructureNode)");
 }
 
 bool IAnyBuildNode::PopArrayNode()
 {
-  throw InvalidOperationException(
+  throw ParseException(
       "Parser called unsupported operation for this node (PopArrayNode)");
 }
 

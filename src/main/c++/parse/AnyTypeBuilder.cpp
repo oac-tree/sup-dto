@@ -106,11 +106,11 @@ bool AnyTypeBuilder::Key(const char* str, std::size_t length, bool copy)
 
 bool AnyTypeBuilder::EndObject(std::size_t)
 {
-  current = current->Parent();
-  if (!current)
+  if (!current->Parent())
   {
-    throw ParseException("AnyTypeBuilder::EndObject current node is null");
+    throw ParseException("AnyTypeBuilder::EndObject current parent node is null");
   }
+  current = current->Parent();
   current->PopStructureNode();
   return true;
 }
@@ -121,13 +121,13 @@ bool AnyTypeBuilder::StartArray()
   return true;
 }
 
-bool AnyTypeBuilder::EndArray(std::size_t elementCount)
+bool AnyTypeBuilder::EndArray(std::size_t)
 {
-  current = current->Parent();
-  if (!current)
+  if (!current->Parent())
   {
-    throw ParseException("AnyTypeBuilder::EndArray current node is null");
+    throw ParseException("AnyTypeBuilder::EndArray current parent node is null");
   }
+  current = current->Parent();
   current->PopArrayNode();
   return true;
 }

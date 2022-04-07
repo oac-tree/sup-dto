@@ -21,8 +21,9 @@
 
 #include <gtest/gtest.h>
 
-#include "AnyTypeHelper.h"
 #include "AnyType.h"
+#include "AnyTypeHelper.h"
+#include "AnyTypeBuilder.h"
 #include "AnyValueExceptions.h"
 
 using namespace sup::dto;
@@ -177,6 +178,24 @@ TEST_F(AnyTypeJSONParseTest, ParseErrorsBuildNode)
   EXPECT_THROW(AnyTypeFromJSONString(array_in_wrong_place), ParseException);
   const std::string unknown_scalar_type = R"RAW({"type":"unknown"})RAW";
   EXPECT_THROW(AnyTypeFromJSONString(unknown_scalar_type), ParseException);
+}
+
+TEST_F(AnyTypeJSONParseTest, AnyTypeBuilderExceptions)
+{
+  AnyTypeBuilder builder{};
+  EXPECT_THROW(builder.Null(), ParseException);
+  EXPECT_THROW(builder.Bool(true), ParseException);
+  EXPECT_THROW(builder.Int(5), ParseException);
+  EXPECT_THROW(builder.Uint(5), ParseException);
+  EXPECT_THROW(builder.Int64(5), ParseException);
+  EXPECT_THROW(builder.Uint64(5), ParseException);
+  EXPECT_THROW(builder.Double(1.0), ParseException);
+  EXPECT_THROW(builder.RawNumber("20", 2, true), ParseException);
+  EXPECT_THROW(builder.String("text", 2, true), ParseException);
+  EXPECT_THROW(builder.Key("key", 2, true), ParseException);
+  EXPECT_THROW(builder.StartArray(), ParseException);
+  EXPECT_THROW(builder.EndArray(1), ParseException);
+  EXPECT_THROW(builder.EndObject(0), ParseException);
 }
 
 AnyTypeJSONParseTest::AnyTypeJSONParseTest() = default;
