@@ -24,7 +24,10 @@
 #include "AnyType.h"
 #include "AnyTypeHelper.h"
 #include "AnyTypeBuilder.h"
+#include "AnyTypeBuildNode.h"
+#include "AnyTypeRootBuildNode.h"
 #include "AnyValueExceptions.h"
+#include "MemberTypeBuildNode.h"
 
 using namespace sup::dto;
 
@@ -180,9 +183,11 @@ TEST_F(AnyTypeJSONParseTest, ParseErrorsBuildNode)
   EXPECT_THROW(AnyTypeFromJSONString(unknown_scalar_type), ParseException);
 }
 
-TEST_F(AnyTypeJSONParseTest, AnyTypeBuilderExceptions)
+TEST_F(AnyTypeJSONParseTest, AnyTypeBuilderMethods)
 {
   AnyTypeBuilder builder{};
+
+  // Most methods throw when the current node contained is still an AnyTypeRootBuildNode:
   EXPECT_THROW(builder.Null(), ParseException);
   EXPECT_THROW(builder.Bool(true), ParseException);
   EXPECT_THROW(builder.Int(5), ParseException);
@@ -196,6 +201,49 @@ TEST_F(AnyTypeJSONParseTest, AnyTypeBuilderExceptions)
   EXPECT_THROW(builder.StartArray(), ParseException);
   EXPECT_THROW(builder.EndArray(1), ParseException);
   EXPECT_THROW(builder.EndObject(0), ParseException);
+
+  // Retrieving the AnyType throws when the current node is not the root node:
+  EXPECT_TRUE(builder.StartObject());
+  EXPECT_THROW(builder.MoveAnyType(), ParseException);
+
+  // Can't properly end object when type was not specified:
+  EXPECT_THROW(builder.EndObject(0), ParseException);
+}
+
+TEST_F(AnyTypeJSONParseTest, AnyTypeBuildNodeMethods)
+{
+  AnyTypeBuildNode node(nullptr);
+  EXPECT_THROW(node.Int32(-1), ParseException);
+  EXPECT_THROW(node.Int32(1), ParseException);
+  EXPECT_THROW(node.Int64(-1), ParseException);
+  EXPECT_THROW(node.Int64(1), ParseException);
+  EXPECT_THROW(node.Uint32(1), ParseException);
+  EXPECT_THROW(node.Uint64(1), ParseException);
+  EXPECT_THROW(node.String("wrong moment to pass a string"), ParseException);
+}
+
+TEST_F(AnyTypeJSONParseTest, AnyTypeRootBuildNodeMethods)
+{
+  AnyTypeRootBuildNode node(nullptr);
+  EXPECT_THROW(node.PopStructureNode(), ParseException);
+  auto child = node.GetStructureNode();
+  EXPECT_NE(child, nullptr);
+  EXPECT_THROW(node.GetStructureNode(), ParseException);
+}
+
+TEST_F(AnyTypeJSONParseTest, MemberTypeBuildNodeMethods)
+{
+  MemberTypeBuildNode node(nullptr);
+  EXPECT_TRUE(node.Member("membername"));
+  EXPECT_THROW(node.Member("othermembername"), ParseException);
+  EXPECT_THROW(node.GetArrayNode(), ParseException);
+  EXPECT_THROW(node.PopArrayNode(), ParseException);
+  EXPECT_THROW(node.PopStructureNode(), ParseException);
+  auto child = node.GetStructureNode();
+  EXPECT_NE(child, nullptr);
+  EXPECT_THROW(node.GetStructureNode(), ParseException);
+  // still throws because it can't move the underlying type (not enough information)
+  EXPECT_THROW(node.PopStructureNode(), ParseException);
 }
 
 AnyTypeJSONParseTest::AnyTypeJSONParseTest() = default;

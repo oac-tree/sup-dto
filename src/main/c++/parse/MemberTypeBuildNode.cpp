@@ -42,7 +42,7 @@ bool MemberTypeBuildNode::Member(const std::string& str)
 {
   if (!member_name.empty())
   {
-    throw InvalidOperationException(
+    throw ParseException(
         "MemberTypeBuildNode::Member called when previous member not finished");
   }
   member_name = str;
@@ -53,7 +53,7 @@ IAnyBuildNode* MemberTypeBuildNode::GetStructureNode()
 {
   if (type_node || member_name.empty())
   {
-    throw InvalidOperationException(
+    throw ParseException(
         "MemberTypeBuildNode::GetStructureNode must be called after member name and with "
         "empty child node");
   }
@@ -65,7 +65,7 @@ bool MemberTypeBuildNode::PopStructureNode()
 {
   if (!type_node || member_name.empty())
   {
-    throw InvalidOperationException(
+    throw ParseException(
         "MemberTypeBuildNode::GetStructureNode must be called after member name and with "
         "non-empty child node");
   }

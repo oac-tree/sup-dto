@@ -41,7 +41,7 @@ IAnyBuildNode* AnyTypeRootBuildNode::GetStructureNode()
 {
   if (type_node)
   {
-    throw InvalidOperationException(
+    throw ParseException(
         "AnyTypeRootBuildNode::GetStructureNode must be called with empty child node");
   }
   type_node.reset(new AnyTypeBuildNode(this));
@@ -52,7 +52,7 @@ bool AnyTypeRootBuildNode::PopStructureNode()
 {
   if (!type_node)
   {
-    throw InvalidOperationException(
+    throw ParseException(
         "AnyTypeRootBuildNode::PopStructureNode must be called with a non-empty child node");
   }
   anytype = type_node->MoveAnyType();
