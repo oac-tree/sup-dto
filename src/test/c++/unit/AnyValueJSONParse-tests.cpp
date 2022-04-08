@@ -27,6 +27,10 @@
 #include "AnyValueBuildNode.h"
 #include "AnyValueRootBuildNode.h"
 #include "AnyValueArrayBuildNode.h"
+#include "AnyValueEncodingElementBuildNode.h"
+#include "AnyValueTypeElementBuildNode.h"
+#include "AnyValueValueElementBuildNode.h"
+#include "ArrayValueBuildNode.h"
 #include "SerializationConstants.h"
 
 using namespace sup::dto;
@@ -372,6 +376,162 @@ TEST_F(AnyValueJSONParseTest, AnyValueArrayBuildNodeMethods)
 
   // No more child nodes allowed
   EXPECT_THROW(node.GetStructureNode(), ParseException);
+}
+
+TEST_F(AnyValueJSONParseTest, AnyValueEncodingElementBuildNodeMethods)
+{
+  AnyValueEncodingElementBuildNode node(nullptr);
+  EXPECT_THROW(node.Null(), ParseException);
+  EXPECT_THROW(node.Bool(true), ParseException);
+  EXPECT_THROW(node.Int32(-1), ParseException);
+  EXPECT_THROW(node.Uint32(1), ParseException);
+  EXPECT_THROW(node.Int64(-1), ParseException);
+  EXPECT_THROW(node.Uint64(1), ParseException);
+  EXPECT_THROW(node.Double(1.0), ParseException);
+  EXPECT_THROW(node.String("text"), ParseException);
+  EXPECT_THROW(node.Member("wrong_key"), ParseException);
+  EXPECT_THROW(node.GetArrayNode(), ParseException);
+  EXPECT_THROW(node.PopArrayNode(), ParseException);
+  EXPECT_THROW(node.GetStructureNode(), ParseException);
+  EXPECT_THROW(node.PopStructureNode(), ParseException);
+}
+
+TEST_F(AnyValueJSONParseTest, AnyValueTypeElementBuildNodeMethods)
+{
+  AnyValueTypeElementBuildNode node(nullptr);
+  EXPECT_THROW(node.Null(), ParseException);
+  EXPECT_THROW(node.Bool(true), ParseException);
+  EXPECT_THROW(node.Int32(-1), ParseException);
+  EXPECT_THROW(node.Uint32(1), ParseException);
+  EXPECT_THROW(node.Int64(-1), ParseException);
+  EXPECT_THROW(node.Uint64(1), ParseException);
+  EXPECT_THROW(node.Double(1.0), ParseException);
+  EXPECT_THROW(node.String("text"), ParseException);
+  EXPECT_THROW(node.Member("wrong_key"), ParseException);
+  EXPECT_THROW(node.GetArrayNode(), ParseException);
+  EXPECT_THROW(node.PopArrayNode(), ParseException);
+  // Throws when the correct key was not set:
+  EXPECT_THROW(node.GetStructureNode(), ParseException);
+  EXPECT_THROW(node.PopStructureNode(), ParseException);
+}
+
+TEST_F(AnyValueJSONParseTest, AnyValueValueElementBuildNodeMethods)
+{
+  AnyValue empty{String};
+  AnyValueValueElementBuildNode node(nullptr, empty);
+  EXPECT_THROW(node.Null(), ParseException);
+  EXPECT_THROW(node.Bool(true), ParseException);
+  EXPECT_THROW(node.Int32(-1), ParseException);
+  EXPECT_THROW(node.Uint32(1), ParseException);
+  EXPECT_THROW(node.Int64(-1), ParseException);
+  EXPECT_THROW(node.Uint64(1), ParseException);
+  EXPECT_THROW(node.Double(1.0), ParseException);
+  EXPECT_THROW(node.String("text"), ParseException);
+  EXPECT_THROW(node.Member("wrong_key"), ParseException);
+  EXPECT_THROW(node.GetArrayNode(), ParseException);
+  EXPECT_THROW(node.PopArrayNode(), ParseException);
+  EXPECT_THROW(node.GetStructureNode(), ParseException);
+  EXPECT_THROW(node.PopStructureNode(), ParseException);
+
+  // Correct parsing
+  EXPECT_TRUE(node.Member(serialization::INSTANCE_KEY));
+  EXPECT_TRUE(node.String("Text"));
+}
+
+TEST_F(AnyValueJSONParseTest, ArrayValueBuildNodeMethods)
+{
+  // Exceptions
+  AnyValue empty;
+  ArrayValueBuildNode node(nullptr, empty);
+  EXPECT_THROW(node.Null(), ParseException);
+  EXPECT_THROW(node.Bool(true), ParseException);
+  EXPECT_THROW(node.Int32(-1), ParseException);
+  EXPECT_THROW(node.Uint32(1), ParseException);
+  EXPECT_THROW(node.Int64(-1), ParseException);
+  EXPECT_THROW(node.Uint64(1), ParseException);
+  EXPECT_THROW(node.Double(1.0), ParseException);
+  EXPECT_THROW(node.String("text"), ParseException);
+  EXPECT_THROW(node.Member("not_supported"), ParseException);
+  EXPECT_THROW(node.GetArrayNode(), ParseException);
+  EXPECT_THROW(node.PopArrayNode(), ParseException);
+  EXPECT_THROW(node.GetStructureNode(), ParseException);
+  EXPECT_THROW(node.PopStructureNode(), ParseException);
+
+  // Boolean array
+  {
+    AnyType array_t(2, Boolean);
+    AnyValue array_v(array_t);
+    ArrayValueBuildNode node(nullptr, array_v);
+    EXPECT_TRUE(node.Bool(true));
+    EXPECT_TRUE(node.Bool(true));
+    EXPECT_THROW(node.Bool(true), ParseException);
+    EXPECT_EQ(array_v[0], true);
+    EXPECT_EQ(array_v[1], true);
+  }
+
+  // Signed integer array
+  {
+    AnyType array_t(2, SignedInteger32);
+    AnyValue array_v(array_t);
+    ArrayValueBuildNode node(nullptr, array_v);
+    EXPECT_TRUE(node.Int32(-6));
+    EXPECT_TRUE(node.Int64(1245));
+    EXPECT_THROW(node.Int32(1), ParseException);
+    EXPECT_EQ(array_v[0], -6);
+    EXPECT_EQ(array_v[1], 1245);
+  }
+
+  // Unsigned integer array
+  {
+    AnyType array_t(2, UnsignedInteger8);
+    AnyValue array_v(array_t);
+    ArrayValueBuildNode node(nullptr, array_v);
+    EXPECT_TRUE(node.Uint32(6));
+    EXPECT_TRUE(node.Uint64(12));
+    EXPECT_THROW(node.Uint32(1), ParseException);
+    EXPECT_EQ(array_v[0], 6);
+    EXPECT_EQ(array_v[1], 12);
+  }
+
+  // Double array
+  {
+    AnyType array_t(2, Float32);
+    AnyValue array_v(array_t);
+    ArrayValueBuildNode node(nullptr, array_v);
+    EXPECT_TRUE(node.Double(1.0));
+    EXPECT_TRUE(node.Double(2.0));
+    EXPECT_THROW(node.Double(3.0), ParseException);
+    EXPECT_EQ(array_v[0], 1.0);
+    EXPECT_EQ(array_v[1], 2.0);
+  }
+
+  // String array
+  {
+    AnyType array_t(2, String);
+    AnyValue array_v(array_t);
+    ArrayValueBuildNode node(nullptr, array_v);
+    EXPECT_TRUE(node.String("a"));
+    EXPECT_TRUE(node.String("bc"));
+    EXPECT_THROW(node.String("index error"), ParseException);
+    EXPECT_EQ(array_v[0], "a");
+    EXPECT_EQ(array_v[1], "bc");
+  }
+
+  // Array array
+  {
+    AnyType bool_array(2, Boolean);
+    AnyType array_t(1, bool_array);
+    AnyValue array_v(array_t);
+    ArrayValueBuildNode node(nullptr, array_v);
+    auto child = node.GetArrayNode();
+    ASSERT_NE(child, nullptr);
+    EXPECT_TRUE(child->Bool(true));
+    EXPECT_TRUE(child->Bool(true));
+    EXPECT_THROW(child->Bool(true), ParseException);
+    EXPECT_TRUE(node.PopArrayNode());
+    EXPECT_EQ(array_v[0][0], true);
+    EXPECT_EQ(array_v[0][1], true);
+  }
 }
 
 AnyValueJSONParseTest::AnyValueJSONParseTest() = default;

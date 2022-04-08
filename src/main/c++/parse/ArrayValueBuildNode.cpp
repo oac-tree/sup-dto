@@ -44,7 +44,7 @@ bool ArrayValueBuildNode::Bool(boolean b)
 {
   if (current_index >= size)
   {
-    throw InvalidOperationException(
+    throw ParseException(
         "AnyValueBuildNode::Bool called more than array size");
   }
   anyvalue[current_index++] = b;
@@ -55,7 +55,7 @@ bool ArrayValueBuildNode::Int32(int32 i)
 {
   if (current_index >= size)
   {
-    throw InvalidOperationException(
+    throw ParseException(
         "AnyValueBuildNode::Int32 called more than array size");
   }
   anyvalue[current_index++] = i;
@@ -66,7 +66,7 @@ bool ArrayValueBuildNode::Uint32(uint32 u)
 {
   if (current_index >= size)
   {
-    throw InvalidOperationException(
+    throw ParseException(
         "AnyValueBuildNode::Uint32 called more than array size");
   }
   anyvalue[current_index++] = u;
@@ -77,7 +77,7 @@ bool ArrayValueBuildNode::Int64(int64 i)
 {
   if (current_index >= size)
   {
-    throw InvalidOperationException(
+    throw ParseException(
         "AnyValueBuildNode::Int64 called more than array size");
   }
   anyvalue[current_index++] = i;
@@ -88,7 +88,7 @@ bool ArrayValueBuildNode::Uint64(uint64 u)
 {
   if (current_index >= size)
   {
-    throw InvalidOperationException(
+    throw ParseException(
         "AnyValueBuildNode::Uint64 called more than array size");
   }
   anyvalue[current_index++] = u;
@@ -99,7 +99,7 @@ bool ArrayValueBuildNode::Double(float64 d)
 {
   if (current_index >= size)
   {
-    throw InvalidOperationException(
+    throw ParseException(
         "AnyValueBuildNode::Double called more than array size");
   }
   anyvalue[current_index++] = d;
@@ -110,7 +110,7 @@ bool ArrayValueBuildNode::String(const std::string& str)
 {
   if (current_index >= size)
   {
-    throw InvalidOperationException(
+    throw ParseException(
         "AnyValueBuildNode::String called more than array size");
   }
   anyvalue[current_index++] = str;
@@ -121,7 +121,7 @@ IAnyBuildNode* ArrayValueBuildNode::GetStructureNode()
 {
   if (value_node || current_index >= size)
   {
-    throw InvalidOperationException(
+    throw ParseException(
         "ArrayValueBuildNode::GetStructureNode must be called with empty child node "
         "and without exceeding array size");
   }
@@ -133,7 +133,7 @@ IAnyBuildNode* ArrayValueBuildNode::GetArrayNode()
 {
   if (array_node || current_index >= size)
   {
-    throw InvalidOperationException(
+    throw ParseException(
         "ArrayValueBuildNode::GetArrayNode must be called with empty child node "
         "and without exceeding array size");
   }
@@ -145,7 +145,7 @@ bool ArrayValueBuildNode::PopStructureNode()
 {
   if (!value_node)
   {
-    throw InvalidOperationException(
+    throw ParseException(
         "ArrayValueBuildNode::PopStructureNode must be called with a non-empty child node");
   }
   value_node.reset();
@@ -156,7 +156,7 @@ bool ArrayValueBuildNode::PopArrayNode()
 {
   if (!array_node)
   {
-    throw InvalidOperationException(
+    throw ParseException(
         "ArrayValueBuildNode::PopArrayNode must be called with a non-empty child node");
   }
   array_node.reset();

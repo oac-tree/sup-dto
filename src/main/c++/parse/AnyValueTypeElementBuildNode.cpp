@@ -43,7 +43,7 @@ bool AnyValueTypeElementBuildNode::Member(const std::string& str)
 {
   if (!member_name.empty() || str != serialization::DATATYPE_KEY)
   {
-    throw InvalidOperationException(
+    throw ParseException(
       "AnyValueTypeElementBuildNode::Member must be called once with \"datatype\" key");
   }
   member_name = str;
@@ -54,7 +54,7 @@ IAnyBuildNode* AnyValueTypeElementBuildNode::GetStructureNode()
 {
   if (type_node || member_name != serialization::DATATYPE_KEY)
   {
-    throw InvalidOperationException(
+    throw ParseException(
       "AnyValueTypeElementBuildNode::GetStructureNode must be called after \"datatype\" key "
       "and with empty child node");
 
@@ -67,7 +67,7 @@ bool AnyValueTypeElementBuildNode::PopStructureNode()
 {
   if (!type_node)
   {
-    throw InvalidOperationException(
+    throw ParseException(
       "AnyValueTypeElementBuildNode::PopStructureNode must be called with non-empty child node");
   }
   anytype = type_node->MoveAnyType();

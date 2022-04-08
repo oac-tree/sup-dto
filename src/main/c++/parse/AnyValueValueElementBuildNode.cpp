@@ -46,7 +46,7 @@ bool AnyValueValueElementBuildNode::Null()
 {
   if (member_name != serialization::INSTANCE_KEY)
   {
-    throw InvalidOperationException(
+    throw ParseException(
         "AnyValueValueElementBuildNode::Null must be called after \"instance\" key");
   }
   anyvalue = AnyValue{};
@@ -58,7 +58,7 @@ bool AnyValueValueElementBuildNode::Bool(boolean b)
 {
   if (member_name != serialization::INSTANCE_KEY)
   {
-    throw InvalidOperationException(
+    throw ParseException(
         "AnyValueValueElementBuildNode::Bool must be called after \"instance\" key");
   }
   anyvalue = b;
@@ -70,7 +70,7 @@ bool AnyValueValueElementBuildNode::Int32(int32 i)
 {
   if (member_name != serialization::INSTANCE_KEY)
   {
-    throw InvalidOperationException(
+    throw ParseException(
         "AnyValueValueElementBuildNode::Int32 must be called after \"instance\" key");
   }
   anyvalue = i;
@@ -82,7 +82,7 @@ bool AnyValueValueElementBuildNode::Uint32(uint32 u)
 {
   if (member_name != serialization::INSTANCE_KEY)
   {
-    throw InvalidOperationException(
+    throw ParseException(
         "AnyValueValueElementBuildNode::Uint32 must be called after \"instance\" key");
   }
   anyvalue = u;
@@ -94,7 +94,7 @@ bool AnyValueValueElementBuildNode::Int64(int64 i)
 {
   if (member_name != serialization::INSTANCE_KEY)
   {
-    throw InvalidOperationException(
+    throw ParseException(
         "AnyValueValueElementBuildNode::Int64 must be called after \"instance\" key");
   }
   anyvalue = i;
@@ -106,7 +106,7 @@ bool AnyValueValueElementBuildNode::Uint64(uint64 u)
 {
   if (member_name != serialization::INSTANCE_KEY)
   {
-    throw InvalidOperationException(
+    throw ParseException(
         "AnyValueValueElementBuildNode::Uint64 must be called after \"instance\" key");
   }
   anyvalue = u;
@@ -118,7 +118,7 @@ bool AnyValueValueElementBuildNode::Double(float64 d)
 {
   if (member_name != serialization::INSTANCE_KEY)
   {
-    throw InvalidOperationException(
+    throw ParseException(
         "AnyValueValueElementBuildNode::Double must be called after \"instance\" key");
   }
   anyvalue = d;
@@ -130,7 +130,7 @@ bool AnyValueValueElementBuildNode::String(const std::string& str)
 {
   if (member_name != serialization::INSTANCE_KEY)
   {
-    throw InvalidOperationException(
+    throw ParseException(
         "AnyValueValueElementBuildNode::String must be called after \"instance\" key");
   }
   anyvalue = str;
@@ -142,7 +142,7 @@ bool AnyValueValueElementBuildNode::Member(const std::string& str)
 {
   if (!member_name.empty() || str != serialization::INSTANCE_KEY)
   {
-    throw InvalidOperationException(
+    throw ParseException(
       "AnyValueValueElementBuildNode::Member must be called once with \"instance\" key");
   }
   member_name = str;
@@ -153,7 +153,7 @@ IAnyBuildNode* AnyValueValueElementBuildNode::GetStructureNode()
 {
   if (value_node || member_name != serialization::INSTANCE_KEY)
   {
-    throw InvalidOperationException(
+    throw ParseException(
       "AnyValueValueElementBuildNode::GetStructureNode must be called after \"instance\" key "
       "and with empty child node");
 
@@ -166,7 +166,7 @@ IAnyBuildNode* AnyValueValueElementBuildNode::GetArrayNode()
 {
   if (array_node || member_name != serialization::INSTANCE_KEY)
   {
-    throw InvalidOperationException(
+    throw ParseException(
         "AnyValueValueElementBuildNode::GetArrayNode must be called after \"instance\" key "
       "and with empty child node");
   }
@@ -178,7 +178,7 @@ bool AnyValueValueElementBuildNode::PopStructureNode()
 {
   if (!value_node)
   {
-    throw InvalidOperationException(
+    throw ParseException(
       "AnyValueValueElementBuildNode::PopStructureNode must be called with non-empty child node");
   }
   member_name.clear();
@@ -190,7 +190,7 @@ bool AnyValueValueElementBuildNode::PopArrayNode()
 {
   if (!array_node)
   {
-    throw InvalidOperationException(
+    throw ParseException(
       "AnyValueValueElementBuildNode::PopArrayNode must be called with non-empty child node");
   }
   member_name.clear();
