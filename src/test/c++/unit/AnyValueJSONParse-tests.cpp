@@ -27,6 +27,7 @@
 #include "AnyValueBuildNode.h"
 #include "AnyValueRootBuildNode.h"
 #include "AnyValueArrayBuildNode.h"
+#include "SerializationConstants.h"
 
 using namespace sup::dto;
 
@@ -320,6 +321,57 @@ TEST_F(AnyValueJSONParseTest, AnyValueRootBuildNodeMethods)
   auto child = node.GetArrayNode();
   EXPECT_NE(child, nullptr);
   EXPECT_THROW(node.GetArrayNode(), ParseException);
+}
+
+TEST_F(AnyValueJSONParseTest, AnyValueArrayBuildNodeMethods)
+{
+  AnyValueArrayBuildNode node(nullptr);
+  EXPECT_THROW(node.Null(), ParseException);
+  EXPECT_THROW(node.Bool(true), ParseException);
+  EXPECT_THROW(node.Int32(-1), ParseException);
+  EXPECT_THROW(node.Uint32(1), ParseException);
+  EXPECT_THROW(node.Int64(-1), ParseException);
+  EXPECT_THROW(node.Uint64(1), ParseException);
+  EXPECT_THROW(node.Double(1.0), ParseException);
+  EXPECT_THROW(node.String("text"), ParseException);
+  EXPECT_THROW(node.Member("membername"), ParseException);
+  EXPECT_THROW(node.GetArrayNode(), ParseException);
+  EXPECT_THROW(node.PopArrayNode(), ParseException);
+  EXPECT_THROW(node.PopStructureNode(), ParseException);
+
+  // First child node: encoding node
+  auto child = node.GetStructureNode();
+  ASSERT_NE(child, nullptr);
+  EXPECT_TRUE(child->Member(serialization::ENCODING_KEY));
+  EXPECT_TRUE(child->String(serialization::JSON_ENCODING_1_0));
+  EXPECT_THROW(node.GetStructureNode(), ParseException);
+  EXPECT_TRUE(node.PopStructureNode());
+  EXPECT_THROW(node.PopStructureNode(), ParseException);
+
+  // Second child node: type node
+  child = node.GetStructureNode();
+  ASSERT_NE(child, nullptr);
+  EXPECT_TRUE(child->Member(serialization::DATATYPE_KEY));
+  auto type_node = child->GetStructureNode();
+  ASSERT_NE(type_node, nullptr);
+  EXPECT_TRUE(type_node->Member(serialization::TYPE_KEY));
+  EXPECT_TRUE(type_node->String(FLOAT32_TYPE_NAME));
+  EXPECT_TRUE(child->PopStructureNode());
+  EXPECT_THROW(node.GetStructureNode(), ParseException);
+  EXPECT_TRUE(node.PopStructureNode());
+  EXPECT_THROW(node.PopStructureNode(), ParseException);
+
+  // Third child node: value node
+  child = node.GetStructureNode();
+  ASSERT_NE(child, nullptr);
+  EXPECT_TRUE(child->Member(serialization::INSTANCE_KEY));
+  EXPECT_TRUE(child->Double(1.2e9));
+  EXPECT_THROW(node.GetStructureNode(), ParseException);
+  EXPECT_TRUE(node.PopStructureNode());
+  EXPECT_THROW(node.PopStructureNode(), ParseException);
+
+  // No more child nodes allowed
+  EXPECT_THROW(node.GetStructureNode(), ParseException);
 }
 
 AnyValueJSONParseTest::AnyValueJSONParseTest() = default;

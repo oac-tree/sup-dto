@@ -44,6 +44,12 @@ AnyValueArrayBuildNode::~AnyValueArrayBuildNode() = default;
 
 IAnyBuildNode* AnyValueArrayBuildNode::GetStructureNode()
 {
+  if (encoding_node || type_node || value_node)
+  {
+    throw ParseException(
+      "AnyValueArrayBuildNode::GetStructureNode cannot be called when a node is still active "
+      "(not popped with PopStructureNode)");
+  }
   switch (processed_nodes)
   {
   case 0:
@@ -56,7 +62,7 @@ IAnyBuildNode* AnyValueArrayBuildNode::GetStructureNode()
     value_node.reset(new AnyValueValueElementBuildNode(this, anyvalue));
     return value_node.get();
   default:
-    throw InvalidOperationException(
+    throw ParseException(
       "AnyValueArrayBuildNode::GetStructureNode cannot be called more than 3 times");
   }
 }
@@ -69,7 +75,7 @@ bool AnyValueArrayBuildNode::PopStructureNode()
   case 0:
     if (!encoding_node || !encoding_node->EncodingOK())
     {
-      throw InvalidOperationException(
+      throw ParseException(
           "AnyValueArrayBuildNode::PopStructureNode called first time with empty encoding node "
           " or invalid encoding");
     }
@@ -78,7 +84,7 @@ bool AnyValueArrayBuildNode::PopStructureNode()
   case 1:
     if (!type_node)
     {
-      throw InvalidOperationException(
+      throw ParseException(
           "AnyValueArrayBuildNode::PopStructureNode called second time with empty type node");
     }
     anytype = type_node->MoveAnyType();
@@ -88,13 +94,13 @@ bool AnyValueArrayBuildNode::PopStructureNode()
   case 2:
     if (!value_node)
     {
-      throw InvalidOperationException(
+      throw ParseException(
           "AnyValueArrayBuildNode::PopStructureNode called third time with empty value node");
     }
     value_node.reset();
     break;
   default:
-    throw InvalidOperationException(
+    throw ParseException(
       "AnyValueArrayBuildNode::PopStructureNode cannot be called more than 3 times");
   }
   ++processed_nodes;
