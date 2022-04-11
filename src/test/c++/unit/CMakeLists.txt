@@ -1,5 +1,7 @@
 add_executable(unit-tests)
 
+configure_file(${CMAKE_CURRENT_LIST_DIR}/TestConfig.h.in ${CMAKE_CURRENT_LIST_DIR}/TestConfig.h @ONLY)
+
 target_sources(unit-tests
     PRIVATE
         ${CMAKE_CURRENT_LIST_DIR}/AnyValue-tests.cpp
@@ -16,6 +18,7 @@ target_sources(unit-tests
         ${CMAKE_CURRENT_LIST_DIR}/ArrayValue-tests.cpp
         ${CMAKE_CURRENT_LIST_DIR}/IntegerType-tests.cpp
         ${CMAKE_CURRENT_LIST_DIR}/IntegerValue-tests.cpp
+        ${CMAKE_CURRENT_LIST_DIR}/JSONFile-tests.cpp
         ${CMAKE_CURRENT_LIST_DIR}/ScalarConversion-tests.cpp
         ${CMAKE_CURRENT_LIST_DIR}/ScalarType-tests.cpp
         ${CMAKE_CURRENT_LIST_DIR}/ScalarValue-tests.cpp

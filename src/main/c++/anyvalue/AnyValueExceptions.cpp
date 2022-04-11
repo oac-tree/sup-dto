@@ -59,10 +59,6 @@ InvalidOperationException::InvalidOperationException(const std::string& message)
   : MessageException{message}
 {}
 
-InitializationException::InitializationException(const std::string& message)
-  : MessageException{message}
-{}
-
 SerializeException::SerializeException(const std::string& message)
   : MessageException{message}
 {}

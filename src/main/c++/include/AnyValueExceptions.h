@@ -105,15 +105,6 @@ public:
 };
 
 /**
- * @brief Exception thrown when construction of an object is invalid.
- */
-class InitializationException : public MessageException
-{
-public:
-  InitializationException(const std::string& message);
-};
-
-/**
  * @brief Exception thrown when serializing an object failed.
  */
 class SerializeException : public MessageException

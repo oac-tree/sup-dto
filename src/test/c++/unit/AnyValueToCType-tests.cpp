@@ -53,6 +53,9 @@ TEST(AnyValueToCTypeTest, StringFields)
   EXPECT_STREQ(address_c.street, "Main street");
   EXPECT_EQ(address_c.number, 1033);
 
+  // Non-matching size
+  EXPECT_THROW(address.As<TwoScalarsType>(), InvalidConversionException);
+
   // String length too long
   address["street"] =
       "This streetname is too long to be used for conversion to C-types (75 chars)";
