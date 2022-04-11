@@ -61,7 +61,7 @@ bool WriteScalarValue(const AnyValue& anyvalue, IWriter* writer)
   auto it = conversion_map.find(anyvalue.GetTypeCode());
   if (it == conversion_map.end())
   {
-    throw InvalidConversionException("Not a known scalar type code");
+    throw SerializeException("Not a known scalar type code");
   }
   return it->second(anyvalue, writer);
 }
