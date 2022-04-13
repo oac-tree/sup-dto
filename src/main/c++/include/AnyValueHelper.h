@@ -19,15 +19,6 @@
  * of the distribution package.
  ******************************************************************************/
 
-/**
- * @file AnyValueHelper.h
- * @brief Header file for AnyValue helper classes and functions.
- * @date 17/02/2022
- * @author Walter Van Herck (IO)
- * @copyright 2010-2022 ITER Organization
- * @details This header file contains the definition of the AnyValue helper classes and functions.
- */
-
 #ifndef _SUP_AnyValueHelper_h_
 #define _SUP_AnyValueHelper_h_
 

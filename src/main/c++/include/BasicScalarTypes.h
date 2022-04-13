@@ -19,15 +19,6 @@
  * of the distribution package.
  ******************************************************************************/
 
-/**
- * @file BasicScalarTypes.h
- * @brief Header file for BasicScalarTypes.
- * @date 03/01/2022
- * @author Walter Van Herck (IO)
- * @copyright 2010-2022 ITER Organization
- * @details This header file contains the definitions of the BasicScalarTypes.
- */
-
 #ifndef _SUP_BasicScalarTypes_h_
 #define _SUP_BasicScalarTypes_h_
 

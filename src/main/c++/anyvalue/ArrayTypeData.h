@@ -19,15 +19,6 @@
  * of the distribution package.
  ******************************************************************************/
 
-/**
- * @file ArrayTypeData.h
- * @brief Header file for ArrayTypeData.
- * @date 18/01/2022
- * @author Walter Van Herck (IO)
- * @copyright 2010-2022 ITER Organization
- * @details This header file contains the definition of the ArrayTypeData class.
- */
-
 #ifndef _SUP_ArrayTypeData_h_
 #define _SUP_ArrayTypeData_h_
 

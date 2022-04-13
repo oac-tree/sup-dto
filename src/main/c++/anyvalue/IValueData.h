@@ -19,15 +19,6 @@
  * of the distribution package.
  ******************************************************************************/
 
-/**
- * @file IValueData.h
- * @brief Header file for IValueData.
- * @date 06/01/2022
- * @author Walter Van Herck (IO)
- * @copyright 2010-2022 ITER Organization
- * @details This header file contains the definition of the IValueData interface.
- */
-
 #ifndef _SUP_IValueData_h_
 #define _SUP_IValueData_h_
 

@@ -19,15 +19,6 @@
  * of the distribution package.
  ******************************************************************************/
 
-/**
- * @file TestSerializers.h
- * @brief Header file for serializer classes for unit testing.
- * @date 16/02/2022
- * @author Walter Van Herck (IO)
- * @copyright 2010-2022 ITER Organization
- * @details This header file contains the definition of the serializer classes for unit testing.
- */
-
 #ifndef _SUP_TestSerializers_h_
 #define _SUP_TestSerializers_h_
 

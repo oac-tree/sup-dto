@@ -19,15 +19,6 @@
  * of the distribution package.
  ******************************************************************************/
 
-/**
- * @file ITypeData.h
- * @brief Header file for ITypeData.
- * @date 03/01/2022
- * @author Walter Van Herck (IO)
- * @copyright 2010-2022 ITER Organization
- * @details This header file contains the definition of the ITypeData interface.
- */
-
 #ifndef _SUP_ITypeData_h_
 #define _SUP_ITypeData_h_
 

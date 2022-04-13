@@ -19,15 +19,6 @@
  * of the distribution package.
  ******************************************************************************/
 
-/**
- * @file EmptyTypeData.h
- * @brief Header file for EmptyTypeData.
- * @date 03/01/2022
- * @author Walter Van Herck (IO)
- * @copyright 2010-2022 ITER Organization
- * @details This header file contains the definition of the EmptyTypeData class.
- */
-
 #ifndef _SUP_EmptyTypeData_h_
 #define _SUP_EmptyTypeData_h_
 

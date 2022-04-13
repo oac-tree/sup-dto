@@ -19,15 +19,6 @@
  * of the distribution package.
  ******************************************************************************/
 
-/**
- * @file ScalarVisitorNode.h
- * @brief Header file for the ScalarVisitorNode class template.
- * @date 16/02/2022
- * @author Walter Van Herck (IO)
- * @copyright 2010-2022 ITER Organization
- * @details This header file contains the definition of the ScalarVisitorNode class template.
- */
-
 #ifndef _SUP_ScalarVisitorNode_h_
 #define _SUP_ScalarVisitorNode_h_
 

@@ -19,15 +19,6 @@
  * of the distribution package.
  ******************************************************************************/
 
-/**
- * @file WriterSerializer.h
- * @brief Header file for the WriterSerializer class.
- * @date 24/02/2022
- * @author Walter Van Herck (IO)
- * @copyright 2010-2022 ITER Organization
- * @details This header file contains the definition of the WriterSerializer class.
- */
-
 #ifndef _SUP_WriterSerializer_h_
 #define _SUP_WriterSerializer_h_
 

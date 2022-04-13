@@ -19,15 +19,6 @@
  * of the distribution package.
  ******************************************************************************/
 
-/**
- * @file IWriter.h
- * @brief Header file for the IWriter interface.
- * @date 24/02/2022
- * @author Walter Van Herck (IO)
- * @copyright 2010-2022 ITER Organization
- * @details This header file contains the definition of the IWriter interface.
- */
-
 #ifndef _SUP_IWriter_h_
 #define _SUP_IWriter_h_
 

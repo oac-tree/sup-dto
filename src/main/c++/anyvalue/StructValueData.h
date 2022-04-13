@@ -19,15 +19,6 @@
  * of the distribution package.
  ******************************************************************************/
 
-/**
- * @file StructValueData.h
- * @brief Header file for StructValueData.
- * @date 14/01/2022
- * @author Walter Van Herck (IO)
- * @copyright 2010-2022 ITER Organization
- * @details This header file contains the definition of the StructValueData class.
- */
-
 #ifndef _SUP_StructValueData_h_
 #define _SUP_StructValueData_h_
 

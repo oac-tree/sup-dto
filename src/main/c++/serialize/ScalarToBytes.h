@@ -19,15 +19,6 @@
  * of the distribution package.
  ******************************************************************************/
 
-/**
- * @file ScalarToBytes.h
- * @brief Header file for the ScalarToBytes function.
- * @date 18/02/2022
- * @author Walter Van Herck (IO)
- * @copyright 2010-2022 ITER Organization
- * @details This header file contains the definition of the ScalarToBytes function.
- */
-
 #ifndef _SUP_ScalarToBytes_h_
 #define _SUP_ScalarToBytes_h_
 

@@ -19,15 +19,6 @@
  * of the distribution package.
  ******************************************************************************/
 
-/**
- * @file ScalarTypeData.h
- * @brief Header file for ScalarTypeData.
- * @date 03/01/2022
- * @author Walter Van Herck (IO)
- * @copyright 2010-2022 ITER Organization
- * @details This header file contains the definition of the ScalarTypeData class.
- */
-
 #ifndef _SUP_ScalarTypeData_h_
 #define _SUP_ScalarTypeData_h_
 

@@ -19,15 +19,6 @@
  * of the distribution package.
  ******************************************************************************/
 
-/**
- * @file AnyValue.h
- * @brief Header file for AnyValue.
- * @date 26/12/2021
- * @author Walter Van Herck (IO)
- * @copyright 2010-2021 ITER Organization
- * @details This header file contains the definition of the AnyValue class.
- */
-
 #ifndef _SUP_AnyValue_h_
 #define _SUP_AnyValue_h_
 

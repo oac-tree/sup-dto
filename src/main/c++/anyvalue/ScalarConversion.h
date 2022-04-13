@@ -19,15 +19,6 @@
  * of the distribution package.
  ******************************************************************************/
 
-/**
- * @file ScalarConversion.h
- * @brief Header file for ScalarConversion templates.
- * @date 12/01/2022
- * @author Walter Van Herck (IO)
- * @copyright 2010-2022 ITER Organization
- * @details This header file contains the definition of the ScalarConversion templates.
- */
-
 #ifndef _SUP_ScalarConversion_h_
 #define _SUP_ScalarConversion_h_
 

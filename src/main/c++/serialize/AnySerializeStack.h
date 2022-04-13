@@ -19,15 +19,6 @@
  * of the distribution package.
  ******************************************************************************/
 
-/**
- * @file AnySerializeStack.h
- * @brief Header file for templated serialization stack.
- * @date 16/02/2022
- * @author Walter Van Herck (IO)
- * @copyright 2010-2022 ITER Organization
- * @details This header file contains the definition of the templated serialization stack.
- */
-
 #ifndef _SUP_AnySerializeStack_h_
 #define _SUP_AnySerializeStack_h_
 

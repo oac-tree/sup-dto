@@ -19,15 +19,6 @@
  * of the distribution package.
  ******************************************************************************/
 
-/**
- * @file ByteSerializer.h
- * @brief Header file for the ByteSerializer class.
- * @date 18/02/2022
- * @author Walter Van Herck (IO)
- * @copyright 2010-2022 ITER Organization
- * @details This header file contains the definition of the ByteSerializer class.
- */
-
 #ifndef _SUP_ByteSerializer_h_
 #define _SUP_ByteSerializer_h_
 

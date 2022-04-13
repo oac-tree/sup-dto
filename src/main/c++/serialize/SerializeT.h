@@ -19,15 +19,6 @@
  * of the distribution package.
  ******************************************************************************/
 
-/**
- * @file SerializeT.h
- * @brief Header file for the Serialize function template.
- * @date 17/02/2022
- * @author Walter Van Herck (IO)
- * @copyright 2010-2022 ITER Organization
- * @details This header file contains the definition of the Serialize function template.
- */
-
 #ifndef _SUP_SerializeT_h_
 #define _SUP_SerializeT_h_
 

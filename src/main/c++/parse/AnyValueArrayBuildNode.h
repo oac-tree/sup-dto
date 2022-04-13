@@ -19,15 +19,6 @@
  * of the distribution package.
  ******************************************************************************/
 
-/**
- * @file AnyValueArrayBuildNode.h
- * @brief Header file for the AnyValueArrayBuildNode class.
- * @date 02/03/2022
- * @author Walter Van Herck (IO)
- * @copyright 2010-2022 ITER Organization
- * @details This header file contains the definition of the AnyValueArrayBuildNode class.
- */
-
 #ifndef _SUP_AnyValueArrayBuildNode_h_
 #define _SUP_AnyValueArrayBuildNode_h_
 

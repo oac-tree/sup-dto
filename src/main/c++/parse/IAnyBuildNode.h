@@ -19,15 +19,6 @@
  * of the distribution package.
  ******************************************************************************/
 
-/**
- * @file IAnyBuildNode.h
- * @brief Header file for the IAnyBuildNode interface.
- * @date 01/03/2022
- * @author Walter Van Herck (IO)
- * @copyright 2010-2022 ITER Organization
- * @details This header file contains the definition of the IAnyBuildNode interface.
- */
-
 #ifndef _SUP_IAnyBuildNode_h_
 #define _SUP_IAnyBuildNode_h_
 

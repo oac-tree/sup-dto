@@ -19,15 +19,6 @@
  * of the distribution package.
  ******************************************************************************/
 
-/**
- * @file MemberTypeBuildNode.h
- * @brief Header file for the MemberTypeBuildNode class.
- * @date 01/03/2022
- * @author Walter Van Herck (IO)
- * @copyright 2010-2022 ITER Organization
- * @details This header file contains the definition of the MemberTypeBuildNode class.
- */
-
 #ifndef _SUP_MemberTypeBuildNode_h_
 #define _SUP_MemberTypeBuildNode_h_
 

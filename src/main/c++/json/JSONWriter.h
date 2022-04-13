@@ -19,15 +19,6 @@
  * of the distribution package.
  ******************************************************************************/
 
-/**
- * @file JSONWriter.h
- * @brief Header file for the JSONWriter classes.
- * @date 28/02/2022
- * @author Walter Van Herck (IO)
- * @copyright 2010-2022 ITER Organization
- * @details This header file contains the definition of the JSONWriter classes.
- */
-
 #ifndef _SUP_JSONWriter_h_
 #define _SUP_JSONWriter_h_
 

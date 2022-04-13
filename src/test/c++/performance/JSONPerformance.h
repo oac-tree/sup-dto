@@ -19,15 +19,6 @@
  * of the distribution package.
  ******************************************************************************/
 
-/**
- * @file JSONPerformance.h
- * @brief Header file for the JSON serialize/parse performance tests.
- * @date 03/03/2022
- * @author Walter Van Herck (IO)
- * @copyright 2010-2022 ITER Organization
- * @details This header file contains the definition for the JSON serialize/parse performance tests.
- */
-
 #ifndef _SUP_JSONPerformance_h_
 #define _SUP_JSONPerformance_h_
 

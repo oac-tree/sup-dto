@@ -19,15 +19,6 @@
  * of the distribution package.
  ******************************************************************************/
 
-/**
- * @file ScalarValueDataBase.h
- * @brief Header file for ScalarValueDataBase.
- * @date 06/01/2022
- * @author Walter Van Herck (IO)
- * @copyright 2010-2022 ITER Organization
- * @details This header file contains the definition of the ScalarValueDataBase class.
- */
-
 #ifndef _SUP_ScalarValueDataBase_h_
 #define _SUP_ScalarValueDataBase_h_
 

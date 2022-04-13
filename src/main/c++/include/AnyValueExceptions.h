@@ -19,15 +19,6 @@
  * of the distribution package.
  ******************************************************************************/
 
-/**
- * @file AnyValueExceptions.h
- * @brief Header file for AnyValue Exceptions.
- * @date 04/01/2022
- * @author Walter Van Herck (IO)
- * @copyright 2010-2022 ITER Organization
- * @details This header file contains the definitions of the AnyValue Exception classes.
- */
-
 #ifndef _SUP_AnyValueExceptions_h_
 #define _SUP_AnyValueExceptions_h_
 
