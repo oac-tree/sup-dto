@@ -51,22 +51,22 @@ public:
 
   std::string GetRepresentation() const;
 
-  void AddEmptyProlog(const AnyType* anytype) override;
-  void AddEmptyEpilog(const AnyType* anytype) override;
+  void EmptyProlog(const AnyType* anytype) override;
+  void EmptyEpilog(const AnyType* anytype) override;
 
-  void AddStructProlog(const AnyType* anytype) override;
-  void AddStructMemberSeparator() override;
-  void AddStructEpilog(const AnyType* anytype) override;
+  void StructProlog(const AnyType* anytype) override;
+  void StructMemberSeparator() override;
+  void StructEpilog(const AnyType* anytype) override;
 
-  void AddMemberProlog(const AnyType* anytype, const std::string& member_name) override;
+  void MemberProlog(const AnyType* anytype, const std::string& member_name) override;
   void AddMemberEpilog(const AnyType* anytype, const std::string& member_name) override;
 
-  void AddArrayProlog(const AnyType* anytype) override;
-  void AddArrayElementSeparator() override;
-  void AddArrayEpilog(const AnyType* anytype) override;
+  void ArrayProlog(const AnyType* anytype) override;
+  void ArrayElementSeparator() override;
+  void ArrayEpilog(const AnyType* anytype) override;
 
-  void AddScalarProlog(const AnyType* anytype) override;
-  void AddScalarEpilog(const AnyType* anytype) override;
+  void ScalarProlog(const AnyType* anytype) override;
+  void ScalarEpilog(const AnyType* anytype) override;
 
 private:
   std::string representation;
@@ -80,22 +80,22 @@ public:
 
   std::string GetRepresentation() const;
 
-  void AddEmptyProlog(const AnyValue* anyvalue) override;
-  void AddEmptyEpilog(const AnyValue* anyvalue) override;
+  void EmptyProlog(const AnyValue* anyvalue) override;
+  void EmptyEpilog(const AnyValue* anyvalue) override;
 
-  void AddStructProlog(const AnyValue* anyvalue) override;
-  void AddStructMemberSeparator() override;
-  void AddStructEpilog(const AnyValue* anyvalue) override;
+  void StructProlog(const AnyValue* anyvalue) override;
+  void StructMemberSeparator() override;
+  void StructEpilog(const AnyValue* anyvalue) override;
 
-  void AddMemberProlog(const AnyValue* anyvalue, const std::string& member_name) override;
+  void MemberProlog(const AnyValue* anyvalue, const std::string& member_name) override;
   void AddMemberEpilog(const AnyValue* anyvalue, const std::string& member_name) override;
 
-  void AddArrayProlog(const AnyValue* anyvalue) override;
-  void AddArrayElementSeparator() override;
-  void AddArrayEpilog(const AnyValue* anyvalue) override;
+  void ArrayProlog(const AnyValue* anyvalue) override;
+  void ArrayElementSeparator() override;
+  void ArrayEpilog(const AnyValue* anyvalue) override;
 
-  void AddScalarProlog(const AnyValue* anyvalue) override;
-  void AddScalarEpilog(const AnyValue* anyvalue) override;
+  void ScalarProlog(const AnyValue* anyvalue) override;
+  void ScalarEpilog(const AnyValue* anyvalue) override;
 
 private:
   std::string representation;

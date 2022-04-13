@@ -71,7 +71,7 @@ std::unique_ptr<IAnySerializeNode<T>> ScalarSerializeNode<T>::NextChild()
 template <typename T>
 void ScalarSerializeNode<T>::AddProlog(IAnySerializer<T>& serializer) const
 {
-  serializer.AddScalarProlog(this->GetValue());
+  serializer.ScalarProlog(this->GetValue());
 }
 
 template <typename T>
@@ -81,7 +81,7 @@ void ScalarSerializeNode<T>::AddSeparator(IAnySerializer<T>&) const
 template <typename T>
 void ScalarSerializeNode<T>::AddEpilog(IAnySerializer<T>& serializer) const
 {
-  serializer.AddScalarEpilog(this->GetValue());
+  serializer.ScalarEpilog(this->GetValue());
 }
 
 }  // namespace dto

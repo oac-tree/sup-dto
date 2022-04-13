@@ -73,7 +73,7 @@ std::unique_ptr<IAnySerializeNode<T>> EmptySerializeNode<T>::NextChild()
 template <typename T>
 void EmptySerializeNode<T>::AddProlog(IAnySerializer<T>& serializer) const
 {
-  serializer.AddEmptyProlog(this->GetValue());
+  serializer.EmptyProlog(this->GetValue());
 }
 
 template <typename T>
@@ -83,7 +83,7 @@ void EmptySerializeNode<T>::AddSeparator(IAnySerializer<T>&) const
 template <typename T>
 void EmptySerializeNode<T>::AddEpilog(IAnySerializer<T>& serializer) const
 {
-  serializer.AddEmptyEpilog(this->GetValue());
+  serializer.EmptyEpilog(this->GetValue());
 }
 
 }  // namespace dto

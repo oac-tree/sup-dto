@@ -38,34 +38,34 @@ std::string SimpleAnyTypeSerializer::GetRepresentation() const
   return representation;
 }
 
-void SimpleAnyTypeSerializer::AddEmptyProlog(const AnyType* anytype)
+void SimpleAnyTypeSerializer::EmptyProlog(const AnyType* anytype)
 {
   representation += "E(";
 }
 
-void SimpleAnyTypeSerializer::AddEmptyEpilog(const AnyType* anytype)
+void SimpleAnyTypeSerializer::EmptyEpilog(const AnyType* anytype)
 {
   representation += ")E";
 }
 
 
-void SimpleAnyTypeSerializer::AddStructProlog(const AnyType* anytype)
+void SimpleAnyTypeSerializer::StructProlog(const AnyType* anytype)
 {
   representation += "S{";
 }
 
-void SimpleAnyTypeSerializer::AddStructMemberSeparator()
+void SimpleAnyTypeSerializer::StructMemberSeparator()
 {
   representation += ",";
 }
 
-void SimpleAnyTypeSerializer::AddStructEpilog(const AnyType* anytype)
+void SimpleAnyTypeSerializer::StructEpilog(const AnyType* anytype)
 {
   representation += "}S";
 }
 
 
-void SimpleAnyTypeSerializer::AddMemberProlog(const AnyType* anytype, const std::string& member_name)
+void SimpleAnyTypeSerializer::MemberProlog(const AnyType* anytype, const std::string& member_name)
 {
   std::string prolog = "M(" + member_name + ":";
   representation += prolog;
@@ -77,29 +77,29 @@ void SimpleAnyTypeSerializer::AddMemberEpilog(const AnyType* anytype, const std:
 }
 
 
-void SimpleAnyTypeSerializer::AddArrayProlog(const AnyType* anytype)
+void SimpleAnyTypeSerializer::ArrayProlog(const AnyType* anytype)
 {
   std::string prolog = "A[" + std::to_string(anytype->NumberOfElements()) + "|";
   representation += prolog;
 }
 
-void SimpleAnyTypeSerializer::AddArrayElementSeparator()
+void SimpleAnyTypeSerializer::ArrayElementSeparator()
 {
   representation += ",";
 }
 
-void SimpleAnyTypeSerializer::AddArrayEpilog(const AnyType* anytype)
+void SimpleAnyTypeSerializer::ArrayEpilog(const AnyType* anytype)
 {
   representation += "]A";
 }
 
 
-void SimpleAnyTypeSerializer::AddScalarProlog(const AnyType* anytype)
+void SimpleAnyTypeSerializer::ScalarProlog(const AnyType* anytype)
 {
   representation += anytype->GetTypeName();
 }
 
-void SimpleAnyTypeSerializer::AddScalarEpilog(const AnyType*)
+void SimpleAnyTypeSerializer::ScalarEpilog(const AnyType*)
 {}
 
 SimpleAnyValueSerializer::SimpleAnyValueSerializer()
@@ -112,34 +112,34 @@ std::string SimpleAnyValueSerializer::GetRepresentation() const
   return representation;
 }
 
-void SimpleAnyValueSerializer::AddEmptyProlog(const AnyValue* anyvalue)
+void SimpleAnyValueSerializer::EmptyProlog(const AnyValue* anyvalue)
 {
   representation += "E(";
 }
 
-void SimpleAnyValueSerializer::AddEmptyEpilog(const AnyValue* anyvalue)
+void SimpleAnyValueSerializer::EmptyEpilog(const AnyValue* anyvalue)
 {
   representation += ")E";
 }
 
 
-void SimpleAnyValueSerializer::AddStructProlog(const AnyValue* anyvalue)
+void SimpleAnyValueSerializer::StructProlog(const AnyValue* anyvalue)
 {
   representation += "S{";
 }
 
-void SimpleAnyValueSerializer::AddStructMemberSeparator()
+void SimpleAnyValueSerializer::StructMemberSeparator()
 {
   representation += ",";
 }
 
-void SimpleAnyValueSerializer::AddStructEpilog(const AnyValue* anyvalue)
+void SimpleAnyValueSerializer::StructEpilog(const AnyValue* anyvalue)
 {
   representation += "}S";
 }
 
 
-void SimpleAnyValueSerializer::AddMemberProlog(const AnyValue* anyvalue, const std::string& member_name)
+void SimpleAnyValueSerializer::MemberProlog(const AnyValue* anyvalue, const std::string& member_name)
 {
   std::string prolog = "M(" + member_name + ":";
   representation += prolog;
@@ -151,29 +151,29 @@ void SimpleAnyValueSerializer::AddMemberEpilog(const AnyValue* anyvalue, const s
 }
 
 
-void SimpleAnyValueSerializer::AddArrayProlog(const AnyValue* anyvalue)
+void SimpleAnyValueSerializer::ArrayProlog(const AnyValue* anyvalue)
 {
   std::string prolog = "A[" + std::to_string(anyvalue->NumberOfElements()) + "|";
   representation += prolog;
 }
 
-void SimpleAnyValueSerializer::AddArrayElementSeparator()
+void SimpleAnyValueSerializer::ArrayElementSeparator()
 {
   representation += ",";
 }
 
-void SimpleAnyValueSerializer::AddArrayEpilog(const AnyValue* anyvalue)
+void SimpleAnyValueSerializer::ArrayEpilog(const AnyValue* anyvalue)
 {
   representation += "]A";
 }
 
 
-void SimpleAnyValueSerializer::AddScalarProlog(const AnyValue* anyvalue)
+void SimpleAnyValueSerializer::ScalarProlog(const AnyValue* anyvalue)
 {
   representation += anyvalue->GetTypeName();
 }
 
-void SimpleAnyValueSerializer::AddScalarEpilog(const AnyValue*)
+void SimpleAnyValueSerializer::ScalarEpilog(const AnyValue*)
 {}
 
 }  // namespace dto

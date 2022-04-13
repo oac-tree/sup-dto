@@ -85,19 +85,19 @@ std::unique_ptr<IAnySerializeNode<AnyType>> ArraySerializeNode<AnyType>::NextChi
 template <typename T>
 void ArraySerializeNode<T>::AddProlog(IAnySerializer<T>& serializer) const
 {
-  serializer.AddArrayProlog(this->GetValue());
+  serializer.ArrayProlog(this->GetValue());
 }
 
 template <typename T>
 void ArraySerializeNode<T>::AddSeparator(IAnySerializer<T>& serializer) const
 {
-  serializer.AddArrayElementSeparator();
+  serializer.ArrayElementSeparator();
 }
 
 template <typename T>
 void ArraySerializeNode<T>::AddEpilog(IAnySerializer<T>& serializer) const
 {
-  serializer.AddArrayEpilog(this->GetValue());
+  serializer.ArrayEpilog(this->GetValue());
 }
 
 }  // namespace dto

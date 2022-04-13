@@ -85,7 +85,7 @@ std::unique_ptr<IAnySerializeNode<T>> MemberSerializeNode<T>::NextChild()
 template <typename T>
 void MemberSerializeNode<T>::AddProlog(IAnySerializer<T>& serializer) const
 {
-  serializer.AddMemberProlog(this->GetValue(), member_name);
+  serializer.MemberProlog(this->GetValue(), member_name);
 }
 
 template <typename T>

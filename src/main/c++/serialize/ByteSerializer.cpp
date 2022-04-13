@@ -38,43 +38,43 @@ std::vector<uint8> ByteSerializer::GetRepresentation() const
   return representation;
 }
 
-void ByteSerializer::AddEmptyProlog(const AnyValue*)
+void ByteSerializer::EmptyProlog(const AnyValue*)
 {}
 
-void ByteSerializer::AddEmptyEpilog(const AnyValue*)
+void ByteSerializer::EmptyEpilog(const AnyValue*)
 {}
 
-void ByteSerializer::AddStructProlog(const AnyValue*)
+void ByteSerializer::StructProlog(const AnyValue*)
 {}
 
-void ByteSerializer::AddStructMemberSeparator()
+void ByteSerializer::StructMemberSeparator()
 {}
 
-void ByteSerializer::AddStructEpilog(const AnyValue*)
+void ByteSerializer::StructEpilog(const AnyValue*)
 {}
 
-void ByteSerializer::AddMemberProlog(const AnyValue*, const std::string&)
+void ByteSerializer::MemberProlog(const AnyValue*, const std::string&)
 {}
 
 void ByteSerializer::AddMemberEpilog(const AnyValue*, const std::string&)
 {}
 
-void ByteSerializer::AddArrayProlog(const AnyValue*)
+void ByteSerializer::ArrayProlog(const AnyValue*)
 {}
 
-void ByteSerializer::AddArrayElementSeparator()
+void ByteSerializer::ArrayElementSeparator()
 {}
 
-void ByteSerializer::AddArrayEpilog(const AnyValue*)
+void ByteSerializer::ArrayEpilog(const AnyValue*)
 {}
 
-void ByteSerializer::AddScalarProlog(const AnyValue* anyvalue)
+void ByteSerializer::ScalarProlog(const AnyValue* anyvalue)
 {
   auto byte_val = ScalarToBytes(*anyvalue);
   representation.insert(representation.end(), byte_val.begin(), byte_val.end());
 }
 
-void ByteSerializer::AddScalarEpilog(const AnyValue*)
+void ByteSerializer::ScalarEpilog(const AnyValue*)
 {}
 
 }  // namespace dto

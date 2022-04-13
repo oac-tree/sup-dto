@@ -86,19 +86,19 @@ std::unique_ptr<IAnySerializeNode<T>> StructSerializeNode<T>::NextChild()
 template <typename T>
 void StructSerializeNode<T>::AddProlog(IAnySerializer<T>& serializer) const
 {
-  serializer.AddStructProlog(this->GetValue());
+  serializer.StructProlog(this->GetValue());
 }
 
 template <typename T>
 void StructSerializeNode<T>::AddSeparator(IAnySerializer<T>& serializer) const
 {
-  serializer.AddStructMemberSeparator();
+  serializer.StructMemberSeparator();
 }
 
 template <typename T>
 void StructSerializeNode<T>::AddEpilog(IAnySerializer<T>& serializer) const
 {
-  serializer.AddStructEpilog(this->GetValue());
+  serializer.StructEpilog(this->GetValue());
 }
 
 }  // namespace dto

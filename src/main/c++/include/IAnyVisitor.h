@@ -20,16 +20,16 @@
  ******************************************************************************/
 
 /**
- * @file IAnySerializer.h
- * @brief Header file for the IAnySerializer templated interface.
+ * @file IAnyVisitor.h
+ * @brief Header file for the IAnyVisitor templated interface.
  * @date 15/02/2022
  * @author Walter Van Herck (IO)
  * @copyright 2010-2022 ITER Organization
- * @details This header file contains the definition of the IAnySerializer templated interface.
+ * @details This header file contains the definition of the IAnyVisitor templated interface.
  */
 
-#ifndef _SUP_IAnySerializer_h_
-#define _SUP_IAnySerializer_h_
+#ifndef _SUP_IAnyVisitor_h_
+#define _SUP_IAnyVisitor_h_
 
 #include <string>
 
@@ -39,34 +39,34 @@ namespace dto
 {
 
 template <typename T>
-class IAnySerializer
+class IAnyVisitor
 {
 public:
-  virtual ~IAnySerializer();
+  virtual ~IAnyVisitor();
 
-  virtual void EmptyProlog(const T* val) = 0;
-  virtual void EmptyEpilog(const T* val) = 0;
+  virtual void EmptyProlog(T* val) = 0;
+  virtual void EmptyEpilog(T* val) = 0;
 
-  virtual void StructProlog(const T* val) = 0;
+  virtual void StructProlog(T* val) = 0;
   virtual void StructMemberSeparator() = 0;
-  virtual void StructEpilog(const T* val) = 0;
+  virtual void StructEpilog(T* val) = 0;
 
-  virtual void MemberProlog(const T* val, const std::string& member_name) = 0;
-  virtual void AddMemberEpilog(const T* val, const std::string& member_name) = 0;
+  virtual void MemberProlog(T* val, const std::string& member_name) = 0;
+  virtual void MemberEpilog(T* val, const std::string& member_name) = 0;
 
-  virtual void ArrayProlog(const T* val) = 0;
+  virtual void ArrayProlog(T* val) = 0;
   virtual void ArrayElementSeparator() = 0;
-  virtual void ArrayEpilog(const T* val) = 0;
+  virtual void ArrayEpilog(T* val) = 0;
 
-  virtual void ScalarProlog(const T* val) = 0;
-  virtual void ScalarEpilog(const T* val) = 0;
+  virtual void ScalarProlog(T* val) = 0;
+  virtual void ScalarEpilog(T* val) = 0;
 };
 
 template <typename T>
-IAnySerializer<T>::~IAnySerializer() = default;
+IAnyVisitor<T>::~IAnyVisitor() = default;
 
 }  // namespace dto
 
 }  // namespace sup
 
-#endif  // _SUP_IAnySerializer_h_
+#endif  // _SUP_IAnyVisitor_h_
