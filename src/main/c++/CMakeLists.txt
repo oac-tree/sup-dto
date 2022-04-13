@@ -23,6 +23,7 @@ add_subdirectory(include)
 add_subdirectory(anyvalue)
 add_subdirectory(parse)
 add_subdirectory(serialize)
+add_subdirectory(visit)
 add_subdirectory(json)
 
 target_include_directories(sup-dto-obj

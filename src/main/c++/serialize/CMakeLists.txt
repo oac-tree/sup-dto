@@ -1,8 +1,6 @@
 target_sources(sup-dto-obj
     PRIVATE
-        ${CMAKE_CURRENT_LIST_DIR}/ArrayVisitorNode.cpp
         ${CMAKE_CURRENT_LIST_DIR}/ByteSerializer.cpp
-        ${CMAKE_CURRENT_LIST_DIR}/CreateAnyVisitorNode.cpp
         ${CMAKE_CURRENT_LIST_DIR}/IWriter.cpp
         ${CMAKE_CURRENT_LIST_DIR}/ScalarToBytes.cpp
         ${CMAKE_CURRENT_LIST_DIR}/WriterSerializer.cpp
