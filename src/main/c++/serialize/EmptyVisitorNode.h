@@ -20,16 +20,16 @@
  ******************************************************************************/
 
 /**
- * @file EmptySerializeNode.h
- * @brief Header file for the EmptySerializeNode class template.
+ * @file EmptyVisitorNode.h
+ * @brief Header file for the EmptyVisitorNode class template.
  * @date 16/02/2022
  * @author Walter Van Herck (IO)
  * @copyright 2010-2022 ITER Organization
- * @details This header file contains the definition of the EmptySerializeNode class template.
+ * @details This header file contains the definition of the EmptyVisitorNode class template.
  */
 
-#ifndef _SUP_EmptySerializeNode_h_
-#define _SUP_EmptySerializeNode_h_
+#ifndef _SUP_EmptyVisitorNode_h_
+#define _SUP_EmptyVisitorNode_h_
 
 #include "AnyVisitorNode.h"
 
@@ -40,14 +40,14 @@ namespace sup
 namespace dto
 {
 /**
- * @brief Templated serialization node for the empty type.
+ * @brief Templated visitor node for the empty types/values.
  */
 template <typename T>
-class EmptySerializeNode : public IAnyVisitorNode<T>
+class EmptyVisitorNode : public IAnyVisitorNode<T>
 {
 public:
-  EmptySerializeNode(T* any);
-  ~EmptySerializeNode() override;
+  EmptyVisitorNode(T* any);
+  ~EmptyVisitorNode() override;
 
   std::unique_ptr<IAnyVisitorNode<T>> NextChild() override;
 
@@ -57,31 +57,31 @@ public:
 };
 
 template <typename T>
-EmptySerializeNode<T>::EmptySerializeNode(T* any)
+EmptyVisitorNode<T>::EmptyVisitorNode(T* any)
   : IAnyVisitorNode<T>{any}
 {}
 
 template <typename T>
-EmptySerializeNode<T>::~EmptySerializeNode() = default;
+EmptyVisitorNode<T>::~EmptyVisitorNode() = default;
 
 template <typename T>
-std::unique_ptr<IAnyVisitorNode<T>> EmptySerializeNode<T>::NextChild()
+std::unique_ptr<IAnyVisitorNode<T>> EmptyVisitorNode<T>::NextChild()
 {
   return {};
 }
 
 template <typename T>
-void EmptySerializeNode<T>::AddProlog(IAnyVisitor<T>& serializer) const
+void EmptyVisitorNode<T>::AddProlog(IAnyVisitor<T>& serializer) const
 {
   serializer.EmptyProlog(this->GetValue());
 }
 
 template <typename T>
-void EmptySerializeNode<T>::AddSeparator(IAnyVisitor<T>&) const
+void EmptyVisitorNode<T>::AddSeparator(IAnyVisitor<T>&) const
 {}
 
 template <typename T>
-void EmptySerializeNode<T>::AddEpilog(IAnyVisitor<T>& serializer) const
+void EmptyVisitorNode<T>::AddEpilog(IAnyVisitor<T>& serializer) const
 {
   serializer.EmptyEpilog(this->GetValue());
 }
@@ -90,4 +90,4 @@ void EmptySerializeNode<T>::AddEpilog(IAnyVisitor<T>& serializer) const
 
 }  // namespace sup
 
-#endif  // _SUP_EmptySerializeNode_h_
+#endif  // _SUP_EmptyVisitorNode_h_

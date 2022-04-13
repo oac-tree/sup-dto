@@ -19,7 +19,7 @@
  * of the distribution package.
  ******************************************************************************/
 
-#include "ArraySerializeNode.h"
+#include "ArrayVisitorNode.h"
 
 namespace sup
 {
@@ -27,7 +27,7 @@ namespace dto
 {
 
 template <>
-std::unique_ptr<IAnyVisitorNode<AnyType>> ArraySerializeNode<AnyType>::NextChild()
+std::unique_ptr<IAnyVisitorNode<AnyType>> ArrayVisitorNode<AnyType>::NextChild()
 {
   if (next_index)
   {
@@ -39,7 +39,7 @@ std::unique_ptr<IAnyVisitorNode<AnyType>> ArraySerializeNode<AnyType>::NextChild
 }
 
 template <>
-std::unique_ptr<IAnyVisitorNode<const AnyType>> ArraySerializeNode<const AnyType>::NextChild()
+std::unique_ptr<IAnyVisitorNode<const AnyType>> ArrayVisitorNode<const AnyType>::NextChild()
 {
   if (next_index)
   {

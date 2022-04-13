@@ -22,10 +22,10 @@
 #ifndef _SUP_CreateAnyVisitorNodeT_h_
 #define _SUP_CreateAnyVisitorNodeT_h_
 
-#include "EmptySerializeNode.h"
-#include "StructSerializeNode.h"
-#include "ArraySerializeNode.h"
-#include "ScalarSerializeNode.h"
+#include "EmptyVisitorNode.h"
+#include "StructVisitorNode.h"
+#include "ArrayVisitorNode.h"
+#include "ScalarVisitorNode.h"
 
 #include <memory>
 
@@ -44,16 +44,16 @@ std::unique_ptr<IAnyVisitorNode<T>> CreateVisitorNodeT(T* any)
   switch (any->GetTypeCode())
   {
   case TypeCode::Empty:
-    result.reset(new EmptySerializeNode<T>(any));
+    result.reset(new EmptyVisitorNode<T>(any));
     break;
   case TypeCode::Struct:
-    result.reset(new StructSerializeNode<T>(any));
+    result.reset(new StructVisitorNode<T>(any));
     break;
   case TypeCode::Array:
-    result.reset(new ArraySerializeNode<T>(any));
+    result.reset(new ArrayVisitorNode<T>(any));
     break;
   default:
-    result.reset(new ScalarSerializeNode<T>(any));
+    result.reset(new ScalarVisitorNode<T>(any));
     break;
   }
   return result;

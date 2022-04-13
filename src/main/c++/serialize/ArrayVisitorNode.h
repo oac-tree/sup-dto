@@ -20,33 +20,33 @@
  ******************************************************************************/
 
 /**
- * @file StructSerializeNode.h
- * @brief Header file for the StructSerializeNode class template.
+ * @file ArrayVisitorNode.h
+ * @brief Header file for the ArrayVisitorNode class template.
  * @date 16/02/2022
  * @author Walter Van Herck (IO)
  * @copyright 2010-2022 ITER Organization
- * @details This header file contains the definition of the StructSerializeNode class template.
+ * @details This header file contains the definition of the ArrayVisitorNode class template.
  */
 
-#ifndef _SUP_StructSerializeNode_h_
-#define _SUP_StructSerializeNode_h_
+#ifndef _SUP_ArrayVisitorNode_h_
+#define _SUP_ArrayVisitorNode_h_
 
 #include "AnyVisitorNode.h"
-#include "MemberSerializeNode.h"
+#include "CreateAnyVisitorNode.h"
 
 namespace sup
 {
 namespace dto
 {
 /**
- * @brief Templated Serialization node for structured types.
+ * @brief Templated visitor node for arrays.
  */
 template <typename T>
-class StructSerializeNode : public IAnyVisitorNode<T>
+class ArrayVisitorNode : public IAnyVisitorNode<T>
 {
 public:
-  StructSerializeNode(T* any);
-  ~StructSerializeNode() override;
+  ArrayVisitorNode(T* any);
+  ~ArrayVisitorNode() override;
 
   std::unique_ptr<IAnyVisitorNode<T>> NextChild() override;
 
@@ -59,50 +59,52 @@ private:
 };
 
 template <typename T>
-StructSerializeNode<T>::StructSerializeNode(T* any)
+ArrayVisitorNode<T>::ArrayVisitorNode(T* any)
   : IAnyVisitorNode<T>{any}
   , next_index{0}
 {}
 
 template <typename T>
-StructSerializeNode<T>::~StructSerializeNode() = default;
+ArrayVisitorNode<T>::~ArrayVisitorNode() = default;
 
 template <typename T>
-std::unique_ptr<IAnyVisitorNode<T>> StructSerializeNode<T>::NextChild()
+std::unique_ptr<IAnyVisitorNode<T>> ArrayVisitorNode<T>::NextChild()
 {
-  auto member_names = this->GetValue()->MemberNames();
-  if (next_index >= member_names.size())
+  if (next_index >= this->GetValue()->NumberOfElements())
   {
     return {};
   }
-  auto member_name = member_names[next_index];
+  T *element = &this->GetValue()->operator[](next_index);
   ++next_index;
-  T *member_type = &this->GetValue()->operator[](member_name);
-  std::unique_ptr<IAnyVisitorNode<T>> result{
-      new MemberSerializeNode<T>(member_type, member_name)};
-  return result;
+  return CreateVisitorNode(element);
+}
+
+template <>
+std::unique_ptr<IAnyVisitorNode<AnyType>> ArrayVisitorNode<AnyType>::NextChild();
+
+template <>
+std::unique_ptr<IAnyVisitorNode<const AnyType>> ArrayVisitorNode<const AnyType>::NextChild();
+
+template <typename T>
+void ArrayVisitorNode<T>::AddProlog(IAnyVisitor<T>& serializer) const
+{
+  serializer.ArrayProlog(this->GetValue());
 }
 
 template <typename T>
-void StructSerializeNode<T>::AddProlog(IAnyVisitor<T>& serializer) const
+void ArrayVisitorNode<T>::AddSeparator(IAnyVisitor<T>& serializer) const
 {
-  serializer.StructProlog(this->GetValue());
+  serializer.ArrayElementSeparator();
 }
 
 template <typename T>
-void StructSerializeNode<T>::AddSeparator(IAnyVisitor<T>& serializer) const
+void ArrayVisitorNode<T>::AddEpilog(IAnyVisitor<T>& serializer) const
 {
-  serializer.StructMemberSeparator();
-}
-
-template <typename T>
-void StructSerializeNode<T>::AddEpilog(IAnyVisitor<T>& serializer) const
-{
-  serializer.StructEpilog(this->GetValue());
+  serializer.ArrayEpilog(this->GetValue());
 }
 
 }  // namespace dto
 
 }  // namespace sup
 
-#endif  // _SUP_StructSerializeNode_h_
+#endif  // _SUP_ArrayVisitorNode_h_

@@ -20,16 +20,16 @@
  ******************************************************************************/
 
 /**
- * @file ScalarSerializeNode.h
- * @brief Header file for the ScalarSerializeNode class template.
+ * @file ScalarVisitorNode.h
+ * @brief Header file for the ScalarVisitorNode class template.
  * @date 16/02/2022
  * @author Walter Van Herck (IO)
  * @copyright 2010-2022 ITER Organization
- * @details This header file contains the definition of the ScalarSerializeNode class template.
+ * @details This header file contains the definition of the ScalarVisitorNode class template.
  */
 
-#ifndef _SUP_ScalarSerializeNode_h_
-#define _SUP_ScalarSerializeNode_h_
+#ifndef _SUP_ScalarVisitorNode_h_
+#define _SUP_ScalarVisitorNode_h_
 
 #include "AnyVisitorNode.h"
 
@@ -38,14 +38,14 @@ namespace sup
 namespace dto
 {
 /**
- * @brief Templated serialization node for scalar types.
+ * @brief Templated visitor node for scalar types.
  */
 template <typename T>
-class ScalarSerializeNode : public IAnyVisitorNode<T>
+class ScalarVisitorNode : public IAnyVisitorNode<T>
 {
 public:
-  ScalarSerializeNode(T* any);
-  ~ScalarSerializeNode() override;
+  ScalarVisitorNode(T* any);
+  ~ScalarVisitorNode() override;
 
   std::unique_ptr<IAnyVisitorNode<T>> NextChild() override;
 
@@ -55,31 +55,31 @@ public:
 };
 
 template <typename T>
-ScalarSerializeNode<T>::ScalarSerializeNode(T* any)
+ScalarVisitorNode<T>::ScalarVisitorNode(T* any)
   : IAnyVisitorNode<T>{any}
 {}
 
 template <typename T>
-ScalarSerializeNode<T>::~ScalarSerializeNode() = default;
+ScalarVisitorNode<T>::~ScalarVisitorNode() = default;
 
 template <typename T>
-std::unique_ptr<IAnyVisitorNode<T>> ScalarSerializeNode<T>::NextChild()
+std::unique_ptr<IAnyVisitorNode<T>> ScalarVisitorNode<T>::NextChild()
 {
   return {};
 }
 
 template <typename T>
-void ScalarSerializeNode<T>::AddProlog(IAnyVisitor<T>& serializer) const
+void ScalarVisitorNode<T>::AddProlog(IAnyVisitor<T>& serializer) const
 {
   serializer.ScalarProlog(this->GetValue());
 }
 
 template <typename T>
-void ScalarSerializeNode<T>::AddSeparator(IAnyVisitor<T>&) const
+void ScalarVisitorNode<T>::AddSeparator(IAnyVisitor<T>&) const
 {}
 
 template <typename T>
-void ScalarSerializeNode<T>::AddEpilog(IAnyVisitor<T>& serializer) const
+void ScalarVisitorNode<T>::AddEpilog(IAnyVisitor<T>& serializer) const
 {
   serializer.ScalarEpilog(this->GetValue());
 }
@@ -88,4 +88,4 @@ void ScalarSerializeNode<T>::AddEpilog(IAnyVisitor<T>& serializer) const
 
 }  // namespace sup
 
-#endif  // _SUP_ScalarSerializeNode_h_
+#endif  // _SUP_ScalarVisitorNode_h_
