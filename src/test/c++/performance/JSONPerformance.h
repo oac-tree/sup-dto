@@ -40,6 +40,7 @@ class AnyType;
 namespace performance
 {
 
+void PrintDateTime();
 AnyType CreateScalarMix_Type();
 AnyType CreateScalarMixArray_Type();
 AnyType CreateSystemConfigs_Type();

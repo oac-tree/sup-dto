@@ -29,6 +29,7 @@ using namespace sup::dto;
 
 int main()
 {
+  performance::PrintDateTime();
   auto scalar_mix_t = performance::CreateScalarMix_Type();
   performance::MeasureSerializeParse(scalar_mix_t);
   auto scalar_mix_array_t = performance::CreateScalarMixArray_Type();

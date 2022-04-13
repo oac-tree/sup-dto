@@ -26,6 +26,8 @@
 
 #include <algorithm>
 #include <chrono>
+#include <ctime>
+#include <iomanip>
 #include <iostream>
 
 namespace sup
@@ -34,6 +36,16 @@ namespace dto
 {
 namespace performance
 {
+
+void PrintDateTime()
+{
+  auto now = std::chrono::system_clock::now();
+  auto t = std::chrono::system_clock::to_time_t(now);
+  std::cout << "Performance tests ("
+            << std::put_time(std::localtime(&t), "%FT%TZ") << ")" << std::endl;
+  std::cout << "========================================" << std::endl;
+  std::cout << std::endl;
+}
 
 AnyType CreateScalarMix_Type()
 {

@@ -1,0 +1,58 @@
+Performance tests (2022-04-13T09:32:32Z)
+========================================
+
+Test JSON serialize/parse performance
+*************************************
+JSON string size: 493
+Results for 1000 iterations:
+  Total serialize time (ms) : 28
+  Total parse time (ms)     : 58
+  Mean serialize time (ms) : 0.028
+  Mean parse time (ms)     : 0.058
+  Mean bytes/s (serialize) : 1.76071e+07
+  Mean bytes/s (parse)     : 8.5e+06
+
+Test JSON serialize/parse performance
+*************************************
+JSON string size: 11145
+Results for 1000 iterations:
+  Total serialize time (ms) : 1059
+  Total parse time (ms)     : 1699
+  Mean serialize time (ms) : 1.059
+  Mean parse time (ms)     : 1.699
+  Mean bytes/s (serialize) : 1.05241e+07
+  Mean bytes/s (parse)     : 6.55974e+06
+
+Test JSON serialize/parse performance
+*************************************
+JSON string size: 66866
+Results for 238 iterations:
+  Total serialize time (ms) : 1584
+  Total parse time (ms)     : 3784
+  Mean serialize time (ms) : 6.65546
+  Mean parse time (ms)     : 15.8992
+  Mean bytes/s (serialize) : 1.00468e+07
+  Mean bytes/s (parse)     : 4.20563e+06
+
+Test JSON serialize/parse performance
+*************************************
+JSON string size: 1029906
+Results for 9 iterations:
+  Total serialize time (ms) : 1009
+  Total parse time (ms)     : 2770
+  Mean serialize time (ms) : 112.111
+  Mean parse time (ms)     : 307.778
+  Mean bytes/s (serialize) : 9.18648e+06
+  Mean bytes/s (parse)     : 3.34626e+06
+
+Test JSON serialize/parse performance
+*************************************
+JSON string size: 20546500
+Results for 3 iterations:
+  Total serialize time (ms) : 6247
+  Total parse time (ms)     : 23483
+  Mean serialize time (ms) : 2082.33
+  Mean parse time (ms)     : 7827.67
+  Mean bytes/s (serialize) : 9.86706e+06
+  Mean bytes/s (parse)     : 2.62486e+06
+
