@@ -42,25 +42,25 @@ namespace dto
  * @brief Templated Serialization node for structured types.
  */
 template <typename T>
-class StructSerializeNode : public IAnyVisitorNode<const T>
+class StructSerializeNode : public IAnyVisitorNode<T>
 {
 public:
-  StructSerializeNode(const T* any);
+  StructSerializeNode(T* any);
   ~StructSerializeNode() override;
 
-  std::unique_ptr<IAnyVisitorNode<const T>> NextChild() override;
+  std::unique_ptr<IAnyVisitorNode<T>> NextChild() override;
 
-  void AddProlog(IAnyVisitor<const T>& serializer) const override;
-  void AddSeparator(IAnyVisitor<const T>& serializer) const override;
-  void AddEpilog(IAnyVisitor<const T>& serializer) const override;
+  void AddProlog(IAnyVisitor<T>& serializer) const override;
+  void AddSeparator(IAnyVisitor<T>& serializer) const override;
+  void AddEpilog(IAnyVisitor<T>& serializer) const override;
 
 private:
   std::size_t next_index;
 };
 
 template <typename T>
-StructSerializeNode<T>::StructSerializeNode(const T* any)
-  : IAnyVisitorNode<const T>{any}
+StructSerializeNode<T>::StructSerializeNode(T* any)
+  : IAnyVisitorNode<T>{any}
   , next_index{0}
 {}
 
@@ -68,7 +68,7 @@ template <typename T>
 StructSerializeNode<T>::~StructSerializeNode() = default;
 
 template <typename T>
-std::unique_ptr<IAnyVisitorNode<const T>> StructSerializeNode<T>::NextChild()
+std::unique_ptr<IAnyVisitorNode<T>> StructSerializeNode<T>::NextChild()
 {
   auto member_names = this->GetValue()->MemberNames();
   if (next_index >= member_names.size())
@@ -77,26 +77,26 @@ std::unique_ptr<IAnyVisitorNode<const T>> StructSerializeNode<T>::NextChild()
   }
   auto member_name = member_names[next_index];
   ++next_index;
-  const T *member_type = &this->GetValue()->operator[](member_name);
-  std::unique_ptr<IAnyVisitorNode<const T>> result{
+  T *member_type = &this->GetValue()->operator[](member_name);
+  std::unique_ptr<IAnyVisitorNode<T>> result{
       new MemberSerializeNode<T>(member_type, member_name)};
   return result;
 }
 
 template <typename T>
-void StructSerializeNode<T>::AddProlog(IAnyVisitor<const T>& serializer) const
+void StructSerializeNode<T>::AddProlog(IAnyVisitor<T>& serializer) const
 {
   serializer.StructProlog(this->GetValue());
 }
 
 template <typename T>
-void StructSerializeNode<T>::AddSeparator(IAnyVisitor<const T>& serializer) const
+void StructSerializeNode<T>::AddSeparator(IAnyVisitor<T>& serializer) const
 {
   serializer.StructMemberSeparator();
 }
 
 template <typename T>
-void StructSerializeNode<T>::AddEpilog(IAnyVisitor<const T>& serializer) const
+void StructSerializeNode<T>::AddEpilog(IAnyVisitor<T>& serializer) const
 {
   serializer.StructEpilog(this->GetValue());
 }

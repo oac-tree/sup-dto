@@ -32,7 +32,7 @@
 #define _SUP_MemberSerializeNode_h_
 
 #include "AnyVisitorNode.h"
-#include "CreateAnySerializeNode.h"
+#include "CreateAnyVisitorNode.h"
 
 #include <string>
 
@@ -44,17 +44,17 @@ namespace dto
  * @brief Templated serialization node for members of structured types.
  */
 template <typename T>
-class MemberSerializeNode : public IAnyVisitorNode<const T>
+class MemberSerializeNode : public IAnyVisitorNode<T>
 {
 public:
-  MemberSerializeNode(const T* any, const std::string& member_name);
+  MemberSerializeNode(T* any, const std::string& member_name);
   ~MemberSerializeNode() override;
 
-  std::unique_ptr<IAnyVisitorNode<const T>> NextChild() override;
+  std::unique_ptr<IAnyVisitorNode<T>> NextChild() override;
 
-  void AddProlog(IAnyVisitor<const T>& serializer) const override;
-  void AddSeparator(IAnyVisitor<const T>& serializer) const override;
-  void AddEpilog(IAnyVisitor<const T>& serializer) const override;
+  void AddProlog(IAnyVisitor<T>& serializer) const override;
+  void AddSeparator(IAnyVisitor<T>& serializer) const override;
+  void AddEpilog(IAnyVisitor<T>& serializer) const override;
 
 private:
   std::string member_name;
@@ -62,8 +62,8 @@ private:
 };
 
 template <typename T>
-MemberSerializeNode<T>::MemberSerializeNode(const T* any, const std::string& member_name_)
-  : IAnyVisitorNode<const T>{any}
+MemberSerializeNode<T>::MemberSerializeNode(T* any, const std::string& member_name_)
+  : IAnyVisitorNode<T>{any}
   , member_name{member_name_}
   , child_returned{false}
 {}
@@ -72,28 +72,28 @@ template <typename T>
 MemberSerializeNode<T>::~MemberSerializeNode() = default;
 
 template <typename T>
-std::unique_ptr<IAnyVisitorNode<const T>> MemberSerializeNode<T>::NextChild()
+std::unique_ptr<IAnyVisitorNode<T>> MemberSerializeNode<T>::NextChild()
 {
   if (child_returned)
   {
     return {};
   }
   child_returned = true;
-  return CreateSerializeNode(this->GetValue());
+  return CreateVisitorNode(this->GetValue());
 }
 
 template <typename T>
-void MemberSerializeNode<T>::AddProlog(IAnyVisitor<const T>& serializer) const
+void MemberSerializeNode<T>::AddProlog(IAnyVisitor<T>& serializer) const
 {
   serializer.MemberProlog(this->GetValue(), member_name);
 }
 
 template <typename T>
-void MemberSerializeNode<T>::AddSeparator(IAnyVisitor<const T>&) const
+void MemberSerializeNode<T>::AddSeparator(IAnyVisitor<T>&) const
 {}
 
 template <typename T>
-void MemberSerializeNode<T>::AddEpilog(IAnyVisitor<const T>& serializer) const
+void MemberSerializeNode<T>::AddEpilog(IAnyVisitor<T>& serializer) const
 {
   serializer.MemberEpilog(this->GetValue(), member_name);
 }

@@ -19,18 +19,8 @@
  * of the distribution package.
  ******************************************************************************/
 
-/**
- * @file CreateAnySerializeNodeT.h
- * @brief Header file for serialization node creation function templates.
- * @date 17/02/2022
- * @author Walter Van Herck (IO)
- * @copyright 2010-2022 ITER Organization
- * @details This header file contains the definition of the serialization node creation function
- * templates.
- */
-
-#ifndef _SUP_CreateAnySerializeNodeT_h_
-#define _SUP_CreateAnySerializeNodeT_h_
+#ifndef _SUP_CreateAnyVisitorNodeT_h_
+#define _SUP_CreateAnyVisitorNodeT_h_
 
 #include "EmptySerializeNode.h"
 #include "StructSerializeNode.h"
@@ -44,10 +34,13 @@ namespace sup
 namespace dto
 {
 
+/**
+ * @brief Function template for creating an IAnyVisitorNode from an AnyType/AnyValue pointer.
+ */
 template <typename T>
-std::unique_ptr<IAnyVisitorNode<const T>> CreateSerializeNodeT(const T* any)
+std::unique_ptr<IAnyVisitorNode<T>> CreateVisitorNodeT(T* any)
 {
-  std::unique_ptr<IAnyVisitorNode<const T>> result;
+  std::unique_ptr<IAnyVisitorNode<T>> result;
   switch (any->GetTypeCode())
   {
   case TypeCode::Empty:
@@ -66,10 +59,13 @@ std::unique_ptr<IAnyVisitorNode<const T>> CreateSerializeNodeT(const T* any)
   return result;
 }
 
+/**
+ * @brief Function template for creating an AnyVisitorNode from an AnyType/AnyValue pointer.
+ */
 template <typename T>
-AnyVisitorNode<const T> CreateRootNodeT(const T* any)
+AnyVisitorNode<T> CreateRootNodeT(T* any)
 {
-    return CreateSerializeNode(any);
+    return CreateVisitorNodeT<T>(any);
 }
 
 
@@ -77,4 +73,4 @@ AnyVisitorNode<const T> CreateRootNodeT(const T* any)
 
 }  // namespace sup
 
-#endif  // _SUP_CreateAnySerializeNodeT_h_
+#endif  // _SUP_CreateAnyVisitorNodeT_h_

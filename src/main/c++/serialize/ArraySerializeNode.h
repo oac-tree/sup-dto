@@ -32,7 +32,7 @@
 #define _SUP_ArraySerializeNode_h_
 
 #include "AnyVisitorNode.h"
-#include "CreateAnySerializeNode.h"
+#include "CreateAnyVisitorNode.h"
 
 namespace sup
 {
@@ -42,25 +42,25 @@ namespace dto
  * @brief Templated serialization node for array types.
  */
 template <typename T>
-class ArraySerializeNode : public IAnyVisitorNode<const T>
+class ArraySerializeNode : public IAnyVisitorNode<T>
 {
 public:
-  ArraySerializeNode(const T* any);
+  ArraySerializeNode(T* any);
   ~ArraySerializeNode() override;
 
-  std::unique_ptr<IAnyVisitorNode<const T>> NextChild() override;
+  std::unique_ptr<IAnyVisitorNode<T>> NextChild() override;
 
-  void AddProlog(IAnyVisitor<const T>& serializer) const override;
-  void AddSeparator(IAnyVisitor<const T>& serializer) const override;
-  void AddEpilog(IAnyVisitor<const T>& serializer) const override;
+  void AddProlog(IAnyVisitor<T>& serializer) const override;
+  void AddSeparator(IAnyVisitor<T>& serializer) const override;
+  void AddEpilog(IAnyVisitor<T>& serializer) const override;
 
 private:
   std::size_t next_index;
 };
 
 template <typename T>
-ArraySerializeNode<T>::ArraySerializeNode(const T* any)
-  : IAnyVisitorNode<const T>{any}
+ArraySerializeNode<T>::ArraySerializeNode(T* any)
+  : IAnyVisitorNode<T>{any}
   , next_index{0}
 {}
 
@@ -68,34 +68,37 @@ template <typename T>
 ArraySerializeNode<T>::~ArraySerializeNode() = default;
 
 template <typename T>
-std::unique_ptr<IAnyVisitorNode<const T>> ArraySerializeNode<T>::NextChild()
+std::unique_ptr<IAnyVisitorNode<T>> ArraySerializeNode<T>::NextChild()
 {
   if (next_index >= this->GetValue()->NumberOfElements())
   {
     return {};
   }
-  const T *element = &this->GetValue()->operator[](next_index);
+  T *element = &this->GetValue()->operator[](next_index);
   ++next_index;
-  return CreateSerializeNode(element);
+  return CreateVisitorNode(element);
 }
 
 template <>
-std::unique_ptr<IAnyVisitorNode<const AnyType>> ArraySerializeNode<AnyType>::NextChild();
+std::unique_ptr<IAnyVisitorNode<AnyType>> ArraySerializeNode<AnyType>::NextChild();
+
+template <>
+std::unique_ptr<IAnyVisitorNode<const AnyType>> ArraySerializeNode<const AnyType>::NextChild();
 
 template <typename T>
-void ArraySerializeNode<T>::AddProlog(IAnyVisitor<const T>& serializer) const
+void ArraySerializeNode<T>::AddProlog(IAnyVisitor<T>& serializer) const
 {
   serializer.ArrayProlog(this->GetValue());
 }
 
 template <typename T>
-void ArraySerializeNode<T>::AddSeparator(IAnyVisitor<const T>& serializer) const
+void ArraySerializeNode<T>::AddSeparator(IAnyVisitor<T>& serializer) const
 {
   serializer.ArrayElementSeparator();
 }
 
 template <typename T>
-void ArraySerializeNode<T>::AddEpilog(IAnyVisitor<const T>& serializer) const
+void ArraySerializeNode<T>::AddEpilog(IAnyVisitor<T>& serializer) const
 {
   serializer.ArrayEpilog(this->GetValue());
 }

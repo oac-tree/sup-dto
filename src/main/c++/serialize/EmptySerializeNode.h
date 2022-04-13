@@ -43,45 +43,45 @@ namespace dto
  * @brief Templated serialization node for the empty type.
  */
 template <typename T>
-class EmptySerializeNode : public IAnyVisitorNode<const T>
+class EmptySerializeNode : public IAnyVisitorNode<T>
 {
 public:
-  EmptySerializeNode(const T* any);
+  EmptySerializeNode(T* any);
   ~EmptySerializeNode() override;
 
-  std::unique_ptr<IAnyVisitorNode<const T>> NextChild() override;
+  std::unique_ptr<IAnyVisitorNode<T>> NextChild() override;
 
-  void AddProlog(IAnyVisitor<const T>& serializer) const override;
-  void AddSeparator(IAnyVisitor<const T>& serializer) const override;
-  void AddEpilog(IAnyVisitor<const T>& serializer) const override;
+  void AddProlog(IAnyVisitor<T>& serializer) const override;
+  void AddSeparator(IAnyVisitor<T>& serializer) const override;
+  void AddEpilog(IAnyVisitor<T>& serializer) const override;
 };
 
 template <typename T>
-EmptySerializeNode<T>::EmptySerializeNode(const T* any)
-  : IAnyVisitorNode<const T>{any}
+EmptySerializeNode<T>::EmptySerializeNode(T* any)
+  : IAnyVisitorNode<T>{any}
 {}
 
 template <typename T>
 EmptySerializeNode<T>::~EmptySerializeNode() = default;
 
 template <typename T>
-std::unique_ptr<IAnyVisitorNode<const T>> EmptySerializeNode<T>::NextChild()
+std::unique_ptr<IAnyVisitorNode<T>> EmptySerializeNode<T>::NextChild()
 {
   return {};
 }
 
 template <typename T>
-void EmptySerializeNode<T>::AddProlog(IAnyVisitor<const T>& serializer) const
+void EmptySerializeNode<T>::AddProlog(IAnyVisitor<T>& serializer) const
 {
   serializer.EmptyProlog(this->GetValue());
 }
 
 template <typename T>
-void EmptySerializeNode<T>::AddSeparator(IAnyVisitor<const T>&) const
+void EmptySerializeNode<T>::AddSeparator(IAnyVisitor<T>&) const
 {}
 
 template <typename T>
-void EmptySerializeNode<T>::AddEpilog(IAnyVisitor<const T>& serializer) const
+void EmptySerializeNode<T>::AddEpilog(IAnyVisitor<T>& serializer) const
 {
   serializer.EmptyEpilog(this->GetValue());
 }

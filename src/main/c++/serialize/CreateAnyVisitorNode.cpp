@@ -19,22 +19,32 @@
  * of the distribution package.
  ******************************************************************************/
 
-#include "CreateAnySerializeNode.h"
-#include "CreateAnySerializeNodeT.h"
+#include "CreateAnyVisitorNode.h"
+#include "CreateAnyVisitorNodeT.h"
 
 namespace sup
 {
 namespace dto
 {
 
-std::unique_ptr<IAnyVisitorNode<const AnyType>> CreateSerializeNode(const AnyType* anytype)
+std::unique_ptr<IAnyVisitorNode<AnyType>> CreateVisitorNode(AnyType* anytype)
 {
-  return CreateSerializeNodeT(anytype);
+  return CreateVisitorNodeT<AnyType>(anytype);
 }
 
-std::unique_ptr<IAnyVisitorNode<const AnyValue>> CreateSerializeNode(const AnyValue* anyvalue)
+std::unique_ptr<IAnyVisitorNode<AnyValue>> CreateVisitorNode(AnyValue* anyvalue)
 {
-  return CreateSerializeNodeT(anyvalue);
+  return CreateVisitorNodeT<AnyValue>(anyvalue);
+}
+
+std::unique_ptr<IAnyVisitorNode<const AnyType>> CreateVisitorNode(const AnyType* anytype)
+{
+  return CreateVisitorNodeT<const AnyType>(anytype);
+}
+
+std::unique_ptr<IAnyVisitorNode<const AnyValue>> CreateVisitorNode(const AnyValue* anyvalue)
+{
+  return CreateVisitorNodeT<const AnyValue>(anyvalue);
 }
 
 }  // namespace dto

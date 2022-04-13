@@ -41,45 +41,45 @@ namespace dto
  * @brief Templated serialization node for scalar types.
  */
 template <typename T>
-class ScalarSerializeNode : public IAnyVisitorNode<const T>
+class ScalarSerializeNode : public IAnyVisitorNode<T>
 {
 public:
-  ScalarSerializeNode(const T* any);
+  ScalarSerializeNode(T* any);
   ~ScalarSerializeNode() override;
 
-  std::unique_ptr<IAnyVisitorNode<const T>> NextChild() override;
+  std::unique_ptr<IAnyVisitorNode<T>> NextChild() override;
 
-  void AddProlog(IAnyVisitor<const T>& serializer) const override;
-  void AddSeparator(IAnyVisitor<const T>& serializer) const override;
-  void AddEpilog(IAnyVisitor<const T>& serializer) const override;
+  void AddProlog(IAnyVisitor<T>& serializer) const override;
+  void AddSeparator(IAnyVisitor<T>& serializer) const override;
+  void AddEpilog(IAnyVisitor<T>& serializer) const override;
 };
 
 template <typename T>
-ScalarSerializeNode<T>::ScalarSerializeNode(const T* any)
-  : IAnyVisitorNode<const T>{any}
+ScalarSerializeNode<T>::ScalarSerializeNode(T* any)
+  : IAnyVisitorNode<T>{any}
 {}
 
 template <typename T>
 ScalarSerializeNode<T>::~ScalarSerializeNode() = default;
 
 template <typename T>
-std::unique_ptr<IAnyVisitorNode<const T>> ScalarSerializeNode<T>::NextChild()
+std::unique_ptr<IAnyVisitorNode<T>> ScalarSerializeNode<T>::NextChild()
 {
   return {};
 }
 
 template <typename T>
-void ScalarSerializeNode<T>::AddProlog(IAnyVisitor<const T>& serializer) const
+void ScalarSerializeNode<T>::AddProlog(IAnyVisitor<T>& serializer) const
 {
   serializer.ScalarProlog(this->GetValue());
 }
 
 template <typename T>
-void ScalarSerializeNode<T>::AddSeparator(IAnyVisitor<const T>&) const
+void ScalarSerializeNode<T>::AddSeparator(IAnyVisitor<T>&) const
 {}
 
 template <typename T>
-void ScalarSerializeNode<T>::AddEpilog(IAnyVisitor<const T>& serializer) const
+void ScalarSerializeNode<T>::AddEpilog(IAnyVisitor<T>& serializer) const
 {
   serializer.ScalarEpilog(this->GetValue());
 }

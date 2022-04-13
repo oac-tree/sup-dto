@@ -19,18 +19,8 @@
  * of the distribution package.
  ******************************************************************************/
 
-/**
- * @file CreateAnySerializeNode.h
- * @brief Header file for serialization node creation function templates.
- * @date 17/02/2022
- * @author Walter Van Herck (IO)
- * @copyright 2010-2022 ITER Organization
- * @details This header file contains the definition of the serialization node creation function
- * templates.
- */
-
-#ifndef _SUP_CreateAnySerializeNode_h_
-#define _SUP_CreateAnySerializeNode_h_
+#ifndef _SUP_CreateAnyVisitorNode_h_
+#define _SUP_CreateAnyVisitorNode_h_
 
 #include "AnyType.h"
 #include "AnyValue.h"
@@ -43,11 +33,14 @@ namespace sup
 namespace dto
 {
 
-std::unique_ptr<IAnyVisitorNode<const AnyType>> CreateSerializeNode(const AnyType* anytype);
-std::unique_ptr<IAnyVisitorNode<const AnyValue>> CreateSerializeNode(const AnyValue* anyvalue);
+std::unique_ptr<IAnyVisitorNode<AnyType>> CreateVisitorNode(AnyType* anytype);
+std::unique_ptr<IAnyVisitorNode<AnyValue>> CreateVisitorNode(AnyValue* anyvalue);
+
+std::unique_ptr<IAnyVisitorNode<const AnyType>> CreateVisitorNode(const AnyType* anytype);
+std::unique_ptr<IAnyVisitorNode<const AnyValue>> CreateVisitorNode(const AnyValue* anyvalue);
 
 }  // namespace dto
 
 }  // namespace sup
 
-#endif  // _SUP_CreateAnySerializeNode_h_
+#endif  // _SUP_CreateAnyVisitorNode_h_

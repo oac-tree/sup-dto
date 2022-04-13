@@ -27,7 +27,19 @@ namespace dto
 {
 
 template <>
-std::unique_ptr<IAnyVisitorNode<const AnyType>> ArraySerializeNode<AnyType>::NextChild()
+std::unique_ptr<IAnyVisitorNode<AnyType>> ArraySerializeNode<AnyType>::NextChild()
+{
+  if (next_index)
+  {
+    return {};
+  }
+  ++next_index;
+  AnyType *element_type = &this->GetValue()->operator[]("[]");
+  return CreateVisitorNode(element_type);
+}
+
+template <>
+std::unique_ptr<IAnyVisitorNode<const AnyType>> ArraySerializeNode<const AnyType>::NextChild()
 {
   if (next_index)
   {
@@ -35,7 +47,7 @@ std::unique_ptr<IAnyVisitorNode<const AnyType>> ArraySerializeNode<AnyType>::Nex
   }
   ++next_index;
   const AnyType *element_type = &this->GetValue()->operator[]("[]");
-  return CreateSerializeNode(element_type);
+  return CreateVisitorNode(element_type);
 }
 
 }  // namespace dto
