@@ -30,7 +30,7 @@ namespace sup
 namespace dto
 {
 /**
- * @brief Templated Serialization node for structured types.
+ * @brief Templated visitor node for structured types.
  */
 template <typename T>
 class StructVisitorNode : public IAnyVisitorNode<T>
@@ -41,9 +41,9 @@ public:
 
   std::unique_ptr<IAnyVisitorNode<T>> NextChild() override;
 
-  void AddProlog(IAnyVisitor<T>& serializer) const override;
-  void AddSeparator(IAnyVisitor<T>& serializer) const override;
-  void AddEpilog(IAnyVisitor<T>& serializer) const override;
+  void AddProlog(IAnyVisitor<T>& visitor) const override;
+  void AddSeparator(IAnyVisitor<T>& visitor) const override;
+  void AddEpilog(IAnyVisitor<T>& visitor) const override;
 
 private:
   std::size_t next_index;
@@ -75,21 +75,21 @@ std::unique_ptr<IAnyVisitorNode<T>> StructVisitorNode<T>::NextChild()
 }
 
 template <typename T>
-void StructVisitorNode<T>::AddProlog(IAnyVisitor<T>& serializer) const
+void StructVisitorNode<T>::AddProlog(IAnyVisitor<T>& visitor) const
 {
-  serializer.StructProlog(this->GetValue());
+  visitor.StructProlog(this->GetValue());
 }
 
 template <typename T>
-void StructVisitorNode<T>::AddSeparator(IAnyVisitor<T>& serializer) const
+void StructVisitorNode<T>::AddSeparator(IAnyVisitor<T>& visitor) const
 {
-  serializer.StructMemberSeparator();
+  visitor.StructMemberSeparator();
 }
 
 template <typename T>
-void StructVisitorNode<T>::AddEpilog(IAnyVisitor<T>& serializer) const
+void StructVisitorNode<T>::AddEpilog(IAnyVisitor<T>& visitor) const
 {
-  serializer.StructEpilog(this->GetValue());
+  visitor.StructEpilog(this->GetValue());
 }
 
 }  // namespace dto

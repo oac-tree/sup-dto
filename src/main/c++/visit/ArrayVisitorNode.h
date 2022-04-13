@@ -41,9 +41,9 @@ public:
 
   std::unique_ptr<IAnyVisitorNode<T>> NextChild() override;
 
-  void AddProlog(IAnyVisitor<T>& serializer) const override;
-  void AddSeparator(IAnyVisitor<T>& serializer) const override;
-  void AddEpilog(IAnyVisitor<T>& serializer) const override;
+  void AddProlog(IAnyVisitor<T>& visitor) const override;
+  void AddSeparator(IAnyVisitor<T>& visitor) const override;
+  void AddEpilog(IAnyVisitor<T>& visitor) const override;
 
 private:
   std::size_t next_index;
@@ -77,21 +77,21 @@ template <>
 std::unique_ptr<IAnyVisitorNode<const AnyType>> ArrayVisitorNode<const AnyType>::NextChild();
 
 template <typename T>
-void ArrayVisitorNode<T>::AddProlog(IAnyVisitor<T>& serializer) const
+void ArrayVisitorNode<T>::AddProlog(IAnyVisitor<T>& visitor) const
 {
-  serializer.ArrayProlog(this->GetValue());
+  visitor.ArrayProlog(this->GetValue());
 }
 
 template <typename T>
-void ArrayVisitorNode<T>::AddSeparator(IAnyVisitor<T>& serializer) const
+void ArrayVisitorNode<T>::AddSeparator(IAnyVisitor<T>& visitor) const
 {
-  serializer.ArrayElementSeparator();
+  visitor.ArrayElementSeparator();
 }
 
 template <typename T>
-void ArrayVisitorNode<T>::AddEpilog(IAnyVisitor<T>& serializer) const
+void ArrayVisitorNode<T>::AddEpilog(IAnyVisitor<T>& visitor) const
 {
-  serializer.ArrayEpilog(this->GetValue());
+  visitor.ArrayEpilog(this->GetValue());
 }
 
 }  // namespace dto

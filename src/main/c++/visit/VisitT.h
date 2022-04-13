@@ -32,22 +32,22 @@ namespace dto
 {
 
 template <typename T>
-void Visit(T& any, IAnyVisitor<T>& serializer)
+void Visit(T& any, IAnyVisitor<T>& visitor)
 {
   AnyVisitorStack<T> node_stack;
   auto node = CreateRootNodeT<T>(&any);
-  node_stack.Push(std::move(node), serializer);
+  node_stack.Push(std::move(node), visitor);
   while (!node_stack.empty())
   {
     auto& top = node_stack.Top();
     auto next_child = top.NextChild();
     if (next_child.IsValid())
     {
-      node_stack.Push(std::move(next_child), serializer);
+      node_stack.Push(std::move(next_child), visitor);
     }
     else
     {
-      node_stack.Pop(serializer);
+      node_stack.Pop(visitor);
     }
   }
 }

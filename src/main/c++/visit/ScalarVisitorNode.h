@@ -40,9 +40,9 @@ public:
 
   std::unique_ptr<IAnyVisitorNode<T>> NextChild() override;
 
-  void AddProlog(IAnyVisitor<T>& serializer) const override;
-  void AddSeparator(IAnyVisitor<T>& serializer) const override;
-  void AddEpilog(IAnyVisitor<T>& serializer) const override;
+  void AddProlog(IAnyVisitor<T>& visitor) const override;
+  void AddSeparator(IAnyVisitor<T>& visitor) const override;
+  void AddEpilog(IAnyVisitor<T>& visitor) const override;
 };
 
 template <typename T>
@@ -60,9 +60,9 @@ std::unique_ptr<IAnyVisitorNode<T>> ScalarVisitorNode<T>::NextChild()
 }
 
 template <typename T>
-void ScalarVisitorNode<T>::AddProlog(IAnyVisitor<T>& serializer) const
+void ScalarVisitorNode<T>::AddProlog(IAnyVisitor<T>& visitor) const
 {
-  serializer.ScalarProlog(this->GetValue());
+  visitor.ScalarProlog(this->GetValue());
 }
 
 template <typename T>
@@ -70,9 +70,9 @@ void ScalarVisitorNode<T>::AddSeparator(IAnyVisitor<T>&) const
 {}
 
 template <typename T>
-void ScalarVisitorNode<T>::AddEpilog(IAnyVisitor<T>& serializer) const
+void ScalarVisitorNode<T>::AddEpilog(IAnyVisitor<T>& visitor) const
 {
-  serializer.ScalarEpilog(this->GetValue());
+  visitor.ScalarEpilog(this->GetValue());
 }
 
 }  // namespace dto

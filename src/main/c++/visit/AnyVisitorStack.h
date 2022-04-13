@@ -32,9 +32,9 @@ namespace dto
 {
 
 /**
- * @brief Templated serialization node stack.
+ * @brief Templated node stack for visiting an AnyType/AnyValue tree.
  *
- * @details This stack handles serialization calls on push/pop.
+ * @details This stack handles visitor calls on push/pop.
  */
 template <typename T>
 class AnyVisitorStack
@@ -47,8 +47,8 @@ public:
 
   AnyVisitorNode<T>& Top();
 
-  void Push(AnyVisitorNode<T>&& node, IAnyVisitor<T>& serializer);
-  void Pop(IAnyVisitor<T>& serializer);
+  void Push(AnyVisitorNode<T>&& node, IAnyVisitor<T>& visitor);
+  void Pop(IAnyVisitor<T>& visitor);
 
 private:
   std::stack<AnyVisitorNode<T>> node_stack;
@@ -74,21 +74,21 @@ AnyVisitorNode<T>& AnyVisitorStack<T>::Top()
 }
 
 template <typename T>
-void AnyVisitorStack<T>::Push(AnyVisitorNode<T>&& node, IAnyVisitor<T>& serializer)
+void AnyVisitorStack<T>::Push(AnyVisitorNode<T>&& node, IAnyVisitor<T>& visitor)
 {
   if (add_separator)
   {
-    Top().AddSeparator(serializer);
+    Top().AddSeparator(visitor);
     add_separator = false;
   }
-  node.AddProlog(serializer);
+  node.AddProlog(visitor);
   node_stack.push(std::move(node));
 }
 
 template <typename T>
-void AnyVisitorStack<T>::Pop(IAnyVisitor<T>& serializer)
+void AnyVisitorStack<T>::Pop(IAnyVisitor<T>& visitor)
 {
-  Top().AddEpilog(serializer);
+  Top().AddEpilog(visitor);
   node_stack.pop();
   add_separator = true;
 }

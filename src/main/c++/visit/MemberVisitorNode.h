@@ -43,9 +43,9 @@ public:
 
   std::unique_ptr<IAnyVisitorNode<T>> NextChild() override;
 
-  void AddProlog(IAnyVisitor<T>& serializer) const override;
-  void AddSeparator(IAnyVisitor<T>& serializer) const override;
-  void AddEpilog(IAnyVisitor<T>& serializer) const override;
+  void AddProlog(IAnyVisitor<T>& visitor) const override;
+  void AddSeparator(IAnyVisitor<T>& visitor) const override;
+  void AddEpilog(IAnyVisitor<T>& visitor) const override;
 
 private:
   std::string member_name;
@@ -74,9 +74,9 @@ std::unique_ptr<IAnyVisitorNode<T>> MemberVisitorNode<T>::NextChild()
 }
 
 template <typename T>
-void MemberVisitorNode<T>::AddProlog(IAnyVisitor<T>& serializer) const
+void MemberVisitorNode<T>::AddProlog(IAnyVisitor<T>& visitor) const
 {
-  serializer.MemberProlog(this->GetValue(), member_name);
+  visitor.MemberProlog(this->GetValue(), member_name);
 }
 
 template <typename T>
@@ -84,9 +84,9 @@ void MemberVisitorNode<T>::AddSeparator(IAnyVisitor<T>&) const
 {}
 
 template <typename T>
-void MemberVisitorNode<T>::AddEpilog(IAnyVisitor<T>& serializer) const
+void MemberVisitorNode<T>::AddEpilog(IAnyVisitor<T>& visitor) const
 {
-  serializer.MemberEpilog(this->GetValue(), member_name);
+  visitor.MemberEpilog(this->GetValue(), member_name);
 }
 
 }  // namespace dto
