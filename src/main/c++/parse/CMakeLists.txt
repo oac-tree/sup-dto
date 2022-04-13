@@ -11,6 +11,7 @@ target_sources(sup-dto-obj
         ${CMAKE_CURRENT_LIST_DIR}/AnyValueTypeElementBuildNode.cpp
         ${CMAKE_CURRENT_LIST_DIR}/AnyValueValueElementBuildNode.cpp
         ${CMAKE_CURRENT_LIST_DIR}/ArrayValueBuildNode.cpp
+        ${CMAKE_CURRENT_LIST_DIR}/ByteParser.cpp
         ${CMAKE_CURRENT_LIST_DIR}/IAnyBuildNode.cpp
         ${CMAKE_CURRENT_LIST_DIR}/MemberTypeArrayBuildNode.cpp
         ${CMAKE_CURRENT_LIST_DIR}/MemberTypeBuildNode.cpp
