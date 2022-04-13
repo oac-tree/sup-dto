@@ -27,7 +27,7 @@ namespace dto
 {
 
 template <>
-std::unique_ptr<IAnySerializeNode<AnyType>> ArraySerializeNode<AnyType>::NextChild()
+std::unique_ptr<IAnyVisitorNode<const AnyType>> ArraySerializeNode<AnyType>::NextChild()
 {
   if (next_index)
   {

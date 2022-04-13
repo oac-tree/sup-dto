@@ -31,7 +31,7 @@
 #ifndef _SUP_AnySerializeStack_h_
 #define _SUP_AnySerializeStack_h_
 
-#include "AnySerializeNode.h"
+#include "AnyVisitorNode.h"
 
 #include <stack>
 
@@ -54,13 +54,13 @@ public:
 
   bool empty() const;
 
-  AnySerializeNode<T>& Top();
+  AnyVisitorNode<const T>& Top();
 
-  void Push(AnySerializeNode<T>&& node, IAnyVisitor<const T>& serializer);
+  void Push(AnyVisitorNode<const T>&& node, IAnyVisitor<const T>& serializer);
   void Pop(IAnyVisitor<const T>& serializer);
 
 private:
-  std::stack<AnySerializeNode<T>> node_stack;
+  std::stack<AnyVisitorNode<const T>> node_stack;
   bool add_separator;
 };
 
@@ -77,13 +77,13 @@ bool AnySerializeStack<T>::empty() const
 }
 
 template <typename T>
-AnySerializeNode<T>& AnySerializeStack<T>::Top()
+AnyVisitorNode<const T>& AnySerializeStack<T>::Top()
 {
   return node_stack.top();
 }
 
 template <typename T>
-void AnySerializeStack<T>::Push(AnySerializeNode<T>&& node, IAnyVisitor<const T>& serializer)
+void AnySerializeStack<T>::Push(AnyVisitorNode<const T>&& node, IAnyVisitor<const T>& serializer)
 {
   if (add_separator)
   {

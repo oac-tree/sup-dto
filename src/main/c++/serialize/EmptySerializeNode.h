@@ -31,7 +31,7 @@
 #ifndef _SUP_EmptySerializeNode_h_
 #define _SUP_EmptySerializeNode_h_
 
-#include "AnySerializeNode.h"
+#include "AnyVisitorNode.h"
 
 #include <string>
 
@@ -43,13 +43,13 @@ namespace dto
  * @brief Templated serialization node for the empty type.
  */
 template <typename T>
-class EmptySerializeNode : public IAnySerializeNode<T>
+class EmptySerializeNode : public IAnyVisitorNode<const T>
 {
 public:
   EmptySerializeNode(const T* any);
   ~EmptySerializeNode() override;
 
-  std::unique_ptr<IAnySerializeNode<T>> NextChild() override;
+  std::unique_ptr<IAnyVisitorNode<const T>> NextChild() override;
 
   void AddProlog(IAnyVisitor<const T>& serializer) const override;
   void AddSeparator(IAnyVisitor<const T>& serializer) const override;
@@ -58,14 +58,14 @@ public:
 
 template <typename T>
 EmptySerializeNode<T>::EmptySerializeNode(const T* any)
-  : IAnySerializeNode<T>{any}
+  : IAnyVisitorNode<const T>{any}
 {}
 
 template <typename T>
 EmptySerializeNode<T>::~EmptySerializeNode() = default;
 
 template <typename T>
-std::unique_ptr<IAnySerializeNode<T>> EmptySerializeNode<T>::NextChild()
+std::unique_ptr<IAnyVisitorNode<const T>> EmptySerializeNode<T>::NextChild()
 {
   return {};
 }

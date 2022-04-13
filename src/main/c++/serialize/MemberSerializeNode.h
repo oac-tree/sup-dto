@@ -31,7 +31,7 @@
 #ifndef _SUP_MemberSerializeNode_h_
 #define _SUP_MemberSerializeNode_h_
 
-#include "AnySerializeNode.h"
+#include "AnyVisitorNode.h"
 #include "CreateAnySerializeNode.h"
 
 #include <string>
@@ -44,13 +44,13 @@ namespace dto
  * @brief Templated serialization node for members of structured types.
  */
 template <typename T>
-class MemberSerializeNode : public IAnySerializeNode<T>
+class MemberSerializeNode : public IAnyVisitorNode<const T>
 {
 public:
   MemberSerializeNode(const T* any, const std::string& member_name);
   ~MemberSerializeNode() override;
 
-  std::unique_ptr<IAnySerializeNode<T>> NextChild() override;
+  std::unique_ptr<IAnyVisitorNode<const T>> NextChild() override;
 
   void AddProlog(IAnyVisitor<const T>& serializer) const override;
   void AddSeparator(IAnyVisitor<const T>& serializer) const override;
@@ -63,7 +63,7 @@ private:
 
 template <typename T>
 MemberSerializeNode<T>::MemberSerializeNode(const T* any, const std::string& member_name_)
-  : IAnySerializeNode<T>{any}
+  : IAnyVisitorNode<const T>{any}
   , member_name{member_name_}
   , child_returned{false}
 {}
@@ -72,7 +72,7 @@ template <typename T>
 MemberSerializeNode<T>::~MemberSerializeNode() = default;
 
 template <typename T>
-std::unique_ptr<IAnySerializeNode<T>> MemberSerializeNode<T>::NextChild()
+std::unique_ptr<IAnyVisitorNode<const T>> MemberSerializeNode<T>::NextChild()
 {
   if (child_returned)
   {

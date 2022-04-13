@@ -31,7 +31,7 @@
 #ifndef _SUP_ScalarSerializeNode_h_
 #define _SUP_ScalarSerializeNode_h_
 
-#include "AnySerializeNode.h"
+#include "AnyVisitorNode.h"
 
 namespace sup
 {
@@ -41,13 +41,13 @@ namespace dto
  * @brief Templated serialization node for scalar types.
  */
 template <typename T>
-class ScalarSerializeNode : public IAnySerializeNode<T>
+class ScalarSerializeNode : public IAnyVisitorNode<const T>
 {
 public:
   ScalarSerializeNode(const T* any);
   ~ScalarSerializeNode() override;
 
-  std::unique_ptr<IAnySerializeNode<T>> NextChild() override;
+  std::unique_ptr<IAnyVisitorNode<const T>> NextChild() override;
 
   void AddProlog(IAnyVisitor<const T>& serializer) const override;
   void AddSeparator(IAnyVisitor<const T>& serializer) const override;
@@ -56,14 +56,14 @@ public:
 
 template <typename T>
 ScalarSerializeNode<T>::ScalarSerializeNode(const T* any)
-  : IAnySerializeNode<T>{any}
+  : IAnyVisitorNode<const T>{any}
 {}
 
 template <typename T>
 ScalarSerializeNode<T>::~ScalarSerializeNode() = default;
 
 template <typename T>
-std::unique_ptr<IAnySerializeNode<T>> ScalarSerializeNode<T>::NextChild()
+std::unique_ptr<IAnyVisitorNode<const T>> ScalarSerializeNode<T>::NextChild()
 {
   return {};
 }

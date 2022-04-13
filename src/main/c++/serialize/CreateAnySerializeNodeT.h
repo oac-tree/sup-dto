@@ -45,9 +45,9 @@ namespace dto
 {
 
 template <typename T>
-std::unique_ptr<IAnySerializeNode<T>> CreateSerializeNodeT(const T* any)
+std::unique_ptr<IAnyVisitorNode<const T>> CreateSerializeNodeT(const T* any)
 {
-  std::unique_ptr<IAnySerializeNode<T>> result;
+  std::unique_ptr<IAnyVisitorNode<const T>> result;
   switch (any->GetTypeCode())
   {
   case TypeCode::Empty:
@@ -67,7 +67,7 @@ std::unique_ptr<IAnySerializeNode<T>> CreateSerializeNodeT(const T* any)
 }
 
 template <typename T>
-AnySerializeNode<T> CreateRootNodeT(const T* any)
+AnyVisitorNode<const T> CreateRootNodeT(const T* any)
 {
     return CreateSerializeNode(any);
 }

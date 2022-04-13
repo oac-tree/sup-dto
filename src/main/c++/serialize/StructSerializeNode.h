@@ -31,7 +31,7 @@
 #ifndef _SUP_StructSerializeNode_h_
 #define _SUP_StructSerializeNode_h_
 
-#include "AnySerializeNode.h"
+#include "AnyVisitorNode.h"
 #include "MemberSerializeNode.h"
 
 namespace sup
@@ -42,13 +42,13 @@ namespace dto
  * @brief Templated Serialization node for structured types.
  */
 template <typename T>
-class StructSerializeNode : public IAnySerializeNode<T>
+class StructSerializeNode : public IAnyVisitorNode<const T>
 {
 public:
   StructSerializeNode(const T* any);
   ~StructSerializeNode() override;
 
-  std::unique_ptr<IAnySerializeNode<T>> NextChild() override;
+  std::unique_ptr<IAnyVisitorNode<const T>> NextChild() override;
 
   void AddProlog(IAnyVisitor<const T>& serializer) const override;
   void AddSeparator(IAnyVisitor<const T>& serializer) const override;
@@ -60,7 +60,7 @@ private:
 
 template <typename T>
 StructSerializeNode<T>::StructSerializeNode(const T* any)
-  : IAnySerializeNode<T>{any}
+  : IAnyVisitorNode<const T>{any}
   , next_index{0}
 {}
 
@@ -68,7 +68,7 @@ template <typename T>
 StructSerializeNode<T>::~StructSerializeNode() = default;
 
 template <typename T>
-std::unique_ptr<IAnySerializeNode<T>> StructSerializeNode<T>::NextChild()
+std::unique_ptr<IAnyVisitorNode<const T>> StructSerializeNode<T>::NextChild()
 {
   auto member_names = this->GetValue()->MemberNames();
   if (next_index >= member_names.size())
@@ -78,7 +78,7 @@ std::unique_ptr<IAnySerializeNode<T>> StructSerializeNode<T>::NextChild()
   auto member_name = member_names[next_index];
   ++next_index;
   const T *member_type = &this->GetValue()->operator[](member_name);
-  std::unique_ptr<IAnySerializeNode<T>> result{
+  std::unique_ptr<IAnyVisitorNode<const T>> result{
       new MemberSerializeNode<T>(member_type, member_name)};
   return result;
 }

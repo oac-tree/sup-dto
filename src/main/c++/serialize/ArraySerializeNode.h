@@ -31,7 +31,7 @@
 #ifndef _SUP_ArraySerializeNode_h_
 #define _SUP_ArraySerializeNode_h_
 
-#include "AnySerializeNode.h"
+#include "AnyVisitorNode.h"
 #include "CreateAnySerializeNode.h"
 
 namespace sup
@@ -42,13 +42,13 @@ namespace dto
  * @brief Templated serialization node for array types.
  */
 template <typename T>
-class ArraySerializeNode : public IAnySerializeNode<T>
+class ArraySerializeNode : public IAnyVisitorNode<const T>
 {
 public:
   ArraySerializeNode(const T* any);
   ~ArraySerializeNode() override;
 
-  std::unique_ptr<IAnySerializeNode<T>> NextChild() override;
+  std::unique_ptr<IAnyVisitorNode<const T>> NextChild() override;
 
   void AddProlog(IAnyVisitor<const T>& serializer) const override;
   void AddSeparator(IAnyVisitor<const T>& serializer) const override;
@@ -60,7 +60,7 @@ private:
 
 template <typename T>
 ArraySerializeNode<T>::ArraySerializeNode(const T* any)
-  : IAnySerializeNode<T>{any}
+  : IAnyVisitorNode<const T>{any}
   , next_index{0}
 {}
 
@@ -68,7 +68,7 @@ template <typename T>
 ArraySerializeNode<T>::~ArraySerializeNode() = default;
 
 template <typename T>
-std::unique_ptr<IAnySerializeNode<T>> ArraySerializeNode<T>::NextChild()
+std::unique_ptr<IAnyVisitorNode<const T>> ArraySerializeNode<T>::NextChild()
 {
   if (next_index >= this->GetValue()->NumberOfElements())
   {
@@ -80,7 +80,7 @@ std::unique_ptr<IAnySerializeNode<T>> ArraySerializeNode<T>::NextChild()
 }
 
 template <>
-std::unique_ptr<IAnySerializeNode<AnyType>> ArraySerializeNode<AnyType>::NextChild();
+std::unique_ptr<IAnyVisitorNode<const AnyType>> ArraySerializeNode<AnyType>::NextChild();
 
 template <typename T>
 void ArraySerializeNode<T>::AddProlog(IAnyVisitor<const T>& serializer) const

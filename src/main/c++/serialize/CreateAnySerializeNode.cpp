@@ -27,12 +27,12 @@ namespace sup
 namespace dto
 {
 
-std::unique_ptr<IAnySerializeNode<AnyType>> CreateSerializeNode(const AnyType* anytype)
+std::unique_ptr<IAnyVisitorNode<const AnyType>> CreateSerializeNode(const AnyType* anytype)
 {
   return CreateSerializeNodeT(anytype);
 }
 
-std::unique_ptr<IAnySerializeNode<AnyValue>> CreateSerializeNode(const AnyValue* anyvalue)
+std::unique_ptr<IAnyVisitorNode<const AnyValue>> CreateSerializeNode(const AnyValue* anyvalue)
 {
   return CreateSerializeNodeT(anyvalue);
 }

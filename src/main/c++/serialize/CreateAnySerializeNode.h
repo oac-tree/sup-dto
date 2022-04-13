@@ -34,7 +34,7 @@
 
 #include "AnyType.h"
 #include "AnyValue.h"
-#include "AnySerializeNode.h"
+#include "AnyVisitorNode.h"
 
 #include <memory>
 
@@ -43,8 +43,8 @@ namespace sup
 namespace dto
 {
 
-std::unique_ptr<IAnySerializeNode<AnyType>> CreateSerializeNode(const AnyType* anytype);
-std::unique_ptr<IAnySerializeNode<AnyValue>> CreateSerializeNode(const AnyValue* anyvalue);
+std::unique_ptr<IAnyVisitorNode<const AnyType>> CreateSerializeNode(const AnyType* anytype);
+std::unique_ptr<IAnyVisitorNode<const AnyValue>> CreateSerializeNode(const AnyValue* anyvalue);
 
 }  // namespace dto
 
