@@ -19,10 +19,10 @@
  * of the distribution package.
  ******************************************************************************/
 
-#ifndef _SUP_SerializeT_h_
-#define _SUP_SerializeT_h_
+#ifndef _SUP_VisitT_h_
+#define _SUP_VisitT_h_
 
-#include "AnySerializeStack.h"
+#include "AnyVisitorStack.h"
 #include "CreateAnyVisitorNodeT.h"
 #include "IAnyVisitor.h"
 
@@ -32,10 +32,10 @@ namespace dto
 {
 
 template <typename T>
-void Serialize(const T& any, IAnyVisitor<const T>& serializer)
+void Visit(T& any, IAnyVisitor<T>& serializer)
 {
-  AnySerializeStack<T> node_stack;
-  auto node = CreateRootNodeT<const T>(&any);
+  AnyVisitorStack<T> node_stack;
+  auto node = CreateRootNodeT<T>(&any);
   node_stack.Push(std::move(node), serializer);
   while (!node_stack.empty())
   {
@@ -56,4 +56,4 @@ void Serialize(const T& any, IAnyVisitor<const T>& serializer)
 
 }  // namespace sup
 
-#endif  // _SUP_SerializeT_h_
+#endif  // _SUP_VisitT_h_

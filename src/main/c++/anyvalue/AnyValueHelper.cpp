@@ -24,7 +24,7 @@
 #include "ByteSerializer.h"
 #include "JSONReader.h"
 #include "JSONWriter.h"
-#include "SerializeT.h"
+#include "VisitT.h"
 
 #include <fstream>
 #include <sstream>
@@ -36,13 +36,13 @@ namespace dto
 
 void SerializeAnyValue(const AnyValue& anyvalue, IAnyVisitor<const AnyValue>& serializer)
 {
-  return Serialize(anyvalue, serializer);
+  return Visit(anyvalue, serializer);
 }
 
 std::vector<uint8> ToBytes(const AnyValue& anyvalue)
 {
   ByteSerializer serializer;
-  Serialize(anyvalue, serializer);
+  Visit(anyvalue, serializer);
   return serializer.GetRepresentation();
 }
 

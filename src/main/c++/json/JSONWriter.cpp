@@ -25,7 +25,7 @@
 #include "AnyValue.h"
 #include "JSONWriterT.h"
 #include "SerializationConstants.h"
-#include "SerializeT.h"
+#include "VisitT.h"
 #include "WriterSerializer.h"
 
 namespace sup
@@ -52,7 +52,7 @@ void JSONSerializeAnyType(std::ostream& json_stream, const AnyType& anytype, boo
   auto writer = pretty ? CreatePrettyJSONWriter(json_stream)
                        : CreateJSONWriter(json_stream);
   WriterTypeSerializer serializer(writer.get());
-  Serialize(anytype, serializer);
+  Visit(anytype, serializer);
 }
 
 void JSONSerializeAnyValue(std::ostream& json_stream, const AnyValue& anyvalue, bool pretty)
@@ -67,7 +67,7 @@ void JSONSerializeAnyValueValues(std::ostream& json_stream, const AnyValue& anyv
   auto writer = pretty ? CreatePrettyJSONWriter(json_stream)
                        : CreateJSONWriter(json_stream);
   WriterValueSerializer serializer(writer.get());
-  Serialize(anyvalue, serializer);
+  Visit(anyvalue, serializer);
 }
 
 namespace
@@ -88,11 +88,11 @@ void ToJSONWriter(IWriter& writer, const AnyValue& anyvalue)
   AddEncodingInformation(writer);
   AddDatatypeStart(writer);
   WriterTypeSerializer type_serializer(&writer);
-  Serialize(anyvalue.GetType(), type_serializer);
+  Visit<const AnyType>(anyvalue.GetType(), type_serializer);
   writer.EndStructure();
   AddValueStart(writer);
   WriterValueSerializer value_serializer(&writer);
-  Serialize(anyvalue, value_serializer);
+  Visit<const AnyValue>(anyvalue, value_serializer);
   writer.EndStructure();
   writer.EndArray();
 }

@@ -19,8 +19,8 @@
  * of the distribution package.
  ******************************************************************************/
 
-#ifndef _SUP_AnySerializeStack_h_
-#define _SUP_AnySerializeStack_h_
+#ifndef _SUP_AnyVisitorStack_h_
+#define _SUP_AnyVisitorStack_h_
 
 #include "AnyVisitorNode.h"
 
@@ -37,44 +37,44 @@ namespace dto
  * @details This stack handles serialization calls on push/pop.
  */
 template <typename T>
-class AnySerializeStack
+class AnyVisitorStack
 {
 public:
-  AnySerializeStack();
-  ~AnySerializeStack() = default;
+  AnyVisitorStack();
+  ~AnyVisitorStack() = default;
 
   bool empty() const;
 
-  AnyVisitorNode<const T>& Top();
+  AnyVisitorNode<T>& Top();
 
-  void Push(AnyVisitorNode<const T>&& node, IAnyVisitor<const T>& serializer);
-  void Pop(IAnyVisitor<const T>& serializer);
+  void Push(AnyVisitorNode<T>&& node, IAnyVisitor<T>& serializer);
+  void Pop(IAnyVisitor<T>& serializer);
 
 private:
-  std::stack<AnyVisitorNode<const T>> node_stack;
+  std::stack<AnyVisitorNode<T>> node_stack;
   bool add_separator;
 };
 
 template <typename T>
-AnySerializeStack<T>::AnySerializeStack()
+AnyVisitorStack<T>::AnyVisitorStack()
   : node_stack{}
   , add_separator{false}
 {}
 
 template <typename T>
-bool AnySerializeStack<T>::empty() const
+bool AnyVisitorStack<T>::empty() const
 {
   return node_stack.empty();
 }
 
 template <typename T>
-AnyVisitorNode<const T>& AnySerializeStack<T>::Top()
+AnyVisitorNode<T>& AnyVisitorStack<T>::Top()
 {
   return node_stack.top();
 }
 
 template <typename T>
-void AnySerializeStack<T>::Push(AnyVisitorNode<const T>&& node, IAnyVisitor<const T>& serializer)
+void AnyVisitorStack<T>::Push(AnyVisitorNode<T>&& node, IAnyVisitor<T>& serializer)
 {
   if (add_separator)
   {
@@ -86,7 +86,7 @@ void AnySerializeStack<T>::Push(AnyVisitorNode<const T>&& node, IAnyVisitor<cons
 }
 
 template <typename T>
-void AnySerializeStack<T>::Pop(IAnyVisitor<const T>& serializer)
+void AnyVisitorStack<T>::Pop(IAnyVisitor<T>& serializer)
 {
   Top().AddEpilog(serializer);
   node_stack.pop();
@@ -97,4 +97,4 @@ void AnySerializeStack<T>::Pop(IAnyVisitor<const T>& serializer)
 
 }  // namespace sup
 
-#endif  // _SUP_AnySerializeStack_h_
+#endif  // _SUP_AnyVisitorStack_h_

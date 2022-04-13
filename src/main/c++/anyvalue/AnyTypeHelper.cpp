@@ -23,7 +23,7 @@
 #include "AnyType.h"
 #include "JSONReader.h"
 #include "JSONWriter.h"
-#include "SerializeT.h"
+#include "VisitT.h"
 
 #include <fstream>
 #include <sstream>
@@ -35,7 +35,7 @@ namespace dto
 
 void SerializeAnyType(const AnyType& anytype, IAnyVisitor<const AnyType>& serializer)
 {
-  return Serialize(anytype, serializer);
+  return Visit(anytype, serializer);
 }
 
 std::string AnyTypeToJSONString(const AnyType& anytype, bool pretty)
