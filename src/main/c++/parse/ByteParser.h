@@ -37,6 +37,8 @@ public:
   ByteParser(const uint8* bytes, std::size_t total_size);
   ~ByteParser() override;
 
+  bool IsFinished() const;
+
   void EmptyProlog(AnyValue* anyvalue) override;
   void EmptyEpilog(AnyValue* anyvalue) override;
 

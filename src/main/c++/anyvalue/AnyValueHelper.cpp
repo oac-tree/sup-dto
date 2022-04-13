@@ -21,6 +21,7 @@
 
 #include "AnyValueHelper.h"
 #include "AnyValue.h"
+#include "ByteParser.h"
 #include "ByteSerializer.h"
 #include "JSONReader.h"
 #include "JSONWriter.h"
@@ -69,6 +70,16 @@ void AnyValueToJSONFile(const AnyValue& anyvalue, const std::string& filename, b
   }
   JSONSerializeAnyValue(ofs, anyvalue, pretty);
   return;
+}
+
+void FromBytes(AnyValue& anyvalue, const uint8* bytes, std::size_t total_size)
+{
+  auto byte_parser = ByteParser(bytes, total_size);
+  Visit(anyvalue, byte_parser);
+  if (!byte_parser.IsFinished())
+  {
+    throw ParseException("FromBytes ended before parsing all input bytes");
+  }
 }
 
 AnyValue AnyValueFromJSONString(const std::string& json_str)

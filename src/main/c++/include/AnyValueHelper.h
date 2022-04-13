@@ -87,6 +87,17 @@ std::string AnyValueToJSONString(const AnyValue& anyvalue, bool pretty=false);
 void AnyValueToJSONFile(const AnyValue& anyvalue, const std::string& filename, bool pretty=false);
 
 /**
+ * @brief Parse AnyValue content from an array of bytes.
+ *
+ * @param anyvalue AnyValue object to assign to.
+ * @param bytes Array of bytes.
+ * @param total_size Size of the array of bytes.
+ *
+ * @note This method is used to cast from C-type structures.
+ */
+void FromBytes(AnyValue& anyvalue, const uint8* bytes, std::size_t total_size);
+
+/**
  * @brief Parse an AnyValue from a JSON string.
  *
  * @param json_str JSON string.

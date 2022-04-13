@@ -39,6 +39,11 @@ ByteParser::ByteParser(const uint8* bytes_, std::size_t total_size_)
 
 ByteParser::~ByteParser() = default;
 
+bool ByteParser::IsFinished() const
+{
+  return current_position == total_size;
+}
+
 void ByteParser::EmptyProlog(AnyValue*)
 {}
 
