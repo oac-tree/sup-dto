@@ -56,8 +56,8 @@ public:
 
   AnySerializeNode<T>& Top();
 
-  void Push(AnySerializeNode<T>&& node, IAnySerializer<T>& serializer);
-  void Pop(IAnySerializer<T>& serializer);
+  void Push(AnySerializeNode<T>&& node, IAnyVisitor<const T>& serializer);
+  void Pop(IAnyVisitor<const T>& serializer);
 
 private:
   std::stack<AnySerializeNode<T>> node_stack;
@@ -83,7 +83,7 @@ AnySerializeNode<T>& AnySerializeStack<T>::Top()
 }
 
 template <typename T>
-void AnySerializeStack<T>::Push(AnySerializeNode<T>&& node, IAnySerializer<T>& serializer)
+void AnySerializeStack<T>::Push(AnySerializeNode<T>&& node, IAnyVisitor<const T>& serializer)
 {
   if (add_separator)
   {
@@ -95,7 +95,7 @@ void AnySerializeStack<T>::Push(AnySerializeNode<T>&& node, IAnySerializer<T>& s
 }
 
 template <typename T>
-void AnySerializeStack<T>::Pop(IAnySerializer<T>& serializer)
+void AnySerializeStack<T>::Pop(IAnyVisitor<const T>& serializer)
 {
   Top().AddEpilog(serializer);
   node_stack.pop();

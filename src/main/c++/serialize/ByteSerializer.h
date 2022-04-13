@@ -31,7 +31,7 @@
 #ifndef _SUP_ByteSerializer_h_
 #define _SUP_ByteSerializer_h_
 
-#include "IAnySerializer.h"
+#include "IAnyVisitor.h"
 #include "BasicScalarTypes.h"
 
 #include <vector>
@@ -42,7 +42,7 @@ namespace dto
 {
 class AnyValue;
 
-class ByteSerializer : public IAnySerializer<AnyValue>
+class ByteSerializer : public IAnyVisitor<const AnyValue>
 {
 public:
   ByteSerializer();
@@ -58,7 +58,7 @@ public:
   void StructEpilog(const AnyValue* anyvalue) override;
 
   void MemberProlog(const AnyValue* anyvalue, const std::string& member_name) override;
-  void AddMemberEpilog(const AnyValue* anyvalue, const std::string& member_name) override;
+  void MemberEpilog(const AnyValue* anyvalue, const std::string& member_name) override;
 
   void ArrayProlog(const AnyValue* anyvalue) override;
   void ArrayElementSeparator() override;

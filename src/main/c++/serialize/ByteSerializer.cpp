@@ -56,7 +56,7 @@ void ByteSerializer::StructEpilog(const AnyValue*)
 void ByteSerializer::MemberProlog(const AnyValue*, const std::string&)
 {}
 
-void ByteSerializer::AddMemberEpilog(const AnyValue*, const std::string&)
+void ByteSerializer::MemberEpilog(const AnyValue*, const std::string&)
 {}
 
 void ByteSerializer::ArrayProlog(const AnyValue*)

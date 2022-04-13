@@ -49,9 +49,9 @@ public:
 
   std::unique_ptr<IAnySerializeNode<T>> NextChild() override;
 
-  void AddProlog(IAnySerializer<T>& serializer) const override;
-  void AddSeparator(IAnySerializer<T>& serializer) const override;
-  void AddEpilog(IAnySerializer<T>& serializer) const override;
+  void AddProlog(IAnyVisitor<const T>& serializer) const override;
+  void AddSeparator(IAnyVisitor<const T>& serializer) const override;
+  void AddEpilog(IAnyVisitor<const T>& serializer) const override;
 };
 
 template <typename T>
@@ -69,17 +69,17 @@ std::unique_ptr<IAnySerializeNode<T>> ScalarSerializeNode<T>::NextChild()
 }
 
 template <typename T>
-void ScalarSerializeNode<T>::AddProlog(IAnySerializer<T>& serializer) const
+void ScalarSerializeNode<T>::AddProlog(IAnyVisitor<const T>& serializer) const
 {
   serializer.ScalarProlog(this->GetValue());
 }
 
 template <typename T>
-void ScalarSerializeNode<T>::AddSeparator(IAnySerializer<T>&) const
+void ScalarSerializeNode<T>::AddSeparator(IAnyVisitor<const T>&) const
 {}
 
 template <typename T>
-void ScalarSerializeNode<T>::AddEpilog(IAnySerializer<T>& serializer) const
+void ScalarSerializeNode<T>::AddEpilog(IAnyVisitor<const T>& serializer) const
 {
   serializer.ScalarEpilog(this->GetValue());
 }

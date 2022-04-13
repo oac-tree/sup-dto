@@ -31,7 +31,7 @@
 #ifndef _SUP_TestSerializers_h_
 #define _SUP_TestSerializers_h_
 
-#include "IAnySerializer.h"
+#include "IAnyVisitor.h"
 
 namespace sup
 {
@@ -43,7 +43,7 @@ class AnyValue;
 /**
  * @brief Simple serialization for AnyType.
  */
-class SimpleAnyTypeSerializer : public IAnySerializer<AnyType>
+class SimpleAnyTypeSerializer : public IAnyVisitor<const AnyType>
 {
 public:
   SimpleAnyTypeSerializer();
@@ -59,7 +59,7 @@ public:
   void StructEpilog(const AnyType* anytype) override;
 
   void MemberProlog(const AnyType* anytype, const std::string& member_name) override;
-  void AddMemberEpilog(const AnyType* anytype, const std::string& member_name) override;
+  void MemberEpilog(const AnyType* anytype, const std::string& member_name) override;
 
   void ArrayProlog(const AnyType* anytype) override;
   void ArrayElementSeparator() override;
@@ -72,7 +72,7 @@ private:
   std::string representation;
 };
 
-class SimpleAnyValueSerializer : public IAnySerializer<AnyValue>
+class SimpleAnyValueSerializer : public IAnyVisitor<const AnyValue>
 {
 public:
   SimpleAnyValueSerializer();
@@ -88,7 +88,7 @@ public:
   void StructEpilog(const AnyValue* anyvalue) override;
 
   void MemberProlog(const AnyValue* anyvalue, const std::string& member_name) override;
-  void AddMemberEpilog(const AnyValue* anyvalue, const std::string& member_name) override;
+  void MemberEpilog(const AnyValue* anyvalue, const std::string& member_name) override;
 
   void ArrayProlog(const AnyValue* anyvalue) override;
   void ArrayElementSeparator() override;

@@ -31,7 +31,7 @@
 #ifndef _SUP_WriterSerializer_h_
 #define _SUP_WriterSerializer_h_
 
-#include "IAnySerializer.h"
+#include "IAnyVisitor.h"
 #include "IWriter.h"
 
 #include <memory>
@@ -47,7 +47,7 @@ class JSONRepresentation;
 /**
  * @brief Serialization for AnyType, using an IWriter service.
  */
-class WriterTypeSerializer : public IAnySerializer<AnyType>
+class WriterTypeSerializer : public IAnyVisitor<const AnyType>
 {
 public:
   WriterTypeSerializer(IWriter* writer);
@@ -61,7 +61,7 @@ public:
   void StructEpilog(const AnyType* anytype) override;
 
   void MemberProlog(const AnyType* anytype, const std::string& member_name) override;
-  void AddMemberEpilog(const AnyType* anytype, const std::string& member_name) override;
+  void MemberEpilog(const AnyType* anytype, const std::string& member_name) override;
 
   void ArrayProlog(const AnyType* anytype) override;
   void ArrayElementSeparator() override;
@@ -78,7 +78,7 @@ private:
 /**
  * @brief Serialization for AnyValue, using an IWriter service.
  */
-class WriterValueSerializer : public IAnySerializer<AnyValue>
+class WriterValueSerializer : public IAnyVisitor<const AnyValue>
 {
 public:
   WriterValueSerializer(IWriter* writer);
@@ -92,7 +92,7 @@ public:
   void StructEpilog(const AnyValue* anyvalue) override;
 
   void MemberProlog(const AnyValue* anyvalue, const std::string& member_name) override;
-  void AddMemberEpilog(const AnyValue* anyvalue, const std::string& member_name) override;
+  void MemberEpilog(const AnyValue* anyvalue, const std::string& member_name) override;
 
   void ArrayProlog(const AnyValue* anyvalue) override;
   void ArrayElementSeparator() override;

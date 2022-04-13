@@ -31,7 +31,7 @@
 #ifndef _SUP_AnyValueHelper_h_
 #define _SUP_AnyValueHelper_h_
 
-#include "IAnySerializer.h"
+#include "IAnyVisitor.h"
 #include "BasicScalarTypes.h"
 
 #include <vector>
@@ -48,7 +48,7 @@ class AnyValue;
  * @param anyvalue AnyValue object to serialize.
  * @param serializer Serializer object to use.
  */
-void SerializeAnyValue(const AnyValue& anyvalue, IAnySerializer<AnyValue>& serializer);
+void SerializeAnyValue(const AnyValue& anyvalue, IAnyVisitor<const AnyValue>& serializer);
 
 /**
  * @brief Serialize an AnyValue to an array of bytes.

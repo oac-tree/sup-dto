@@ -71,7 +71,7 @@ void SimpleAnyTypeSerializer::MemberProlog(const AnyType* anytype, const std::st
   representation += prolog;
 }
 
-void SimpleAnyTypeSerializer::AddMemberEpilog(const AnyType* anytype, const std::string& member_name)
+void SimpleAnyTypeSerializer::MemberEpilog(const AnyType* anytype, const std::string& member_name)
 {
   representation += ")M";
 }
@@ -145,7 +145,7 @@ void SimpleAnyValueSerializer::MemberProlog(const AnyValue* anyvalue, const std:
   representation += prolog;
 }
 
-void SimpleAnyValueSerializer::AddMemberEpilog(const AnyValue* anyvalue, const std::string& member_name)
+void SimpleAnyValueSerializer::MemberEpilog(const AnyValue* anyvalue, const std::string& member_name)
 {
   representation += ")M";
 }

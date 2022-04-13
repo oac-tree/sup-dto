@@ -71,7 +71,7 @@ void WriterTypeSerializer::MemberProlog(const AnyType* anytype, const std::strin
   writer->Member(member_name);
 }
 
-void WriterTypeSerializer::AddMemberEpilog(const AnyType*, const std::string&)
+void WriterTypeSerializer::MemberEpilog(const AnyType*, const std::string&)
 {
   writer->EndStructure();
 }
@@ -141,7 +141,7 @@ void WriterValueSerializer::MemberProlog(const AnyValue*, const std::string& mem
   writer->Member(member_name);
 }
 
-void WriterValueSerializer::AddMemberEpilog(const AnyValue*, const std::string&)
+void WriterValueSerializer::MemberEpilog(const AnyValue*, const std::string&)
 {}
 
 void WriterValueSerializer::ArrayProlog(const AnyValue*)

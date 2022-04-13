@@ -31,7 +31,7 @@
 #ifndef _SUP_AnyTypeHelper_h_
 #define _SUP_AnyTypeHelper_h_
 
-#include "IAnySerializer.h"
+#include "IAnyVisitor.h"
 
 namespace sup
 {
@@ -45,7 +45,7 @@ class AnyType;
  * @param anytype AnyType object to serialize.
  * @param serializer Serializer object to use.
  */
-void SerializeAnyType(const AnyType& anytype, IAnySerializer<AnyType>& serializer);
+void SerializeAnyType(const AnyType& anytype, IAnyVisitor<const AnyType>& serializer);
 
 /**
  * @brief Serialize an AnyType to a JSON string.

@@ -31,7 +31,7 @@
 #ifndef _SUP_AnySerializeNode_h_
 #define _SUP_AnySerializeNode_h_
 
-#include "IAnySerializer.h"
+#include "IAnyVisitor.h"
 
 #include <memory>
 
@@ -57,9 +57,9 @@ public:
 
   virtual std::unique_ptr<IAnySerializeNode<T>> NextChild() = 0;
 
-  virtual void AddProlog(IAnySerializer<T>& serializer) const = 0;
-  virtual void AddSeparator(IAnySerializer<T>& serializer) const = 0;
-  virtual void AddEpilog(IAnySerializer<T>& serializer) const = 0;
+  virtual void AddProlog(IAnyVisitor<const T>& serializer) const = 0;
+  virtual void AddSeparator(IAnyVisitor<const T>& serializer) const = 0;
+  virtual void AddEpilog(IAnyVisitor<const T>& serializer) const = 0;
 
 private:
   const T* val;
@@ -84,9 +84,9 @@ public:
   AnySerializeNode NextChild();
   bool IsValid() const;
 
-  void AddProlog(IAnySerializer<T>& serializer) const;
-  void AddSeparator(IAnySerializer<T>& serializer) const;
-  void AddEpilog(IAnySerializer<T>& serializer) const;
+  void AddProlog(IAnyVisitor<const T>& serializer) const;
+  void AddSeparator(IAnyVisitor<const T>& serializer) const;
+  void AddEpilog(IAnyVisitor<const T>& serializer) const;
 
 private:
   std::unique_ptr<IAnySerializeNode<T>> node;
@@ -140,19 +140,19 @@ bool AnySerializeNode<T>::IsValid() const
 }
 
 template <typename T>
-void AnySerializeNode<T>::AddProlog(IAnySerializer<T>& serializer) const
+void AnySerializeNode<T>::AddProlog(IAnyVisitor<const T>& serializer) const
 {
   return node->AddProlog(serializer);
 }
 
 template <typename T>
-void AnySerializeNode<T>::AddSeparator(IAnySerializer<T>& serializer) const
+void AnySerializeNode<T>::AddSeparator(IAnyVisitor<const T>& serializer) const
 {
   return node->AddSeparator(serializer);
 }
 
 template <typename T>
-void AnySerializeNode<T>::AddEpilog(IAnySerializer<T>& serializer) const
+void AnySerializeNode<T>::AddEpilog(IAnyVisitor<const T>& serializer) const
 {
   return node->AddEpilog(serializer);
 }

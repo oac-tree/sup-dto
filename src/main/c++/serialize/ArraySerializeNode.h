@@ -50,9 +50,9 @@ public:
 
   std::unique_ptr<IAnySerializeNode<T>> NextChild() override;
 
-  void AddProlog(IAnySerializer<T>& serializer) const override;
-  void AddSeparator(IAnySerializer<T>& serializer) const override;
-  void AddEpilog(IAnySerializer<T>& serializer) const override;
+  void AddProlog(IAnyVisitor<const T>& serializer) const override;
+  void AddSeparator(IAnyVisitor<const T>& serializer) const override;
+  void AddEpilog(IAnyVisitor<const T>& serializer) const override;
 
 private:
   std::size_t next_index;
@@ -83,19 +83,19 @@ template <>
 std::unique_ptr<IAnySerializeNode<AnyType>> ArraySerializeNode<AnyType>::NextChild();
 
 template <typename T>
-void ArraySerializeNode<T>::AddProlog(IAnySerializer<T>& serializer) const
+void ArraySerializeNode<T>::AddProlog(IAnyVisitor<const T>& serializer) const
 {
   serializer.ArrayProlog(this->GetValue());
 }
 
 template <typename T>
-void ArraySerializeNode<T>::AddSeparator(IAnySerializer<T>& serializer) const
+void ArraySerializeNode<T>::AddSeparator(IAnyVisitor<const T>& serializer) const
 {
   serializer.ArrayElementSeparator();
 }
 
 template <typename T>
-void ArraySerializeNode<T>::AddEpilog(IAnySerializer<T>& serializer) const
+void ArraySerializeNode<T>::AddEpilog(IAnyVisitor<const T>& serializer) const
 {
   serializer.ArrayEpilog(this->GetValue());
 }

@@ -52,9 +52,9 @@ public:
 
   std::unique_ptr<IAnySerializeNode<T>> NextChild() override;
 
-  void AddProlog(IAnySerializer<T>& serializer) const override;
-  void AddSeparator(IAnySerializer<T>& serializer) const override;
-  void AddEpilog(IAnySerializer<T>& serializer) const override;
+  void AddProlog(IAnyVisitor<const T>& serializer) const override;
+  void AddSeparator(IAnyVisitor<const T>& serializer) const override;
+  void AddEpilog(IAnyVisitor<const T>& serializer) const override;
 
 private:
   std::string member_name;
@@ -83,19 +83,19 @@ std::unique_ptr<IAnySerializeNode<T>> MemberSerializeNode<T>::NextChild()
 }
 
 template <typename T>
-void MemberSerializeNode<T>::AddProlog(IAnySerializer<T>& serializer) const
+void MemberSerializeNode<T>::AddProlog(IAnyVisitor<const T>& serializer) const
 {
   serializer.MemberProlog(this->GetValue(), member_name);
 }
 
 template <typename T>
-void MemberSerializeNode<T>::AddSeparator(IAnySerializer<T>&) const
+void MemberSerializeNode<T>::AddSeparator(IAnyVisitor<const T>&) const
 {}
 
 template <typename T>
-void MemberSerializeNode<T>::AddEpilog(IAnySerializer<T>& serializer) const
+void MemberSerializeNode<T>::AddEpilog(IAnyVisitor<const T>& serializer) const
 {
-  serializer.AddMemberEpilog(this->GetValue(), member_name);
+  serializer.MemberEpilog(this->GetValue(), member_name);
 }
 
 }  // namespace dto

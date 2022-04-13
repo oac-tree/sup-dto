@@ -33,7 +33,7 @@ namespace sup
 namespace dto
 {
 
-void SerializeAnyType(const AnyType& anytype, IAnySerializer<AnyType>& serializer)
+void SerializeAnyType(const AnyType& anytype, IAnyVisitor<const AnyType>& serializer)
 {
   return Serialize(anytype, serializer);
 }

@@ -33,7 +33,7 @@
 
 #include "AnySerializeStack.h"
 #include "CreateAnySerializeNodeT.h"
-#include "IAnySerializer.h"
+#include "IAnyVisitor.h"
 
 namespace sup
 {
@@ -41,7 +41,7 @@ namespace dto
 {
 
 template <typename T>
-void Serialize(const T& any, IAnySerializer<T>& serializer)
+void Serialize(const T& any, IAnyVisitor<const T>& serializer)
 {
   AnySerializeStack<T> node_stack;
   auto node = CreateRootNodeT(&any);
