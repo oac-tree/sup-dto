@@ -93,6 +93,9 @@ void AnyValueToJSONFile(const AnyValue& anyvalue, const std::string& filename, b
  * @param bytes Array of bytes.
  * @param total_size Size of the array of bytes.
  *
+ * @throws ParseException Thrown when the byte array cannot be correctly parsed (e.g. sizes
+ * don't match, absence of null terminator in C-style string or unknown scalar type).
+ *
  * @note This method is used to cast from C-type structures.
  */
 void FromBytes(AnyValue& anyvalue, const uint8* bytes, std::size_t total_size);
