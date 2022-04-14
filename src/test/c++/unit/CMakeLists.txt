@@ -13,7 +13,7 @@ target_sources(unit-tests
         ${CMAKE_CURRENT_LIST_DIR}/AnyValueJSONParse-tests.cpp
         ${CMAKE_CURRENT_LIST_DIR}/AnyValueJSONSerialize-tests.cpp
         ${CMAKE_CURRENT_LIST_DIR}/AnyValueSerialize-tests.cpp
-        ${CMAKE_CURRENT_LIST_DIR}/AnyValueToCType-tests.cpp
+        ${CMAKE_CURRENT_LIST_DIR}/AnyValueCType-tests.cpp
         ${CMAKE_CURRENT_LIST_DIR}/ArrayType-tests.cpp
         ${CMAKE_CURRENT_LIST_DIR}/ArrayValue-tests.cpp
         ${CMAKE_CURRENT_LIST_DIR}/IntegerType-tests.cpp
