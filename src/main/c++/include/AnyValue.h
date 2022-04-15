@@ -55,6 +55,7 @@ public:
    * @brief Constructor with type specification.
    *
    * @param anytype type specification.
+   *
    * @note This constructor default initializes all its leaf values.
    */
   explicit AnyValue(const AnyType& anytype);
@@ -63,6 +64,7 @@ public:
    * @brief Constructor from scalar value.
    *
    * @param val scalar value.
+   *
    * @note These constructors must be implicit for other constructors to work as expected.
    */
   AnyValue(boolean val);
@@ -85,6 +87,7 @@ public:
    *
    * @param anytype type specification.
    * @param anyvalue value specification.
+   *
    * @note This constructor performs possible conversion of scalar types.
    */
   AnyValue(const AnyType& anytype, const AnyValue& anyvalue);
@@ -115,21 +118,40 @@ public:
 
   /**
    * @brief Copy constructor.
+   *
+   * @param other Source AnyValue for copy construction.
    */
   AnyValue(const AnyValue& other);
 
   /**
    * @brief Copy assignment.
+   *
+   * @param other Source AnyValue for copy assignment.
+   *
+   * @return Reference to this.
+   *
+   * @throws InvalidConversionException Thrown when the given AnyValue cannot be properly converted
+   * to this AnyValue.
    */
   AnyValue& operator=(const AnyValue& other);
 
   /**
    * @brief Move constructor.
+   *
+   * @param other Source AnyValue for move construction.
    */
   AnyValue(AnyValue&& other);
 
   /**
    * @brief Move assignment.
+   *
+   * @param other Source AnyValue for move assignment.
+   *
+   * @return Reference to this.
+   *
+   * @throws InvalidConversionException Thrown when the given AnyValue cannot be properly converted
+   * to this AnyValue (only possible when conversions are required, meaning the types are not
+   * exactly equal).
    */
   AnyValue& operator=(AnyValue&& other);
 
@@ -140,16 +162,22 @@ public:
 
   /**
    * @brief Get type code.
+   *
+   * @return Type code of this value.
    */
   TypeCode GetTypeCode() const;
 
   /**
    * @brief Get type specification.
+   *
+   * @return AnyType associated with this value.
    */
   AnyType GetType() const;
 
   /**
    * @brief Get type name.
+   *
+   * @return Type name of this value.
    */
   std::string GetTypeName() const;
 
@@ -203,7 +231,10 @@ public:
   /**
    * @brief Cast to given type.
    *
-   * @note Throws when conversion is not supported.
+   * @return This value as a T value when successful.
+   *
+   * @throws InvalidConversionException Thrown when this value could not be converted to T.
+   * @throws SerializeException Thrown when this value could not be serialized to T.
    */
   template <typename T>
   T As() const;
@@ -211,7 +242,10 @@ public:
   /**
    * @brief Cast to given type.
    *
+   * @param value Reference to value to copy this value into.
+   *
    * @return true on success.
+   *
    * @note Does not throw on invalid conversions.
    */
   template <typename T>
@@ -252,6 +286,10 @@ public:
 
   /**
    * @brief Comparison operators.
+   *
+   * @param other AnyValue to compare this value to.
+   *
+   * @return true when the values are exactly equal, including possible subvalues.
    */
   bool operator==(const AnyValue& other) const;
   bool operator!=(const AnyValue& other) const;
@@ -323,6 +361,10 @@ bool AnyValue::As(T& value) const
     value = As<T>();
     return true;
   }
+  catch(const InvalidConversionException&)
+  {
+    return false;
+  }
   catch(const SerializeException&)
   {
     return false;
@@ -373,6 +415,7 @@ bool SafeAssignFromCType(AnyValue& anyvalue, const T& object)
    * @brief Constructs an empty structure.
    *
    * @param type_name Optional name for the underlying structured type.
+   *
    * @return AnyValue with empty structure type.
    */
 AnyValue EmptyStruct(const std::string& type_name = {});
@@ -382,6 +425,9 @@ AnyValue EmptyStruct(const std::string& type_name = {});
    *
    * @param elements list of element values.
    * @param type_name Optional name for the underlying structured type.
+   *
+   * @return Constructed array value.
+   *
    * @note The type of the first element in the list determines the element type of
    * the array.
    */

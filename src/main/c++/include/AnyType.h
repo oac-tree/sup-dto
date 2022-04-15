@@ -116,11 +116,17 @@ public:
 
   /**
    * @brief Copy constructor.
+   *
+   * @param other Source AnyType for copy construction.
    */
   AnyType(const AnyType& other);
 
   /**
    * @brief Copy assignment.
+   *
+   * @param other Source AnyType for copy assignment.
+   *
+   * @return Reference to this.
    *
    * @note Always succeeds and overwrites the currently held type.
    */
@@ -128,11 +134,17 @@ public:
 
   /**
    * @brief Move constructor.
+   *
+   * @param other Source AnyType for move construction.
    */
   AnyType(AnyType&& other);
 
   /**
    * @brief Move assignment.
+   *
+   * @param other Source AnyType for move assignment.
+   *
+   * @return Reference to this.
    *
    * @note Always succeeds and overwrites the currently held type.
    */
@@ -145,11 +157,15 @@ public:
 
   /**
    * @brief Get type code.
+   *
+   * @return Type code of this type.
    */
   TypeCode GetTypeCode() const;
 
   /**
    * @brief Get type name.
+   *
+   * @return Type name of this type.
    */
   std::string GetTypeName() const;
 
@@ -232,6 +248,10 @@ public:
 
   /**
    * @brief Comparison operators.
+   *
+   * @param other AnyType to compare this type to.
+   *
+   * @return true when the types are exactly equal, including possible subtypes.
    */
   bool operator==(const AnyType& other) const;
   bool operator!=(const AnyType& other) const;
@@ -240,6 +260,13 @@ private:
   std::unique_ptr<ITypeData> data;
 };
 
+  /**
+   * @brief Constructs an empty structured type.
+   *
+   * @param type_name Optional name for the underlying structured type.
+   *
+   * @return AnyType with structure type.
+   */
 AnyType EmptyStructType(const std::string& name = {});
 
 bool IsEmptyTypeCode(TypeCode type_code);
