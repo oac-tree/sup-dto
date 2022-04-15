@@ -123,7 +123,7 @@ TEST(ArrayValueTest, ElementAccess)
     {"signed", {SignedInteger8, 1}},
     {"unsigned", {UnsignedInteger8, 12}}
   }};
-  EXPECT_THROW(two_scalars["[0]"], UnknownKeyException);
+  EXPECT_THROW(two_scalars["[0]"], InvalidOperationException);
   EXPECT_THROW(two_scalars[0], InvalidOperationException);
   EXPECT_EQ(two_scalars.NumberOfElements(), 0);
 }

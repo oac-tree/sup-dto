@@ -42,24 +42,6 @@ private:
 };
 
 /**
- * @brief Exception thrown when trying to access an element with an empty key.
- */
-class EmptyKeyException : public MessageException
-{
-public:
-  EmptyKeyException(const std::string& message);
-};
-
-/**
- * @brief Exception thrown when trying to access an element with unknown key.
- */
-class UnknownKeyException : public MessageException
-{
-public:
-  UnknownKeyException(const std::string& message);
-};
-
-/**
  * @brief Exception thrown when trying to perform an invalid conversion.
  */
 class InvalidConversionException : public MessageException

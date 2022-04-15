@@ -45,7 +45,7 @@ public:
   virtual AnyType ElementType() const;
   virtual std::size_t NumberOfElements() const;
 
-  virtual AnyType& operator[](const std::string& fieldname) = 0;
+  virtual AnyType& operator[](const std::string& fieldname);
 
   virtual bool Equals(const AnyType& other) const = 0;
 };

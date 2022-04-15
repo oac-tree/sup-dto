@@ -39,8 +39,8 @@ TEST(StructuredTypeTest, StructOfScalarType)
   EXPECT_FALSE(IsScalarType(two_scalars));
   EXPECT_EQ(two_scalars.GetTypeCode(), TypeCode::Struct);
   EXPECT_EQ(two_scalars.GetTypeName(), two_scalar_name);
-  EXPECT_THROW(two_scalars[""], EmptyKeyException);
-  EXPECT_THROW(two_scalars["unknownfield"], UnknownKeyException);
+  EXPECT_THROW(two_scalars[""], InvalidOperationException);
+  EXPECT_THROW(two_scalars["unknownfield"], InvalidOperationException);
   auto& signed_type = two_scalars["signed"];
   auto& unsigned_type = two_scalars["unsigned"];
   EXPECT_EQ(signed_type.GetTypeCode(), TypeCode::Int8);
@@ -73,8 +73,8 @@ TEST(StructuredTypeTest, StructOfStructType)
   EXPECT_FALSE(IsScalarType(nested_type));
   EXPECT_EQ(nested_type.GetTypeCode(), TypeCode::Struct);
   EXPECT_EQ(nested_type.GetTypeName(), nested_name);
-  EXPECT_THROW(nested_type[""], EmptyKeyException);
-  EXPECT_THROW(nested_type["unknownfield"], UnknownKeyException);
+  EXPECT_THROW(nested_type[""], InvalidOperationException);
+  EXPECT_THROW(nested_type["unknownfield"], InvalidOperationException);
   auto& scalars_type = nested_type["scalars"];
   auto& signed_type = nested_type["single.first"];
   EXPECT_EQ(scalars_type.GetTypeCode(), TypeCode::Struct);
@@ -97,8 +97,8 @@ TEST(StructuredTypeTest, StructOfStructType)
   EXPECT_FALSE(IsScalarType(nested_type_with_name));
   EXPECT_EQ(nested_type_with_name.GetTypeCode(), TypeCode::Struct);
   EXPECT_EQ(nested_type_with_name.GetTypeName(), nested_with_name_name);
-  EXPECT_THROW(nested_type_with_name[""], EmptyKeyException);
-  EXPECT_THROW(nested_type_with_name["unknownfield"], UnknownKeyException);
+  EXPECT_THROW(nested_type_with_name[""], InvalidOperationException);
+  EXPECT_THROW(nested_type_with_name["unknownfield"], InvalidOperationException);
   auto& single_type = nested_type_with_name["single"];
   auto& signed_type2 = nested_type_with_name["scalars.signed"];
   EXPECT_EQ(single_type.GetTypeCode(), TypeCode::Struct);

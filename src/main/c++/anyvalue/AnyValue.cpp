@@ -209,12 +209,12 @@ std::size_t AnyValue::NumberOfElements() const
   return data->NumberOfElements();
 }
 
-AnyValue& AnyValue::operator[](std::string fieldname)
+AnyValue& AnyValue::operator[](const std::string& fieldname)
 {
   return (*data)[fieldname];
 }
 
-const AnyValue& AnyValue::operator[](std::string fieldname) const
+const AnyValue& AnyValue::operator[](const std::string& fieldname) const
 {
   return (*data)[fieldname];
 }

@@ -145,7 +145,7 @@ const T& StructDataT<T>::operator[](const std::string& fieldname) const
   using cref_pair_type = typename decltype(members)::const_reference;
   if (fieldname.empty())
   {
-    throw EmptyKeyException("Trying to access a member with empty field name");
+    throw InvalidOperationException("Trying to access a member with empty field name");
   }
   auto fields = StripFirstFieldName(fieldname);
   auto it = std::find_if(members.cbegin(), members.cend(),
@@ -154,7 +154,7 @@ const T& StructDataT<T>::operator[](const std::string& fieldname) const
                       });
   if (it == members.cend())
   {
-    throw UnknownKeyException("Trying to access a member with unknown field name");
+    throw InvalidOperationException("Trying to access a member with unknown field name");
   }
   auto& member = it->second;
   if (fields.second.empty())

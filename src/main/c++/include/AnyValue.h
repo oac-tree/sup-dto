@@ -158,8 +158,11 @@ public:
    *
    * @param name Name to use for registering the member value.
    * @param value AnyValue to register as a member value.
-   * @note Only supported for structured values. Throws otherwise.
-   * Also throws when member couldn't be added (e.g. invalid name).
+   *
+   * @return Reference to this.
+   *
+   * @throws InvalidOperationException Thrown when this value does not support adding members or
+   * when the given arguments are not allowed (e.g. empty member name).
    */
   AnyValue& AddMember(const std::string& name, const AnyValue& value);
 
@@ -167,7 +170,9 @@ public:
    * @brief Checks if this value has a member with the given name.
    *
    * @param name Name of the member to check.
+   *
    * @return true if a member with the given name exists.
+   *
    * @note Doesn't throw when the type doesn't support members, but returns false.
    */
   bool HasMember(const std::string& name) const;
@@ -176,6 +181,7 @@ public:
    * @brief Get list of member names.
    *
    * @return List of member names.
+   *
    * @note Returns empty list when type doesn't support member types.
    */
   std::vector<std::string> MemberNames() const;
@@ -214,6 +220,13 @@ public:
   /**
    * @brief Index operators.
    *
+   * @param fieldname Name of the field to access (see details).
+   *
+   * @return Reference to found subvalue.
+   *
+   * @throws InvalidOperationException Thrown when indexed access is not supported for this value
+   * or when the given fieldname didn't lead to an existing subvalue.
+   *
    * @details Retrieves the embedded AnyValue by following the fields in fieldname, seperated
    * by '[index]' and '.'.
    * @code
@@ -221,15 +234,18 @@ public:
      auto message_value = my_value["messages[0]"]
      @endcode
    */
-  AnyValue& operator[](std::string fieldname);
-  const AnyValue& operator[](std::string fieldname) const;
+  AnyValue& operator[](const std::string& fieldname);
+  const AnyValue& operator[](const std::string& fieldname) const;
 
   /**
    * @brief Retrieves the embedded AnyValue by numeric index.
    *
    * @param idx index of the element to access.
+
    * @return Element at index idx.
-   * @note Throws when index is out of bound.
+   *
+   * @throws InvalidOperationException Thrown when indexed access is not supported for this value
+   * or when the given fieldname didn't lead to an existing subvalue.
    */
   AnyValue& operator[](std::size_t idx);
   const AnyValue& operator[](std::size_t idx) const;

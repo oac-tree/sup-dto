@@ -29,12 +29,8 @@ TEST(AnyValueExceptions, GetMessage)
 {
   std::string message = "Custom message";
   auto exception2 = InvalidOperationException(message);
-  auto exception3 = EmptyKeyException(message);
-  auto exception4 = UnknownKeyException(message);
   auto exception5 = InvalidConversionException(message);
 
   EXPECT_EQ(std::string(exception2.what()), message);
-  EXPECT_EQ(std::string(exception3.what()), message);
-  EXPECT_EQ(std::string(exception4.what()), message);
   EXPECT_EQ(std::string(exception5.what()), message);
 }

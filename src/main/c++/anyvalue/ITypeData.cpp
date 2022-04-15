@@ -60,6 +60,11 @@ std::size_t ITypeData::NumberOfElements() const
   return 0;
 }
 
+AnyType& ITypeData::operator[](const std::string& fieldname)
+{
+  throw InvalidOperationException("Index operator not supported for this type");
+}
+
 }  // namespace dto
 
 }  // namespace sup

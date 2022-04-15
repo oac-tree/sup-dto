@@ -158,8 +158,11 @@ public:
    *
    * @param name Name to use for registering the member type.
    * @param type AnyType to register as a member type.
-   * @note Only supported for structured types. Throws otherwise.
-   * Also throws when member couldn't be added (e.g. invalid name).
+   *
+   * @return Reference to this.
+   *
+   * @throws InvalidOperationException Thrown when this type does not support adding members or when
+   * the given arguments are not allowed (e.g. empty member name).
    */
   AnyType& AddMember(const std::string& name, const AnyType& type);
 
@@ -167,7 +170,9 @@ public:
    * @brief Checks if this type has a member with the given name.
    *
    * @param name Name of the member to check.
+   *
    * @return true if a member with the given name exists.
+   *
    * @note Doesn't throw when the type doesn't support members, but returns false.
    */
   bool HasMember(const std::string& name) const;
@@ -176,6 +181,7 @@ public:
    * @brief Get list of member names.
    *
    * @return List of member names.
+   *
    * @note Returns empty list when type doesn't support member types.
    */
   std::vector<std::string> MemberNames() const;
@@ -190,7 +196,9 @@ public:
   /**
    * @brief Return type of elements in the array type.
    *
-   * @return Type of elements in the array type or throws if not supported.
+   * @return Type of the elements in the array.
+   *
+   * @throws InvalidOperationException Thrown when this is not an array type.
    */
   AnyType ElementType() const;
 
@@ -204,6 +212,13 @@ public:
   /**
    * @brief Index operators.
    *
+   * @param fieldname Name of the field to access (see details).
+   *
+   * @return Reference to found subtype.
+   *
+   * @throws InvalidOperationException Thrown when indexed access is not supported for this type or
+   * when the given fieldname didn't lead to an existing subtype.
+   *
    * @details Retrieves the embedded AnyType by following the fields in fieldname, seperated
    * by '[]' and '.'. Note that the '[]' seperator does not allow for an index since the element
    * type of an array type must be independent of the element's index.
@@ -212,8 +227,8 @@ public:
      auto message_type = my_type["messages[]"]
      @endcode
    */
-  AnyType& operator[](std::string fieldname);
-  const AnyType& operator[](std::string fieldname) const;
+  AnyType& operator[](const std::string& fieldname);
+  const AnyType& operator[](const std::string& fieldname) const;
 
   /**
    * @brief Comparison operators.

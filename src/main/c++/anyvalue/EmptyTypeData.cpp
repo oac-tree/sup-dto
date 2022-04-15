@@ -47,11 +47,6 @@ std::string EmptyTypeData::GetTypeName() const
   return EMPTY_TYPE_NAME;
 }
 
-AnyType& EmptyTypeData::operator[](const std::string& fieldname)
-{
-  throw InvalidOperationException("Index operator not supported for empty type");
-}
-
 bool EmptyTypeData::Equals(const AnyType& other) const
 {
   return other.GetTypeCode() == TypeCode::Empty;

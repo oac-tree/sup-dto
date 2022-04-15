@@ -38,8 +38,6 @@ public:
   TypeCode GetTypeCode() const override;
   std::string GetTypeName() const override;
 
-  AnyType& operator[](const std::string& fieldname) override;
-
   bool Equals(const AnyType& other) const override;
 };
 

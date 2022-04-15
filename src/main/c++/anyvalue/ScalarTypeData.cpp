@@ -53,11 +53,6 @@ std::string ScalarTypeData::GetTypeName() const
   return ScalarTypeCodeToString(type_code);
 }
 
-AnyType& ScalarTypeData::operator[](const std::string& fieldname)
-{
-  throw InvalidOperationException("Index operator not supported for scalar types");
-}
-
 bool ScalarTypeData::Equals(const AnyType& other) const
 {
   return other.GetTypeCode() == GetTypeCode();

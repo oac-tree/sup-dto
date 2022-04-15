@@ -140,12 +140,12 @@ std::size_t AnyType::NumberOfElements() const
   return data->NumberOfElements();
 }
 
-AnyType& AnyType::operator[](std::string fieldname)
+AnyType& AnyType::operator[](const std::string& fieldname)
 {
   return (*data)[fieldname];
 }
 
-const AnyType& AnyType::operator[](std::string fieldname) const
+const AnyType& AnyType::operator[](const std::string& fieldname) const
 {
   return (*data)[fieldname];
 }

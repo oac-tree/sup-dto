@@ -35,14 +35,6 @@ const char* MessageException::what() const noexcept
   return message.c_str();
 }
 
-EmptyKeyException::EmptyKeyException(const std::string& message)
-  : MessageException{message}
-{}
-
-UnknownKeyException::UnknownKeyException(const std::string& message)
-  : MessageException{message}
-{}
-
 InvalidConversionException::InvalidConversionException(const std::string& message)
   : MessageException{message}
 {}
