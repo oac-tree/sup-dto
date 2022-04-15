@@ -48,7 +48,7 @@ std::vector<uint8> ScalarToBytesT<std::string>(const AnyValue& anyvalue)
   auto size = str.size();
   if (size + 1 > STRING_MAX_LENGTH)
   {
-    throw InvalidConversionException("Strings should not exceed max length for C-type casting");
+    throw SerializeException("Strings should not exceed max length for C-type casting");
   }
   std::vector<uint8> result(STRING_MAX_LENGTH, 0);
   std::memcpy(result.data(), str.data(), size);
@@ -75,7 +75,7 @@ std::vector<uint8> ScalarToBytes(const AnyValue& anyvalue)
   auto it = conversion_map.find(anyvalue.GetTypeCode());
   if (it == conversion_map.end())
   {
-    throw InvalidConversionException("Not a known scalar type code");
+    throw SerializeException("Not a known scalar type code");
   }
   return it->second(anyvalue);
 }

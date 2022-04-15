@@ -53,6 +53,9 @@ std::string AnyTypeToJSONString(const AnyType& anytype, bool pretty=false);
  * @param anytype AnyType object to serialize.
  * @param filename Filename to use.
  * @param pretty Use pretty printing.
+ *
+ * @throws SerializeException Thrown when the JSON representation of the AnyType could not be
+ * written to the file with given filename.
  */
 void AnyTypeToJSONFile(const AnyType& anytype, const std::string& filename, bool pretty=false);
 
@@ -61,6 +64,8 @@ void AnyTypeToJSONFile(const AnyType& anytype, const std::string& filename, bool
  *
  * @param json_str JSON string.
  * @return Parsed AnyType.
+ *
+ * @throws ParseException Thrown when the JSON string could not be properly parsed into an AnyType.
  */
 AnyType AnyTypeFromJSONString(const std::string& json_str);
 
@@ -69,6 +74,8 @@ AnyType AnyTypeFromJSONString(const std::string& json_str);
  *
  * @param filename Filename to use.
  * @return Parsed AnyType.
+ *
+ * @throws ParseException Thrown when the JSON file could not be properly parsed into an AnyType.
  */
 AnyType AnyTypeFromJSONFile(const std::string& filename);
 

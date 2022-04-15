@@ -46,6 +46,9 @@ void SerializeAnyValue(const AnyValue& anyvalue, IAnyVisitor<const AnyValue>& se
  *
  * @param anyvalue AnyValue object to serialize.
  *
+ * @throws SerializeException Thrown when the AnyValue cannot be correctly serialized into a byte
+ * array (e.g. string field too long or unknown scalar type).
+ *
  * @note This serialization is used to cast to C-type structures.
  */
 std::vector<uint8> ToBytes(const AnyValue& anyvalue);
@@ -81,6 +84,9 @@ std::string AnyValueToJSONString(const AnyValue& anyvalue, bool pretty=false);
  * @param filename Filename to use.
  * @param pretty Use pretty printing.
  *
+ * @throws SerializeException Thrown when the JSON representation of the AnyValue could not be
+ * written to the file with given filename.
+ *
  * @note This serialization is meant to be reversible. The JSON file will contain both type
  * information as specific values of leaf nodes.
  */
@@ -105,6 +111,8 @@ void FromBytes(AnyValue& anyvalue, const uint8* bytes, std::size_t total_size);
  *
  * @param json_str JSON string.
  * @return Parsed AnyValue.
+ *
+ * @throws ParseException Thrown when the JSON string cannot be correctly parsed into an AnyValue.
  */
 AnyValue AnyValueFromJSONString(const std::string& json_str);
 
@@ -113,6 +121,8 @@ AnyValue AnyValueFromJSONString(const std::string& json_str);
  *
  * @param filename Filename to use.
  * @return Parsed AnyValue.
+ *
+ * @throws ParseException Thrown when the JSON file cannot be correctly parsed into an AnyValue.
  */
 AnyValue AnyValueFromJSONFile(const std::string& filename);
 

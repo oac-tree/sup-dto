@@ -244,7 +244,7 @@ T AnyValue::As() const
   auto byte_array = ToBytes(*this);
   if (byte_array.size() != sizeof(T))
   {
-    throw InvalidConversionException("Conversion to C-type: size mismatch");
+    throw SerializeException("Serialization to C-type: size mismatch");
   }
   T result;
   std::memcpy(&result, byte_array.data(), sizeof(T));
@@ -301,7 +301,7 @@ bool AnyValue::As(T& value) const
     value = As<T>();
     return true;
   }
-  catch(const InvalidConversionException&)
+  catch(const SerializeException&)
   {
     return false;
   }

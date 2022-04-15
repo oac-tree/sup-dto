@@ -70,7 +70,7 @@ TEST(AnyValueCTypeTest, ToStringFields)
   EXPECT_EQ(address_c.number, 1033);
 
   // Non-matching size
-  EXPECT_THROW(address.As<TwoScalarsType>(), InvalidConversionException);
+  EXPECT_THROW(address.As<TwoScalarsType>(), SerializeException);
 
   // String length too long
   address["street"] =
