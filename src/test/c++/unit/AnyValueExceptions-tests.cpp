@@ -28,9 +28,13 @@ using namespace sup::dto;
 TEST(AnyValueExceptions, GetMessage)
 {
   std::string message = "Custom message";
+  auto exception1 = InvalidConversionException(message);
   auto exception2 = InvalidOperationException(message);
-  auto exception5 = InvalidConversionException(message);
+  auto exception3 = SerializeException(message);
+  auto exception4 = ParseException(message);
 
+  EXPECT_EQ(std::string(exception1.what()), message);
   EXPECT_EQ(std::string(exception2.what()), message);
-  EXPECT_EQ(std::string(exception5.what()), message);
+  EXPECT_EQ(std::string(exception3.what()), message);
+  EXPECT_EQ(std::string(exception4.what()), message);
 }
