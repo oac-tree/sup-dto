@@ -87,7 +87,7 @@ void StructDataT<T>::AddMember(const std::string& name, const T& type)
   VerifyMemberName(name);
   if (HasMember(name))
   {
-    throw DuplicateKeyException("Cannot add duplicate member keys");
+    throw InvalidOperationException("Cannot add duplicate member keys");
   }
   if (type == T{})
   {

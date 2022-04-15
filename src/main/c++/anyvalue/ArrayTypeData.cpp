@@ -100,7 +100,7 @@ static std::string StripIndex(const std::string& fieldname)
 {
   if (fieldname.substr(0, 2) != "[]")
   {
-    throw KeyNotAllowedException("Index operator argument for array type should start with []");
+    throw InvalidOperationException("Index operator argument for array type should start with []");
   }
   std::string result = fieldname.substr(2);
   if (result.size() > 0 && result[0] == '.')

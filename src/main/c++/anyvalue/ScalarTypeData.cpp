@@ -55,7 +55,7 @@ std::string ScalarTypeData::GetTypeName() const
 
 AnyType& ScalarTypeData::operator[](const std::string& fieldname)
 {
-  throw KeyNotAllowedException("Index operator not supported for scalar types");
+  throw InvalidOperationException("Index operator not supported for scalar types");
 }
 
 bool ScalarTypeData::Equals(const AnyType& other) const
@@ -67,7 +67,7 @@ ScalarTypeData* CreateScalarData(TypeCode type_code)
 {
   if (!IsScalarTypeCode(type_code))
   {
-    throw KeyNotAllowedException("Not a known scalar type code");
+    throw InvalidOperationException("Not a known scalar type code");
   }
   return new ScalarTypeData(type_code);
 }

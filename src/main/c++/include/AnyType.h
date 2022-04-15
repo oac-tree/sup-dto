@@ -84,6 +84,9 @@ public:
    * @brief Constructor with typecode. Only for scalar types.
    *
    * @param type_code typecode.
+   *
+   * @throws InvalidOperationException Thrown when the given TypeCode does not correspond to a known
+   * scalar type.
    */
   explicit AnyType(TypeCode type_code);
 
@@ -92,6 +95,9 @@ public:
    *
    * @param members list of member names and types.
    * @param name Optional name for the type.
+   *
+   * @throws InvalidOperationException Thrown when the given arguments do not allow the construction
+   * of a structure type (e.g. empty type as member).
    */
   AnyType(std::initializer_list<std::pair<std::string, AnyType>> members,
           const std::string& name = {});
@@ -102,6 +108,9 @@ public:
    * @param size number of elements in the array.
    * @param elem_type type of the elements in the array.
    * @param name Optional name for the type.
+   *
+   * @throws InvalidOperationException Thrown when the given arguments do not allow the construction
+   * of an array type (e.g. empty type as element type).
    */
   AnyType(std::size_t size, const AnyType& elem_type, const std::string& name = {});
 
@@ -113,7 +122,7 @@ public:
   /**
    * @brief Copy assignment.
    *
-   * @note Always succeeds and overwrites the currently hold type.
+   * @note Always succeeds and overwrites the currently held type.
    */
   AnyType& operator=(const AnyType& other);
 
@@ -125,7 +134,7 @@ public:
   /**
    * @brief Move assignment.
    *
-   * @note Always succeeds and overwrites the currently hold type.
+   * @note Always succeeds and overwrites the currently held type.
    */
   AnyType& operator=(AnyType&& other);
 

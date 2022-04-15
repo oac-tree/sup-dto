@@ -94,6 +94,9 @@ public:
    *
    * @param members list of member names and values.
    * @param type_name Optional name for the underlying structured type.
+   *
+   * @throws InvalidOperationException Thrown when the given arguments do not allow the construction
+   * of a structured value (e.g. empty value as member).
    */
   AnyValue(std::initializer_list<std::pair<std::string, AnyValue>> members,
           const std::string& type_name = {});
@@ -104,6 +107,9 @@ public:
    * @param size number of elements in the array.
    * @param elem_type type of the elements in the array.
    * @param name Optional name for the type.
+   *
+   * @throws InvalidOperationException Thrown when the given arguments do not allow the construction
+   * of an array value (e.g. empty type as element type).
    */
   AnyValue(std::size_t size, const AnyType& elem_type, const std::string& name = {});
 

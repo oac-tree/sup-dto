@@ -39,8 +39,8 @@ TEST(ArrayTypeTest, ArrayType)
   EXPECT_EQ(scalar_array.ElementType(), UnsignedInteger32);
   EXPECT_EQ(scalar_array.NumberOfElements(), 64);
   EXPECT_EQ(scalar_array["[]"], UnsignedInteger32);
-  EXPECT_THROW(scalar_array["[2]"], KeyNotAllowedException);
-  EXPECT_THROW(scalar_array["[]signed"], KeyNotAllowedException);
+  EXPECT_THROW(scalar_array["[2]"], InvalidOperationException);
+  EXPECT_THROW(scalar_array["[]signed"], InvalidOperationException);
   EXPECT_EQ(scalar_array["[]."], UnsignedInteger32);
 
   AnyType scalar_array_diff_elem(64, SignedInteger32);
@@ -68,7 +68,7 @@ TEST(ArrayTypeTest, ArrayType)
   EXPECT_EQ(array_of_struct["[]"], two_scalars);
   EXPECT_EQ(array_of_struct["[]signed"], SignedInteger8);
   EXPECT_EQ(array_of_struct["[].unsigned"], UnsignedInteger8);
-  EXPECT_THROW(array_of_struct["[2]"], KeyNotAllowedException);
+  EXPECT_THROW(array_of_struct["[2]"], InvalidOperationException);
 
   AnyType copy = array_of_struct;
   EXPECT_EQ(copy, array_of_struct);
@@ -83,7 +83,7 @@ TEST(ArrayTypeTest, ArrayType)
   EXPECT_EQ(copy["[]"], two_scalars);
   EXPECT_EQ(copy["[]signed"], SignedInteger8);
   EXPECT_EQ(copy["[].unsigned"], UnsignedInteger8);
-  EXPECT_THROW(copy["[2]"], KeyNotAllowedException);
+  EXPECT_THROW(copy["[2]"], InvalidOperationException);
 }
 
 TEST(ArrayTypeTest, ArrayMethods)

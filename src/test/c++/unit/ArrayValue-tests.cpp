@@ -133,13 +133,13 @@ TEST(ArrayValueTest, InvalidElementAccess)
   AnyValue my_array = ArrayValue({
     {SignedInteger64, 1}, 2, 3, 4, 5
   }, "my_array_t");
-  EXPECT_THROW(my_array[""], KeyNotAllowedException);
-  EXPECT_THROW(my_array["3"], KeyNotAllowedException);
-  EXPECT_THROW(my_array["[3"], KeyNotAllowedException);
-  EXPECT_THROW(my_array["[6]"], KeyNotAllowedException);
-  EXPECT_THROW(my_array[5], KeyNotAllowedException);
-  EXPECT_THROW(my_array["[three]"], KeyNotAllowedException);
-  EXPECT_THROW(my_array["[123456789012345678901]"], KeyNotAllowedException);
+  EXPECT_THROW(my_array[""], InvalidOperationException);
+  EXPECT_THROW(my_array["3"], InvalidOperationException);
+  EXPECT_THROW(my_array["[3"], InvalidOperationException);
+  EXPECT_THROW(my_array["[6]"], InvalidOperationException);
+  EXPECT_THROW(my_array[5], InvalidOperationException);
+  EXPECT_THROW(my_array["[three]"], InvalidOperationException);
+  EXPECT_THROW(my_array["[123456789012345678901]"], InvalidOperationException);
 }
 
 TEST(ArrayValueTest, ArrayEquality)

@@ -277,7 +277,7 @@ The overloaded operators are:
 
    :param fieldname: String encoding the path to a specific underlying type.
    :return: ``AnyType`` object if member type was found.
-   :throws KeyNotAllowedException: For types that do not support element access (empty or
+   :throws InvalidOperationException: For types that do not support element access (empty or
       scalar types) or for fieldnames that cannot be correctly parsed/interpreted (wrong format
       or unknown key).
 

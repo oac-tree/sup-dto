@@ -75,7 +75,7 @@ ScalarValueDataBase* CreateScalarValueData(TypeCode type_code)
   auto it = constructor_map.find(type_code);
   if (it == constructor_map.end())
   {
-    throw KeyNotAllowedException("Not a known scalar type code");
+    throw InvalidOperationException("Not a known scalar type code");
   }
   return it->second();
 }

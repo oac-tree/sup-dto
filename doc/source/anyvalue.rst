@@ -313,7 +313,7 @@ The overloaded operators are:
 
    :param fieldname: String encoding the path to a specific underlying value.
    :return: ``AnyValue`` object if member value was found.
-   :throws KeyNotAllowedException: For values that do not support element access (empty or
+   :throws InvalidOperationException: For values that do not support element access (empty or
       scalar values) or for fieldnames that cannot be correctly parsed/interpreted (wrong format
       or unknown key).
 

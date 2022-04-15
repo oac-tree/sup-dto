@@ -35,14 +35,6 @@ const char* MessageException::what() const noexcept
   return message.c_str();
 }
 
-DuplicateKeyException::DuplicateKeyException(const std::string& message)
-  : MessageException{message}
-{}
-
-KeyNotAllowedException::KeyNotAllowedException(const std::string& message)
-  : MessageException{message}
-{}
-
 EmptyKeyException::EmptyKeyException(const std::string& message)
   : MessageException{message}
 {}

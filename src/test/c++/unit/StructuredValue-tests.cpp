@@ -50,9 +50,9 @@ TEST(StructuredValueTest, InvalidMemberFieldName)
     {"signed", {SignedInteger8, -5}},
     {"unsigned", {UnsignedInteger8, 22}}
   }};
-  EXPECT_THROW(two_scalars.AddMember("", true), KeyNotAllowedException);
-  EXPECT_THROW(two_scalars.AddMember("signed.subfield", true), KeyNotAllowedException);
-  EXPECT_THROW(two_scalars.AddMember("signed", true), DuplicateKeyException);
+  EXPECT_THROW(two_scalars.AddMember("", true), InvalidOperationException);
+  EXPECT_THROW(two_scalars.AddMember("signed.subfield", true), InvalidOperationException);
+  EXPECT_THROW(two_scalars.AddMember("signed", true), InvalidOperationException);
 }
 
 TEST(StructuredValueTest, StructEqualityName)

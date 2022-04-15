@@ -49,7 +49,7 @@ std::string EmptyTypeData::GetTypeName() const
 
 AnyType& EmptyTypeData::operator[](const std::string& fieldname)
 {
-  throw KeyNotAllowedException("Index operator not supported for empty type");
+  throw InvalidOperationException("Index operator not supported for empty type");
 }
 
 bool EmptyTypeData::Equals(const AnyType& other) const

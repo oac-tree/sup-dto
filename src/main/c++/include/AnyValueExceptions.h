@@ -42,24 +42,6 @@ private:
 };
 
 /**
- * @brief Exception thrown when trying to create a duplicate key.
- */
-class DuplicateKeyException : public MessageException
-{
-public:
-  DuplicateKeyException(const std::string& message);
-};
-
-/**
- * @brief Exception thrown when using a key that's not allowed.
- */
-class KeyNotAllowedException : public MessageException
-{
-public:
-  KeyNotAllowedException(const std::string& message);
-};
-
-/**
  * @brief Exception thrown when trying to access an element with an empty key.
  */
 class EmptyKeyException : public MessageException

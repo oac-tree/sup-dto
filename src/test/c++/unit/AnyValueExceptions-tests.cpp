@@ -25,21 +25,16 @@
 
 using namespace sup::dto;
 
-TEST(AnyValueExceptions, EmptyValue)
+TEST(AnyValueExceptions, GetMessage)
 {
   std::string message = "Custom message";
-  auto exception1 = DuplicateKeyException(message);
-  auto exception2 = KeyNotAllowedException(message);
+  auto exception2 = InvalidOperationException(message);
   auto exception3 = EmptyKeyException(message);
   auto exception4 = UnknownKeyException(message);
   auto exception5 = InvalidConversionException(message);
-  auto exception6 = InvalidOperationException(message);
 
-  EXPECT_EQ(std::string(exception1.what()), message);
   EXPECT_EQ(std::string(exception2.what()), message);
   EXPECT_EQ(std::string(exception3.what()), message);
   EXPECT_EQ(std::string(exception4.what()), message);
   EXPECT_EQ(std::string(exception5.what()), message);
-  EXPECT_EQ(std::string(exception6.what()), message);
 }
-

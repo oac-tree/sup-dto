@@ -105,7 +105,7 @@ AnyValue& ArrayValueData::operator[](std::size_t idx)
 {
   if (idx >= NumberOfElements())
   {
-    throw KeyNotAllowedException("Index operator argument out of bounds");
+    throw InvalidOperationException("Index operator argument out of bounds");
   }
   return elements[idx];
 }
@@ -130,7 +130,7 @@ static std::pair<std::size_t, std::string> StripIndex(const std::string& fieldna
 {
   if (fieldname.substr(0, 1) != "[")
   {
-    throw KeyNotAllowedException("Index operator argument for array value should start with [");
+    throw InvalidOperationException("Index operator argument for array value should start with [");
   }
   auto remainder = fieldname.substr(1);
   std::size_t idx = 0;
@@ -141,15 +141,15 @@ static std::pair<std::size_t, std::string> StripIndex(const std::string& fieldna
   }
   catch(const std::invalid_argument&)
   {
-    throw KeyNotAllowedException("Index operator argument cannot be parsed to an unsigned integer");
+    throw InvalidOperationException("Index operator argument cannot be parsed to an unsigned integer");
   }
   catch(const std::out_of_range&)
   {
-    throw KeyNotAllowedException("Index operator argument cannot be parsed to an unsigned integer");
+    throw InvalidOperationException("Index operator argument cannot be parsed to an unsigned integer");
   }
   if (remainder.substr(pos, 1) != "]")
   {
-    throw KeyNotAllowedException("Index operator argument for array value should be integer in "
+    throw InvalidOperationException("Index operator argument for array value should be integer in "
                                  "square brackets");
   }
   if (remainder.substr(pos + 1, 1) == ".")

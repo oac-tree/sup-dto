@@ -30,11 +30,11 @@ void VerifyMemberName(const std::string& name)
 {
   if (name.empty())
   {
-    throw KeyNotAllowedException("Member names cannot be empty");
+    throw InvalidOperationException("Member names cannot be empty");
   }
   if (name.find_first_of(" [].") != std::string::npos)
   {
-    throw KeyNotAllowedException("Member names cannot contain spaces, square brackets or dots");
+    throw InvalidOperationException("Member names cannot contain spaces, square brackets or dots");
   }
 }
 

@@ -50,7 +50,7 @@ TEST(StructuredTypeTest, StructOfScalarType)
   EXPECT_EQ(copy, two_scalars);
 
   // Creation of non-scalar types using typecode throws
-  EXPECT_THROW(AnyType{TypeCode::Struct}, KeyNotAllowedException);
+  EXPECT_THROW(AnyType{TypeCode::Struct}, InvalidOperationException);
 }
 
 TEST(StructuredTypeTest, StructOfStructType)
@@ -112,9 +112,9 @@ TEST(StructuredTypeTest, InvalidMemberFieldName)
     {"signed", SignedInteger8},
     {"unsigned", UnsignedInteger8}
   }};
-  EXPECT_THROW(two_scalars.AddMember("", Boolean), KeyNotAllowedException);
-  EXPECT_THROW(two_scalars.AddMember("signed.subfield", Boolean), KeyNotAllowedException);
-  EXPECT_THROW(two_scalars.AddMember("signed", Boolean), DuplicateKeyException);
+  EXPECT_THROW(two_scalars.AddMember("", Boolean), InvalidOperationException);
+  EXPECT_THROW(two_scalars.AddMember("signed.subfield", Boolean), InvalidOperationException);
+  EXPECT_THROW(two_scalars.AddMember("signed", Boolean), InvalidOperationException);
 }
 
 TEST(StructuredTypeTest, MemberAccess)

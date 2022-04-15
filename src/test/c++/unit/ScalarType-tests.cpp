@@ -38,7 +38,7 @@ TEST(ScalarTypeTest, EmptyType)
   EXPECT_EQ(empty_type.NumberOfMembers(), 0);
   EXPECT_EQ(empty_type.GetTypeCode(), TypeCode::Empty);
   EXPECT_EQ(empty_type.GetTypeName(), EMPTY_TYPE_NAME);
-  EXPECT_THROW(empty_type["field"], KeyNotAllowedException);
+  EXPECT_THROW(empty_type["field"], InvalidOperationException);
 
   const AnyType copy = empty_type;
   EXPECT_TRUE(IsEmptyType(copy));
@@ -48,7 +48,7 @@ TEST(ScalarTypeTest, EmptyType)
   EXPECT_FALSE(IsScalarType(copy));
   EXPECT_EQ(copy.GetTypeCode(), TypeCode::Empty);
   EXPECT_EQ(copy.GetTypeName(), EMPTY_TYPE_NAME);
-  EXPECT_THROW(copy["field"], KeyNotAllowedException);
+  EXPECT_THROW(copy["field"], InvalidOperationException);
 
   AnyType moved = std::move(empty_type);
   EXPECT_TRUE(IsEmptyType(empty_type)); // Moved from type is always empty
@@ -60,10 +60,10 @@ TEST(ScalarTypeTest, EmptyType)
   EXPECT_FALSE(IsScalarType(moved));
   EXPECT_EQ(moved.GetTypeCode(), TypeCode::Empty);
   EXPECT_EQ(moved.GetTypeName(), EMPTY_TYPE_NAME);
-  EXPECT_THROW(moved["field"], KeyNotAllowedException);
+  EXPECT_THROW(moved["field"], InvalidOperationException);
 
   // Creation of non-scalar types using typecode throws
-  EXPECT_THROW(AnyType{TypeCode::Empty}, KeyNotAllowedException);
+  EXPECT_THROW(AnyType{TypeCode::Empty}, InvalidOperationException);
 }
 
 TEST(ScalarTypeTest, Boolean)
@@ -77,7 +77,7 @@ TEST(ScalarTypeTest, Boolean)
   EXPECT_TRUE(IsScalarType(boolean_type));
   EXPECT_EQ(boolean_type.GetTypeCode(), TypeCode::Bool);
   EXPECT_EQ(boolean_type.GetTypeName(), BOOLEAN_TYPE_NAME);
-  EXPECT_THROW(boolean_type["field"], KeyNotAllowedException);
+  EXPECT_THROW(boolean_type["field"], InvalidOperationException);
 
   AnyType copy_boolean = boolean_type;
   EXPECT_EQ(copy_boolean, Boolean);
@@ -88,7 +88,7 @@ TEST(ScalarTypeTest, Boolean)
   EXPECT_TRUE(IsScalarType(copy_boolean));
   EXPECT_EQ(copy_boolean.GetTypeCode(), TypeCode::Bool);
   EXPECT_EQ(copy_boolean.GetTypeName(), BOOLEAN_TYPE_NAME);
-  EXPECT_THROW(copy_boolean["field"], KeyNotAllowedException);
+  EXPECT_THROW(copy_boolean["field"], InvalidOperationException);
 }
 
 TEST(ScalarTypeTest, Float32)
@@ -102,7 +102,7 @@ TEST(ScalarTypeTest, Float32)
   EXPECT_TRUE(IsScalarType(float32_type));
   EXPECT_EQ(float32_type.GetTypeCode(), TypeCode::Float32);
   EXPECT_EQ(float32_type.GetTypeName(), FLOAT32_TYPE_NAME);
-  EXPECT_THROW(float32_type["field"], KeyNotAllowedException);
+  EXPECT_THROW(float32_type["field"], InvalidOperationException);
 
   AnyType moved_float32 = std::move(float32_type);
   EXPECT_EQ(moved_float32, Float32);
@@ -115,7 +115,7 @@ TEST(ScalarTypeTest, Float32)
   EXPECT_TRUE(IsScalarType(moved_float32));
   EXPECT_EQ(moved_float32.GetTypeCode(), TypeCode::Float32);
   EXPECT_EQ(moved_float32.GetTypeName(), FLOAT32_TYPE_NAME);
-  EXPECT_THROW(moved_float32["field"], KeyNotAllowedException);
+  EXPECT_THROW(moved_float32["field"], InvalidOperationException);
 }
 
 TEST(ScalarTypeTest, Float64)
@@ -129,7 +129,7 @@ TEST(ScalarTypeTest, Float64)
   EXPECT_TRUE(IsScalarType(float64_type));
   EXPECT_EQ(float64_type.GetTypeCode(), TypeCode::Float64);
   EXPECT_EQ(float64_type.GetTypeName(), FLOAT64_TYPE_NAME);
-  EXPECT_THROW(float64_type["field"], KeyNotAllowedException);
+  EXPECT_THROW(float64_type["field"], InvalidOperationException);
 
   AnyType moved_float64 = std::move(float64_type);
   EXPECT_EQ(moved_float64, Float64);
@@ -142,5 +142,5 @@ TEST(ScalarTypeTest, Float64)
   EXPECT_TRUE(IsScalarType(moved_float64));
   EXPECT_EQ(moved_float64.GetTypeCode(), TypeCode::Float64);
   EXPECT_EQ(moved_float64.GetTypeName(), FLOAT64_TYPE_NAME);
-  EXPECT_THROW(moved_float64["field"], KeyNotAllowedException);
+  EXPECT_THROW(moved_float64["field"], InvalidOperationException);
 }
