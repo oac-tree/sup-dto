@@ -2,6 +2,5 @@
 
 * Provide non-throwing implementations for assignment, serialization, parsing, etc.
 * Handle/throw exceptions more cleanly: as for the parsing part, where ParseExceptions are thrown consistently
-* Support for enumerations
 * Complete documentation (mostly serialize/parse)
 * Encode AnyType to AnyValue and back
