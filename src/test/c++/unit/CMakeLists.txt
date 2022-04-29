@@ -1,6 +1,10 @@
 add_executable(unit-tests)
 
-configure_file(${CMAKE_CURRENT_LIST_DIR}/TestConfig.h.in ${CMAKE_CURRENT_LIST_DIR}/TestConfig.h @ONLY)
+if(EXPLICIT_TEST_BUILD_DEPENDENCIES)
+    add_dependencies(unit-tests sup-dto-shared)
+endif()
+
+configure_file(${CMAKE_CURRENT_LIST_DIR}/TestConfig.h.in ${SUP_DTO_AUTOGEN_DIR}/TestConfig.h @ONLY)
 
 target_sources(unit-tests
     PRIVATE
@@ -32,6 +36,7 @@ target_include_directories(unit-tests
         ${CMAKE_CURRENT_LIST_DIR}/../../../main/c++/include
         ${CMAKE_CURRENT_LIST_DIR}/../../../main/c++/anyvalue
         ${CMAKE_CURRENT_LIST_DIR}/../../../main/c++/parse
+        ${SUP_DTO_AUTOGEN_DIR}
 )
 
 target_link_directories(unit-tests

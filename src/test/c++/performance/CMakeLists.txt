@@ -1,5 +1,9 @@
 add_executable(performance-tests)
 
+if(EXPLICIT_TEST_BUILD_DEPENDENCIES)
+    add_dependencies(performance-tests sup-dto-shared)
+endif()
+
 target_sources(performance-tests
     PRIVATE
         ${CMAKE_CURRENT_LIST_DIR}/main.cpp
