@@ -40,19 +40,25 @@ class AnyTypeRegistry
 {
 public:
   /**
-   * @brief Default constructor creates empty registry.
+   * @brief Default constructor creates registry with scalar and empty types.
    */
   AnyTypeRegistry();
-
-  /**
-   * @brief Constructor taking a map between names and types.
-   */
-  explicit AnyTypeRegistry(const std::map<std::string, AnyType>& anytypes);
 
   /**
    * @brief Destructor.
    */
   ~AnyTypeRegistry();
+
+  /**
+   * @brief Register an AnyType instance under its own name.
+   *
+   * @param anytype AnyType instance to register.
+   *
+   * @throws InvalidOperationException Thrown when the given name was already used for the
+   * registration of a different type (multiple registration calls for the same name AND type
+   * are allowed).
+   */
+  void RegisterType(AnyType anytype);
 
   /**
    * @brief Register an AnyType instance under the given name.
@@ -67,16 +73,6 @@ public:
   void RegisterType(const std::string& name, AnyType anytype);
 
   /**
-   * @brief Remove the registration of an AnyType instance.
-   *
-   * @param name name under which the AnyType instance was registered.
-   *
-   * @throws InvalidOperationException Thrown when the given name does not correspond to a
-   * reigstered AnyType instance.
-   */
-  void RemoveType(const std::string& name);
-
-  /**
    * @brief Query the existance of a registered AnyType instance under the given name.
    *
    * @param name name under which the AnyType instance was registered.
@@ -89,7 +85,7 @@ public:
    * @brief Retrieve all names under which AnyType instances are registered.
    *
    * @return List of all names under which AnyType instances are registered.
- */
+   */
   std::vector<std::string> RegisteredAnyTypeNames() const;
 
   /**
@@ -101,7 +97,7 @@ public:
 
    * @throws InvalidOperationException Thrown when the given name does not correspond to a
    * reigstered AnyType instance.
- */
+   */
   AnyType GetType(const std::string& name) const;
 
 private:
