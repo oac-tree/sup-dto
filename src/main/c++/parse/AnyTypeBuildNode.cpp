@@ -21,6 +21,7 @@
 
 #include "AnyTypeBuildNode.h"
 
+#include "AnyTypeRegistry.h"
 #include "AnyValueExceptions.h"
 #include "MemberTypeArrayBuildNode.h"
 #include "SerializationConstants.h"
@@ -174,22 +175,7 @@ AnyType AnyTypeBuildNode::MoveArrayType() const
 
 AnyType AnyTypeBuildNode::MoveSimpleType() const
 {
-  static const std::map<std::string, AnyType> type_map{
-    { EMPTY_TYPE_NAME, EmptyType },
-    { BOOLEAN_TYPE_NAME, Boolean },
-    { CHAR8_TYPE_NAME, Character8 },
-    { INT8_TYPE_NAME, SignedInteger8 },
-    { UINT8_TYPE_NAME, UnsignedInteger8 },
-    { INT16_TYPE_NAME, SignedInteger16 },
-    { UINT16_TYPE_NAME, UnsignedInteger16 },
-    { INT32_TYPE_NAME, SignedInteger32 },
-    { UINT32_TYPE_NAME, UnsignedInteger32 },
-    { INT64_TYPE_NAME, SignedInteger64 },
-    { UINT64_TYPE_NAME, UnsignedInteger64 },
-    { FLOAT32_TYPE_NAME, Float32 },
-    { FLOAT64_TYPE_NAME, Float64 },
-    { STRING_TYPE_NAME, sup::dto::String }
-  };
+  static const std::map<std::string, AnyType> type_map = NameToAnyTypeLeafMap();
   auto it = type_map.find(type_name);
   if (it == type_map.end())
   {

@@ -279,6 +279,8 @@ bool IsStructType(const AnyType& anytype);
 bool IsArrayType(const AnyType& anytype);
 bool IsScalarType(const AnyType& anytype);
 
+const std::vector<std::pair<TypeCode, std::string>>& ScalarTypeDefinitions();
+
 extern const AnyType EmptyType;
 extern const AnyType Boolean;
 extern const AnyType Character8;

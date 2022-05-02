@@ -27,28 +27,9 @@ namespace sup
 {
 namespace dto
 {
-namespace
-{
-const std::map<std::string, AnyType> LeafTypeMap({
-  { EMPTY_TYPE_NAME, EmptyType },
-  { BOOLEAN_TYPE_NAME, Boolean },
-  { CHAR8_TYPE_NAME, Character8 },
-  { INT8_TYPE_NAME, SignedInteger8 },
-  { UINT8_TYPE_NAME, UnsignedInteger8 },
-  { INT16_TYPE_NAME, SignedInteger16 },
-  { UINT16_TYPE_NAME, UnsignedInteger16 },
-  { INT32_TYPE_NAME, SignedInteger32 },
-  { UINT32_TYPE_NAME, UnsignedInteger32 },
-  { INT64_TYPE_NAME, SignedInteger64 },
-  { UINT64_TYPE_NAME, UnsignedInteger64 },
-  { FLOAT32_TYPE_NAME, Float32 },
-  { FLOAT64_TYPE_NAME, Float64 },
-  { STRING_TYPE_NAME, String }
-});
-}
 
 AnyTypeRegistry::AnyTypeRegistry()
-  : anytypes{LeafTypeMap}
+  : anytypes{NameToAnyTypeLeafMap()}
 {}
 
 AnyTypeRegistry::~AnyTypeRegistry() = default;
@@ -99,6 +80,18 @@ AnyType AnyTypeRegistry::GetType(const std::string& name) const
     throw InvalidOperationException("AnyTypeRegistry::GetType(): name not found");
   }
   return it->second;
+}
+
+std::map<std::string, AnyType> NameToAnyTypeLeafMap()
+{
+  std::map<std::string, AnyType> result;
+  result[EMPTY_TYPE_NAME] = EmptyType;
+  const auto& scalar_type_definitions = ScalarTypeDefinitions();
+  for (const auto& entry : scalar_type_definitions)
+  {
+    result[entry.second] = AnyType(entry.first);
+  }
+  return result;
 }
 
 }  // namespace dto

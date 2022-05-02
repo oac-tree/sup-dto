@@ -103,6 +103,9 @@ public:
 private:
   std::map<std::string, AnyType> anytypes;
 };
+
+std::map<std::string, AnyType> NameToAnyTypeLeafMap();
+
 }  // namespace dto
 
 }  // namespace sup

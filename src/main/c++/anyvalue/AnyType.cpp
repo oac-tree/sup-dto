@@ -206,6 +206,26 @@ bool IsScalarType(const AnyType& anytype)
   return IsScalarTypeCode(anytype.GetTypeCode());
 }
 
+const std::vector<std::pair<TypeCode, std::string>>& ScalarTypeDefinitions()
+{
+  static const std::vector<std::pair<TypeCode, std::string>> scalar_type_definitions({
+    { TypeCode::Bool, BOOLEAN_TYPE_NAME },
+    { TypeCode::Char8, CHAR8_TYPE_NAME },
+    { TypeCode::Int8, INT8_TYPE_NAME },
+    { TypeCode::UInt8, UINT8_TYPE_NAME },
+    { TypeCode::Int16, INT16_TYPE_NAME },
+    { TypeCode::UInt16, UINT16_TYPE_NAME },
+    { TypeCode::Int32, INT32_TYPE_NAME },
+    { TypeCode::UInt32, UINT32_TYPE_NAME },
+    { TypeCode::Int64, INT64_TYPE_NAME },
+    { TypeCode::UInt64, UINT64_TYPE_NAME },
+    { TypeCode::Float32, FLOAT32_TYPE_NAME },
+    { TypeCode::Float64, FLOAT64_TYPE_NAME },
+    { TypeCode::String, STRING_TYPE_NAME }
+  });
+  return scalar_type_definitions;
+}
+
 const AnyType EmptyType{};
 const AnyType Boolean{TypeCode::Bool};
 const AnyType Character8{TypeCode::Char8};
@@ -226,10 +246,10 @@ namespace
 std::unordered_set<TypeCode> ScalarTypes()
 {
   std::unordered_set<TypeCode> result;
-  result.insert({ TypeCode::Bool, TypeCode::Char8,
-                  TypeCode::Int8, TypeCode::UInt8, TypeCode::Int16, TypeCode::UInt16,
-                  TypeCode::Int32, TypeCode::UInt32, TypeCode::Int64, TypeCode::UInt64,
-                  TypeCode::Float32, TypeCode::Float64, TypeCode::String });
+  for (const auto& entry : ScalarTypeDefinitions())
+  {
+    result.insert(entry.first);
+  }
   return result;
 }
 

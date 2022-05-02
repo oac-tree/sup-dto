@@ -30,7 +30,11 @@ namespace sup
 namespace dto
 {
 
-static std::string ScalarTypeCodeToString(TypeCode type_code);
+namespace
+{
+std::map<TypeCode, std::string> ScalarTypeCodeToStringMap();
+std::string ScalarTypeCodeToString(TypeCode type_code);
+}  // unnamed namespace
 
 ScalarTypeData::ScalarTypeData(TypeCode type_code_)
   : type_code{type_code_}
@@ -67,26 +71,26 @@ ScalarTypeData* CreateScalarData(TypeCode type_code)
   return new ScalarTypeData(type_code);
 }
 
-static std::string ScalarTypeCodeToString(TypeCode type_code)
+namespace
 {
-  static const std::map<TypeCode, std::string> type_map({
-    { TypeCode::Bool, BOOLEAN_TYPE_NAME },
-    { TypeCode::Char8, CHAR8_TYPE_NAME },
-    { TypeCode::Int8, INT8_TYPE_NAME },
-    { TypeCode::UInt8, UINT8_TYPE_NAME },
-    { TypeCode::Int16, INT16_TYPE_NAME },
-    { TypeCode::UInt16, UINT16_TYPE_NAME },
-    { TypeCode::Int32, INT32_TYPE_NAME },
-    { TypeCode::UInt32, UINT32_TYPE_NAME },
-    { TypeCode::Int64, INT64_TYPE_NAME },
-    { TypeCode::UInt64, UINT64_TYPE_NAME },
-    { TypeCode::Float32, FLOAT32_TYPE_NAME },
-    { TypeCode::Float64, FLOAT64_TYPE_NAME },
-    { TypeCode::String, STRING_TYPE_NAME }
-  });
+std::map<TypeCode, std::string> ScalarTypeCodeToStringMap()
+{
+  std::map<TypeCode, std::string> result;
+  const auto& scalar_type_definitions = ScalarTypeDefinitions();
+  for (const auto& entry : scalar_type_definitions)
+  {
+    result[entry.first] = entry.second;
+  }
+  return result;
+}
+
+std::string ScalarTypeCodeToString(TypeCode type_code)
+{
+  static const std::map<TypeCode, std::string> type_map = ScalarTypeCodeToStringMap();
   auto it = type_map.find(type_code);
   return it->second;
 }
+}  // unnamed namespace
 
 }  // namespace dto
 
