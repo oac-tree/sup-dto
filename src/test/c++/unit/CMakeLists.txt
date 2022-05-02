@@ -8,11 +8,12 @@ configure_file(${CMAKE_CURRENT_LIST_DIR}/TestConfig.h.in ${SUP_DTO_AUTOGEN_DIR}/
 
 target_sources(unit-tests
     PRIVATE
-        ${CMAKE_CURRENT_LIST_DIR}/AnyValue-tests.cpp
         ${CMAKE_CURRENT_LIST_DIR}/AnyType-tests.cpp
         ${CMAKE_CURRENT_LIST_DIR}/AnyTypeJSONParse-tests.cpp
         ${CMAKE_CURRENT_LIST_DIR}/AnyTypeJSONSerialize-tests.cpp
+        ${CMAKE_CURRENT_LIST_DIR}/AnyTypeRegistry-tests.cpp
         ${CMAKE_CURRENT_LIST_DIR}/AnyTypeSerialize-tests.cpp
+        ${CMAKE_CURRENT_LIST_DIR}/AnyValue-tests.cpp
         ${CMAKE_CURRENT_LIST_DIR}/AnyValueExceptions-tests.cpp
         ${CMAKE_CURRENT_LIST_DIR}/AnyValueJSONParse-tests.cpp
         ${CMAKE_CURRENT_LIST_DIR}/AnyValueJSONSerialize-tests.cpp
