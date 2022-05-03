@@ -151,7 +151,7 @@ AnyType AnyTypeBuildNode::MoveAnyType() const
   {
     return MoveArrayType();
   }
-  return MoveSimpleType();
+  return MoveTypeFromRegistry();
 }
 
 bool AnyTypeBuildNode::IsComplexType() const
@@ -174,16 +174,17 @@ AnyType AnyTypeBuildNode::MoveArrayType() const
   return AnyType(number_elements, element_type, type_name);
 }
 
-AnyType AnyTypeBuildNode::MoveSimpleType() const
+AnyType AnyTypeBuildNode::MoveTypeFromRegistry() const
 {
-  static const std::map<std::string, AnyType> type_map = NameToAnyTypeLeafMap();
-  auto it = type_map.find(type_name);
-  if (it == type_map.end())
+  try
+  {
+    return TypeRegistry()->GetType(type_name);
+  }
+  catch(const InvalidOperationException& e)
   {
     throw ParseException(
-      "AnyTypeBuildNode::MoveSimpleType called with unknown type name");
+      "AnyTypeBuildNode::MoveTypeFromRegistry called with unknown type name");
   }
-  return it->second;
 }
 
 }  // namespace dto

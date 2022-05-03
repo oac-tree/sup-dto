@@ -59,7 +59,7 @@ private:
   bool IsComplexType() const;
   AnyType MoveStructuredType() const;
   AnyType MoveArrayType() const;
-  AnyType MoveSimpleType() const;
+  AnyType MoveTypeFromRegistry() const;
   std::unique_ptr<AnyTypeBuildNode> element_node;
   std::unique_ptr<MemberTypeArrayBuildNode> member_array_node;
   std::string current_member_name;
