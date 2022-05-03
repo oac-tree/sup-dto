@@ -3,5 +3,5 @@ Changes for 1.0.0:
 - Added AnyType for empty, scalar, structured and array types with value semantics
 - Added AnyValue for empty, scalar, structured and array values with value semantics
 - Added casting of AnyValue to and from C-types
-- Added JSON serialization and parsing
+- Added JSON serialization and parsing (including usage of an AnyType registry)
 - Provided Sphinx documentation
