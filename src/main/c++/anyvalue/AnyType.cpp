@@ -25,6 +25,7 @@
 #include "EmptyTypeData.h"
 #include "ScalarTypeData.h"
 #include "StructTypeData.h"
+#include "UnboundedArrayTypeData.h"
 
 #include <unordered_set>
 
@@ -63,6 +64,14 @@ AnyType::AnyType(std::size_t size, const AnyType& elem_type, const std::string& 
   : data{new EmptyTypeData()}
 {
   auto array_data = std::unique_ptr<ArrayTypeData>(new ArrayTypeData(size, elem_type, name));
+  data = std::move(array_data);
+}
+
+AnyType::AnyType(AnyType::UnboundedArrayTag tag, const AnyType& elem_type, const std::string& name)
+  : data{new EmptyTypeData()}
+{
+  auto array_data = std::unique_ptr<UnboundedArrayTypeData>(
+      new UnboundedArrayTypeData(elem_type, name));
   data = std::move(array_data);
 }
 
@@ -165,6 +174,11 @@ AnyType EmptyStructType(const std::string& name)
   return AnyType(std::initializer_list<std::pair<std::string, AnyType>>{}, name);
 }
 
+AnyType UnboundedArrayType(const AnyType& elem_type, const std::string& name)
+{
+  return AnyType(AnyType::unbounded_array_tag, elem_type, name);
+}
+
 bool IsEmptyTypeCode(TypeCode type_code)
 {
   return type_code == TypeCode::Empty;
@@ -178,6 +192,11 @@ bool IsStructTypeCode(TypeCode type_code)
 bool IsArrayTypeCode(TypeCode type_code)
 {
   return type_code == TypeCode::Array;
+}
+
+bool IsUnboundedArrayTypeCode(TypeCode type_code)
+{
+  return type_code == TypeCode::UnboundedArray;
 }
 
 bool IsScalarTypeCode(TypeCode type_code)
@@ -199,6 +218,11 @@ bool IsStructType(const AnyType& anytype)
 bool IsArrayType(const AnyType& anytype)
 {
   return IsArrayTypeCode(anytype.GetTypeCode());
+}
+
+bool IsUnboundedArrayType(const AnyType& anytype)
+{
+  return IsUnboundedArrayTypeCode(anytype.GetTypeCode());
 }
 
 bool IsScalarType(const AnyType& anytype)

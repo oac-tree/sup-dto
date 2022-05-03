@@ -31,26 +31,37 @@ TEST(AnyTypeTest, TypeCodes)
   EXPECT_TRUE(IsEmptyTypeCode(TypeCode::Empty));
   EXPECT_FALSE(IsStructTypeCode(TypeCode::Empty));
   EXPECT_FALSE(IsArrayTypeCode(TypeCode::Empty));
+  EXPECT_FALSE(IsUnboundedArrayTypeCode(TypeCode::Empty));
   EXPECT_FALSE(IsScalarTypeCode(TypeCode::Empty));
 
   EXPECT_FALSE(IsEmptyTypeCode(TypeCode::Struct));
   EXPECT_TRUE(IsStructTypeCode(TypeCode::Struct));
   EXPECT_FALSE(IsArrayTypeCode(TypeCode::Struct));
+  EXPECT_FALSE(IsUnboundedArrayTypeCode(TypeCode::Struct));
   EXPECT_FALSE(IsScalarTypeCode(TypeCode::Struct));
 
   EXPECT_FALSE(IsEmptyTypeCode(TypeCode::Array));
   EXPECT_FALSE(IsStructTypeCode(TypeCode::Array));
   EXPECT_TRUE(IsArrayTypeCode(TypeCode::Array));
+  EXPECT_FALSE(IsUnboundedArrayTypeCode(TypeCode::Array));
   EXPECT_FALSE(IsScalarTypeCode(TypeCode::Array));
 
   EXPECT_FALSE(IsEmptyTypeCode(TypeCode::Int8));
   EXPECT_FALSE(IsStructTypeCode(TypeCode::Int8));
   EXPECT_FALSE(IsArrayTypeCode(TypeCode::Int8));
+  EXPECT_FALSE(IsUnboundedArrayTypeCode(TypeCode::Int8));
   EXPECT_TRUE(IsScalarTypeCode(TypeCode::Int8));
+
+  EXPECT_FALSE(IsEmptyTypeCode(TypeCode::UnboundedArray));
+  EXPECT_FALSE(IsStructTypeCode(TypeCode::UnboundedArray));
+  EXPECT_FALSE(IsArrayTypeCode(TypeCode::UnboundedArray));
+  EXPECT_TRUE(IsUnboundedArrayTypeCode(TypeCode::UnboundedArray));
+  EXPECT_FALSE(IsScalarTypeCode(TypeCode::UnboundedArray));
 
   EXPECT_FALSE(IsEmptyTypeCode(TypeCode::UInt8));
   EXPECT_FALSE(IsStructTypeCode(TypeCode::UInt8));
   EXPECT_FALSE(IsArrayTypeCode(TypeCode::UInt8));
+  EXPECT_FALSE(IsUnboundedArrayTypeCode(TypeCode::UInt8));
   EXPECT_TRUE(IsScalarTypeCode(TypeCode::UInt8));
 }
 
