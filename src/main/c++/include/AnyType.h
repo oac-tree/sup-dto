@@ -35,8 +35,6 @@ namespace dto
 enum class TypeCode
 {
   Empty,
-  Struct,
-  Array,
   Bool,
   Char8,
   Int8,
@@ -49,7 +47,10 @@ enum class TypeCode
   UInt64,
   Float32,
   Float64,
-  String
+  String,
+  Struct,
+  Array,
+  UnboundedArray
 };
 
 const std::string EMPTY_TYPE_NAME = "empty";
