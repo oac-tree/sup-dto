@@ -36,7 +36,7 @@ class AnyValueArrayBuildNode;
 class AnyValueRootBuildNode : public IAnyBuildNode
 {
 public:
-  AnyValueRootBuildNode(IAnyBuildNode* parent = nullptr);
+  AnyValueRootBuildNode(const AnyTypeRegistry* anytype_registry, IAnyBuildNode* parent = nullptr);
   ~AnyValueRootBuildNode();
 
   IAnyBuildNode* GetArrayNode() override;

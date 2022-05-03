@@ -28,11 +28,23 @@ namespace sup
 namespace dto
 {
 
-IAnyBuildNode::IAnyBuildNode(IAnyBuildNode* parent_)
-  : parent{parent_}
-{}
+IAnyBuildNode::IAnyBuildNode(const AnyTypeRegistry* anytype_registry_, IAnyBuildNode* parent_)
+  : anytype_registry{anytype_registry_}
+  , parent{parent_}
+{
+  if (anytype_registry == nullptr)
+  {
+    throw InvalidOperationException("IAnyBuildNode cannot be constructed from nullptr to "
+                                    "AnyTypeRegistry");
+  }
+}
 
 IAnyBuildNode::~IAnyBuildNode() = default;
+
+const AnyTypeRegistry* IAnyBuildNode::TypeRegistry() const
+{
+  return anytype_registry;
+}
 
 IAnyBuildNode* IAnyBuildNode::Parent() const
 {

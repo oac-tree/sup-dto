@@ -32,6 +32,7 @@ namespace sup
 namespace dto
 {
 class AnyValue;
+class AnyTypeRegistry;
 
 /**
  * @brief Serialize an AnyValue using the given generic serializer.
@@ -58,6 +59,7 @@ std::vector<uint8> ToBytes(const AnyValue& anyvalue);
  *
  * @param anyvalue AnyValue object to serialize.
  * @param pretty Use pretty printing.
+ *
  * @return JSON string if successfull, empty otherwise.
  *
  * @note This serialization only contains a map of the values and is insufficient to reconstruct the
@@ -70,6 +72,7 @@ std::string ValuesToJSONString(const AnyValue& anyvalue, bool pretty=false);
  *
  * @param anyvalue AnyValue object to serialize.
  * @param pretty Use pretty printing.
+ *
  * @return JSON string if successfull, empty otherwise.
  *
  * @note This serialization is meant to be reversible. The JSON string will contain both type
@@ -110,6 +113,7 @@ void FromBytes(AnyValue& anyvalue, const uint8* bytes, std::size_t total_size);
  * @brief Parse an AnyValue from a JSON string.
  *
  * @param json_str JSON string.
+ *
  * @return Parsed AnyValue.
  *
  * @throws ParseException Thrown when the JSON string cannot be correctly parsed into an AnyValue.
@@ -117,14 +121,40 @@ void FromBytes(AnyValue& anyvalue, const uint8* bytes, std::size_t total_size);
 AnyValue AnyValueFromJSONString(const std::string& json_str);
 
 /**
+ * @brief Parse an AnyValue from a JSON string.
+ *
+ * @param json_str JSON string.
+ * @param anytype_registry AnyType registry to use during parsing.
+ *
+ * @return Parsed AnyValue.
+ *
+ * @throws ParseException Thrown when the JSON string cannot be correctly parsed into an AnyValue.
+ */
+AnyValue AnyValueFromJSONString(const AnyTypeRegistry* anytype_registry,
+                                const std::string& json_str);
+
+/**
  * @brief Parse an AnyValue from a JSON file.
  *
  * @param filename Filename to use.
+ *
  * @return Parsed AnyValue.
  *
  * @throws ParseException Thrown when the JSON file cannot be correctly parsed into an AnyValue.
  */
 AnyValue AnyValueFromJSONFile(const std::string& filename);
+
+/**
+ * @brief Parse an AnyValue from a JSON file.
+ *
+ * @param filename Filename to use.
+ * @param anytype_registry AnyType registry to use during parsing.
+ *
+ * @return Parsed AnyValue.
+ *
+ * @throws ParseException Thrown when the JSON file cannot be correctly parsed into an AnyValue.
+ */
+AnyValue AnyValueFromJSONFile(const AnyTypeRegistry* anytype_registry, const std::string& filename);
 
 }  // namespace dto
 

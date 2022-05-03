@@ -29,8 +29,9 @@ namespace sup
 namespace dto
 {
 
-AnyTypeRootBuildNode::AnyTypeRootBuildNode(IAnyBuildNode* parent)
-  : IAnyBuildNode{parent}
+AnyTypeRootBuildNode::AnyTypeRootBuildNode(const AnyTypeRegistry* anytype_registry,
+                                           IAnyBuildNode* parent)
+  : IAnyBuildNode(anytype_registry, parent)
   , type_node{}
   , anytype{}
 {}
@@ -44,7 +45,7 @@ IAnyBuildNode* AnyTypeRootBuildNode::GetStructureNode()
     throw ParseException(
         "AnyTypeRootBuildNode::GetStructureNode must be called with empty child node");
   }
-  type_node.reset(new AnyTypeBuildNode(this));
+  type_node.reset(new AnyTypeBuildNode(TypeRegistry(), this));
   return type_node.get();
 }
 

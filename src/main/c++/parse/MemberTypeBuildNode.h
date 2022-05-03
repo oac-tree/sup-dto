@@ -37,7 +37,7 @@ class AnyTypeBuildNode;
 class MemberTypeBuildNode : public IAnyBuildNode
 {
 public:
-  MemberTypeBuildNode(IAnyBuildNode* parent);
+  MemberTypeBuildNode(const AnyTypeRegistry* anytype_registry, IAnyBuildNode* parent);
   ~MemberTypeBuildNode();
 
   bool Member(const std::string& str) override;

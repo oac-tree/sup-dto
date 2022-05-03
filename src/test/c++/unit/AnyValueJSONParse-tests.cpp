@@ -21,6 +21,7 @@
 
 #include <gtest/gtest.h>
 
+#include "AnyTypeRegistry.h"
 #include "AnyValueHelper.h"
 #include "AnyValue.h"
 #include "AnyValueBuilder.h"
@@ -250,7 +251,8 @@ TEST_F(AnyValueJSONParseTest, ComplexStructValue)
 
 TEST_F(AnyValueJSONParseTest, AnyValueBuilderMethods)
 {
-  AnyValueBuilder builder{};
+  AnyTypeRegistry anytype_registry;
+  AnyValueBuilder builder{&anytype_registry};
 
     // Most methods throw when the current node contained is still an AnyValueRootBuildNode:
   EXPECT_THROW(builder.Null(), ParseException);
@@ -275,8 +277,9 @@ TEST_F(AnyValueJSONParseTest, AnyValueBuilderMethods)
 TEST_F(AnyValueJSONParseTest, AnyValueBuildNodeMethods)
 {
   // Exceptions:
+  AnyTypeRegistry anytype_registry;
   AnyValue val;
-  AnyValueBuildNode node(nullptr, val);
+  AnyValueBuildNode node(&anytype_registry, nullptr, val);
   EXPECT_THROW(node.Bool(-1), ParseException);
   EXPECT_THROW(node.Int32(-1), ParseException);
   EXPECT_THROW(node.Int64(-1), ParseException);
@@ -301,7 +304,7 @@ TEST_F(AnyValueJSONParseTest, AnyValueBuildNodeMethods)
     {"e", 0.0},
     {"f", ""}
   }};
-  AnyValueBuildNode struct_node(nullptr, struct_val);
+  AnyValueBuildNode struct_node(&anytype_registry, nullptr, struct_val);
   EXPECT_TRUE(struct_node.Member("flag"));
   EXPECT_TRUE(struct_node.Bool(true));
   EXPECT_TRUE(struct_node.Member("a"));
@@ -320,7 +323,8 @@ TEST_F(AnyValueJSONParseTest, AnyValueBuildNodeMethods)
 
 TEST_F(AnyValueJSONParseTest, AnyValueRootBuildNodeMethods)
 {
-  AnyValueRootBuildNode node(nullptr);
+  AnyTypeRegistry anytype_registry;
+  AnyValueRootBuildNode node(&anytype_registry, nullptr);
   EXPECT_THROW(node.PopArrayNode(), ParseException);
   auto child = node.GetArrayNode();
   EXPECT_NE(child, nullptr);
@@ -329,7 +333,8 @@ TEST_F(AnyValueJSONParseTest, AnyValueRootBuildNodeMethods)
 
 TEST_F(AnyValueJSONParseTest, AnyValueArrayBuildNodeMethods)
 {
-  AnyValueArrayBuildNode node(nullptr);
+  AnyTypeRegistry anytype_registry;
+ AnyValueArrayBuildNode node(&anytype_registry, nullptr);
   EXPECT_THROW(node.Null(), ParseException);
   EXPECT_THROW(node.Bool(true), ParseException);
   EXPECT_THROW(node.Int32(-1), ParseException);
@@ -380,7 +385,8 @@ TEST_F(AnyValueJSONParseTest, AnyValueArrayBuildNodeMethods)
 
 TEST_F(AnyValueJSONParseTest, AnyValueEncodingElementBuildNodeMethods)
 {
-  AnyValueEncodingElementBuildNode node(nullptr);
+  AnyTypeRegistry anytype_registry;
+  AnyValueEncodingElementBuildNode node(&anytype_registry, nullptr);
   EXPECT_THROW(node.Null(), ParseException);
   EXPECT_THROW(node.Bool(true), ParseException);
   EXPECT_THROW(node.Int32(-1), ParseException);
@@ -398,7 +404,8 @@ TEST_F(AnyValueJSONParseTest, AnyValueEncodingElementBuildNodeMethods)
 
 TEST_F(AnyValueJSONParseTest, AnyValueTypeElementBuildNodeMethods)
 {
-  AnyValueTypeElementBuildNode node(nullptr);
+  AnyTypeRegistry anytype_registry;
+  AnyValueTypeElementBuildNode node(&anytype_registry, nullptr);
   EXPECT_THROW(node.Null(), ParseException);
   EXPECT_THROW(node.Bool(true), ParseException);
   EXPECT_THROW(node.Int32(-1), ParseException);
@@ -417,8 +424,9 @@ TEST_F(AnyValueJSONParseTest, AnyValueTypeElementBuildNodeMethods)
 
 TEST_F(AnyValueJSONParseTest, AnyValueValueElementBuildNodeMethods)
 {
+  AnyTypeRegistry anytype_registry;
   AnyValue empty{String};
-  AnyValueValueElementBuildNode node(nullptr, empty);
+  AnyValueValueElementBuildNode node(&anytype_registry, nullptr, empty);
   EXPECT_THROW(node.Null(), ParseException);
   EXPECT_THROW(node.Bool(true), ParseException);
   EXPECT_THROW(node.Int32(-1), ParseException);
@@ -441,8 +449,9 @@ TEST_F(AnyValueJSONParseTest, AnyValueValueElementBuildNodeMethods)
 TEST_F(AnyValueJSONParseTest, ArrayValueBuildNodeMethods)
 {
   // Exceptions
+  AnyTypeRegistry anytype_registry;
   AnyValue empty;
-  ArrayValueBuildNode node(nullptr, empty);
+  ArrayValueBuildNode node(&anytype_registry, nullptr, empty);
   EXPECT_THROW(node.Null(), ParseException);
   EXPECT_THROW(node.Bool(true), ParseException);
   EXPECT_THROW(node.Int32(-1), ParseException);
@@ -461,7 +470,7 @@ TEST_F(AnyValueJSONParseTest, ArrayValueBuildNodeMethods)
   {
     AnyType array_t(2, Boolean);
     AnyValue array_v(array_t);
-    ArrayValueBuildNode node(nullptr, array_v);
+    ArrayValueBuildNode node(&anytype_registry, nullptr, array_v);
     EXPECT_TRUE(node.Bool(true));
     EXPECT_TRUE(node.Bool(true));
     EXPECT_THROW(node.Bool(true), ParseException);
@@ -473,7 +482,7 @@ TEST_F(AnyValueJSONParseTest, ArrayValueBuildNodeMethods)
   {
     AnyType array_t(2, SignedInteger32);
     AnyValue array_v(array_t);
-    ArrayValueBuildNode node(nullptr, array_v);
+    ArrayValueBuildNode node(&anytype_registry, nullptr, array_v);
     EXPECT_TRUE(node.Int32(-6));
     EXPECT_TRUE(node.Int64(1245));
     EXPECT_THROW(node.Int32(1), ParseException);
@@ -485,7 +494,7 @@ TEST_F(AnyValueJSONParseTest, ArrayValueBuildNodeMethods)
   {
     AnyType array_t(2, UnsignedInteger8);
     AnyValue array_v(array_t);
-    ArrayValueBuildNode node(nullptr, array_v);
+    ArrayValueBuildNode node(&anytype_registry, nullptr, array_v);
     EXPECT_TRUE(node.Uint32(6));
     EXPECT_TRUE(node.Uint64(12));
     EXPECT_THROW(node.Uint32(1), ParseException);
@@ -497,7 +506,7 @@ TEST_F(AnyValueJSONParseTest, ArrayValueBuildNodeMethods)
   {
     AnyType array_t(2, Float32);
     AnyValue array_v(array_t);
-    ArrayValueBuildNode node(nullptr, array_v);
+    ArrayValueBuildNode node(&anytype_registry, nullptr, array_v);
     EXPECT_TRUE(node.Double(1.0));
     EXPECT_TRUE(node.Double(2.0));
     EXPECT_THROW(node.Double(3.0), ParseException);
@@ -509,7 +518,7 @@ TEST_F(AnyValueJSONParseTest, ArrayValueBuildNodeMethods)
   {
     AnyType array_t(2, String);
     AnyValue array_v(array_t);
-    ArrayValueBuildNode node(nullptr, array_v);
+    ArrayValueBuildNode node(&anytype_registry, nullptr, array_v);
     EXPECT_TRUE(node.String("a"));
     EXPECT_TRUE(node.String("bc"));
     EXPECT_THROW(node.String("index error"), ParseException);
@@ -522,7 +531,7 @@ TEST_F(AnyValueJSONParseTest, ArrayValueBuildNodeMethods)
     AnyType bool_array(2, Boolean);
     AnyType array_t(1, bool_array);
     AnyValue array_v(array_t);
-    ArrayValueBuildNode node(nullptr, array_v);
+    ArrayValueBuildNode node(&anytype_registry, nullptr, array_v);
     auto child = node.GetArrayNode();
     ASSERT_NE(child, nullptr);
     EXPECT_TRUE(child->Bool(true));

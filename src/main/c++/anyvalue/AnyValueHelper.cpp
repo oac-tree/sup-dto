@@ -21,6 +21,7 @@
 
 #include "AnyValueHelper.h"
 #include "AnyValue.h"
+#include "AnyTypeRegistry.h"
 #include "ByteParser.h"
 #include "ByteSerializer.h"
 #include "JSONReader.h"
@@ -84,18 +85,31 @@ void FromBytes(AnyValue& anyvalue, const uint8* bytes, std::size_t total_size)
 
 AnyValue AnyValueFromJSONString(const std::string& json_str)
 {
+  AnyTypeRegistry anytype_registry;
+  return AnyValueFromJSONString(&anytype_registry, json_str);
+}
+
+AnyValue AnyValueFromJSONString(const AnyTypeRegistry* anytype_registry,
+                                const std::string& json_str)
+{
   std::istringstream iss(json_str);
-  return JSONParseAnyValue(iss);
+  return JSONParseAnyValue(anytype_registry, iss);
 }
 
 AnyValue AnyValueFromJSONFile(const std::string& filename)
+{
+  AnyTypeRegistry anytype_registry;
+  return AnyValueFromJSONFile(&anytype_registry, filename);
+}
+
+AnyValue AnyValueFromJSONFile(const AnyTypeRegistry* anytype_registry, const std::string& filename)
 {
   std::ifstream ifs(filename);
   if (!ifs.is_open())
   {
     throw ParseException("AnyValueFromJSONFile could not open the file for reading");
   }
-  return JSONParseAnyValue(ifs);
+  return JSONParseAnyValue(anytype_registry, ifs);
 }
 
 }  // namespace dto

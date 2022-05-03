@@ -25,6 +25,7 @@
 #include "AnyTypeHelper.h"
 #include "AnyTypeBuilder.h"
 #include "AnyTypeBuildNode.h"
+#include "AnyTypeRegistry.h"
 #include "AnyTypeRootBuildNode.h"
 #include "AnyValueExceptions.h"
 #include "MemberTypeBuildNode.h"
@@ -186,7 +187,8 @@ TEST_F(AnyTypeJSONParseTest, ParseErrorsBuildNode)
 
 TEST_F(AnyTypeJSONParseTest, AnyTypeBuilderMethods)
 {
-  AnyTypeBuilder builder{};
+  AnyTypeRegistry anytype_registry;
+  AnyTypeBuilder builder{&anytype_registry};
 
   // Most methods throw when the current node contained is still an AnyTypeRootBuildNode:
   EXPECT_THROW(builder.Null(), ParseException);
@@ -213,7 +215,8 @@ TEST_F(AnyTypeJSONParseTest, AnyTypeBuilderMethods)
 
 TEST_F(AnyTypeJSONParseTest, AnyTypeBuildNodeMethods)
 {
-  AnyTypeBuildNode node(nullptr);
+  AnyTypeRegistry anytype_registry;
+  AnyTypeBuildNode node(&anytype_registry, nullptr);
   EXPECT_THROW(node.Int32(-1), ParseException);
   EXPECT_THROW(node.Int32(1), ParseException);
   EXPECT_THROW(node.Int64(-1), ParseException);
@@ -225,7 +228,8 @@ TEST_F(AnyTypeJSONParseTest, AnyTypeBuildNodeMethods)
 
 TEST_F(AnyTypeJSONParseTest, AnyTypeRootBuildNodeMethods)
 {
-  AnyTypeRootBuildNode node(nullptr);
+  AnyTypeRegistry anytype_registry;
+  AnyTypeRootBuildNode node(&anytype_registry, nullptr);
   EXPECT_THROW(node.PopStructureNode(), ParseException);
   auto child = node.GetStructureNode();
   EXPECT_NE(child, nullptr);
@@ -234,7 +238,8 @@ TEST_F(AnyTypeJSONParseTest, AnyTypeRootBuildNodeMethods)
 
 TEST_F(AnyTypeJSONParseTest, MemberTypeBuildNodeMethods)
 {
-  MemberTypeBuildNode node(nullptr);
+  AnyTypeRegistry anytype_registry;
+  MemberTypeBuildNode node(&anytype_registry, nullptr);
   EXPECT_TRUE(node.Member("membername"));
   EXPECT_THROW(node.Member("othermembername"), ParseException);
   EXPECT_THROW(node.GetArrayNode(), ParseException);
@@ -249,7 +254,8 @@ TEST_F(AnyTypeJSONParseTest, MemberTypeBuildNodeMethods)
 
 TEST_F(AnyTypeJSONParseTest, MemberTypeArrayBuildNodeMethods)
 {
-  MemberTypeArrayBuildNode node(nullptr);
+  AnyTypeRegistry anytype_registry;
+  MemberTypeArrayBuildNode node(&anytype_registry, nullptr);
   EXPECT_THROW(node.Member("membername"), ParseException);
   EXPECT_THROW(node.GetArrayNode(), ParseException);
   EXPECT_THROW(node.PopArrayNode(), ParseException);

@@ -37,7 +37,8 @@ class ArrayValueBuildNode;
 class AnyValueValueElementBuildNode : public IAnyBuildNode
 {
 public:
-  AnyValueValueElementBuildNode(IAnyBuildNode* parent, AnyValue& anyvalue);
+  AnyValueValueElementBuildNode(const AnyTypeRegistry* anytype_registry, IAnyBuildNode* parent,
+                                AnyValue& anyvalue);
   ~AnyValueValueElementBuildNode();
 
   bool Null() override;

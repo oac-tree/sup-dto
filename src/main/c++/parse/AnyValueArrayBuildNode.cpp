@@ -31,8 +31,9 @@ namespace sup
 namespace dto
 {
 
-AnyValueArrayBuildNode::AnyValueArrayBuildNode(IAnyBuildNode* parent)
-  : IAnyBuildNode{parent}
+AnyValueArrayBuildNode::AnyValueArrayBuildNode(const AnyTypeRegistry* anytype_registry,
+                                               IAnyBuildNode* parent)
+  : IAnyBuildNode(anytype_registry, parent)
   , encoding_node{}
   , type_node{}
   , value_node{}
@@ -53,13 +54,13 @@ IAnyBuildNode* AnyValueArrayBuildNode::GetStructureNode()
   switch (processed_nodes)
   {
   case 0:
-    encoding_node.reset(new AnyValueEncodingElementBuildNode(this));
+    encoding_node.reset(new AnyValueEncodingElementBuildNode(TypeRegistry(), this));
     return encoding_node.get();
   case 1:
-    type_node.reset(new AnyValueTypeElementBuildNode(this));
+    type_node.reset(new AnyValueTypeElementBuildNode(TypeRegistry(), this));
     return type_node.get();
   case 2:
-    value_node.reset(new AnyValueValueElementBuildNode(this, anyvalue));
+    value_node.reset(new AnyValueValueElementBuildNode(TypeRegistry(), this, anyvalue));
     return value_node.get();
   default:
     throw ParseException(

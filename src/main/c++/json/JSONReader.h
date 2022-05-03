@@ -29,11 +29,12 @@ namespace sup
 namespace dto
 {
 class AnyType;
+class AnyTypeRegistry;
 class AnyValue;
 
-AnyType JSONParseAnyType(std::istream& json_stream);
+AnyType JSONParseAnyType(const AnyTypeRegistry* anytype_registry, std::istream& json_stream);
 
-AnyValue JSONParseAnyValue(std::istream& json_stream);
+AnyValue JSONParseAnyValue(const AnyTypeRegistry* anytype_registry, std::istream& json_stream);
 
 }  // namespace dto
 

@@ -36,7 +36,7 @@ class AnyTypeBuildNode;
 class AnyValueTypeElementBuildNode : public IAnyBuildNode
 {
 public:
-  AnyValueTypeElementBuildNode(IAnyBuildNode* parent);
+  AnyValueTypeElementBuildNode(const AnyTypeRegistry* anytype_registry, IAnyBuildNode* parent);
   ~AnyValueTypeElementBuildNode();
 
   bool Member(const std::string& str) override;

@@ -38,7 +38,7 @@ class MemberTypeBuildNode;
 class MemberTypeArrayBuildNode : public IAnyBuildNode
 {
 public:
-  MemberTypeArrayBuildNode(IAnyBuildNode* parent);
+  MemberTypeArrayBuildNode(const AnyTypeRegistry* anytype_registry, IAnyBuildNode* parent);
   ~MemberTypeArrayBuildNode();
 
   IAnyBuildNode* GetStructureNode() override;

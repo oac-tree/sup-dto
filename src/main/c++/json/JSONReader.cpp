@@ -35,9 +35,9 @@ namespace sup
 namespace dto
 {
 
-AnyType JSONParseAnyType(std::istream& json_stream)
+AnyType JSONParseAnyType(const AnyTypeRegistry* anytype_registry, std::istream& json_stream)
 {
-  AnyTypeBuilder builder;
+  AnyTypeBuilder builder(anytype_registry);
   rapidjson::IStreamWrapper istream(json_stream);
   rapidjson::Reader reader;
 
@@ -49,9 +49,9 @@ AnyType JSONParseAnyType(std::istream& json_stream)
   return builder.MoveAnyType();
 }
 
-AnyValue JSONParseAnyValue(std::istream& json_stream)
+AnyValue JSONParseAnyValue(const AnyTypeRegistry* anytype_registry, std::istream& json_stream)
 {
-  AnyValueBuilder builder;
+  AnyValueBuilder builder(anytype_registry);
   rapidjson::IStreamWrapper istream(json_stream);
   rapidjson::Reader reader;
 

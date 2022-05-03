@@ -31,13 +31,14 @@ namespace sup
 {
 namespace dto
 {
+class AnyTypeRegistry;
 class AnyValueRootBuildNode;
 class IAnyBuildNode;
 
 class AnyValueBuilder
 {
 public:
-  AnyValueBuilder();
+  AnyValueBuilder(const AnyTypeRegistry* anytype_registry);
   ~AnyValueBuilder();
 
   AnyValue MoveAnyValue();

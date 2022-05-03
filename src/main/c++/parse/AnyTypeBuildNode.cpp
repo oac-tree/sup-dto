@@ -33,8 +33,9 @@ namespace sup
 namespace dto
 {
 
-AnyTypeBuildNode::AnyTypeBuildNode(IAnyBuildNode* parent)
-  : IAnyBuildNode{parent}
+AnyTypeBuildNode::AnyTypeBuildNode(const AnyTypeRegistry* anytype_registry,
+                                   IAnyBuildNode* parent)
+  : IAnyBuildNode(anytype_registry, parent)
   , element_node{}
   , member_array_node{}
   , current_member_name{}
@@ -107,7 +108,7 @@ IAnyBuildNode* AnyTypeBuildNode::GetStructureNode()
         "empty child nodes");
   }
   array_type = true;
-  element_node.reset(new AnyTypeBuildNode(this));
+  element_node.reset(new AnyTypeBuildNode(TypeRegistry(), this));
   return element_node.get();
 }
 
@@ -120,7 +121,7 @@ IAnyBuildNode* AnyTypeBuildNode::GetArrayNode()
         "empty child nodes");
   }
   struct_type = true;
-  member_array_node.reset(new MemberTypeArrayBuildNode(this));
+  member_array_node.reset(new MemberTypeArrayBuildNode(TypeRegistry(), this));
   return member_array_node.get();
 }
 

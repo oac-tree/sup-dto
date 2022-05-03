@@ -31,8 +31,9 @@ namespace sup
 namespace dto
 {
 
-AnyValueEncodingElementBuildNode::AnyValueEncodingElementBuildNode(IAnyBuildNode* parent)
-  : IAnyBuildNode{parent}
+AnyValueEncodingElementBuildNode::AnyValueEncodingElementBuildNode(
+  const AnyTypeRegistry* anytype_registry, IAnyBuildNode* parent)
+  : IAnyBuildNode(anytype_registry, parent)
   , member_name{}
   , encoding_ok{false}
 {}

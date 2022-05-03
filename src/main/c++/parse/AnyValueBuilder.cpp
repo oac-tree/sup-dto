@@ -29,8 +29,8 @@ namespace sup
 namespace dto
 {
 
-AnyValueBuilder::AnyValueBuilder()
-  : root{new AnyValueRootBuildNode{}}
+AnyValueBuilder::AnyValueBuilder(const AnyTypeRegistry* anytype_registry)
+  : root{new AnyValueRootBuildNode{anytype_registry}}
   , current{root.get()}
 {}
 

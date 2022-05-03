@@ -30,8 +30,9 @@ namespace sup
 namespace dto
 {
 
-AnyValueTypeElementBuildNode::AnyValueTypeElementBuildNode(IAnyBuildNode* parent)
-  : IAnyBuildNode{parent}
+AnyValueTypeElementBuildNode::AnyValueTypeElementBuildNode(
+  const AnyTypeRegistry* anytype_registry, IAnyBuildNode* parent)
+  : IAnyBuildNode(anytype_registry, parent)
   , type_node{}
   , member_name{}
   , anytype{}
@@ -59,7 +60,7 @@ IAnyBuildNode* AnyValueTypeElementBuildNode::GetStructureNode()
       "and with empty child node");
 
   }
-  type_node.reset(new AnyTypeBuildNode(this));
+  type_node.reset(new AnyTypeBuildNode(TypeRegistry(), this));
   return type_node.get();
 }
 

@@ -29,8 +29,9 @@ namespace sup
 namespace dto
 {
 
-MemberTypeBuildNode::MemberTypeBuildNode(IAnyBuildNode* parent)
-  : IAnyBuildNode{parent}
+MemberTypeBuildNode::MemberTypeBuildNode(
+  const AnyTypeRegistry* anytype_registry, IAnyBuildNode* parent)
+  : IAnyBuildNode(anytype_registry, parent)
   , type_node{}
   , member_name{}
   , member_type{}
@@ -57,7 +58,7 @@ IAnyBuildNode* MemberTypeBuildNode::GetStructureNode()
         "MemberTypeBuildNode::GetStructureNode must be called after member name and with "
         "empty child node");
   }
-  type_node.reset(new AnyTypeBuildNode(this));
+  type_node.reset(new AnyTypeBuildNode(TypeRegistry(), this));
   return type_node.get();
 }
 

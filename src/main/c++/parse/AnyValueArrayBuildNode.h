@@ -38,7 +38,7 @@ class AnyValueValueElementBuildNode;
 class AnyValueArrayBuildNode : public IAnyBuildNode
 {
 public:
-  AnyValueArrayBuildNode(IAnyBuildNode* parent);
+  AnyValueArrayBuildNode(const AnyTypeRegistry* anytype_registry, IAnyBuildNode* parent);
   ~AnyValueArrayBuildNode();
 
   IAnyBuildNode* GetStructureNode() override;

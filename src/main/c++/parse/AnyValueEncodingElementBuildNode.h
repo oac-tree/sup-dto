@@ -37,7 +37,8 @@ class AnyValueBuildNode;
 class AnyValueEncodingElementBuildNode : public IAnyBuildNode
 {
 public:
-  AnyValueEncodingElementBuildNode(IAnyBuildNode* parent);
+  AnyValueEncodingElementBuildNode(const AnyTypeRegistry* anytype_registry,
+                                   IAnyBuildNode* parent);
   ~AnyValueEncodingElementBuildNode();
 
   bool String(const std::string& str) override;

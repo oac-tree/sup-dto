@@ -29,8 +29,9 @@ namespace sup
 namespace dto
 {
 
-MemberTypeArrayBuildNode::MemberTypeArrayBuildNode(IAnyBuildNode* parent)
-  : IAnyBuildNode{parent}
+MemberTypeArrayBuildNode::MemberTypeArrayBuildNode(
+  const AnyTypeRegistry* anytype_registry, IAnyBuildNode* parent)
+  : IAnyBuildNode(anytype_registry, parent)
   , member_node{}
   , member_types{}
 {}
@@ -44,7 +45,7 @@ IAnyBuildNode* MemberTypeArrayBuildNode::GetStructureNode()
     throw ParseException(
         "MemberTypeArrayBuildNode::GetStructureNode must be called with an empty member node");
   }
-  member_node.reset(new MemberTypeBuildNode(this));
+  member_node.reset(new MemberTypeBuildNode(TypeRegistry(), this));
   return member_node.get();
 }
 

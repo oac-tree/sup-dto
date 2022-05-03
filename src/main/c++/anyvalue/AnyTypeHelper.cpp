@@ -21,6 +21,7 @@
 
 #include "AnyTypeHelper.h"
 #include "AnyType.h"
+#include "AnyTypeRegistry.h"
 #include "JSONReader.h"
 #include "JSONWriter.h"
 #include "VisitT.h"
@@ -58,18 +59,30 @@ void AnyTypeToJSONFile(const AnyType& anytype, const std::string& filename, bool
 
 AnyType AnyTypeFromJSONString(const std::string& json_str)
 {
+  AnyTypeRegistry anytype_registry;
+  return AnyTypeFromJSONString(&anytype_registry, json_str);
+}
+
+AnyType AnyTypeFromJSONString(const AnyTypeRegistry* anytype_registry, const std::string& json_str)
+{
   std::istringstream iss(json_str);
-  return JSONParseAnyType(iss);
+  return JSONParseAnyType(anytype_registry, iss);
 }
 
 AnyType AnyTypeFromJSONFile(const std::string& filename)
+{
+  AnyTypeRegistry anytype_registry;
+  return AnyTypeFromJSONFile(&anytype_registry, filename);
+}
+
+AnyType AnyTypeFromJSONFile(const AnyTypeRegistry* anytype_registry, const std::string& filename)
 {
   std::ifstream ifs(filename);
   if (!ifs.is_open())
   {
     throw ParseException("AnyTypeFromJSONFile could not open the file for reading");
   }
-  return JSONParseAnyType(ifs);
+  return JSONParseAnyType(anytype_registry, ifs);
 }
 
 }  // namespace dto
