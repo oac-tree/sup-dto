@@ -60,7 +60,7 @@ IAnyBuildNode* AnyValueTypeElementBuildNode::GetStructureNode()
       "and with empty child node");
 
   }
-  type_node.reset(new AnyTypeBuildNode(TypeRegistry(), this));
+  type_node.reset(new AnyTypeBuildNode(GetTypeRegistry(), this));
   return type_node.get();
 }
 

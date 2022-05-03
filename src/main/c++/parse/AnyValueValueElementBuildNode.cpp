@@ -158,7 +158,7 @@ IAnyBuildNode* AnyValueValueElementBuildNode::GetStructureNode()
       "and with empty child node");
 
   }
-  value_node.reset(new AnyValueBuildNode(TypeRegistry(), this, anyvalue));
+  value_node.reset(new AnyValueBuildNode(GetTypeRegistry(), this, anyvalue));
   return value_node.get();
 }
 
@@ -170,7 +170,7 @@ IAnyBuildNode* AnyValueValueElementBuildNode::GetArrayNode()
         "AnyValueValueElementBuildNode::GetArrayNode must be called after \"instance\" key "
       "and with empty child node");
   }
-  array_node.reset(new ArrayValueBuildNode(TypeRegistry(), this, anyvalue));
+  array_node.reset(new ArrayValueBuildNode(GetTypeRegistry(), this, anyvalue));
   return array_node.get();
 }
 

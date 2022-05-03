@@ -54,13 +54,13 @@ IAnyBuildNode* AnyValueArrayBuildNode::GetStructureNode()
   switch (processed_nodes)
   {
   case 0:
-    encoding_node.reset(new AnyValueEncodingElementBuildNode(TypeRegistry(), this));
+    encoding_node.reset(new AnyValueEncodingElementBuildNode(GetTypeRegistry(), this));
     return encoding_node.get();
   case 1:
-    type_node.reset(new AnyValueTypeElementBuildNode(TypeRegistry(), this));
+    type_node.reset(new AnyValueTypeElementBuildNode(GetTypeRegistry(), this));
     return type_node.get();
   case 2:
-    value_node.reset(new AnyValueValueElementBuildNode(TypeRegistry(), this, anyvalue));
+    value_node.reset(new AnyValueValueElementBuildNode(GetTypeRegistry(), this, anyvalue));
     return value_node.get();
   default:
     throw ParseException(

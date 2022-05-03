@@ -45,7 +45,7 @@ IAnyBuildNode* AnyValueRootBuildNode::GetArrayNode()
     throw ParseException(
       "AnyValueRootBuildNode::GetArrayNode must be called with empty child node");
   }
-  array_node.reset(new AnyValueArrayBuildNode(TypeRegistry(), this));
+  array_node.reset(new AnyValueArrayBuildNode(GetTypeRegistry(), this));
   return array_node.get();
 }
 

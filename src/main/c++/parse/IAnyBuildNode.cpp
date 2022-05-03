@@ -41,7 +41,7 @@ IAnyBuildNode::IAnyBuildNode(const AnyTypeRegistry* anytype_registry_, IAnyBuild
 
 IAnyBuildNode::~IAnyBuildNode() = default;
 
-const AnyTypeRegistry* IAnyBuildNode::TypeRegistry() const
+const AnyTypeRegistry* IAnyBuildNode::GetTypeRegistry() const
 {
   return anytype_registry;
 }

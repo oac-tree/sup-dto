@@ -45,7 +45,7 @@ IAnyBuildNode* AnyTypeRootBuildNode::GetStructureNode()
     throw ParseException(
         "AnyTypeRootBuildNode::GetStructureNode must be called with empty child node");
   }
-  type_node.reset(new AnyTypeBuildNode(TypeRegistry(), this));
+  type_node.reset(new AnyTypeBuildNode(GetTypeRegistry(), this));
   return type_node.get();
 }
 

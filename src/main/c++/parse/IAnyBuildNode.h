@@ -38,7 +38,7 @@ public:
   IAnyBuildNode(const AnyTypeRegistry* anytype_registry, IAnyBuildNode* parent);
   virtual ~IAnyBuildNode();
 
-  const AnyTypeRegistry* TypeRegistry() const;
+  const AnyTypeRegistry* GetTypeRegistry() const;
   IAnyBuildNode* Parent() const;
 
   virtual bool Null();

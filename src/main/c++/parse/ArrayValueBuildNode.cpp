@@ -126,7 +126,7 @@ IAnyBuildNode* ArrayValueBuildNode::GetStructureNode()
         "ArrayValueBuildNode::GetStructureNode must be called with empty child node "
         "and without exceeding array size");
   }
-  value_node.reset(new AnyValueBuildNode(TypeRegistry(), this, anyvalue[current_index++]));
+  value_node.reset(new AnyValueBuildNode(GetTypeRegistry(), this, anyvalue[current_index++]));
   return value_node.get();
 }
 
@@ -138,7 +138,7 @@ IAnyBuildNode* ArrayValueBuildNode::GetArrayNode()
         "ArrayValueBuildNode::GetArrayNode must be called with empty child node "
         "and without exceeding array size");
   }
-  array_node.reset(new ArrayValueBuildNode(TypeRegistry(), this, anyvalue[current_index++]));
+  array_node.reset(new ArrayValueBuildNode(GetTypeRegistry(), this, anyvalue[current_index++]));
   return array_node.get();
 }
 

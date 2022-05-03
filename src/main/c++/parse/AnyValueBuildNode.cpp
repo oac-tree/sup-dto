@@ -144,7 +144,7 @@ IAnyBuildNode* AnyValueBuildNode::GetStructureNode()
         "AnyValueBuildNode::GetStructureNode must be called with non-empty member name "
         "and empty child node");
   }
-  value_node.reset(new AnyValueBuildNode(TypeRegistry(), this, anyvalue[member_name]));
+  value_node.reset(new AnyValueBuildNode(GetTypeRegistry(), this, anyvalue[member_name]));
   return value_node.get();
 }
 
@@ -156,7 +156,7 @@ IAnyBuildNode* AnyValueBuildNode::GetArrayNode()
         "AnyValueBuildNode::GetArrayNode must be called with non-empty member name "
         "and empty child node");
   }
-  array_node.reset(new ArrayValueBuildNode(TypeRegistry(), this, anyvalue[member_name]));
+  array_node.reset(new ArrayValueBuildNode(GetTypeRegistry(), this, anyvalue[member_name]));
   return array_node.get();
 }
 

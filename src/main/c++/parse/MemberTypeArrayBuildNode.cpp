@@ -45,7 +45,7 @@ IAnyBuildNode* MemberTypeArrayBuildNode::GetStructureNode()
     throw ParseException(
         "MemberTypeArrayBuildNode::GetStructureNode must be called with an empty member node");
   }
-  member_node.reset(new MemberTypeBuildNode(TypeRegistry(), this));
+  member_node.reset(new MemberTypeBuildNode(GetTypeRegistry(), this));
   return member_node.get();
 }
 

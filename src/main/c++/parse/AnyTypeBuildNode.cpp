@@ -108,7 +108,7 @@ IAnyBuildNode* AnyTypeBuildNode::GetStructureNode()
         "empty child nodes");
   }
   array_type = true;
-  element_node.reset(new AnyTypeBuildNode(TypeRegistry(), this));
+  element_node.reset(new AnyTypeBuildNode(GetTypeRegistry(), this));
   return element_node.get();
 }
 
@@ -121,7 +121,7 @@ IAnyBuildNode* AnyTypeBuildNode::GetArrayNode()
         "empty child nodes");
   }
   struct_type = true;
-  member_array_node.reset(new MemberTypeArrayBuildNode(TypeRegistry(), this));
+  member_array_node.reset(new MemberTypeArrayBuildNode(GetTypeRegistry(), this));
   return member_array_node.get();
 }
 
@@ -178,7 +178,7 @@ AnyType AnyTypeBuildNode::MoveTypeFromRegistry() const
 {
   try
   {
-    return TypeRegistry()->GetType(type_name);
+    return GetTypeRegistry()->GetType(type_name);
   }
   catch(const InvalidOperationException& e)
   {
