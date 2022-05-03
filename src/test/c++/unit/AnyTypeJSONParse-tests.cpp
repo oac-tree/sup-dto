@@ -94,6 +94,11 @@ R"RAW({
   ]
 })RAW";
 
+static const std::string json_alias_type = R"RAW({"type":"double"})RAW";
+
+static const std::string json_registered_subtypes =
+    R"RAW({"type":"","attributes":[{"value":{"type":"double"}},{"point":{"type":"point_t"}}]})RAW";
+
 class AnyTypeJSONParseTest : public ::testing::Test
 {
 protected:
@@ -265,6 +270,35 @@ TEST_F(AnyTypeJSONParseTest, MemberTypeArrayBuildNodeMethods)
   EXPECT_THROW(node.GetStructureNode(), ParseException);
   // still throws because it can't move the uninitialized type
   EXPECT_THROW(node.PopStructureNode(), ParseException);
+}
+
+TEST_F(AnyTypeJSONParseTest, ParseFromRegistry)
+{
+  AnyTypeRegistry anytype_registry;
+  // Alias for Float64
+  anytype_registry.RegisterType("double", Float64);
+  // Define type for 3d point
+  std::string point_typename("point_t");
+  AnyType point_t{{
+    {"x", Float32},
+    {"y", Float32},
+    {"z", Float32}
+  }, point_typename};
+  anytype_registry.RegisterType(point_t);
+  // Define struct with point
+  AnyType my_struct_t{{
+    {"value", Float64},
+    {"point", point_t}
+  }};
+  auto alias_type = AnyTypeFromJSONString(&anytype_registry, json_alias_type);
+  EXPECT_EQ(alias_type, Float64);
+  auto registered_subtypes = AnyTypeFromJSONString(&anytype_registry, json_registered_subtypes);
+  EXPECT_EQ(registered_subtypes, my_struct_t);
+
+  // Test failure of parsing with default registry
+  AnyTypeRegistry default_registry;
+  EXPECT_THROW(AnyTypeFromJSONString(&default_registry, json_alias_type), ParseException);
+  EXPECT_THROW(AnyTypeFromJSONString(&default_registry, json_registered_subtypes), ParseException);
 }
 
 AnyTypeJSONParseTest::AnyTypeJSONParseTest() = default;
