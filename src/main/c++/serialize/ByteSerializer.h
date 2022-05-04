@@ -55,6 +55,9 @@ public:
   void ArrayElementSeparator() override;
   void ArrayEpilog(const AnyValue* anyvalue) override;
 
+  void UnboundedArrayProlog(const AnyValue* anyvalue) override;
+  void UnboundedArrayEpilog(const AnyValue* anyvalue) override;
+
   void ScalarProlog(const AnyValue* anyvalue) override;
   void ScalarEpilog(const AnyValue* anyvalue) override;
 

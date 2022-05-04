@@ -54,6 +54,9 @@ public:
   virtual void ArrayElementSeparator() = 0;
   virtual void ArrayEpilog(T* val) = 0;
 
+  virtual void UnboundedArrayProlog(T* val) = 0;
+  virtual void UnboundedArrayEpilog(T* val) = 0;
+
   virtual void ScalarProlog(T* val) = 0;
   virtual void ScalarEpilog(T* val) = 0;
 };
