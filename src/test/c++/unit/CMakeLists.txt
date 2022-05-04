@@ -30,6 +30,7 @@ target_sources(unit-tests
         ${CMAKE_CURRENT_LIST_DIR}/StructuredType-tests.cpp
         ${CMAKE_CURRENT_LIST_DIR}/StructuredValue-tests.cpp
         ${CMAKE_CURRENT_LIST_DIR}/UnboundedArrayType-tests.cpp
+        ${CMAKE_CURRENT_LIST_DIR}/UnboundedArrayValue-tests.cpp
         ${CMAKE_CURRENT_LIST_DIR}/TestSerializers.cpp
 )
 
