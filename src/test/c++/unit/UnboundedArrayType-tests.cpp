@@ -26,6 +26,11 @@
 
 using namespace sup::dto;
 
+TEST(UnboundedArrayTypeTest, EmptyElementType)
+{
+  EXPECT_THROW(UnboundedArrayType(EmptyType), InvalidOperationException);
+}
+
 TEST(UnboundedArrayTypeTest, ArrayType)
 {
   // test scalar array

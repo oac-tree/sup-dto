@@ -26,6 +26,11 @@
 
 using namespace sup::dto;
 
+TEST(UnboundedArrayValueTest, EmptyElementType)
+{
+  EXPECT_THROW(UnboundedArrayValue({AnyValue{}}), InvalidOperationException);
+}
+
 TEST(UnboundedArrayValueTest, UnboundedArrayType)
 {
   AnyValue my_array = UnboundedArrayValue({
@@ -163,6 +168,7 @@ TEST(UnboundedArrayValueTest, CopyAssignment)
 
 TEST(UnboundedArrayValueTest, ElementAccess)
 {
+  // Scalar array
   AnyValue my_array = UnboundedArrayValue({
     {SignedInteger64, 1}, 2, 3, 4, 5
   }, "my_array_t");
@@ -173,6 +179,17 @@ TEST(UnboundedArrayValueTest, ElementAccess)
   my_array[2] = 13;
   EXPECT_EQ(my_array["[2]"], 13);
   EXPECT_EQ(my_array[1], 12);
+
+  // Array of structs
+  AnyValue el_struct{{
+    {"x", 10},
+    {"y", 20}
+  }};
+  AnyValue my_struct_array = UnboundedArrayValue({
+    el_struct
+  });
+  EXPECT_EQ(my_struct_array["[0]x"], 10);
+  EXPECT_EQ(my_struct_array["[0].y"], 20);
 }
 
 TEST(UnboundedArrayValueTest, Append)

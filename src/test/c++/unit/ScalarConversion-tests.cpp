@@ -47,6 +47,7 @@ TEST_F(ScalarConversionTest, SuccessfulConversions)
   EXPECT_EQ((ConvertScalar<boolean, int8>(4)), true);
   EXPECT_EQ((ConvertScalar<int8, boolean>(true)), 1);
   EXPECT_EQ((ConvertScalar<int8, boolean>(false)), 0);
+  EXPECT_EQ((ConvertScalar<float64, uint16>(24)), 24.0);
 }
 
 TEST_F(ScalarConversionTest, InvalidConversions)
