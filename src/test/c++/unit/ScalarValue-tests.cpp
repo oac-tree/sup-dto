@@ -34,6 +34,7 @@ TEST(ScalarValueTest, EmptyValue)
   EXPECT_TRUE(IsEmptyValue(empty_value));
   EXPECT_FALSE(IsStructValue(empty_value));
   EXPECT_FALSE(IsArrayValue(empty_value));
+  EXPECT_FALSE(IsUnboundedArrayValue(empty_value));
   EXPECT_FALSE(IsScalarValue(empty_value));
   EXPECT_EQ(empty_value.GetTypeCode(), TypeCode::Empty);
   EXPECT_EQ(empty_value.GetTypeName(), EMPTY_TYPE_NAME);
@@ -58,6 +59,7 @@ TEST(ScalarValueTest, EmptyValue)
   EXPECT_EQ(copy, empty_value);
   EXPECT_FALSE(IsStructValue(copy));
   EXPECT_FALSE(IsArrayValue(copy));
+  EXPECT_FALSE(IsUnboundedArrayValue(copy));
   EXPECT_FALSE(IsScalarValue(copy));
   EXPECT_EQ(copy.GetTypeCode(), TypeCode::Empty);
   EXPECT_EQ(copy.GetTypeName(), EMPTY_TYPE_NAME);
@@ -69,6 +71,7 @@ TEST(ScalarValueTest, EmptyValue)
   EXPECT_EQ(copy_again, empty_value);
   EXPECT_FALSE(IsStructValue(copy_again));
   EXPECT_FALSE(IsArrayValue(copy_again));
+  EXPECT_FALSE(IsUnboundedArrayValue(copy_again));
   EXPECT_FALSE(IsScalarValue(copy_again));
   EXPECT_EQ(copy_again.GetTypeCode(), TypeCode::Empty);
   EXPECT_EQ(copy_again.GetTypeName(), EMPTY_TYPE_NAME);
@@ -81,6 +84,7 @@ TEST(ScalarValueTest, EmptyValue)
   EXPECT_EQ(moved, copy);
   EXPECT_FALSE(IsStructValue(moved));
   EXPECT_FALSE(IsArrayValue(moved));
+  EXPECT_FALSE(IsUnboundedArrayValue(moved));
   EXPECT_FALSE(IsScalarValue(moved));
   EXPECT_EQ(moved.GetTypeCode(), TypeCode::Empty);
   EXPECT_EQ(moved.GetTypeName(), EMPTY_TYPE_NAME);
@@ -92,6 +96,7 @@ TEST(ScalarValueTest, EmptyValue)
   EXPECT_EQ(empty_from_type, moved);
   EXPECT_FALSE(IsStructValue(empty_from_type));
   EXPECT_FALSE(IsArrayValue(empty_from_type));
+  EXPECT_FALSE(IsUnboundedArrayValue(empty_from_type));
   EXPECT_FALSE(IsScalarValue(empty_from_type));
   EXPECT_EQ(empty_from_type.GetTypeCode(), TypeCode::Empty);
   EXPECT_EQ(empty_from_type.GetTypeName(), EMPTY_TYPE_NAME);
@@ -120,6 +125,7 @@ TEST(ScalarValueTest, BooleanValue)
   EXPECT_FALSE(IsEmptyValue(boolean_value));
   EXPECT_FALSE(IsStructValue(boolean_value));
   EXPECT_FALSE(IsArrayValue(boolean_value));
+  EXPECT_FALSE(IsUnboundedArrayValue(boolean_value));
   EXPECT_TRUE(IsScalarValue(boolean_value));
   EXPECT_EQ(boolean_value.GetTypeCode(), TypeCode::Bool);
   EXPECT_EQ(boolean_value.GetTypeName(), BOOLEAN_TYPE_NAME);
@@ -157,6 +163,7 @@ TEST(ScalarValueTest, BooleanValue)
   EXPECT_FALSE(IsEmptyValue(copy));
   EXPECT_FALSE(IsStructValue(copy));
   EXPECT_FALSE(IsArrayValue(copy));
+  EXPECT_FALSE(IsUnboundedArrayValue(copy));
   EXPECT_EQ(copy.GetTypeCode(), TypeCode::Bool);
   EXPECT_EQ(copy.GetTypeName(), BOOLEAN_TYPE_NAME);
   EXPECT_THROW(copy["field"], InvalidOperationException);
@@ -173,6 +180,7 @@ TEST(ScalarValueTest, BooleanValue)
   EXPECT_FALSE(IsEmptyValue(moved));
   EXPECT_FALSE(IsStructValue(moved));
   EXPECT_FALSE(IsArrayValue(moved));
+  EXPECT_FALSE(IsUnboundedArrayValue(moved));
   EXPECT_EQ(moved.GetTypeCode(), TypeCode::Bool);
   EXPECT_EQ(moved.GetTypeName(), BOOLEAN_TYPE_NAME);
   EXPECT_THROW(moved["field"], InvalidOperationException);
@@ -186,6 +194,7 @@ TEST(ScalarValueTest, BooleanValue)
   EXPECT_FALSE(IsEmptyValue(boolean_from_literal));
   EXPECT_FALSE(IsStructValue(boolean_from_literal));
   EXPECT_FALSE(IsArrayValue(boolean_from_literal));
+  EXPECT_FALSE(IsUnboundedArrayValue(boolean_from_literal));
   EXPECT_TRUE(IsScalarValue(boolean_from_literal));
   EXPECT_EQ(boolean_from_literal.GetTypeCode(), TypeCode::Bool);
   EXPECT_EQ(boolean_from_literal.GetTypeName(), BOOLEAN_TYPE_NAME);
@@ -202,6 +211,7 @@ TEST(ScalarValueTest, BooleanValue)
   EXPECT_FALSE(IsEmptyValue(boolean_from_typed_literal));
   EXPECT_FALSE(IsStructValue(boolean_from_typed_literal));
   EXPECT_FALSE(IsArrayValue(boolean_from_typed_literal));
+  EXPECT_FALSE(IsUnboundedArrayValue(boolean_from_typed_literal));
   EXPECT_TRUE(IsScalarValue(boolean_from_typed_literal));
   EXPECT_EQ(boolean_from_typed_literal.GetTypeCode(), TypeCode::Bool);
   EXPECT_EQ(boolean_from_typed_literal.GetTypeName(), BOOLEAN_TYPE_NAME);
@@ -221,6 +231,7 @@ TEST(ScalarValueTest, Float32Value)
   EXPECT_FALSE(IsEmptyValue(float32_value));
   EXPECT_FALSE(IsStructValue(float32_value));
   EXPECT_FALSE(IsArrayValue(float32_value));
+  EXPECT_FALSE(IsUnboundedArrayValue(float32_value));
   EXPECT_TRUE(IsScalarValue(float32_value));
   EXPECT_EQ(float32_value.GetTypeCode(), TypeCode::Float32);
   EXPECT_EQ(float32_value.GetTypeName(), FLOAT32_TYPE_NAME);
@@ -260,6 +271,7 @@ TEST(ScalarValueTest, Float32Value)
   EXPECT_FALSE(IsEmptyValue(copy));
   EXPECT_FALSE(IsStructValue(copy));
   EXPECT_FALSE(IsArrayValue(copy));
+  EXPECT_FALSE(IsUnboundedArrayValue(copy));
   EXPECT_EQ(copy.GetTypeCode(), TypeCode::Float32);
   EXPECT_EQ(copy.GetTypeName(), FLOAT32_TYPE_NAME);
   EXPECT_THROW(copy["field"], InvalidOperationException);
@@ -275,6 +287,7 @@ TEST(ScalarValueTest, Float32Value)
   EXPECT_FALSE(IsEmptyValue(moved));
   EXPECT_FALSE(IsStructValue(moved));
   EXPECT_FALSE(IsArrayValue(moved));
+  EXPECT_FALSE(IsUnboundedArrayValue(moved));
   EXPECT_EQ(moved.GetTypeCode(), TypeCode::Float32);
   EXPECT_EQ(moved.GetTypeName(), FLOAT32_TYPE_NAME);
   EXPECT_THROW(moved["field"], InvalidOperationException);
@@ -288,6 +301,7 @@ TEST(ScalarValueTest, Float32Value)
   EXPECT_FALSE(IsEmptyValue(float32_from_literal));
   EXPECT_FALSE(IsStructValue(float32_from_literal));
   EXPECT_FALSE(IsArrayValue(float32_from_literal));
+  EXPECT_FALSE(IsUnboundedArrayValue(float32_from_literal));
   EXPECT_TRUE(IsScalarValue(float32_from_literal));
   EXPECT_EQ(float32_from_literal.GetTypeCode(), TypeCode::Float32);
   EXPECT_EQ(float32_from_literal.GetTypeName(), FLOAT32_TYPE_NAME);
@@ -304,6 +318,7 @@ TEST(ScalarValueTest, Float32Value)
   EXPECT_FALSE(IsEmptyValue(float32_from_typed_literal));
   EXPECT_FALSE(IsStructValue(float32_from_typed_literal));
   EXPECT_FALSE(IsArrayValue(float32_from_typed_literal));
+  EXPECT_FALSE(IsUnboundedArrayValue(float32_from_typed_literal));
   EXPECT_TRUE(IsScalarValue(float32_from_typed_literal));
   EXPECT_EQ(float32_from_typed_literal.GetTypeCode(), TypeCode::Float32);
   EXPECT_EQ(float32_from_typed_literal.GetTypeName(), FLOAT32_TYPE_NAME);
@@ -323,6 +338,7 @@ TEST(ScalarValueTest, Float64Value)
   EXPECT_FALSE(IsEmptyValue(float64_value));
   EXPECT_FALSE(IsStructValue(float64_value));
   EXPECT_FALSE(IsArrayValue(float64_value));
+  EXPECT_FALSE(IsUnboundedArrayValue(float64_value));
   EXPECT_TRUE(IsScalarValue(float64_value));
   EXPECT_EQ(float64_value.GetTypeCode(), TypeCode::Float64);
   EXPECT_EQ(float64_value.GetTypeName(), FLOAT64_TYPE_NAME);
@@ -362,6 +378,7 @@ TEST(ScalarValueTest, Float64Value)
   EXPECT_FALSE(IsEmptyValue(copy));
   EXPECT_FALSE(IsStructValue(copy));
   EXPECT_FALSE(IsArrayValue(copy));
+  EXPECT_FALSE(IsUnboundedArrayValue(copy));
   EXPECT_EQ(copy.GetTypeCode(), TypeCode::Float64);
   EXPECT_EQ(copy.GetTypeName(), FLOAT64_TYPE_NAME);
   EXPECT_THROW(copy["field"], InvalidOperationException);
@@ -377,6 +394,7 @@ TEST(ScalarValueTest, Float64Value)
   EXPECT_FALSE(IsEmptyValue(moved));
   EXPECT_FALSE(IsStructValue(moved));
   EXPECT_FALSE(IsArrayValue(moved));
+  EXPECT_FALSE(IsUnboundedArrayValue(moved));
   EXPECT_EQ(moved.GetTypeCode(), TypeCode::Float64);
   EXPECT_EQ(moved.GetTypeName(), FLOAT64_TYPE_NAME);
   EXPECT_THROW(moved["field"], InvalidOperationException);
@@ -390,6 +408,7 @@ TEST(ScalarValueTest, Float64Value)
   EXPECT_FALSE(IsEmptyValue(float64_from_literal));
   EXPECT_FALSE(IsStructValue(float64_from_literal));
   EXPECT_FALSE(IsArrayValue(float64_from_literal));
+  EXPECT_FALSE(IsUnboundedArrayValue(float64_from_literal));
   EXPECT_TRUE(IsScalarValue(float64_from_literal));
   EXPECT_EQ(float64_from_literal.GetTypeCode(), TypeCode::Float64);
   EXPECT_EQ(float64_from_literal.GetTypeName(), FLOAT64_TYPE_NAME);
@@ -406,6 +425,7 @@ TEST(ScalarValueTest, Float64Value)
   EXPECT_FALSE(IsEmptyValue(float64_from_typed_literal));
   EXPECT_FALSE(IsStructValue(float64_from_typed_literal));
   EXPECT_FALSE(IsArrayValue(float64_from_typed_literal));
+  EXPECT_FALSE(IsUnboundedArrayValue(float64_from_typed_literal));
   EXPECT_TRUE(IsScalarValue(float64_from_typed_literal));
   EXPECT_EQ(float64_from_typed_literal.GetTypeCode(), TypeCode::Float64);
   EXPECT_EQ(float64_from_typed_literal.GetTypeName(), FLOAT64_TYPE_NAME);
@@ -425,6 +445,7 @@ TEST(ScalarValueTest, StringValue)
   EXPECT_FALSE(IsEmptyValue(string_value));
   EXPECT_FALSE(IsStructValue(string_value));
   EXPECT_FALSE(IsArrayValue(string_value));
+  EXPECT_FALSE(IsUnboundedArrayValue(string_value));
   EXPECT_TRUE(IsScalarValue(string_value));
   EXPECT_EQ(string_value.GetTypeCode(), TypeCode::String);
   EXPECT_EQ(string_value.GetTypeName(), STRING_TYPE_NAME);
@@ -465,6 +486,7 @@ TEST(ScalarValueTest, StringValue)
   EXPECT_FALSE(IsEmptyValue(copy));
   EXPECT_FALSE(IsStructValue(copy));
   EXPECT_FALSE(IsArrayValue(copy));
+  EXPECT_FALSE(IsUnboundedArrayValue(copy));
   EXPECT_EQ(copy.GetTypeCode(), TypeCode::String);
   EXPECT_EQ(copy.GetTypeName(), STRING_TYPE_NAME);
   EXPECT_THROW(copy["field"], InvalidOperationException);
@@ -480,6 +502,7 @@ TEST(ScalarValueTest, StringValue)
   EXPECT_FALSE(IsEmptyValue(moved));
   EXPECT_FALSE(IsStructValue(moved));
   EXPECT_FALSE(IsArrayValue(moved));
+  EXPECT_FALSE(IsUnboundedArrayValue(moved));
   EXPECT_EQ(moved.GetTypeCode(), TypeCode::String);
   EXPECT_EQ(moved.GetTypeName(), STRING_TYPE_NAME);
   EXPECT_THROW(moved["field"], InvalidOperationException);
@@ -493,6 +516,7 @@ TEST(ScalarValueTest, StringValue)
   EXPECT_FALSE(IsEmptyValue(string_from_literal));
   EXPECT_FALSE(IsStructValue(string_from_literal));
   EXPECT_FALSE(IsArrayValue(string_from_literal));
+  EXPECT_FALSE(IsUnboundedArrayValue(string_from_literal));
   EXPECT_TRUE(IsScalarValue(string_from_literal));
   EXPECT_EQ(string_from_literal.GetTypeCode(), TypeCode::String);
   EXPECT_EQ(string_from_literal.GetTypeName(), STRING_TYPE_NAME);
@@ -509,6 +533,7 @@ TEST(ScalarValueTest, StringValue)
   EXPECT_FALSE(IsEmptyValue(string_from_typed_literal));
   EXPECT_FALSE(IsStructValue(string_from_typed_literal));
   EXPECT_FALSE(IsArrayValue(string_from_typed_literal));
+  EXPECT_FALSE(IsUnboundedArrayValue(string_from_typed_literal));
   EXPECT_TRUE(IsScalarValue(string_from_typed_literal));
   EXPECT_EQ(string_from_typed_literal.GetTypeCode(), TypeCode::String);
   EXPECT_EQ(string_from_typed_literal.GetTypeName(), STRING_TYPE_NAME);

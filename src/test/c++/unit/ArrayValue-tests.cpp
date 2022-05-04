@@ -35,6 +35,7 @@ TEST(ArrayValueTest, ArrayValue)
   EXPECT_FALSE(IsEmptyValue(my_array));
   EXPECT_FALSE(IsStructValue(my_array));
   EXPECT_TRUE(IsArrayValue(my_array));
+  EXPECT_FALSE(IsUnboundedArrayValue(my_array));
   EXPECT_FALSE(IsScalarValue(my_array));
   EXPECT_EQ(my_array.GetTypeCode(), TypeCode::Array);
   EXPECT_EQ(my_array.GetType(), my_array_t);
@@ -55,6 +56,7 @@ TEST(ArrayValueTest, Construction)
   EXPECT_FALSE(IsEmptyValue(zero_size_array));
   EXPECT_FALSE(IsStructValue(zero_size_array));
   EXPECT_TRUE(IsArrayValue(zero_size_array));
+  EXPECT_FALSE(IsUnboundedArrayValue(zero_size_array));
   EXPECT_FALSE(IsScalarValue(zero_size_array));
   EXPECT_EQ(zero_size_array.GetTypeCode(), TypeCode::Array);
   EXPECT_EQ(zero_size_array.GetType(), AnyType(0, SignedInteger8, zero_size_name));
@@ -77,6 +79,7 @@ TEST(ArrayValueTest, CopyConstruction)
   EXPECT_FALSE(IsEmptyValue(my_array));
   EXPECT_FALSE(IsStructValue(my_array));
   EXPECT_TRUE(IsArrayValue(my_array));
+  EXPECT_FALSE(IsUnboundedArrayValue(my_array));
   EXPECT_FALSE(IsScalarValue(my_array));
   EXPECT_EQ(my_array.GetTypeCode(), TypeCode::Array);
   EXPECT_EQ(my_array.GetType(), my_array_t);
@@ -91,6 +94,7 @@ TEST(ArrayValueTest, CopyConstruction)
   EXPECT_FALSE(IsEmptyValue(copy));
   EXPECT_FALSE(IsStructValue(copy));
   EXPECT_TRUE(IsArrayValue(copy));
+  EXPECT_FALSE(IsUnboundedArrayValue(copy));
   EXPECT_FALSE(IsScalarValue(copy));
   EXPECT_EQ(copy.GetTypeCode(), TypeCode::Array);
   EXPECT_EQ(copy.GetType(), my_array_t);
@@ -164,12 +168,14 @@ TEST(ArrayValueTest, InvalidArrayAssign)
   EXPECT_FALSE(IsEmptyValue(my_array));
   EXPECT_FALSE(IsStructValue(my_array));
   EXPECT_TRUE(IsArrayValue(my_array));
+  EXPECT_FALSE(IsUnboundedArrayValue(my_array));
   EXPECT_FALSE(IsScalarValue(my_array));
   AnyType my_array_t(9, SignedInteger64, "my_array_t");
   AnyValue other(my_array_t);
   EXPECT_FALSE(IsEmptyValue(other));
   EXPECT_FALSE(IsStructValue(other));
   EXPECT_TRUE(IsArrayValue(other));
+  EXPECT_FALSE(IsUnboundedArrayValue(other));
   EXPECT_FALSE(IsScalarValue(other));
   EXPECT_THROW(other = my_array, InvalidConversionException);
   AnyValue scalar = 4u;
