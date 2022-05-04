@@ -19,6 +19,7 @@ target_sources(sup-dto-obj
         ${CMAKE_CURRENT_LIST_DIR}/StructTypeData.cpp
         ${CMAKE_CURRENT_LIST_DIR}/StructValueData.cpp
         ${CMAKE_CURRENT_LIST_DIR}/UnboundedArrayTypeData.cpp
+        ${CMAKE_CURRENT_LIST_DIR}/UnboundedArrayValueData.cpp
 )
 
 target_include_directories(sup-dto-obj

@@ -19,7 +19,7 @@
  * of the distribution package.
  ******************************************************************************/
 
-#include "ArrayValueData.h"
+#include "UnboundedArrayValueData.h"
 
 #include "AnyValueExceptions.h"
 
@@ -32,10 +32,10 @@ namespace dto
 
 static std::pair<std::size_t, std::string> StripIndex(const std::string& fieldname);
 
-ArrayValueData::ArrayValueData(std::size_t size_, const AnyType& elem_type_, const std::string& name_)
+UnboundedArrayValueData::UnboundedArrayValueData(const AnyType& elem_type_, const std::string& name_)
   : elem_type{elem_type_}
   , name{name_}
-  , elements(size_, AnyValue{elem_type_})
+  , elements{}
 {
   if (elem_type == EmptyType)
   {
@@ -43,53 +43,52 @@ ArrayValueData::ArrayValueData(std::size_t size_, const AnyType& elem_type_, con
   }
 }
 
-ArrayValueData::~ArrayValueData() = default;
+UnboundedArrayValueData::~UnboundedArrayValueData() = default;
 
-ArrayValueData* ArrayValueData::Clone() const
+UnboundedArrayValueData* UnboundedArrayValueData::Clone() const
 {
-  auto result = std::unique_ptr<ArrayValueData>(
-      new ArrayValueData(NumberOfElements(), elem_type, name));
+  auto result = std::unique_ptr<UnboundedArrayValueData>(
+    new UnboundedArrayValueData(elem_type, name));
   result->elements = elements;
   return result.release();
 }
 
-TypeCode ArrayValueData::GetTypeCode() const
+TypeCode UnboundedArrayValueData::GetTypeCode() const
 {
-  return TypeCode::Array;
+  return TypeCode::UnboundedArray;
 }
 
-std::string ArrayValueData::GetTypeName() const
+std::string UnboundedArrayValueData::GetTypeName() const
 {
   return name;
 }
 
-AnyType ArrayValueData::GetType() const
+AnyType UnboundedArrayValueData::GetType() const
 {
-  return AnyType(NumberOfElements(), elem_type, name);
+  return AnyType(AnyType::unbounded_array_tag, elem_type, name);
 }
 
-std::size_t ArrayValueData::NumberOfElements() const
+std::size_t UnboundedArrayValueData::NumberOfElements() const
 {
   return elements.size();
 }
 
-void ArrayValueData::Assign(const AnyValue& value)
+void UnboundedArrayValueData::Assign(const AnyValue& value)
 {
-  if (value.GetTypeCode() != TypeCode::Array)
+  if (value.GetTypeCode() != TypeCode::UnboundedArray)
   {
     IValueData::Assign(value);
   }
-  if (value.NumberOfElements() != NumberOfElements())
+  elements.clear();
+  for (std::size_t idx = 0; idx < value.NumberOfElements(); ++idx)
   {
-    throw InvalidConversionException("Can't convert between array values with different length");
-  }
-  for (std::size_t idx = 0; idx < NumberOfElements(); ++idx)
-  {
-    elements[idx] = value[idx];
+    AnyValue copy{elem_type};
+    copy = value[idx];
+    elements.push_back(std::move(copy));
   }
 }
 
-AnyValue& ArrayValueData::operator[](const std::string& fieldname)
+AnyValue& UnboundedArrayValueData::operator[](const std::string& fieldname)
 {
   auto idx_remainder = StripIndex(fieldname);
   auto& element = this->operator[](idx_remainder.first);
@@ -100,7 +99,7 @@ AnyValue& ArrayValueData::operator[](const std::string& fieldname)
   return element[idx_remainder.second];
 }
 
-AnyValue& ArrayValueData::operator[](std::size_t idx)
+AnyValue& UnboundedArrayValueData::operator[](std::size_t idx)
 {
   if (idx >= NumberOfElements())
   {
@@ -109,9 +108,13 @@ AnyValue& ArrayValueData::operator[](std::size_t idx)
   return elements[idx];
 }
 
-bool ArrayValueData::Equals(const AnyValue& other) const
+bool UnboundedArrayValueData::Equals(const AnyValue& other) const
 {
   if (other.GetType() != GetType())
+  {
+    return false;
+  }
+  if (other.NumberOfElements() != NumberOfElements())
   {
     return false;
   }
@@ -158,10 +161,10 @@ static std::pair<std::size_t, std::string> StripIndex(const std::string& fieldna
   return { idx, remainder.substr(pos + 1) };
 }
 
-ArrayValueData* CreateArrayValueData(const AnyType& anytype)
+UnboundedArrayValueData* CreateUnboundedArrayValueData(const AnyType& anytype)
 {
-  auto result = std::unique_ptr<ArrayValueData>(
-    new ArrayValueData(anytype.NumberOfElements(), anytype.ElementType(), anytype.GetTypeName()));
+  auto result = std::unique_ptr<UnboundedArrayValueData>(
+    new UnboundedArrayValueData(anytype.ElementType(), anytype.GetTypeName()));
   return result.release();
 }
 

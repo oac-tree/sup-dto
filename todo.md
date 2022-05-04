@@ -9,3 +9,4 @@
 * [x] Unbounded array types
 * [ ] Unbounded array values
 * [ ] Reset AnyValue to default values
+* [ ] Handle assignment between bounded and unbounded array values?
