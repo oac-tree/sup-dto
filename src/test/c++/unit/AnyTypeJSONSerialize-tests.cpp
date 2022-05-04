@@ -34,6 +34,9 @@ static const std::string json_simple_struct =
 static const std::string json_simple_array =
     R"RAW({"type":"","multiplicity":5,"element":{"type":"char8"}})RAW";
 
+static const std::string json_unbounded_array =
+    R"RAW({"type":"","element":{"type":"uint16"}})RAW";
+
 static const std::string json_complex_type =
     R"RAW({"type":"","attributes":[{"array":{"type":"","multiplicity":4,"element":{"type":"","attributes":[{"id":{"type":"string"}},{"number":{"type":"uint64"}}]}}},{"nested":{"type":"","attributes":[{"id":{"type":"string"}},{"number":{"type":"uint64"}}]}},{"validated":{"type":"bool"}}]})RAW";
 
@@ -124,6 +127,13 @@ TEST_F(AnyTypeJSONSerializeTest, SimpleArrayType)
   AnyType simple_array_type(5, Character8);
   auto json_string = AnyTypeToJSONString(simple_array_type);
   EXPECT_EQ(json_string, json_simple_array);
+}
+
+TEST_F(AnyTypeJSONSerializeTest, UnboundedArrayType)
+{
+  AnyType unbounded_array_type(AnyType::unbounded_array_tag, UnsignedInteger16);
+  auto json_string = AnyTypeToJSONString(unbounded_array_type);
+  EXPECT_EQ(json_string, json_unbounded_array);
 }
 
 TEST_F(AnyTypeJSONSerializeTest, ComplexStructType)

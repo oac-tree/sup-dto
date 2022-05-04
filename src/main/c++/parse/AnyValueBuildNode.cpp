@@ -156,7 +156,8 @@ IAnyBuildNode* AnyValueBuildNode::GetArrayNode()
         "AnyValueBuildNode::GetArrayNode must be called with non-empty member name "
         "and empty child node");
   }
-  array_node.reset(new ArrayValueBuildNode(GetTypeRegistry(), this, anyvalue[member_name]));
+  AnyValue& member_val = anyvalue[member_name];
+  array_node = CreateArrayBuildNode(GetTypeRegistry(), this, member_val);
   return array_node.get();
 }
 

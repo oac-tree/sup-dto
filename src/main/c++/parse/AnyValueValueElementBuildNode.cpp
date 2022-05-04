@@ -170,7 +170,7 @@ IAnyBuildNode* AnyValueValueElementBuildNode::GetArrayNode()
         "AnyValueValueElementBuildNode::GetArrayNode must be called after \"instance\" key "
       "and with empty child node");
   }
-  array_node.reset(new ArrayValueBuildNode(GetTypeRegistry(), this, anyvalue));
+  array_node = CreateArrayBuildNode(GetTypeRegistry(), this, anyvalue);
   return array_node.get();
 }
 

@@ -193,6 +193,36 @@ TEST(AnyValueCTypeTest, FromArray)
   }
 }
 
+TEST(AnyValueCTypeTest, ToUnboundedArray)
+{
+  AnyValue unbounded_array(AnyType::unbounded_array_tag, UnsignedInteger32, "my_uint32_array");
+  for (unsigned i=0; i<5; ++i)
+  {
+    unbounded_array.Append(10 * i);
+  }
+  auto my_array_c = unbounded_array.As<ArrayType>();
+  for (unsigned i=0; i<5; ++i)
+  {
+    EXPECT_EQ(my_array_c.elements[i], 10 * i);
+  }
+}
+
+TEST(AnyValueCTypeTest, FromUnboundedArray)
+{
+  // Successful assignment
+  ArrayType my_array_c = { { 0, 7, 14 , 21, 28 }};
+  AnyValue unbounded_array(AnyType::unbounded_array_tag, UnsignedInteger32, "my_uint32_array");
+  for (unsigned i=0; i<5; ++i)
+  {
+    unbounded_array.Append(0);
+  }
+  EXPECT_NO_THROW(AssignFromCType(unbounded_array, my_array_c));
+  for (unsigned i=0; i<5; ++i)
+  {
+    EXPECT_EQ(unbounded_array[i], 7 * i);
+  }
+}
+
 TEST(AnyValueCTypeTest, RoundTrip)
 {
   AnyType simple_struct_type({

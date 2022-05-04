@@ -43,6 +43,7 @@ AnyTypeBuildNode::AnyTypeBuildNode(const AnyTypeRegistry* anytype_registry,
   , array_type{false}
   , type_name{}
   , number_elements{}
+  , array_bound_specified{false}
   , member_types{}
   , element_type{}
 {}
@@ -78,6 +79,7 @@ bool AnyTypeBuildNode::Uint64(uint64 u)
   }
   current_member_name.clear();
   number_elements = u;
+  array_bound_specified = true;
   return true;
 }
 
@@ -171,7 +173,11 @@ AnyType AnyTypeBuildNode::MoveStructuredType() const
 
 AnyType AnyTypeBuildNode::MoveArrayType() const
 {
-  return AnyType(number_elements, element_type, type_name);
+  if (array_bound_specified)
+  {
+    return AnyType(number_elements, element_type, type_name);
+  }
+  return AnyType(AnyType::unbounded_array_tag, element_type, type_name);
 }
 
 AnyType AnyTypeBuildNode::MoveTypeFromRegistry() const

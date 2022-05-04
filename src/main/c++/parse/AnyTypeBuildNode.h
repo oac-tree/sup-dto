@@ -67,6 +67,7 @@ private:
   bool array_type;  // true if array
   std::string type_name;
   std::size_t number_elements;
+  bool array_bound_specified;
   std::vector<std::pair<std::string, AnyType>> member_types;
   AnyType element_type;
 };

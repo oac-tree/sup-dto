@@ -19,8 +19,8 @@
  * of the distribution package.
  ******************************************************************************/
 
-#ifndef _SUP_ArrayValueBuildNode_h_
-#define _SUP_ArrayValueBuildNode_h_
+#ifndef _SUP_UnboundedArrayValueBuildNode_h_
+#define _SUP_UnboundedArrayValueBuildNode_h_
 
 #include "IAnyBuildNode.h"
 #include "AnyValue.h"
@@ -33,12 +33,12 @@ namespace dto
 {
 class AnyValueBuildNode;
 
-class ArrayValueBuildNode : public IAnyBuildNode
+class UnboundedArrayValueBuildNode : public IAnyBuildNode
 {
 public:
-  ArrayValueBuildNode(const AnyTypeRegistry* anytype_registry, IAnyBuildNode* parent,
-                      AnyValue& anyvalue);
-  ~ArrayValueBuildNode();
+  UnboundedArrayValueBuildNode(const AnyTypeRegistry* anytype_registry, IAnyBuildNode* parent,
+                               AnyValue& anyvalue);
+  ~UnboundedArrayValueBuildNode();
 
   bool Bool(boolean b) override;
   bool Int32(int32 i) override;
@@ -58,16 +58,12 @@ public:
 private:
   std::unique_ptr<AnyValueBuildNode> value_node;
   std::unique_ptr<IAnyBuildNode> array_node;
-  std::size_t current_index;
-  std::size_t size;
   AnyValue& anyvalue;
+  AnyType element_type;
 };
-
-std::unique_ptr<IAnyBuildNode> CreateArrayBuildNode(
-  const AnyTypeRegistry* anytype_registry, IAnyBuildNode* parent, AnyValue& anyvalue);
 
 }  // namespace dto
 
 }  // namespace sup
 
-#endif  // _SUP_ArrayValueBuildNode_h_
+#endif  // _SUP_UnboundedArrayValueBuildNode_h_

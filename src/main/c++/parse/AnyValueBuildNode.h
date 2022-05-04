@@ -32,6 +32,7 @@ namespace sup
 namespace dto
 {
 class ArrayValueBuildNode;
+class UnboundedArrayValueBuildNode;
 
 class AnyValueBuildNode : public IAnyBuildNode
 {
@@ -56,7 +57,7 @@ public:
 
 private:
   std::unique_ptr<AnyValueBuildNode> value_node;
-  std::unique_ptr<ArrayValueBuildNode> array_node;
+  std::unique_ptr<IAnyBuildNode> array_node;
   std::string member_name;
   AnyValue& anyvalue;
 };

@@ -22,6 +22,7 @@
 #include "ArrayValueBuildNode.h"
 
 #include "AnyValueBuildNode.h"
+#include "UnboundedArrayValueBuildNode.h"
 #include "AnyValueExceptions.h"
 
 namespace sup
@@ -138,7 +139,8 @@ IAnyBuildNode* ArrayValueBuildNode::GetArrayNode()
         "ArrayValueBuildNode::GetArrayNode must be called with empty child node "
         "and without exceeding array size");
   }
-  array_node.reset(new ArrayValueBuildNode(GetTypeRegistry(), this, anyvalue[current_index++]));
+  AnyValue& element_value = anyvalue[current_index++];
+  array_node = CreateArrayBuildNode(GetTypeRegistry(), this, element_value);
   return array_node.get();
 }
 
@@ -162,6 +164,18 @@ bool ArrayValueBuildNode::PopArrayNode()
   }
   array_node.reset();
   return true;
+}
+
+std::unique_ptr<IAnyBuildNode> CreateArrayBuildNode(
+  const AnyTypeRegistry* anytype_registry, IAnyBuildNode* parent, AnyValue& anyvalue)
+{
+  if (IsArrayValue(anyvalue))
+  {
+    return std::unique_ptr<IAnyBuildNode>(
+      new ArrayValueBuildNode(anytype_registry, parent, anyvalue));
+  }
+  return std::unique_ptr<IAnyBuildNode>(
+      new UnboundedArrayValueBuildNode(anytype_registry, parent, anyvalue));
 }
 
 }  // namespace dto

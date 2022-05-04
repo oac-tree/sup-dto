@@ -32,6 +32,7 @@
 #include "AnyValueTypeElementBuildNode.h"
 #include "AnyValueValueElementBuildNode.h"
 #include "ArrayValueBuildNode.h"
+#include "UnboundedArrayValueBuildNode.h"
 #include "SerializationConstants.h"
 
 using namespace sup::dto;
@@ -540,6 +541,19 @@ TEST_F(AnyValueJSONParseTest, ArrayValueBuildNodeMethods)
     EXPECT_TRUE(node.PopArrayNode());
     EXPECT_EQ(array_v[0][0], true);
     EXPECT_EQ(array_v[0][1], true);
+  }
+
+  // Unbounded scalar array
+  {
+    AnyType array_t(AnyType::unbounded_array_tag, Float32);
+    AnyValue array_v(array_t);
+    UnboundedArrayValueBuildNode node(&anytype_registry, nullptr, array_v);
+    EXPECT_TRUE(node.Double(1.0));
+    EXPECT_TRUE(node.Double(2.0));
+    EXPECT_TRUE(node.Double(3.0));
+    EXPECT_EQ(array_v[0], 1.0);
+    EXPECT_EQ(array_v[1], 2.0);
+    EXPECT_EQ(array_v[2], 3.0);
   }
 }
 
