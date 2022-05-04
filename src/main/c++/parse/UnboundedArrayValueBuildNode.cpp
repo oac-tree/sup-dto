@@ -36,8 +36,17 @@ UnboundedArrayValueBuildNode::UnboundedArrayValueBuildNode(
   , value_node{}
   , array_node{}
   , anyvalue{anyvalue_}
-  , element_type{anyvalue.GetType().ElementType()}
-{}
+  , element_type{}
+{
+  try
+  {
+    element_type = anyvalue.GetType().ElementType();
+  }
+  catch(const InvalidOperationException& e)
+  {
+    throw ParseException(e.what());
+  }
+}
 
 UnboundedArrayValueBuildNode::~UnboundedArrayValueBuildNode() = default;
 

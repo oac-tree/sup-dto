@@ -542,18 +542,85 @@ TEST_F(AnyValueJSONParseTest, ArrayValueBuildNodeMethods)
     EXPECT_EQ(array_v[0][0], true);
     EXPECT_EQ(array_v[0][1], true);
   }
+}
 
-  // Unbounded scalar array
+TEST_F(AnyValueJSONParseTest, UnboundedArrayValueBuildNodeMethods)
+{
+  // Exceptions
+  AnyTypeRegistry anytype_registry;
+  AnyValue empty;
+  EXPECT_THROW(UnboundedArrayValueBuildNode node(&anytype_registry, nullptr, empty),
+               ParseException);
+
+  // Boolean array
+  {
+    AnyType array_t(AnyType::unbounded_array_tag, Boolean);
+    AnyValue array_v(array_t);
+    UnboundedArrayValueBuildNode node(&anytype_registry, nullptr, array_v);
+    EXPECT_TRUE(node.Bool(true));
+    EXPECT_TRUE(node.Bool(true));
+    EXPECT_EQ(array_v[0], true);
+    EXPECT_EQ(array_v[1], true);
+  }
+
+  // Signed integer array
+  {
+    AnyType array_t(AnyType::unbounded_array_tag, SignedInteger32);
+    AnyValue array_v(array_t);
+    UnboundedArrayValueBuildNode node(&anytype_registry, nullptr, array_v);
+    EXPECT_TRUE(node.Int32(-6));
+    EXPECT_TRUE(node.Int64(1245));
+    EXPECT_EQ(array_v[0], -6);
+    EXPECT_EQ(array_v[1], 1245);
+  }
+
+  // Unsigned integer array
+  {
+    AnyType array_t(AnyType::unbounded_array_tag, UnsignedInteger8);
+    AnyValue array_v(array_t);
+    UnboundedArrayValueBuildNode node(&anytype_registry, nullptr, array_v);
+    EXPECT_TRUE(node.Uint32(6));
+    EXPECT_TRUE(node.Uint64(12));
+    EXPECT_EQ(array_v[0], 6);
+    EXPECT_EQ(array_v[1], 12);
+  }
+
+  // Double array
   {
     AnyType array_t(AnyType::unbounded_array_tag, Float32);
     AnyValue array_v(array_t);
     UnboundedArrayValueBuildNode node(&anytype_registry, nullptr, array_v);
     EXPECT_TRUE(node.Double(1.0));
     EXPECT_TRUE(node.Double(2.0));
-    EXPECT_TRUE(node.Double(3.0));
     EXPECT_EQ(array_v[0], 1.0);
     EXPECT_EQ(array_v[1], 2.0);
-    EXPECT_EQ(array_v[2], 3.0);
+  }
+
+  // String array
+  {
+    AnyType array_t(AnyType::unbounded_array_tag, String);
+    AnyValue array_v(array_t);
+    UnboundedArrayValueBuildNode node(&anytype_registry, nullptr, array_v);
+    EXPECT_TRUE(node.String("a"));
+    EXPECT_TRUE(node.String("bc"));
+    EXPECT_EQ(array_v[0], "a");
+    EXPECT_EQ(array_v[1], "bc");
+  }
+
+  // Array array
+  {
+    AnyType bool_array(2, Boolean);
+    AnyType array_t(AnyType::unbounded_array_tag, bool_array);
+    AnyValue array_v(array_t);
+    UnboundedArrayValueBuildNode node(&anytype_registry, nullptr, array_v);
+    auto child = node.GetArrayNode();
+    ASSERT_NE(child, nullptr);
+    EXPECT_TRUE(child->Bool(true));
+    EXPECT_TRUE(child->Bool(true));
+    EXPECT_THROW(child->Bool(true), ParseException);
+    EXPECT_TRUE(node.PopArrayNode());
+    EXPECT_EQ(array_v[0][0], true);
+    EXPECT_EQ(array_v[0][1], true);
   }
 }
 
