@@ -50,6 +50,34 @@ TEST(UnboundedArrayValueTest, UnboundedArrayType)
 
 TEST(UnboundedArrayValueTest, Construction)
 {
+  // Construct from AnyType
+  auto my_array_t = UnboundedArrayType(SignedInteger64, "my_array_t");
+  AnyValue my_array{my_array_t};
+  EXPECT_FALSE(IsEmptyValue(my_array));
+  EXPECT_FALSE(IsStructValue(my_array));
+  EXPECT_FALSE(IsArrayValue(my_array));
+  EXPECT_TRUE(IsUnboundedArrayValue(my_array));
+  EXPECT_FALSE(IsScalarValue(my_array));
+  EXPECT_EQ(my_array.GetTypeCode(), TypeCode::UnboundedArray);
+  EXPECT_EQ(my_array.GetType(), my_array_t);
+  EXPECT_EQ(my_array.GetTypeName(), "my_array_t");
+  EXPECT_EQ(my_array.NumberOfElements(), 0);
+
+  // Construct from AnyType and AnyValue
+  AnyValue my_other_array = UnboundedArrayValue({
+    {SignedInteger64, 1}, 2, 3, 4, 5
+  }, "my_array_t");
+  AnyValue my_second_array{my_array_t, my_other_array};
+  EXPECT_FALSE(IsEmptyValue(my_second_array));
+  EXPECT_FALSE(IsStructValue(my_second_array));
+  EXPECT_FALSE(IsArrayValue(my_second_array));
+  EXPECT_TRUE(IsUnboundedArrayValue(my_second_array));
+  EXPECT_FALSE(IsScalarValue(my_second_array));
+  EXPECT_EQ(my_second_array.GetTypeCode(), TypeCode::UnboundedArray);
+  EXPECT_EQ(my_second_array.GetType(), my_array_t);
+  EXPECT_EQ(my_second_array.GetTypeName(), "my_array_t");
+  EXPECT_EQ(my_second_array.NumberOfElements(), 5);
+
   // zero-size array:
   std::string zero_size_name = "zero_size_array_t";
   AnyValue zero_size_array(AnyType::unbounded_array_tag, SignedInteger8, zero_size_name);

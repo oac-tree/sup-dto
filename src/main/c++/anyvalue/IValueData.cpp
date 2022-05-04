@@ -27,6 +27,7 @@
 #include "EmptyValueData.h"
 #include "ScalarValueDataBase.h"
 #include "StructValueData.h"
+#include "UnboundedArrayValueData.h"
 
 namespace sup
 {
@@ -163,6 +164,10 @@ IValueData* CreateValueData(const AnyType& anytype)
   if (IsArrayType(anytype))
   {
     return CreateArrayValueData(anytype);
+  }
+  if (IsUnboundedArrayType(anytype))
+  {
+    return CreateUnboundedArrayValueData(anytype);
   }
   return new EmptyValueData{};
 }
