@@ -117,6 +117,18 @@ public:
   AnyValue(std::size_t size, const AnyType& elem_type, const std::string& name = {});
 
   /**
+   * @brief Constructor for unbounded arrays.
+   *
+   * @param tag tag to indicate unbounded array.
+   * @param elem_type type of the elements in the array.
+   * @param name Optional name for the type.
+   *
+   * @throws InvalidOperationException Thrown when the given arguments do not allow the construction
+   * of an unbounded array value (e.g. empty type as element type).
+   */
+  AnyValue(AnyType::UnboundedArrayTag tag, const AnyType& elem_type, const std::string& name = {});
+
+  /**
    * @brief Copy constructor.
    *
    * @param other Source AnyValue for copy construction.
@@ -433,9 +445,24 @@ AnyValue EmptyStruct(const std::string& type_name = {});
    */
 AnyValue ArrayValue(std::initializer_list<AnyValue> elements, const std::string& type_name = {});
 
+  /**
+   * @brief Constructs an unbounded array value.
+   *
+   * @param elements list of element values.
+   * @param type_name Optional name for the underlying structured type.
+   *
+   * @return Constructed unbounded array value.
+   *
+   * @note The type of the first element in the list determines the element type of
+   * the array.
+   */
+AnyValue UnboundedArrayValue(std::initializer_list<AnyValue> elements,
+                             const std::string& type_name = {});
+
 bool IsEmptyValue(const AnyValue& anyvalue);
 bool IsStructValue(const AnyValue& anyvalue);
 bool IsArrayValue(const AnyValue& anyvalue);
+bool IsUnboundedArrayValue(const AnyValue& anyvalue);
 bool IsScalarValue(const AnyValue& anyvalue);
 
 }  // namespace dto

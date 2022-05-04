@@ -8,5 +8,6 @@
 
 * [x] Unbounded array types
 * [ ] Unbounded array values
-* [ ] Reset AnyValue to default values
+* [ ] Reset AnyValue to default values: or use a plain copy from the type to clear an unbounded array
 * [ ] Handle assignment between bounded and unbounded array values?
+* [ ] Handle assgiment of list of values to (unbounded) arrays

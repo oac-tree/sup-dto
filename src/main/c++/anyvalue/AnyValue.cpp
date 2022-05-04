@@ -25,6 +25,7 @@
 #include "EmptyValueData.h"
 #include "ScalarValueDataT.h"
 #include "StructValueData.h"
+#include "UnboundedArrayValueData.h"
 
 namespace sup
 {
@@ -117,6 +118,15 @@ AnyValue::AnyValue(std::size_t size, const AnyType& elem_type, const std::string
   : data{new EmptyValueData{}}
 {
   auto array_data = std::unique_ptr<ArrayValueData>(new ArrayValueData(size, elem_type, name));
+  data = std::move(array_data);
+}
+
+AnyValue::AnyValue(AnyType::UnboundedArrayTag tag, const AnyType& elem_type,
+                   const std::string& name)
+  : data{new EmptyValueData{}}
+{
+  auto array_data = std::unique_ptr<UnboundedArrayValueData>(
+    new UnboundedArrayValueData(elem_type, name));
   data = std::move(array_data);
 }
 
@@ -344,6 +354,22 @@ AnyValue ArrayValue(std::initializer_list<AnyValue> elements, const std::string&
   return result;
 }
 
+AnyValue UnboundedArrayValue(std::initializer_list<AnyValue> elements, const std::string& type_name)
+{
+  if (elements.size() == 0)
+  {
+    throw InvalidOperationException("Cannot construct an array value from a list with length zero");
+  }
+  auto it = elements.begin();
+  AnyValue result(AnyType::unbounded_array_tag, it->GetType(), type_name);
+  for (; it != elements.end(); ++it)
+  {
+    // TODO: implement appending
+    // result.append(*it);
+  }
+  return result;
+}
+
 bool IsEmptyValue(const AnyValue& anyvalue)
 {
   return IsEmptyTypeCode(anyvalue.GetTypeCode());
@@ -357,6 +383,11 @@ bool IsStructValue(const AnyValue& anyvalue)
 bool IsArrayValue(const AnyValue& anyvalue)
 {
   return IsArrayTypeCode(anyvalue.GetTypeCode());
+}
+
+bool IsUnboundedArrayValue(const AnyValue& anyvalue)
+{
+  return IsUnboundedArrayTypeCode(anyvalue.GetTypeCode());
 }
 
 bool IsScalarValue(const AnyValue& anyvalue)

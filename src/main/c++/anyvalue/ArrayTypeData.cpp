@@ -28,8 +28,6 @@ namespace sup
 namespace dto
 {
 
-static std::string StripIndex(const std::string& fieldname);
-
 ArrayTypeData::ArrayTypeData(std::size_t size_, const AnyType& elem_type_, const std::string& name_)
   : size{size_}
   , elem_type{elem_type_}
@@ -71,7 +69,7 @@ std::size_t ArrayTypeData::NumberOfElements() const
 
 AnyType& ArrayTypeData::operator[](const std::string& fieldname)
 {
-  auto remainder = StripIndex(fieldname);
+  auto remainder = StripTypeIndex(fieldname);
   if (remainder.empty())
   {
     return elem_type;
@@ -96,7 +94,7 @@ bool ArrayTypeData::Equals(const AnyType& other) const
   return other.ElementType() == ElementType();
 }
 
-static std::string StripIndex(const std::string& fieldname)
+std::string StripTypeIndex(const std::string& fieldname)
 {
   if (fieldname.substr(0, 2) != "[]")
   {

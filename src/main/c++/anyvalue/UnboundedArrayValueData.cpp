@@ -21,6 +21,7 @@
 
 #include "UnboundedArrayValueData.h"
 
+#include "ArrayValueData.h"
 #include "AnyValueExceptions.h"
 
 #include <utility>
@@ -29,8 +30,6 @@ namespace sup
 {
 namespace dto
 {
-
-static std::pair<std::size_t, std::string> StripIndex(const std::string& fieldname);
 
 UnboundedArrayValueData::UnboundedArrayValueData(const AnyType& elem_type_, const std::string& name_)
   : elem_type{elem_type_}
@@ -90,7 +89,7 @@ void UnboundedArrayValueData::Assign(const AnyValue& value)
 
 AnyValue& UnboundedArrayValueData::operator[](const std::string& fieldname)
 {
-  auto idx_remainder = StripIndex(fieldname);
+  auto idx_remainder = StripValueIndex(fieldname);
   auto& element = this->operator[](idx_remainder.first);
   if (idx_remainder.second.empty())
   {
@@ -126,39 +125,6 @@ bool UnboundedArrayValueData::Equals(const AnyValue& other) const
     }
   }
   return true;
-}
-
-static std::pair<std::size_t, std::string> StripIndex(const std::string& fieldname)
-{
-  if (fieldname.substr(0, 1) != "[")
-  {
-    throw InvalidOperationException("Index operator argument for array value should start with [");
-  }
-  auto remainder = fieldname.substr(1);
-  std::size_t idx = 0;
-  std::size_t pos;
-  try
-  {
-    idx = std::stoul(remainder, &pos);
-  }
-  catch(const std::invalid_argument&)
-  {
-    throw InvalidOperationException("Index operator argument cannot be parsed to an unsigned integer");
-  }
-  catch(const std::out_of_range&)
-  {
-    throw InvalidOperationException("Index operator argument cannot be parsed to an unsigned integer");
-  }
-  if (remainder.substr(pos, 1) != "]")
-  {
-    throw InvalidOperationException("Index operator argument for array value should be integer in "
-                                 "square brackets");
-  }
-  if (remainder.substr(pos + 1, 1) == ".")
-  {
-    ++pos;
-  }
-  return { idx, remainder.substr(pos + 1) };
 }
 
 UnboundedArrayValueData* CreateUnboundedArrayValueData(const AnyType& anytype)

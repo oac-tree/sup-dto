@@ -30,8 +30,6 @@ namespace sup
 namespace dto
 {
 
-static std::pair<std::size_t, std::string> StripIndex(const std::string& fieldname);
-
 ArrayValueData::ArrayValueData(std::size_t size_, const AnyType& elem_type_, const std::string& name_)
   : elem_type{elem_type_}
   , name{name_}
@@ -91,7 +89,7 @@ void ArrayValueData::Assign(const AnyValue& value)
 
 AnyValue& ArrayValueData::operator[](const std::string& fieldname)
 {
-  auto idx_remainder = StripIndex(fieldname);
+  auto idx_remainder = StripValueIndex(fieldname);
   auto& element = this->operator[](idx_remainder.first);
   if (idx_remainder.second.empty())
   {
@@ -125,7 +123,7 @@ bool ArrayValueData::Equals(const AnyValue& other) const
   return true;
 }
 
-static std::pair<std::size_t, std::string> StripIndex(const std::string& fieldname)
+std::pair<std::size_t, std::string> StripValueIndex(const std::string& fieldname)
 {
   if (fieldname.substr(0, 1) != "[")
   {

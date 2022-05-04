@@ -21,14 +21,13 @@
 
 #include "UnboundedArrayTypeData.h"
 
+#include "ArrayTypeData.h"
 #include "AnyValueExceptions.h"
 
 namespace sup
 {
 namespace dto
 {
-
-static std::string StripIndex(const std::string& fieldname);
 
 UnboundedArrayTypeData::UnboundedArrayTypeData(const AnyType& elem_type_, const std::string& name_)
   : elem_type{elem_type_}
@@ -66,7 +65,7 @@ AnyType UnboundedArrayTypeData::ElementType() const
 
 AnyType& UnboundedArrayTypeData::operator[](const std::string& fieldname)
 {
-  auto remainder = StripIndex(fieldname);
+  auto remainder = StripTypeIndex(fieldname);
   if (remainder.empty())
   {
     return elem_type;
@@ -85,20 +84,6 @@ bool UnboundedArrayTypeData::Equals(const AnyType& other) const
     return false;
   }
   return other.ElementType() == ElementType();
-}
-
-static std::string StripIndex(const std::string& fieldname)
-{
-  if (fieldname.substr(0, 2) != "[]")
-  {
-    throw InvalidOperationException("Index operator argument for array type should start with []");
-  }
-  std::string result = fieldname.substr(2);
-  if (result.size() > 0 && result[0] == '.')
-  {
-    result = result.substr(1);
-  }
-  return result;
 }
 
 }  // namespace dto

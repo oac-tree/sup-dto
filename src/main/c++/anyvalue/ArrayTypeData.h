@@ -51,6 +51,19 @@ private:
   std::string name;
 };
 
+/**
+ * @brief Strips the prefix square brackets for the fieldname.
+ *
+ * @param fieldname Full fieldname.
+ *
+ * @return Remainder of the fieldname after stripping the square brackets.
+ *
+ * @note An optional dot '.' after the square brackets will be removed too.
+ *
+ * @throws InvalidOperationException Thrown when the fieldname does not start with '[]'.
+ */
+std::string StripTypeIndex(const std::string& fieldname);
+
 }  // namespace dto
 
 }  // namespace sup
