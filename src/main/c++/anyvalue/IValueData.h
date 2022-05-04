@@ -42,6 +42,7 @@ public:
   virtual bool HasMember(const std::string& name) const;
   virtual std::vector<std::string> MemberNames() const;
   virtual std::size_t NumberOfMembers() const;
+  virtual void Append(const AnyValue& value);
   virtual std::size_t NumberOfElements() const;
 
   virtual void Assign(const AnyValue& value);

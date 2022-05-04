@@ -67,6 +67,13 @@ AnyType UnboundedArrayValueData::GetType() const
   return AnyType(AnyType::unbounded_array_tag, elem_type, name);
 }
 
+void UnboundedArrayValueData::Append(const AnyValue& value)
+{
+  AnyValue copy{elem_type};
+  copy = value;
+  elements.push_back(std::move(copy));
+}
+
 std::size_t UnboundedArrayValueData::NumberOfElements() const
 {
   return elements.size();

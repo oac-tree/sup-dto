@@ -234,6 +234,18 @@ public:
   std::size_t NumberOfMembers() const;
 
   /**
+   * @brief Append an element to an unbounded array.
+   *
+   * @param value AnyValue to append at the end of the array.
+   *
+   * @return Reference to this.
+   *
+   * @throws InvalidOperationException Thrown when this value does not support appending elements or
+   * when the given value is not allowed (e.g. wrong type).
+   */
+  AnyValue& Append(const AnyValue& value);
+
+  /**
    * @brief Return number of elements in the array type.
    *
    * @return Number of elements in the array type or zero if not supported.

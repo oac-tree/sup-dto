@@ -41,6 +41,7 @@ public:
   std::string GetTypeName() const override;
   AnyType GetType() const override;
 
+  void Append(const AnyValue& value) override;
   std::size_t NumberOfElements() const override;
 
   void Assign(const AnyValue& value) override;
