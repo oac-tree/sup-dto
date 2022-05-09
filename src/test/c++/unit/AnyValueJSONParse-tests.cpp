@@ -250,6 +250,20 @@ TEST_F(AnyValueJSONParseTest, ComplexStructValue)
   EXPECT_EQ(complex_struct_val, parsed_val);
 }
 
+TEST_F(AnyValueJSONParseTest, UnboundedArrayOfStructValue)
+{
+  AnyValue simple_struct_val({
+    {"id", {String, "MyId"}},
+    {"number", {UnsignedInteger64, 14}}
+  });
+  AnyType array_of_struct_type(AnyType::unbounded_array_tag, simple_struct_val.GetType());
+  AnyValue array_of_struct_val(array_of_struct_type);
+  array_of_struct_val.Append(simple_struct_val);
+  auto json_string = AnyValueToJSONString(array_of_struct_val);
+  auto parsed_val = AnyValueFromJSONString(json_string);
+  EXPECT_EQ(array_of_struct_val, parsed_val);
+}
+
 TEST_F(AnyValueJSONParseTest, AnyValueBuilderMethods)
 {
   AnyTypeRegistry anytype_registry;
@@ -280,6 +294,7 @@ TEST_F(AnyValueJSONParseTest, AnyValueBuildNodeMethods)
   // Exceptions:
   AnyTypeRegistry anytype_registry;
   AnyValue val;
+  EXPECT_THROW(AnyValueBuildNode invalid_node(nullptr, nullptr, val), InvalidOperationException);
   AnyValueBuildNode node(&anytype_registry, nullptr, val);
   EXPECT_THROW(node.Bool(-1), ParseException);
   EXPECT_THROW(node.Int32(-1), ParseException);
@@ -325,6 +340,7 @@ TEST_F(AnyValueJSONParseTest, AnyValueBuildNodeMethods)
 TEST_F(AnyValueJSONParseTest, AnyValueRootBuildNodeMethods)
 {
   AnyTypeRegistry anytype_registry;
+  EXPECT_THROW(AnyValueRootBuildNode invalid_node(nullptr, nullptr), InvalidOperationException);
   AnyValueRootBuildNode node(&anytype_registry, nullptr);
   EXPECT_THROW(node.PopArrayNode(), ParseException);
   auto child = node.GetArrayNode();
@@ -335,7 +351,8 @@ TEST_F(AnyValueJSONParseTest, AnyValueRootBuildNodeMethods)
 TEST_F(AnyValueJSONParseTest, AnyValueArrayBuildNodeMethods)
 {
   AnyTypeRegistry anytype_registry;
- AnyValueArrayBuildNode node(&anytype_registry, nullptr);
+  EXPECT_THROW(AnyValueArrayBuildNode invalid_node(nullptr, nullptr), InvalidOperationException);
+  AnyValueArrayBuildNode node(&anytype_registry, nullptr);
   EXPECT_THROW(node.Null(), ParseException);
   EXPECT_THROW(node.Bool(true), ParseException);
   EXPECT_THROW(node.Int32(-1), ParseException);
@@ -387,6 +404,8 @@ TEST_F(AnyValueJSONParseTest, AnyValueArrayBuildNodeMethods)
 TEST_F(AnyValueJSONParseTest, AnyValueEncodingElementBuildNodeMethods)
 {
   AnyTypeRegistry anytype_registry;
+  EXPECT_THROW(AnyValueEncodingElementBuildNode invalid_node(nullptr, nullptr),
+               InvalidOperationException);
   AnyValueEncodingElementBuildNode node(&anytype_registry, nullptr);
   EXPECT_THROW(node.Null(), ParseException);
   EXPECT_THROW(node.Bool(true), ParseException);
@@ -406,6 +425,8 @@ TEST_F(AnyValueJSONParseTest, AnyValueEncodingElementBuildNodeMethods)
 TEST_F(AnyValueJSONParseTest, AnyValueTypeElementBuildNodeMethods)
 {
   AnyTypeRegistry anytype_registry;
+  EXPECT_THROW(AnyValueTypeElementBuildNode invalid_node(nullptr, nullptr),
+               InvalidOperationException);
   AnyValueTypeElementBuildNode node(&anytype_registry, nullptr);
   EXPECT_THROW(node.Null(), ParseException);
   EXPECT_THROW(node.Bool(true), ParseException);
@@ -427,6 +448,8 @@ TEST_F(AnyValueJSONParseTest, AnyValueValueElementBuildNodeMethods)
 {
   AnyTypeRegistry anytype_registry;
   AnyValue empty{String};
+  EXPECT_THROW(AnyValueValueElementBuildNode invalid_node(nullptr, nullptr, empty),
+               InvalidOperationException);
   AnyValueValueElementBuildNode node(&anytype_registry, nullptr, empty);
   EXPECT_THROW(node.Null(), ParseException);
   EXPECT_THROW(node.Bool(true), ParseException);
@@ -452,6 +475,8 @@ TEST_F(AnyValueJSONParseTest, ArrayValueBuildNodeMethods)
   // Exceptions
   AnyTypeRegistry anytype_registry;
   AnyValue empty;
+  EXPECT_THROW(ArrayValueBuildNode invalid_node(nullptr, nullptr, empty),
+               InvalidOperationException);
   ArrayValueBuildNode node(&anytype_registry, nullptr, empty);
   EXPECT_THROW(node.Null(), ParseException);
   EXPECT_THROW(node.Bool(true), ParseException);
@@ -466,6 +491,10 @@ TEST_F(AnyValueJSONParseTest, ArrayValueBuildNodeMethods)
   EXPECT_THROW(node.PopArrayNode(), ParseException);
   EXPECT_THROW(node.GetStructureNode(), ParseException);
   EXPECT_THROW(node.PopStructureNode(), ParseException);
+
+  AnyValue int_array(2, SignedInteger16);
+  ArrayValueBuildNode node_2(&anytype_registry, nullptr, int_array);
+  EXPECT_THROW(node_2.GetArrayNode(), ParseException);
 
   // Boolean array
   {
@@ -542,6 +571,21 @@ TEST_F(AnyValueJSONParseTest, ArrayValueBuildNodeMethods)
     EXPECT_EQ(array_v[0][0], true);
     EXPECT_EQ(array_v[0][1], true);
   }
+
+  // Array of unbounded array
+  {
+    AnyType bool_array(AnyType::unbounded_array_tag, Boolean);
+    AnyType array_t(2, bool_array);
+    AnyValue array_v(array_t);
+    ArrayValueBuildNode node(&anytype_registry, nullptr, array_v);
+    auto child = node.GetArrayNode();
+    ASSERT_NE(child, nullptr);
+    EXPECT_TRUE(child->Bool(true));
+    EXPECT_TRUE(child->Bool(true));
+    EXPECT_TRUE(node.PopArrayNode());
+    EXPECT_EQ(array_v[0][0], true);
+    EXPECT_EQ(array_v[0][1], true);
+  }
 }
 
 TEST_F(AnyValueJSONParseTest, UnboundedArrayValueBuildNodeMethods)
@@ -549,8 +593,29 @@ TEST_F(AnyValueJSONParseTest, UnboundedArrayValueBuildNodeMethods)
   // Exceptions
   AnyTypeRegistry anytype_registry;
   AnyValue empty;
-  EXPECT_THROW(UnboundedArrayValueBuildNode node(&anytype_registry, nullptr, empty),
+  EXPECT_THROW(UnboundedArrayValueBuildNode invalid_node(nullptr, nullptr, empty),
+               InvalidOperationException);
+  EXPECT_THROW(UnboundedArrayValueBuildNode invalid_node_2(&anytype_registry, nullptr, empty),
                ParseException);
+
+  AnyValue string_array(AnyType::unbounded_array_tag, String);
+  UnboundedArrayValueBuildNode node(&anytype_registry, nullptr, string_array);
+  EXPECT_THROW(node.Null(), ParseException);
+  EXPECT_THROW(node.Bool(true), ParseException);
+  EXPECT_THROW(node.Int32(-1), ParseException);
+  EXPECT_THROW(node.Uint32(1), ParseException);
+  EXPECT_THROW(node.Int64(-1), ParseException);
+  EXPECT_THROW(node.Uint64(1), ParseException);
+  EXPECT_THROW(node.Double(1.0), ParseException);
+  EXPECT_THROW(node.Member("not_supported"), ParseException);
+  EXPECT_THROW(node.GetArrayNode(), ParseException);
+  EXPECT_THROW(node.PopArrayNode(), ParseException);
+  EXPECT_THROW(node.GetStructureNode(), ParseException);
+  EXPECT_THROW(node.PopStructureNode(), ParseException);
+
+  AnyValue unsigned_array(AnyType::unbounded_array_tag, UnsignedInteger32);
+  UnboundedArrayValueBuildNode node_2(&anytype_registry, nullptr, unsigned_array);
+  EXPECT_THROW(node_2.String("text"), ParseException);
 
   // Boolean array
   {
@@ -614,6 +679,7 @@ TEST_F(AnyValueJSONParseTest, UnboundedArrayValueBuildNodeMethods)
     AnyValue array_v(array_t);
     UnboundedArrayValueBuildNode node(&anytype_registry, nullptr, array_v);
     auto child = node.GetArrayNode();
+    EXPECT_THROW(node.GetArrayNode(), ParseException);
     ASSERT_NE(child, nullptr);
     EXPECT_TRUE(child->Bool(true));
     EXPECT_TRUE(child->Bool(true));

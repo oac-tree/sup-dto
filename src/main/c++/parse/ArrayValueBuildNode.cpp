@@ -174,8 +174,13 @@ std::unique_ptr<IAnyBuildNode> CreateArrayBuildNode(
     return std::unique_ptr<IAnyBuildNode>(
       new ArrayValueBuildNode(anytype_registry, parent, anyvalue));
   }
-  return std::unique_ptr<IAnyBuildNode>(
+  else if (IsUnboundedArrayValue(anyvalue))
+  {
+    return std::unique_ptr<IAnyBuildNode>(
       new UnboundedArrayValueBuildNode(anytype_registry, parent, anyvalue));
+  }
+  throw ParseException(
+        "CreateArrayBuildNode must be called with an (unbounded) array value");
 }
 
 }  // namespace dto

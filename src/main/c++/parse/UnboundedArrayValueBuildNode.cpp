@@ -157,10 +157,11 @@ bool UnboundedArrayValueBuildNode::String(const std::string& str)
 
 IAnyBuildNode* UnboundedArrayValueBuildNode::GetStructureNode()
 {
-  if (value_node)
+  if (value_node || !IsStructType(element_type))
   {
     throw ParseException(
-        "UnboundedArrayValueBuildNode::GetStructureNode must be called with empty child node");
+        "UnboundedArrayValueBuildNode::GetStructureNode must be called with empty child node "
+        "and with structured element type");
   }
   AnyValue copy{element_type};
   anyvalue.Append(copy);
@@ -171,7 +172,7 @@ IAnyBuildNode* UnboundedArrayValueBuildNode::GetStructureNode()
 
 IAnyBuildNode* UnboundedArrayValueBuildNode::GetArrayNode()
 {
-  if (array_node)
+  if (array_node || !(IsArrayType(element_type) || IsUnboundedArrayType(element_type)))
   {
     throw ParseException(
         "UnboundedArrayValueBuildNode::GetArrayNode must be called with empty child node");

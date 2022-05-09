@@ -249,8 +249,13 @@ TEST(AnyValueCTypeTest, RoundTrip)
 
 TEST(AnyValueCTypeTest, ByteParser)
 {
+  // Empty value
   AnyValue empty_value;
   uint8 a;
   ByteParser parser(&a, 1);
   EXPECT_THROW(parser.ScalarProlog(&empty_value), ParseException);
+
+  // Value too large for number of bytes
+  AnyValue long_scalar{UnsignedInteger64};
+  EXPECT_THROW(parser.ScalarProlog(&long_scalar), ParseException);
 }
