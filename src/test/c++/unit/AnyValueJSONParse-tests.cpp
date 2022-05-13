@@ -21,19 +21,19 @@
 
 #include <gtest/gtest.h>
 
-#include "AnyTypeRegistry.h"
-#include "AnyValueHelper.h"
-#include "AnyValue.h"
-#include "AnyValueBuilder.h"
-#include "AnyValueBuildNode.h"
-#include "AnyValueRootBuildNode.h"
-#include "AnyValueArrayBuildNode.h"
-#include "AnyValueEncodingElementBuildNode.h"
-#include "AnyValueTypeElementBuildNode.h"
-#include "AnyValueValueElementBuildNode.h"
-#include "ArrayValueBuildNode.h"
-#include "UnboundedArrayValueBuildNode.h"
-#include "SerializationConstants.h"
+#include "sup/dto/AnyTypeRegistry.h"
+#include "sup/dto/AnyValueHelper.h"
+#include "sup/dto/AnyValue.h"
+#include "sup/dto/parse/AnyValueBuilder.h"
+#include "sup/dto/parse/AnyValueBuildNode.h"
+#include "sup/dto/parse/AnyValueRootBuildNode.h"
+#include "sup/dto/parse/AnyValueArrayBuildNode.h"
+#include "sup/dto/parse/AnyValueEncodingElementBuildNode.h"
+#include "sup/dto/parse/AnyValueTypeElementBuildNode.h"
+#include "sup/dto/parse/AnyValueValueElementBuildNode.h"
+#include "sup/dto/parse/ArrayValueBuildNode.h"
+#include "sup/dto/parse/UnboundedArrayValueBuildNode.h"
+#include "sup/dto/parse/SerializationConstants.h"
 
 using namespace sup::dto;
 

@@ -22,7 +22,7 @@
 #ifndef _SUP_TestSerializers_h_
 #define _SUP_TestSerializers_h_
 
-#include "IAnyVisitor.h"
+#include "sup/dto/IAnyVisitor.h"
 
 namespace sup
 {

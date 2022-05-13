@@ -21,15 +21,15 @@
 
 #include <gtest/gtest.h>
 
-#include "AnyType.h"
-#include "AnyTypeHelper.h"
-#include "AnyTypeBuilder.h"
-#include "AnyTypeBuildNode.h"
-#include "AnyTypeRegistry.h"
-#include "AnyTypeRootBuildNode.h"
-#include "AnyValueExceptions.h"
-#include "MemberTypeBuildNode.h"
-#include "MemberTypeArrayBuildNode.h"
+#include "sup/dto/AnyType.h"
+#include "sup/dto/AnyTypeHelper.h"
+#include "sup/dto/AnyValueExceptions.h"
+#include "sup/dto/AnyTypeRegistry.h"
+#include "sup/dto/parse/AnyTypeBuilder.h"
+#include "sup/dto/parse/AnyTypeBuildNode.h"
+#include "sup/dto/parse/AnyTypeRootBuildNode.h"
+#include "sup/dto/parse/MemberTypeBuildNode.h"
+#include "sup/dto/parse/MemberTypeArrayBuildNode.h"
 
 using namespace sup::dto;
 

@@ -21,9 +21,9 @@
 
 #include "JSONPerformance.h"
 
-#include "AnyType.h"
-#include "AnyValue.h"
-#include "AnyValueHelper.h"
+#include "sup/dto/AnyType.h"
+#include "sup/dto/AnyValue.h"
+#include "sup/dto/AnyValueHelper.h"
 
 using namespace sup::dto;
 

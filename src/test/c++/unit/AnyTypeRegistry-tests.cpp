@@ -21,8 +21,8 @@
 
 #include <gtest/gtest.h>
 
-#include "AnyTypeRegistry.h"
-#include "AnyValueExceptions.h"
+#include "sup/dto/AnyTypeRegistry.h"
+#include "sup/dto/AnyValueExceptions.h"
 
 using namespace sup::dto;
 

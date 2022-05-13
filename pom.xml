@@ -90,7 +90,7 @@
                                 <include>*.so</include>
                             </include>
                             <!-- Public API headers -->
-                            <include type="file" source="include" target="include/sup">
+                            <include type="file" source="include/sup/dto" target="include/sup/dto">
                                 <include>*.h</include>
                             </include>
                             <!-- Package dependencies -->
@@ -99,6 +99,8 @@
                         <package name="tests">
                             <!-- Unit Test -->
                             <include type="file" source="bin/unit-tests" target="tests/${project.artifactId}/unit-tests"/>
+                            <!-- Performance Test -->
+                            <include type="file" source="bin/performance-tests" target="tests/${project.artifactId}/performance-tests"/>
                             <!-- Package dependencies -->
                             <requires version="current">%{codac_rpm_prefix}-${project.artifactId}-devel</requires>
                             <requires version="current" buildOnly="true">gtest-devel</requires>

@@ -21,8 +21,8 @@
 
 #include <gtest/gtest.h>
 
-#include "AnyValueHelper.h"
-#include "AnyValue.h"
+#include "sup/dto/AnyValueHelper.h"
+#include "sup/dto/AnyValue.h"
 
 using namespace sup::dto;
 

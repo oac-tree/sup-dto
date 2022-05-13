@@ -20,8 +20,8 @@
  ******************************************************************************/
 
 #include "TestSerializers.h"
-#include "AnyType.h"
-#include "AnyValue.h"
+#include "sup/dto/AnyType.h"
+#include "sup/dto/AnyValue.h"
 
 namespace sup
 {

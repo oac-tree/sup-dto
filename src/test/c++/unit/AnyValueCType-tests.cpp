@@ -21,8 +21,8 @@
 
 #include <gtest/gtest.h>
 
-#include "AnyValue.h"
-#include "ByteParser.h"
+#include "sup/dto/AnyValue.h"
+#include "sup/dto/parse/ByteParser.h"
 
 #include <cstring>
 

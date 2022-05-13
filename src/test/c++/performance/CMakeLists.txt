@@ -12,7 +12,7 @@ target_sources(performance-tests
 
 target_include_directories(performance-tests
     PRIVATE
-        ${CMAKE_CURRENT_LIST_DIR}/../../../main/c++/include
+        ${CMAKE_CURRENT_LIST_DIR}/../../../main/c++
 )
 
 target_link_directories(performance-tests

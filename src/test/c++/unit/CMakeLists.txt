@@ -36,9 +36,7 @@ target_sources(unit-tests
 
 target_include_directories(unit-tests
     PRIVATE
-        ${CMAKE_CURRENT_LIST_DIR}/../../../main/c++/include
-        ${CMAKE_CURRENT_LIST_DIR}/../../../main/c++/anyvalue
-        ${CMAKE_CURRENT_LIST_DIR}/../../../main/c++/parse
+        ${CMAKE_CURRENT_LIST_DIR}/../../../main/c++
         ${SUP_DTO_AUTOGEN_DIR}
 )
 

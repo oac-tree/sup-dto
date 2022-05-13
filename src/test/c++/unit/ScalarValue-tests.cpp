@@ -21,8 +21,8 @@
 
 #include <gtest/gtest.h>
 
-#include "AnyValue.h"
-#include "AnyValueExceptions.h"
+#include "sup/dto/AnyValue.h"
+#include "sup/dto/AnyValueExceptions.h"
 
 using namespace sup::dto;
 

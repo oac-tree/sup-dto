@@ -19,12 +19,7 @@ set_property(TARGET sup-dto-obj PROPERTY POSITION_INDEPENDENT_CODE 1)
 add_library(sup-dto-shared SHARED)
 add_library(sup-dto-static STATIC)
 
-add_subdirectory(include)
-add_subdirectory(anyvalue)
-add_subdirectory(parse)
-add_subdirectory(serialize)
-add_subdirectory(visit)
-add_subdirectory(json)
+add_subdirectory(sup)
 
 target_include_directories(sup-dto-obj
     PRIVATE
@@ -55,5 +50,5 @@ target_link_libraries(sup-dto-static
 
 install(TARGETS sup-dto-shared DESTINATION lib)
 install(TARGETS sup-dto-static DESTINATION lib)
-install(DIRECTORY include/ DESTINATION include
+install(DIRECTORY sup/dto/ DESTINATION include/sup/dto
         FILES_MATCHING PATTERN "*.h")
