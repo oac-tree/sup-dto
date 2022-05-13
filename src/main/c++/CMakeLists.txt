@@ -1,7 +1,5 @@
 cmake_minimum_required(VERSION 3.5)
 
-project(SUP-DTO LANGUAGES CXX)
-
 set(CMAKE_CXX_STANDARD 11)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
@@ -22,7 +20,7 @@ add_library(sup-dto-static STATIC)
 add_subdirectory(sup)
 
 target_include_directories(sup-dto-obj
-    PRIVATE
+    PUBLIC
         ${CMAKE_CURRENT_LIST_DIR}
 )
 
@@ -48,7 +46,14 @@ target_link_libraries(sup-dto-static
         sup-dto-obj
 )
 
-install(TARGETS sup-dto-shared DESTINATION lib)
-install(TARGETS sup-dto-static DESTINATION lib)
-install(DIRECTORY sup/dto/ DESTINATION include/sup/dto
-        FILES_MATCHING PATTERN "*.h")
+install(FILES
+        sup/dto/AnyType.h
+        sup/dto/AnyTypeHelper.h
+        sup/dto/AnyTypeRegistry.h
+        sup/dto/AnyValue.h
+        sup/dto/AnyValueExceptions.h
+        sup/dto/AnyValueHelper.h
+        sup/dto/BasicScalarTypes.h
+        sup/dto/IAnyVisitor.h
+        DESTINATION include/sup/dto
+)

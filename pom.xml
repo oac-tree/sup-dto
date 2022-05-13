@@ -69,11 +69,6 @@
                 <artifactId>maven-iter-plugin</artifactId>
                 <extensions>true</extensions>
                 <configuration>
-                    <init>
-                        <expand source="-" file="main/VERSION">
-                            <![CDATA[${project.version}]]>
-                        </expand>
-                    </init>
                     <packaging>
                         <package>
                             <!-- Libraries -->
