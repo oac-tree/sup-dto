@@ -15,6 +15,7 @@ target_sources(sup-dto-obj
         ${CMAKE_CURRENT_LIST_DIR}/IValueData.cpp
         ${CMAKE_CURRENT_LIST_DIR}/ScalarTypeData.cpp
         ${CMAKE_CURRENT_LIST_DIR}/ScalarValueDataBase.cpp
+        ${CMAKE_CURRENT_LIST_DIR}/ScalarValueDataT.cpp
         ${CMAKE_CURRENT_LIST_DIR}/StructDataT.cpp
         ${CMAKE_CURRENT_LIST_DIR}/StructTypeData.cpp
         ${CMAKE_CURRENT_LIST_DIR}/StructValueData.cpp

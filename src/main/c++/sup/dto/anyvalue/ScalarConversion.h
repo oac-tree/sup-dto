@@ -42,11 +42,17 @@ struct IsStrictlyInteger
 };
 
 template <typename T>
+constexpr bool IsStrictlyInteger<T>::value;
+
+template <typename T>
 struct IsStrictlyArithmetic
 {
   static constexpr bool value = std::is_arithmetic<T>::value &&
       !std::is_same<typename std::remove_cv<T>::type, bool>::value;
 };
+
+template <typename T>
+constexpr bool IsStrictlyArithmetic<T>::value;
 
 template <typename T>
 struct IsSignedInteger
@@ -55,10 +61,16 @@ struct IsSignedInteger
 };
 
 template <typename T>
+constexpr bool IsSignedInteger<T>::value;
+
+template <typename T>
 struct IsUnsignedInteger
 {
   static constexpr bool value = IsStrictlyInteger<T>::value && !std::is_signed<T>::value;
 };
+
+template <typename T>
+constexpr bool IsUnsignedInteger<T>::value;
 
 // Conversion between signed integer types
 template <typename To, typename From,
