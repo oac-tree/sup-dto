@@ -1,26 +1,26 @@
 target_sources(sup-dto-obj
     PRIVATE
-        ${CMAKE_CURRENT_LIST_DIR}/AnyType.cpp
-        ${CMAKE_CURRENT_LIST_DIR}/AnyTypeHelper.cpp
-        ${CMAKE_CURRENT_LIST_DIR}/AnyTypeRegistry.cpp
-        ${CMAKE_CURRENT_LIST_DIR}/AnyValue.cpp
-        ${CMAKE_CURRENT_LIST_DIR}/AnyValueExceptions.cpp
-        ${CMAKE_CURRENT_LIST_DIR}/AnyValueHelper.cpp
-        ${CMAKE_CURRENT_LIST_DIR}/ArrayTypeData.cpp
-        ${CMAKE_CURRENT_LIST_DIR}/ArrayValueData.cpp
-        ${CMAKE_CURRENT_LIST_DIR}/BasicScalarTypes.cpp
-        ${CMAKE_CURRENT_LIST_DIR}/EmptyTypeData.cpp
-        ${CMAKE_CURRENT_LIST_DIR}/EmptyValueData.cpp
-        ${CMAKE_CURRENT_LIST_DIR}/ITypeData.cpp
-        ${CMAKE_CURRENT_LIST_DIR}/IValueData.cpp
-        ${CMAKE_CURRENT_LIST_DIR}/ScalarTypeData.cpp
-        ${CMAKE_CURRENT_LIST_DIR}/ScalarValueDataBase.cpp
-        ${CMAKE_CURRENT_LIST_DIR}/ScalarValueDataT.cpp
-        ${CMAKE_CURRENT_LIST_DIR}/StructDataT.cpp
-        ${CMAKE_CURRENT_LIST_DIR}/StructTypeData.cpp
-        ${CMAKE_CURRENT_LIST_DIR}/StructValueData.cpp
-        ${CMAKE_CURRENT_LIST_DIR}/UnboundedArrayTypeData.cpp
-        ${CMAKE_CURRENT_LIST_DIR}/UnboundedArrayValueData.cpp
+        ${CMAKE_CURRENT_LIST_DIR}/anytype.cpp
+        ${CMAKE_CURRENT_LIST_DIR}/anytype_helper.cpp
+        ${CMAKE_CURRENT_LIST_DIR}/anytype_registry.cpp
+        ${CMAKE_CURRENT_LIST_DIR}/anyvalue.cpp
+        ${CMAKE_CURRENT_LIST_DIR}/anyvalue_exceptions.cpp
+        ${CMAKE_CURRENT_LIST_DIR}/anyvalue_helper.cpp
+        ${CMAKE_CURRENT_LIST_DIR}/array_type_data.cpp
+        ${CMAKE_CURRENT_LIST_DIR}/array_value_data.cpp
+        ${CMAKE_CURRENT_LIST_DIR}/basic_scalar_types.cpp
+        ${CMAKE_CURRENT_LIST_DIR}/empty_type_data.cpp
+        ${CMAKE_CURRENT_LIST_DIR}/empty_value_data.cpp
+        ${CMAKE_CURRENT_LIST_DIR}/i_type_data.cpp
+        ${CMAKE_CURRENT_LIST_DIR}/i_value_data.cpp
+        ${CMAKE_CURRENT_LIST_DIR}/scalar_type_data.cpp
+        ${CMAKE_CURRENT_LIST_DIR}/scalar_value_data_base.cpp
+        ${CMAKE_CURRENT_LIST_DIR}/scalar_value_data_t.cpp
+        ${CMAKE_CURRENT_LIST_DIR}/struct_data_t.cpp
+        ${CMAKE_CURRENT_LIST_DIR}/struct_type_data.cpp
+        ${CMAKE_CURRENT_LIST_DIR}/struct_value_data.cpp
+        ${CMAKE_CURRENT_LIST_DIR}/unbounded_array_type_data.cpp
+        ${CMAKE_CURRENT_LIST_DIR}/unbounded_array_value_data.cpp
 )
 
 target_include_directories(sup-dto-obj

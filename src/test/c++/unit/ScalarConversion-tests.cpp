@@ -21,7 +21,7 @@
 
 #include <gtest/gtest.h>
 
-#include "sup/dto/anyvalue/ScalarConversion.h"
+#include "sup/dto/anyvalue/scalar_conversion.h"
 
 using namespace sup::dto;
 

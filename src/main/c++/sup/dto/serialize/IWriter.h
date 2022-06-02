@@ -22,7 +22,7 @@
 #ifndef _SUP_IWriter_h_
 #define _SUP_IWriter_h_
 
-#include "sup/dto/BasicScalarTypes.h"
+#include "sup/dto/basic_scalar_types.h"
 
 #include <string>
 

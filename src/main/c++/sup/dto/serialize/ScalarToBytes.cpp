@@ -20,7 +20,7 @@
  ******************************************************************************/
 
 #include "ScalarToBytes.h"
-#include "sup/dto/AnyValue.h"
+#include "sup/dto/anyvalue.h"
 
 #include <cstring>
 #include <functional>

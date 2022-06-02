@@ -23,7 +23,7 @@
 #define _SUP_AnyValueArrayBuildNode_h_
 
 #include "IAnyBuildNode.h"
-#include "sup/dto/AnyValue.h"
+#include "sup/dto/anyvalue.h"
 
 #include <memory>
 

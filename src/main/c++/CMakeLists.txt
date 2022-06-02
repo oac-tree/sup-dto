@@ -47,13 +47,13 @@ target_link_libraries(sup-dto-static
 )
 
 install(FILES
-        sup/dto/AnyType.h
-        sup/dto/AnyTypeHelper.h
-        sup/dto/AnyTypeRegistry.h
-        sup/dto/AnyValue.h
-        sup/dto/AnyValueExceptions.h
-        sup/dto/AnyValueHelper.h
-        sup/dto/BasicScalarTypes.h
+        sup/dto/anytype.h
+        sup/dto/anytype_helper.h
+        sup/dto/anytype_registry.h
+        sup/dto/anyvalue.h
+        sup/dto/anyvalue_exceptions.h
+        sup/dto/anyvalue_helper.h
+        sup/dto/basic_scalar_types.h
         sup/dto/IAnyVisitor.h
         DESTINATION include/sup/dto
 )

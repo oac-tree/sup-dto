@@ -21,10 +21,10 @@
 
 #include <gtest/gtest.h>
 
-#include "sup/dto/AnyType.h"
-#include "sup/dto/AnyTypeHelper.h"
-#include "sup/dto/AnyValueExceptions.h"
-#include "sup/dto/AnyTypeRegistry.h"
+#include "sup/dto/anytype.h"
+#include "sup/dto/anytype_helper.h"
+#include "sup/dto/anyvalue_exceptions.h"
+#include "sup/dto/anytype_registry.h"
 #include "sup/dto/parse/AnyTypeBuilder.h"
 #include "sup/dto/parse/AnyTypeBuildNode.h"
 #include "sup/dto/parse/AnyTypeRootBuildNode.h"

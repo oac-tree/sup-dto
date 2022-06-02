@@ -23,7 +23,7 @@
 #define _SUP_AnyTypeRootBuildNode_h_
 
 #include "IAnyBuildNode.h"
-#include "sup/dto/AnyType.h"
+#include "sup/dto/anytype.h"
 
 #include <memory>
 

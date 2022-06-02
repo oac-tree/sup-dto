@@ -23,7 +23,7 @@
 #define _SUP_ByteSerializer_h_
 
 #include "sup/dto/IAnyVisitor.h"
-#include "sup/dto/BasicScalarTypes.h"
+#include "sup/dto/basic_scalar_types.h"
 
 #include <vector>
 

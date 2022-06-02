@@ -21,10 +21,10 @@
 
 #include <gtest/gtest.h>
 
-#include "sup/dto/AnyType.h"
-#include "sup/dto/AnyTypeHelper.h"
-#include "sup/dto/AnyValue.h"
-#include "sup/dto/AnyValueHelper.h"
+#include "sup/dto/anytype.h"
+#include "sup/dto/anytype_helper.h"
+#include "sup/dto/anyvalue.h"
+#include "sup/dto/anyvalue_helper.h"
 #include "TestConfig.h"
 
 #include <fstream>

@@ -61,7 +61,7 @@ They can be directly copied from a constant global ``AnyType`` object::
    // Create a boolean type:
    auto bool_type = Boolean;
 
-The ``AnyType.h`` header currently defines the following global constant scalar type objects (the
+The ``anytype.h`` header currently defines the following global constant scalar type objects (the
 numbers in the identifiers refer to the bit length of the corresponding values)::
 
    extern const AnyType Boolean;

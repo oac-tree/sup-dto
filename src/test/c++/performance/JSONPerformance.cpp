@@ -21,8 +21,8 @@
 
 #include "JSONPerformance.h"
 
-#include "sup/dto/AnyType.h"
-#include "sup/dto/AnyValue.h"
+#include "sup/dto/anytype.h"
+#include "sup/dto/anyvalue.h"
 
 #include <algorithm>
 #include <chrono>

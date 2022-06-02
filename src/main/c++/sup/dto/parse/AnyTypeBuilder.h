@@ -22,8 +22,8 @@
 #ifndef _SUP_AnyTypeBuilder_h_
 #define _SUP_AnyTypeBuilder_h_
 
-#include "sup/dto/AnyType.h"
-#include "sup/dto/BasicScalarTypes.h"
+#include "sup/dto/anytype.h"
+#include "sup/dto/basic_scalar_types.h"
 
 #include <memory>
 

@@ -21,8 +21,8 @@
 
 #include <gtest/gtest.h>
 
-#include "sup/dto/AnyTypeHelper.h"
-#include "sup/dto/AnyType.h"
+#include "sup/dto/anytype_helper.h"
+#include "sup/dto/anytype.h"
 
 using namespace sup::dto;
 

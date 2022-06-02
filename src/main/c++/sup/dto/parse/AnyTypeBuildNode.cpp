@@ -21,8 +21,8 @@
 
 #include "AnyTypeBuildNode.h"
 
-#include "sup/dto/AnyTypeRegistry.h"
-#include "sup/dto/AnyValueExceptions.h"
+#include "sup/dto/anytype_registry.h"
+#include "sup/dto/anyvalue_exceptions.h"
 #include "MemberTypeArrayBuildNode.h"
 #include "SerializationConstants.h"
 
