@@ -22,7 +22,7 @@
 #include <gtest/gtest.h>
 
 #include "sup/dto/anyvalue.h"
-#include "sup/dto/parse/ByteParser.h"
+#include "sup/dto/parse/byteparser.h"
 
 #include <cstring>
 

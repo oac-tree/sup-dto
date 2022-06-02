@@ -1,21 +1,21 @@
 target_sources(sup-dto-obj
     PRIVATE
-        ${CMAKE_CURRENT_LIST_DIR}/AnyTypeBuilder.cpp
-        ${CMAKE_CURRENT_LIST_DIR}/AnyTypeBuildNode.cpp
-        ${CMAKE_CURRENT_LIST_DIR}/AnyTypeRootBuildNode.cpp
-        ${CMAKE_CURRENT_LIST_DIR}/AnyValueArrayBuildNode.cpp
-        ${CMAKE_CURRENT_LIST_DIR}/AnyValueBuilder.cpp
-        ${CMAKE_CURRENT_LIST_DIR}/AnyValueBuildNode.cpp
-        ${CMAKE_CURRENT_LIST_DIR}/AnyValueEncodingElementBuildNode.cpp
-        ${CMAKE_CURRENT_LIST_DIR}/AnyValueRootBuildNode.cpp
-        ${CMAKE_CURRENT_LIST_DIR}/AnyValueTypeElementBuildNode.cpp
-        ${CMAKE_CURRENT_LIST_DIR}/AnyValueValueElementBuildNode.cpp
-        ${CMAKE_CURRENT_LIST_DIR}/ArrayValueBuildNode.cpp
-        ${CMAKE_CURRENT_LIST_DIR}/ByteParser.cpp
-        ${CMAKE_CURRENT_LIST_DIR}/IAnyBuildNode.cpp
-        ${CMAKE_CURRENT_LIST_DIR}/MemberTypeArrayBuildNode.cpp
-        ${CMAKE_CURRENT_LIST_DIR}/MemberTypeBuildNode.cpp
-        ${CMAKE_CURRENT_LIST_DIR}/UnboundedArrayValueBuildNode.cpp
+        ${CMAKE_CURRENT_LIST_DIR}/anytype_builder.cpp
+        ${CMAKE_CURRENT_LIST_DIR}/anytype_buildnode.cpp
+        ${CMAKE_CURRENT_LIST_DIR}/anytype_root_buildnode.cpp
+        ${CMAKE_CURRENT_LIST_DIR}/anyvalue_array_buildnode.cpp
+        ${CMAKE_CURRENT_LIST_DIR}/anyvalue_builder.cpp
+        ${CMAKE_CURRENT_LIST_DIR}/anyvalue_buildnode.cpp
+        ${CMAKE_CURRENT_LIST_DIR}/anyvalue_encodingelement_buildnode.cpp
+        ${CMAKE_CURRENT_LIST_DIR}/anyvalue_root_buildnode.cpp
+        ${CMAKE_CURRENT_LIST_DIR}/anyvalue_typeelement_buildnode.cpp
+        ${CMAKE_CURRENT_LIST_DIR}/anyvalue_valueelement_buildnode.cpp
+        ${CMAKE_CURRENT_LIST_DIR}/arrayvalue_buildnode.cpp
+        ${CMAKE_CURRENT_LIST_DIR}/byteparser.cpp
+        ${CMAKE_CURRENT_LIST_DIR}/i_any_buildnode.cpp
+        ${CMAKE_CURRENT_LIST_DIR}/membertype_array_buildnode.cpp
+        ${CMAKE_CURRENT_LIST_DIR}/membertype_buildnode.cpp
+        ${CMAKE_CURRENT_LIST_DIR}/unboundedarrayvalue_buildnode.cpp
 )
 
 target_include_directories(sup-dto-obj

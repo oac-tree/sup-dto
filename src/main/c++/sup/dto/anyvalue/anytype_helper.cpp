@@ -22,9 +22,9 @@
 #include "sup/dto/anytype_helper.h"
 #include "sup/dto/anytype.h"
 #include "sup/dto/anytype_registry.h"
-#include "JSONReader.h"
-#include "JSONWriter.h"
-#include "VisitT.h"
+#include "json_reader.h"
+#include "json_writer.h"
+#include "visit_t.h"
 
 #include <fstream>
 #include <sstream>

@@ -19,10 +19,13 @@
  * of the distribution package.
  ******************************************************************************/
 
-#ifndef _SUP_TestSerializers_h_
-#define _SUP_TestSerializers_h_
+#ifndef _SUP_WriterSerializer_h_
+#define _SUP_WriterSerializer_h_
 
 #include "sup/dto/i_any_visitor.h"
+#include "i_writer.h"
+
+#include <memory>
 
 namespace sup
 {
@@ -30,17 +33,16 @@ namespace dto
 {
 class AnyType;
 class AnyValue;
+class JSONRepresentation;
 
 /**
- * @brief Simple serialization for AnyType.
+ * @brief Serialization for AnyType, using an IWriter service.
  */
-class SimpleAnyTypeSerializer : public IAnyVisitor<const AnyType>
+class WriterTypeSerializer : public IAnyVisitor<const AnyType>
 {
 public:
-  SimpleAnyTypeSerializer();
-  ~SimpleAnyTypeSerializer() override;
-
-  std::string GetRepresentation() const;
+  WriterTypeSerializer(IWriter* writer);
+  ~WriterTypeSerializer() override;
 
   void EmptyProlog(const AnyType* anytype) override;
   void EmptyEpilog(const AnyType* anytype) override;
@@ -63,16 +65,18 @@ public:
   void ScalarEpilog(const AnyType* anytype) override;
 
 private:
-  std::string representation;
+  IWriter* writer;
 };
 
-class SimpleAnyValueSerializer : public IAnyVisitor<const AnyValue>
+
+/**
+ * @brief Serialization for AnyValue, using an IWriter service.
+ */
+class WriterValueSerializer : public IAnyVisitor<const AnyValue>
 {
 public:
-  SimpleAnyValueSerializer();
-  ~SimpleAnyValueSerializer() override;
-
-  std::string GetRepresentation() const;
+  WriterValueSerializer(IWriter* writer);
+  ~WriterValueSerializer() override;
 
   void EmptyProlog(const AnyValue* anyvalue) override;
   void EmptyEpilog(const AnyValue* anyvalue) override;
@@ -95,11 +99,11 @@ public:
   void ScalarEpilog(const AnyValue* anyvalue) override;
 
 private:
-  std::string representation;
+  IWriter* writer;
 };
 
 }  // namespace dto
 
 }  // namespace sup
 
-#endif  // _SUP_TestSerializers_h_
+#endif  // _SUP_WriterSerializer_h_

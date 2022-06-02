@@ -22,7 +22,7 @@
 #ifndef _SUP_AnyValueHelper_h_
 #define _SUP_AnyValueHelper_h_
 
-#include "sup/dto/IAnyVisitor.h"
+#include "sup/dto/i_any_visitor.h"
 #include "sup/dto/basic_scalar_types.h"
 
 #include <vector>

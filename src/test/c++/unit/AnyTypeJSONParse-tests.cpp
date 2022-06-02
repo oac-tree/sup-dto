@@ -25,11 +25,11 @@
 #include "sup/dto/anytype_helper.h"
 #include "sup/dto/anyvalue_exceptions.h"
 #include "sup/dto/anytype_registry.h"
-#include "sup/dto/parse/AnyTypeBuilder.h"
-#include "sup/dto/parse/AnyTypeBuildNode.h"
-#include "sup/dto/parse/AnyTypeRootBuildNode.h"
-#include "sup/dto/parse/MemberTypeBuildNode.h"
-#include "sup/dto/parse/MemberTypeArrayBuildNode.h"
+#include "sup/dto/parse/anytype_builder.h"
+#include "sup/dto/parse/anytype_buildnode.h"
+#include "sup/dto/parse/anytype_root_buildnode.h"
+#include "sup/dto/parse/membertype_buildnode.h"
+#include "sup/dto/parse/membertype_array_buildnode.h"
 
 using namespace sup::dto;
 

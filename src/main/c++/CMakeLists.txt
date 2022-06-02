@@ -54,6 +54,6 @@ install(FILES
         sup/dto/anyvalue_exceptions.h
         sup/dto/anyvalue_helper.h
         sup/dto/basic_scalar_types.h
-        sup/dto/IAnyVisitor.h
+        sup/dto/i_any_visitor.h
         DESTINATION include/sup/dto
 )
