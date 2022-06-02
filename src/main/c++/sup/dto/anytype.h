@@ -19,8 +19,8 @@
  * of the distribution package.
  ******************************************************************************/
 
-#ifndef _SUP_AnyType_h_
-#define _SUP_AnyType_h_
+#ifndef SUP_DTO_ANYTYPE_H_
+#define SUP_DTO_ANYTYPE_H_
 
 #include <initializer_list>
 #include <memory>
@@ -330,4 +330,4 @@ extern const AnyType StringType;
 
 }  // namespace sup
 
-#endif  // _SUP_AnyType_h_
+#endif  // SUP_DTO_ANYTYPE_H_

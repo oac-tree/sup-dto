@@ -19,8 +19,8 @@
  * of the distribution package.
  ******************************************************************************/
 
-#ifndef _SUP_AnyTypeHelper_h_
-#define _SUP_AnyTypeHelper_h_
+#ifndef SUP_DTO_ANYTYPE_HELPER_H_
+#define SUP_DTO_ANYTYPE_HELPER_H_
 
 #include <sup/dto/i_any_visitor.h>
 
@@ -111,4 +111,4 @@ AnyType AnyTypeFromJSONFile(const AnyTypeRegistry* anytype_registry, const std::
 
 }  // namespace sup
 
-#endif  // _SUP_AnyTypeHelper_h_
+#endif  // SUP_DTO_ANYTYPE_HELPER_H_

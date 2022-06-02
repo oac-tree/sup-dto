@@ -19,8 +19,8 @@
  * of the distribution package.
  ******************************************************************************/
 
-#ifndef _SUP_ArrayTypeData_h_
-#define _SUP_ArrayTypeData_h_
+#ifndef _SUP_ARRAYTYPEDATA_H_
+#define _SUP_ARRAYTYPEDATA_H_
 
 #include "i_type_data.h"
 
@@ -68,4 +68,4 @@ std::string StripTypeIndex(const std::string& fieldname);
 
 }  // namespace sup
 
-#endif  // _SUP_ArrayTypeData_h_
+#endif  // _SUP_ARRAYTYPEDATA_H_

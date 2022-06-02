@@ -19,8 +19,8 @@
  * of the distribution package.
  ******************************************************************************/
 
-#ifndef _SUP_AnyTypeRegistry_h_
-#define _SUP_AnyTypeRegistry_h_
+#ifndef SUP_DTO_ANYTYPE_REGISTRY_H_
+#define SUP_DTO_ANYTYPE_REGISTRY_H_
 
 #include <sup/dto/anytype.h>
 
@@ -110,4 +110,4 @@ std::map<std::string, AnyType> NameToAnyTypeLeafMap();
 
 }  // namespace sup
 
-#endif  // _SUP_AnyTypeRegistry_h_
+#endif  // SUP_DTO_ANYTYPE_REGISTRY_H_

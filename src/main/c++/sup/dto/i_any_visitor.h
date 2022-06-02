@@ -19,8 +19,8 @@
  * of the distribution package.
  ******************************************************************************/
 
-#ifndef _SUP_IAnyVisitor_h_
-#define _SUP_IAnyVisitor_h_
+#ifndef SUP_DTO_I_ANY_VISITOR_H_
+#define SUP_DTO_I_ANY_VISITOR_H_
 
 #include <string>
 
@@ -68,4 +68,4 @@ IAnyVisitor<T>::~IAnyVisitor() = default;
 
 }  // namespace sup
 
-#endif  // _SUP_IAnyVisitor_h_
+#endif  // SUP_DTO_I_ANY_VISITOR_H_

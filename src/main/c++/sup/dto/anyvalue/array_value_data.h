@@ -19,8 +19,8 @@
  * of the distribution package.
  ******************************************************************************/
 
-#ifndef _SUP_ArrayValueData_h_
-#define _SUP_ArrayValueData_h_
+#ifndef _SUP_ARRAYVALUEDATA_H_
+#define _SUP_ARRAYVALUEDATA_H_
 
 #include "i_value_data.h"
 
@@ -77,4 +77,4 @@ std::pair<std::size_t, std::string> StripValueIndex(const std::string& fieldname
 
 }  // namespace sup
 
-#endif  // _SUP_ArrayValueData_h_
+#endif  // _SUP_ARRAYVALUEDATA_H_

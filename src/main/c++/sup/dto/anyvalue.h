@@ -19,8 +19,8 @@
  * of the distribution package.
  ******************************************************************************/
 
-#ifndef _SUP_AnyValue_h_
-#define _SUP_AnyValue_h_
+#ifndef SUP_DTO_ANYVALUE_H_
+#define SUP_DTO_ANYVALUE_H_
 
 #include <sup/dto/anytype.h>
 
@@ -481,4 +481,4 @@ bool IsScalarValue(const AnyValue& anyvalue);
 
 }  // namespace sup
 
-#endif  // _SUP_AnyValue_h_
+#endif  // SUP_DTO_ANYVALUE_H_

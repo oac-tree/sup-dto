@@ -19,8 +19,8 @@
  * of the distribution package.
  ******************************************************************************/
 
-#ifndef _SUP_AnyValueHelper_h_
-#define _SUP_AnyValueHelper_h_
+#ifndef SUP_DTO_ANYVALUE_HELPER_H_
+#define SUP_DTO_ANYVALUE_HELPER_H_
 
 #include <sup/dto/i_any_visitor.h>
 #include <sup/dto/basic_scalar_types.h>
@@ -160,4 +160,4 @@ AnyValue AnyValueFromJSONFile(const AnyTypeRegistry* anytype_registry, const std
 
 }  // namespace sup
 
-#endif  // _SUP_AnyValueHelper_h_
+#endif  // SUP_DTO_ANYVALUE_HELPER_H_

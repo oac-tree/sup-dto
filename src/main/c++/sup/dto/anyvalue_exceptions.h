@@ -19,8 +19,8 @@
  * of the distribution package.
  ******************************************************************************/
 
-#ifndef _SUP_AnyValueExceptions_h_
-#define _SUP_AnyValueExceptions_h_
+#ifndef SUP_DTO_ANYVALUE_EXCEPTIONS_H_
+#define SUP_DTO_ANYVALUE_EXCEPTIONS_H_
 
 #include <exception>
 #include <string>
@@ -81,4 +81,4 @@ public:
 
 }  // namespace sup
 
-#endif  // _SUP_AnyValueExceptions_h_
+#endif  // SUP_DTO_ANYVALUE_EXCEPTIONS_H_
