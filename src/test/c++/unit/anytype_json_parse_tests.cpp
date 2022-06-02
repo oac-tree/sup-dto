@@ -111,7 +111,7 @@ protected:
 
 TEST_F(AnyTypeJSONParseTest, EmptyType)
 {
-  auto json_string = ScalarTypeRepresentation(EMPTY_TYPE_NAME);
+  auto json_string = ScalarTypeRepresentation(kEmptyTypeName);
   auto parsed_type = AnyTypeFromJSONString(json_string);
   AnyType expected = EmptyType;
   EXPECT_EQ(parsed_type, expected);
@@ -119,7 +119,7 @@ TEST_F(AnyTypeJSONParseTest, EmptyType)
 
 TEST_F(AnyTypeJSONParseTest, BooleanType)
 {
-  auto json_string = ScalarTypeRepresentation(BOOLEAN_TYPE_NAME);
+  auto json_string = ScalarTypeRepresentation(kBooleanTypeName);
   auto parsed_type = AnyTypeFromJSONString(json_string);
   AnyType expected = Boolean;
   EXPECT_EQ(parsed_type, expected);

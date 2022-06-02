@@ -30,7 +30,7 @@ using namespace sup::dto;
 
 struct __attribute__((__packed__)) AddressType
 {
-  char street[STRING_MAX_LENGTH];
+  char street[kStringMaxLength];
   uint16 number;
 };
 
@@ -47,7 +47,7 @@ struct __attribute__((__packed__)) ArrayType
 
 struct __attribute__((__packed__)) SimpleStructType
 {
-  char id[STRING_MAX_LENGTH];
+  char id[kStringMaxLength];
   uint64 number;
 };
 
@@ -112,8 +112,8 @@ TEST(AnyValueCTypeTest, FromStringFields)
   EXPECT_FALSE(SafeAssignFromCType(address, two_scalars_c));
 
   // Non null-terminated source string
-  std::vector<char> buffer(STRING_MAX_LENGTH, 'a');
-  std::memcpy(address_c.street, buffer.data(), STRING_MAX_LENGTH);
+  std::vector<char> buffer(kStringMaxLength, 'a');
+  std::memcpy(address_c.street, buffer.data(), kStringMaxLength);
   EXPECT_THROW(AssignFromCType(address, address_c), ParseException);
   EXPECT_FALSE(SafeAssignFromCType(address, address_c));
 }

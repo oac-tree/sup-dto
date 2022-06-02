@@ -30,35 +30,35 @@ TEST(AnyTypeRegistryTest, Default)
 {
   AnyTypeRegistry registry{};
   EXPECT_FALSE(registry.HasType("Unknown"));
-  EXPECT_TRUE(registry.HasType(EMPTY_TYPE_NAME));
-  EXPECT_TRUE(registry.HasType(BOOLEAN_TYPE_NAME));
-  EXPECT_TRUE(registry.HasType(CHAR8_TYPE_NAME));
-  EXPECT_TRUE(registry.HasType(INT8_TYPE_NAME));
-  EXPECT_TRUE(registry.HasType(UINT8_TYPE_NAME));
-  EXPECT_TRUE(registry.HasType(INT16_TYPE_NAME));
-  EXPECT_TRUE(registry.HasType(UINT16_TYPE_NAME));
-  EXPECT_TRUE(registry.HasType(INT32_TYPE_NAME));
-  EXPECT_TRUE(registry.HasType(UINT32_TYPE_NAME));
-  EXPECT_TRUE(registry.HasType(INT64_TYPE_NAME));
-  EXPECT_TRUE(registry.HasType(UINT64_TYPE_NAME));
-  EXPECT_TRUE(registry.HasType(FLOAT32_TYPE_NAME));
-  EXPECT_TRUE(registry.HasType(FLOAT64_TYPE_NAME));
-  EXPECT_TRUE(registry.HasType(STRING_TYPE_NAME));
+  EXPECT_TRUE(registry.HasType(kEmptyTypeName));
+  EXPECT_TRUE(registry.HasType(kBooleanTypeName));
+  EXPECT_TRUE(registry.HasType(kChar8TypeName));
+  EXPECT_TRUE(registry.HasType(kInt8TypeName));
+  EXPECT_TRUE(registry.HasType(kUInt8TypeName));
+  EXPECT_TRUE(registry.HasType(kInt16TypeName));
+  EXPECT_TRUE(registry.HasType(kUInt16TypeName));
+  EXPECT_TRUE(registry.HasType(kInt32TypeName));
+  EXPECT_TRUE(registry.HasType(kUInt32TypeName));
+  EXPECT_TRUE(registry.HasType(kInt64TypeName));
+  EXPECT_TRUE(registry.HasType(kUInt64TypeName));
+  EXPECT_TRUE(registry.HasType(kFloat32TypeName));
+  EXPECT_TRUE(registry.HasType(kFloat64TypeName));
+  EXPECT_TRUE(registry.HasType(kStringTypeName));
   EXPECT_THROW(registry.GetType("Unknown"), InvalidOperationException);
-  EXPECT_EQ(registry.GetType(EMPTY_TYPE_NAME), EmptyType);
-  EXPECT_EQ(registry.GetType(BOOLEAN_TYPE_NAME), Boolean);
-  EXPECT_EQ(registry.GetType(CHAR8_TYPE_NAME), Character8);
-  EXPECT_EQ(registry.GetType(INT8_TYPE_NAME), SignedInteger8);
-  EXPECT_EQ(registry.GetType(UINT8_TYPE_NAME), UnsignedInteger8);
-  EXPECT_EQ(registry.GetType(INT16_TYPE_NAME), SignedInteger16);
-  EXPECT_EQ(registry.GetType(UINT16_TYPE_NAME), UnsignedInteger16);
-  EXPECT_EQ(registry.GetType(INT32_TYPE_NAME), SignedInteger32);
-  EXPECT_EQ(registry.GetType(UINT32_TYPE_NAME), UnsignedInteger32);
-  EXPECT_EQ(registry.GetType(INT64_TYPE_NAME), SignedInteger64);
-  EXPECT_EQ(registry.GetType(UINT64_TYPE_NAME), UnsignedInteger64);
-  EXPECT_EQ(registry.GetType(FLOAT32_TYPE_NAME), Float32);
-  EXPECT_EQ(registry.GetType(FLOAT64_TYPE_NAME), Float64);
-  EXPECT_EQ(registry.GetType(STRING_TYPE_NAME), String);
+  EXPECT_EQ(registry.GetType(kEmptyTypeName), EmptyType);
+  EXPECT_EQ(registry.GetType(kBooleanTypeName), Boolean);
+  EXPECT_EQ(registry.GetType(kChar8TypeName), Character8);
+  EXPECT_EQ(registry.GetType(kInt8TypeName), SignedInteger8);
+  EXPECT_EQ(registry.GetType(kUInt8TypeName), UnsignedInteger8);
+  EXPECT_EQ(registry.GetType(kInt16TypeName), SignedInteger16);
+  EXPECT_EQ(registry.GetType(kUInt16TypeName), UnsignedInteger16);
+  EXPECT_EQ(registry.GetType(kInt32TypeName), SignedInteger32);
+  EXPECT_EQ(registry.GetType(kUInt32TypeName), UnsignedInteger32);
+  EXPECT_EQ(registry.GetType(kInt64TypeName), SignedInteger64);
+  EXPECT_EQ(registry.GetType(kUInt64TypeName), UnsignedInteger64);
+  EXPECT_EQ(registry.GetType(kFloat32TypeName), Float32);
+  EXPECT_EQ(registry.GetType(kFloat64TypeName), Float64);
+  EXPECT_EQ(registry.GetType(kStringTypeName), String);
 }
 
 TEST(AnyTypeRegistryTest, RegisterSuccess)
@@ -121,18 +121,18 @@ TEST(AnyTypeRegistryTest, RegisterFailure)
   ASSERT_EQ(registered_typenames.size(), number_of_leaf_types);
 
   // Try to register a type with an existing scalar typename
-  EXPECT_THROW(registry.RegisterType(EMPTY_TYPE_NAME, one_scalar), InvalidOperationException);
-  EXPECT_THROW(registry.RegisterType(BOOLEAN_TYPE_NAME, one_scalar), InvalidOperationException);
-  EXPECT_THROW(registry.RegisterType(CHAR8_TYPE_NAME, one_scalar), InvalidOperationException);
-  EXPECT_THROW(registry.RegisterType(INT8_TYPE_NAME, one_scalar), InvalidOperationException);
-  EXPECT_THROW(registry.RegisterType(UINT8_TYPE_NAME, one_scalar), InvalidOperationException);
-  EXPECT_THROW(registry.RegisterType(INT16_TYPE_NAME, one_scalar), InvalidOperationException);
-  EXPECT_THROW(registry.RegisterType(UINT16_TYPE_NAME, one_scalar), InvalidOperationException);
-  EXPECT_THROW(registry.RegisterType(INT32_TYPE_NAME, one_scalar), InvalidOperationException);
-  EXPECT_THROW(registry.RegisterType(UINT32_TYPE_NAME, one_scalar), InvalidOperationException);
-  EXPECT_THROW(registry.RegisterType(INT64_TYPE_NAME, one_scalar), InvalidOperationException);
-  EXPECT_THROW(registry.RegisterType(UINT64_TYPE_NAME, one_scalar), InvalidOperationException);
-  EXPECT_THROW(registry.RegisterType(FLOAT32_TYPE_NAME, one_scalar), InvalidOperationException);
-  EXPECT_THROW(registry.RegisterType(FLOAT64_TYPE_NAME, one_scalar), InvalidOperationException);
-  EXPECT_THROW(registry.RegisterType(STRING_TYPE_NAME, one_scalar), InvalidOperationException);
+  EXPECT_THROW(registry.RegisterType(kEmptyTypeName, one_scalar), InvalidOperationException);
+  EXPECT_THROW(registry.RegisterType(kBooleanTypeName, one_scalar), InvalidOperationException);
+  EXPECT_THROW(registry.RegisterType(kChar8TypeName, one_scalar), InvalidOperationException);
+  EXPECT_THROW(registry.RegisterType(kInt8TypeName, one_scalar), InvalidOperationException);
+  EXPECT_THROW(registry.RegisterType(kUInt8TypeName, one_scalar), InvalidOperationException);
+  EXPECT_THROW(registry.RegisterType(kInt16TypeName, one_scalar), InvalidOperationException);
+  EXPECT_THROW(registry.RegisterType(kUInt16TypeName, one_scalar), InvalidOperationException);
+  EXPECT_THROW(registry.RegisterType(kInt32TypeName, one_scalar), InvalidOperationException);
+  EXPECT_THROW(registry.RegisterType(kUInt32TypeName, one_scalar), InvalidOperationException);
+  EXPECT_THROW(registry.RegisterType(kInt64TypeName, one_scalar), InvalidOperationException);
+  EXPECT_THROW(registry.RegisterType(kUInt64TypeName, one_scalar), InvalidOperationException);
+  EXPECT_THROW(registry.RegisterType(kFloat32TypeName, one_scalar), InvalidOperationException);
+  EXPECT_THROW(registry.RegisterType(kFloat64TypeName, one_scalar), InvalidOperationException);
+  EXPECT_THROW(registry.RegisterType(kStringTypeName, one_scalar), InvalidOperationException);
 }

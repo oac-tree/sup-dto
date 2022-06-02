@@ -37,7 +37,7 @@ TEST(IntegerTypeTest, Character8)
   EXPECT_FALSE(IsUnboundedArrayType(char_type));
   EXPECT_TRUE(IsScalarType(char_type));
   EXPECT_EQ(char_type.GetTypeCode(), TypeCode::Char8);
-  EXPECT_EQ(char_type.GetTypeName(), CHAR8_TYPE_NAME);
+  EXPECT_EQ(char_type.GetTypeName(), kChar8TypeName);
   EXPECT_THROW(char_type["field"], InvalidOperationException);
 
   AnyType copy_char8 = char_type;
@@ -49,7 +49,7 @@ TEST(IntegerTypeTest, Character8)
   EXPECT_FALSE(IsUnboundedArrayType(copy_char8));
   EXPECT_TRUE(IsScalarType(copy_char8));
   EXPECT_EQ(copy_char8.GetTypeCode(), TypeCode::Char8);
-  EXPECT_EQ(copy_char8.GetTypeName(), CHAR8_TYPE_NAME);
+  EXPECT_EQ(copy_char8.GetTypeName(), kChar8TypeName);
   EXPECT_THROW(copy_char8["field"], InvalidOperationException);
 }
 
@@ -64,7 +64,7 @@ TEST(IntegerTypeTest, SignedInteger8)
   EXPECT_FALSE(IsUnboundedArrayType(int8_type));
   EXPECT_TRUE(IsScalarType(int8_type));
   EXPECT_EQ(int8_type.GetTypeCode(), TypeCode::Int8);
-  EXPECT_EQ(int8_type.GetTypeName(), INT8_TYPE_NAME);
+  EXPECT_EQ(int8_type.GetTypeName(), kInt8TypeName);
   EXPECT_THROW(int8_type["field"], InvalidOperationException);
 
   AnyType copy_int8 = int8_type;
@@ -76,7 +76,7 @@ TEST(IntegerTypeTest, SignedInteger8)
   EXPECT_FALSE(IsUnboundedArrayType(copy_int8));
   EXPECT_TRUE(IsScalarType(copy_int8));
   EXPECT_EQ(copy_int8.GetTypeCode(), TypeCode::Int8);
-  EXPECT_EQ(copy_int8.GetTypeName(), INT8_TYPE_NAME);
+  EXPECT_EQ(copy_int8.GetTypeName(), kInt8TypeName);
   EXPECT_THROW(copy_int8["field"], InvalidOperationException);
 }
 
@@ -91,7 +91,7 @@ TEST(IntegerTypeTest, UnsignedInteger8)
   EXPECT_FALSE(IsUnboundedArrayType(uint8_type));
   EXPECT_TRUE(IsScalarType(uint8_type));
   EXPECT_EQ(uint8_type.GetTypeCode(), TypeCode::UInt8);
-  EXPECT_EQ(uint8_type.GetTypeName(), UINT8_TYPE_NAME);
+  EXPECT_EQ(uint8_type.GetTypeName(), kUInt8TypeName);
   EXPECT_THROW(uint8_type["field"], InvalidOperationException);
 
   AnyType moved_uint8 = std::move(uint8_type);
@@ -105,7 +105,7 @@ TEST(IntegerTypeTest, UnsignedInteger8)
   EXPECT_FALSE(IsUnboundedArrayType(moved_uint8));
   EXPECT_TRUE(IsScalarType(moved_uint8));
   EXPECT_EQ(moved_uint8.GetTypeCode(), TypeCode::UInt8);
-  EXPECT_EQ(moved_uint8.GetTypeName(), UINT8_TYPE_NAME);
+  EXPECT_EQ(moved_uint8.GetTypeName(), kUInt8TypeName);
   EXPECT_THROW(moved_uint8["field"], InvalidOperationException);
 }
 
@@ -120,7 +120,7 @@ TEST(IntegerTypeTest, SignedInteger16)
   EXPECT_FALSE(IsUnboundedArrayType(int16_type));
   EXPECT_TRUE(IsScalarType(int16_type));
   EXPECT_EQ(int16_type.GetTypeCode(), TypeCode::Int16);
-  EXPECT_EQ(int16_type.GetTypeName(), INT16_TYPE_NAME);
+  EXPECT_EQ(int16_type.GetTypeName(), kInt16TypeName);
   EXPECT_THROW(int16_type["field"], InvalidOperationException);
 
   AnyType copy_int16 = int16_type;
@@ -132,7 +132,7 @@ TEST(IntegerTypeTest, SignedInteger16)
   EXPECT_FALSE(IsUnboundedArrayType(copy_int16));
   EXPECT_TRUE(IsScalarType(copy_int16));
   EXPECT_EQ(copy_int16.GetTypeCode(), TypeCode::Int16);
-  EXPECT_EQ(copy_int16.GetTypeName(), INT16_TYPE_NAME);
+  EXPECT_EQ(copy_int16.GetTypeName(), kInt16TypeName);
   EXPECT_THROW(copy_int16["field"], InvalidOperationException);
 }
 
@@ -147,7 +147,7 @@ TEST(IntegerTypeTest, UnsignedInteger16)
   EXPECT_FALSE(IsUnboundedArrayType(uint16_type));
   EXPECT_TRUE(IsScalarType(uint16_type));
   EXPECT_EQ(uint16_type.GetTypeCode(), TypeCode::UInt16);
-  EXPECT_EQ(uint16_type.GetTypeName(), UINT16_TYPE_NAME);
+  EXPECT_EQ(uint16_type.GetTypeName(), kUInt16TypeName);
   EXPECT_THROW(uint16_type["field"], InvalidOperationException);
 
   AnyType moved_uint16 = std::move(uint16_type);
@@ -161,7 +161,7 @@ TEST(IntegerTypeTest, UnsignedInteger16)
   EXPECT_FALSE(IsUnboundedArrayType(moved_uint16));
   EXPECT_TRUE(IsScalarType(moved_uint16));
   EXPECT_EQ(moved_uint16.GetTypeCode(), TypeCode::UInt16);
-  EXPECT_EQ(moved_uint16.GetTypeName(), UINT16_TYPE_NAME);
+  EXPECT_EQ(moved_uint16.GetTypeName(), kUInt16TypeName);
   EXPECT_THROW(moved_uint16["field"], InvalidOperationException);
 }
 
@@ -176,7 +176,7 @@ TEST(IntegerTypeTest, SignedInteger32)
   EXPECT_FALSE(IsUnboundedArrayType(int32_type));
   EXPECT_TRUE(IsScalarType(int32_type));
   EXPECT_EQ(int32_type.GetTypeCode(), TypeCode::Int32);
-  EXPECT_EQ(int32_type.GetTypeName(), INT32_TYPE_NAME);
+  EXPECT_EQ(int32_type.GetTypeName(), kInt32TypeName);
   EXPECT_THROW(int32_type["field"], InvalidOperationException);
 
   AnyType copy_int32 = int32_type;
@@ -188,7 +188,7 @@ TEST(IntegerTypeTest, SignedInteger32)
   EXPECT_FALSE(IsUnboundedArrayType(copy_int32));
   EXPECT_TRUE(IsScalarType(copy_int32));
   EXPECT_EQ(copy_int32.GetTypeCode(), TypeCode::Int32);
-  EXPECT_EQ(copy_int32.GetTypeName(), INT32_TYPE_NAME);
+  EXPECT_EQ(copy_int32.GetTypeName(), kInt32TypeName);
   EXPECT_THROW(copy_int32["field"], InvalidOperationException);
 }
 
@@ -203,7 +203,7 @@ TEST(IntegerTypeTest, UnsignedInteger32)
   EXPECT_FALSE(IsUnboundedArrayType(uint32_type));
   EXPECT_TRUE(IsScalarType(uint32_type));
   EXPECT_EQ(uint32_type.GetTypeCode(), TypeCode::UInt32);
-  EXPECT_EQ(uint32_type.GetTypeName(), UINT32_TYPE_NAME);
+  EXPECT_EQ(uint32_type.GetTypeName(), kUInt32TypeName);
   EXPECT_THROW(uint32_type["field"], InvalidOperationException);
 
   AnyType moved_uint32 = std::move(uint32_type);
@@ -217,7 +217,7 @@ TEST(IntegerTypeTest, UnsignedInteger32)
   EXPECT_FALSE(IsUnboundedArrayType(moved_uint32));
   EXPECT_TRUE(IsScalarType(moved_uint32));
   EXPECT_EQ(moved_uint32.GetTypeCode(), TypeCode::UInt32);
-  EXPECT_EQ(moved_uint32.GetTypeName(), UINT32_TYPE_NAME);
+  EXPECT_EQ(moved_uint32.GetTypeName(), kUInt32TypeName);
   EXPECT_THROW(moved_uint32["field"], InvalidOperationException);
 }
 
@@ -232,7 +232,7 @@ TEST(IntegerTypeTest, SignedInteger64)
   EXPECT_FALSE(IsUnboundedArrayType(int64_type));
   EXPECT_TRUE(IsScalarType(int64_type));
   EXPECT_EQ(int64_type.GetTypeCode(), TypeCode::Int64);
-  EXPECT_EQ(int64_type.GetTypeName(), INT64_TYPE_NAME);
+  EXPECT_EQ(int64_type.GetTypeName(), kInt64TypeName);
   EXPECT_THROW(int64_type["field"], InvalidOperationException);
 
   AnyType copy_int64 = int64_type;
@@ -244,7 +244,7 @@ TEST(IntegerTypeTest, SignedInteger64)
   EXPECT_FALSE(IsUnboundedArrayType(copy_int64));
   EXPECT_TRUE(IsScalarType(copy_int64));
   EXPECT_EQ(copy_int64.GetTypeCode(), TypeCode::Int64);
-  EXPECT_EQ(copy_int64.GetTypeName(), INT64_TYPE_NAME);
+  EXPECT_EQ(copy_int64.GetTypeName(), kInt64TypeName);
   EXPECT_THROW(copy_int64["field"], InvalidOperationException);
 }
 
@@ -259,7 +259,7 @@ TEST(IntegerTypeTest, UnsignedInteger64)
   EXPECT_FALSE(IsUnboundedArrayType(uint64_type));
   EXPECT_TRUE(IsScalarType(uint64_type));
   EXPECT_EQ(uint64_type.GetTypeCode(), TypeCode::UInt64);
-  EXPECT_EQ(uint64_type.GetTypeName(), UINT64_TYPE_NAME);
+  EXPECT_EQ(uint64_type.GetTypeName(), kUInt64TypeName);
   EXPECT_THROW(uint64_type["field"], InvalidOperationException);
 
   AnyType moved_uint64 = std::move(uint64_type);
@@ -273,6 +273,6 @@ TEST(IntegerTypeTest, UnsignedInteger64)
   EXPECT_FALSE(IsUnboundedArrayType(moved_uint64));
   EXPECT_TRUE(IsScalarType(moved_uint64));
   EXPECT_EQ(moved_uint64.GetTypeCode(), TypeCode::UInt64);
-  EXPECT_EQ(moved_uint64.GetTypeName(), UINT64_TYPE_NAME);
+  EXPECT_EQ(moved_uint64.GetTypeName(), kUInt64TypeName);
   EXPECT_THROW(moved_uint64["field"], InvalidOperationException);
 }

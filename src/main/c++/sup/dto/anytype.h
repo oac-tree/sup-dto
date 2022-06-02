@@ -53,20 +53,20 @@ enum class TypeCode
   UnboundedArray
 };
 
-const std::string EMPTY_TYPE_NAME = "empty";
-const std::string BOOLEAN_TYPE_NAME = "bool";
-const std::string CHAR8_TYPE_NAME = "char8";
-const std::string INT8_TYPE_NAME = "int8";
-const std::string UINT8_TYPE_NAME = "uint8";
-const std::string INT16_TYPE_NAME = "int16";
-const std::string UINT16_TYPE_NAME = "uint16";
-const std::string INT32_TYPE_NAME = "int32";
-const std::string UINT32_TYPE_NAME = "uint32";
-const std::string INT64_TYPE_NAME = "int64";
-const std::string UINT64_TYPE_NAME = "uint64";
-const std::string FLOAT32_TYPE_NAME = "float32";
-const std::string FLOAT64_TYPE_NAME = "float64";
-const std::string STRING_TYPE_NAME = "string";
+const std::string kEmptyTypeName = "empty";
+const std::string kBooleanTypeName = "bool";
+const std::string kChar8TypeName = "char8";
+const std::string kInt8TypeName = "int8";
+const std::string kUInt8TypeName = "uint8";
+const std::string kInt16TypeName = "int16";
+const std::string kUInt16TypeName = "uint16";
+const std::string kInt32TypeName = "int32";
+const std::string kUInt32TypeName = "uint32";
+const std::string kInt64TypeName = "int64";
+const std::string kUInt64TypeName = "uint64";
+const std::string kFloat32TypeName = "float32";
+const std::string kFloat64TypeName = "float64";
+const std::string kStringTypeName = "string";
 
 class ITypeData;
 

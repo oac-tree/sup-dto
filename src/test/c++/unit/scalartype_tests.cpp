@@ -38,7 +38,7 @@ TEST(ScalarTypeTest, EmptyType)
   EXPECT_FALSE(IsScalarType(empty_type));
   EXPECT_EQ(empty_type.NumberOfMembers(), 0);
   EXPECT_EQ(empty_type.GetTypeCode(), TypeCode::Empty);
-  EXPECT_EQ(empty_type.GetTypeName(), EMPTY_TYPE_NAME);
+  EXPECT_EQ(empty_type.GetTypeName(), kEmptyTypeName);
   EXPECT_THROW(empty_type["field"], InvalidOperationException);
 
   const AnyType copy = empty_type;
@@ -49,7 +49,7 @@ TEST(ScalarTypeTest, EmptyType)
   EXPECT_FALSE(IsUnboundedArrayType(copy));
   EXPECT_FALSE(IsScalarType(copy));
   EXPECT_EQ(copy.GetTypeCode(), TypeCode::Empty);
-  EXPECT_EQ(copy.GetTypeName(), EMPTY_TYPE_NAME);
+  EXPECT_EQ(copy.GetTypeName(), kEmptyTypeName);
   EXPECT_THROW(copy["field"], InvalidOperationException);
 
   AnyType moved = std::move(empty_type);
@@ -62,7 +62,7 @@ TEST(ScalarTypeTest, EmptyType)
   EXPECT_FALSE(IsUnboundedArrayType(moved));
   EXPECT_FALSE(IsScalarType(moved));
   EXPECT_EQ(moved.GetTypeCode(), TypeCode::Empty);
-  EXPECT_EQ(moved.GetTypeName(), EMPTY_TYPE_NAME);
+  EXPECT_EQ(moved.GetTypeName(), kEmptyTypeName);
   EXPECT_THROW(moved["field"], InvalidOperationException);
 
   // Creation of non-scalar types using typecode throws
@@ -80,7 +80,7 @@ TEST(ScalarTypeTest, Boolean)
   EXPECT_FALSE(IsUnboundedArrayType(boolean_type));
   EXPECT_TRUE(IsScalarType(boolean_type));
   EXPECT_EQ(boolean_type.GetTypeCode(), TypeCode::Bool);
-  EXPECT_EQ(boolean_type.GetTypeName(), BOOLEAN_TYPE_NAME);
+  EXPECT_EQ(boolean_type.GetTypeName(), kBooleanTypeName);
   EXPECT_THROW(boolean_type["field"], InvalidOperationException);
 
   AnyType copy_boolean = boolean_type;
@@ -92,7 +92,7 @@ TEST(ScalarTypeTest, Boolean)
   EXPECT_FALSE(IsUnboundedArrayType(copy_boolean));
   EXPECT_TRUE(IsScalarType(copy_boolean));
   EXPECT_EQ(copy_boolean.GetTypeCode(), TypeCode::Bool);
-  EXPECT_EQ(copy_boolean.GetTypeName(), BOOLEAN_TYPE_NAME);
+  EXPECT_EQ(copy_boolean.GetTypeName(), kBooleanTypeName);
   EXPECT_THROW(copy_boolean["field"], InvalidOperationException);
 }
 
@@ -107,7 +107,7 @@ TEST(ScalarTypeTest, Float32)
   EXPECT_FALSE(IsUnboundedArrayType(float32_type));
   EXPECT_TRUE(IsScalarType(float32_type));
   EXPECT_EQ(float32_type.GetTypeCode(), TypeCode::Float32);
-  EXPECT_EQ(float32_type.GetTypeName(), FLOAT32_TYPE_NAME);
+  EXPECT_EQ(float32_type.GetTypeName(), kFloat32TypeName);
   EXPECT_THROW(float32_type["field"], InvalidOperationException);
 
   AnyType moved_float32 = std::move(float32_type);
@@ -121,7 +121,7 @@ TEST(ScalarTypeTest, Float32)
   EXPECT_FALSE(IsUnboundedArrayType(moved_float32));
   EXPECT_TRUE(IsScalarType(moved_float32));
   EXPECT_EQ(moved_float32.GetTypeCode(), TypeCode::Float32);
-  EXPECT_EQ(moved_float32.GetTypeName(), FLOAT32_TYPE_NAME);
+  EXPECT_EQ(moved_float32.GetTypeName(), kFloat32TypeName);
   EXPECT_THROW(moved_float32["field"], InvalidOperationException);
 }
 
@@ -136,7 +136,7 @@ TEST(ScalarTypeTest, Float64)
   EXPECT_FALSE(IsUnboundedArrayType(float64_type));
   EXPECT_TRUE(IsScalarType(float64_type));
   EXPECT_EQ(float64_type.GetTypeCode(), TypeCode::Float64);
-  EXPECT_EQ(float64_type.GetTypeName(), FLOAT64_TYPE_NAME);
+  EXPECT_EQ(float64_type.GetTypeName(), kFloat64TypeName);
   EXPECT_THROW(float64_type["field"], InvalidOperationException);
 
   AnyType moved_float64 = std::move(float64_type);
@@ -150,6 +150,6 @@ TEST(ScalarTypeTest, Float64)
   EXPECT_FALSE(IsUnboundedArrayType(moved_float64));
   EXPECT_TRUE(IsScalarType(moved_float64));
   EXPECT_EQ(moved_float64.GetTypeCode(), TypeCode::Float64);
-  EXPECT_EQ(moved_float64.GetTypeName(), FLOAT64_TYPE_NAME);
+  EXPECT_EQ(moved_float64.GetTypeName(), kFloat64TypeName);
   EXPECT_THROW(moved_float64["field"], InvalidOperationException);
 }

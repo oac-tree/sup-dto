@@ -46,11 +46,11 @@ std::vector<uint8> ScalarToBytesT<std::string>(const AnyValue& anyvalue)
 {
   auto str = anyvalue.As<std::string>();
   auto size = str.size();
-  if (size + 1 > STRING_MAX_LENGTH)
+  if (size + 1 > kStringMaxLength)
   {
     throw SerializeException("Strings should not exceed max length for C-type casting");
   }
-  std::vector<uint8> result(STRING_MAX_LENGTH, 0);
+  std::vector<uint8> result(kStringMaxLength, 0);
   std::memcpy(result.data(), str.data(), size);
   return result;
 }

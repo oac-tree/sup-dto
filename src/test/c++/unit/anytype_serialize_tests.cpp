@@ -48,7 +48,7 @@ TEST_F(AnyTypeSerializeTest, BooleanType)
 {
   AnyType bool_type = Boolean;
   SerializeAnyType(bool_type, serializer);
-  std::string expected = BOOLEAN_TYPE_NAME;
+  std::string expected = kBooleanTypeName;
   EXPECT_EQ(serializer.GetRepresentation(), expected);
 }
 
@@ -60,9 +60,9 @@ TEST_F(AnyTypeSerializeTest, SimpleStructType)
     {"weight", Float64}
   });
   SerializeAnyType(simple_struct_type, serializer);
-  std::string expected = "S{M(id:" + STRING_TYPE_NAME + ")M,"
-                       + "M(number:" + INT32_TYPE_NAME + ")M,"
-                       + "M(weight:" + FLOAT64_TYPE_NAME + ")M}S";
+  std::string expected = "S{M(id:" + kStringTypeName + ")M,"
+                       + "M(number:" + kInt32TypeName + ")M,"
+                       + "M(weight:" + kFloat64TypeName + ")M}S";
   EXPECT_EQ(serializer.GetRepresentation(), expected);
 }
 
@@ -70,7 +70,7 @@ TEST_F(AnyTypeSerializeTest, SimpleArrayType)
 {
   AnyType simple_array_type(5, Character8);
   SerializeAnyType(simple_array_type, serializer);
-  std::string expected = "A[5|" + CHAR8_TYPE_NAME + "]A";
+  std::string expected = "A[5|" + kChar8TypeName + "]A";
   EXPECT_EQ(serializer.GetRepresentation(), expected);
 }
 
@@ -78,7 +78,7 @@ TEST_F(AnyTypeSerializeTest, UnboundedArrayType)
 {
   AnyType unbounded_array_type(AnyType::unbounded_array_tag, Character8);
   SerializeAnyType(unbounded_array_type, serializer);
-  std::string expected = "U[" + CHAR8_TYPE_NAME + "]U";
+  std::string expected = "U[" + kChar8TypeName + "]U";
   EXPECT_EQ(serializer.GetRepresentation(), expected);
 }
 
@@ -95,11 +95,11 @@ TEST_F(AnyTypeSerializeTest, ComplexStructType)
     {"validated", Boolean}
   });
   SerializeAnyType(complex_struct_type, serializer);
-  std::string simple_expected = "S{M(id:" + STRING_TYPE_NAME + ")M,"
-                              + "M(number:" + UINT64_TYPE_NAME + ")M}S";
+  std::string simple_expected = "S{M(id:" + kStringTypeName + ")M,"
+                              + "M(number:" + kUInt64TypeName + ")M}S";
   std::string expected = "S{M(array:A[4|" + simple_expected + "]A)M,"
                        + "M(nested:" + simple_expected + ")M,"
-                       + "M(validated:" + BOOLEAN_TYPE_NAME + ")M}S";
+                       + "M(validated:" + kBooleanTypeName + ")M}S";
   EXPECT_EQ(serializer.GetRepresentation(), expected);
 }
 

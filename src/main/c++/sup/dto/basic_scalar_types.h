@@ -40,7 +40,8 @@ using uint64 = unsigned long;
 using float32 = float;
 using float64 = double;
 
-static const unsigned STRING_MAX_LENGTH = 64;
+// Only used for (de)serializing C types:
+static const unsigned kStringMaxLength = 64;
 
 }  // namespace dto
 

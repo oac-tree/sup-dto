@@ -101,14 +101,14 @@ TEST_F(AnyTypeJSONSerializeTest, EmptyType)
 {
   AnyType empty = EmptyType;
   auto json_string = AnyTypeToJSONString(empty);
-  EXPECT_EQ(json_string, ScalarTypeRepresentation(EMPTY_TYPE_NAME));
+  EXPECT_EQ(json_string, ScalarTypeRepresentation(kEmptyTypeName));
 }
 
 TEST_F(AnyTypeJSONSerializeTest, BooleanType)
 {
   AnyType bool_type = Boolean;
   auto json_string = AnyTypeToJSONString(bool_type);
-  EXPECT_EQ(json_string, ScalarTypeRepresentation(BOOLEAN_TYPE_NAME));
+  EXPECT_EQ(json_string, ScalarTypeRepresentation(kBooleanTypeName));
 }
 
 TEST_F(AnyTypeJSONSerializeTest, SimpleStructType)

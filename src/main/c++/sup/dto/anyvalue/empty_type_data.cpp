@@ -44,7 +44,7 @@ TypeCode EmptyTypeData::GetTypeCode() const
 
 std::string EmptyTypeData::GetTypeName() const
 {
-  return EMPTY_TYPE_NAME;
+  return kEmptyTypeName;
 }
 
 bool EmptyTypeData::Equals(const AnyType& other) const

@@ -382,7 +382,7 @@ TEST_F(AnyValueJSONParseTest, AnyValueArrayBuildNodeMethods)
   auto type_node = child->GetStructureNode();
   ASSERT_NE(type_node, nullptr);
   EXPECT_TRUE(type_node->Member(serialization::TYPE_KEY));
-  EXPECT_TRUE(type_node->String(FLOAT32_TYPE_NAME));
+  EXPECT_TRUE(type_node->String(kFloat32TypeName));
   EXPECT_TRUE(child->PopStructureNode());
   EXPECT_THROW(node.GetStructureNode(), ParseException);
   EXPECT_TRUE(node.PopStructureNode());

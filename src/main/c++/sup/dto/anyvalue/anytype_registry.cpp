@@ -85,7 +85,7 @@ AnyType AnyTypeRegistry::GetType(const std::string& name) const
 std::map<std::string, AnyType> NameToAnyTypeLeafMap()
 {
   std::map<std::string, AnyType> result;
-  result[EMPTY_TYPE_NAME] = EmptyType;
+  result[kEmptyTypeName] = EmptyType;
   const auto& scalar_type_definitions = ScalarTypeDefinitions();
   for (const auto& entry : scalar_type_definitions)
   {

@@ -45,7 +45,7 @@ template <>
 std::size_t AssignBytes<std::string>(AnyValue& anyvalue, const uint8* bytes, std::size_t size,
                                      std::size_t position)
 {
-  auto end_position = position + STRING_MAX_LENGTH;
+  auto end_position = position + kStringMaxLength;
   if (end_position > size)
   {
     throw ParseException("Trying to parse beyond size of byte array");

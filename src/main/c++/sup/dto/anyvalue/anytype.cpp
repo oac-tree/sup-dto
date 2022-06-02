@@ -233,19 +233,19 @@ bool IsScalarType(const AnyType& anytype)
 const std::vector<std::pair<TypeCode, std::string>>& ScalarTypeDefinitions()
 {
   static const std::vector<std::pair<TypeCode, std::string>> scalar_type_definitions({
-    { TypeCode::Bool, BOOLEAN_TYPE_NAME },
-    { TypeCode::Char8, CHAR8_TYPE_NAME },
-    { TypeCode::Int8, INT8_TYPE_NAME },
-    { TypeCode::UInt8, UINT8_TYPE_NAME },
-    { TypeCode::Int16, INT16_TYPE_NAME },
-    { TypeCode::UInt16, UINT16_TYPE_NAME },
-    { TypeCode::Int32, INT32_TYPE_NAME },
-    { TypeCode::UInt32, UINT32_TYPE_NAME },
-    { TypeCode::Int64, INT64_TYPE_NAME },
-    { TypeCode::UInt64, UINT64_TYPE_NAME },
-    { TypeCode::Float32, FLOAT32_TYPE_NAME },
-    { TypeCode::Float64, FLOAT64_TYPE_NAME },
-    { TypeCode::String, STRING_TYPE_NAME }
+    { TypeCode::Bool, kBooleanTypeName },
+    { TypeCode::Char8, kChar8TypeName },
+    { TypeCode::Int8, kInt8TypeName },
+    { TypeCode::UInt8, kUInt8TypeName },
+    { TypeCode::Int16, kInt16TypeName },
+    { TypeCode::UInt16, kUInt16TypeName },
+    { TypeCode::Int32, kInt32TypeName },
+    { TypeCode::UInt32, kUInt32TypeName },
+    { TypeCode::Int64, kInt64TypeName },
+    { TypeCode::UInt64, kUInt64TypeName },
+    { TypeCode::Float32, kFloat32TypeName },
+    { TypeCode::Float64, kFloat64TypeName },
+    { TypeCode::String, kStringTypeName }
   });
   return scalar_type_definitions;
 }
