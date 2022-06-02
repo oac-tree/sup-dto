@@ -59,7 +59,7 @@ Similar to the empty type, scalar types can be constructed in one of two ways.
 They can be directly copied from a constant global ``AnyType`` object::
 
    // Create a boolean type:
-   auto bool_type = Boolean;
+   auto bool_type = BooleanType;
 
 The ``anytype.h`` header currently defines the following global constant scalar type objects (the
 numbers in the identifiers refer to the bit length of the corresponding values)::
@@ -124,7 +124,7 @@ Array types represent fixed size arrays of values of the same type. The provided
 allowed to be empty. These are constructed using a dedicated constructor::
 
    // Create array type containing 20 boolean values and provide a name:
-   AnyType my_bool_array(20, Boolean, "TwentyBooleans");
+   AnyType my_bool_array(20, BooleanType, "TwentyBooleans");
 
 The last argument of this constructor is optional and if not provided, the typename will be an empty
 string.

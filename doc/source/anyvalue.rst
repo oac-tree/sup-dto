@@ -111,7 +111,7 @@ specific numeric types by numerical conversion from standard numeric literal val
 :ref:`conversion-methods` for the supported conversions)::
 
    // Create a 64 bit unsigned integer value from a standard integer literal:
-   AnyValue my_uint64{UnsignedInteger64, 56};
+   AnyValue my_uint64{UnsignedInteger64Type, 56};
 
 Array values
 ^^^^^^^^^^^^
