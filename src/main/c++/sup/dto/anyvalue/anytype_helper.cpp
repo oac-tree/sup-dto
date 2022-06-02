@@ -19,9 +19,9 @@
  * of the distribution package.
  ******************************************************************************/
 
-#include "sup/dto/anytype_helper.h"
-#include "sup/dto/anytype.h"
-#include "sup/dto/anytype_registry.h"
+#include <sup/dto/anytype_helper.h>
+#include <sup/dto/anytype.h>
+#include <sup/dto/anytype_registry.h>
 #include "json_reader.h"
 #include "json_writer.h"
 #include "visit_t.h"

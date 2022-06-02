@@ -21,8 +21,8 @@
 
 #include <gtest/gtest.h>
 
-#include "sup/dto/anyvalue_helper.h"
-#include "sup/dto/anyvalue.h"
+#include <sup/dto/anyvalue_helper.h>
+#include <sup/dto/anyvalue.h>
 #include "test_serializers.h"
 
 using namespace sup::dto;

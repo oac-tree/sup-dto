@@ -19,7 +19,7 @@
  * of the distribution package.
  ******************************************************************************/
 
-#include "sup/dto/anytype.h"
+#include <sup/dto/anytype.h>
 
 #include "array_type_data.h"
 #include "empty_type_data.h"

@@ -22,8 +22,8 @@
 #ifndef _SUP_AnyValueBuilder_h_
 #define _SUP_AnyValueBuilder_h_
 
-#include "sup/dto/anyvalue.h"
-#include "sup/dto/basic_scalar_types.h"
+#include <sup/dto/anyvalue.h>
+#include <sup/dto/basic_scalar_types.h>
 
 #include <memory>
 

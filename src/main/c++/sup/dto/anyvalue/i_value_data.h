@@ -22,7 +22,7 @@
 #ifndef _SUP_IValueData_h_
 #define _SUP_IValueData_h_
 
-#include "sup/dto/anyvalue.h"
+#include <sup/dto/anyvalue.h>
 
 namespace sup
 {

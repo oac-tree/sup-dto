@@ -20,7 +20,7 @@
  ******************************************************************************/
 
 #include "byteparser.h"
-#include "sup/dto/anyvalue.h"
+#include <sup/dto/anyvalue.h>
 #include "scalar_from_bytes.h"
 
 #include <functional>

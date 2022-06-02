@@ -19,7 +19,7 @@
  * of the distribution package.
  ******************************************************************************/
 
-#include "sup/dto/basic_scalar_types.h"
+#include <sup/dto/basic_scalar_types.h>
 
 #include <climits>
 

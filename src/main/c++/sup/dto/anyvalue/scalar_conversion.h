@@ -22,9 +22,9 @@
 #ifndef _SUP_ScalarConversion_h_
 #define _SUP_ScalarConversion_h_
 
-#include "sup/dto/basic_scalar_types.h"
+#include <sup/dto/basic_scalar_types.h>
 
-#include "sup/dto/anyvalue_exceptions.h"
+#include <sup/dto/anyvalue_exceptions.h>
 
 #include <limits>
 #include <type_traits>

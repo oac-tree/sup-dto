@@ -22,8 +22,8 @@
 #ifndef _SUP_StructDataT_h_
 #define _SUP_StructDataT_h_
 
-#include "sup/dto/anytype.h"
-#include "sup/dto/anyvalue_exceptions.h"
+#include <sup/dto/anytype.h>
+#include <sup/dto/anyvalue_exceptions.h>
 
 #include <algorithm>
 #include <memory>

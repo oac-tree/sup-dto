@@ -22,7 +22,7 @@
 #ifndef _SUP_ScalarToBytes_h_
 #define _SUP_ScalarToBytes_h_
 
-#include "sup/dto/basic_scalar_types.h"
+#include <sup/dto/basic_scalar_types.h>
 
 #include <vector>
 

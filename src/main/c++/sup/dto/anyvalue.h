@@ -22,11 +22,11 @@
 #ifndef _SUP_AnyValue_h_
 #define _SUP_AnyValue_h_
 
-#include "sup/dto/anytype.h"
+#include <sup/dto/anytype.h>
 
-#include "sup/dto/anyvalue_exceptions.h"
-#include "sup/dto/anyvalue_helper.h"
-#include "sup/dto/basic_scalar_types.h"
+#include <sup/dto/anyvalue_exceptions.h>
+#include <sup/dto/anyvalue_helper.h>
+#include <sup/dto/basic_scalar_types.h>
 
 #include <cstring>
 #include <initializer_list>

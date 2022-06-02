@@ -20,7 +20,7 @@
  ******************************************************************************/
 
 #include "writer_serializer.h"
-#include "sup/dto/anyvalue.h"
+#include <sup/dto/anyvalue.h>
 #include "serialization_constants.h"
 
 namespace sup

@@ -22,7 +22,7 @@
 #ifndef _SUP_AnyTypeRegistry_h_
 #define _SUP_AnyTypeRegistry_h_
 
-#include "sup/dto/anytype.h"
+#include <sup/dto/anytype.h>
 
 #include <initializer_list>
 #include <map>

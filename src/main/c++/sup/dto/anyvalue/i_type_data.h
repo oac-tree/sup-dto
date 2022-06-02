@@ -22,7 +22,7 @@
 #ifndef _SUP_ITypeData_h_
 #define _SUP_ITypeData_h_
 
-#include "sup/dto/anytype.h"
+#include <sup/dto/anytype.h>
 
 namespace sup
 {

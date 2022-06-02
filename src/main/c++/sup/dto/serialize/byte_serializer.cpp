@@ -20,7 +20,7 @@
  ******************************************************************************/
 
 #include "byte_serializer.h"
-#include "sup/dto/anyvalue.h"
+#include <sup/dto/anyvalue.h>
 #include "scalar_to_bytes.h"
 
 namespace sup

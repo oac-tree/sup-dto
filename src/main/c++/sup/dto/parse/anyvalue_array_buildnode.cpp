@@ -24,7 +24,7 @@
 #include "anyvalue_encodingelement_buildnode.h"
 #include "anyvalue_typeelement_buildnode.h"
 #include "anyvalue_valueelement_buildnode.h"
-#include "sup/dto/anyvalue_exceptions.h"
+#include <sup/dto/anyvalue_exceptions.h>
 
 namespace sup
 {

@@ -22,7 +22,7 @@
 #include "anyvalue_typeelement_buildnode.h"
 
 #include "anytype_buildnode.h"
-#include "sup/dto/anyvalue_exceptions.h"
+#include <sup/dto/anyvalue_exceptions.h>
 #include "serialization_constants.h"
 
 namespace sup

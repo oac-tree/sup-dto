@@ -19,9 +19,9 @@
  * of the distribution package.
  ******************************************************************************/
 
-#include "sup/dto/anyvalue_helper.h"
-#include "sup/dto/anyvalue.h"
-#include "sup/dto/anytype_registry.h"
+#include <sup/dto/anyvalue_helper.h>
+#include <sup/dto/anyvalue.h>
+#include <sup/dto/anytype_registry.h>
 #include "byteparser.h"
 #include "byte_serializer.h"
 #include "json_reader.h"
