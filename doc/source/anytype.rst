@@ -64,19 +64,19 @@ They can be directly copied from a constant global ``AnyType`` object::
 The ``anytype.h`` header currently defines the following global constant scalar type objects (the
 numbers in the identifiers refer to the bit length of the corresponding values)::
 
-   extern const AnyType Boolean;
-   extern const AnyType Character8;
-   extern const AnyType SignedInteger8;
-   extern const AnyType UnsignedInteger8;
-   extern const AnyType SignedInteger16;
-   extern const AnyType UnsignedInteger16;
-   extern const AnyType SignedInteger32;
-   extern const AnyType UnsignedInteger32;
-   extern const AnyType SignedInteger64;
-   extern const AnyType UnsignedInteger64;
-   extern const AnyType Float32;
-   extern const AnyType Float64;
-   extern const AnyType String;
+   extern const AnyType BooleanType;
+   extern const AnyType Character8Type;
+   extern const AnyType SignedInteger8Type;
+   extern const AnyType UnsignedInteger8Type;
+   extern const AnyType SignedInteger16Type;
+   extern const AnyType UnsignedInteger16Type;
+   extern const AnyType SignedInteger32Type;
+   extern const AnyType UnsignedInteger32Type;
+   extern const AnyType SignedInteger64Type;
+   extern const AnyType UnsignedInteger64Type;
+   extern const AnyType Float32Type;
+   extern const AnyType Float64Type;
+   extern const AnyType StringType;
 
 Alternatively, scalar types can be constructed by passing a ``TypeCode`` enumerator, denoting the
 scalar type, to the constructor::
@@ -144,13 +144,13 @@ by step construction is mainly meant to support runtime construction. The follow
 how this is achieved::
 
    // Create simple structured type containing:
-   // - an account name of type String
-   // - an account number of type UnsignedInteger64
-   // - an activated flag of type Boolean
+   // - an account name of StringType
+   // - an account number of UnsignedInteger64Type
+   // - an activated flag of BooleanType
    auto account_type = EmptyStructType("AccountType");
-   account_type.AddMember("AccountName", String);
-   account_type.AddMember("AccountNumber", UnsignedInteger64);
-   account_type.AddMember("Activated", Boolean);
+   account_type.AddMember("AccountName", StringType);
+   account_type.AddMember("AccountNumber", UnsignedInteger64Type);
+   account_type.AddMember("Activated", BooleanType);
 
 Although the example showed only the addition of scalar members/subtypes, the only restriction is
 that member types need to be ``AnyType`` objects. As a result, one can create structures of
@@ -162,18 +162,18 @@ provide a name for the type, which then needs to be passed as a final optional a
 constructor::
 
    // Create a customer type that contains:
-   // - a name (String)
+   // - a name (StringType)
    // - an address structure, containing:
-   //   - a street field (String)
-   //   - a number field (UnsignedInteger16)
-   //   - a city field (String)
+   //   - a street field (StringType)
+   //   - a number field (UnsignedInteger16Type)
+   //   - a city field (StringType)
    // And provide a type name: "CustomerType".
    AnyType customer_type({
-     {"name", String},
+     {"name", StringType},
      {"address", {
-       {"street", String},
-       {"number", UnsignedInteger16},
-       {"city", String}
+       {"street", StringType},
+       {"number", UnsignedInteger16Type},
+       {"city", StringType}
      }}
    }, "CustomerType");
 
@@ -190,10 +190,10 @@ elements of different type).
 The following example shows this behavior::
 
    // Create a boolean type:
-   auto my_type = Boolean;
+   auto my_type = BooleanType;
 
    // Create an array of 5 signed integers:
-   AnyType my_array(5, SignedInteger32);
+   AnyType my_array(5, SignedInteger32Type);
 
    // Overwrite the first type. Afterwards, my_type encodes an array of 5 signed integers.
    my_type = my_array;

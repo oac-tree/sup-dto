@@ -120,7 +120,7 @@ Array values represent fixed size arrays of values of the same type. The provide
 not allowed to be empty. These are constructed using a dedicated constructor::
 
    // Create array value containing 20 boolean values and provide a name:
-   AnyValue my_bool_array(20, Boolean, "TwentyBooleans");
+   AnyValue my_bool_array(20, BooleanType, "TwentyBooleans");
 
 The last argument of this constructor is optional and if not provided, the typename will be an empty
 string.
@@ -128,7 +128,7 @@ string.
 There is currently no support for populating an array value with its element values in a single
 constructor call. One has to explicitly set those element values in subsequent accessor methods::
 
-   AnyValue my_int_array(3, SignedInteger16, "ThreeIntegers");
+   AnyValue my_int_array(3, SignedInteger16Type, "ThreeIntegers");
    my_int_array[0] = 10;
    my_int_array[1] = 20;
    my_int_array[2] = 30;
@@ -146,12 +146,12 @@ structured value using the :func:`AnyValue::AddMember` method.
 The following example shows how this method can be used to populate a structured value::
 
    // Create simple structured value containing:
-   // - an account name of type String
-   // - an account number of type UnsignedInteger64
-   // - an activated flag of type Boolean
+   // - an account name of StringType
+   // - an account number of UnsignedInteger64Type
+   // - an activated flag of BooleanType
    auto account_val = EmptyStruct("AccountType");
-   account_val.AddMember("AccountName", {String, "John Vegas"});
-   account_val.AddMember("AccountNumber", {UnsignedInteger64, 44443789});
+   account_val.AddMember("AccountName", {StringType, "John Vegas"});
+   account_val.AddMember("AccountNumber", {UnsignedInteger64Type, 44443789});
    account_val.AddMember("Activated", true);
 
 As can be seen in the previous example, the value argument for the ``AddMember`` method can omit
@@ -165,17 +165,17 @@ provide a name for the type, which then needs to be passed as a final optional a
 constructor::
 
    // Create a customer value that contains:
-   // - a name (String)
+   // - a name (StringType)
    // - an address structure, containing:
-   //   - a street field (String)
-   //   - a number field (UnsignedInteger16)
-   //   - a city field (String)
+   //   - a street field (StringType)
+   //   - a number field (UnsignedInteger16Type)
+   //   - a city field (StringType)
    // And provide a type name: "CustomerType".
    AnyValue customer_val({
-     {"name", {String, "John Vegas"}},
+     {"name", {StringType, "John Vegas"}},
      {"address", {
-       {"street", {String, "Prosperity Road"}},
-       {"number", {UnsignedInteger16, 1255}},
+       {"street", {StringType, "Prosperity Road"}},
+       {"number", {UnsignedInteger16Type, 1255}},
        {"city", "San Francisco"}
      }}
    }, "CustomerType");
@@ -202,7 +202,7 @@ The following example shows this behavior::
    AnyValue my_true{true};
 
    // Assign this boolean value to an integer AnyValue:
-   AnyValue my_int{UnsignedInteger32};  // gets default value zero
+   AnyValue my_int{UnsignedInteger32Type};  // gets default value zero
    my_int = my_true;  // my_int now contains the value '1', corresponding to 'true'
 
    // Empty types:
@@ -292,7 +292,7 @@ copy of the object.
 The following examples show the usage of this conversion method::
 
    // Construct an unsigned 32 bit integer with value 19 and cast this to different types:
-   AnyValue val{UnsignedInteger32, 19};
+   AnyValue val{UnsignedInteger32Type, 19};
    bool is_non_zero = val.as<boolean>();  // is_non_zero is true
    int16 signed_val = val.as<int16>();  // signed_val is also 19
 
@@ -334,7 +334,7 @@ Accessing direct elements of an array value can thus be achieved by passing eith
 representation of the index or by passing it directly::
 
    // Create array value of 5 booleans with default values:
-   AnyType my_booleans{5, Boolean};
+   AnyType my_booleans{5, BooleanType};
 
    // Change elements with index 2 and 3 to 'true':
    my_booleans["[2]"] = true;
