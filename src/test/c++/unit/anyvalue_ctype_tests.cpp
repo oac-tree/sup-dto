@@ -62,8 +62,8 @@ TEST(AnyValueCTypeTest, ToStringFields)
 {
   // Valid string length
   AnyValue address = {{
-    {"street", {String, "Main street"}},
-    {"number", {UnsignedInteger16, 1033}}
+    {"street", {StringType, "Main street"}},
+    {"number", {UnsignedInteger16Type, 1033}}
   }};
   auto address_c = address.As<AddressType>();
   EXPECT_STREQ(address_c.street, "Main street");
@@ -89,8 +89,8 @@ TEST(AnyValueCTypeTest, FromStringFields)
   address_c.number = 812;
 
   AnyType address_t = {{
-    {"street", String},
-    {"number", UnsignedInteger16}
+    {"street", StringType},
+    {"number", UnsignedInteger16Type}
   }};
   AnyValue address(address_t);
 
@@ -138,8 +138,8 @@ TEST(AnyValueCTypeTest, FromEmpty)
 TEST(AnyValueCTypeTest, ToStruct)
 {
   AnyValue two_scalars = {{
-    {"signed", {SignedInteger8, 1}},
-    {"unsigned", {UnsignedInteger8, 12}}
+    {"signed", {SignedInteger8Type, 1}},
+    {"unsigned", {UnsignedInteger8Type, 12}}
   }};
   auto two_scalars_c = two_scalars.As<TwoScalarsType>();
   EXPECT_EQ(two_scalars_c.signed_scalar, 1);
@@ -151,8 +151,8 @@ TEST(AnyValueCTypeTest, FromStruct)
   // Successful assignment
   TwoScalarsType two_scalars_c = { -3, 44 };
   AnyType two_scalars_t = {{
-    {"signed", SignedInteger8},
-    {"unsigned", UnsignedInteger8}
+    {"signed", SignedInteger8Type},
+    {"unsigned", UnsignedInteger8Type}
   }};
   AnyValue two_scalars(two_scalars_t);
   EXPECT_NO_THROW(AssignFromCType(two_scalars, two_scalars_c));
@@ -169,7 +169,7 @@ TEST(AnyValueCTypeTest, FromStruct)
 
 TEST(AnyValueCTypeTest, ToArray)
 {
-  AnyValue my_array(5, UnsignedInteger32, "my_uint32_array");
+  AnyValue my_array(5, UnsignedInteger32Type, "my_uint32_array");
   for (unsigned i=0; i<5; ++i)
   {
     my_array[i] = 10 * i;
@@ -185,7 +185,7 @@ TEST(AnyValueCTypeTest, FromArray)
 {
   // Successful assignment
   ArrayType my_array_c = { { 0, 7, 14 , 21, 28 }};
-  AnyValue my_array(5, UnsignedInteger32, "my_uint32_array");
+  AnyValue my_array(5, UnsignedInteger32Type, "my_uint32_array");
   EXPECT_NO_THROW(AssignFromCType(my_array, my_array_c));
   for (unsigned i=0; i<5; ++i)
   {
@@ -195,7 +195,7 @@ TEST(AnyValueCTypeTest, FromArray)
 
 TEST(AnyValueCTypeTest, ToUnboundedArray)
 {
-  AnyValue unbounded_array(AnyType::unbounded_array_tag, UnsignedInteger32, "my_uint32_array");
+  AnyValue unbounded_array(AnyType::unbounded_array_tag, UnsignedInteger32Type, "my_uint32_array");
   for (unsigned i=0; i<5; ++i)
   {
     unbounded_array.Append(10 * i);
@@ -211,7 +211,7 @@ TEST(AnyValueCTypeTest, FromUnboundedArray)
 {
   // Successful assignment
   ArrayType my_array_c = { { 0, 7, 14 , 21, 28 }};
-  AnyValue unbounded_array(AnyType::unbounded_array_tag, UnsignedInteger32, "my_uint32_array");
+  AnyValue unbounded_array(AnyType::unbounded_array_tag, UnsignedInteger32Type, "my_uint32_array");
   for (unsigned i=0; i<5; ++i)
   {
     unbounded_array.Append(0);
@@ -226,14 +226,14 @@ TEST(AnyValueCTypeTest, FromUnboundedArray)
 TEST(AnyValueCTypeTest, RoundTrip)
 {
   AnyType simple_struct_type({
-    {"id", String},
-    {"number", UnsignedInteger64}
+    {"id", StringType},
+    {"number", UnsignedInteger64Type}
   });
   AnyType array_of_struct_type(2, simple_struct_type);
   AnyType complex_struct_type({
     {"array", array_of_struct_type},
     {"nested", simple_struct_type},
-    {"validated", Boolean}
+    {"validated", BooleanType}
   });
   AnyValue complex_struct_val(complex_struct_type);
   complex_struct_val["array[1].id"] = "second_id";
@@ -256,6 +256,6 @@ TEST(AnyValueCTypeTest, ByteParser)
   EXPECT_THROW(parser.ScalarProlog(&empty_value), ParseException);
 
   // Value too large for number of bytes
-  AnyValue long_scalar{UnsignedInteger64};
+  AnyValue long_scalar{UnsignedInteger64Type};
   EXPECT_THROW(parser.ScalarProlog(&long_scalar), ParseException);
 }

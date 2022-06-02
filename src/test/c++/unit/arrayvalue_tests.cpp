@@ -29,9 +29,9 @@ using namespace sup::dto;
 TEST(ArrayValueTest, ArrayValue)
 {
   AnyValue my_array = ArrayValue({
-    {SignedInteger64, 1}, 2, 3, 4, 5
+    {SignedInteger64Type, 1}, 2, 3, 4, 5
   }, "my_array_t");
-  AnyType my_array_t(5, SignedInteger64, "my_array_t");
+  AnyType my_array_t(5, SignedInteger64Type, "my_array_t");
   EXPECT_FALSE(IsEmptyValue(my_array));
   EXPECT_FALSE(IsStructValue(my_array));
   EXPECT_TRUE(IsArrayValue(my_array));
@@ -52,17 +52,17 @@ TEST(ArrayValueTest, Construction)
 {
   // zero-size array:
   std::string zero_size_name = "zero_size_array_t";
-  AnyValue zero_size_array(0, SignedInteger8, zero_size_name);
+  AnyValue zero_size_array(0, SignedInteger8Type, zero_size_name);
   EXPECT_FALSE(IsEmptyValue(zero_size_array));
   EXPECT_FALSE(IsStructValue(zero_size_array));
   EXPECT_TRUE(IsArrayValue(zero_size_array));
   EXPECT_FALSE(IsUnboundedArrayValue(zero_size_array));
   EXPECT_FALSE(IsScalarValue(zero_size_array));
   EXPECT_EQ(zero_size_array.GetTypeCode(), TypeCode::Array);
-  EXPECT_EQ(zero_size_array.GetType(), AnyType(0, SignedInteger8, zero_size_name));
-  EXPECT_NE(zero_size_array.GetType(), AnyType(1, SignedInteger8, zero_size_name));
-  EXPECT_NE(zero_size_array.GetType(), AnyType(0, UnsignedInteger8, zero_size_name));
-  EXPECT_NE(zero_size_array.GetType(), AnyType(0, SignedInteger8, "different_name"));
+  EXPECT_EQ(zero_size_array.GetType(), AnyType(0, SignedInteger8Type, zero_size_name));
+  EXPECT_NE(zero_size_array.GetType(), AnyType(1, SignedInteger8Type, zero_size_name));
+  EXPECT_NE(zero_size_array.GetType(), AnyType(0, UnsignedInteger8Type, zero_size_name));
+  EXPECT_NE(zero_size_array.GetType(), AnyType(0, SignedInteger8Type, "different_name"));
   EXPECT_EQ(zero_size_array.GetTypeName(), zero_size_name);
   EXPECT_EQ(zero_size_array.NumberOfElements(), 0);
 
@@ -73,9 +73,9 @@ TEST(ArrayValueTest, Construction)
 TEST(ArrayValueTest, CopyConstruction)
 {
   AnyValue my_array = ArrayValue({
-    {SignedInteger64, 1}, 2, 3, 4, 5
+    {SignedInteger64Type, 1}, 2, 3, 4, 5
   }, "my_array_t");
-  AnyType my_array_t(5, SignedInteger64, "my_array_t");
+  AnyType my_array_t(5, SignedInteger64Type, "my_array_t");
   EXPECT_FALSE(IsEmptyValue(my_array));
   EXPECT_FALSE(IsStructValue(my_array));
   EXPECT_TRUE(IsArrayValue(my_array));
@@ -108,7 +108,7 @@ TEST(ArrayValueTest, CopyConstruction)
 TEST(ArrayValueTest, ElementAccess)
 {
   AnyValue my_array = ArrayValue({
-    {SignedInteger64, 1}, 2, 3, 4, 5
+    {SignedInteger64Type, 1}, 2, 3, 4, 5
   }, "my_array_t");
   EXPECT_EQ(my_array["[0]"], 1);
   EXPECT_EQ(my_array[0], 1);
@@ -118,14 +118,14 @@ TEST(ArrayValueTest, ElementAccess)
   EXPECT_EQ(my_array["[2]"], 13);
   EXPECT_EQ(my_array[1], 12);
 
-  AnyValue scalar = {UnsignedInteger16, 55};
+  AnyValue scalar = {UnsignedInteger16Type, 55};
   EXPECT_THROW(scalar["[0]"], InvalidOperationException);
   EXPECT_THROW(scalar[0], InvalidOperationException);
   EXPECT_EQ(scalar.NumberOfElements(), 0);
 
   AnyValue two_scalars = {{
-    {"signed", {SignedInteger8, 1}},
-    {"unsigned", {UnsignedInteger8, 12}}
+    {"signed", {SignedInteger8Type, 1}},
+    {"unsigned", {UnsignedInteger8Type, 12}}
   }};
   EXPECT_THROW(two_scalars["[0]"], InvalidOperationException);
   EXPECT_THROW(two_scalars[0], InvalidOperationException);
@@ -135,7 +135,7 @@ TEST(ArrayValueTest, ElementAccess)
 TEST(ArrayValueTest, InvalidElementAccess)
 {
   AnyValue my_array = ArrayValue({
-    {SignedInteger64, 1}, 2, 3, 4, 5
+    {SignedInteger64Type, 1}, 2, 3, 4, 5
   }, "my_array_t");
   EXPECT_THROW(my_array[""], InvalidOperationException);
   EXPECT_THROW(my_array["3"], InvalidOperationException);
@@ -149,9 +149,9 @@ TEST(ArrayValueTest, InvalidElementAccess)
 TEST(ArrayValueTest, ArrayEquality)
 {
   AnyValue my_array = ArrayValue({
-    {SignedInteger64, 1}, 2, 3, 4, 5
+    {SignedInteger64Type, 1}, 2, 3, 4, 5
   }, "my_array_t");
-  AnyType my_array_t(5, SignedInteger64, "my_array_t");
+  AnyType my_array_t(5, SignedInteger64Type, "my_array_t");
   AnyValue other(my_array_t);
   EXPECT_NE(my_array, other);
   other = my_array;
@@ -163,14 +163,14 @@ TEST(ArrayValueTest, ArrayEquality)
 TEST(ArrayValueTest, InvalidArrayAssign)
 {
   AnyValue my_array = ArrayValue({
-    {SignedInteger64, 1}, 2, 3, 4, 5
+    {SignedInteger64Type, 1}, 2, 3, 4, 5
   }, "my_array_t");
   EXPECT_FALSE(IsEmptyValue(my_array));
   EXPECT_FALSE(IsStructValue(my_array));
   EXPECT_TRUE(IsArrayValue(my_array));
   EXPECT_FALSE(IsUnboundedArrayValue(my_array));
   EXPECT_FALSE(IsScalarValue(my_array));
-  AnyType my_array_t(9, SignedInteger64, "my_array_t");
+  AnyType my_array_t(9, SignedInteger64Type, "my_array_t");
   AnyValue other(my_array_t);
   EXPECT_FALSE(IsEmptyValue(other));
   EXPECT_FALSE(IsStructValue(other));

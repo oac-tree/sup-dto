@@ -30,8 +30,8 @@ TEST(StructuredTypeTest, StructOfScalarType)
 {
   const std::string two_scalar_name = "scalar_pair";
   AnyType two_scalars{{
-    {"signed", SignedInteger8},
-    {"unsigned", UnsignedInteger8}
+    {"signed", SignedInteger8Type},
+    {"unsigned", UnsignedInteger8Type}
   }, two_scalar_name};
   EXPECT_FALSE(IsEmptyType(two_scalars));
   EXPECT_TRUE(IsStructType(two_scalars));
@@ -58,14 +58,14 @@ TEST(StructuredTypeTest, StructOfStructType)
 {
   const std::string nested_name = "nested_struct";
   AnyType two_scalars{{
-    {"signed", SignedInteger8},
-    {"unsigned", UnsignedInteger8}
+    {"signed", SignedInteger8Type},
+    {"unsigned", UnsignedInteger8Type}
   }};
   AnyType nested_type{{
     {"scalars", two_scalars},
     {"single", {
-      {"first", SignedInteger8},
-      {"second", SignedInteger8}
+      {"first", SignedInteger8Type},
+      {"second", SignedInteger8Type}
     }}
   }, nested_name};
   EXPECT_FALSE(IsEmptyType(nested_type));
@@ -88,8 +88,8 @@ TEST(StructuredTypeTest, StructOfStructType)
   AnyType nested_type_with_name{{
     {"scalars", two_scalars},
     {"single", {{
-      {"first", SignedInteger8},
-      {"second", SignedInteger8}
+      {"first", SignedInteger8Type},
+      {"second", SignedInteger8Type}
     }, embedded_name}}
   }, nested_with_name_name};
   EXPECT_NE(nested_type_with_name, nested_type); // struct names are different
@@ -112,26 +112,26 @@ TEST(StructuredTypeTest, StructOfStructType)
 TEST(StructuredTypeTest, InvalidMemberFieldName)
 {
   AnyType two_scalars{{
-    {"signed", SignedInteger8},
-    {"unsigned", UnsignedInteger8}
+    {"signed", SignedInteger8Type},
+    {"unsigned", UnsignedInteger8Type}
   }};
-  EXPECT_THROW(two_scalars.AddMember("", Boolean), InvalidOperationException);
-  EXPECT_THROW(two_scalars.AddMember("signed.subfield", Boolean), InvalidOperationException);
-  EXPECT_THROW(two_scalars.AddMember("signed", Boolean), InvalidOperationException);
+  EXPECT_THROW(two_scalars.AddMember("", BooleanType), InvalidOperationException);
+  EXPECT_THROW(two_scalars.AddMember("signed.subfield", BooleanType), InvalidOperationException);
+  EXPECT_THROW(two_scalars.AddMember("signed", BooleanType), InvalidOperationException);
 }
 
 TEST(StructuredTypeTest, MemberAccess)
 {
   const std::string nested_name = "nested_struct";
   AnyType two_scalars{{
-    {"signed", SignedInteger8},
-    {"unsigned", UnsignedInteger8}
+    {"signed", SignedInteger8Type},
+    {"unsigned", UnsignedInteger8Type}
   }};
   AnyType nested_type = (EmptyStructType(nested_name)
                             .AddMember("scalars", two_scalars)
                             .AddMember("single", EmptyStructType()
-                                .AddMember("first", SignedInteger8)
-                                .AddMember("second", SignedInteger8)));
+                                .AddMember("first", SignedInteger8Type)
+                                .AddMember("second", SignedInteger8Type)));
   EXPECT_TRUE(IsStructType(nested_type));
   EXPECT_EQ(nested_type.GetTypeCode(), TypeCode::Struct);
   EXPECT_EQ(nested_type.GetTypeName(), nested_name);
@@ -143,7 +143,7 @@ TEST(StructuredTypeTest, MemberAccess)
   EXPECT_EQ(nested_type.NumberOfMembers(), 2);
   EXPECT_EQ(member_fields[0], "scalars");
   EXPECT_EQ(member_fields[1], "single");
-  nested_type.AddMember("index", UnsignedInteger64);
+  nested_type.AddMember("index", UnsignedInteger64Type);
   EXPECT_TRUE(nested_type.HasMember("index"));
   member_fields = nested_type.MemberNames();
   EXPECT_EQ(member_fields.size(), 3);
@@ -158,14 +158,14 @@ TEST(StructuredTypeTest, MemberAccess)
 
   // test member access for empty type
   AnyType empty_type = EmptyType;
-  EXPECT_THROW(empty_type.AddMember("throws", Boolean), InvalidOperationException);
+  EXPECT_THROW(empty_type.AddMember("throws", BooleanType), InvalidOperationException);
   EXPECT_FALSE(empty_type.HasMember("throws"));
   EXPECT_EQ(empty_type.MemberNames().size(), 0);
   EXPECT_EQ(empty_type.NumberOfMembers(), 0);
 
   // test member access for scalar type
-  AnyType scalar_type = Float32;
-  EXPECT_THROW(scalar_type.AddMember("throws", SignedInteger64), InvalidOperationException);
+  AnyType scalar_type = Float32Type;
+  EXPECT_THROW(scalar_type.AddMember("throws", SignedInteger64Type), InvalidOperationException);
   EXPECT_FALSE(scalar_type.HasMember("throws"));
   EXPECT_EQ(scalar_type.MemberNames().size(), 0);
   EXPECT_EQ(scalar_type.NumberOfMembers(), 0);

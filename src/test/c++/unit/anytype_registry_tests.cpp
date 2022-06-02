@@ -46,19 +46,19 @@ TEST(AnyTypeRegistryTest, Default)
   EXPECT_TRUE(registry.HasType(kStringTypeName));
   EXPECT_THROW(registry.GetType("Unknown"), InvalidOperationException);
   EXPECT_EQ(registry.GetType(kEmptyTypeName), EmptyType);
-  EXPECT_EQ(registry.GetType(kBooleanTypeName), Boolean);
-  EXPECT_EQ(registry.GetType(kChar8TypeName), Character8);
-  EXPECT_EQ(registry.GetType(kInt8TypeName), SignedInteger8);
-  EXPECT_EQ(registry.GetType(kUInt8TypeName), UnsignedInteger8);
-  EXPECT_EQ(registry.GetType(kInt16TypeName), SignedInteger16);
-  EXPECT_EQ(registry.GetType(kUInt16TypeName), UnsignedInteger16);
-  EXPECT_EQ(registry.GetType(kInt32TypeName), SignedInteger32);
-  EXPECT_EQ(registry.GetType(kUInt32TypeName), UnsignedInteger32);
-  EXPECT_EQ(registry.GetType(kInt64TypeName), SignedInteger64);
-  EXPECT_EQ(registry.GetType(kUInt64TypeName), UnsignedInteger64);
-  EXPECT_EQ(registry.GetType(kFloat32TypeName), Float32);
-  EXPECT_EQ(registry.GetType(kFloat64TypeName), Float64);
-  EXPECT_EQ(registry.GetType(kStringTypeName), String);
+  EXPECT_EQ(registry.GetType(kBooleanTypeName), BooleanType);
+  EXPECT_EQ(registry.GetType(kChar8TypeName), Character8Type);
+  EXPECT_EQ(registry.GetType(kInt8TypeName), SignedInteger8Type);
+  EXPECT_EQ(registry.GetType(kUInt8TypeName), UnsignedInteger8Type);
+  EXPECT_EQ(registry.GetType(kInt16TypeName), SignedInteger16Type);
+  EXPECT_EQ(registry.GetType(kUInt16TypeName), UnsignedInteger16Type);
+  EXPECT_EQ(registry.GetType(kInt32TypeName), SignedInteger32Type);
+  EXPECT_EQ(registry.GetType(kUInt32TypeName), UnsignedInteger32Type);
+  EXPECT_EQ(registry.GetType(kInt64TypeName), SignedInteger64Type);
+  EXPECT_EQ(registry.GetType(kUInt64TypeName), UnsignedInteger64Type);
+  EXPECT_EQ(registry.GetType(kFloat32TypeName), Float32Type);
+  EXPECT_EQ(registry.GetType(kFloat64TypeName), Float64Type);
+  EXPECT_EQ(registry.GetType(kStringTypeName), StringType);
 }
 
 TEST(AnyTypeRegistryTest, RegisterSuccess)
@@ -70,12 +70,12 @@ TEST(AnyTypeRegistryTest, RegisterSuccess)
   // Register type with acceptable name or provide name explicitly
   std::string one_scalar_name = "OneScalar";
   AnyType one_scalar{{
-    {"value", Float64}
+    {"value", Float64Type}
   }, one_scalar_name};
   std::string two_scalars_name = "TwoScalars";
   AnyType two_scalars{{
-    {"signed", SignedInteger8},
-    {"unsigned", UnsignedInteger8}
+    {"signed", SignedInteger8Type},
+    {"unsigned", UnsignedInteger8Type}
   }};
   EXPECT_NO_THROW(registry.RegisterType(one_scalar));
   EXPECT_NO_THROW(registry.RegisterType(two_scalars_name, two_scalars));
@@ -106,12 +106,12 @@ TEST(AnyTypeRegistryTest, RegisterFailure)
   // Register type with empty name or provide empty name explicitly
   std::string one_scalar_name = "OneScalar";
   AnyType one_scalar{{
-    {"value", Float64}
+    {"value", Float64Type}
   }, one_scalar_name};
   std::string two_scalars_name = "TwoScalars";
   AnyType two_scalars{{
-    {"signed", SignedInteger8},
-    {"unsigned", UnsignedInteger8}
+    {"signed", SignedInteger8Type},
+    {"unsigned", UnsignedInteger8Type}
   }};
   EXPECT_THROW(registry.RegisterType("", one_scalar), InvalidOperationException);
   EXPECT_THROW(registry.RegisterType(two_scalars), InvalidOperationException);

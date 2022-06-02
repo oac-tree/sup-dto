@@ -29,14 +29,14 @@ TEST(AnyValueTest, CopyConstruction)
 {
   const std::string nested_name = "nested_struct";
   AnyValue two_scalars = {{
-    {"signed", {SignedInteger8, 1}},
-    {"unsigned", {UnsignedInteger8, 12}}
+    {"signed", {SignedInteger8Type, 1}},
+    {"unsigned", {UnsignedInteger8Type, 12}}
   }};
   AnyValue nested_val{{
     {"scalars", two_scalars},
     {"single", {
-      {"first", {SignedInteger8, 0}},
-      {"second", {SignedInteger8, 5}}
+      {"first", {SignedInteger8Type, 0}},
+      {"second", {SignedInteger8Type, 5}}
     }}
   }, nested_name};
   EXPECT_TRUE(IsStructValue(nested_val));
@@ -52,7 +52,7 @@ TEST(AnyValueTest, CopyConstruction)
   EXPECT_TRUE(copy.HasMember("single"));
   EXPECT_FALSE(copy.HasMember("index"));
 
-  copy.AddMember("index", {UnsignedInteger64, 2022});
+  copy.AddMember("index", {UnsignedInteger64Type, 2022});
   EXPECT_NE(copy, nested_val);
   EXPECT_TRUE(IsStructValue(copy));
   EXPECT_EQ(copy.GetTypeCode(), TypeCode::Struct);
@@ -66,14 +66,14 @@ TEST(AnyValueTest, CopyAssignment)
 {
   const std::string nested_name = "nested_struct";
   AnyValue two_scalars = {{
-    {"signed", {SignedInteger8, 1}},
-    {"unsigned", {UnsignedInteger8, 12}}
+    {"signed", {SignedInteger8Type, 1}},
+    {"unsigned", {UnsignedInteger8Type, 12}}
   }};
   AnyValue nested_val = (EmptyStruct(nested_name)
                             .AddMember("scalars", two_scalars)
                             .AddMember("single", EmptyStruct()
-                                .AddMember("first", {SignedInteger8, 0})
-                                .AddMember("second", {SignedInteger8, 5})));
+                                .AddMember("first", {SignedInteger8Type, 0})
+                                .AddMember("second", {SignedInteger8Type, 5})));
   EXPECT_TRUE(IsStructValue(nested_val));
   EXPECT_EQ(nested_val.GetTypeCode(), TypeCode::Struct);
   EXPECT_EQ(nested_val.GetTypeName(), nested_name);
@@ -88,7 +88,7 @@ TEST(AnyValueTest, CopyAssignment)
   EXPECT_TRUE(copy.HasMember("single"));
   EXPECT_FALSE(copy.HasMember("index"));
 
-  copy.AddMember("index", {UnsignedInteger64, 2022});
+  copy.AddMember("index", {UnsignedInteger64Type, 2022});
   EXPECT_NE(copy, nested_val);
   EXPECT_TRUE(IsStructValue(copy));
   EXPECT_EQ(copy.GetTypeCode(), TypeCode::Struct);
@@ -112,14 +112,14 @@ TEST(AnyValueTest, MoveConstruction)
 {
   const std::string nested_name = "nested_struct";
   AnyValue two_scalars = {{
-    {"signed", {SignedInteger8, 1}},
-    {"unsigned", {UnsignedInteger8, 12}}
+    {"signed", {SignedInteger8Type, 1}},
+    {"unsigned", {UnsignedInteger8Type, 12}}
   }};
   AnyValue nested_val{{
     {"scalars", two_scalars},
     {"single", {
-      {"first", {SignedInteger8, 0}},
-      {"second", {SignedInteger8, 5}}
+      {"first", {SignedInteger8Type, 0}},
+      {"second", {SignedInteger8Type, 5}}
     }}
   }, nested_name};
   EXPECT_TRUE(IsStructValue(nested_val));
@@ -135,7 +135,7 @@ TEST(AnyValueTest, MoveConstruction)
   EXPECT_TRUE(moved.HasMember("single"));
   EXPECT_FALSE(moved.HasMember("index"));
 
-  moved.AddMember("index", {UnsignedInteger64, 2022});
+  moved.AddMember("index", {UnsignedInteger64Type, 2022});
   EXPECT_NE(moved, nested_val);
   EXPECT_TRUE(IsStructValue(moved));
   EXPECT_EQ(moved.GetTypeCode(), TypeCode::Struct);
@@ -149,14 +149,14 @@ TEST(AnyValueTest, MoveAssignment)
 {
   const std::string nested_name = "nested_struct";
   AnyValue two_scalars = {{
-    {"signed", {SignedInteger8, 1}},
-    {"unsigned", {UnsignedInteger8, 12}}
+    {"signed", {SignedInteger8Type, 1}},
+    {"unsigned", {UnsignedInteger8Type, 12}}
   }};
   AnyValue nested_val = (EmptyStruct(nested_name)
                             .AddMember("scalars", two_scalars)
                             .AddMember("single", EmptyStruct()
-                                .AddMember("first", {SignedInteger8, 0})
-                                .AddMember("second", {SignedInteger8, 5})));
+                                .AddMember("first", {SignedInteger8Type, 0})
+                                .AddMember("second", {SignedInteger8Type, 5})));
   EXPECT_TRUE(IsStructValue(nested_val));
   EXPECT_EQ(nested_val.GetTypeCode(), TypeCode::Struct);
   EXPECT_EQ(nested_val.GetTypeName(), nested_name);
@@ -172,7 +172,7 @@ TEST(AnyValueTest, MoveAssignment)
   EXPECT_TRUE(moved.HasMember("single"));
   EXPECT_FALSE(moved.HasMember("index"));
 
-  moved.AddMember("index", {UnsignedInteger64, 2022});
+  moved.AddMember("index", {UnsignedInteger64Type, 2022});
   EXPECT_NE(moved, nested_val);
   EXPECT_TRUE(IsStructValue(moved));
   EXPECT_EQ(moved.GetTypeCode(), TypeCode::Struct);
@@ -197,14 +197,14 @@ TEST(AnyValueTest, CastToAnyValue)
 {
   const std::string nested_name = "nested_struct";
   AnyValue two_scalars = {{
-    {"signed", {SignedInteger8, 1}},
-    {"unsigned", {UnsignedInteger8, 12}}
+    {"signed", {SignedInteger8Type, 1}},
+    {"unsigned", {UnsignedInteger8Type, 12}}
   }};
   AnyValue nested_val = (EmptyStruct(nested_name)
                             .AddMember("scalars", two_scalars)
                             .AddMember("single", EmptyStruct()
-                                .AddMember("first", {SignedInteger8, 0})
-                                .AddMember("second", {SignedInteger8, 5})));
+                                .AddMember("first", {SignedInteger8Type, 0})
+                                .AddMember("second", {SignedInteger8Type, 5})));
   EXPECT_TRUE(IsStructValue(nested_val));
   EXPECT_EQ(nested_val.GetTypeCode(), TypeCode::Struct);
   EXPECT_EQ(nested_val.GetTypeName(), nested_name);
@@ -218,7 +218,7 @@ TEST(AnyValueTest, CastToAnyValue)
   EXPECT_TRUE(copy.HasMember("single"));
   EXPECT_FALSE(copy.HasMember("index"));
 
-  copy.AddMember("index", {UnsignedInteger64, 2022});
+  copy.AddMember("index", {UnsignedInteger64Type, 2022});
   EXPECT_NE(copy, nested_val);
   EXPECT_TRUE(IsStructValue(copy));
   EXPECT_EQ(copy.GetTypeCode(), TypeCode::Struct);
@@ -232,7 +232,7 @@ TEST(AnyValueTest, CreateEmptyFields)
 {
   // Do not allow creating a structure value with an empty value as member
   EXPECT_THROW(AnyValue({
-                 {"number", {SignedInteger16, 8765}},
+                 {"number", {SignedInteger16Type, 8765}},
                  {"empty", AnyValue{}}
                }, "EmptyMemberStruct"), InvalidOperationException);
   AnyValue my_struct = EmptyStruct("MyStruct");
@@ -250,17 +250,17 @@ TEST(AnyValueTest, AssignEmptyFields)
   EXPECT_NO_THROW(empty = AnyValue{});
 
   // Do not allow assigning an empty value to a scalar value
-  AnyValue my_scalar = {String, "scalarname"};
+  AnyValue my_scalar = {StringType, "scalarname"};
   EXPECT_THROW(my_scalar = AnyValue{}, InvalidConversionException);
 
   // Do not allow assigning an empty value to a member
   AnyValue my_struct({
-    {"number", {SignedInteger16, -99}},
+    {"number", {SignedInteger16Type, -99}},
     {"other", false}
   }, "MyStruct");
   EXPECT_THROW(my_struct["other"] = AnyValue{}, InvalidConversionException);
 
   // Do not allow assigning the empty value as the element value of an array
-  AnyValue my_array(4, UnsignedInteger64);
+  AnyValue my_array(4, UnsignedInteger64Type);
   EXPECT_THROW(my_array[0] = AnyValue{}, InvalidConversionException);
 }

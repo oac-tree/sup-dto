@@ -121,7 +121,7 @@ TEST_F(AnyTypeJSONParseTest, BooleanType)
 {
   auto json_string = ScalarTypeRepresentation(kBooleanTypeName);
   auto parsed_type = AnyTypeFromJSONString(json_string);
-  AnyType expected = Boolean;
+  AnyType expected = BooleanType;
   EXPECT_EQ(parsed_type, expected);
 }
 
@@ -129,9 +129,9 @@ TEST_F(AnyTypeJSONParseTest, SimpleStructType)
 {
   auto parsed_type = AnyTypeFromJSONString(json_simple_struct);
   AnyType expected_type({
-    {"id", String},
-    {"number", SignedInteger32},
-    {"weight", Float64}
+    {"id", StringType},
+    {"number", SignedInteger32Type},
+    {"weight", Float64Type}
   });
   EXPECT_EQ(parsed_type, expected_type);
 }
@@ -139,14 +139,14 @@ TEST_F(AnyTypeJSONParseTest, SimpleStructType)
 TEST_F(AnyTypeJSONParseTest, SimpleArrayType)
 {
   auto parsed_type = AnyTypeFromJSONString(json_simple_array);
-  AnyType expected_type(5, Character8);
+  AnyType expected_type(5, Character8Type);
   EXPECT_EQ(parsed_type, expected_type);
 }
 
 TEST_F(AnyTypeJSONParseTest, UnboundedArrayType)
 {
   auto parsed_type = AnyTypeFromJSONString(json_unbounded_array);
-  AnyType expected_type(AnyType::unbounded_array_tag, Float32);
+  AnyType expected_type(AnyType::unbounded_array_tag, Float32Type);
   EXPECT_EQ(parsed_type, expected_type);
 }
 
@@ -154,14 +154,14 @@ TEST_F(AnyTypeJSONParseTest, ComplexStructType)
 {
   auto parsed_type = AnyTypeFromJSONString(json_complex_type);
   AnyType simple_struct_type({
-    {"id", String},
-    {"number", UnsignedInteger64}
+    {"id", StringType},
+    {"number", UnsignedInteger64Type}
   });
   AnyType array_of_struct_type(4, simple_struct_type);
   AnyType expected_type({
     {"array", array_of_struct_type},
     {"nested", simple_struct_type},
-    {"validated", Boolean}
+    {"validated", BooleanType}
   });
   EXPECT_EQ(parsed_type, expected_type);
 }
@@ -170,14 +170,14 @@ TEST_F(AnyTypeJSONParseTest, PrettyPrintedType)
 {
   auto parsed_type = AnyTypeFromJSONString(pretty_json_complex_type);
   AnyType simple_struct_type({
-    {"id", String},
-    {"number", UnsignedInteger64}
+    {"id", StringType},
+    {"number", UnsignedInteger64Type}
   });
   AnyType array_of_struct_type(4, simple_struct_type);
   AnyType expected_type({
     {"array", array_of_struct_type},
     {"nested", simple_struct_type},
-    {"validated", Boolean}
+    {"validated", BooleanType}
   });
   EXPECT_EQ(parsed_type, expected_type);
 }
@@ -286,22 +286,22 @@ TEST_F(AnyTypeJSONParseTest, ParseFromRegistry)
 {
   AnyTypeRegistry anytype_registry;
   // Alias for Float64
-  anytype_registry.RegisterType("double", Float64);
+  anytype_registry.RegisterType("double", Float64Type);
   // Define type for 3d point
   std::string point_typename("point_t");
   AnyType point_t{{
-    {"x", Float32},
-    {"y", Float32},
-    {"z", Float32}
+    {"x", Float32Type},
+    {"y", Float32Type},
+    {"z", Float32Type}
   }, point_typename};
   anytype_registry.RegisterType(point_t);
   // Define struct with point
   AnyType my_struct_t{{
-    {"value", Float64},
+    {"value", Float64Type},
     {"point", point_t}
   }};
   auto alias_type = AnyTypeFromJSONString(&anytype_registry, json_alias_type);
-  EXPECT_EQ(alias_type, Float64);
+  EXPECT_EQ(alias_type, Float64Type);
   auto registered_subtypes = AnyTypeFromJSONString(&anytype_registry, json_registered_subtypes);
   EXPECT_EQ(registered_subtypes, my_struct_t);
 

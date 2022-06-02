@@ -30,7 +30,7 @@ TEST(ScalarValueTest, EmptyValue)
 {
   AnyValue empty_value{};
   EXPECT_EQ(empty_value.GetType(), EmptyType);
-  EXPECT_NE(empty_value.GetType(), SignedInteger8);
+  EXPECT_NE(empty_value.GetType(), SignedInteger8Type);
   EXPECT_TRUE(IsEmptyValue(empty_value));
   EXPECT_FALSE(IsStructValue(empty_value));
   EXPECT_FALSE(IsArrayValue(empty_value));
@@ -106,11 +106,11 @@ TEST(ScalarValueTest, EmptyValue)
 TEST(ScalarValueTest, ScalarEqualityName)
 {
   AnyValue two_scalars{{
-    {"signed", {SignedInteger8, -5}},
-    {"unsigned", {UnsignedInteger8, 22}}
+    {"signed", {SignedInteger8Type, -5}},
+    {"unsigned", {UnsignedInteger8Type, 22}}
   }};
-  AnyValue scalar{UnsignedInteger16, 35};
-  AnyValue other_scalar{SignedInteger32, -74};
+  AnyValue scalar{UnsignedInteger16Type, 35};
+  AnyValue other_scalar{SignedInteger32Type, -74};
   EXPECT_NE(scalar, two_scalars);
   EXPECT_NE(scalar, other_scalar);
   EXPECT_EQ(scalar, scalar);
@@ -119,9 +119,9 @@ TEST(ScalarValueTest, ScalarEqualityName)
 
 TEST(ScalarValueTest, BooleanValue)
 {
-  AnyValue boolean_value{Boolean};
-  EXPECT_EQ(boolean_value.GetType(), Boolean);
-  EXPECT_NE(boolean_value.GetType(), SignedInteger8);
+  AnyValue boolean_value{BooleanType};
+  EXPECT_EQ(boolean_value.GetType(), BooleanType);
+  EXPECT_NE(boolean_value.GetType(), SignedInteger8Type);
   EXPECT_FALSE(IsEmptyValue(boolean_value));
   EXPECT_FALSE(IsStructValue(boolean_value));
   EXPECT_FALSE(IsArrayValue(boolean_value));
@@ -189,8 +189,8 @@ TEST(ScalarValueTest, BooleanValue)
   EXPECT_EQ(moved.As<uint8>(), 1u);
 
   AnyValue boolean_from_literal = true;
-  EXPECT_EQ(boolean_from_literal.GetType(), Boolean);
-  EXPECT_NE(boolean_from_literal.GetType(), SignedInteger8);
+  EXPECT_EQ(boolean_from_literal.GetType(), BooleanType);
+  EXPECT_NE(boolean_from_literal.GetType(), SignedInteger8Type);
   EXPECT_FALSE(IsEmptyValue(boolean_from_literal));
   EXPECT_FALSE(IsStructValue(boolean_from_literal));
   EXPECT_FALSE(IsArrayValue(boolean_from_literal));
@@ -205,9 +205,9 @@ TEST(ScalarValueTest, BooleanValue)
   EXPECT_EQ(boolean_from_literal.As<int8>(), 0);
   EXPECT_EQ(boolean_from_literal.As<uint8>(), 0);
 
-  AnyValue boolean_from_typed_literal = {Boolean, 5};
-  EXPECT_EQ(boolean_from_typed_literal.GetType(), Boolean);
-  EXPECT_NE(boolean_from_typed_literal.GetType(), SignedInteger8);
+  AnyValue boolean_from_typed_literal = {BooleanType, 5};
+  EXPECT_EQ(boolean_from_typed_literal.GetType(), BooleanType);
+  EXPECT_NE(boolean_from_typed_literal.GetType(), SignedInteger8Type);
   EXPECT_FALSE(IsEmptyValue(boolean_from_typed_literal));
   EXPECT_FALSE(IsStructValue(boolean_from_typed_literal));
   EXPECT_FALSE(IsArrayValue(boolean_from_typed_literal));
@@ -225,9 +225,9 @@ TEST(ScalarValueTest, BooleanValue)
 
 TEST(ScalarValueTest, Float32Value)
 {
-  AnyValue float32_value{Float32};
-  EXPECT_EQ(float32_value.GetType(), Float32);
-  EXPECT_NE(float32_value.GetType(), SignedInteger64);
+  AnyValue float32_value{Float32Type};
+  EXPECT_EQ(float32_value.GetType(), Float32Type);
+  EXPECT_NE(float32_value.GetType(), SignedInteger64Type);
   EXPECT_FALSE(IsEmptyValue(float32_value));
   EXPECT_FALSE(IsStructValue(float32_value));
   EXPECT_FALSE(IsArrayValue(float32_value));
@@ -296,8 +296,8 @@ TEST(ScalarValueTest, Float32Value)
 
   float32 literal = -4.5;
   AnyValue float32_from_literal = literal;
-  EXPECT_EQ(float32_from_literal.GetType(), Float32);
-  EXPECT_NE(float32_from_literal.GetType(), SignedInteger64);
+  EXPECT_EQ(float32_from_literal.GetType(), Float32Type);
+  EXPECT_NE(float32_from_literal.GetType(), SignedInteger64Type);
   EXPECT_FALSE(IsEmptyValue(float32_from_literal));
   EXPECT_FALSE(IsStructValue(float32_from_literal));
   EXPECT_FALSE(IsArrayValue(float32_from_literal));
@@ -312,9 +312,9 @@ TEST(ScalarValueTest, Float32Value)
   EXPECT_EQ(float32_from_literal.As<float32>(), 88.125);
   EXPECT_EQ(float32_from_literal.As<int32>(), (int32)88.125);
 
-  AnyValue float32_from_typed_literal = {Float32, 5};
-  EXPECT_EQ(float32_from_typed_literal.GetType(), Float32);
-  EXPECT_NE(float32_from_typed_literal.GetType(), Boolean);
+  AnyValue float32_from_typed_literal = {Float32Type, 5};
+  EXPECT_EQ(float32_from_typed_literal.GetType(), Float32Type);
+  EXPECT_NE(float32_from_typed_literal.GetType(), BooleanType);
   EXPECT_FALSE(IsEmptyValue(float32_from_typed_literal));
   EXPECT_FALSE(IsStructValue(float32_from_typed_literal));
   EXPECT_FALSE(IsArrayValue(float32_from_typed_literal));
@@ -332,9 +332,9 @@ TEST(ScalarValueTest, Float32Value)
 
 TEST(ScalarValueTest, Float64Value)
 {
-  AnyValue float64_value{Float64};
-  EXPECT_EQ(float64_value.GetType(), Float64);
-  EXPECT_NE(float64_value.GetType(), SignedInteger64);
+  AnyValue float64_value{Float64Type};
+  EXPECT_EQ(float64_value.GetType(), Float64Type);
+  EXPECT_NE(float64_value.GetType(), SignedInteger64Type);
   EXPECT_FALSE(IsEmptyValue(float64_value));
   EXPECT_FALSE(IsStructValue(float64_value));
   EXPECT_FALSE(IsArrayValue(float64_value));
@@ -403,8 +403,8 @@ TEST(ScalarValueTest, Float64Value)
 
   float64 literal = -4.5;
   AnyValue float64_from_literal = literal;
-  EXPECT_EQ(float64_from_literal.GetType(), Float64);
-  EXPECT_NE(float64_from_literal.GetType(), SignedInteger64);
+  EXPECT_EQ(float64_from_literal.GetType(), Float64Type);
+  EXPECT_NE(float64_from_literal.GetType(), SignedInteger64Type);
   EXPECT_FALSE(IsEmptyValue(float64_from_literal));
   EXPECT_FALSE(IsStructValue(float64_from_literal));
   EXPECT_FALSE(IsArrayValue(float64_from_literal));
@@ -419,9 +419,9 @@ TEST(ScalarValueTest, Float64Value)
   EXPECT_EQ(float64_from_literal.As<float64>(), 88.125);
   EXPECT_EQ(float64_from_literal.As<int32>(), (int32)88.125);
 
-  AnyValue float64_from_typed_literal = {Float64, 5};
-  EXPECT_EQ(float64_from_typed_literal.GetType(), Float64);
-  EXPECT_NE(float64_from_typed_literal.GetType(), Boolean);
+  AnyValue float64_from_typed_literal = {Float64Type, 5};
+  EXPECT_EQ(float64_from_typed_literal.GetType(), Float64Type);
+  EXPECT_NE(float64_from_typed_literal.GetType(), BooleanType);
   EXPECT_FALSE(IsEmptyValue(float64_from_typed_literal));
   EXPECT_FALSE(IsStructValue(float64_from_typed_literal));
   EXPECT_FALSE(IsArrayValue(float64_from_typed_literal));
@@ -439,9 +439,9 @@ TEST(ScalarValueTest, Float64Value)
 
 TEST(ScalarValueTest, StringValue)
 {
-  AnyValue string_value{String};
-  EXPECT_EQ(string_value.GetType(), String);
-  EXPECT_NE(string_value.GetType(), SignedInteger64);
+  AnyValue string_value{StringType};
+  EXPECT_EQ(string_value.GetType(), StringType);
+  EXPECT_NE(string_value.GetType(), SignedInteger64Type);
   EXPECT_FALSE(IsEmptyValue(string_value));
   EXPECT_FALSE(IsStructValue(string_value));
   EXPECT_FALSE(IsArrayValue(string_value));
@@ -511,8 +511,8 @@ TEST(ScalarValueTest, StringValue)
 
   std::string literal = "literal";
   AnyValue string_from_literal = literal;
-  EXPECT_EQ(string_from_literal.GetType(), String);
-  EXPECT_NE(string_from_literal.GetType(), SignedInteger64);
+  EXPECT_EQ(string_from_literal.GetType(), StringType);
+  EXPECT_NE(string_from_literal.GetType(), SignedInteger64Type);
   EXPECT_FALSE(IsEmptyValue(string_from_literal));
   EXPECT_FALSE(IsStructValue(string_from_literal));
   EXPECT_FALSE(IsArrayValue(string_from_literal));
@@ -527,9 +527,9 @@ TEST(ScalarValueTest, StringValue)
   EXPECT_EQ(string_from_literal.As<std::string>(), "assign string");
   EXPECT_THROW(string_from_literal.As<int32>(), InvalidConversionException);
 
-  AnyValue string_from_typed_literal = {String, "typed literal"};
-  EXPECT_EQ(string_from_typed_literal.GetType(), String);
-  EXPECT_NE(string_from_typed_literal.GetType(), Boolean);
+  AnyValue string_from_typed_literal = {StringType, "typed literal"};
+  EXPECT_EQ(string_from_typed_literal.GetType(), StringType);
+  EXPECT_NE(string_from_typed_literal.GetType(), BooleanType);
   EXPECT_FALSE(IsEmptyValue(string_from_typed_literal));
   EXPECT_FALSE(IsStructValue(string_from_typed_literal));
   EXPECT_FALSE(IsArrayValue(string_from_typed_literal));

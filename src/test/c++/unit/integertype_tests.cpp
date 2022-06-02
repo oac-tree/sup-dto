@@ -26,11 +26,11 @@
 
 using namespace sup::dto;
 
-TEST(IntegerTypeTest, Character8)
+TEST(IntegerTypeTest, Character8Type)
 {
   AnyType char_type{TypeCode::Char8};
-  EXPECT_EQ(char_type, Character8);
-  EXPECT_NE(char_type, UnsignedInteger8);
+  EXPECT_EQ(char_type, Character8Type);
+  EXPECT_NE(char_type, UnsignedInteger8Type);
   EXPECT_FALSE(IsEmptyType(char_type));
   EXPECT_FALSE(IsStructType(char_type));
   EXPECT_FALSE(IsArrayType(char_type));
@@ -41,8 +41,8 @@ TEST(IntegerTypeTest, Character8)
   EXPECT_THROW(char_type["field"], InvalidOperationException);
 
   AnyType copy_char8 = char_type;
-  EXPECT_EQ(copy_char8, Character8);
-  EXPECT_NE(copy_char8, UnsignedInteger8);
+  EXPECT_EQ(copy_char8, Character8Type);
+  EXPECT_NE(copy_char8, UnsignedInteger8Type);
   EXPECT_FALSE(IsEmptyType(copy_char8));
   EXPECT_FALSE(IsStructType(copy_char8));
   EXPECT_FALSE(IsArrayType(copy_char8));
@@ -53,11 +53,11 @@ TEST(IntegerTypeTest, Character8)
   EXPECT_THROW(copy_char8["field"], InvalidOperationException);
 }
 
-TEST(IntegerTypeTest, SignedInteger8)
+TEST(IntegerTypeTest, SignedInteger8Type)
 {
   AnyType int8_type{TypeCode::Int8};
-  EXPECT_EQ(int8_type, SignedInteger8);
-  EXPECT_NE(int8_type, UnsignedInteger8);
+  EXPECT_EQ(int8_type, SignedInteger8Type);
+  EXPECT_NE(int8_type, UnsignedInteger8Type);
   EXPECT_FALSE(IsEmptyType(int8_type));
   EXPECT_FALSE(IsStructType(int8_type));
   EXPECT_FALSE(IsArrayType(int8_type));
@@ -68,8 +68,8 @@ TEST(IntegerTypeTest, SignedInteger8)
   EXPECT_THROW(int8_type["field"], InvalidOperationException);
 
   AnyType copy_int8 = int8_type;
-  EXPECT_EQ(copy_int8, SignedInteger8);
-  EXPECT_NE(copy_int8, UnsignedInteger8);
+  EXPECT_EQ(copy_int8, SignedInteger8Type);
+  EXPECT_NE(copy_int8, UnsignedInteger8Type);
   EXPECT_FALSE(IsEmptyType(copy_int8));
   EXPECT_FALSE(IsStructType(copy_int8));
   EXPECT_FALSE(IsArrayType(copy_int8));
@@ -80,11 +80,11 @@ TEST(IntegerTypeTest, SignedInteger8)
   EXPECT_THROW(copy_int8["field"], InvalidOperationException);
 }
 
-TEST(IntegerTypeTest, UnsignedInteger8)
+TEST(IntegerTypeTest, UnsignedInteger8Type)
 {
   AnyType uint8_type{TypeCode::UInt8};
-  EXPECT_EQ(uint8_type, UnsignedInteger8);
-  EXPECT_NE(uint8_type, SignedInteger8);
+  EXPECT_EQ(uint8_type, UnsignedInteger8Type);
+  EXPECT_NE(uint8_type, SignedInteger8Type);
   EXPECT_FALSE(IsEmptyType(uint8_type));
   EXPECT_FALSE(IsStructType(uint8_type));
   EXPECT_FALSE(IsArrayType(uint8_type));
@@ -95,8 +95,8 @@ TEST(IntegerTypeTest, UnsignedInteger8)
   EXPECT_THROW(uint8_type["field"], InvalidOperationException);
 
   AnyType moved_uint8 = std::move(uint8_type);
-  EXPECT_EQ(moved_uint8, UnsignedInteger8);
-  EXPECT_NE(moved_uint8, SignedInteger8);
+  EXPECT_EQ(moved_uint8, UnsignedInteger8Type);
+  EXPECT_NE(moved_uint8, SignedInteger8Type);
   EXPECT_TRUE(IsEmptyType(uint8_type)); // Moved from type is always empty
   EXPECT_EQ(uint8_type, EmptyType);
   EXPECT_FALSE(IsEmptyType(moved_uint8));
@@ -109,11 +109,11 @@ TEST(IntegerTypeTest, UnsignedInteger8)
   EXPECT_THROW(moved_uint8["field"], InvalidOperationException);
 }
 
-TEST(IntegerTypeTest, SignedInteger16)
+TEST(IntegerTypeTest, SignedInteger16Type)
 {
   AnyType int16_type{TypeCode::Int16};
-  EXPECT_EQ(int16_type, SignedInteger16);
-  EXPECT_NE(int16_type, UnsignedInteger16);
+  EXPECT_EQ(int16_type, SignedInteger16Type);
+  EXPECT_NE(int16_type, UnsignedInteger16Type);
   EXPECT_FALSE(IsEmptyType(int16_type));
   EXPECT_FALSE(IsStructType(int16_type));
   EXPECT_FALSE(IsArrayType(int16_type));
@@ -124,8 +124,8 @@ TEST(IntegerTypeTest, SignedInteger16)
   EXPECT_THROW(int16_type["field"], InvalidOperationException);
 
   AnyType copy_int16 = int16_type;
-  EXPECT_EQ(copy_int16, SignedInteger16);
-  EXPECT_NE(copy_int16, UnsignedInteger16);
+  EXPECT_EQ(copy_int16, SignedInteger16Type);
+  EXPECT_NE(copy_int16, UnsignedInteger16Type);
   EXPECT_FALSE(IsEmptyType(copy_int16));
   EXPECT_FALSE(IsStructType(copy_int16));
   EXPECT_FALSE(IsArrayType(copy_int16));
@@ -136,11 +136,11 @@ TEST(IntegerTypeTest, SignedInteger16)
   EXPECT_THROW(copy_int16["field"], InvalidOperationException);
 }
 
-TEST(IntegerTypeTest, UnsignedInteger16)
+TEST(IntegerTypeTest, UnsignedInteger16Type)
 {
   AnyType uint16_type{TypeCode::UInt16};
-  EXPECT_EQ(uint16_type, UnsignedInteger16);
-  EXPECT_NE(uint16_type, SignedInteger16);
+  EXPECT_EQ(uint16_type, UnsignedInteger16Type);
+  EXPECT_NE(uint16_type, SignedInteger16Type);
   EXPECT_FALSE(IsEmptyType(uint16_type));
   EXPECT_FALSE(IsStructType(uint16_type));
   EXPECT_FALSE(IsArrayType(uint16_type));
@@ -151,8 +151,8 @@ TEST(IntegerTypeTest, UnsignedInteger16)
   EXPECT_THROW(uint16_type["field"], InvalidOperationException);
 
   AnyType moved_uint16 = std::move(uint16_type);
-  EXPECT_EQ(moved_uint16, UnsignedInteger16);
-  EXPECT_NE(moved_uint16, SignedInteger16);
+  EXPECT_EQ(moved_uint16, UnsignedInteger16Type);
+  EXPECT_NE(moved_uint16, SignedInteger16Type);
   EXPECT_TRUE(IsEmptyType(uint16_type)); // Moved from type is always empty
   EXPECT_EQ(uint16_type, EmptyType);
   EXPECT_FALSE(IsEmptyType(moved_uint16));
@@ -165,11 +165,11 @@ TEST(IntegerTypeTest, UnsignedInteger16)
   EXPECT_THROW(moved_uint16["field"], InvalidOperationException);
 }
 
-TEST(IntegerTypeTest, SignedInteger32)
+TEST(IntegerTypeTest, SignedInteger32Type)
 {
   AnyType int32_type{TypeCode::Int32};
-  EXPECT_EQ(int32_type, SignedInteger32);
-  EXPECT_NE(int32_type, UnsignedInteger32);
+  EXPECT_EQ(int32_type, SignedInteger32Type);
+  EXPECT_NE(int32_type, UnsignedInteger32Type);
   EXPECT_FALSE(IsEmptyType(int32_type));
   EXPECT_FALSE(IsStructType(int32_type));
   EXPECT_FALSE(IsArrayType(int32_type));
@@ -180,8 +180,8 @@ TEST(IntegerTypeTest, SignedInteger32)
   EXPECT_THROW(int32_type["field"], InvalidOperationException);
 
   AnyType copy_int32 = int32_type;
-  EXPECT_EQ(copy_int32, SignedInteger32);
-  EXPECT_NE(copy_int32, UnsignedInteger32);
+  EXPECT_EQ(copy_int32, SignedInteger32Type);
+  EXPECT_NE(copy_int32, UnsignedInteger32Type);
   EXPECT_FALSE(IsEmptyType(copy_int32));
   EXPECT_FALSE(IsStructType(copy_int32));
   EXPECT_FALSE(IsArrayType(copy_int32));
@@ -192,11 +192,11 @@ TEST(IntegerTypeTest, SignedInteger32)
   EXPECT_THROW(copy_int32["field"], InvalidOperationException);
 }
 
-TEST(IntegerTypeTest, UnsignedInteger32)
+TEST(IntegerTypeTest, UnsignedInteger32Type)
 {
   AnyType uint32_type{TypeCode::UInt32};
-  EXPECT_EQ(uint32_type, UnsignedInteger32);
-  EXPECT_NE(uint32_type, SignedInteger32);
+  EXPECT_EQ(uint32_type, UnsignedInteger32Type);
+  EXPECT_NE(uint32_type, SignedInteger32Type);
   EXPECT_FALSE(IsEmptyType(uint32_type));
   EXPECT_FALSE(IsStructType(uint32_type));
   EXPECT_FALSE(IsArrayType(uint32_type));
@@ -207,8 +207,8 @@ TEST(IntegerTypeTest, UnsignedInteger32)
   EXPECT_THROW(uint32_type["field"], InvalidOperationException);
 
   AnyType moved_uint32 = std::move(uint32_type);
-  EXPECT_EQ(moved_uint32, UnsignedInteger32);
-  EXPECT_NE(moved_uint32, SignedInteger32);
+  EXPECT_EQ(moved_uint32, UnsignedInteger32Type);
+  EXPECT_NE(moved_uint32, SignedInteger32Type);
   EXPECT_TRUE(IsEmptyType(uint32_type)); // Moved from type is always empty
   EXPECT_EQ(uint32_type, EmptyType);
   EXPECT_FALSE(IsEmptyType(moved_uint32));
@@ -221,11 +221,11 @@ TEST(IntegerTypeTest, UnsignedInteger32)
   EXPECT_THROW(moved_uint32["field"], InvalidOperationException);
 }
 
-TEST(IntegerTypeTest, SignedInteger64)
+TEST(IntegerTypeTest, SignedInteger64Type)
 {
   AnyType int64_type{TypeCode::Int64};
-  EXPECT_EQ(int64_type, SignedInteger64);
-  EXPECT_NE(int64_type, UnsignedInteger64);
+  EXPECT_EQ(int64_type, SignedInteger64Type);
+  EXPECT_NE(int64_type, UnsignedInteger64Type);
   EXPECT_FALSE(IsEmptyType(int64_type));
   EXPECT_FALSE(IsStructType(int64_type));
   EXPECT_FALSE(IsArrayType(int64_type));
@@ -236,8 +236,8 @@ TEST(IntegerTypeTest, SignedInteger64)
   EXPECT_THROW(int64_type["field"], InvalidOperationException);
 
   AnyType copy_int64 = int64_type;
-  EXPECT_EQ(copy_int64, SignedInteger64);
-  EXPECT_NE(copy_int64, UnsignedInteger64);
+  EXPECT_EQ(copy_int64, SignedInteger64Type);
+  EXPECT_NE(copy_int64, UnsignedInteger64Type);
   EXPECT_FALSE(IsEmptyType(copy_int64));
   EXPECT_FALSE(IsStructType(copy_int64));
   EXPECT_FALSE(IsArrayType(copy_int64));
@@ -248,11 +248,11 @@ TEST(IntegerTypeTest, SignedInteger64)
   EXPECT_THROW(copy_int64["field"], InvalidOperationException);
 }
 
-TEST(IntegerTypeTest, UnsignedInteger64)
+TEST(IntegerTypeTest, UnsignedInteger64Type)
 {
   AnyType uint64_type{TypeCode::UInt64};
-  EXPECT_EQ(uint64_type, UnsignedInteger64);
-  EXPECT_NE(uint64_type, SignedInteger64);
+  EXPECT_EQ(uint64_type, UnsignedInteger64Type);
+  EXPECT_NE(uint64_type, SignedInteger64Type);
   EXPECT_FALSE(IsEmptyType(uint64_type));
   EXPECT_FALSE(IsStructType(uint64_type));
   EXPECT_FALSE(IsArrayType(uint64_type));
@@ -263,8 +263,8 @@ TEST(IntegerTypeTest, UnsignedInteger64)
   EXPECT_THROW(uint64_type["field"], InvalidOperationException);
 
   AnyType moved_uint64 = std::move(uint64_type);
-  EXPECT_EQ(moved_uint64, UnsignedInteger64);
-  EXPECT_NE(moved_uint64, SignedInteger64);
+  EXPECT_EQ(moved_uint64, UnsignedInteger64Type);
+  EXPECT_NE(moved_uint64, SignedInteger64Type);
   EXPECT_TRUE(IsEmptyType(uint64_type)); // Moved from type is always empty
   EXPECT_EQ(uint64_type, EmptyType);
   EXPECT_FALSE(IsEmptyType(moved_uint64));

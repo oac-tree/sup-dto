@@ -28,9 +28,9 @@ using namespace sup::dto;
 
 TEST(IntegerValueTest, Character8Value)
 {
-  AnyValue char8_value{Character8};
-  EXPECT_EQ(char8_value.GetType(), Character8);
-  EXPECT_NE(char8_value.GetType(), UnsignedInteger8);
+  AnyValue char8_value{Character8Type};
+  EXPECT_EQ(char8_value.GetType(), Character8Type);
+  EXPECT_NE(char8_value.GetType(), UnsignedInteger8Type);
   EXPECT_FALSE(IsEmptyValue(char8_value));
   EXPECT_FALSE(IsStructValue(char8_value));
   EXPECT_FALSE(IsArrayValue(char8_value));
@@ -107,8 +107,8 @@ TEST(IntegerValueTest, Character8Value)
 
   char8 literal = 'L';
   AnyValue char8_from_literal = literal;
-  EXPECT_EQ(char8_from_literal.GetType(), Character8);
-  EXPECT_NE(char8_from_literal.GetType(), SignedInteger32);
+  EXPECT_EQ(char8_from_literal.GetType(), Character8Type);
+  EXPECT_NE(char8_from_literal.GetType(), SignedInteger32Type);
   EXPECT_FALSE(IsEmptyValue(char8_from_literal));
   EXPECT_FALSE(IsStructValue(char8_from_literal));
   EXPECT_FALSE(IsArrayValue(char8_from_literal));
@@ -123,9 +123,9 @@ TEST(IntegerValueTest, Character8Value)
   EXPECT_EQ(char8_from_literal.As<char8>(), 'M');
   EXPECT_EQ(char8_from_literal.As<int32>(), 'M');
 
-  AnyValue char8_from_typed_literal = {Character8, 5};
-  EXPECT_EQ(char8_from_typed_literal.GetType(), Character8);
-  EXPECT_NE(char8_from_typed_literal.GetType(), Boolean);
+  AnyValue char8_from_typed_literal = {Character8Type, 5};
+  EXPECT_EQ(char8_from_typed_literal.GetType(), Character8Type);
+  EXPECT_NE(char8_from_typed_literal.GetType(), BooleanType);
   EXPECT_FALSE(IsEmptyValue(char8_from_typed_literal));
   EXPECT_FALSE(IsStructValue(char8_from_typed_literal));
   EXPECT_FALSE(IsArrayValue(char8_from_typed_literal));
@@ -143,9 +143,9 @@ TEST(IntegerValueTest, Character8Value)
 
 TEST(IntegerValueTest, SignedInteger8Value)
 {
-  AnyValue int8_value{SignedInteger8};
-  EXPECT_EQ(int8_value.GetType(), SignedInteger8);
-  EXPECT_NE(int8_value.GetType(), UnsignedInteger8);
+  AnyValue int8_value{SignedInteger8Type};
+  EXPECT_EQ(int8_value.GetType(), SignedInteger8Type);
+  EXPECT_NE(int8_value.GetType(), UnsignedInteger8Type);
   EXPECT_FALSE(IsEmptyValue(int8_value));
   EXPECT_FALSE(IsStructValue(int8_value));
   EXPECT_FALSE(IsArrayValue(int8_value));
@@ -220,8 +220,8 @@ TEST(IntegerValueTest, SignedInteger8Value)
 
   int8 literal = 74;
   AnyValue int8_from_literal = literal;
-  EXPECT_EQ(int8_from_literal.GetType(), SignedInteger8);
-  EXPECT_NE(int8_from_literal.GetType(), SignedInteger32);
+  EXPECT_EQ(int8_from_literal.GetType(), SignedInteger8Type);
+  EXPECT_NE(int8_from_literal.GetType(), SignedInteger32Type);
   EXPECT_FALSE(IsEmptyValue(int8_from_literal));
   EXPECT_FALSE(IsStructValue(int8_from_literal));
   EXPECT_FALSE(IsArrayValue(int8_from_literal));
@@ -236,9 +236,9 @@ TEST(IntegerValueTest, SignedInteger8Value)
   EXPECT_EQ(int8_from_literal.As<int8>(), -18);
   EXPECT_EQ(int8_from_literal.As<int32>(), -18);
 
-  AnyValue int8_from_typed_literal = {SignedInteger8, 5};
-  EXPECT_EQ(int8_from_typed_literal.GetType(), SignedInteger8);
-  EXPECT_NE(int8_from_typed_literal.GetType(), Boolean);
+  AnyValue int8_from_typed_literal = {SignedInteger8Type, 5};
+  EXPECT_EQ(int8_from_typed_literal.GetType(), SignedInteger8Type);
+  EXPECT_NE(int8_from_typed_literal.GetType(), BooleanType);
   EXPECT_FALSE(IsEmptyValue(int8_from_typed_literal));
   EXPECT_FALSE(IsStructValue(int8_from_typed_literal));
   EXPECT_FALSE(IsArrayValue(int8_from_typed_literal));
@@ -256,9 +256,9 @@ TEST(IntegerValueTest, SignedInteger8Value)
 
 TEST(IntegerValueTest, UnsignedInteger8Value)
 {
-  AnyValue uint8_value{UnsignedInteger8};
-  EXPECT_EQ(uint8_value.GetType(), UnsignedInteger8);
-  EXPECT_NE(uint8_value.GetType(), SignedInteger32);
+  AnyValue uint8_value{UnsignedInteger8Type};
+  EXPECT_EQ(uint8_value.GetType(), UnsignedInteger8Type);
+  EXPECT_NE(uint8_value.GetType(), SignedInteger32Type);
   EXPECT_FALSE(IsEmptyValue(uint8_value));
   EXPECT_FALSE(IsStructValue(uint8_value));
   EXPECT_FALSE(IsArrayValue(uint8_value));
@@ -333,8 +333,8 @@ TEST(IntegerValueTest, UnsignedInteger8Value)
 
   uint8 literal = 74;
   AnyValue uint8_from_literal = literal;
-  EXPECT_EQ(uint8_from_literal.GetType(), UnsignedInteger8);
-  EXPECT_NE(uint8_from_literal.GetType(), SignedInteger32);
+  EXPECT_EQ(uint8_from_literal.GetType(), UnsignedInteger8Type);
+  EXPECT_NE(uint8_from_literal.GetType(), SignedInteger32Type);
   EXPECT_FALSE(IsEmptyValue(uint8_from_literal));
   EXPECT_FALSE(IsStructValue(uint8_from_literal));
   EXPECT_FALSE(IsArrayValue(uint8_from_literal));
@@ -349,9 +349,9 @@ TEST(IntegerValueTest, UnsignedInteger8Value)
   EXPECT_EQ(uint8_from_literal.As<uint8>(), 18);
   EXPECT_EQ(uint8_from_literal.As<int32>(), 18);
 
-  AnyValue uint8_from_typed_literal = {UnsignedInteger8, 5};
-  EXPECT_EQ(uint8_from_typed_literal.GetType(), UnsignedInteger8);
-  EXPECT_NE(uint8_from_typed_literal.GetType(), Boolean);
+  AnyValue uint8_from_typed_literal = {UnsignedInteger8Type, 5};
+  EXPECT_EQ(uint8_from_typed_literal.GetType(), UnsignedInteger8Type);
+  EXPECT_NE(uint8_from_typed_literal.GetType(), BooleanType);
   EXPECT_FALSE(IsEmptyValue(uint8_from_typed_literal));
   EXPECT_FALSE(IsStructValue(uint8_from_typed_literal));
   EXPECT_FALSE(IsArrayValue(uint8_from_typed_literal));
@@ -369,9 +369,9 @@ TEST(IntegerValueTest, UnsignedInteger8Value)
 
 TEST(IntegerValueTest, SignedInteger16Value)
 {
-  AnyValue int16_value{SignedInteger16};
-  EXPECT_EQ(int16_value.GetType(), SignedInteger16);
-  EXPECT_NE(int16_value.GetType(), UnsignedInteger16);
+  AnyValue int16_value{SignedInteger16Type};
+  EXPECT_EQ(int16_value.GetType(), SignedInteger16Type);
+  EXPECT_NE(int16_value.GetType(), UnsignedInteger16Type);
   EXPECT_FALSE(IsEmptyValue(int16_value));
   EXPECT_FALSE(IsStructValue(int16_value));
   EXPECT_FALSE(IsArrayValue(int16_value));
@@ -447,8 +447,8 @@ TEST(IntegerValueTest, SignedInteger16Value)
 
   int16 literal = 74;
   AnyValue int16_from_literal = literal;
-  EXPECT_EQ(int16_from_literal.GetType(), SignedInteger16);
-  EXPECT_NE(int16_from_literal.GetType(), SignedInteger32);
+  EXPECT_EQ(int16_from_literal.GetType(), SignedInteger16Type);
+  EXPECT_NE(int16_from_literal.GetType(), SignedInteger32Type);
   EXPECT_FALSE(IsEmptyValue(int16_from_literal));
   EXPECT_FALSE(IsStructValue(int16_from_literal));
   EXPECT_FALSE(IsArrayValue(int16_from_literal));
@@ -463,9 +463,9 @@ TEST(IntegerValueTest, SignedInteger16Value)
   EXPECT_EQ(int16_from_literal.As<int16>(), -18);
   EXPECT_EQ(int16_from_literal.As<int32>(), -18);
 
-  AnyValue int16_from_typed_literal = {SignedInteger16, 5};
-  EXPECT_EQ(int16_from_typed_literal.GetType(), SignedInteger16);
-  EXPECT_NE(int16_from_typed_literal.GetType(), Boolean);
+  AnyValue int16_from_typed_literal = {SignedInteger16Type, 5};
+  EXPECT_EQ(int16_from_typed_literal.GetType(), SignedInteger16Type);
+  EXPECT_NE(int16_from_typed_literal.GetType(), BooleanType);
   EXPECT_FALSE(IsEmptyValue(int16_from_typed_literal));
   EXPECT_FALSE(IsStructValue(int16_from_typed_literal));
   EXPECT_FALSE(IsArrayValue(int16_from_typed_literal));
@@ -483,9 +483,9 @@ TEST(IntegerValueTest, SignedInteger16Value)
 
 TEST(IntegerValueTest, UnsignedInteger16Value)
 {
-  AnyValue uint16_value{UnsignedInteger16};
-  EXPECT_EQ(uint16_value.GetType(), UnsignedInteger16);
-  EXPECT_NE(uint16_value.GetType(), SignedInteger32);
+  AnyValue uint16_value{UnsignedInteger16Type};
+  EXPECT_EQ(uint16_value.GetType(), UnsignedInteger16Type);
+  EXPECT_NE(uint16_value.GetType(), SignedInteger32Type);
   EXPECT_FALSE(IsEmptyValue(uint16_value));
   EXPECT_FALSE(IsStructValue(uint16_value));
   EXPECT_FALSE(IsArrayValue(uint16_value));
@@ -561,8 +561,8 @@ TEST(IntegerValueTest, UnsignedInteger16Value)
 
   uint16 literal = 74;
   AnyValue uint16_from_literal = literal;
-  EXPECT_EQ(uint16_from_literal.GetType(), UnsignedInteger16);
-  EXPECT_NE(uint16_from_literal.GetType(), SignedInteger32);
+  EXPECT_EQ(uint16_from_literal.GetType(), UnsignedInteger16Type);
+  EXPECT_NE(uint16_from_literal.GetType(), SignedInteger32Type);
   EXPECT_FALSE(IsEmptyValue(uint16_from_literal));
   EXPECT_FALSE(IsStructValue(uint16_from_literal));
   EXPECT_FALSE(IsArrayValue(uint16_from_literal));
@@ -577,9 +577,9 @@ TEST(IntegerValueTest, UnsignedInteger16Value)
   EXPECT_EQ(uint16_from_literal.As<uint16>(), 116);
   EXPECT_EQ(uint16_from_literal.As<int32>(), 116);
 
-  AnyValue uint16_from_typed_literal = {UnsignedInteger16, 5};
-  EXPECT_EQ(uint16_from_typed_literal.GetType(), UnsignedInteger16);
-  EXPECT_NE(uint16_from_typed_literal.GetType(), Boolean);
+  AnyValue uint16_from_typed_literal = {UnsignedInteger16Type, 5};
+  EXPECT_EQ(uint16_from_typed_literal.GetType(), UnsignedInteger16Type);
+  EXPECT_NE(uint16_from_typed_literal.GetType(), BooleanType);
   EXPECT_FALSE(IsEmptyValue(uint16_from_typed_literal));
   EXPECT_FALSE(IsStructValue(uint16_from_typed_literal));
   EXPECT_FALSE(IsArrayValue(uint16_from_typed_literal));
@@ -597,9 +597,9 @@ TEST(IntegerValueTest, UnsignedInteger16Value)
 
 TEST(IntegerValueTest, SignedInteger32Value)
 {
-  AnyValue int32_value{SignedInteger32};
-  EXPECT_EQ(int32_value.GetType(), SignedInteger32);
-  EXPECT_NE(int32_value.GetType(), UnsignedInteger32);
+  AnyValue int32_value{SignedInteger32Type};
+  EXPECT_EQ(int32_value.GetType(), SignedInteger32Type);
+  EXPECT_NE(int32_value.GetType(), UnsignedInteger32Type);
   EXPECT_FALSE(IsEmptyValue(int32_value));
   EXPECT_FALSE(IsStructValue(int32_value));
   EXPECT_FALSE(IsArrayValue(int32_value));
@@ -675,8 +675,8 @@ TEST(IntegerValueTest, SignedInteger32Value)
 
   int32 literal = 74;
   AnyValue int32_from_literal = literal;
-  EXPECT_EQ(int32_from_literal.GetType(), SignedInteger32);
-  EXPECT_NE(int32_from_literal.GetType(), SignedInteger16);
+  EXPECT_EQ(int32_from_literal.GetType(), SignedInteger32Type);
+  EXPECT_NE(int32_from_literal.GetType(), SignedInteger16Type);
   EXPECT_FALSE(IsEmptyValue(int32_from_literal));
   EXPECT_FALSE(IsStructValue(int32_from_literal));
   EXPECT_FALSE(IsArrayValue(int32_from_literal));
@@ -691,9 +691,9 @@ TEST(IntegerValueTest, SignedInteger32Value)
   EXPECT_EQ(int32_from_literal.As<int32>(), -18);
   EXPECT_EQ(int32_from_literal.As<int16>(), -18);
 
-  AnyValue int32_from_typed_literal = {SignedInteger32, 5};
-  EXPECT_EQ(int32_from_typed_literal.GetType(), SignedInteger32);
-  EXPECT_NE(int32_from_typed_literal.GetType(), Boolean);
+  AnyValue int32_from_typed_literal = {SignedInteger32Type, 5};
+  EXPECT_EQ(int32_from_typed_literal.GetType(), SignedInteger32Type);
+  EXPECT_NE(int32_from_typed_literal.GetType(), BooleanType);
   EXPECT_FALSE(IsEmptyValue(int32_from_typed_literal));
   EXPECT_FALSE(IsStructValue(int32_from_typed_literal));
   EXPECT_FALSE(IsArrayValue(int32_from_typed_literal));
@@ -711,9 +711,9 @@ TEST(IntegerValueTest, SignedInteger32Value)
 
 TEST(IntegerValueTest, UnsignedInteger32Value)
 {
-  AnyValue uint32_value{UnsignedInteger32};
-  EXPECT_EQ(uint32_value.GetType(), UnsignedInteger32);
-  EXPECT_NE(uint32_value.GetType(), SignedInteger32);
+  AnyValue uint32_value{UnsignedInteger32Type};
+  EXPECT_EQ(uint32_value.GetType(), UnsignedInteger32Type);
+  EXPECT_NE(uint32_value.GetType(), SignedInteger32Type);
   EXPECT_FALSE(IsEmptyValue(uint32_value));
   EXPECT_FALSE(IsStructValue(uint32_value));
   EXPECT_FALSE(IsArrayValue(uint32_value));
@@ -789,8 +789,8 @@ TEST(IntegerValueTest, UnsignedInteger32Value)
 
   uint32 literal = 74;
   AnyValue uint32_from_literal = literal;
-  EXPECT_EQ(uint32_from_literal.GetType(), UnsignedInteger32);
-  EXPECT_NE(uint32_from_literal.GetType(), SignedInteger32);
+  EXPECT_EQ(uint32_from_literal.GetType(), UnsignedInteger32Type);
+  EXPECT_NE(uint32_from_literal.GetType(), SignedInteger32Type);
   EXPECT_FALSE(IsEmptyValue(uint32_from_literal));
   EXPECT_FALSE(IsStructValue(uint32_from_literal));
   EXPECT_FALSE(IsArrayValue(uint32_from_literal));
@@ -805,9 +805,9 @@ TEST(IntegerValueTest, UnsignedInteger32Value)
   EXPECT_EQ(uint32_from_literal.As<uint32>(), 116);
   EXPECT_EQ(uint32_from_literal.As<int32>(), 116);
 
-  AnyValue uint32_from_typed_literal = {UnsignedInteger32, 5};
-  EXPECT_EQ(uint32_from_typed_literal.GetType(), UnsignedInteger32);
-  EXPECT_NE(uint32_from_typed_literal.GetType(), Boolean);
+  AnyValue uint32_from_typed_literal = {UnsignedInteger32Type, 5};
+  EXPECT_EQ(uint32_from_typed_literal.GetType(), UnsignedInteger32Type);
+  EXPECT_NE(uint32_from_typed_literal.GetType(), BooleanType);
   EXPECT_FALSE(IsEmptyValue(uint32_from_typed_literal));
   EXPECT_FALSE(IsStructValue(uint32_from_typed_literal));
   EXPECT_FALSE(IsArrayValue(uint32_from_typed_literal));
@@ -825,9 +825,9 @@ TEST(IntegerValueTest, UnsignedInteger32Value)
 
 TEST(IntegerValueTest, SignedInteger64Value)
 {
-  AnyValue int64_value{SignedInteger64};
-  EXPECT_EQ(int64_value.GetType(), SignedInteger64);
-  EXPECT_NE(int64_value.GetType(), UnsignedInteger32);
+  AnyValue int64_value{SignedInteger64Type};
+  EXPECT_EQ(int64_value.GetType(), SignedInteger64Type);
+  EXPECT_NE(int64_value.GetType(), UnsignedInteger32Type);
   EXPECT_FALSE(IsEmptyValue(int64_value));
   EXPECT_FALSE(IsStructValue(int64_value));
   EXPECT_FALSE(IsArrayValue(int64_value));
@@ -903,8 +903,8 @@ TEST(IntegerValueTest, SignedInteger64Value)
 
   int64 literal = 74;
   AnyValue int64_from_literal = literal;
-  EXPECT_EQ(int64_from_literal.GetType(), SignedInteger64);
-  EXPECT_NE(int64_from_literal.GetType(), SignedInteger16);
+  EXPECT_EQ(int64_from_literal.GetType(), SignedInteger64Type);
+  EXPECT_NE(int64_from_literal.GetType(), SignedInteger16Type);
   EXPECT_FALSE(IsEmptyValue(int64_from_literal));
   EXPECT_FALSE(IsStructValue(int64_from_literal));
   EXPECT_FALSE(IsArrayValue(int64_from_literal));
@@ -919,9 +919,9 @@ TEST(IntegerValueTest, SignedInteger64Value)
   EXPECT_EQ(int64_from_literal.As<int64>(), -18);
   EXPECT_EQ(int64_from_literal.As<int16>(), -18);
 
-  AnyValue int64_from_typed_literal = {SignedInteger64, 5};
-  EXPECT_EQ(int64_from_typed_literal.GetType(), SignedInteger64);
-  EXPECT_NE(int64_from_typed_literal.GetType(), Boolean);
+  AnyValue int64_from_typed_literal = {SignedInteger64Type, 5};
+  EXPECT_EQ(int64_from_typed_literal.GetType(), SignedInteger64Type);
+  EXPECT_NE(int64_from_typed_literal.GetType(), BooleanType);
   EXPECT_FALSE(IsEmptyValue(int64_from_typed_literal));
   EXPECT_FALSE(IsStructValue(int64_from_typed_literal));
   EXPECT_FALSE(IsArrayValue(int64_from_typed_literal));
@@ -939,9 +939,9 @@ TEST(IntegerValueTest, SignedInteger64Value)
 
 TEST(IntegerValueTest, UnsignedInteger64Value)
 {
-  AnyValue uint64_value{UnsignedInteger64};
-  EXPECT_EQ(uint64_value.GetType(), UnsignedInteger64);
-  EXPECT_NE(uint64_value.GetType(), SignedInteger64);
+  AnyValue uint64_value{UnsignedInteger64Type};
+  EXPECT_EQ(uint64_value.GetType(), UnsignedInteger64Type);
+  EXPECT_NE(uint64_value.GetType(), SignedInteger64Type);
   EXPECT_FALSE(IsEmptyValue(uint64_value));
   EXPECT_FALSE(IsStructValue(uint64_value));
   EXPECT_FALSE(IsArrayValue(uint64_value));
@@ -1017,8 +1017,8 @@ TEST(IntegerValueTest, UnsignedInteger64Value)
 
   uint64 literal = 74;
   AnyValue uint64_from_literal = literal;
-  EXPECT_EQ(uint64_from_literal.GetType(), UnsignedInteger64);
-  EXPECT_NE(uint64_from_literal.GetType(), SignedInteger64);
+  EXPECT_EQ(uint64_from_literal.GetType(), UnsignedInteger64Type);
+  EXPECT_NE(uint64_from_literal.GetType(), SignedInteger64Type);
   EXPECT_FALSE(IsEmptyValue(uint64_from_literal));
   EXPECT_FALSE(IsStructValue(uint64_from_literal));
   EXPECT_FALSE(IsArrayValue(uint64_from_literal));
@@ -1033,9 +1033,9 @@ TEST(IntegerValueTest, UnsignedInteger64Value)
   EXPECT_EQ(uint64_from_literal.As<uint64>(), 116);
   EXPECT_EQ(uint64_from_literal.As<int32>(), 116);
 
-  AnyValue uint64_from_typed_literal = {UnsignedInteger64, 5};
-  EXPECT_EQ(uint64_from_typed_literal.GetType(), UnsignedInteger64);
-  EXPECT_NE(uint64_from_typed_literal.GetType(), Boolean);
+  AnyValue uint64_from_typed_literal = {UnsignedInteger64Type, 5};
+  EXPECT_EQ(uint64_from_typed_literal.GetType(), UnsignedInteger64Type);
+  EXPECT_NE(uint64_from_typed_literal.GetType(), BooleanType);
   EXPECT_FALSE(IsEmptyValue(uint64_from_typed_literal));
   EXPECT_FALSE(IsStructValue(uint64_from_typed_literal));
   EXPECT_FALSE(IsArrayValue(uint64_from_typed_literal));

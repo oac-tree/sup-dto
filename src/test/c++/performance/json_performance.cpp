@@ -50,19 +50,19 @@ void PrintDateTime()
 AnyType CreateScalarMix_Type()
 {
   AnyType scalar_mix_t({
-    {"a", Boolean},
-    {"b", Character8},
-    {"c", SignedInteger8},
-    {"d", UnsignedInteger8},
-    {"e", SignedInteger16},
-    {"f", UnsignedInteger16},
-    {"g", SignedInteger32},
-    {"h", UnsignedInteger32},
-    {"i", SignedInteger64},
-    {"j", UnsignedInteger64},
-    {"k", Float32},
-    {"l", Float64},
-    {"m", String}
+    {"a", BooleanType},
+    {"b", Character8Type},
+    {"c", SignedInteger8Type},
+    {"d", UnsignedInteger8Type},
+    {"e", SignedInteger16Type},
+    {"f", UnsignedInteger16Type},
+    {"g", SignedInteger32Type},
+    {"h", UnsignedInteger32Type},
+    {"i", SignedInteger64Type},
+    {"j", UnsignedInteger64Type},
+    {"k", Float32Type},
+    {"l", Float64Type},
+    {"m", StringType}
   }, "scalar_mix_t");
   return scalar_mix_t;
 }
@@ -77,14 +77,14 @@ AnyType CreateSystemConfigs_Type()
 {
   auto scalar_mix_array_t = CreateScalarMixArray_Type();
   AnyType system_configs_t({
-    {"description", String},
+    {"description", StringType},
     {"system_01", scalar_mix_array_t},
     {"system_02", scalar_mix_array_t},
     {"system_03", scalar_mix_array_t},
     {"system_04", scalar_mix_array_t},
     {"system_05", scalar_mix_array_t},
     {"system_06", scalar_mix_array_t},
-    {"enabled", Boolean}
+    {"enabled", BooleanType}
   }, "system_configs_t");
   return system_configs_t;
 }

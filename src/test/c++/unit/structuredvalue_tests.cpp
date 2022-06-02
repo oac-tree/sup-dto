@@ -29,7 +29,7 @@ using namespace sup::dto;
 TEST(StructuredValueTest, StructValue)
 {
   AnyValue my_struct{{
-    {"index", {UnsignedInteger64, 1}},
+    {"index", {UnsignedInteger64Type, 1}},
     {"coordinates", {{
       {"x", 0},
       {"y", 5}
@@ -47,8 +47,8 @@ TEST(StructuredValueTest, StructValue)
 TEST(StructuredValueTest, InvalidMemberFieldName)
 {
   AnyValue two_scalars{{
-    {"signed", {SignedInteger8, -5}},
-    {"unsigned", {UnsignedInteger8, 22}}
+    {"signed", {SignedInteger8Type, -5}},
+    {"unsigned", {UnsignedInteger8Type, 22}}
   }};
   EXPECT_THROW(two_scalars.AddMember("", true), InvalidOperationException);
   EXPECT_THROW(two_scalars.AddMember("signed.subfield", true), InvalidOperationException);
@@ -58,8 +58,8 @@ TEST(StructuredValueTest, InvalidMemberFieldName)
 TEST(StructuredValueTest, StructEqualityName)
 {
   AnyValue two_scalars{{
-    {"signed", {SignedInteger8, -5}},
-    {"unsigned", {UnsignedInteger8, 22}}
+    {"signed", {SignedInteger8Type, -5}},
+    {"unsigned", {UnsignedInteger8Type, 22}}
   }};
   AnyValue other(two_scalars);
   EXPECT_EQ(two_scalars, other);
@@ -71,8 +71,8 @@ TEST(StructuredValueTest, StructEqualityName)
 TEST(StructuredValueTest, InvalidStructAssign)
 {
   AnyValue two_scalars{{
-    {"signed", {SignedInteger8, -5}},
-    {"unsigned", {UnsignedInteger8, 22}}
+    {"signed", {SignedInteger8Type, -5}},
+    {"unsigned", {UnsignedInteger8Type, 22}}
   }};
   AnyValue other(two_scalars);
   EXPECT_EQ(two_scalars, other);
@@ -82,7 +82,7 @@ TEST(StructuredValueTest, InvalidStructAssign)
   EXPECT_THROW(two_scalars = other, InvalidConversionException);
   EXPECT_NE(two_scalars, other);
 
-  AnyValue index{UnsignedInteger64, 1};
+  AnyValue index{UnsignedInteger64Type, 1};
   EXPECT_THROW(two_scalars = index, InvalidConversionException);
   EXPECT_NE(two_scalars, index);
 }
@@ -91,14 +91,14 @@ TEST(StructuredValueTest, MemberAccess)
 {
   const std::string nested_name = "nested_struct";
   AnyValue two_scalars = {{
-    {"signed", {SignedInteger8, 1}},
-    {"unsigned", {UnsignedInteger8, 12}}
+    {"signed", {SignedInteger8Type, 1}},
+    {"unsigned", {UnsignedInteger8Type, 12}}
   }};
   AnyValue nested_val{{
     {"scalars", two_scalars},
     {"single", {
-      {"first", {SignedInteger8, 0}},
-      {"second", {SignedInteger8, 5}}
+      {"first", {SignedInteger8Type, 0}},
+      {"second", {SignedInteger8Type, 5}}
     }}
   }, nested_name};
   EXPECT_TRUE(IsStructValue(nested_val));
@@ -108,8 +108,8 @@ TEST(StructuredValueTest, MemberAccess)
   AnyType nested_type{{
     {"scalars", two_scalars.GetType()},
     {"single", {
-      {"first", SignedInteger8},
-      {"second", SignedInteger8}
+      {"first", SignedInteger8Type},
+      {"second", SignedInteger8Type}
     }}
   }, nested_name};
   EXPECT_EQ(nested_val.GetType(), nested_type);
@@ -122,7 +122,7 @@ TEST(StructuredValueTest, MemberAccess)
   EXPECT_EQ(nested_val.NumberOfMembers(), 2);
   EXPECT_EQ(member_fields[0], "scalars");
   EXPECT_EQ(member_fields[1], "single");
-  nested_val.AddMember("index", {UnsignedInteger64, 2022});
+  nested_val.AddMember("index", {UnsignedInteger64Type, 2022});
   EXPECT_TRUE(nested_val.HasMember("index"));
   member_fields = nested_val.MemberNames();
   EXPECT_EQ(member_fields.size(), 3);
@@ -150,7 +150,7 @@ TEST(StructuredValueTest, MemberAccess)
   EXPECT_EQ(empty_value.NumberOfMembers(), 0);
 
   // test member access for scalar value
-  AnyValue scalar_value(Float32);
+  AnyValue scalar_value(Float32Type);
   EXPECT_THROW(scalar_value.AddMember("throws", 1.0), InvalidOperationException);
   EXPECT_FALSE(scalar_value.HasMember("throws"));
   EXPECT_EQ(scalar_value.MemberNames().size(), 0);

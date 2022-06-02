@@ -106,7 +106,7 @@ TEST_F(AnyTypeJSONSerializeTest, EmptyType)
 
 TEST_F(AnyTypeJSONSerializeTest, BooleanType)
 {
-  AnyType bool_type = Boolean;
+  AnyType bool_type = BooleanType;
   auto json_string = AnyTypeToJSONString(bool_type);
   EXPECT_EQ(json_string, ScalarTypeRepresentation(kBooleanTypeName));
 }
@@ -114,9 +114,9 @@ TEST_F(AnyTypeJSONSerializeTest, BooleanType)
 TEST_F(AnyTypeJSONSerializeTest, SimpleStructType)
 {
   AnyType simple_struct_type({
-    {"id", String},
-    {"number", SignedInteger32},
-    {"weight", Float64}
+    {"id", StringType},
+    {"number", SignedInteger32Type},
+    {"weight", Float64Type}
   });
   auto json_string = AnyTypeToJSONString(simple_struct_type);
   EXPECT_EQ(json_string, json_simple_struct);
@@ -124,14 +124,14 @@ TEST_F(AnyTypeJSONSerializeTest, SimpleStructType)
 
 TEST_F(AnyTypeJSONSerializeTest, SimpleArrayType)
 {
-  AnyType simple_array_type(5, Character8);
+  AnyType simple_array_type(5, Character8Type);
   auto json_string = AnyTypeToJSONString(simple_array_type);
   EXPECT_EQ(json_string, json_simple_array);
 }
 
 TEST_F(AnyTypeJSONSerializeTest, UnboundedArrayType)
 {
-  AnyType unbounded_array_type(AnyType::unbounded_array_tag, UnsignedInteger16);
+  AnyType unbounded_array_type(AnyType::unbounded_array_tag, UnsignedInteger16Type);
   auto json_string = AnyTypeToJSONString(unbounded_array_type);
   EXPECT_EQ(json_string, json_unbounded_array);
 }
@@ -139,14 +139,14 @@ TEST_F(AnyTypeJSONSerializeTest, UnboundedArrayType)
 TEST_F(AnyTypeJSONSerializeTest, ComplexStructType)
 {
   AnyType simple_struct_type({
-    {"id", String},
-    {"number", UnsignedInteger64}
+    {"id", StringType},
+    {"number", UnsignedInteger64Type}
   });
   AnyType array_of_struct_type(4, simple_struct_type);
   AnyType complex_struct_type({
     {"array", array_of_struct_type},
     {"nested", simple_struct_type},
-    {"validated", Boolean}
+    {"validated", BooleanType}
   });
   auto json_string = AnyTypeToJSONString(complex_struct_type);
   EXPECT_EQ(json_string, json_complex_type);
@@ -155,14 +155,14 @@ TEST_F(AnyTypeJSONSerializeTest, ComplexStructType)
 TEST_F(AnyTypeJSONSerializeTest, PrettyPrinting)
 {
   AnyType simple_struct_type({
-    {"id", String},
-    {"number", UnsignedInteger64}
+    {"id", StringType},
+    {"number", UnsignedInteger64Type}
   });
   AnyType array_of_struct_type(4, simple_struct_type);
   AnyType complex_struct_type({
     {"array", array_of_struct_type},
     {"nested", simple_struct_type},
-    {"validated", Boolean}
+    {"validated", BooleanType}
   });
   auto json_string = AnyTypeToJSONString(complex_struct_type, true);
   EXPECT_EQ(json_string, pretty_json_complex_type);

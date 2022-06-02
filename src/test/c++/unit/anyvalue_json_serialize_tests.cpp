@@ -116,7 +116,7 @@ TEST_F(AnyValueJSONSerializeTest, Char8Value)
 
 TEST_F(AnyValueJSONSerializeTest, Int8Value)
 {
-  AnyValue int8_val = {SignedInteger8, -7};
+  AnyValue int8_val = {SignedInteger8Type, -7};
   auto json_string = ValuesToJSONString(int8_val);
   std::string expected = "-7";
   EXPECT_EQ(json_string, expected);
@@ -124,7 +124,7 @@ TEST_F(AnyValueJSONSerializeTest, Int8Value)
 
 TEST_F(AnyValueJSONSerializeTest, UInt8Value)
 {
-  AnyValue uint8_val = {UnsignedInteger8, 240};
+  AnyValue uint8_val = {UnsignedInteger8Type, 240};
   auto json_string = ValuesToJSONString(uint8_val);
   std::string expected = "240";
   EXPECT_EQ(json_string, expected);
@@ -132,7 +132,7 @@ TEST_F(AnyValueJSONSerializeTest, UInt8Value)
 
 TEST_F(AnyValueJSONSerializeTest, Int16Value)
 {
-  AnyValue int16_val = {SignedInteger16, -300};
+  AnyValue int16_val = {SignedInteger16Type, -300};
   auto json_string = ValuesToJSONString(int16_val);
   std::string expected = "-300";
   EXPECT_EQ(json_string, expected);
@@ -140,7 +140,7 @@ TEST_F(AnyValueJSONSerializeTest, Int16Value)
 
 TEST_F(AnyValueJSONSerializeTest, UInt16Value)
 {
-  AnyValue uint16_val = {UnsignedInteger16, 4008};
+  AnyValue uint16_val = {UnsignedInteger16Type, 4008};
   auto json_string = ValuesToJSONString(uint16_val);
   std::string expected = "4008";
   EXPECT_EQ(json_string, expected);
@@ -148,7 +148,7 @@ TEST_F(AnyValueJSONSerializeTest, UInt16Value)
 
 TEST_F(AnyValueJSONSerializeTest, Int32Value)
 {
-  AnyValue int32_val = {SignedInteger32, -300001};
+  AnyValue int32_val = {SignedInteger32Type, -300001};
   auto json_string = ValuesToJSONString(int32_val);
   std::string expected = "-300001";
   EXPECT_EQ(json_string, expected);
@@ -156,7 +156,7 @@ TEST_F(AnyValueJSONSerializeTest, Int32Value)
 
 TEST_F(AnyValueJSONSerializeTest, UInt32Value)
 {
-  AnyValue uint32_val = {UnsignedInteger32, 123456};
+  AnyValue uint32_val = {UnsignedInteger32Type, 123456};
   auto json_string = ValuesToJSONString(uint32_val);
   std::string expected = "123456";
   EXPECT_EQ(json_string, expected);
@@ -164,7 +164,7 @@ TEST_F(AnyValueJSONSerializeTest, UInt32Value)
 
 TEST_F(AnyValueJSONSerializeTest, Int64Value)
 {
-  AnyValue int64_val = {SignedInteger64, -5001002003004};
+  AnyValue int64_val = {SignedInteger64Type, -5001002003004};
   auto json_string = ValuesToJSONString(int64_val);
   std::string expected = "-5001002003004";
   EXPECT_EQ(json_string, expected);
@@ -172,7 +172,7 @@ TEST_F(AnyValueJSONSerializeTest, Int64Value)
 
 TEST_F(AnyValueJSONSerializeTest, UInt64Value)
 {
-  AnyValue uint64_val = {UnsignedInteger64, 2001002003004005};
+  AnyValue uint64_val = {UnsignedInteger64Type, 2001002003004005};
   auto json_string = ValuesToJSONString(uint64_val);
   std::string expected = "2001002003004005";
   EXPECT_EQ(json_string, expected);
@@ -180,7 +180,7 @@ TEST_F(AnyValueJSONSerializeTest, UInt64Value)
 
 TEST_F(AnyValueJSONSerializeTest, Float32Value)
 {
-  AnyValue float32_val = {Float32, 90};
+  AnyValue float32_val = {Float32Type, 90};
   auto json_string = ValuesToJSONString(float32_val);
   std::string expected = "90.0";
   EXPECT_EQ(json_string, expected);
@@ -188,7 +188,7 @@ TEST_F(AnyValueJSONSerializeTest, Float32Value)
 
 TEST_F(AnyValueJSONSerializeTest, Float64Value)
 {
-  AnyValue float64_val = {Float64, -777.125};
+  AnyValue float64_val = {Float64Type, -777.125};
   auto json_string = ValuesToJSONString(float64_val);
   std::string expected = "-777.125";
   EXPECT_EQ(json_string, expected);
@@ -197,9 +197,9 @@ TEST_F(AnyValueJSONSerializeTest, Float64Value)
 TEST_F(AnyValueJSONSerializeTest, SimpleStructValue)
 {
   AnyValue simple_struct_val({
-    {"id", {String, "my_id"}},
-    {"number", {SignedInteger32, 1729}},
-    {"weight", {Float64, 50.25}}
+    {"id", {StringType, "my_id"}},
+    {"number", {SignedInteger32Type, 1729}},
+    {"weight", {Float64Type, 50.25}}
   });
   auto json_string = ValuesToJSONString(simple_struct_val);
   EXPECT_EQ(json_string, json_simple_struct);
@@ -210,9 +210,9 @@ TEST_F(AnyValueJSONSerializeTest, SimpleStructValue)
 TEST_F(AnyValueJSONSerializeTest, PrettySimpleStructValue)
 {
   AnyValue simple_struct_val({
-    {"id", {String, "my_id"}},
-    {"number", {SignedInteger32, 1729}},
-    {"weight", {Float64, 50.25}}
+    {"id", {StringType, "my_id"}},
+    {"number", {SignedInteger32Type, 1729}},
+    {"weight", {Float64Type, 50.25}}
   });
   auto json_string = AnyValueToJSONString(simple_struct_val, true);
   EXPECT_EQ(json_string, pretty_json_simple_struct);
@@ -220,7 +220,7 @@ TEST_F(AnyValueJSONSerializeTest, PrettySimpleStructValue)
 
 TEST_F(AnyValueJSONSerializeTest, SimpleArrayValue)
 {
-  AnyValue simple_array_val(5, SignedInteger32);
+  AnyValue simple_array_val(5, SignedInteger32Type);
   for (int i=0; i<5; ++i)
   {
     simple_array_val[i] = 20*i;
@@ -233,7 +233,7 @@ TEST_F(AnyValueJSONSerializeTest, SimpleArrayValue)
 
 TEST_F(AnyValueJSONSerializeTest, UnboundedArrayValue)
 {
-  AnyValue unbounded_array_val(AnyType::unbounded_array_tag, SignedInteger32);
+  AnyValue unbounded_array_val(AnyType::unbounded_array_tag, SignedInteger32Type);
   for (int i=0; i<5; ++i)
   {
     unbounded_array_val.Append(20*i);
@@ -247,14 +247,14 @@ TEST_F(AnyValueJSONSerializeTest, UnboundedArrayValue)
 TEST_F(AnyValueJSONSerializeTest, ComplexStructValue)
 {
   AnyType simple_struct_type({
-    {"id", String},
-    {"number", UnsignedInteger64}
+    {"id", StringType},
+    {"number", UnsignedInteger64Type}
   });
   AnyType array_of_struct_type(2, simple_struct_type);
   AnyType complex_struct_type({
     {"array", array_of_struct_type},
     {"nested", simple_struct_type},
-    {"validated", Boolean}
+    {"validated", BooleanType}
   });
   AnyValue complex_struct_val(complex_struct_type);
   complex_struct_val["array[1].id"] = "second_id";

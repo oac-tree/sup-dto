@@ -43,14 +43,14 @@ protected:
 TEST_F(JSONFileTest, AnyTypeToFromFile)
 {
   AnyType simple_struct_type({
-    {"id", String},
-    {"number", UnsignedInteger64}
+    {"id", StringType},
+    {"number", UnsignedInteger64Type}
   });
   AnyType array_of_struct_type(4, simple_struct_type);
   AnyType complex_struct_type({
     {"array", array_of_struct_type},
     {"nested", simple_struct_type},
-    {"validated", Boolean}
+    {"validated", BooleanType}
   });
   auto filename = GetLocalFilename("complex_struct_type.json");
   EXPECT_NO_THROW(AnyTypeToJSONFile(complex_struct_type, filename));
@@ -66,14 +66,14 @@ TEST_F(JSONFileTest, AnyTypeToFromFile)
 TEST_F(JSONFileTest, AnyValueToFromFile)
 {
   AnyType simple_struct_type({
-    {"id", String},
-    {"number", UnsignedInteger64}
+    {"id", StringType},
+    {"number", UnsignedInteger64Type}
   });
   AnyType array_of_struct_type(2, simple_struct_type);
   AnyType complex_struct_type({
     {"array", array_of_struct_type},
     {"nested", simple_struct_type},
-    {"validated", Boolean}
+    {"validated", BooleanType}
   });
   AnyValue complex_struct_val(complex_struct_type);
   complex_struct_val["array[1].id"] = "second_id";
@@ -96,8 +96,8 @@ TEST_F(JSONFileTest, FailureToOpenFile)
   // Using a directory name as filename
   auto filename_dir = testconfig::CMakeBinaryDir();
   AnyType test_type({
-    {"id", String},
-    {"number", UnsignedInteger64}
+    {"id", StringType},
+    {"number", UnsignedInteger64Type}
   });
   AnyValue test_value(test_type);
   EXPECT_THROW(AnyTypeToJSONFile(test_type, filename_dir), SerializeException);

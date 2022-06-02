@@ -312,19 +312,19 @@ bool IsScalarType(const AnyType& anytype);
 const std::vector<std::pair<TypeCode, std::string>>& ScalarTypeDefinitions();
 
 extern const AnyType EmptyType;
-extern const AnyType Boolean;
-extern const AnyType Character8;
-extern const AnyType SignedInteger8;
-extern const AnyType UnsignedInteger8;
-extern const AnyType SignedInteger16;
-extern const AnyType UnsignedInteger16;
-extern const AnyType SignedInteger32;
-extern const AnyType UnsignedInteger32;
-extern const AnyType SignedInteger64;
-extern const AnyType UnsignedInteger64;
-extern const AnyType Float32;
-extern const AnyType Float64;
-extern const AnyType String;
+extern const AnyType BooleanType;
+extern const AnyType Character8Type;
+extern const AnyType SignedInteger8Type;
+extern const AnyType UnsignedInteger8Type;
+extern const AnyType SignedInteger16Type;
+extern const AnyType UnsignedInteger16Type;
+extern const AnyType SignedInteger32Type;
+extern const AnyType UnsignedInteger32Type;
+extern const AnyType SignedInteger64Type;
+extern const AnyType UnsignedInteger64Type;
+extern const AnyType Float32Type;
+extern const AnyType Float64Type;
+extern const AnyType StringType;
 
 }  // namespace dto
 

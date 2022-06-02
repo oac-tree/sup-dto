@@ -69,14 +69,14 @@ TEST(AnyTypeTest, CopyConstruction)
 {
   const std::string nested_name = "nested_struct";
   AnyType two_scalars{{
-    {"signed", SignedInteger8},
-    {"unsigned", UnsignedInteger8}
+    {"signed", SignedInteger8Type},
+    {"unsigned", UnsignedInteger8Type}
   }};
   AnyType nested_type{{
     {"scalars", two_scalars},
     {"single", {
-      {"first", SignedInteger8},
-      {"second", SignedInteger8}
+      {"first", SignedInteger8Type},
+      {"second", SignedInteger8Type}
     }}
   }, nested_name};
   EXPECT_TRUE(IsStructType(nested_type));
@@ -92,7 +92,7 @@ TEST(AnyTypeTest, CopyConstruction)
   EXPECT_TRUE(copy.HasMember("single"));
   EXPECT_FALSE(copy.HasMember("index"));
 
-  copy.AddMember("index", UnsignedInteger64);
+  copy.AddMember("index", UnsignedInteger64Type);
   EXPECT_NE(copy, nested_type);
   EXPECT_TRUE(IsStructType(copy));
   EXPECT_EQ(copy.GetTypeCode(), TypeCode::Struct);
@@ -106,14 +106,14 @@ TEST(AnyTypeTest, CopyAssignment)
 {
   const std::string nested_name = "nested_struct";
   AnyType two_scalars{{
-    {"signed", SignedInteger8},
-    {"unsigned", UnsignedInteger8}
+    {"signed", SignedInteger8Type},
+    {"unsigned", UnsignedInteger8Type}
   }};
   AnyType nested_type{{
     {"scalars", two_scalars},
     {"single", {
-      {"first", SignedInteger8},
-      {"second", SignedInteger8}
+      {"first", SignedInteger8Type},
+      {"second", SignedInteger8Type}
     }}
   }, nested_name};
   EXPECT_TRUE(IsStructType(nested_type));
@@ -127,7 +127,7 @@ TEST(AnyTypeTest, CopyAssignment)
   EXPECT_EQ(copy.GetTypeCode(), TypeCode::Struct);
   EXPECT_EQ(copy.GetTypeName(), nested_name);
 
-  copy.AddMember("index", UnsignedInteger64);
+  copy.AddMember("index", UnsignedInteger64Type);
   EXPECT_NE(copy, nested_type);
   EXPECT_TRUE(IsStructType(copy));
   EXPECT_EQ(copy.GetTypeCode(), TypeCode::Struct);
@@ -138,14 +138,14 @@ TEST(AnyTypeTest, MoveConstruction)
 {
   const std::string nested_name = "nested_struct";
   AnyType two_scalars{{
-    {"signed", SignedInteger8},
-    {"unsigned", UnsignedInteger8}
+    {"signed", SignedInteger8Type},
+    {"unsigned", UnsignedInteger8Type}
   }};
   AnyType nested_type{{
     {"scalars", two_scalars},
     {"single", {
-      {"first", SignedInteger8},
-      {"second", SignedInteger8}
+      {"first", SignedInteger8Type},
+      {"second", SignedInteger8Type}
     }}
   }, nested_name};
   EXPECT_TRUE(IsStructType(nested_type));
@@ -162,7 +162,7 @@ TEST(AnyTypeTest, MoveConstruction)
   EXPECT_TRUE(moved.HasMember("single"));
   EXPECT_FALSE(moved.HasMember("index"));
 
-  moved.AddMember("index", UnsignedInteger64);
+  moved.AddMember("index", UnsignedInteger64Type);
   EXPECT_NE(moved, nested_type);
   EXPECT_TRUE(IsStructType(moved));
   EXPECT_EQ(moved.GetTypeCode(), TypeCode::Struct);
@@ -176,14 +176,14 @@ TEST(AnyTypeTest, MoveAssignment)
 {
   const std::string nested_name = "nested_struct";
   AnyType two_scalars{{
-    {"signed", SignedInteger8},
-    {"unsigned", UnsignedInteger8}
+    {"signed", SignedInteger8Type},
+    {"unsigned", UnsignedInteger8Type}
   }};
   AnyType nested_type{{
     {"scalars", two_scalars},
     {"single", {
-      {"first", SignedInteger8},
-      {"second", SignedInteger8}
+      {"first", SignedInteger8Type},
+      {"second", SignedInteger8Type}
     }}
   }, nested_name};
   EXPECT_TRUE(IsStructType(nested_type));
@@ -201,7 +201,7 @@ TEST(AnyTypeTest, MoveAssignment)
   EXPECT_TRUE(moved.HasMember("single"));
   EXPECT_FALSE(moved.HasMember("index"));
 
-  moved.AddMember("index", UnsignedInteger64);
+  moved.AddMember("index", UnsignedInteger64Type);
   EXPECT_NE(moved, nested_type);
   EXPECT_TRUE(IsStructType(moved));
   EXPECT_EQ(moved.GetTypeCode(), TypeCode::Struct);
@@ -215,11 +215,11 @@ TEST(AnyTypeTest, CreateEmptyFields)
 {
   // Do not allow creating a structure type with an empty type as member
   EXPECT_THROW(AnyType({
-                 {"number", SignedInteger16},
+                 {"number", SignedInteger16Type},
                  {"empty", EmptyType}
                }, "EmptyMemberStruct"), InvalidOperationException);
   AnyType my_struct = EmptyStructType("MyStruct");
-  EXPECT_NO_THROW(my_struct.AddMember("number", UnsignedInteger32));
+  EXPECT_NO_THROW(my_struct.AddMember("number", UnsignedInteger32Type));
   EXPECT_THROW(my_struct.AddMember("empty", EmptyType), InvalidOperationException);
 
   // Do not allow creating an array of empty types
@@ -233,17 +233,17 @@ TEST(AnyTypeTest, AssignEmptyFields)
   EXPECT_NO_THROW(empty = EmptyType);
 
   // Do not allow assigning an empty type to a scalar type
-  AnyType my_scalar = String;
+  AnyType my_scalar = StringType;
   EXPECT_THROW(my_scalar = EmptyType, InvalidOperationException);
 
   // Do not allow assigning an empty type to a member
   AnyType my_struct({
-    {"number", SignedInteger16},
-    {"other", Boolean}
+    {"number", SignedInteger16Type},
+    {"other", BooleanType}
   }, "MyStruct");
   EXPECT_THROW(my_struct["other"] = EmptyType, InvalidOperationException);
 
   // Do not allow assigning the empty type as the element type of an array
-  AnyType my_array(4, UnsignedInteger64);
+  AnyType my_array(4, UnsignedInteger64Type);
   EXPECT_THROW(my_array["[]"] = EmptyType, InvalidOperationException);
 }

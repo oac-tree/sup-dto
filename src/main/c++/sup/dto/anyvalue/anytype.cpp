@@ -251,19 +251,19 @@ const std::vector<std::pair<TypeCode, std::string>>& ScalarTypeDefinitions()
 }
 
 const AnyType EmptyType{};
-const AnyType Boolean{TypeCode::Bool};
-const AnyType Character8{TypeCode::Char8};
-const AnyType SignedInteger8{TypeCode::Int8};
-const AnyType UnsignedInteger8{TypeCode::UInt8};
-const AnyType SignedInteger16{TypeCode::Int16};
-const AnyType UnsignedInteger16{TypeCode::UInt16};
-const AnyType SignedInteger32{TypeCode::Int32};
-const AnyType UnsignedInteger32{TypeCode::UInt32};
-const AnyType SignedInteger64{TypeCode::Int64};
-const AnyType UnsignedInteger64{TypeCode::UInt64};
-const AnyType Float32{TypeCode::Float32};
-const AnyType Float64{TypeCode::Float64};
-const AnyType String{TypeCode::String};
+const AnyType BooleanType{TypeCode::Bool};
+const AnyType Character8Type{TypeCode::Char8};
+const AnyType SignedInteger8Type{TypeCode::Int8};
+const AnyType UnsignedInteger8Type{TypeCode::UInt8};
+const AnyType SignedInteger16Type{TypeCode::Int16};
+const AnyType UnsignedInteger16Type{TypeCode::UInt16};
+const AnyType SignedInteger32Type{TypeCode::Int32};
+const AnyType UnsignedInteger32Type{TypeCode::UInt32};
+const AnyType SignedInteger64Type{TypeCode::Int64};
+const AnyType UnsignedInteger64Type{TypeCode::UInt64};
+const AnyType Float32Type{TypeCode::Float32};
+const AnyType Float64Type{TypeCode::Float64};
+const AnyType StringType{TypeCode::String};
 
 namespace
 {

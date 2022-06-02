@@ -46,7 +46,7 @@ TEST_F(AnyValueSerializeTest, EmptyValue)
 
 TEST_F(AnyValueSerializeTest, BooleanValue)
 {
-  AnyValue bool_value{Boolean};
+  AnyValue bool_value{BooleanType};
   SerializeAnyValue(bool_value, serializer);
   std::string expected = kBooleanTypeName;
   EXPECT_EQ(serializer.GetRepresentation(), expected);
@@ -55,9 +55,9 @@ TEST_F(AnyValueSerializeTest, BooleanValue)
 TEST_F(AnyValueSerializeTest, SimpleStructValue)
 {
   AnyValue simple_struct_value({
-    {"id", {String, "MyID"}},
-    {"number", {SignedInteger32, 10}},
-    {"weight", {Float64, 4.75}}
+    {"id", {StringType, "MyID"}},
+    {"number", {SignedInteger32Type, 10}},
+    {"weight", {Float64Type, 4.75}}
   });
   SerializeAnyValue(simple_struct_value, serializer);
   std::string expected = "S{M(id:" + kStringTypeName + ")M,"
@@ -68,7 +68,7 @@ TEST_F(AnyValueSerializeTest, SimpleStructValue)
 
 TEST_F(AnyValueSerializeTest, SimpleArrayValue)
 {
-  AnyValue simple_array_value(3, Character8);
+  AnyValue simple_array_value(3, Character8Type);
   SerializeAnyValue(simple_array_value, serializer);
   std::string expected = "A[3|" + kChar8TypeName + ","
                                 + kChar8TypeName + ","
@@ -79,7 +79,7 @@ TEST_F(AnyValueSerializeTest, SimpleArrayValue)
 TEST_F(AnyValueSerializeTest, UnboundedArrayValue)
 {
   AnyValue unbounded_array_value = UnboundedArrayValue({
-    {Character8, 1}, 2, 3
+    {Character8Type, 1}, 2, 3
   });
   SerializeAnyValue(unbounded_array_value, serializer);
   std::string expected = "U[" + kChar8TypeName + ","
@@ -91,14 +91,14 @@ TEST_F(AnyValueSerializeTest, UnboundedArrayValue)
 TEST_F(AnyValueSerializeTest, ComplexStructValue)
 {
   AnyValue simple_struct_value({
-    {"id", {String, "MyID"}},
-    {"number", {UnsignedInteger64, 23}}
+    {"id", {StringType, "MyID"}},
+    {"number", {UnsignedInteger64Type, 23}}
   });
   AnyValue array_of_struct_value(2, simple_struct_value.GetType());
   AnyValue complex_struct_value({
     {"array", array_of_struct_value},
     {"nested", simple_struct_value},
-    {"validated", {Boolean, true}}
+    {"validated", {BooleanType, true}}
   });
   SerializeAnyValue(complex_struct_value, serializer);
   std::string simple_expected = "S{M(id:" + kStringTypeName + ")M,"

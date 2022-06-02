@@ -30,7 +30,7 @@ TEST(ScalarTypeTest, EmptyType)
 {
   AnyType empty_type{};
   EXPECT_EQ(empty_type, EmptyType);
-  EXPECT_NE(empty_type, SignedInteger8);
+  EXPECT_NE(empty_type, SignedInteger8Type);
   EXPECT_TRUE(IsEmptyType(empty_type));
   EXPECT_FALSE(IsStructType(empty_type));
   EXPECT_FALSE(IsArrayType(empty_type));
@@ -69,11 +69,11 @@ TEST(ScalarTypeTest, EmptyType)
   EXPECT_THROW(AnyType{TypeCode::Empty}, InvalidOperationException);
 }
 
-TEST(ScalarTypeTest, Boolean)
+TEST(ScalarTypeTest, BooleanType)
 {
   AnyType boolean_type{TypeCode::Bool};
-  EXPECT_EQ(boolean_type, Boolean);
-  EXPECT_NE(boolean_type, UnsignedInteger8);
+  EXPECT_EQ(boolean_type, BooleanType);
+  EXPECT_NE(boolean_type, UnsignedInteger8Type);
   EXPECT_FALSE(IsEmptyType(boolean_type));
   EXPECT_FALSE(IsStructType(boolean_type));
   EXPECT_FALSE(IsArrayType(boolean_type));
@@ -84,8 +84,8 @@ TEST(ScalarTypeTest, Boolean)
   EXPECT_THROW(boolean_type["field"], InvalidOperationException);
 
   AnyType copy_boolean = boolean_type;
-  EXPECT_EQ(copy_boolean, Boolean);
-  EXPECT_NE(copy_boolean, UnsignedInteger8);
+  EXPECT_EQ(copy_boolean, BooleanType);
+  EXPECT_NE(copy_boolean, UnsignedInteger8Type);
   EXPECT_FALSE(IsEmptyType(copy_boolean));
   EXPECT_FALSE(IsStructType(copy_boolean));
   EXPECT_FALSE(IsArrayType(copy_boolean));
@@ -96,11 +96,11 @@ TEST(ScalarTypeTest, Boolean)
   EXPECT_THROW(copy_boolean["field"], InvalidOperationException);
 }
 
-TEST(ScalarTypeTest, Float32)
+TEST(ScalarTypeTest, Float32Type)
 {
   AnyType float32_type{TypeCode::Float32};
-  EXPECT_EQ(float32_type, Float32);
-  EXPECT_NE(float32_type, SignedInteger64);
+  EXPECT_EQ(float32_type, Float32Type);
+  EXPECT_NE(float32_type, SignedInteger64Type);
   EXPECT_FALSE(IsEmptyType(float32_type));
   EXPECT_FALSE(IsStructType(float32_type));
   EXPECT_FALSE(IsArrayType(float32_type));
@@ -111,8 +111,8 @@ TEST(ScalarTypeTest, Float32)
   EXPECT_THROW(float32_type["field"], InvalidOperationException);
 
   AnyType moved_float32 = std::move(float32_type);
-  EXPECT_EQ(moved_float32, Float32);
-  EXPECT_NE(moved_float32, SignedInteger64);
+  EXPECT_EQ(moved_float32, Float32Type);
+  EXPECT_NE(moved_float32, SignedInteger64Type);
   EXPECT_TRUE(IsEmptyType(float32_type)); // Moved from type is always empty
   EXPECT_EQ(float32_type, EmptyType);
   EXPECT_FALSE(IsEmptyType(moved_float32));
@@ -125,11 +125,11 @@ TEST(ScalarTypeTest, Float32)
   EXPECT_THROW(moved_float32["field"], InvalidOperationException);
 }
 
-TEST(ScalarTypeTest, Float64)
+TEST(ScalarTypeTest, Float64Type)
 {
   AnyType float64_type{TypeCode::Float64};
-  EXPECT_EQ(float64_type, Float64);
-  EXPECT_NE(float64_type, SignedInteger64);
+  EXPECT_EQ(float64_type, Float64Type);
+  EXPECT_NE(float64_type, SignedInteger64Type);
   EXPECT_FALSE(IsEmptyType(float64_type));
   EXPECT_FALSE(IsStructType(float64_type));
   EXPECT_FALSE(IsArrayType(float64_type));
@@ -140,8 +140,8 @@ TEST(ScalarTypeTest, Float64)
   EXPECT_THROW(float64_type["field"], InvalidOperationException);
 
   AnyType moved_float64 = std::move(float64_type);
-  EXPECT_EQ(moved_float64, Float64);
-  EXPECT_NE(moved_float64, SignedInteger64);
+  EXPECT_EQ(moved_float64, Float64Type);
+  EXPECT_NE(moved_float64, SignedInteger64Type);
   EXPECT_TRUE(IsEmptyType(float64_type)); // Moved from type is always empty
   EXPECT_EQ(float64_type, EmptyType);
   EXPECT_FALSE(IsEmptyType(moved_float64));
