@@ -25,7 +25,7 @@
 #include "sup/dto/anytype_helper.h"
 #include "sup/dto/anyvalue.h"
 #include "sup/dto/anyvalue_helper.h"
-#include "TestConfig.h"
+#include "test_config.h"
 
 #include <fstream>
 

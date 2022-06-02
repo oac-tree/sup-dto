@@ -1,33 +1,33 @@
 add_executable(unit-tests)
 
-configure_file(${CMAKE_CURRENT_LIST_DIR}/TestConfig.h.in ${SUP_DTO_AUTOGEN_DIR}/TestConfig.h @ONLY)
+configure_file(${CMAKE_CURRENT_LIST_DIR}/test_config.h.in ${SUP_DTO_AUTOGEN_DIR}/test_config.h @ONLY)
 
 target_sources(unit-tests
     PRIVATE
-        ${CMAKE_CURRENT_LIST_DIR}/AnyType-tests.cpp
-        ${CMAKE_CURRENT_LIST_DIR}/AnyTypeJSONParse-tests.cpp
-        ${CMAKE_CURRENT_LIST_DIR}/AnyTypeJSONSerialize-tests.cpp
-        ${CMAKE_CURRENT_LIST_DIR}/AnyTypeRegistry-tests.cpp
-        ${CMAKE_CURRENT_LIST_DIR}/AnyTypeSerialize-tests.cpp
-        ${CMAKE_CURRENT_LIST_DIR}/AnyValue-tests.cpp
-        ${CMAKE_CURRENT_LIST_DIR}/AnyValueExceptions-tests.cpp
-        ${CMAKE_CURRENT_LIST_DIR}/AnyValueJSONParse-tests.cpp
-        ${CMAKE_CURRENT_LIST_DIR}/AnyValueJSONSerialize-tests.cpp
-        ${CMAKE_CURRENT_LIST_DIR}/AnyValueSerialize-tests.cpp
-        ${CMAKE_CURRENT_LIST_DIR}/AnyValueCType-tests.cpp
-        ${CMAKE_CURRENT_LIST_DIR}/ArrayType-tests.cpp
-        ${CMAKE_CURRENT_LIST_DIR}/ArrayValue-tests.cpp
-        ${CMAKE_CURRENT_LIST_DIR}/IntegerType-tests.cpp
-        ${CMAKE_CURRENT_LIST_DIR}/IntegerValue-tests.cpp
-        ${CMAKE_CURRENT_LIST_DIR}/JSONFile-tests.cpp
-        ${CMAKE_CURRENT_LIST_DIR}/ScalarConversion-tests.cpp
-        ${CMAKE_CURRENT_LIST_DIR}/ScalarType-tests.cpp
-        ${CMAKE_CURRENT_LIST_DIR}/ScalarValue-tests.cpp
-        ${CMAKE_CURRENT_LIST_DIR}/StructuredType-tests.cpp
-        ${CMAKE_CURRENT_LIST_DIR}/StructuredValue-tests.cpp
-        ${CMAKE_CURRENT_LIST_DIR}/UnboundedArrayType-tests.cpp
-        ${CMAKE_CURRENT_LIST_DIR}/UnboundedArrayValue-tests.cpp
-        ${CMAKE_CURRENT_LIST_DIR}/TestSerializers.cpp
+        ${CMAKE_CURRENT_LIST_DIR}/anytype_tests.cpp
+        ${CMAKE_CURRENT_LIST_DIR}/anytype_json_parse_tests.cpp
+        ${CMAKE_CURRENT_LIST_DIR}/anytype_json_serialize_tests.cpp
+        ${CMAKE_CURRENT_LIST_DIR}/anytype_registry_tests.cpp
+        ${CMAKE_CURRENT_LIST_DIR}/anytype_serialize_tests.cpp
+        ${CMAKE_CURRENT_LIST_DIR}/anyvalue_tests.cpp
+        ${CMAKE_CURRENT_LIST_DIR}/anyvalue_exceptions_tests.cpp
+        ${CMAKE_CURRENT_LIST_DIR}/anyvalue_json_parse_tests.cpp
+        ${CMAKE_CURRENT_LIST_DIR}/anyvalue_json_serialize_tests.cpp
+        ${CMAKE_CURRENT_LIST_DIR}/anyvalue_serialize_tests.cpp
+        ${CMAKE_CURRENT_LIST_DIR}/anyvalue_ctype_tests.cpp
+        ${CMAKE_CURRENT_LIST_DIR}/arraytype_tests.cpp
+        ${CMAKE_CURRENT_LIST_DIR}/arrayvalue_tests.cpp
+        ${CMAKE_CURRENT_LIST_DIR}/integertype_tests.cpp
+        ${CMAKE_CURRENT_LIST_DIR}/integervalue_tests.cpp
+        ${CMAKE_CURRENT_LIST_DIR}/json_file_tests.cpp
+        ${CMAKE_CURRENT_LIST_DIR}/scalar_conversion_tests.cpp
+        ${CMAKE_CURRENT_LIST_DIR}/scalartype_tests.cpp
+        ${CMAKE_CURRENT_LIST_DIR}/scalarvalue_tests.cpp
+        ${CMAKE_CURRENT_LIST_DIR}/structuredtype_tests.cpp
+        ${CMAKE_CURRENT_LIST_DIR}/structuredvalue_tests.cpp
+        ${CMAKE_CURRENT_LIST_DIR}/unboundedarraytype_tests.cpp
+        ${CMAKE_CURRENT_LIST_DIR}/unboundedarrayvalue_tests.cpp
+        ${CMAKE_CURRENT_LIST_DIR}/test_serializers.cpp
 )
 
 target_include_directories(unit-tests

@@ -19,7 +19,7 @@
  * of the distribution package.
  ******************************************************************************/
 
-#include "JSONPerformance.h"
+#include "json_performance.h"
 
 #include "sup/dto/anytype.h"
 #include "sup/dto/anyvalue.h"

@@ -19,7 +19,7 @@
  * of the distribution package.
  ******************************************************************************/
 
-#include "TestSerializers.h"
+#include "test_serializers.h"
 #include "sup/dto/anytype.h"
 #include "sup/dto/anyvalue.h"
 

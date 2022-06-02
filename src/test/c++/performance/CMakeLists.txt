@@ -3,7 +3,7 @@ add_executable(performance-tests)
 target_sources(performance-tests
     PRIVATE
         ${CMAKE_CURRENT_LIST_DIR}/main.cpp
-        ${CMAKE_CURRENT_LIST_DIR}/JSONPerformance.cpp
+        ${CMAKE_CURRENT_LIST_DIR}/json_performance.cpp
 )
 
 find_package(GTest REQUIRED)
