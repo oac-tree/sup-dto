@@ -88,6 +88,7 @@ bool AnyValueBuilder::RawNumber(const char*, std::size_t, bool)
 
 bool AnyValueBuilder::String(const char* str, std::size_t length, bool copy)
 {
+  (void)copy;
   std::string arg(str, length);
   return current->String(arg);
 }
@@ -100,6 +101,7 @@ bool AnyValueBuilder::StartObject()
 
 bool AnyValueBuilder::Key(const char* str, std::size_t length, bool copy)
 {
+  (void)copy;
   std::string arg(str, length);
   return current->Member(arg);
 }
@@ -123,6 +125,7 @@ bool AnyValueBuilder::StartArray()
 
 bool AnyValueBuilder::EndArray(std::size_t elementCount)
 {
+  (void)elementCount;
   if (!current->Parent())
   {
     throw ParseException("AnyValueBuilder::EndArray current node is null");

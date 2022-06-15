@@ -70,6 +70,7 @@ AnyType::AnyType(std::size_t size, const AnyType& elem_type, const std::string& 
 AnyType::AnyType(AnyType::UnboundedArrayTag tag, const AnyType& elem_type, const std::string& name)
   : data{new EmptyTypeData()}
 {
+  (void)tag;
   auto array_data = std::unique_ptr<UnboundedArrayTypeData>(
       new UnboundedArrayTypeData(elem_type, name));
   data = std::move(array_data);

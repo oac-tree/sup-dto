@@ -67,6 +67,7 @@ void WriterTypeSerializer::StructEpilog(const AnyType*)
 
 void WriterTypeSerializer::MemberProlog(const AnyType* anytype, const std::string& member_name)
 {
+  (void)anytype;
   writer->StartStructure();
   writer->Member(member_name);
 }

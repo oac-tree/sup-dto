@@ -125,6 +125,7 @@ AnyValue::AnyValue(AnyType::UnboundedArrayTag tag, const AnyType& elem_type,
                    const std::string& name)
   : data{new EmptyValueData{}}
 {
+  (void)tag;
   auto array_data = std::unique_ptr<UnboundedArrayValueData>(
     new UnboundedArrayValueData(elem_type, name));
   data = std::move(array_data);

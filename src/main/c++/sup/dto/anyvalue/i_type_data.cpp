@@ -62,6 +62,7 @@ std::size_t ITypeData::NumberOfElements() const
 
 AnyType& ITypeData::operator[](const std::string& fieldname)
 {
+  (void)fieldname;
   throw InvalidOperationException("Index operator not supported for this type");
 }
 

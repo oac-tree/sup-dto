@@ -104,7 +104,8 @@ template <typename To, typename From,
                           IsSignedInteger<From>::value, bool>::type = true>
 To ConvertScalar(const From& value)
 {
-  if (value < 0 || value > std::numeric_limits<To>::max())
+  if (value < 0 ||
+    static_cast<typename std::make_unsigned<From>::type>(value) > std::numeric_limits<To>::max())
   {
     throw InvalidConversionException("Source value doesn't fit in destination type");
   }
@@ -117,7 +118,7 @@ template <typename To, typename From,
                           IsUnsignedInteger<From>::value, bool>::type = true>
 To ConvertScalar(const From& value)
 {
-  if (value > std::numeric_limits<To>::max())
+  if (value > static_cast<typename std::make_unsigned<To>::type>(std::numeric_limits<To>::max()))
   {
     throw InvalidConversionException("Source value doesn't fit in destination type");
   }
@@ -171,6 +172,7 @@ template <typename To, typename From,
     std::is_arithmetic<From>::value, bool>::type = true>
 To ConvertScalar(const From& value)
 {
+  (void)value;
   throw InvalidConversionException("Cannot convert arithmetic types to string");
 }
 
@@ -180,6 +182,7 @@ template <typename To, typename From,
     std::is_same<typename std::remove_cv<From>::type, std::string>::value, bool>::type = true>
 To ConvertScalar(const From& value)
 {
+  (void)value;
   throw InvalidConversionException("Cannot convert string to arithmetic types");
 }
 

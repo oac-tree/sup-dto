@@ -63,6 +63,7 @@ std::size_t IValueData::NumberOfMembers() const
 
 void IValueData::Append(const AnyValue& value)
 {
+  (void)value;
   throw InvalidOperationException("Append element only supported for unbounded array types");
 }
 
@@ -143,11 +144,13 @@ std::string IValueData::AsString() const
 
 AnyValue& IValueData::operator[](const std::string& fieldname)
 {
+  (void)fieldname;
   throw InvalidOperationException("Index operator with field name not supported for this type");
 }
 
 AnyValue& IValueData::operator[](std::size_t idx)
 {
+  (void)idx;
   throw InvalidOperationException("Member access operator with unsigned index not supported");
 }
 

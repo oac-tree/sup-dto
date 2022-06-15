@@ -88,6 +88,7 @@ bool AnyTypeBuilder::RawNumber(const char*, std::size_t, bool)
 
 bool AnyTypeBuilder::String(const char* str, std::size_t length, bool copy)
 {
+  (void)copy;
   std::string arg(str, length);
   return current->String(arg);
 }
@@ -100,6 +101,7 @@ bool AnyTypeBuilder::StartObject()
 
 bool AnyTypeBuilder::Key(const char* str, std::size_t length, bool copy)
 {
+  (void)copy;
   std::string arg(str, length);
   return current->Member(arg);
 }
