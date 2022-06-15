@@ -41,6 +41,11 @@ public:
   AnyTypeBuilder(const AnyTypeRegistry* anytype_registry);
   ~AnyTypeBuilder();
 
+  AnyTypeBuilder(const AnyTypeBuilder& other) = delete;
+  AnyTypeBuilder(AnyTypeBuilder&& other) = delete;
+  AnyTypeBuilder& operator=(const AnyTypeBuilder& other) = delete;
+  AnyTypeBuilder& operator=(AnyTypeBuilder&& other) = delete;
+
   AnyType MoveAnyType();
 
   bool Null();

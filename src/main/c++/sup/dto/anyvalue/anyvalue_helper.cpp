@@ -75,7 +75,7 @@ void AnyValueToJSONFile(const AnyValue& anyvalue, const std::string& filename, b
 
 void FromBytes(AnyValue& anyvalue, const uint8* bytes, std::size_t total_size)
 {
-  auto byte_parser = ByteParser(bytes, total_size);
+  ByteParser byte_parser(bytes, total_size);
   Visit(anyvalue, byte_parser);
   if (!byte_parser.IsFinished())
   {

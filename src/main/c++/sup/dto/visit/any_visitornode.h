@@ -44,6 +44,11 @@ public:
   IAnyVisitorNode(T* val);
   virtual ~IAnyVisitorNode() = default;
 
+  IAnyVisitorNode(const IAnyVisitorNode& other) = delete;
+  IAnyVisitorNode(IAnyVisitorNode&& other) = delete;
+  IAnyVisitorNode& operator=(const IAnyVisitorNode& other) = delete;
+  IAnyVisitorNode& operator=(IAnyVisitorNode&& other) = delete;
+
   T* GetValue() const;
 
   virtual std::unique_ptr<IAnyVisitorNode<T>> NextChild() = 0;

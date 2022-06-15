@@ -44,6 +44,11 @@ public:
   WriterTypeSerializer(IWriter* writer);
   ~WriterTypeSerializer() override;
 
+  WriterTypeSerializer(const WriterTypeSerializer& other) = delete;
+  WriterTypeSerializer(WriterTypeSerializer&& other) = delete;
+  WriterTypeSerializer& operator=(const WriterTypeSerializer& other) = delete;
+  WriterTypeSerializer& operator=(WriterTypeSerializer&& other) = delete;
+
   void EmptyProlog(const AnyType* anytype) override;
   void EmptyEpilog(const AnyType* anytype) override;
 
@@ -77,6 +82,11 @@ class WriterValueSerializer : public IAnyVisitor<const AnyValue>
 public:
   WriterValueSerializer(IWriter* writer);
   ~WriterValueSerializer() override;
+
+  WriterValueSerializer(const WriterValueSerializer& other) = delete;
+  WriterValueSerializer(WriterValueSerializer&& other) = delete;
+  WriterValueSerializer& operator=(const WriterValueSerializer& other) = delete;
+  WriterValueSerializer& operator=(WriterValueSerializer&& other) = delete;
 
   void EmptyProlog(const AnyValue* anyvalue) override;
   void EmptyEpilog(const AnyValue* anyvalue) override;

@@ -38,6 +38,11 @@ public:
   IAnyBuildNode(const AnyTypeRegistry* anytype_registry, IAnyBuildNode* parent);
   virtual ~IAnyBuildNode();
 
+  IAnyBuildNode(const IAnyBuildNode& other) = delete;
+  IAnyBuildNode(IAnyBuildNode&& other) = delete;
+  IAnyBuildNode& operator=(const IAnyBuildNode& other) = delete;
+  IAnyBuildNode& operator=(IAnyBuildNode&& other) = delete;
+
   const AnyTypeRegistry* GetTypeRegistry() const;
   IAnyBuildNode* Parent() const;
 

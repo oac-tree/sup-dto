@@ -38,7 +38,7 @@ template <typename T>
 class IAnyVisitor
 {
 public:
-  virtual ~IAnyVisitor();
+  virtual ~IAnyVisitor() = default;
 
   virtual void EmptyProlog(T* val) = 0;
   virtual void EmptyEpilog(T* val) = 0;
@@ -61,8 +61,8 @@ public:
   virtual void ScalarEpilog(T* val) = 0;
 };
 
-template <typename T>
-IAnyVisitor<T>::~IAnyVisitor() = default;
+// template <typename T>
+// IAnyVisitor<T>::~IAnyVisitor() = default;
 
 }  // namespace dto
 

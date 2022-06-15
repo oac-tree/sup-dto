@@ -41,6 +41,11 @@ public:
   AnyValueBuilder(const AnyTypeRegistry* anytype_registry);
   ~AnyValueBuilder();
 
+  AnyValueBuilder(const AnyValueBuilder& other) = delete;
+  AnyValueBuilder(AnyValueBuilder&& other) = delete;
+  AnyValueBuilder& operator=(const AnyValueBuilder& other) = delete;
+  AnyValueBuilder& operator=(AnyValueBuilder&& other) = delete;
+
   AnyValue MoveAnyValue();
 
   bool Null();

@@ -67,6 +67,7 @@ std::pair<std::string, std::string> StripFirstFieldName(const std::string& field
 template <typename T>
 StructDataT<T>::StructDataT(const std::string& name_)
   : name{name_}
+  , members{}
 {}
 
 template <typename T>
