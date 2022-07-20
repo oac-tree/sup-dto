@@ -218,3 +218,30 @@ TEST(ArrayValueTest, InvalidArrayAssign)
   AnyValue scalar = 4u;
   EXPECT_THROW(other = scalar, InvalidConversionException);
 }
+
+TEST(ArrayValueTest, AddElement)
+{
+  AnyValue my_array = ArrayValue({
+    {SignedInteger64Type, 1}, 2, 3, 4, 5
+  }, "my_array_t");
+  EXPECT_EQ(my_array["[0]"], 1);
+  EXPECT_EQ(my_array[0], 1);
+  EXPECT_EQ(my_array.NumberOfElements(), 5);
+  EXPECT_NO_THROW(my_array.AddElement(6));
+  EXPECT_EQ(my_array.NumberOfElements(), 6);
+  EXPECT_EQ(my_array[5], 6);
+}
+
+TEST(ArrayValueTest, InvalidAddElement)
+{
+  // Scalar
+  AnyValue scalar(Float32Type, 1.0);
+  EXPECT_THROW(scalar.AddElement(6), InvalidOperationException);
+
+  // Structured value
+  AnyValue two_scalars = {{
+    {"signed", {SignedInteger8Type, 1}},
+    {"unsigned", {UnsignedInteger8Type, 12}}
+  }};
+  EXPECT_THROW(two_scalars.AddElement(6), InvalidOperationException);
+}

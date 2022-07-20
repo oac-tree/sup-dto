@@ -67,6 +67,13 @@ AnyType ArrayValueData::GetType() const
   return AnyType(NumberOfElements(), elem_type, name);
 }
 
+void ArrayValueData::AddElement(const AnyValue& value)
+{
+  AnyValue copy{elem_type};
+  copy = value;
+  elements.push_back(std::move(copy));
+}
+
 std::size_t ArrayValueData::NumberOfElements() const
 {
   return elements.size();
