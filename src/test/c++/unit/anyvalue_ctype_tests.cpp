@@ -199,7 +199,7 @@ TEST(AnyValueCTypeTest, ToUnboundedArray)
   AnyValue unbounded_array(AnyType::unbounded_array_tag, UnsignedInteger32Type, "my_uint32_array");
   for (unsigned i=0; i<5; ++i)
   {
-    unbounded_array.Append(10 * i);
+    unbounded_array.AddElement(10 * i);
   }
   auto my_array_c = unbounded_array.As<ArrayType>();
   for (unsigned i=0; i<5; ++i)
@@ -215,7 +215,7 @@ TEST(AnyValueCTypeTest, FromUnboundedArray)
   AnyValue unbounded_array(AnyType::unbounded_array_tag, UnsignedInteger32Type, "my_uint32_array");
   for (unsigned i=0; i<5; ++i)
   {
-    unbounded_array.Append(0);
+    unbounded_array.AddElement(0);
   }
   EXPECT_NO_THROW(AssignFromCType(unbounded_array, my_array_c));
   for (unsigned i=0; i<5; ++i)

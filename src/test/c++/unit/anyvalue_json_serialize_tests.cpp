@@ -236,7 +236,7 @@ TEST_F(AnyValueJSONSerializeTest, UnboundedArrayValue)
   AnyValue unbounded_array_val(AnyType::unbounded_array_tag, SignedInteger32Type);
   for (int i=0; i<5; ++i)
   {
-    unbounded_array_val.Append(20*i);
+    unbounded_array_val.AddElement(20*i);
   }
   auto json_string = ValuesToJSONString(unbounded_array_val);
   EXPECT_EQ(json_string, json_simple_array);

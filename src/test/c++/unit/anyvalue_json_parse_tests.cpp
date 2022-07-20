@@ -259,7 +259,7 @@ TEST_F(AnyValueJSONParseTest, UnboundedArrayOfStructValue)
   });
   AnyType array_of_struct_type(AnyType::unbounded_array_tag, simple_struct_val.GetType());
   AnyValue array_of_struct_val(array_of_struct_type);
-  array_of_struct_val.Append(simple_struct_val);
+  array_of_struct_val.AddElement(simple_struct_val);
   auto json_string = AnyValueToJSONString(array_of_struct_val);
   auto parsed_val = AnyValueFromJSONString(json_string);
   EXPECT_EQ(array_of_struct_val, parsed_val);

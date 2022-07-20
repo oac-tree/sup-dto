@@ -192,7 +192,7 @@ TEST(UnboundedArrayValueTest, ElementAccess)
   EXPECT_EQ(my_struct_array["[0].y"], 20);
 }
 
-TEST(UnboundedArrayValueTest, Append)
+TEST(UnboundedArrayValueTest, AddElement)
 {
   AnyValue my_array = UnboundedArrayValue({
     {SignedInteger64Type, 1}, 2, 3, 4, 5
@@ -200,7 +200,7 @@ TEST(UnboundedArrayValueTest, Append)
   EXPECT_EQ(my_array["[0]"], 1);
   EXPECT_EQ(my_array[0], 1);
   EXPECT_EQ(my_array.NumberOfElements(), 5);
-  EXPECT_NO_THROW(my_array.Append(6));
+  EXPECT_NO_THROW(my_array.AddElement(6));
   EXPECT_EQ(my_array.NumberOfElements(), 6);
   EXPECT_EQ(my_array[5], 6);
 }
@@ -219,25 +219,25 @@ TEST(UnboundedArrayValueTest, InvalidElementAccess)
   EXPECT_THROW(my_array["[123456789012345678901]"], InvalidOperationException);
 }
 
-TEST(UnboundedArrayValueTest, InvalidAppend)
+TEST(UnboundedArrayValueTest, InvalidAddElement)
 {
   // Bounded array
   AnyValue bounded_array = ArrayValue({
     {SignedInteger64Type, 1}, 2, 3, 4, 5
   }, "my_array_t");
   EXPECT_EQ(bounded_array.NumberOfElements(), 5);
-  EXPECT_THROW(bounded_array.Append(6), InvalidOperationException);
+  EXPECT_THROW(bounded_array.AddElement(6), InvalidOperationException);
 
   // Scalar
   AnyValue scalar(Float32Type, 1.0);
-  EXPECT_THROW(bounded_array.Append(6), InvalidOperationException);
+  EXPECT_THROW(bounded_array.AddElement(6), InvalidOperationException);
 
   // Structured value
   AnyValue two_scalars = {{
     {"signed", {SignedInteger8Type, 1}},
     {"unsigned", {UnsignedInteger8Type, 12}}
   }};
-  EXPECT_THROW(two_scalars.Append(6), InvalidOperationException);
+  EXPECT_THROW(two_scalars.AddElement(6), InvalidOperationException);
 }
 
 TEST(UnboundedArrayValueTest, Equality)

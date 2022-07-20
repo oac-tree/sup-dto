@@ -57,7 +57,7 @@ bool UnboundedArrayValueBuildNode::Bool(boolean b)
   try
   {
     copy = b;
-    anyvalue.Append(copy);
+    anyvalue.AddElement(copy);
   }
   catch(const InvalidConversionException& e)
   {
@@ -72,7 +72,7 @@ bool UnboundedArrayValueBuildNode::Int32(int32 i)
   try
   {
     copy = i;
-    anyvalue.Append(copy);
+    anyvalue.AddElement(copy);
   }
   catch(const InvalidConversionException& e)
   {
@@ -87,7 +87,7 @@ bool UnboundedArrayValueBuildNode::Uint32(uint32 u)
   try
   {
     copy = u;
-    anyvalue.Append(copy);
+    anyvalue.AddElement(copy);
   }
   catch(const InvalidConversionException& e)
   {
@@ -102,7 +102,7 @@ bool UnboundedArrayValueBuildNode::Int64(int64 i)
   try
   {
     copy = i;
-    anyvalue.Append(copy);
+    anyvalue.AddElement(copy);
   }
   catch(const InvalidConversionException& e)
   {
@@ -117,7 +117,7 @@ bool UnboundedArrayValueBuildNode::Uint64(uint64 u)
   try
   {
     copy = u;
-    anyvalue.Append(copy);
+    anyvalue.AddElement(copy);
   }
   catch(const InvalidConversionException& e)
   {
@@ -132,7 +132,7 @@ bool UnboundedArrayValueBuildNode::Double(float64 d)
   try
   {
     copy = d;
-    anyvalue.Append(copy);
+    anyvalue.AddElement(copy);
   }
   catch(const InvalidConversionException& e)
   {
@@ -147,7 +147,7 @@ bool UnboundedArrayValueBuildNode::String(const std::string& str)
   try
   {
     copy = str;
-    anyvalue.Append(copy);
+    anyvalue.AddElement(copy);
   }
   catch(const InvalidConversionException& e)
   {
@@ -165,7 +165,7 @@ IAnyBuildNode* UnboundedArrayValueBuildNode::GetStructureNode()
         "and with structured element type");
   }
   AnyValue copy{element_type};
-  anyvalue.Append(copy);
+  anyvalue.AddElement(copy);
   std::size_t idx = anyvalue.NumberOfElements() - 1;
   value_node.reset(new AnyValueBuildNode(GetTypeRegistry(), this, anyvalue[idx]));
   return value_node.get();
@@ -179,7 +179,7 @@ IAnyBuildNode* UnboundedArrayValueBuildNode::GetArrayNode()
         "UnboundedArrayValueBuildNode::GetArrayNode must be called with empty child node");
   }
   AnyValue copy{element_type};
-  anyvalue.Append(copy);
+  anyvalue.AddElement(copy);
   std::size_t idx = anyvalue.NumberOfElements() - 1;
   array_node = CreateArrayBuildNode(GetTypeRegistry(), this, anyvalue[idx]);
   return array_node.get();

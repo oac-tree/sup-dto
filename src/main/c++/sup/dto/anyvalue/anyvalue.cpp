@@ -215,9 +215,9 @@ std::size_t AnyValue::NumberOfMembers() const
   return data->NumberOfMembers();
 }
 
-AnyValue& AnyValue::Append(const AnyValue& value)
+AnyValue& AnyValue::AddElement(const AnyValue& value)
 {
-  data->Append(value);
+  data->AddElement(value);
   return *this;
 }
 
@@ -371,7 +371,7 @@ AnyValue UnboundedArrayValue(std::initializer_list<AnyValue> elements, const std
   AnyValue result(AnyType::unbounded_array_tag, it->GetType(), type_name);
   for (; it != elements.end(); ++it)
   {
-    result.Append(*it);
+    result.AddElement(*it);
   }
   return result;
 }

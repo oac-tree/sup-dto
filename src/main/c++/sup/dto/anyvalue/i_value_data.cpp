@@ -62,10 +62,10 @@ std::size_t IValueData::NumberOfMembers() const
   return 0;
 }
 
-void IValueData::Append(const AnyValue& value)
+void IValueData::AddElement(const AnyValue& value)
 {
   (void)value;
-  throw InvalidOperationException("Append element only supported for unbounded array types");
+  throw InvalidOperationException("Add element only supported for array types");
 }
 
 std::size_t IValueData::NumberOfElements() const
