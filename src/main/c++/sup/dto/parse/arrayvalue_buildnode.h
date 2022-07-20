@@ -57,11 +57,13 @@ public:
   AnyValue MoveAnyValue() const;
 
 private:
+  template <typename T> bool TryAssign(T val);
   std::unique_ptr<AnyValueBuildNode> value_node;
   std::unique_ptr<IAnyBuildNode> array_node;
   std::size_t current_index;
   std::size_t size;
   AnyValue& anyvalue;
+  AnyType element_type;
 };
 
 std::unique_ptr<IAnyBuildNode> CreateArrayBuildNode(

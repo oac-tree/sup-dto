@@ -473,12 +473,16 @@ TEST_F(AnyValueJSONParseTest, AnyValueValueElementBuildNodeMethods)
 
 TEST_F(AnyValueJSONParseTest, ArrayValueBuildNodeMethods)
 {
+
   // Exceptions
   AnyTypeRegistry anytype_registry;
   AnyValue empty;
   EXPECT_THROW(ArrayValueBuildNode invalid_node(nullptr, nullptr, empty),
                InvalidOperationException);
-  ArrayValueBuildNode node(&anytype_registry, nullptr, empty);
+  EXPECT_THROW(ArrayValueBuildNode invalid_node_2(&anytype_registry, nullptr, empty),
+               ParseException);
+  AnyValue string_array(1, StringType);
+  ArrayValueBuildNode node(&anytype_registry, nullptr, string_array);
   EXPECT_THROW(node.Null(), ParseException);
   EXPECT_THROW(node.Bool(true), ParseException);
   EXPECT_THROW(node.Int32(-1), ParseException);
@@ -486,7 +490,6 @@ TEST_F(AnyValueJSONParseTest, ArrayValueBuildNodeMethods)
   EXPECT_THROW(node.Int64(-1), ParseException);
   EXPECT_THROW(node.Uint64(1), ParseException);
   EXPECT_THROW(node.Double(1.0), ParseException);
-  EXPECT_THROW(node.String("text"), ParseException);
   EXPECT_THROW(node.Member("not_supported"), ParseException);
   EXPECT_THROW(node.GetArrayNode(), ParseException);
   EXPECT_THROW(node.PopArrayNode(), ParseException);
@@ -496,6 +499,7 @@ TEST_F(AnyValueJSONParseTest, ArrayValueBuildNodeMethods)
   AnyValue int_array(2, SignedInteger16Type);
   ArrayValueBuildNode node_2(&anytype_registry, nullptr, int_array);
   EXPECT_THROW(node_2.GetArrayNode(), ParseException);
+  EXPECT_THROW(node_2.String("text"), ParseException);
 
   // Boolean array
   {
@@ -568,21 +572,6 @@ TEST_F(AnyValueJSONParseTest, ArrayValueBuildNodeMethods)
     EXPECT_TRUE(child->Bool(true));
     EXPECT_TRUE(child->Bool(true));
     EXPECT_THROW(child->Bool(true), ParseException);
-    EXPECT_TRUE(node.PopArrayNode());
-    EXPECT_EQ(array_v[0][0], true);
-    EXPECT_EQ(array_v[0][1], true);
-  }
-
-  // Array of unbounded array
-  {
-    AnyType bool_array(AnyType::unbounded_array_tag, BooleanType);
-    AnyType array_t(2, bool_array);
-    AnyValue array_v(array_t);
-    ArrayValueBuildNode node(&anytype_registry, nullptr, array_v);
-    auto child = node.GetArrayNode();
-    ASSERT_NE(child, nullptr);
-    EXPECT_TRUE(child->Bool(true));
-    EXPECT_TRUE(child->Bool(true));
     EXPECT_TRUE(node.PopArrayNode());
     EXPECT_EQ(array_v[0][0], true);
     EXPECT_EQ(array_v[0][1], true);

@@ -31,6 +31,29 @@ namespace sup
 namespace dto
 {
 
+template <typename T> bool ArrayValueBuildNode::TryAssign(T val)
+{
+  if (size == 0 && current_index == anyvalue.NumberOfElements())
+  {
+    anyvalue.AddElement(AnyValue{element_type});
+  }
+  if (current_index >= anyvalue.NumberOfElements())
+  {
+    throw ParseException(
+        "ArrayValueBuildNode: trying to add more elements than allowed");
+  }
+  try
+  {
+    anyvalue[current_index] = val;
+  }
+  catch(const InvalidConversionException& e)
+  {
+    throw ParseException(e.what());
+  }
+  ++current_index;
+  return true;
+}
+
 ArrayValueBuildNode::ArrayValueBuildNode(
   const AnyTypeRegistry* anytype_registry, IAnyBuildNode* parent, AnyValue& anyvalue_)
   : IAnyBuildNode(anytype_registry, parent)
@@ -39,94 +62,71 @@ ArrayValueBuildNode::ArrayValueBuildNode(
   , current_index{}
   , size{anyvalue_.NumberOfElements()}
   , anyvalue{anyvalue_}
-{}
+  , element_type{}
+{
+  try
+  {
+    element_type = anyvalue.GetType().ElementType();
+  }
+  catch(const InvalidOperationException& e)
+  {
+    throw ParseException(e.what());
+  }
+}
 
 ArrayValueBuildNode::~ArrayValueBuildNode() = default;
 
 bool ArrayValueBuildNode::Bool(boolean b)
 {
-  if (current_index >= size)
-  {
-    throw ParseException(
-        "AnyValueBuildNode::Bool called more than array size");
-  }
-  anyvalue[current_index++] = b;
-  return true;
+  return TryAssign(b);
 }
 
 bool ArrayValueBuildNode::Int32(int32 i)
 {
-  if (current_index >= size)
-  {
-    throw ParseException(
-        "AnyValueBuildNode::Int32 called more than array size");
-  }
-  anyvalue[current_index++] = i;
-  return true;
+  return TryAssign(i);
 }
 
 bool ArrayValueBuildNode::Uint32(uint32 u)
 {
-  if (current_index >= size)
-  {
-    throw ParseException(
-        "AnyValueBuildNode::Uint32 called more than array size");
-  }
-  anyvalue[current_index++] = u;
-  return true;
+  return TryAssign(u);
 }
 
 bool ArrayValueBuildNode::Int64(int64 i)
 {
-  if (current_index >= size)
-  {
-    throw ParseException(
-        "AnyValueBuildNode::Int64 called more than array size");
-  }
-  anyvalue[current_index++] = i;
-  return true;
+  return TryAssign(i);
 }
 
 bool ArrayValueBuildNode::Uint64(uint64 u)
 {
-  if (current_index >= size)
-  {
-    throw ParseException(
-        "AnyValueBuildNode::Uint64 called more than array size");
-  }
-  anyvalue[current_index++] = u;
-  return true;
+  return TryAssign(u);
 }
 
 bool ArrayValueBuildNode::Double(float64 d)
 {
-  if (current_index >= size)
-  {
-    throw ParseException(
-        "AnyValueBuildNode::Double called more than array size");
-  }
-  anyvalue[current_index++] = d;
-  return true;
+  return TryAssign(d);
 }
 
 bool ArrayValueBuildNode::String(const std::string& str)
 {
-  if (current_index >= size)
-  {
-    throw ParseException(
-        "AnyValueBuildNode::String called more than array size");
-  }
-  anyvalue[current_index++] = str;
-  return true;
+  return TryAssign(str);
 }
 
 IAnyBuildNode* ArrayValueBuildNode::GetStructureNode()
 {
-  if (value_node || current_index >= size)
+  if (value_node || !IsStructType(element_type))
   {
     throw ParseException(
         "ArrayValueBuildNode::GetStructureNode must be called with empty child node "
-        "and without exceeding array size");
+        "and with structured element type");
+  }
+  if (size == 0 && current_index == anyvalue.NumberOfElements())
+  {
+    anyvalue.AddElement(AnyValue{element_type});
+  }
+  if (current_index >= anyvalue.NumberOfElements())
+  {
+    throw ParseException(
+        "ArrayValueBuildNode::GetStructureNode called while exceeding array size");
   }
   value_node.reset(new AnyValueBuildNode(GetTypeRegistry(), this, anyvalue[current_index++]));
   return value_node.get();
@@ -134,11 +134,20 @@ IAnyBuildNode* ArrayValueBuildNode::GetStructureNode()
 
 IAnyBuildNode* ArrayValueBuildNode::GetArrayNode()
 {
-  if (array_node || current_index >= size)
+  if (array_node || !IsArrayType(element_type))
   {
     throw ParseException(
         "ArrayValueBuildNode::GetArrayNode must be called with empty child node "
-        "and without exceeding array size");
+        "and with array element type");
+  }
+  if (size == 0 && current_index == anyvalue.NumberOfElements())
+  {
+    anyvalue.AddElement(AnyValue{element_type});
+  }
+  if (current_index >= anyvalue.NumberOfElements())
+  {
+    throw ParseException(
+        "ArrayValueBuildNode::GetArrayNode called while exceeding array size");
   }
   AnyValue& element_value = anyvalue[current_index++];
   array_node = CreateArrayBuildNode(GetTypeRegistry(), this, element_value);
