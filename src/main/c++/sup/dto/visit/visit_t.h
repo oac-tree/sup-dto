@@ -22,8 +22,9 @@
 #ifndef _SUP_VisitT_h_
 #define _SUP_VisitT_h_
 
-#include "any_visitorstack.h"
-#include "create_any_visitornode_t.h"
+#include <sup/dto/visit/any_visitorstack.h>
+#include <sup/dto/visit/create_any_visitornode_t.h>
+
 #include <sup/dto/i_any_visitor.h>
 
 namespace sup

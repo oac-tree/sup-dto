@@ -22,8 +22,8 @@
 #ifndef _SUP_StructVisitorNode_h_
 #define _SUP_StructVisitorNode_h_
 
-#include "any_visitornode.h"
-#include "member_visitornode.h"
+#include <sup/dto/visit/any_visitornode.h>
+#include <sup/dto/visit/member_visitornode.h>
 
 namespace sup
 {

@@ -21,7 +21,8 @@
 
 #include "unbounded_array_value_data.h"
 
-#include "array_value_data.h"
+#include <sup/dto/anyvalue/array_value_data.h>
+
 #include <sup/dto/anyvalue_exceptions.h>
 
 #include <utility>

@@ -22,7 +22,7 @@
 #include "membertype_array_buildnode.h"
 
 #include <sup/dto/anyvalue_exceptions.h>
-#include "membertype_buildnode.h"
+#include <sup/dto/parse/membertype_buildnode.h>
 
 namespace sup
 {

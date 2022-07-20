@@ -20,13 +20,15 @@
  ******************************************************************************/
 
 #include <sup/dto/anyvalue_helper.h>
-#include <sup/dto/anyvalue.h>
+
+#include <sup/dto/json/json_reader.h>
+#include <sup/dto/json/json_writer.h>
+#include <sup/dto/parse/byteparser.h>
+#include <sup/dto/serialize/byte_serializer.h>
+#include <sup/dto/visit/visit_t.h>
+
 #include <sup/dto/anytype_registry.h>
-#include "byteparser.h"
-#include "byte_serializer.h"
-#include "json_reader.h"
-#include "json_writer.h"
-#include "visit_t.h"
+#include <sup/dto/anyvalue.h>
 
 #include <fstream>
 #include <sstream>

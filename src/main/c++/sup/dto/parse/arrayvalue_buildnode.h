@@ -22,7 +22,8 @@
 #ifndef _SUP_ArrayValueBuildNode_h_
 #define _SUP_ArrayValueBuildNode_h_
 
-#include "i_any_buildnode.h"
+#include <sup/dto/parse/i_any_buildnode.h>
+
 #include <sup/dto/anyvalue.h>
 
 #include <memory>

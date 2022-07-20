@@ -21,13 +21,14 @@
 
 #include "i_value_data.h"
 
+#include <sup/dto/anyvalue/array_value_data.h>
+#include <sup/dto/anyvalue/empty_value_data.h>
+#include <sup/dto/anyvalue/i_type_data.h>
+#include <sup/dto/anyvalue/scalar_value_data_base.h>
+#include <sup/dto/anyvalue/struct_value_data.h>
+#include <sup/dto/anyvalue/unbounded_array_value_data.h>
+
 #include <sup/dto/anyvalue_exceptions.h>
-#include "i_type_data.h"
-#include "array_value_data.h"
-#include "empty_value_data.h"
-#include "scalar_value_data_base.h"
-#include "struct_value_data.h"
-#include "unbounded_array_value_data.h"
 
 namespace sup
 {

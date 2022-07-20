@@ -22,8 +22,8 @@
 #ifndef _SUP_StructTypeData_h_
 #define _SUP_StructTypeData_h_
 
-#include "i_type_data.h"
-#include "struct_data_t.h"
+#include <sup/dto/anyvalue/i_type_data.h>
+#include <sup/dto/anyvalue/struct_data_t.h>
 
 #include <vector>
 

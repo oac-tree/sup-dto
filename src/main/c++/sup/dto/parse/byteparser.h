@@ -22,8 +22,8 @@
 #ifndef _SUP_ByteParser_h_
 #define _SUP_ByteParser_h_
 
-#include <sup/dto/i_any_visitor.h>
 #include <sup/dto/basic_scalar_types.h>
+#include <sup/dto/i_any_visitor.h>
 
 namespace sup
 {

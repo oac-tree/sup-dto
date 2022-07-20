@@ -22,8 +22,8 @@
 #ifndef _SUP_ScalarValueDataT_h_
 #define _SUP_ScalarValueDataT_h_
 
-#include "scalar_value_data_base.h"
-#include "scalar_conversion.h"
+#include <sup/dto/anyvalue/scalar_conversion.h>
+#include <sup/dto/anyvalue/scalar_value_data_base.h>
 
 namespace sup
 {

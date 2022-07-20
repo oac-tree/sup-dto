@@ -20,6 +20,7 @@
  ******************************************************************************/
 
 #include "i_writer.h"
+
 #include <sup/dto/anyvalue.h>
 
 #include <functional>

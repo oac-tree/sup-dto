@@ -21,11 +21,11 @@
 
 #include <sup/dto/anytype.h>
 
-#include "array_type_data.h"
-#include "empty_type_data.h"
-#include "scalar_type_data.h"
-#include "struct_type_data.h"
-#include "unbounded_array_type_data.h"
+#include <sup/dto/anyvalue/array_type_data.h>
+#include <sup/dto/anyvalue/empty_type_data.h>
+#include <sup/dto/anyvalue/scalar_type_data.h>
+#include <sup/dto/anyvalue/struct_type_data.h>
+#include <sup/dto/anyvalue/unbounded_array_type_data.h>
 
 #include <unordered_set>
 

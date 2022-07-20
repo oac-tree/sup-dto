@@ -22,7 +22,7 @@
 #ifndef _SUP_ScalarVisitorNode_h_
 #define _SUP_ScalarVisitorNode_h_
 
-#include "any_visitornode.h"
+#include <sup/dto/visit/any_visitornode.h>
 
 namespace sup
 {

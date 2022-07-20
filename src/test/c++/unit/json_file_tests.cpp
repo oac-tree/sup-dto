@@ -21,11 +21,12 @@
 
 #include <gtest/gtest.h>
 
+#include "test_config.h"
+
 #include <sup/dto/anytype.h>
 #include <sup/dto/anytype_helper.h>
 #include <sup/dto/anyvalue.h>
 #include <sup/dto/anyvalue_helper.h>
-#include "test_config.h"
 
 #include <fstream>
 

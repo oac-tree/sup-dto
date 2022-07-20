@@ -22,11 +22,10 @@
 #ifndef _SUP_JSONWriterT_h_
 #define _SUP_JSONWriterT_h_
 
-#include "i_writer.h"
-
 #include <sup/dto/rapidjson/prettywriter.h>
 #include <sup/dto/rapidjson/ostreamwrapper.h>
 #include <sup/dto/rapidjson/writer.h>
+#include <sup/dto/serialize/i_writer.h>
 
 #include <ostream>
 

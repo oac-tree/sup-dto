@@ -20,11 +20,12 @@
  ******************************************************************************/
 
 #include <sup/dto/anytype_helper.h>
-#include <sup/dto/anytype.h>
+
 #include <sup/dto/anytype_registry.h>
-#include "json_reader.h"
-#include "json_writer.h"
-#include "visit_t.h"
+#include <sup/dto/json/json_reader.h>
+#include <sup/dto/json/json_writer.h>
+#include <sup/dto/visit/visit_t.h>
+#include <sup/dto/anytype.h>
 
 #include <fstream>
 #include <sstream>

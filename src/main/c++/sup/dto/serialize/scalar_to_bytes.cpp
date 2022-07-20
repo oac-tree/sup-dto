@@ -20,6 +20,7 @@
  ******************************************************************************/
 
 #include "scalar_to_bytes.h"
+
 #include <sup/dto/anyvalue.h>
 
 #include <cstring>

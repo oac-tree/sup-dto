@@ -22,7 +22,8 @@
 #ifndef _SUP_AnyValueEncodingElementBuildNode_h_
 #define _SUP_AnyValueEncodingElementBuildNode_h_
 
-#include "i_any_buildnode.h"
+#include <sup/dto/parse/i_any_buildnode.h>
+
 #include <sup/dto/anyvalue.h>
 
 #include <memory>

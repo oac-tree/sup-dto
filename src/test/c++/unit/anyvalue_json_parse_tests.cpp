@@ -21,19 +21,20 @@
 
 #include <gtest/gtest.h>
 
-#include <sup/dto/anytype_registry.h>
-#include <sup/dto/anyvalue_helper.h>
-#include <sup/dto/anyvalue.h>
+#include <sup/dto/parse/anyvalue_array_buildnode.h>
 #include <sup/dto/parse/anyvalue_builder.h>
 #include <sup/dto/parse/anyvalue_buildnode.h>
-#include <sup/dto/parse/anyvalue_root_buildnode.h>
-#include <sup/dto/parse/anyvalue_array_buildnode.h>
 #include <sup/dto/parse/anyvalue_encodingelement_buildnode.h>
+#include <sup/dto/parse/anyvalue_root_buildnode.h>
 #include <sup/dto/parse/anyvalue_typeelement_buildnode.h>
 #include <sup/dto/parse/anyvalue_valueelement_buildnode.h>
 #include <sup/dto/parse/arrayvalue_buildnode.h>
-#include <sup/dto/parse/unboundedarrayvalue_buildnode.h>
 #include <sup/dto/parse/serialization_constants.h>
+#include <sup/dto/parse/unboundedarrayvalue_buildnode.h>
+
+#include <sup/dto/anytype_registry.h>
+#include <sup/dto/anyvalue.h>
+#include <sup/dto/anyvalue_helper.h>
 
 using namespace sup::dto;
 

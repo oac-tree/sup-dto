@@ -21,14 +21,14 @@
 
 #include "json_reader.h"
 
+#include <sup/dto/parse/anytype_builder.h>
+#include <sup/dto/parse/anyvalue_builder.h>
+#include <sup/dto/rapidjson/istreamwrapper.h>
+#include <sup/dto/rapidjson/reader.h>
+
 #include <sup/dto/anytype.h>
 #include <sup/dto/anyvalue.h>
 #include <sup/dto/anyvalue_exceptions.h>
-#include "anytype_builder.h"
-#include "anyvalue_builder.h"
-
-#include <sup/dto/rapidjson/istreamwrapper.h>
-#include <sup/dto/rapidjson/reader.h>
 
 namespace sup
 {

@@ -22,8 +22,8 @@
 #ifndef _SUP_ArrayVisitorNode_h_
 #define _SUP_ArrayVisitorNode_h_
 
-#include "any_visitornode.h"
-#include "create_any_visitornode.h"
+#include <sup/dto/visit/any_visitornode.h>
+#include <sup/dto/visit/create_any_visitornode.h>
 
 namespace sup
 {

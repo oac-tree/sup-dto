@@ -21,11 +21,11 @@
 
 #include <sup/dto/anyvalue.h>
 
-#include "array_value_data.h"
-#include "empty_value_data.h"
-#include "scalar_value_data_t.h"
-#include "struct_value_data.h"
-#include "unbounded_array_value_data.h"
+#include <sup/dto/anyvalue/array_value_data.h>
+#include <sup/dto/anyvalue/empty_value_data.h>
+#include <sup/dto/anyvalue/scalar_value_data_t.h>
+#include <sup/dto/anyvalue/struct_value_data.h>
+#include <sup/dto/anyvalue/unbounded_array_value_data.h>
 
 namespace sup
 {

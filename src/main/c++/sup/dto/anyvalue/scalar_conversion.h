@@ -23,7 +23,6 @@
 #define _SUP_ScalarConversion_h_
 
 #include <sup/dto/basic_scalar_types.h>
-
 #include <sup/dto/anyvalue_exceptions.h>
 
 #include <limits>

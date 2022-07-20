@@ -21,10 +21,11 @@
 
 #include "anyvalue_valueelement_buildnode.h"
 
-#include "anyvalue_buildnode.h"
+#include <sup/dto/parse/anyvalue_buildnode.h>
+#include <sup/dto/parse/arrayvalue_buildnode.h>
+#include <sup/dto/parse/serialization_constants.h>
+
 #include <sup/dto/anyvalue_exceptions.h>
-#include "arrayvalue_buildnode.h"
-#include "serialization_constants.h"
 
 namespace sup
 {

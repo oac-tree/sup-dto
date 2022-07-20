@@ -22,7 +22,7 @@
 #ifndef _SUP_ScalarValueDataBase_h_
 #define _SUP_ScalarValueDataBase_h_
 
-#include "i_value_data.h"
+#include <sup/dto/anyvalue/i_value_data.h>
 
 namespace sup
 {

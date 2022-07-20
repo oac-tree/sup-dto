@@ -22,7 +22,7 @@
 #ifndef _SUP_EmptyTypeData_h_
 #define _SUP_EmptyTypeData_h_
 
-#include "i_type_data.h"
+#include <sup/dto/anyvalue/i_type_data.h>
 
 namespace sup
 {

@@ -21,7 +21,8 @@
 
 #include "unbounded_array_type_data.h"
 
-#include "array_type_data.h"
+#include <sup/dto/anyvalue/array_type_data.h>
+
 #include <sup/dto/anyvalue_exceptions.h>
 
 namespace sup

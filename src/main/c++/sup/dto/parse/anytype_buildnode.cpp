@@ -21,10 +21,11 @@
 
 #include "anytype_buildnode.h"
 
+#include <sup/dto/parse/membertype_array_buildnode.h>
+#include <sup/dto/parse/serialization_constants.h>
+
 #include <sup/dto/anytype_registry.h>
 #include <sup/dto/anyvalue_exceptions.h>
-#include "membertype_array_buildnode.h"
-#include "serialization_constants.h"
 
 #include <map>
 

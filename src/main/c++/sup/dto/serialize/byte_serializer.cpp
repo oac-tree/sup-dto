@@ -20,8 +20,10 @@
  ******************************************************************************/
 
 #include "byte_serializer.h"
+
+#include <sup/dto/serialize/scalar_to_bytes.h>
+
 #include <sup/dto/anyvalue.h>
-#include "scalar_to_bytes.h"
 
 namespace sup
 {

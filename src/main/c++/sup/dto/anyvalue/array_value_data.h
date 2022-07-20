@@ -22,7 +22,7 @@
 #ifndef _SUP_ARRAYVALUEDATA_H_
 #define _SUP_ARRAYVALUEDATA_H_
 
-#include "i_value_data.h"
+#include <sup/dto/anyvalue/i_value_data.h>
 
 #include <vector>
 

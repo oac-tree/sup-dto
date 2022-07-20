@@ -21,8 +21,9 @@
 
 #include "scalar_value_data_base.h"
 
+#include <sup/dto/anyvalue/scalar_value_data_t.h>
+
 #include <sup/dto/anyvalue_exceptions.h>
-#include "scalar_value_data_t.h"
 
 #include <functional>
 #include <map>
