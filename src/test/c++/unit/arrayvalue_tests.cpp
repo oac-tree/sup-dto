@@ -160,6 +160,43 @@ TEST(ArrayValueTest, ArrayEquality)
   EXPECT_NE(my_array, scalar);
 }
 
+TEST(ArrayValueTest, ArrayAssign)
+{
+  // source array
+  AnyValue source_array = ArrayValue({
+    {SignedInteger64Type, 1}, 2, 3, 4, 5, 6, 7, 8, 9
+  });
+  EXPECT_FALSE(IsEmptyValue(source_array));
+  EXPECT_FALSE(IsStructValue(source_array));
+  EXPECT_TRUE(IsArrayValue(source_array));
+  EXPECT_FALSE(IsUnboundedArrayValue(source_array));
+  EXPECT_FALSE(IsScalarValue(source_array));
+  EXPECT_EQ(source_array.NumberOfElements(), 9);
+
+  // correctly sized target array
+  AnyValue target_array(AnyType(9, SignedInteger64Type));
+  EXPECT_FALSE(IsEmptyValue(target_array));
+  EXPECT_FALSE(IsStructValue(target_array));
+  EXPECT_TRUE(IsArrayValue(target_array));
+  EXPECT_FALSE(IsUnboundedArrayValue(target_array));
+  EXPECT_FALSE(IsScalarValue(target_array));
+  EXPECT_EQ(target_array.NumberOfElements(), 9);
+  EXPECT_NO_THROW(target_array = source_array);
+  EXPECT_EQ(target_array, source_array);
+
+  // zero-sized array
+  AnyValue zero_sized_array(AnyType(0, SignedInteger64Type));
+  EXPECT_FALSE(IsEmptyValue(zero_sized_array));
+  EXPECT_FALSE(IsStructValue(zero_sized_array));
+  EXPECT_TRUE(IsArrayValue(zero_sized_array));
+  EXPECT_FALSE(IsUnboundedArrayValue(zero_sized_array));
+  EXPECT_FALSE(IsScalarValue(zero_sized_array));
+  EXPECT_EQ(zero_sized_array.NumberOfElements(), 0);
+  EXPECT_NO_THROW(zero_sized_array = source_array);
+  EXPECT_EQ(zero_sized_array, source_array);
+  EXPECT_EQ(zero_sized_array.NumberOfElements(), 9);
+}
+
 TEST(ArrayValueTest, InvalidArrayAssign)
 {
   AnyValue my_array = ArrayValue({

@@ -78,9 +78,14 @@ void ArrayValueData::Assign(const AnyValue& value)
   {
     IValueData::Assign(value);
   }
+  if (NumberOfElements() == 0)
+  {
+    elements = std::vector<AnyValue>(value.NumberOfElements(), AnyValue{elem_type});
+  }
   if (value.NumberOfElements() != NumberOfElements())
   {
-    throw InvalidConversionException("Can't convert between array values with different length");
+    throw InvalidConversionException("Can't convert between array values with different length "
+                                     "unless target has zero size");
   }
   for (std::size_t idx = 0; idx < NumberOfElements(); ++idx)
   {
