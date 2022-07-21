@@ -129,6 +129,9 @@ allowed to be empty. These are constructed using a dedicated constructor::
 The last argument of this constructor is optional and if not provided, the typename will be an empty
 string.
 
+Array types with zero size are allowed and provide for dynamic array types (see
+:ref:`AnyValue - Copy and Move <anyvalue-copy-move>`).
+
 .. _structured-types:
 
 Structured types
@@ -302,9 +305,7 @@ to structured types:
    :param type: ``AnyType`` object for the member type.
    :return: Reference to ``this`` to allow chaining such calls.
    :throws InvalidOperationException: If this operation is not supported
-      (not a structured type or trying to add an empty type).
-   :throws DuplicateKeyException: When this structured type already has a field with the given
-      name.
+      (e.g. not a structured type or trying to add an empty type).
 
    Add a member type for this structured type with the given name and type. Empty types are
    not allowed as member types.

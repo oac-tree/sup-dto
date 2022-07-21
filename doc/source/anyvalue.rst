@@ -125,13 +125,12 @@ not allowed to be empty. These are constructed using a dedicated constructor::
 The last argument of this constructor is optional and if not provided, the typename will be an empty
 string.
 
-There is currently no support for populating an array value with its element values in a single
-constructor call. One has to explicitly set those element values in subsequent accessor methods::
+To construct an array value with specific element values in a single statement, a convenience
+function can be used that accepts a list of ``AnyValue`` elements::
 
-   AnyValue my_int_array(3, SignedInteger16Type, "ThreeIntegers");
-   my_int_array[0] = 10;
-   my_int_array[1] = 20;
-   my_int_array[2] = 30;
+   AnyValue my_int_array = ArrayValue(
+      {10, 20, 30},
+      "ThreeIntegers");
 
 Structured values
 ^^^^^^^^^^^^^^^^^
@@ -180,15 +179,24 @@ constructor::
      }}
    }, "CustomerType");
 
+.. _anyvalue-copy-move:
+
 Copy and move
 -------------
 
 The ``AnyValue`` class provides copy and move constructors and assignment operators that are more
 strict than their ``AnyType`` counterparts. In general, only compatible values can be assigned to
-each other. For the scalar types, this requires that the underlying value can be converted to the
+each other.
+
+For the scalar types, this requires that the underlying value can be converted to the
 destination type and that it fits into that representation (e.g. a negative integer cannot be
-assigned to an unsigned value type). For array values, assigment requires equal length arrays and
-compatibility for each of their elements. Structured values can be assigned to one another if they have
+assigned to an unsigned value type).
+
+For array values, assigment requires equal length arrays and compatibility for each of their
+elements. An expection to this rule occurs when the target array has zero length. In that case, the
+target can be assigned arrays of any length, as long as the element types are compatible.
+
+Structured values can be assigned to one another if they have
 the same member names (in the exact same order) and their member values are compatible. Note that
 for both array and structured value assignment, the type name is ignored.
 
@@ -343,8 +351,9 @@ representation of the index or by passing it directly::
 Modifier methods
 ----------------
 
-The ``AnyValue`` API currently contains only one method for modification, which applies only
-to structured values:
+The ``AnyValue`` API provides modifier methods to extend structured or array values. These methods
+are mostly used for runtime creation of ``AnyValue`` objects, e.g. during parsing. Note that the
+effect of these methods includes a change of the underlying type.
 
 .. function:: AnyValue& AnyValue::AddMember(const std::string& name, const AnyValue& value)
 
@@ -352,12 +361,19 @@ to structured values:
    :param value: ``AnyValue`` object for the member value.
    :return: Reference to ``this`` to allow chaining such calls.
    :throws InvalidOperationException: If this operation is not supported
-      (not a structured value or trying to add an empty value).
-   :throws DuplicateKeyException: When this structured value already has a field with the given
-      name.
+      (e.g. not a structured value or trying to add an empty value).
 
    Add a member value for this structured value with the given name and value. Empty values are
    not allowed as member values.
+
+.. function:: AnyValue& AnyValue::AddElement(const AnyValue& value)
+
+   :param value: ``AnyValue`` object to add as an element.
+   :return: Reference to ``this`` to allow chaining such calls.
+   :throws InvalidOperationException: If this operation is not supported
+      (not an array value or trying to add an empty value).
+
+   Add an element to the end of this array value with the given value.
 
 Comparison operators
 --------------------
