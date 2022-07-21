@@ -133,6 +133,65 @@ R"RAW([
   }
 ])RAW";
 
+static const std::string json_dynamic_array_of_struct =
+R"RAW([
+  {
+    "encoding": "sup-dto/v1.0/JSON"
+  },
+  {
+    "datatype": {
+      "type": "",
+      "element": {
+        "type": "",
+        "attributes": [
+          {
+            "id": {
+              "type": "string"
+            }
+          },
+          {
+            "number": {
+              "type": "uint64"
+            }
+          }
+        ]
+      }
+    }
+  },
+  {
+    "instance": [
+      {
+        "id": "MyId",
+        "number": 14
+      }
+    ]
+  }
+])RAW";
+
+static const std::string json_dynamic_array_of_array =
+R"RAW([
+  {
+    "encoding": "sup-dto/v1.0/JSON"
+  },
+  {
+    "datatype": {
+      "type": "",
+      "element": {
+        "type": "",
+        "element": {
+          "type": "uint8"
+        },
+        "multiplicity": 4
+      }
+    }
+  },
+  {
+    "instance": [
+      [2, 4, 6, 8]
+    ]
+  }
+])RAW";
+
 class AnyValueJSONParseTest : public ::testing::Test
 {
 protected:
@@ -354,6 +413,8 @@ TEST_F(AnyValueJSONParseTest, DynamicArrayOfStructValue)
   auto json_string = AnyValueToJSONString(array_of_struct_val);
   auto parsed_val = AnyValueFromJSONString(json_string);
   EXPECT_EQ(array_of_struct_val, parsed_val);
+  auto parsed_val_2 = AnyValueFromJSONString(json_dynamic_array_of_struct);
+  EXPECT_EQ(array_of_struct_val, parsed_val_2);
 }
 
 TEST_F(AnyValueJSONParseTest, EmptyDynamicArrayOfStructValue)
@@ -379,6 +440,8 @@ TEST_F(AnyValueJSONParseTest, DynamicArrayOfArrayValue)
   auto json_string = AnyValueToJSONString(array_of_array_val);
   auto parsed_val = AnyValueFromJSONString(json_string);
   EXPECT_EQ(array_of_array_val, parsed_val);
+  auto parsed_val_2 = AnyValueFromJSONString(json_dynamic_array_of_array);
+  EXPECT_EQ(array_of_array_val, parsed_val_2);
 }
 
 TEST_F(AnyValueJSONParseTest, EmptyDynamicArrayOfArrayValue)
