@@ -34,7 +34,7 @@ static const std::string json_simple_struct =
 static const std::string json_simple_array =
     R"RAW({"type":"","multiplicity":5,"element":{"type":"char8"}})RAW";
 
-static const std::string json_unbounded_array =
+static const std::string json_dynamic_array =
     R"RAW({"type":"","element":{"type":"uint16"}})RAW";
 
 static const std::string json_complex_type =
@@ -129,13 +129,12 @@ TEST_F(AnyTypeJSONSerializeTest, SimpleArrayType)
   EXPECT_EQ(json_string, json_simple_array);
 }
 
-// TODO: use this for normal array?
-// TEST_F(AnyTypeJSONSerializeTest, UnboundedArrayType)
-// {
-//   AnyType unbounded_array_type(AnyType::unbounded_array_tag, UnsignedInteger16Type);
-//   auto json_string = AnyTypeToJSONString(unbounded_array_type);
-//   EXPECT_EQ(json_string, json_unbounded_array);
-// }
+TEST_F(AnyTypeJSONSerializeTest, DynamicArrayType)
+{
+  AnyType dynamic_array_type(0, UnsignedInteger16Type);
+  auto json_string = AnyTypeToJSONString(dynamic_array_type);
+  EXPECT_EQ(json_string, json_dynamic_array);
+}
 
 TEST_F(AnyTypeJSONSerializeTest, ComplexStructType)
 {

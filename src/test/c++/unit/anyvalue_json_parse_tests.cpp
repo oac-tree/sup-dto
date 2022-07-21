@@ -43,6 +43,12 @@ static const std::string json_simple_struct_full =
 static const std::string json_simple_array_full =
     R"RAW([{"encoding":"sup-dto/v1.0/JSON"},{"datatype":{"type":"","multiplicity":5,"element":{"type":"int32"}}},{"instance":[0,20,40,60,80]}])RAW";
 
+static const std::string json_dynamic_array_full =
+    R"RAW([{"encoding":"sup-dto/v1.0/JSON"},{"datatype":{"type":"","element":{"type":"uint64"}}},{"instance":[11,22,33]}])RAW";
+
+static const std::string json_empty_array_full =
+    R"RAW([{"encoding":"sup-dto/v1.0/JSON"},{"datatype":{"type":"","element":{"type":"float32"}}},{"instance":[]}])RAW";
+
 static const std::string pretty_json_simple_struct =
 R"RAW([
   {
@@ -289,6 +295,30 @@ TEST_F(AnyValueJSONParseTest, SimpleArrayValue)
   EXPECT_EQ(simple_array_val, parsed_val);
   auto parsed_val2 = AnyValueFromJSONString(json_simple_array_full);
   EXPECT_EQ(simple_array_val, parsed_val2);
+}
+
+TEST_F(AnyValueJSONParseTest, DynamicArrayValue)
+{
+  AnyValue dynamic_array_val(0, UnsignedInteger64Type);
+  for (int i=1; i<4; ++i)
+  {
+    dynamic_array_val.AddElement(11*i);
+  }
+  auto json_string = AnyValueToJSONString(dynamic_array_val);
+  auto parsed_val = AnyValueFromJSONString(json_string);
+  EXPECT_EQ(dynamic_array_val, parsed_val);
+  auto parsed_val2 = AnyValueFromJSONString(json_dynamic_array_full);
+  EXPECT_EQ(dynamic_array_val, parsed_val2);
+}
+
+TEST_F(AnyValueJSONParseTest, EmptyDynamicArrayValue)
+{
+  AnyValue empty_dynamic_array_val(0, Float32Type);
+  auto json_string = AnyValueToJSONString(empty_dynamic_array_val);
+  auto parsed_val = AnyValueFromJSONString(json_string);
+  EXPECT_EQ(empty_dynamic_array_val, parsed_val);
+  auto parsed_val2 = AnyValueFromJSONString(json_empty_array_full);
+  EXPECT_EQ(empty_dynamic_array_val, parsed_val2);
 }
 
 TEST_F(AnyValueJSONParseTest, ComplexStructValue)

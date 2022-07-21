@@ -85,8 +85,11 @@ void WriterTypeSerializer::ArrayProlog(const AnyType* anytype)
   writer->Member(serialization::TYPE_KEY);
   auto type_name = anytype->GetTypeName();
   writer->String(type_name);
-  writer->Member(serialization::MULTIPLICITY_KEY);
-  writer->Uint64(anytype->NumberOfElements());
+  if (anytype->NumberOfElements() > 0)
+  {
+    writer->Member(serialization::MULTIPLICITY_KEY);
+    writer->Uint64(anytype->NumberOfElements());
+  }
   writer->Member(serialization::ELEMENT_KEY);
 }
 

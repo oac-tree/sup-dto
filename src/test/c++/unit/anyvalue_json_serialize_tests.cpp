@@ -38,8 +38,14 @@ static const std::string json_simple_struct_full =
 static const std::string json_simple_array =
     R"RAW([0,20,40,60,80])RAW";
 
+static const std::string json_empty_array =
+    R"RAW([])RAW";
+
 static const std::string json_simple_array_full =
     R"RAW([{"encoding":"sup-dto/v1.0/JSON"},{"datatype":{"type":"","multiplicity":5,"element":{"type":"int32"}}},{"instance":[0,20,40,60,80]}])RAW";
+
+static const std::string json_empty_dynamic_array_full =
+    R"RAW([{"encoding":"sup-dto/v1.0/JSON"},{"datatype":{"type":"","element":{"type":"uint64"}}},{"instance":[]}])RAW";
 
 static const std::string json_complex_val =
     R"RAW({"array":[{"id":"","number":23},{"id":"second_id","number":0}],"nested":{"id":"","number":0},"validated":false})RAW";
@@ -239,6 +245,15 @@ TEST_F(AnyValueJSONSerializeTest, DynamicArrayValue)
   EXPECT_EQ(json_string, json_simple_array);
   auto json_full = AnyValueToJSONString(dynamic_array_val);
   EXPECT_EQ(json_full, json_simple_array_full);
+}
+
+TEST_F(AnyValueJSONSerializeTest, EmptyDynamicArrayValue)
+{
+  AnyValue empty_dynamic_array_val(0, UnsignedInteger64Type);
+  auto json_string = ValuesToJSONString(empty_dynamic_array_val);
+  EXPECT_EQ(json_string, json_empty_array);
+  auto json_full = AnyValueToJSONString(empty_dynamic_array_val);
+  EXPECT_EQ(json_full, json_empty_dynamic_array_full);
 }
 
 TEST_F(AnyValueJSONSerializeTest, ComplexStructValue)
