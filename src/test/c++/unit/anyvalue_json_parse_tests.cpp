@@ -80,6 +80,54 @@ R"RAW([
   }
 ])RAW";
 
+static const std::string json_ntenum_full =
+R"RAW([
+  {
+    "encoding": "sup-dto/v1.0/JSON"
+  },
+  {
+    "datatype":
+    {
+      "type": "epics:nt/NTEnum:1.0",
+      "attributes": [
+      {
+        "value":
+        {
+          "type": "enum_t",
+          "attributes": [
+          {
+            "index":
+            {
+              "type":"int32"
+            }
+          },
+          {
+            "choices":
+            {
+              "type":"string[]",
+              "element":
+              {
+                "type":"string"
+              },
+              "multiplicity": 0
+            }
+          }]
+        }
+      }]
+    }
+  },
+  {
+    "instance":
+    {
+      "value":
+      {
+        "index": 0,
+        "choices": ["Off", "Idle", "Running", "Fault"]
+      }
+    }
+  }
+])RAW";
+
 class AnyValueJSONParseTest : public ::testing::Test
 {
 protected:
@@ -214,6 +262,20 @@ TEST_F(AnyValueJSONParseTest, PrettySimpleStructValue)
   });
   auto parsed_val = AnyValueFromJSONString(pretty_json_simple_struct);
   EXPECT_EQ(simple_struct_val, parsed_val);
+}
+
+TEST_F(AnyValueJSONParseTest, NTEnumValue)
+{
+  AnyType string_array_type(4, StringType, "string[]");
+  AnyType enum_t_type({
+    {"index", SignedInteger32Type},
+    {"choices", string_array_type}
+  }, "enum_t");
+  AnyType ntenum_type({{"value", enum_t_type}}, "epics:nt/NTEnum:1.0");
+  AnyValue ntenum_val(ntenum_type);
+  ntenum_val["value.choices"] = ArrayValue({"Off", "Idle", "Running", "Fault"});
+  auto parsed_val = AnyValueFromJSONString(json_ntenum_full);
+  EXPECT_EQ(ntenum_val, parsed_val);
 }
 
 TEST_F(AnyValueJSONParseTest, SimpleArrayValue)

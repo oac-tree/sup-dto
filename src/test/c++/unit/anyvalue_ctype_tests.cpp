@@ -194,33 +194,33 @@ TEST(AnyValueCTypeTest, FromArray)
   }
 }
 
-TEST(AnyValueCTypeTest, ToUnboundedArray)
+TEST(AnyValueCTypeTest, ToDynamicArray)
 {
-  AnyValue unbounded_array(AnyType::unbounded_array_tag, UnsignedInteger32Type, "my_uint32_array");
+  AnyValue dynamic_array(0, UnsignedInteger32Type, "my_uint32_array");
   for (unsigned i=0; i<5; ++i)
   {
-    unbounded_array.AddElement(10 * i);
+    dynamic_array.AddElement(10 * i);
   }
-  auto my_array_c = unbounded_array.As<ArrayType>();
+  auto my_array_c = dynamic_array.As<ArrayType>();
   for (unsigned i=0; i<5; ++i)
   {
     EXPECT_EQ(my_array_c.elements[i], 10 * i);
   }
 }
 
-TEST(AnyValueCTypeTest, FromUnboundedArray)
+TEST(AnyValueCTypeTest, FromDynamicArray)
 {
   // Successful assignment
   ArrayType my_array_c = { { 0, 7, 14 , 21, 28 }};
-  AnyValue unbounded_array(AnyType::unbounded_array_tag, UnsignedInteger32Type, "my_uint32_array");
+  AnyValue dynamic_array(0, UnsignedInteger32Type, "my_uint32_array");
   for (unsigned i=0; i<5; ++i)
   {
-    unbounded_array.AddElement(0);
+    dynamic_array.AddElement(0);
   }
-  EXPECT_NO_THROW(AssignFromCType(unbounded_array, my_array_c));
+  EXPECT_NO_THROW(AssignFromCType(dynamic_array, my_array_c));
   for (unsigned i=0; i<5; ++i)
   {
-    EXPECT_EQ(unbounded_array[i], 7 * i);
+    EXPECT_EQ(dynamic_array[i], 7 * i);
   }
 }
 
