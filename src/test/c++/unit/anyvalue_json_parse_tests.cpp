@@ -356,6 +356,40 @@ TEST_F(AnyValueJSONParseTest, DynamicArrayOfStructValue)
   EXPECT_EQ(array_of_struct_val, parsed_val);
 }
 
+TEST_F(AnyValueJSONParseTest, EmptyDynamicArrayOfStructValue)
+{
+  AnyType simple_struct_type({
+    {"id", StringType},
+    {"number", UnsignedInteger64Type}
+  });
+  AnyValue empty_array_of_struct_val(0, simple_struct_type);
+  auto json_string = AnyValueToJSONString(empty_array_of_struct_val);
+  auto parsed_val = AnyValueFromJSONString(json_string);
+  EXPECT_EQ(empty_array_of_struct_val, parsed_val);
+}
+
+TEST_F(AnyValueJSONParseTest, DynamicArrayOfArrayValue)
+{
+  AnyValue simple_array_val = ArrayValue({
+    {UnsignedInteger8Type, 2}, 4, 6, 8
+  });
+  AnyType array_of_array_type(0, simple_array_val.GetType());
+  AnyValue array_of_array_val(array_of_array_type);
+  array_of_array_val.AddElement(simple_array_val);
+  auto json_string = AnyValueToJSONString(array_of_array_val);
+  auto parsed_val = AnyValueFromJSONString(json_string);
+  EXPECT_EQ(array_of_array_val, parsed_val);
+}
+
+TEST_F(AnyValueJSONParseTest, EmptyDynamicArrayOfArrayValue)
+{
+  AnyType simple_array_type(4, SignedInteger16Type);
+  AnyValue empty_array_of_array_val(0, simple_array_type);
+  auto json_string = AnyValueToJSONString(empty_array_of_array_val);
+  auto parsed_val = AnyValueFromJSONString(json_string);
+  EXPECT_EQ(empty_array_of_array_val, parsed_val);
+}
+
 TEST_F(AnyValueJSONParseTest, AnyValueBuilderMethods)
 {
   AnyTypeRegistry anytype_registry;
