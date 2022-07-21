@@ -174,11 +174,7 @@ AnyType AnyTypeBuildNode::MoveStructuredType() const
 
 AnyType AnyTypeBuildNode::MoveArrayType() const
 {
-  if (array_bound_specified)
-  {
-    return AnyType(number_elements, element_type, type_name);
-  }
-  return AnyType(AnyType::unbounded_array_tag, element_type, type_name);
+  return AnyType(number_elements, element_type, type_name);
 }
 
 AnyType AnyTypeBuildNode::MoveTypeFromRegistry() const

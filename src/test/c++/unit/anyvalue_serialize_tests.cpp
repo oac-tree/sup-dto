@@ -77,18 +77,6 @@ TEST_F(AnyValueSerializeTest, SimpleArrayValue)
   EXPECT_EQ(serializer.GetRepresentation(), expected);
 }
 
-TEST_F(AnyValueSerializeTest, UnboundedArrayValue)
-{
-  AnyValue unbounded_array_value = UnboundedArrayValue({
-    {Character8Type, 1}, 2, 3
-  });
-  SerializeAnyValue(unbounded_array_value, serializer);
-  std::string expected = "U[" + kChar8TypeName + ","
-                                + kChar8TypeName + ","
-                                + kChar8TypeName + "]U";
-  EXPECT_EQ(serializer.GetRepresentation(), expected);
-}
-
 TEST_F(AnyValueSerializeTest, ComplexStructValue)
 {
   AnyValue simple_struct_value({

@@ -74,14 +74,6 @@ TEST_F(AnyTypeSerializeTest, SimpleArrayType)
   EXPECT_EQ(serializer.GetRepresentation(), expected);
 }
 
-TEST_F(AnyTypeSerializeTest, UnboundedArrayType)
-{
-  AnyType unbounded_array_type(AnyType::unbounded_array_tag, Character8Type);
-  SerializeAnyType(unbounded_array_type, serializer);
-  std::string expected = "U[" + kChar8TypeName + "]U";
-  EXPECT_EQ(serializer.GetRepresentation(), expected);
-}
-
 TEST_F(AnyTypeSerializeTest, ComplexStructType)
 {
   AnyType simple_struct_type({

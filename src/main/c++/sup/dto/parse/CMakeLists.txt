@@ -15,7 +15,6 @@ target_sources(sup-dto-obj
         ${CMAKE_CURRENT_LIST_DIR}/i_any_buildnode.cpp
         ${CMAKE_CURRENT_LIST_DIR}/membertype_array_buildnode.cpp
         ${CMAKE_CURRENT_LIST_DIR}/membertype_buildnode.cpp
-        ${CMAKE_CURRENT_LIST_DIR}/unboundedarrayvalue_buildnode.cpp
 )
 
 target_include_directories(sup-dto-obj

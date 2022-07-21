@@ -25,8 +25,6 @@ target_sources(unit-tests
         ${CMAKE_CURRENT_LIST_DIR}/scalarvalue_tests.cpp
         ${CMAKE_CURRENT_LIST_DIR}/structuredtype_tests.cpp
         ${CMAKE_CURRENT_LIST_DIR}/structuredvalue_tests.cpp
-        ${CMAKE_CURRENT_LIST_DIR}/unboundedarraytype_tests.cpp
-        ${CMAKE_CURRENT_LIST_DIR}/unboundedarrayvalue_tests.cpp
         ${CMAKE_CURRENT_LIST_DIR}/test_serializers.cpp
 )
 

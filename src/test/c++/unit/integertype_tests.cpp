@@ -34,7 +34,6 @@ TEST(IntegerTypeTest, Character8Type)
   EXPECT_FALSE(IsEmptyType(char_type));
   EXPECT_FALSE(IsStructType(char_type));
   EXPECT_FALSE(IsArrayType(char_type));
-  EXPECT_FALSE(IsUnboundedArrayType(char_type));
   EXPECT_TRUE(IsScalarType(char_type));
   EXPECT_EQ(char_type.GetTypeCode(), TypeCode::Char8);
   EXPECT_EQ(char_type.GetTypeName(), kChar8TypeName);
@@ -46,7 +45,6 @@ TEST(IntegerTypeTest, Character8Type)
   EXPECT_FALSE(IsEmptyType(copy_char8));
   EXPECT_FALSE(IsStructType(copy_char8));
   EXPECT_FALSE(IsArrayType(copy_char8));
-  EXPECT_FALSE(IsUnboundedArrayType(copy_char8));
   EXPECT_TRUE(IsScalarType(copy_char8));
   EXPECT_EQ(copy_char8.GetTypeCode(), TypeCode::Char8);
   EXPECT_EQ(copy_char8.GetTypeName(), kChar8TypeName);
@@ -61,7 +59,6 @@ TEST(IntegerTypeTest, SignedInteger8Type)
   EXPECT_FALSE(IsEmptyType(int8_type));
   EXPECT_FALSE(IsStructType(int8_type));
   EXPECT_FALSE(IsArrayType(int8_type));
-  EXPECT_FALSE(IsUnboundedArrayType(int8_type));
   EXPECT_TRUE(IsScalarType(int8_type));
   EXPECT_EQ(int8_type.GetTypeCode(), TypeCode::Int8);
   EXPECT_EQ(int8_type.GetTypeName(), kInt8TypeName);
@@ -73,7 +70,6 @@ TEST(IntegerTypeTest, SignedInteger8Type)
   EXPECT_FALSE(IsEmptyType(copy_int8));
   EXPECT_FALSE(IsStructType(copy_int8));
   EXPECT_FALSE(IsArrayType(copy_int8));
-  EXPECT_FALSE(IsUnboundedArrayType(copy_int8));
   EXPECT_TRUE(IsScalarType(copy_int8));
   EXPECT_EQ(copy_int8.GetTypeCode(), TypeCode::Int8);
   EXPECT_EQ(copy_int8.GetTypeName(), kInt8TypeName);
@@ -88,7 +84,6 @@ TEST(IntegerTypeTest, UnsignedInteger8Type)
   EXPECT_FALSE(IsEmptyType(uint8_type));
   EXPECT_FALSE(IsStructType(uint8_type));
   EXPECT_FALSE(IsArrayType(uint8_type));
-  EXPECT_FALSE(IsUnboundedArrayType(uint8_type));
   EXPECT_TRUE(IsScalarType(uint8_type));
   EXPECT_EQ(uint8_type.GetTypeCode(), TypeCode::UInt8);
   EXPECT_EQ(uint8_type.GetTypeName(), kUInt8TypeName);
@@ -102,7 +97,6 @@ TEST(IntegerTypeTest, UnsignedInteger8Type)
   EXPECT_FALSE(IsEmptyType(moved_uint8));
   EXPECT_FALSE(IsStructType(moved_uint8));
   EXPECT_FALSE(IsArrayType(moved_uint8));
-  EXPECT_FALSE(IsUnboundedArrayType(moved_uint8));
   EXPECT_TRUE(IsScalarType(moved_uint8));
   EXPECT_EQ(moved_uint8.GetTypeCode(), TypeCode::UInt8);
   EXPECT_EQ(moved_uint8.GetTypeName(), kUInt8TypeName);
@@ -117,7 +111,6 @@ TEST(IntegerTypeTest, SignedInteger16Type)
   EXPECT_FALSE(IsEmptyType(int16_type));
   EXPECT_FALSE(IsStructType(int16_type));
   EXPECT_FALSE(IsArrayType(int16_type));
-  EXPECT_FALSE(IsUnboundedArrayType(int16_type));
   EXPECT_TRUE(IsScalarType(int16_type));
   EXPECT_EQ(int16_type.GetTypeCode(), TypeCode::Int16);
   EXPECT_EQ(int16_type.GetTypeName(), kInt16TypeName);
@@ -129,7 +122,6 @@ TEST(IntegerTypeTest, SignedInteger16Type)
   EXPECT_FALSE(IsEmptyType(copy_int16));
   EXPECT_FALSE(IsStructType(copy_int16));
   EXPECT_FALSE(IsArrayType(copy_int16));
-  EXPECT_FALSE(IsUnboundedArrayType(copy_int16));
   EXPECT_TRUE(IsScalarType(copy_int16));
   EXPECT_EQ(copy_int16.GetTypeCode(), TypeCode::Int16);
   EXPECT_EQ(copy_int16.GetTypeName(), kInt16TypeName);
@@ -144,7 +136,6 @@ TEST(IntegerTypeTest, UnsignedInteger16Type)
   EXPECT_FALSE(IsEmptyType(uint16_type));
   EXPECT_FALSE(IsStructType(uint16_type));
   EXPECT_FALSE(IsArrayType(uint16_type));
-  EXPECT_FALSE(IsUnboundedArrayType(uint16_type));
   EXPECT_TRUE(IsScalarType(uint16_type));
   EXPECT_EQ(uint16_type.GetTypeCode(), TypeCode::UInt16);
   EXPECT_EQ(uint16_type.GetTypeName(), kUInt16TypeName);
@@ -158,7 +149,6 @@ TEST(IntegerTypeTest, UnsignedInteger16Type)
   EXPECT_FALSE(IsEmptyType(moved_uint16));
   EXPECT_FALSE(IsStructType(moved_uint16));
   EXPECT_FALSE(IsArrayType(moved_uint16));
-  EXPECT_FALSE(IsUnboundedArrayType(moved_uint16));
   EXPECT_TRUE(IsScalarType(moved_uint16));
   EXPECT_EQ(moved_uint16.GetTypeCode(), TypeCode::UInt16);
   EXPECT_EQ(moved_uint16.GetTypeName(), kUInt16TypeName);
@@ -173,7 +163,6 @@ TEST(IntegerTypeTest, SignedInteger32Type)
   EXPECT_FALSE(IsEmptyType(int32_type));
   EXPECT_FALSE(IsStructType(int32_type));
   EXPECT_FALSE(IsArrayType(int32_type));
-  EXPECT_FALSE(IsUnboundedArrayType(int32_type));
   EXPECT_TRUE(IsScalarType(int32_type));
   EXPECT_EQ(int32_type.GetTypeCode(), TypeCode::Int32);
   EXPECT_EQ(int32_type.GetTypeName(), kInt32TypeName);
@@ -185,7 +174,6 @@ TEST(IntegerTypeTest, SignedInteger32Type)
   EXPECT_FALSE(IsEmptyType(copy_int32));
   EXPECT_FALSE(IsStructType(copy_int32));
   EXPECT_FALSE(IsArrayType(copy_int32));
-  EXPECT_FALSE(IsUnboundedArrayType(copy_int32));
   EXPECT_TRUE(IsScalarType(copy_int32));
   EXPECT_EQ(copy_int32.GetTypeCode(), TypeCode::Int32);
   EXPECT_EQ(copy_int32.GetTypeName(), kInt32TypeName);
@@ -200,7 +188,6 @@ TEST(IntegerTypeTest, UnsignedInteger32Type)
   EXPECT_FALSE(IsEmptyType(uint32_type));
   EXPECT_FALSE(IsStructType(uint32_type));
   EXPECT_FALSE(IsArrayType(uint32_type));
-  EXPECT_FALSE(IsUnboundedArrayType(uint32_type));
   EXPECT_TRUE(IsScalarType(uint32_type));
   EXPECT_EQ(uint32_type.GetTypeCode(), TypeCode::UInt32);
   EXPECT_EQ(uint32_type.GetTypeName(), kUInt32TypeName);
@@ -214,7 +201,6 @@ TEST(IntegerTypeTest, UnsignedInteger32Type)
   EXPECT_FALSE(IsEmptyType(moved_uint32));
   EXPECT_FALSE(IsStructType(moved_uint32));
   EXPECT_FALSE(IsArrayType(moved_uint32));
-  EXPECT_FALSE(IsUnboundedArrayType(moved_uint32));
   EXPECT_TRUE(IsScalarType(moved_uint32));
   EXPECT_EQ(moved_uint32.GetTypeCode(), TypeCode::UInt32);
   EXPECT_EQ(moved_uint32.GetTypeName(), kUInt32TypeName);
@@ -229,7 +215,6 @@ TEST(IntegerTypeTest, SignedInteger64Type)
   EXPECT_FALSE(IsEmptyType(int64_type));
   EXPECT_FALSE(IsStructType(int64_type));
   EXPECT_FALSE(IsArrayType(int64_type));
-  EXPECT_FALSE(IsUnboundedArrayType(int64_type));
   EXPECT_TRUE(IsScalarType(int64_type));
   EXPECT_EQ(int64_type.GetTypeCode(), TypeCode::Int64);
   EXPECT_EQ(int64_type.GetTypeName(), kInt64TypeName);
@@ -241,7 +226,6 @@ TEST(IntegerTypeTest, SignedInteger64Type)
   EXPECT_FALSE(IsEmptyType(copy_int64));
   EXPECT_FALSE(IsStructType(copy_int64));
   EXPECT_FALSE(IsArrayType(copy_int64));
-  EXPECT_FALSE(IsUnboundedArrayType(copy_int64));
   EXPECT_TRUE(IsScalarType(copy_int64));
   EXPECT_EQ(copy_int64.GetTypeCode(), TypeCode::Int64);
   EXPECT_EQ(copy_int64.GetTypeName(), kInt64TypeName);
@@ -256,7 +240,6 @@ TEST(IntegerTypeTest, UnsignedInteger64Type)
   EXPECT_FALSE(IsEmptyType(uint64_type));
   EXPECT_FALSE(IsStructType(uint64_type));
   EXPECT_FALSE(IsArrayType(uint64_type));
-  EXPECT_FALSE(IsUnboundedArrayType(uint64_type));
   EXPECT_TRUE(IsScalarType(uint64_type));
   EXPECT_EQ(uint64_type.GetTypeCode(), TypeCode::UInt64);
   EXPECT_EQ(uint64_type.GetTypeName(), kUInt64TypeName);
@@ -270,7 +253,6 @@ TEST(IntegerTypeTest, UnsignedInteger64Type)
   EXPECT_FALSE(IsEmptyType(moved_uint64));
   EXPECT_FALSE(IsStructType(moved_uint64));
   EXPECT_FALSE(IsArrayType(moved_uint64));
-  EXPECT_FALSE(IsUnboundedArrayType(moved_uint64));
   EXPECT_TRUE(IsScalarType(moved_uint64));
   EXPECT_EQ(moved_uint64.GetTypeCode(), TypeCode::UInt64);
   EXPECT_EQ(moved_uint64.GetTypeName(), kUInt64TypeName);

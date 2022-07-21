@@ -129,12 +129,13 @@ TEST_F(AnyTypeJSONSerializeTest, SimpleArrayType)
   EXPECT_EQ(json_string, json_simple_array);
 }
 
-TEST_F(AnyTypeJSONSerializeTest, UnboundedArrayType)
-{
-  AnyType unbounded_array_type(AnyType::unbounded_array_tag, UnsignedInteger16Type);
-  auto json_string = AnyTypeToJSONString(unbounded_array_type);
-  EXPECT_EQ(json_string, json_unbounded_array);
-}
+// TODO: use this for normal array?
+// TEST_F(AnyTypeJSONSerializeTest, UnboundedArrayType)
+// {
+//   AnyType unbounded_array_type(AnyType::unbounded_array_tag, UnsignedInteger16Type);
+//   auto json_string = AnyTypeToJSONString(unbounded_array_type);
+//   EXPECT_EQ(json_string, json_unbounded_array);
+// }
 
 TEST_F(AnyTypeJSONSerializeTest, ComplexStructType)
 {

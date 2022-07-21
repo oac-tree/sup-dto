@@ -36,7 +36,6 @@ TEST(StructuredTypeTest, StructOfScalarType)
   EXPECT_FALSE(IsEmptyType(two_scalars));
   EXPECT_TRUE(IsStructType(two_scalars));
   EXPECT_FALSE(IsArrayType(two_scalars));
-  EXPECT_FALSE(IsUnboundedArrayType(two_scalars));
   EXPECT_FALSE(IsScalarType(two_scalars));
   EXPECT_EQ(two_scalars.GetTypeCode(), TypeCode::Struct);
   EXPECT_EQ(two_scalars.GetTypeName(), two_scalar_name);
@@ -71,7 +70,6 @@ TEST(StructuredTypeTest, StructOfStructType)
   EXPECT_FALSE(IsEmptyType(nested_type));
   EXPECT_TRUE(IsStructType(nested_type));
   EXPECT_FALSE(IsArrayType(nested_type));
-  EXPECT_FALSE(IsUnboundedArrayType(nested_type));
   EXPECT_FALSE(IsScalarType(nested_type));
   EXPECT_EQ(nested_type.GetTypeCode(), TypeCode::Struct);
   EXPECT_EQ(nested_type.GetTypeName(), nested_name);
@@ -96,7 +94,6 @@ TEST(StructuredTypeTest, StructOfStructType)
   EXPECT_FALSE(IsEmptyType(nested_type_with_name));
   EXPECT_TRUE(IsStructType(nested_type_with_name));
   EXPECT_FALSE(IsArrayType(nested_type_with_name));
-  EXPECT_FALSE(IsUnboundedArrayType(nested_type_with_name));
   EXPECT_FALSE(IsScalarType(nested_type_with_name));
   EXPECT_EQ(nested_type_with_name.GetTypeCode(), TypeCode::Struct);
   EXPECT_EQ(nested_type_with_name.GetTypeName(), nested_with_name_name);

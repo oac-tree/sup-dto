@@ -70,12 +70,6 @@ void ByteSerializer::ArrayElementSeparator()
 void ByteSerializer::ArrayEpilog(const AnyValue*)
 {}
 
-void ByteSerializer::UnboundedArrayProlog(const AnyValue*)
-{}
-
-void ByteSerializer::UnboundedArrayEpilog(const AnyValue*)
-{}
-
 void ByteSerializer::ScalarProlog(const AnyValue* anyvalue)
 {
   auto byte_val = ScalarToBytes(*anyvalue);

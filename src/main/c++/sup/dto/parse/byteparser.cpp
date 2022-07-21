@@ -76,12 +76,6 @@ void ByteParser::ArrayElementSeparator()
 void ByteParser::ArrayEpilog(AnyValue*)
 {}
 
-void ByteParser::UnboundedArrayProlog(AnyValue*)
-{}
-
-void ByteParser::UnboundedArrayEpilog(AnyValue*)
-{}
-
 void ByteParser::ScalarProlog(AnyValue* anyvalue)
 {
   static std::map<TypeCode, std::function<std::size_t(AnyValue&, const uint8*, std::size_t,

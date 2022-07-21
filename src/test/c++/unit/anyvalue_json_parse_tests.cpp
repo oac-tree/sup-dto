@@ -30,7 +30,6 @@
 #include <sup/dto/parse/anyvalue_valueelement_buildnode.h>
 #include <sup/dto/parse/arrayvalue_buildnode.h>
 #include <sup/dto/parse/serialization_constants.h>
-#include <sup/dto/parse/unboundedarrayvalue_buildnode.h>
 
 #include <sup/dto/anytype_registry.h>
 #include <sup/dto/anyvalue.h>
@@ -313,13 +312,13 @@ TEST_F(AnyValueJSONParseTest, ComplexStructValue)
   EXPECT_EQ(complex_struct_val, parsed_val);
 }
 
-TEST_F(AnyValueJSONParseTest, UnboundedArrayOfStructValue)
+TEST_F(AnyValueJSONParseTest, DynamicArrayOfStructValue)
 {
   AnyValue simple_struct_val({
     {"id", {StringType, "MyId"}},
     {"number", {UnsignedInteger64Type, 14}}
   });
-  AnyType array_of_struct_type(AnyType::unbounded_array_tag, simple_struct_val.GetType());
+  AnyType array_of_struct_type(0, simple_struct_val.GetType());
   AnyValue array_of_struct_val(array_of_struct_type);
   array_of_struct_val.AddElement(simple_struct_val);
   auto json_string = AnyValueToJSONString(array_of_struct_val);
@@ -630,108 +629,6 @@ TEST_F(AnyValueJSONParseTest, ArrayValueBuildNodeMethods)
     AnyValue array_v(array_t);
     ArrayValueBuildNode node(&anytype_registry, nullptr, array_v);
     auto child = node.GetArrayNode();
-    ASSERT_NE(child, nullptr);
-    EXPECT_TRUE(child->Bool(true));
-    EXPECT_TRUE(child->Bool(true));
-    EXPECT_THROW(child->Bool(true), ParseException);
-    EXPECT_TRUE(node.PopArrayNode());
-    EXPECT_EQ(array_v[0][0], true);
-    EXPECT_EQ(array_v[0][1], true);
-  }
-}
-
-TEST_F(AnyValueJSONParseTest, UnboundedArrayValueBuildNodeMethods)
-{
-  // Exceptions
-  AnyTypeRegistry anytype_registry;
-  AnyValue empty;
-  EXPECT_THROW(UnboundedArrayValueBuildNode invalid_node(nullptr, nullptr, empty),
-               InvalidOperationException);
-  EXPECT_THROW(UnboundedArrayValueBuildNode invalid_node_2(&anytype_registry, nullptr, empty),
-               ParseException);
-
-  AnyValue string_array(AnyType::unbounded_array_tag, StringType);
-  UnboundedArrayValueBuildNode node(&anytype_registry, nullptr, string_array);
-  EXPECT_THROW(node.Null(), ParseException);
-  EXPECT_THROW(node.Bool(true), ParseException);
-  EXPECT_THROW(node.Int32(-1), ParseException);
-  EXPECT_THROW(node.Uint32(1), ParseException);
-  EXPECT_THROW(node.Int64(-1), ParseException);
-  EXPECT_THROW(node.Uint64(1), ParseException);
-  EXPECT_THROW(node.Double(1.0), ParseException);
-  EXPECT_THROW(node.Member("not_supported"), ParseException);
-  EXPECT_THROW(node.GetArrayNode(), ParseException);
-  EXPECT_THROW(node.PopArrayNode(), ParseException);
-  EXPECT_THROW(node.GetStructureNode(), ParseException);
-  EXPECT_THROW(node.PopStructureNode(), ParseException);
-
-  AnyValue unsigned_array(AnyType::unbounded_array_tag, UnsignedInteger32Type);
-  UnboundedArrayValueBuildNode node_2(&anytype_registry, nullptr, unsigned_array);
-  EXPECT_THROW(node_2.String("text"), ParseException);
-
-  // Boolean array
-  {
-    AnyType array_t(AnyType::unbounded_array_tag, BooleanType);
-    AnyValue array_v(array_t);
-    UnboundedArrayValueBuildNode node(&anytype_registry, nullptr, array_v);
-    EXPECT_TRUE(node.Bool(true));
-    EXPECT_TRUE(node.Bool(true));
-    EXPECT_EQ(array_v[0], true);
-    EXPECT_EQ(array_v[1], true);
-  }
-
-  // Signed integer array
-  {
-    AnyType array_t(AnyType::unbounded_array_tag, SignedInteger32Type);
-    AnyValue array_v(array_t);
-    UnboundedArrayValueBuildNode node(&anytype_registry, nullptr, array_v);
-    EXPECT_TRUE(node.Int32(-6));
-    EXPECT_TRUE(node.Int64(1245));
-    EXPECT_EQ(array_v[0], -6);
-    EXPECT_EQ(array_v[1], 1245);
-  }
-
-  // Unsigned integer array
-  {
-    AnyType array_t(AnyType::unbounded_array_tag, UnsignedInteger8Type);
-    AnyValue array_v(array_t);
-    UnboundedArrayValueBuildNode node(&anytype_registry, nullptr, array_v);
-    EXPECT_TRUE(node.Uint32(6));
-    EXPECT_TRUE(node.Uint64(12));
-    EXPECT_EQ(array_v[0], 6);
-    EXPECT_EQ(array_v[1], 12);
-  }
-
-  // Double array
-  {
-    AnyType array_t(AnyType::unbounded_array_tag, Float32Type);
-    AnyValue array_v(array_t);
-    UnboundedArrayValueBuildNode node(&anytype_registry, nullptr, array_v);
-    EXPECT_TRUE(node.Double(1.0));
-    EXPECT_TRUE(node.Double(2.0));
-    EXPECT_EQ(array_v[0], 1.0);
-    EXPECT_EQ(array_v[1], 2.0);
-  }
-
-  // String array
-  {
-    AnyType array_t(AnyType::unbounded_array_tag, StringType);
-    AnyValue array_v(array_t);
-    UnboundedArrayValueBuildNode node(&anytype_registry, nullptr, array_v);
-    EXPECT_TRUE(node.String("a"));
-    EXPECT_TRUE(node.String("bc"));
-    EXPECT_EQ(array_v[0], "a");
-    EXPECT_EQ(array_v[1], "bc");
-  }
-
-  // Array array
-  {
-    AnyType bool_array(2, BooleanType);
-    AnyType array_t(AnyType::unbounded_array_tag, bool_array);
-    AnyValue array_v(array_t);
-    UnboundedArrayValueBuildNode node(&anytype_registry, nullptr, array_v);
-    auto child = node.GetArrayNode();
-    EXPECT_THROW(node.GetArrayNode(), ParseException);
     ASSERT_NE(child, nullptr);
     EXPECT_TRUE(child->Bool(true));
     EXPECT_TRUE(child->Bool(true));

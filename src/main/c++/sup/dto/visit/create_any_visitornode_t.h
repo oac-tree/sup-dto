@@ -26,7 +26,6 @@
 #include <sup/dto/visit/empty_visitornode.h>
 #include <sup/dto/visit/scalar_visitornode.h>
 #include <sup/dto/visit/struct_visitornode.h>
-#include <sup/dto/visit/unboundedarray_visitornode.h>
 
 #include <memory>
 
@@ -52,9 +51,6 @@ std::unique_ptr<IAnyVisitorNode<T>> CreateVisitorNodeT(T* any)
     break;
   case TypeCode::Array:
     result.reset(new ArrayVisitorNode<T>(any));
-    break;
-  case TypeCode::UnboundedArray:
-    result.reset(new UnboundedArrayVisitorNode<T>(any));
     break;
   default:
     result.reset(new ScalarVisitorNode<T>(any));

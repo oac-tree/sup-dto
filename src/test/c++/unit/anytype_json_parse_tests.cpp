@@ -42,9 +42,6 @@ static const std::string json_simple_struct =
 static const std::string json_simple_array =
     R"RAW({"type":"","multiplicity":5,"element":{"type":"char8"}})RAW";
 
-static const std::string json_unbounded_array =
-    R"RAW({"type":"","element":{"type":"float32"}})RAW";
-
 static const std::string json_complex_type =
     R"RAW({"type":"","attributes":[{"array":{"type":"","multiplicity":4,"element":{"type":"","attributes":[{"id":{"type":"string"}},{"number":{"type":"uint64"}}]}}},{"nested":{"type":"","attributes":[{"id":{"type":"string"}},{"number":{"type":"uint64"}}]}},{"validated":{"type":"bool"}}]})RAW";
 
@@ -141,13 +138,6 @@ TEST_F(AnyTypeJSONParseTest, SimpleArrayType)
 {
   auto parsed_type = AnyTypeFromJSONString(json_simple_array);
   AnyType expected_type(5, Character8Type);
-  EXPECT_EQ(parsed_type, expected_type);
-}
-
-TEST_F(AnyTypeJSONParseTest, UnboundedArrayType)
-{
-  auto parsed_type = AnyTypeFromJSONString(json_unbounded_array);
-  AnyType expected_type(AnyType::unbounded_array_tag, Float32Type);
   EXPECT_EQ(parsed_type, expected_type);
 }
 

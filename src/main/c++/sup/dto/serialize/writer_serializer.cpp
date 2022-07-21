@@ -98,20 +98,6 @@ void WriterTypeSerializer::ArrayEpilog(const AnyType*)
   writer->EndStructure();
 }
 
-void WriterTypeSerializer::UnboundedArrayProlog(const AnyType* anytype)
-{
-  writer->StartStructure();
-  writer->Member(serialization::TYPE_KEY);
-  auto type_name = anytype->GetTypeName();
-  writer->String(type_name);
-  writer->Member(serialization::ELEMENT_KEY);
-}
-
-void WriterTypeSerializer::UnboundedArrayEpilog(const AnyType*)
-{
-  writer->EndStructure();
-}
-
 void WriterTypeSerializer::ScalarProlog(const AnyType* anytype)
 {
   writer->StartStructure();
@@ -170,16 +156,6 @@ void WriterValueSerializer::ArrayElementSeparator()
 {}
 
 void WriterValueSerializer::ArrayEpilog(const AnyValue*)
-{
-  writer->EndArray();
-}
-
-void WriterValueSerializer::UnboundedArrayProlog(const AnyValue*)
-{
-  writer->StartArray();
-}
-
-void WriterValueSerializer::UnboundedArrayEpilog(const AnyValue*)
 {
   writer->EndArray();
 }

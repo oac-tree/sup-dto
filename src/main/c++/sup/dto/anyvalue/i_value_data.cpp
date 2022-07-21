@@ -26,7 +26,6 @@
 #include <sup/dto/anyvalue/i_type_data.h>
 #include <sup/dto/anyvalue/scalar_value_data_base.h>
 #include <sup/dto/anyvalue/struct_value_data.h>
-#include <sup/dto/anyvalue/unbounded_array_value_data.h>
 
 #include <sup/dto/anyvalue_exceptions.h>
 
@@ -168,10 +167,6 @@ IValueData* CreateValueData(const AnyType& anytype)
   if (IsArrayType(anytype))
   {
     return CreateArrayValueData(anytype);
-  }
-  if (IsUnboundedArrayType(anytype))
-  {
-    return CreateUnboundedArrayValueData(anytype);
   }
   return new EmptyValueData{};
 }

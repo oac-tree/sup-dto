@@ -35,7 +35,6 @@ TEST(ArrayValueTest, ArrayValue)
   EXPECT_FALSE(IsEmptyValue(my_array));
   EXPECT_FALSE(IsStructValue(my_array));
   EXPECT_TRUE(IsArrayValue(my_array));
-  EXPECT_FALSE(IsUnboundedArrayValue(my_array));
   EXPECT_FALSE(IsScalarValue(my_array));
   EXPECT_EQ(my_array.GetTypeCode(), TypeCode::Array);
   EXPECT_EQ(my_array.GetType(), my_array_t);
@@ -56,7 +55,6 @@ TEST(ArrayValueTest, Construction)
   EXPECT_FALSE(IsEmptyValue(zero_size_array));
   EXPECT_FALSE(IsStructValue(zero_size_array));
   EXPECT_TRUE(IsArrayValue(zero_size_array));
-  EXPECT_FALSE(IsUnboundedArrayValue(zero_size_array));
   EXPECT_FALSE(IsScalarValue(zero_size_array));
   EXPECT_EQ(zero_size_array.GetTypeCode(), TypeCode::Array);
   EXPECT_EQ(zero_size_array.GetType(), AnyType(0, SignedInteger8Type, zero_size_name));
@@ -79,7 +77,6 @@ TEST(ArrayValueTest, CopyConstruction)
   EXPECT_FALSE(IsEmptyValue(my_array));
   EXPECT_FALSE(IsStructValue(my_array));
   EXPECT_TRUE(IsArrayValue(my_array));
-  EXPECT_FALSE(IsUnboundedArrayValue(my_array));
   EXPECT_FALSE(IsScalarValue(my_array));
   EXPECT_EQ(my_array.GetTypeCode(), TypeCode::Array);
   EXPECT_EQ(my_array.GetType(), my_array_t);
@@ -94,7 +91,6 @@ TEST(ArrayValueTest, CopyConstruction)
   EXPECT_FALSE(IsEmptyValue(copy));
   EXPECT_FALSE(IsStructValue(copy));
   EXPECT_TRUE(IsArrayValue(copy));
-  EXPECT_FALSE(IsUnboundedArrayValue(copy));
   EXPECT_FALSE(IsScalarValue(copy));
   EXPECT_EQ(copy.GetTypeCode(), TypeCode::Array);
   EXPECT_EQ(copy.GetType(), my_array_t);
@@ -169,7 +165,6 @@ TEST(ArrayValueTest, ArrayAssign)
   EXPECT_FALSE(IsEmptyValue(source_array));
   EXPECT_FALSE(IsStructValue(source_array));
   EXPECT_TRUE(IsArrayValue(source_array));
-  EXPECT_FALSE(IsUnboundedArrayValue(source_array));
   EXPECT_FALSE(IsScalarValue(source_array));
   EXPECT_EQ(source_array.NumberOfElements(), 9);
 
@@ -178,7 +173,6 @@ TEST(ArrayValueTest, ArrayAssign)
   EXPECT_FALSE(IsEmptyValue(target_array));
   EXPECT_FALSE(IsStructValue(target_array));
   EXPECT_TRUE(IsArrayValue(target_array));
-  EXPECT_FALSE(IsUnboundedArrayValue(target_array));
   EXPECT_FALSE(IsScalarValue(target_array));
   EXPECT_EQ(target_array.NumberOfElements(), 9);
   EXPECT_NO_THROW(target_array = source_array);
@@ -189,7 +183,6 @@ TEST(ArrayValueTest, ArrayAssign)
   EXPECT_FALSE(IsEmptyValue(zero_sized_array));
   EXPECT_FALSE(IsStructValue(zero_sized_array));
   EXPECT_TRUE(IsArrayValue(zero_sized_array));
-  EXPECT_FALSE(IsUnboundedArrayValue(zero_sized_array));
   EXPECT_FALSE(IsScalarValue(zero_sized_array));
   EXPECT_EQ(zero_sized_array.NumberOfElements(), 0);
   EXPECT_NO_THROW(zero_sized_array = source_array);
@@ -205,14 +198,12 @@ TEST(ArrayValueTest, InvalidArrayAssign)
   EXPECT_FALSE(IsEmptyValue(my_array));
   EXPECT_FALSE(IsStructValue(my_array));
   EXPECT_TRUE(IsArrayValue(my_array));
-  EXPECT_FALSE(IsUnboundedArrayValue(my_array));
   EXPECT_FALSE(IsScalarValue(my_array));
   AnyType my_array_t(9, SignedInteger64Type, "my_array_t");
   AnyValue other(my_array_t);
   EXPECT_FALSE(IsEmptyValue(other));
   EXPECT_FALSE(IsStructValue(other));
   EXPECT_TRUE(IsArrayValue(other));
-  EXPECT_FALSE(IsUnboundedArrayValue(other));
   EXPECT_FALSE(IsScalarValue(other));
   EXPECT_THROW(other = my_array, InvalidConversionException);
   AnyValue scalar = 4u;

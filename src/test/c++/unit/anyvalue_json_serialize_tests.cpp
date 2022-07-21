@@ -41,9 +41,6 @@ static const std::string json_simple_array =
 static const std::string json_simple_array_full =
     R"RAW([{"encoding":"sup-dto/v1.0/JSON"},{"datatype":{"type":"","multiplicity":5,"element":{"type":"int32"}}},{"instance":[0,20,40,60,80]}])RAW";
 
-static const std::string json_unbounded_array_full =
-    R"RAW([{"encoding":"sup-dto/v1.0/JSON"},{"datatype":{"type":"","element":{"type":"int32"}}},{"instance":[0,20,40,60,80]}])RAW";
-
 static const std::string json_complex_val =
     R"RAW({"array":[{"id":"","number":23},{"id":"second_id","number":0}],"nested":{"id":"","number":0},"validated":false})RAW";
 
@@ -231,17 +228,17 @@ TEST_F(AnyValueJSONSerializeTest, SimpleArrayValue)
   EXPECT_EQ(json_full, json_simple_array_full);
 }
 
-TEST_F(AnyValueJSONSerializeTest, UnboundedArrayValue)
+TEST_F(AnyValueJSONSerializeTest, DynamicArrayValue)
 {
-  AnyValue unbounded_array_val(AnyType::unbounded_array_tag, SignedInteger32Type);
+  AnyValue dynamic_array_val(0, SignedInteger32Type);
   for (int i=0; i<5; ++i)
   {
-    unbounded_array_val.AddElement(20*i);
+    dynamic_array_val.AddElement(20*i);
   }
-  auto json_string = ValuesToJSONString(unbounded_array_val);
+  auto json_string = ValuesToJSONString(dynamic_array_val);
   EXPECT_EQ(json_string, json_simple_array);
-  auto json_full = AnyValueToJSONString(unbounded_array_val);
-  EXPECT_EQ(json_full, json_unbounded_array_full);
+  auto json_full = AnyValueToJSONString(dynamic_array_val);
+  EXPECT_EQ(json_full, json_simple_array_full);
 }
 
 TEST_F(AnyValueJSONSerializeTest, ComplexStructValue)

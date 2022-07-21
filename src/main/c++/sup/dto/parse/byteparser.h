@@ -58,9 +58,6 @@ public:
   void ArrayElementSeparator() override;
   void ArrayEpilog(AnyValue* anyvalue) override;
 
-  void UnboundedArrayProlog(AnyValue* anyvalue) override;
-  void UnboundedArrayEpilog(AnyValue* anyvalue) override;
-
   void ScalarProlog(AnyValue* anyvalue) override;
   void ScalarEpilog(AnyValue* anyvalue) override;
 

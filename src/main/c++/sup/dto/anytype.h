@@ -49,8 +49,7 @@ enum class TypeCode
   Float64,
   String,
   Struct,
-  Array,
-  UnboundedArray
+  Array
 };
 
 const std::string kEmptyTypeName = "empty";
@@ -114,20 +113,6 @@ public:
    * of an array type (e.g. empty type as element type).
    */
   AnyType(std::size_t size, const AnyType& elem_type, const std::string& name = {});
-
-  static struct UnboundedArrayTag{} unbounded_array_tag;
-
-  /**
-   * @brief Constructor for unbounded arrays.
-   *
-   * @param tag tag to indicate unbounded array.
-   * @param elem_type type of the elements in the array.
-   * @param name Optional name for the type.
-   *
-   * @throws InvalidOperationException Thrown when the given arguments do not allow the construction
-   * of an unbounded array type (e.g. empty type as element type).
-   */
-  AnyType(UnboundedArrayTag tag, const AnyType& elem_type, const std::string& name = {});
 
   /**
    * @brief Copy constructor.
@@ -284,29 +269,14 @@ private:
  */
 AnyType EmptyStructType(const std::string& name = {});
 
-/**
- * @brief Constructs an unbounded array type.
- *
- * @param elem_type type of the elements in the array.
- * @param name Optional name for the type.
- *
- * @return AnyType with unbounded array type.
- *
- * @throws InvalidOperationException Thrown when the given arguments do not allow the construction
- * of an unbounded array type (e.g. empty type as element type).
- */
-AnyType UnboundedArrayType(const AnyType& elem_type, const std::string& name = {});
-
 bool IsEmptyTypeCode(TypeCode type_code);
 bool IsStructTypeCode(TypeCode type_code);
 bool IsArrayTypeCode(TypeCode type_code);
-bool IsUnboundedArrayTypeCode(TypeCode type_code);
 bool IsScalarTypeCode(TypeCode type_code);
 
 bool IsEmptyType(const AnyType& anytype);
 bool IsStructType(const AnyType& anytype);
 bool IsArrayType(const AnyType& anytype);
-bool IsUnboundedArrayType(const AnyType& anytype);
 bool IsScalarType(const AnyType& anytype);
 
 const std::vector<std::pair<TypeCode, std::string>>& ScalarTypeDefinitions();

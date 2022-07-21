@@ -22,7 +22,6 @@
 #include "arrayvalue_buildnode.h"
 
 #include <sup/dto/parse/anyvalue_buildnode.h>
-#include <sup/dto/parse/unboundedarrayvalue_buildnode.h>
 
 #include <sup/dto/anyvalue_exceptions.h>
 
@@ -177,20 +176,15 @@ bool ArrayValueBuildNode::PopArrayNode()
 }
 
 std::unique_ptr<IAnyBuildNode> CreateArrayBuildNode(
-  const AnyTypeRegistry* anytype_registry, IAnyBuildNode* parent, AnyValue& anyvalue)
+    const AnyTypeRegistry *anytype_registry, IAnyBuildNode *parent, AnyValue &anyvalue)
 {
-  if (IsArrayValue(anyvalue))
+  if (!IsArrayValue(anyvalue))
   {
-    return std::unique_ptr<IAnyBuildNode>(
+    throw ParseException(
+        "CreateArrayBuildNode must be called with an array value");
+  }
+  return std::unique_ptr<IAnyBuildNode>(
       new ArrayValueBuildNode(anytype_registry, parent, anyvalue));
-  }
-  else if (IsUnboundedArrayValue(anyvalue))
-  {
-    return std::unique_ptr<IAnyBuildNode>(
-      new UnboundedArrayValueBuildNode(anytype_registry, parent, anyvalue));
-  }
-  throw ParseException(
-        "CreateArrayBuildNode must be called with an (unbounded) array value");
 }
 
 }  // namespace dto

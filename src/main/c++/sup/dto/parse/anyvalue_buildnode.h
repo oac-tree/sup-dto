@@ -33,7 +33,6 @@ namespace sup
 namespace dto
 {
 class ArrayValueBuildNode;
-class UnboundedArrayValueBuildNode;
 
 class AnyValueBuildNode : public IAnyBuildNode
 {

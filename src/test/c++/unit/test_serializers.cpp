@@ -94,16 +94,6 @@ void SimpleAnyTypeSerializer::ArrayEpilog(const AnyType* anytype)
   representation += "]A";
 }
 
-void SimpleAnyTypeSerializer::UnboundedArrayProlog(const AnyType* anytype)
-{
-  representation += "U[";
-}
-
-void SimpleAnyTypeSerializer::UnboundedArrayEpilog(const AnyType* anytype)
-{
-  representation += "]U";
-}
-
 void SimpleAnyTypeSerializer::ScalarProlog(const AnyType* anytype)
 {
   representation += anytype->GetTypeName();
@@ -175,16 +165,6 @@ void SimpleAnyValueSerializer::ArrayElementSeparator()
 void SimpleAnyValueSerializer::ArrayEpilog(const AnyValue* anyvalue)
 {
   representation += "]A";
-}
-
-void SimpleAnyValueSerializer::UnboundedArrayProlog(const AnyValue* anyvalue)
-{
-  representation += "U[";
-}
-
-void SimpleAnyValueSerializer::UnboundedArrayEpilog(const AnyValue* anyvalue)
-{
-  representation += "]U";
 }
 
 void SimpleAnyValueSerializer::ScalarProlog(const AnyValue* anyvalue)

@@ -33,7 +33,6 @@ TEST(ArrayTypeTest, ArrayType)
   EXPECT_FALSE(IsEmptyType(scalar_array));
   EXPECT_FALSE(IsStructType(scalar_array));
   EXPECT_TRUE(IsArrayType(scalar_array));
-  EXPECT_FALSE(IsUnboundedArrayType(scalar_array));
   EXPECT_FALSE(IsScalarType(scalar_array));
   EXPECT_EQ(scalar_array.GetTypeCode(), TypeCode::Array);
   EXPECT_EQ(scalar_array.GetTypeName(), "");
@@ -61,7 +60,6 @@ TEST(ArrayTypeTest, ArrayType)
   EXPECT_FALSE(IsEmptyType(array_of_struct));
   EXPECT_FALSE(IsStructType(array_of_struct));
   EXPECT_TRUE(IsArrayType(array_of_struct));
-  EXPECT_FALSE(IsUnboundedArrayType(array_of_struct));
   EXPECT_FALSE(IsScalarType(array_of_struct));
   EXPECT_EQ(array_of_struct.GetTypeCode(), TypeCode::Array);
   EXPECT_EQ(array_of_struct.GetTypeName(), array_name);
@@ -77,7 +75,6 @@ TEST(ArrayTypeTest, ArrayType)
   EXPECT_FALSE(IsEmptyType(copy));
   EXPECT_FALSE(IsStructType(copy));
   EXPECT_TRUE(IsArrayType(copy));
-  EXPECT_FALSE(IsUnboundedArrayType(copy));
   EXPECT_FALSE(IsScalarType(copy));
   EXPECT_EQ(copy.GetTypeCode(), TypeCode::Array);
   EXPECT_EQ(copy.GetTypeName(), array_name);

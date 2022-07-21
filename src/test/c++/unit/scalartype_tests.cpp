@@ -34,7 +34,6 @@ TEST(ScalarTypeTest, EmptyType)
   EXPECT_TRUE(IsEmptyType(empty_type));
   EXPECT_FALSE(IsStructType(empty_type));
   EXPECT_FALSE(IsArrayType(empty_type));
-  EXPECT_FALSE(IsUnboundedArrayType(empty_type));
   EXPECT_FALSE(IsScalarType(empty_type));
   EXPECT_EQ(empty_type.NumberOfMembers(), 0);
   EXPECT_EQ(empty_type.GetTypeCode(), TypeCode::Empty);
@@ -46,7 +45,6 @@ TEST(ScalarTypeTest, EmptyType)
   EXPECT_EQ(copy, EmptyType);
   EXPECT_FALSE(IsStructType(copy));
   EXPECT_FALSE(IsArrayType(copy));
-  EXPECT_FALSE(IsUnboundedArrayType(copy));
   EXPECT_FALSE(IsScalarType(copy));
   EXPECT_EQ(copy.GetTypeCode(), TypeCode::Empty);
   EXPECT_EQ(copy.GetTypeName(), kEmptyTypeName);
@@ -59,7 +57,6 @@ TEST(ScalarTypeTest, EmptyType)
   EXPECT_EQ(copy, EmptyType);
   EXPECT_FALSE(IsStructType(moved));
   EXPECT_FALSE(IsArrayType(moved));
-  EXPECT_FALSE(IsUnboundedArrayType(moved));
   EXPECT_FALSE(IsScalarType(moved));
   EXPECT_EQ(moved.GetTypeCode(), TypeCode::Empty);
   EXPECT_EQ(moved.GetTypeName(), kEmptyTypeName);
@@ -77,7 +74,6 @@ TEST(ScalarTypeTest, BooleanType)
   EXPECT_FALSE(IsEmptyType(boolean_type));
   EXPECT_FALSE(IsStructType(boolean_type));
   EXPECT_FALSE(IsArrayType(boolean_type));
-  EXPECT_FALSE(IsUnboundedArrayType(boolean_type));
   EXPECT_TRUE(IsScalarType(boolean_type));
   EXPECT_EQ(boolean_type.GetTypeCode(), TypeCode::Bool);
   EXPECT_EQ(boolean_type.GetTypeName(), kBooleanTypeName);
@@ -89,7 +85,6 @@ TEST(ScalarTypeTest, BooleanType)
   EXPECT_FALSE(IsEmptyType(copy_boolean));
   EXPECT_FALSE(IsStructType(copy_boolean));
   EXPECT_FALSE(IsArrayType(copy_boolean));
-  EXPECT_FALSE(IsUnboundedArrayType(copy_boolean));
   EXPECT_TRUE(IsScalarType(copy_boolean));
   EXPECT_EQ(copy_boolean.GetTypeCode(), TypeCode::Bool);
   EXPECT_EQ(copy_boolean.GetTypeName(), kBooleanTypeName);
@@ -104,7 +99,6 @@ TEST(ScalarTypeTest, Float32Type)
   EXPECT_FALSE(IsEmptyType(float32_type));
   EXPECT_FALSE(IsStructType(float32_type));
   EXPECT_FALSE(IsArrayType(float32_type));
-  EXPECT_FALSE(IsUnboundedArrayType(float32_type));
   EXPECT_TRUE(IsScalarType(float32_type));
   EXPECT_EQ(float32_type.GetTypeCode(), TypeCode::Float32);
   EXPECT_EQ(float32_type.GetTypeName(), kFloat32TypeName);
@@ -118,7 +112,6 @@ TEST(ScalarTypeTest, Float32Type)
   EXPECT_FALSE(IsEmptyType(moved_float32));
   EXPECT_FALSE(IsStructType(moved_float32));
   EXPECT_FALSE(IsArrayType(moved_float32));
-  EXPECT_FALSE(IsUnboundedArrayType(moved_float32));
   EXPECT_TRUE(IsScalarType(moved_float32));
   EXPECT_EQ(moved_float32.GetTypeCode(), TypeCode::Float32);
   EXPECT_EQ(moved_float32.GetTypeName(), kFloat32TypeName);
@@ -133,7 +126,6 @@ TEST(ScalarTypeTest, Float64Type)
   EXPECT_FALSE(IsEmptyType(float64_type));
   EXPECT_FALSE(IsStructType(float64_type));
   EXPECT_FALSE(IsArrayType(float64_type));
-  EXPECT_FALSE(IsUnboundedArrayType(float64_type));
   EXPECT_TRUE(IsScalarType(float64_type));
   EXPECT_EQ(float64_type.GetTypeCode(), TypeCode::Float64);
   EXPECT_EQ(float64_type.GetTypeName(), kFloat64TypeName);
@@ -147,7 +139,6 @@ TEST(ScalarTypeTest, Float64Type)
   EXPECT_FALSE(IsEmptyType(moved_float64));
   EXPECT_FALSE(IsStructType(moved_float64));
   EXPECT_FALSE(IsArrayType(moved_float64));
-  EXPECT_FALSE(IsUnboundedArrayType(moved_float64));
   EXPECT_TRUE(IsScalarType(moved_float64));
   EXPECT_EQ(moved_float64.GetTypeCode(), TypeCode::Float64);
   EXPECT_EQ(moved_float64.GetTypeName(), kFloat64TypeName);
