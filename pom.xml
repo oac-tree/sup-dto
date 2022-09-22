@@ -72,7 +72,7 @@
                     <packaging>
                         <package>
                             <!-- Libraries -->
-                            <include type="file" source="lib" target="lib">
+                            <include type="file" source="lib64" target="lib">
                                 <include>*.so.*</include>
                             </include>
                             <!-- Package dependencies -->
@@ -80,7 +80,7 @@
                         </package>
                         <package name="devel">
                             <!-- Libraries -->
-                            <include type="file" source="lib" target="lib">
+                            <include type="file" source="lib64" target="lib">
                                 <include>*.a</include>
                                 <include>*.so</include>
                             </include>
