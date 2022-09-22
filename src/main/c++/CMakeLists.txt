@@ -40,19 +40,12 @@ target_link_libraries(sup-dto-shared
     PUBLIC
 )
 
-set_target_properties(sup-dto-static PROPERTIES
-    OUTPUT_NAME sup-dto
-)
-
-target_link_libraries(sup-dto-static
-    PRIVATE
-    sup-dto-obj
-    PUBLIC
-)
-
 target_include_directories(sup-dto-shared PUBLIC
   $<INSTALL_INTERFACE:include>
   $<BUILD_INTERFACE:${CMAKE_CURRENT_LIST_DIR}>)
+
+set_target_properties(sup-dto-static PROPERTIES OUTPUT_NAME sup-dto)
+target_link_libraries(sup-dto-static PRIVATE $<BUILD_INTERFACE:sup-dto-obj>)
 
 target_include_directories(sup-dto-static PUBLIC
   $<INSTALL_INTERFACE:include>
@@ -60,7 +53,7 @@ target_include_directories(sup-dto-static PUBLIC
 
 install(TARGETS sup-dto-shared EXPORT sup-dto-targets LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR})
 set_target_properties(sup-dto-shared PROPERTIES EXPORT_NAME sup-dto)
-install(TARGETS sup-dto-static LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR})
+install(TARGETS sup-dto-static EXPORT sup-dto-targets LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR})
 set_target_properties(sup-dto-static PROPERTIES EXPORT_NAME sup-dto-static)
 
 install(FILES
