@@ -25,8 +25,6 @@
 #include <sup/dto/i_any_visitor.h>
 #include <sup/dto/basic_scalar_types.h>
 
-#include <vector>
-
 namespace sup
 {
 namespace dto
@@ -41,18 +39,6 @@ class AnyTypeRegistry;
  * @param serializer Serializer object to use.
  */
 void SerializeAnyValue(const AnyValue& anyvalue, IAnyVisitor<const AnyValue>& serializer);
-
-/**
- * @brief Serialize an AnyValue to an array of bytes.
- *
- * @param anyvalue AnyValue object to serialize.
- *
- * @throws SerializeException Thrown when the AnyValue cannot be correctly serialized into a byte
- * array (e.g. string field too long or unknown scalar type).
- *
- * @note This serialization is used to cast to C-type structures.
- */
-std::vector<uint8> ToBytes(const AnyValue& anyvalue);
 
 /**
  * @brief Serialize the values of an AnyValue using a JSON serializer.
@@ -94,20 +80,6 @@ std::string AnyValueToJSONString(const AnyValue& anyvalue, bool pretty=false);
  * information as specific values of leaf nodes.
  */
 void AnyValueToJSONFile(const AnyValue& anyvalue, const std::string& filename, bool pretty=false);
-
-/**
- * @brief Parse AnyValue content from an array of bytes.
- *
- * @param anyvalue AnyValue object to assign to.
- * @param bytes Array of bytes.
- * @param total_size Size of the array of bytes.
- *
- * @throws ParseException Thrown when the byte array cannot be correctly parsed (e.g. sizes
- * don't match, absence of null terminator in C-style string or unknown scalar type).
- *
- * @note This method is used to cast from C-type structures.
- */
-void FromBytes(AnyValue& anyvalue, const uint8* bytes, std::size_t total_size);
 
 /**
  * @brief Parse an AnyValue from a JSON string.

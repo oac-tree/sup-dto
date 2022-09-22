@@ -41,6 +41,11 @@ std::string IValueData::GetTypeName() const
   return GetType().GetTypeName();
 }
 
+bool IValueData::IsScalar() const
+{
+  return false;
+}
+
 void IValueData::AddMember(const std::string&, const AnyValue&)
 {
   throw InvalidOperationException("Add member only supported for structured types");

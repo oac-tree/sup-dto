@@ -23,8 +23,6 @@
 
 #include <sup/dto/json/json_reader.h>
 #include <sup/dto/json/json_writer.h>
-#include <sup/dto/parse/byteparser.h>
-#include <sup/dto/serialize/byte_serializer.h>
 #include <sup/dto/visit/visit_t.h>
 
 #include <sup/dto/anytype_registry.h>
@@ -41,13 +39,6 @@ namespace dto
 void SerializeAnyValue(const AnyValue& anyvalue, IAnyVisitor<const AnyValue>& serializer)
 {
   return Visit(anyvalue, serializer);
-}
-
-std::vector<uint8> ToBytes(const AnyValue& anyvalue)
-{
-  ByteSerializer serializer;
-  Visit(anyvalue, serializer);
-  return serializer.GetRepresentation();
 }
 
 std::string ValuesToJSONString(const AnyValue& anyvalue, bool pretty)
@@ -73,16 +64,6 @@ void AnyValueToJSONFile(const AnyValue& anyvalue, const std::string& filename, b
   }
   JSONSerializeAnyValue(ofs, anyvalue, pretty);
   return;
-}
-
-void FromBytes(AnyValue& anyvalue, const uint8* bytes, std::size_t total_size)
-{
-  ByteParser byte_parser(bytes, total_size);
-  Visit(anyvalue, byte_parser);
-  if (!byte_parser.IsFinished())
-  {
-    throw ParseException("FromBytes ended before parsing all input bytes");
-  }
 }
 
 AnyValue AnyValueFromJSONString(const std::string& json_str)

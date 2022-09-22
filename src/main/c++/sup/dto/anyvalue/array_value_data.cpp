@@ -122,7 +122,15 @@ AnyValue& ArrayValueData::operator[](std::size_t idx)
 
 bool ArrayValueData::Equals(const AnyValue& other) const
 {
-  if (other.GetType() != GetType())
+  if (!IsArrayValue(other))
+  {
+    return false;
+  }
+  if (other.GetTypeName() != GetTypeName())
+  {
+    return false;
+  }
+  if (other.NumberOfElements() != NumberOfElements())
   {
     return false;
   }

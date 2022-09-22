@@ -333,6 +333,6 @@ inequality operator:
    * Empty types are only equal to other empty types.
    * Scalar types are only equal to the exact same scalar type.
    * Structured types are only equal to other structured types with the same type name, member names
-     and types.
-   * Array types are only equal to other array types with the same name, same element type and
+     and types. The order of members is also taken into account.
+   * Array types are only equal to other array types with the same type name, same element type and
      number of elements.

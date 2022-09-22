@@ -398,8 +398,8 @@ inequality operator:
 
    * Empty values are only equal to other empty values.
    * Scalar values are only equal when a successfull conversion of one value to the other's type
-     is exactly equal to the other's value.
+     is exactly equal to the other's value and the other way around (to assure symmetry).
    * Structured values are only equal to other structured values with the same type name, member
-     names and values that compare equal.
+     names and values that compare equal. The order of members is also taken into account.
    * Array values are only equal to other array values with the same name, number of elements and
      elements that compare equal.

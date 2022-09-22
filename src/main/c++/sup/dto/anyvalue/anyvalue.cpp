@@ -25,6 +25,9 @@
 #include <sup/dto/anyvalue/empty_value_data.h>
 #include <sup/dto/anyvalue/scalar_value_data_t.h>
 #include <sup/dto/anyvalue/struct_value_data.h>
+#include <sup/dto/parse/byteparser.h>
+#include <sup/dto/serialize/byte_serializer.h>
+#include <sup/dto/visit/visit_t.h>
 
 namespace sup
 {
@@ -237,6 +240,10 @@ const AnyValue& AnyValue::operator[](std::size_t idx) const
 
 bool AnyValue::operator==(const AnyValue& other) const
 {
+  if (data->IsScalar())
+  {
+    return data->Equals(other) && other.data->Equals(*this);
+  }
   return data->Equals(other);
 }
 
@@ -368,6 +375,23 @@ bool IsArrayValue(const AnyValue& anyvalue)
 bool IsScalarValue(const AnyValue& anyvalue)
 {
   return IsScalarTypeCode(anyvalue.GetTypeCode());
+}
+
+std::vector<uint8> ToBytes(const AnyValue& anyvalue)
+{
+  ByteSerializer serializer;
+  Visit(anyvalue, serializer);
+  return serializer.GetRepresentation();
+}
+
+void FromBytes(AnyValue& anyvalue, const uint8* bytes, std::size_t total_size)
+{
+  ByteParser byte_parser(bytes, total_size);
+  Visit(anyvalue, byte_parser);
+  if (!byte_parser.IsFinished())
+  {
+    throw ParseException("FromBytes ended before parsing all input bytes");
+  }
 }
 
 }  // namespace dto

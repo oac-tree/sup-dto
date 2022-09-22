@@ -25,7 +25,6 @@
 #include <sup/dto/anytype.h>
 
 #include <sup/dto/anyvalue_exceptions.h>
-#include <sup/dto/anyvalue_helper.h>
 #include <sup/dto/basic_scalar_types.h>
 
 #include <cstring>
@@ -33,6 +32,7 @@
 #include <memory>
 #include <string>
 #include <utility>
+#include <vector>
 
 namespace sup
 {
@@ -310,6 +310,59 @@ private:
   std::unique_ptr<IValueData> data;
 };
 
+  /**
+   * @brief Constructs an empty structure.
+   *
+   * @param type_name Optional name for the underlying structured type.
+   *
+   * @return AnyValue with empty structure type.
+   */
+AnyValue EmptyStruct(const std::string& type_name = {});
+
+  /**
+   * @brief Constructs a bounded array value.
+   *
+   * @param elements list of element values.
+   * @param type_name Optional name for the underlying structured type.
+   *
+   * @return Constructed array value.
+   *
+   * @note The type of the first element in the list determines the element type of
+   * the array.
+   */
+AnyValue ArrayValue(std::initializer_list<AnyValue> elements, const std::string& type_name = {});
+
+bool IsEmptyValue(const AnyValue& anyvalue);
+bool IsStructValue(const AnyValue& anyvalue);
+bool IsArrayValue(const AnyValue& anyvalue);
+bool IsScalarValue(const AnyValue& anyvalue);
+
+/**
+ * @brief Serialize an AnyValue to an array of bytes.
+ *
+ * @param anyvalue AnyValue object to serialize.
+ *
+ * @throws SerializeException Thrown when the AnyValue cannot be correctly serialized into a byte
+ * array (e.g. string field too long or unknown scalar type).
+ *
+ * @note This serialization is used to cast to C-type structures.
+ */
+std::vector<uint8> ToBytes(const AnyValue& anyvalue);
+
+/**
+ * @brief Parse AnyValue content from an array of bytes.
+ *
+ * @param anyvalue AnyValue object to assign to.
+ * @param bytes Array of bytes.
+ * @param total_size Size of the array of bytes.
+ *
+ * @throws ParseException Thrown when the byte array cannot be correctly parsed (e.g. sizes
+ * don't match, absence of null terminator in C-style string or unknown scalar type).
+ *
+ * @note This method is used to cast from C-type structures.
+ */
+void FromBytes(AnyValue& anyvalue, const uint8* bytes, std::size_t total_size);
+
 template <typename T>
 T AnyValue::As() const
 {
@@ -422,33 +475,6 @@ bool SafeAssignFromCType(AnyValue& anyvalue, const T& object)
     return false;
   }
 }
-
-  /**
-   * @brief Constructs an empty structure.
-   *
-   * @param type_name Optional name for the underlying structured type.
-   *
-   * @return AnyValue with empty structure type.
-   */
-AnyValue EmptyStruct(const std::string& type_name = {});
-
-  /**
-   * @brief Constructs a bounded array value.
-   *
-   * @param elements list of element values.
-   * @param type_name Optional name for the underlying structured type.
-   *
-   * @return Constructed array value.
-   *
-   * @note The type of the first element in the list determines the element type of
-   * the array.
-   */
-AnyValue ArrayValue(std::initializer_list<AnyValue> elements, const std::string& type_name = {});
-
-bool IsEmptyValue(const AnyValue& anyvalue);
-bool IsStructValue(const AnyValue& anyvalue);
-bool IsArrayValue(const AnyValue& anyvalue);
-bool IsScalarValue(const AnyValue& anyvalue);
 
 }  // namespace dto
 

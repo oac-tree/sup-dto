@@ -38,6 +38,8 @@ public:
   virtual std::string GetTypeName() const;
   virtual AnyType GetType() const = 0;
 
+  virtual bool IsScalar() const;
+
   virtual void AddMember(const std::string& name, const AnyValue& type);
   virtual bool HasMember(const std::string& name) const;
   virtual std::vector<std::string> MemberNames() const;

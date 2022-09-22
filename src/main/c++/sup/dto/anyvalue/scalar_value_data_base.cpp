@@ -50,6 +50,11 @@ AnyType ScalarValueDataBase::GetType() const
   return AnyType(type_code);
 }
 
+bool ScalarValueDataBase::IsScalar() const
+{
+  return true;
+}
+
 template <typename T>
 ScalarValueDataBase* ScalarValueConstructor()
 {

@@ -37,6 +37,8 @@ public:
 
   AnyType GetType() const override;
 
+  bool IsScalar() const override;
+
 protected:
   ScalarValueDataBase(TypeCode type_code);
 

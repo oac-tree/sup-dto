@@ -182,8 +182,8 @@ bool StructDataT<T>::Equals(const T& other) const
   }
   for (auto &member : members)
   {
-    auto &other_member_type = other[member.first];
-    if (other_member_type != member.second)
+    auto &other_member_field = other[member.first];
+    if (other_member_field != member.second)
     {
       return false;
     }

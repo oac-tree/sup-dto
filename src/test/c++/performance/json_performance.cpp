@@ -23,6 +23,7 @@
 
 #include <sup/dto/anytype.h>
 #include <sup/dto/anyvalue.h>
+#include <sup/dto/anyvalue_helper.h>
 
 #include <algorithm>
 #include <chrono>
