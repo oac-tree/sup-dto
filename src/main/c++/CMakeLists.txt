@@ -18,6 +18,8 @@ set_property(TARGET sup-dto-obj PROPERTY POSITION_INDEPENDENT_CODE 1)
 add_library(sup-dto-shared SHARED)
 add_library(sup-dto-static STATIC)
 
+#add_library(sup-mvvm::sup-mvvm ALIAS sup-dto-shared) # alias for build-tree usage
+
 add_subdirectory(sup)
 
 target_include_directories(sup-dto-obj
@@ -33,8 +35,8 @@ set_target_properties(sup-dto-shared PROPERTIES
 
 target_link_libraries(sup-dto-shared
     PRIVATE
+    sup-dto-obj
     PUBLIC
-        sup-dto-obj
 )
 
 set_target_properties(sup-dto-static PROPERTIES
@@ -43,11 +45,15 @@ set_target_properties(sup-dto-static PROPERTIES
 
 target_link_libraries(sup-dto-static
     PRIVATE
+    sup-dto-obj
     PUBLIC
-        sup-dto-obj
 )
 
-install(TARGETS sup-dto-shared LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR})
+target_include_directories(sup-dto-shared PUBLIC
+  $<INSTALL_INTERFACE:include>
+  $<BUILD_INTERFACE:${CMAKE_CURRENT_LIST_DIR}>)
+
+install(TARGETS sup-dto-shared EXPORT sup-dto-targets LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR})
 install(TARGETS sup-dto-static LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR})
 
 install(FILES
