@@ -17,8 +17,10 @@ install(EXPORT sup-dto-targets FILE sup-dto-targets.cmake NAMESPACE sup-dto:: DE
 export(TARGETS sup-dto-shared NAMESPACE sup-dto:: FILE "${PROJECT_BINARY_DIR}/sup-dto-targets.cmake")
 
 # Export the package for use from the build-tree (goes to $HOME/.cmake)
-set(CMAKE_EXPORT_PACKAGE_REGISTRY ON)
-export(PACKAGE sup-dto)
+if(SUP_DTO_EXPORT_BUILDTREE)
+  set(CMAKE_EXPORT_PACKAGE_REGISTRY ON)
+  export(PACKAGE sup-dto)
+endif()
 
 # -----------------------------------------------------------------------------
 # Creating and installing sup-dto-config.cmake
