@@ -33,6 +33,29 @@ class AnyValue;
 class AnyTypeRegistry;
 
 /**
+ * @brief Non-throwing function to assign an AnyValue to another AnyValue.
+ *
+ * @param dest AnyValue object to assign to.
+ * @param src AnyValue object to assign from.
+ * @param strict If true, only assign when the types involved are exactly equal (i.e. conversions
+ * are not allowed).
+ */
+bool SafeAssign(AnyValue& dest, const AnyValue& src, bool strict = false);
+
+/**
+ * @brief Non-throwing function to assign a field of an AnyValue to a field of another AnyValue.
+ *
+ * @param dest AnyValue object to assign to.
+ * @param dest_field Fieldname to use for the destination (empty implies using the object itself).
+ * @param src AnyValue object to assign from.
+ * @param src_field Fieldname to use for the source (empty implies using the object itself).
+ * @param strict If true, only assign when the types involved are exactly equal (i.e. conversions
+ * are not allowed).
+ */
+bool SafeAssignFields(AnyValue& dest, const std::string& dest_field,
+                      const AnyValue& src, const std::string& src_field, bool strict = false);
+
+/**
  * @brief Serialize an AnyValue using the given generic serializer.
  *
  * @param anyvalue AnyValue object to serialize.

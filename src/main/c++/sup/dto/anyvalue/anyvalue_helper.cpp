@@ -35,6 +35,37 @@ namespace sup
 {
 namespace dto
 {
+bool SafeAssign(AnyValue& dest, const AnyValue& src, bool strict)
+{
+  try
+  {
+    if (strict && dest.GetType() != src.GetType())
+    {
+      return false;
+    }
+    dest = src;
+  }
+  catch(const InvalidConversionException&)
+  {
+    return false;
+  }
+  return true;
+}
+
+bool SafeAssignFields(AnyValue& dest, const std::string& dest_field,
+                      const AnyValue& src, const std::string& src_field, bool strict)
+{
+  try
+  {
+    AnyValue& dest_ref = dest_field.empty() ? dest : dest[dest_field];
+    const AnyValue& src_ref = src_field.empty() ? src : src[src_field];
+    return SafeAssign(dest_ref, src_ref, strict);
+  }
+  catch(const InvalidOperationException&)
+  {
+    return false;
+  }
+}
 
 void SerializeAnyValue(const AnyValue& anyvalue, IAnyVisitor<const AnyValue>& serializer)
 {
