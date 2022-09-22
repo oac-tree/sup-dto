@@ -47,6 +47,9 @@ target_link_libraries(sup-dto-static
         sup-dto-obj
 )
 
+install(TARGETS sup-dto-shared LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR})
+install(TARGETS sup-dto-static LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR})
+
 install(FILES
         sup/dto/anytype.h
         sup/dto/anytype_helper.h
@@ -56,5 +59,5 @@ install(FILES
         sup/dto/anyvalue_helper.h
         sup/dto/basic_scalar_types.h
         sup/dto/i_any_visitor.h
-        DESTINATION include/sup/dto
-)
+        DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/sup/dto)
+
