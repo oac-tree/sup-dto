@@ -39,9 +39,12 @@ bool SafeAssign(AnyValue& dest, const AnyValue& src, bool strict)
 {
   try
   {
-    if (strict && dest.GetType() != src.GetType())
+    if (strict)
     {
-      return false;
+      if (!IsEmptyValue(dest) && dest.GetType() != src.GetType())
+      {
+        return false;
+      }
     }
     dest = src;
   }
