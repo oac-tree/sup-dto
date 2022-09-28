@@ -5,6 +5,7 @@ configure_file(${CMAKE_CURRENT_LIST_DIR}/test_config.h.in ${SUP_DTO_AUTOGEN_DIR}
 target_sources(unit-tests
     PRIVATE
         ${CMAKE_CURRENT_LIST_DIR}/anytype_tests.cpp
+        ${CMAKE_CURRENT_LIST_DIR}/anytype_field_tests.cpp
         ${CMAKE_CURRENT_LIST_DIR}/anytype_json_parse_tests.cpp
         ${CMAKE_CURRENT_LIST_DIR}/anytype_json_serialize_tests.cpp
         ${CMAKE_CURRENT_LIST_DIR}/anytype_registry_tests.cpp
