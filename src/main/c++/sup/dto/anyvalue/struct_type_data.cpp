@@ -63,9 +63,9 @@ std::size_t StructTypeData::NumberOfMembers() const
   return member_data.NumberOfMembers();
 }
 
-bool StructTypeData::HasMember(const std::string& fieldname) const
+bool StructTypeData::HasField(const std::string& fieldname) const
 {
-  return member_data.HasMember(fieldname);
+  return member_data.HasField(fieldname);
 }
 
 AnyType& StructTypeData::operator[](const std::string& fieldname)

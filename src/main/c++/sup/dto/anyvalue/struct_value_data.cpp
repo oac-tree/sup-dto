@@ -90,9 +90,9 @@ std::size_t StructValueData::NumberOfMembers() const
   return member_data.NumberOfMembers();
 }
 
-bool StructValueData::HasMember(const std::string& fieldname) const
+bool StructValueData::HasField(const std::string& fieldname) const
 {
-  return member_data.HasMember(fieldname);
+  return member_data.HasField(fieldname);
 }
 
 AnyValue& StructValueData::operator[](const std::string& fieldname)

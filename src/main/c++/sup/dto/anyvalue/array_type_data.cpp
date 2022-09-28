@@ -67,7 +67,7 @@ std::size_t ArrayTypeData::NumberOfElements() const
   return size;
 }
 
-bool ArrayTypeData::HasMember(const std::string& fieldname) const
+bool ArrayTypeData::HasField(const std::string& fieldname) const
 {
   std::string remainder;
   try
@@ -82,7 +82,7 @@ bool ArrayTypeData::HasMember(const std::string& fieldname) const
   {
     return true;
   }
-  return elem_type.HasMember(remainder);
+  return elem_type.HasField(remainder);
 }
 
 AnyType& ArrayTypeData::operator[](const std::string& fieldname)

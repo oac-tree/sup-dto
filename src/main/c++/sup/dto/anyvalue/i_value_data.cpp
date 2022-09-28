@@ -142,7 +142,7 @@ std::string IValueData::AsString() const
   throw InvalidConversionException("Conversion to string not supported for this type");
 }
 
-bool IValueData::HasMember(const std::string&) const
+bool IValueData::HasField(const std::string&) const
 {
   return false;
 }

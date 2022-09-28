@@ -100,7 +100,7 @@ void ArrayValueData::Assign(const AnyValue& value)
   }
 }
 
-bool ArrayValueData::HasMember(const std::string& fieldname) const
+bool ArrayValueData::HasField(const std::string& fieldname) const
 {
   std::pair<std::size_t, std::string> idx_remainder;
   try
@@ -119,7 +119,7 @@ bool ArrayValueData::HasMember(const std::string& fieldname) const
   {
     return true;
   }
-  return elements[idx_remainder.first].HasMember(idx_remainder.second);
+  return elements[idx_remainder.first].HasField(idx_remainder.second);
 }
 
 AnyValue& ArrayValueData::operator[](const std::string& fieldname)

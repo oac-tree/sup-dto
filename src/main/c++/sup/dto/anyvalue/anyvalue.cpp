@@ -192,11 +192,6 @@ AnyValue& AnyValue::AddMember(const std::string& name, const AnyValue& value)
   return *this;
 }
 
-bool AnyValue::HasMember(const std::string& name) const
-{
-  return data->HasMember(name);
-}
-
 std::vector<std::string> AnyValue::MemberNames() const
 {
   return data->MemberNames();
@@ -216,6 +211,11 @@ AnyValue& AnyValue::AddElement(const AnyValue& value)
 std::size_t AnyValue::NumberOfElements() const
 {
   return data->NumberOfElements();
+}
+
+bool AnyValue::HasField(const std::string& fieldname) const
+{
+  return data->HasField(fieldname);
 }
 
 AnyValue& AnyValue::operator[](const std::string& fieldname)

@@ -114,16 +114,16 @@ TEST(StructuredValueTest, MemberAccess)
   }, nested_name};
   EXPECT_EQ(nested_val.GetType(), nested_type);
 
-  EXPECT_TRUE(nested_val.HasMember("scalars"));
-  EXPECT_TRUE(nested_val.HasMember("single"));
-  EXPECT_FALSE(nested_val.HasMember("index"));
+  EXPECT_TRUE(nested_val.HasField("scalars"));
+  EXPECT_TRUE(nested_val.HasField("single"));
+  EXPECT_FALSE(nested_val.HasField("index"));
   auto member_fields = nested_val.MemberNames();
   EXPECT_EQ(member_fields.size(), 2);
   EXPECT_EQ(nested_val.NumberOfMembers(), 2);
   EXPECT_EQ(member_fields[0], "scalars");
   EXPECT_EQ(member_fields[1], "single");
   nested_val.AddMember("index", {UnsignedInteger64Type, 2022});
-  EXPECT_TRUE(nested_val.HasMember("index"));
+  EXPECT_TRUE(nested_val.HasField("index"));
   member_fields = nested_val.MemberNames();
   EXPECT_EQ(member_fields.size(), 3);
   EXPECT_EQ(nested_val.NumberOfMembers(), 3);
@@ -132,8 +132,8 @@ TEST(StructuredValueTest, MemberAccess)
   EXPECT_EQ(member_fields[2], "index");
 
   // test presence of composite field indices
-  EXPECT_TRUE(nested_val.HasMember("scalars.signed"));
-  EXPECT_FALSE(nested_val.HasMember("scalars.unknown"));
+  EXPECT_TRUE(nested_val.HasField("scalars.signed"));
+  EXPECT_FALSE(nested_val.HasField("scalars.unknown"));
 
   // test values of fields
   EXPECT_EQ(nested_val["scalars.signed"], 1);
@@ -145,14 +145,14 @@ TEST(StructuredValueTest, MemberAccess)
   // test member access for empty value
   AnyValue empty_value;
   EXPECT_THROW(empty_value.AddMember("throws", true), InvalidOperationException);
-  EXPECT_FALSE(empty_value.HasMember("throws"));
+  EXPECT_FALSE(empty_value.HasField("throws"));
   EXPECT_EQ(empty_value.MemberNames().size(), 0);
   EXPECT_EQ(empty_value.NumberOfMembers(), 0);
 
   // test member access for scalar value
   AnyValue scalar_value(Float32Type);
   EXPECT_THROW(scalar_value.AddMember("throws", 1.0), InvalidOperationException);
-  EXPECT_FALSE(scalar_value.HasMember("throws"));
+  EXPECT_FALSE(scalar_value.HasField("throws"));
   EXPECT_EQ(scalar_value.MemberNames().size(), 0);
   EXPECT_EQ(scalar_value.NumberOfMembers(), 0);
 }

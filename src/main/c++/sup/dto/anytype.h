@@ -183,17 +183,6 @@ public:
   AnyType& AddMember(const std::string& name, const AnyType& type);
 
   /**
-   * @brief Checks if this type has a member with the given name.
-   *
-   * @param name Name of the member to check.
-   *
-   * @return true if a member with the given name exists.
-   *
-   * @note Doesn't throw when the type doesn't support members, but returns false.
-   */
-  bool HasMember(const std::string& name) const;
-
-  /**
    * @brief Get list of member names.
    *
    * @return List of member names.
@@ -224,6 +213,18 @@ public:
    * @return Number of elements in the array type or zero if not supported.
    */
   std::size_t NumberOfElements() const;
+
+  /**
+   * @brief Checks if this type has a (nested) subtype with the given field name.
+   *
+   * @param fieldname Field name of the subtype to check.
+   *
+   * @return true if a subtype with the given name exists.
+   *
+   * @note This method handles both (nested) array elements and structure members.
+   * @note Doesn't throw when the type doesn't support members, but returns false.
+   */
+  bool HasField(const std::string& fieldname) const;
 
   /**
    * @brief Index operators.

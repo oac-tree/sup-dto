@@ -47,7 +47,7 @@ public:
   std::vector<std::string> MemberNames() const override;
   std::size_t NumberOfMembers() const override;
 
-  bool HasMember(const std::string& fieldname) const override;
+  bool HasField(const std::string& fieldname) const override;
   AnyValue& operator[](const std::string& fieldname) override;
 
   bool Equals(const AnyValue& other) const override;

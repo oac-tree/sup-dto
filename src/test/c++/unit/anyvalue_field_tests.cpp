@@ -32,12 +32,12 @@ TEST(AnyValueFieldTest, SimpleStruct)
     {"unsigned", {UnsignedInteger8Type, 12}}
   }};
   EXPECT_TRUE(IsStructValue(two_scalars));
-  EXPECT_TRUE(two_scalars.HasMember("signed"));
-  EXPECT_TRUE(two_scalars.HasMember("unsigned"));
-  EXPECT_FALSE(two_scalars.HasMember("absent"));
-  EXPECT_FALSE(two_scalars.HasMember("signed.absent"));
-  EXPECT_FALSE(two_scalars.HasMember("signed.[0]"));
-  EXPECT_FALSE(two_scalars.HasMember("signed[0]"));
+  EXPECT_TRUE(two_scalars.HasField("signed"));
+  EXPECT_TRUE(two_scalars.HasField("unsigned"));
+  EXPECT_FALSE(two_scalars.HasField("absent"));
+  EXPECT_FALSE(two_scalars.HasField("signed.absent"));
+  EXPECT_FALSE(two_scalars.HasField("signed.[0]"));
+  EXPECT_FALSE(two_scalars.HasField("signed[0]"));
 }
 
 TEST(AnyValueFieldTest, NestedStruct)
@@ -55,31 +55,31 @@ TEST(AnyValueFieldTest, NestedStruct)
     }}
   }, nested_name};
   EXPECT_TRUE(IsStructValue(nested_val));
-  EXPECT_TRUE(nested_val.HasMember("scalars"));
-  EXPECT_TRUE(nested_val.HasMember("scalars.signed"));
-  EXPECT_TRUE(nested_val.HasMember("scalars.unsigned"));
-  EXPECT_TRUE(nested_val.HasMember("single"));
-  EXPECT_TRUE(nested_val.HasMember("single.first"));
-  EXPECT_TRUE(nested_val.HasMember("single.second"));
-  EXPECT_FALSE(nested_val.HasMember("absent"));
-  EXPECT_FALSE(nested_val.HasMember("scalars.absent"));
-  EXPECT_FALSE(nested_val.HasMember("scalars.[0]"));
-  EXPECT_FALSE(nested_val.HasMember("scalars[0]"));
-  EXPECT_FALSE(nested_val.HasMember("scalars.signed.absent"));
-  EXPECT_FALSE(nested_val.HasMember("scalars.signed.[0]"));
-  EXPECT_FALSE(nested_val.HasMember("scalars.signed[0]"));
+  EXPECT_TRUE(nested_val.HasField("scalars"));
+  EXPECT_TRUE(nested_val.HasField("scalars.signed"));
+  EXPECT_TRUE(nested_val.HasField("scalars.unsigned"));
+  EXPECT_TRUE(nested_val.HasField("single"));
+  EXPECT_TRUE(nested_val.HasField("single.first"));
+  EXPECT_TRUE(nested_val.HasField("single.second"));
+  EXPECT_FALSE(nested_val.HasField("absent"));
+  EXPECT_FALSE(nested_val.HasField("scalars.absent"));
+  EXPECT_FALSE(nested_val.HasField("scalars.[0]"));
+  EXPECT_FALSE(nested_val.HasField("scalars[0]"));
+  EXPECT_FALSE(nested_val.HasField("scalars.signed.absent"));
+  EXPECT_FALSE(nested_val.HasField("scalars.signed.[0]"));
+  EXPECT_FALSE(nested_val.HasField("scalars.signed[0]"));
 }
 
 TEST(AnyValueFieldTest, SimpleArray)
 {
   AnyValue array_val = ArrayValue({{UnsignedInteger16Type, 0}, 10 ,20 ,30});
   EXPECT_TRUE(IsArrayValue(array_val));
-  EXPECT_TRUE(array_val.HasMember("[0]"));
-  EXPECT_TRUE(array_val.HasMember("[3]"));
-  EXPECT_FALSE(array_val.HasMember("[4]"));
-  EXPECT_FALSE(array_val.HasMember("absent"));
-  EXPECT_FALSE(array_val.HasMember("[0].absent"));
-  EXPECT_FALSE(array_val.HasMember("[0]absent"));
+  EXPECT_TRUE(array_val.HasField("[0]"));
+  EXPECT_TRUE(array_val.HasField("[3]"));
+  EXPECT_FALSE(array_val.HasField("[4]"));
+  EXPECT_FALSE(array_val.HasField("absent"));
+  EXPECT_FALSE(array_val.HasField("[0].absent"));
+  EXPECT_FALSE(array_val.HasField("[0]absent"));
 }
 
 TEST(AnyValueFieldTest, ArrayOfStruct)
@@ -90,12 +90,12 @@ TEST(AnyValueFieldTest, ArrayOfStruct)
   }};
   AnyValue array_val = ArrayValue({ two_scalars, two_scalars, two_scalars }, "array_of_structs");
   EXPECT_TRUE(IsArrayValue(array_val));
-  EXPECT_TRUE(array_val.HasMember("[0]"));
-  EXPECT_TRUE(array_val.HasMember("[2]"));
-  EXPECT_TRUE(array_val.HasMember("[0]first"));
-  EXPECT_TRUE(array_val.HasMember("[0].second"));
-  EXPECT_FALSE(array_val.HasMember("[4]"));
-  EXPECT_FALSE(array_val.HasMember("[0]absent"));
-  EXPECT_FALSE(array_val.HasMember("[0].absent"));
-  EXPECT_FALSE(array_val.HasMember("absent"));
+  EXPECT_TRUE(array_val.HasField("[0]"));
+  EXPECT_TRUE(array_val.HasField("[2]"));
+  EXPECT_TRUE(array_val.HasField("[0]first"));
+  EXPECT_TRUE(array_val.HasField("[0].second"));
+  EXPECT_FALSE(array_val.HasField("[4]"));
+  EXPECT_FALSE(array_val.HasField("[0]absent"));
+  EXPECT_FALSE(array_val.HasField("[0].absent"));
+  EXPECT_FALSE(array_val.HasField("absent"));
 }

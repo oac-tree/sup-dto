@@ -77,18 +77,18 @@ TEST(AnyTypeTest, CopyConstruction)
   EXPECT_TRUE(IsStructType(copy));
   EXPECT_EQ(copy.GetTypeCode(), TypeCode::Struct);
   EXPECT_EQ(copy.GetTypeName(), nested_name);
-  EXPECT_TRUE(copy.HasMember("scalars"));
-  EXPECT_TRUE(copy.HasMember("single"));
-  EXPECT_FALSE(copy.HasMember("index"));
+  EXPECT_TRUE(copy.HasField("scalars"));
+  EXPECT_TRUE(copy.HasField("single"));
+  EXPECT_FALSE(copy.HasField("index"));
 
   copy.AddMember("index", UnsignedInteger64Type);
   EXPECT_NE(copy, nested_type);
   EXPECT_TRUE(IsStructType(copy));
   EXPECT_EQ(copy.GetTypeCode(), TypeCode::Struct);
   EXPECT_EQ(copy.GetTypeName(), nested_name);
-  EXPECT_TRUE(copy.HasMember("scalars"));
-  EXPECT_TRUE(copy.HasMember("single"));
-  EXPECT_TRUE(copy.HasMember("index"));
+  EXPECT_TRUE(copy.HasField("scalars"));
+  EXPECT_TRUE(copy.HasField("single"));
+  EXPECT_TRUE(copy.HasField("index"));
 }
 
 TEST(AnyTypeTest, CopyAssignment)
@@ -147,18 +147,18 @@ TEST(AnyTypeTest, MoveConstruction)
   EXPECT_TRUE(IsStructType(moved));
   EXPECT_EQ(moved.GetTypeCode(), TypeCode::Struct);
   EXPECT_EQ(moved.GetTypeName(), nested_name);
-  EXPECT_TRUE(moved.HasMember("scalars"));
-  EXPECT_TRUE(moved.HasMember("single"));
-  EXPECT_FALSE(moved.HasMember("index"));
+  EXPECT_TRUE(moved.HasField("scalars"));
+  EXPECT_TRUE(moved.HasField("single"));
+  EXPECT_FALSE(moved.HasField("index"));
 
   moved.AddMember("index", UnsignedInteger64Type);
   EXPECT_NE(moved, nested_type);
   EXPECT_TRUE(IsStructType(moved));
   EXPECT_EQ(moved.GetTypeCode(), TypeCode::Struct);
   EXPECT_EQ(moved.GetTypeName(), nested_name);
-  EXPECT_TRUE(moved.HasMember("scalars"));
-  EXPECT_TRUE(moved.HasMember("single"));
-  EXPECT_TRUE(moved.HasMember("index"));
+  EXPECT_TRUE(moved.HasField("scalars"));
+  EXPECT_TRUE(moved.HasField("single"));
+  EXPECT_TRUE(moved.HasField("index"));
 }
 
 TEST(AnyTypeTest, MoveAssignment)
@@ -186,18 +186,18 @@ TEST(AnyTypeTest, MoveAssignment)
   EXPECT_TRUE(IsStructType(moved));
   EXPECT_EQ(moved.GetTypeCode(), TypeCode::Struct);
   EXPECT_EQ(moved.GetTypeName(), nested_name);
-  EXPECT_TRUE(moved.HasMember("scalars"));
-  EXPECT_TRUE(moved.HasMember("single"));
-  EXPECT_FALSE(moved.HasMember("index"));
+  EXPECT_TRUE(moved.HasField("scalars"));
+  EXPECT_TRUE(moved.HasField("single"));
+  EXPECT_FALSE(moved.HasField("index"));
 
   moved.AddMember("index", UnsignedInteger64Type);
   EXPECT_NE(moved, nested_type);
   EXPECT_TRUE(IsStructType(moved));
   EXPECT_EQ(moved.GetTypeCode(), TypeCode::Struct);
   EXPECT_EQ(moved.GetTypeName(), nested_name);
-  EXPECT_TRUE(moved.HasMember("scalars"));
-  EXPECT_TRUE(moved.HasMember("single"));
-  EXPECT_TRUE(moved.HasMember("index"));
+  EXPECT_TRUE(moved.HasField("scalars"));
+  EXPECT_TRUE(moved.HasField("single"));
+  EXPECT_TRUE(moved.HasField("index"));
 }
 
 TEST(AnyTypeTest, CreateEmptyFields)

@@ -32,12 +32,12 @@ TEST(AnyTypeFieldTest, SimpleStruct)
     {"unsigned", UnsignedInteger8Type}
   }};
   EXPECT_TRUE(IsStructType(two_scalars));
-  EXPECT_TRUE(two_scalars.HasMember("signed"));
-  EXPECT_TRUE(two_scalars.HasMember("unsigned"));
-  EXPECT_FALSE(two_scalars.HasMember("absent"));
-  EXPECT_FALSE(two_scalars.HasMember("signed.absent"));
-  EXPECT_FALSE(two_scalars.HasMember("signed.[]"));
-  EXPECT_FALSE(two_scalars.HasMember("signed[]"));
+  EXPECT_TRUE(two_scalars.HasField("signed"));
+  EXPECT_TRUE(two_scalars.HasField("unsigned"));
+  EXPECT_FALSE(two_scalars.HasField("absent"));
+  EXPECT_FALSE(two_scalars.HasField("signed.absent"));
+  EXPECT_FALSE(two_scalars.HasField("signed.[]"));
+  EXPECT_FALSE(two_scalars.HasField("signed[]"));
 }
 
 TEST(AnyTypeFieldTest, NestedStruct)
@@ -55,30 +55,30 @@ TEST(AnyTypeFieldTest, NestedStruct)
     }}
   }, nested_name};
   EXPECT_TRUE(IsStructType(nested_val));
-  EXPECT_TRUE(nested_val.HasMember("scalars"));
-  EXPECT_TRUE(nested_val.HasMember("scalars.signed"));
-  EXPECT_TRUE(nested_val.HasMember("scalars.unsigned"));
-  EXPECT_TRUE(nested_val.HasMember("single"));
-  EXPECT_TRUE(nested_val.HasMember("single.first"));
-  EXPECT_TRUE(nested_val.HasMember("single.second"));
-  EXPECT_FALSE(nested_val.HasMember("absent"));
-  EXPECT_FALSE(nested_val.HasMember("scalars.absent"));
-  EXPECT_FALSE(nested_val.HasMember("scalars.[]"));
-  EXPECT_FALSE(nested_val.HasMember("scalars[]"));
-  EXPECT_FALSE(nested_val.HasMember("scalars.signed.absent"));
-  EXPECT_FALSE(nested_val.HasMember("scalars.signed.[]"));
-  EXPECT_FALSE(nested_val.HasMember("scalars.signed[]"));
+  EXPECT_TRUE(nested_val.HasField("scalars"));
+  EXPECT_TRUE(nested_val.HasField("scalars.signed"));
+  EXPECT_TRUE(nested_val.HasField("scalars.unsigned"));
+  EXPECT_TRUE(nested_val.HasField("single"));
+  EXPECT_TRUE(nested_val.HasField("single.first"));
+  EXPECT_TRUE(nested_val.HasField("single.second"));
+  EXPECT_FALSE(nested_val.HasField("absent"));
+  EXPECT_FALSE(nested_val.HasField("scalars.absent"));
+  EXPECT_FALSE(nested_val.HasField("scalars.[]"));
+  EXPECT_FALSE(nested_val.HasField("scalars[]"));
+  EXPECT_FALSE(nested_val.HasField("scalars.signed.absent"));
+  EXPECT_FALSE(nested_val.HasField("scalars.signed.[]"));
+  EXPECT_FALSE(nested_val.HasField("scalars.signed[]"));
 }
 
 TEST(AnyTypeFieldTest, SimpleArray)
 {
   AnyType array_type(3, UnsignedInteger16Type);
   EXPECT_TRUE(IsArrayType(array_type));
-  EXPECT_TRUE(array_type.HasMember("[]"));
-  EXPECT_FALSE(array_type.HasMember("[0]"));
-  EXPECT_FALSE(array_type.HasMember("absent"));
-  EXPECT_FALSE(array_type.HasMember("[].absent"));
-  EXPECT_FALSE(array_type.HasMember("[]absent"));
+  EXPECT_TRUE(array_type.HasField("[]"));
+  EXPECT_FALSE(array_type.HasField("[0]"));
+  EXPECT_FALSE(array_type.HasField("absent"));
+  EXPECT_FALSE(array_type.HasField("[].absent"));
+  EXPECT_FALSE(array_type.HasField("[]absent"));
 }
 
 TEST(AnyTypeFieldTest, ArrayOfStruct)
@@ -89,11 +89,11 @@ TEST(AnyTypeFieldTest, ArrayOfStruct)
   }};
   AnyType array_type(2, two_scalars, "array_of_structs");
   EXPECT_TRUE(IsArrayType(array_type));
-  EXPECT_TRUE(array_type.HasMember("[]"));
-  EXPECT_TRUE(array_type.HasMember("[]first"));
-  EXPECT_TRUE(array_type.HasMember("[].second"));
-  EXPECT_FALSE(array_type.HasMember("[1]"));
-  EXPECT_FALSE(array_type.HasMember("[]absent"));
-  EXPECT_FALSE(array_type.HasMember("[].absent"));
-  EXPECT_FALSE(array_type.HasMember("absent"));
+  EXPECT_TRUE(array_type.HasField("[]"));
+  EXPECT_TRUE(array_type.HasField("[]first"));
+  EXPECT_TRUE(array_type.HasField("[].second"));
+  EXPECT_FALSE(array_type.HasField("[1]"));
+  EXPECT_FALSE(array_type.HasField("[]absent"));
+  EXPECT_FALSE(array_type.HasField("[].absent"));
+  EXPECT_FALSE(array_type.HasField("absent"));
 }

@@ -115,11 +115,6 @@ AnyType& AnyType::AddMember(const std::string& name, const AnyType& type)
   return *this;
 }
 
-bool AnyType::HasMember(const std::string& name) const
-{
-  return data->HasMember(name);
-}
-
 std::vector<std::string> AnyType::MemberNames() const
 {
   return data->MemberNames();
@@ -138,6 +133,11 @@ AnyType AnyType::ElementType() const
 std::size_t AnyType::NumberOfElements() const
 {
   return data->NumberOfElements();
+}
+
+bool AnyType::HasField(const std::string& fieldname) const
+{
+  return data->HasField(fieldname);
 }
 
 AnyType& AnyType::operator[](const std::string& fieldname)

@@ -233,13 +233,12 @@ These are listed here.
 
    Retrieve the type name.
 
-.. function:: bool AnyType::HasMember(const std::string& name) const
+.. function:: bool AnyType::HasField(const std::string& fieldname) const
 
-   :param name: Member name to search for.
-   :return: ``true`` when a direct member with the given name exists.
+   :param fieldname: Member name to search for.
+   :return: ``true`` when a subtype with the given name exists.
 
-   Check the presence of a member type with the given name. Returns ``false`` when the current type
-   is not a structured type.
+   Check the presence of a subtype with the given name. Composite names are supported.
 
 .. function:: std::vector<std::string> AnyType::MemberNames() const
 
