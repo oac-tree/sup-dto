@@ -38,13 +38,13 @@ public:
   virtual std::string GetTypeName() const = 0;
 
   virtual void AddMember(const std::string& name, const AnyType& type);
-  virtual bool HasMember(const std::string& name) const;
   virtual std::vector<std::string> MemberNames() const;
   virtual std::size_t NumberOfMembers() const;
 
   virtual AnyType ElementType() const;
   virtual std::size_t NumberOfElements() const;
 
+  virtual bool HasMember(const std::string& fieldname) const;
   virtual AnyType& operator[](const std::string& fieldname);
 
   virtual bool Equals(const AnyType& other) const = 0;

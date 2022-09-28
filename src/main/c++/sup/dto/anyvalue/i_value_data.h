@@ -42,7 +42,6 @@ public:
   virtual bool IsScalar() const;
 
   virtual void AddMember(const std::string& name, const AnyValue& type);
-  virtual bool HasMember(const std::string& name) const;
   virtual std::vector<std::string> MemberNames() const;
   virtual std::size_t NumberOfMembers() const;
   virtual void AddElement(const AnyValue& value);
@@ -64,6 +63,7 @@ public:
   virtual float64 AsFloat64() const;
   virtual std::string AsString() const;
 
+  virtual bool HasMember(const std::string& fieldname) const;
   virtual AnyValue& operator[](const std::string& fieldname);
   virtual AnyValue& operator[](std::size_t idx);
 

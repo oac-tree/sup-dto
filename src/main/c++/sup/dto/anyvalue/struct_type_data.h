@@ -42,10 +42,10 @@ public:
   std::string GetTypeName() const override;
 
   void AddMember(const std::string& name, const AnyType& type) override;
-  bool HasMember(const std::string& name) const override;
   std::vector<std::string> MemberNames() const override;
   std::size_t NumberOfMembers() const override;
 
+  bool HasMember(const std::string& fieldname) const override;
   AnyType& operator[](const std::string& fieldname) override;
 
   bool Equals(const AnyType& other) const override;

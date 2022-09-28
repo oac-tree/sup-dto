@@ -51,11 +51,6 @@ void IValueData::AddMember(const std::string&, const AnyValue&)
   throw InvalidOperationException("Add member only supported for structured types");
 }
 
-bool IValueData::HasMember(const std::string&) const
-{
-  return false;
-}
-
 std::vector<std::string> IValueData::MemberNames() const
 {
   return {};
@@ -145,6 +140,11 @@ float64 IValueData::AsFloat64() const
 std::string IValueData::AsString() const
 {
   throw InvalidConversionException("Conversion to string not supported for this type");
+}
+
+bool IValueData::HasMember(const std::string&) const
+{
+  return false;
 }
 
 AnyValue& IValueData::operator[](const std::string& fieldname)

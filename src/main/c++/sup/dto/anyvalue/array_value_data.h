@@ -46,6 +46,7 @@ public:
 
   void Assign(const AnyValue& value) override;
 
+  bool HasMember(const std::string& fieldname) const override;
   AnyValue& operator[](const std::string& fieldname) override;
   AnyValue& operator[](std::size_t idx) override;
 

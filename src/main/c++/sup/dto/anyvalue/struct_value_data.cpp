@@ -80,11 +80,6 @@ void StructValueData::AddMember(const std::string& name, const AnyValue& value)
   return member_data.AddMember(name, value);
 }
 
-bool StructValueData::HasMember(const std::string& name) const
-{
-  return member_data.HasMember(name);
-}
-
 std::vector<std::string> StructValueData::MemberNames() const
 {
   return member_data.MemberNames();
@@ -93,6 +88,11 @@ std::vector<std::string> StructValueData::MemberNames() const
 std::size_t StructValueData::NumberOfMembers() const
 {
   return member_data.NumberOfMembers();
+}
+
+bool StructValueData::HasMember(const std::string& fieldname) const
+{
+  return member_data.HasMember(fieldname);
 }
 
 AnyValue& StructValueData::operator[](const std::string& fieldname)

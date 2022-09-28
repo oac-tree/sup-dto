@@ -67,6 +67,24 @@ std::size_t ArrayTypeData::NumberOfElements() const
   return size;
 }
 
+bool ArrayTypeData::HasMember(const std::string& fieldname) const
+{
+  std::string remainder;
+  try
+  {
+    remainder = StripTypeIndex(fieldname);
+  }
+  catch(const InvalidOperationException&)
+  {
+    return false;
+  }
+  if (remainder.empty())
+  {
+    return true;
+  }
+  return elem_type.HasMember(remainder);
+}
+
 AnyType& ArrayTypeData::operator[](const std::string& fieldname)
 {
   auto remainder = StripTypeIndex(fieldname);
@@ -96,7 +114,7 @@ bool ArrayTypeData::Equals(const AnyType& other) const
 
 std::string StripTypeIndex(const std::string& fieldname)
 {
-  if (fieldname.substr(0, 2) != "[]")
+  if (fieldname.size() < 2 || fieldname.substr(0, 2) != "[]")
   {
     throw InvalidOperationException("Index operator argument for array type should start with []");
   }

@@ -100,6 +100,28 @@ void ArrayValueData::Assign(const AnyValue& value)
   }
 }
 
+bool ArrayValueData::HasMember(const std::string& fieldname) const
+{
+  std::pair<std::size_t, std::string> idx_remainder;
+  try
+  {
+    idx_remainder = StripValueIndex(fieldname);
+  }
+  catch(const InvalidOperationException&)
+  {
+    return false;
+  }
+  if (idx_remainder.first >= NumberOfElements())
+  {
+    return false;
+  }
+  if (idx_remainder.second.empty())
+  {
+    return true;
+  }
+  return elements[idx_remainder.first].HasMember(idx_remainder.second);
+}
+
 AnyValue& ArrayValueData::operator[](const std::string& fieldname)
 {
   auto idx_remainder = StripValueIndex(fieldname);
@@ -146,7 +168,7 @@ bool ArrayValueData::Equals(const AnyValue& other) const
 
 std::pair<std::size_t, std::string> StripValueIndex(const std::string& fieldname)
 {
-  if (fieldname.substr(0, 1) != "[")
+  if (fieldname.empty() || fieldname.substr(0, 1) != "[")
   {
     throw InvalidOperationException("Index operator argument for array value should start with [");
   }
@@ -165,16 +187,18 @@ std::pair<std::size_t, std::string> StripValueIndex(const std::string& fieldname
   {
     throw InvalidOperationException("Index operator argument cannot be parsed to an unsigned integer");
   }
-  if (remainder.substr(pos, 1) != "]")
+  remainder = remainder.substr(pos);
+  if (remainder.empty() || remainder.substr(0, 1) != "]")
   {
     throw InvalidOperationException("Index operator argument for array value should be integer in "
                                  "square brackets");
   }
-  if (remainder.substr(pos + 1, 1) == ".")
+  remainder = remainder.substr(1);
+  if (!remainder.empty() && remainder.substr(0, 1) == ".")
   {
-    ++pos;
+    return { idx, remainder.substr(1) };
   }
-  return { idx, remainder.substr(pos + 1) };
+  return { idx, remainder };
 }
 
 ArrayValueData* CreateArrayValueData(const AnyType& anytype)

@@ -70,7 +70,7 @@ TEST(AnyValueFieldTest, NestedStruct)
   EXPECT_FALSE(nested_val.HasMember("scalars.signed[0]"));
 }
 
-TEST(AnyValueFieldTest, DISABLED_SimpleArray)
+TEST(AnyValueFieldTest, SimpleArray)
 {
   AnyValue array_val = ArrayValue({{UnsignedInteger16Type, 0}, 10 ,20 ,30});
   EXPECT_TRUE(IsArrayValue(array_val));
@@ -80,4 +80,22 @@ TEST(AnyValueFieldTest, DISABLED_SimpleArray)
   EXPECT_FALSE(array_val.HasMember("absent"));
   EXPECT_FALSE(array_val.HasMember("[0].absent"));
   EXPECT_FALSE(array_val.HasMember("[0]absent"));
+}
+
+TEST(AnyValueFieldTest, ArrayOfStruct)
+{
+  AnyValue two_scalars = {{
+    {"first", {UnsignedInteger16Type, 1}},
+    {"second", {UnsignedInteger16Type, 2}}
+  }};
+  AnyValue array_val = ArrayValue({ two_scalars, two_scalars, two_scalars }, "array_of_structs");
+  EXPECT_TRUE(IsArrayValue(array_val));
+  EXPECT_TRUE(array_val.HasMember("[0]"));
+  EXPECT_TRUE(array_val.HasMember("[2]"));
+  EXPECT_TRUE(array_val.HasMember("[0]first"));
+  EXPECT_TRUE(array_val.HasMember("[0].second"));
+  EXPECT_FALSE(array_val.HasMember("[4]"));
+  EXPECT_FALSE(array_val.HasMember("[0]absent"));
+  EXPECT_FALSE(array_val.HasMember("[0].absent"));
+  EXPECT_FALSE(array_val.HasMember("absent"));
 }

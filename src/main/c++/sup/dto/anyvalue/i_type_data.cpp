@@ -35,11 +35,6 @@ void ITypeData::AddMember(const std::string&, const AnyType&)
   throw InvalidOperationException("Add member only supported for structured types");
 }
 
-bool ITypeData::HasMember(const std::string&) const
-{
-  return false;
-}
-
 std::vector<std::string> ITypeData::MemberNames() const
 {
   return {};
@@ -58,6 +53,11 @@ AnyType ITypeData::ElementType() const
 std::size_t ITypeData::NumberOfElements() const
 {
   return 0;
+}
+
+bool ITypeData::HasMember(const std::string&) const
+{
+  return false;
 }
 
 AnyType& ITypeData::operator[](const std::string& fieldname)

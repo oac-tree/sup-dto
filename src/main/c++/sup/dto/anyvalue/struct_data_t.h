@@ -49,10 +49,10 @@ public:
   std::string GetTypeName() const;
 
   void AddMember(const std::string& name, const T& type);
-  bool HasMember(const std::string& name) const;
   std::vector<std::string> MemberNames() const;
   std::size_t NumberOfMembers() const;
 
+  bool HasMember(const std::string& fieldname) const;
   T& operator[](const std::string& fieldname);
   const T& operator[](const std::string& fieldname) const;
 
@@ -97,23 +97,23 @@ void StructDataT<T>::AddMember(const std::string& name, const T& type)
 }
 
 template <typename T>
-bool StructDataT<T>::HasMember(const std::string& name) const
+bool StructDataT<T>::HasMember(const std::string& fieldname) const
 {
-  auto fields = utils::StripFirstFieldName(name);
+  auto fields = utils::StripFirstFieldName(fieldname);
   auto it = std::find_if(members.cbegin(), members.cend(),
                          [&fields](typename decltype(members)::const_reference member){
                            return member.first == fields.first;
                          });
-  if (fields.second.empty())
-  {
-    return it != members.cend();
-  }
   if (it == members.cend())
   {
     return false;
   }
-  auto& member_type = it->second;
-  return member_type.HasMember(fields.second);
+  if (fields.second.empty())
+  {
+    return true;
+  }
+  auto& member = it->second;
+  return member.HasMember(fields.second);
 }
 
 template <typename T>
