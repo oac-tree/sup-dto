@@ -195,6 +195,19 @@ public:
   AnyValue& AddMember(const std::string& name, const AnyValue& value);
 
   /**
+   * @brief Checks if this value has a (nested) subvalue with the given field name.
+   *
+   * @param fieldname Field name of the subvalue to check.
+   *
+   * @return true if a subvalue with the given name exists.
+   *
+   * @note This method handles both (nested) array elements and structure members.
+   * @note Doesn't throw when the type doesn't support members, but returns false.
+   */
+  // TODO: use the following method instead of HasMember
+  // bool HasField(const std::string& fieldname) const;
+
+  /**
    * @brief Checks if this value has a member with the given name.
    *
    * @param name Name of the member to check.

@@ -19,42 +19,26 @@
  * of the distribution package.
  ******************************************************************************/
 
-#include "struct_data_t.h"
+#ifndef SUP_DTO_FIELD_UTILS_H_
+#define SUP_DTO_FIELD_UTILS_H_
+
+#include <string>
+#include <utility>
 
 namespace sup
 {
 namespace dto
 {
-
-void VerifyMemberName(const std::string& name)
+namespace utils
 {
-  if (name.empty())
-  {
-    throw InvalidOperationException("Member names cannot be empty");
-  }
-  if (name.find_first_of(" [].") != std::string::npos)
-  {
-    throw InvalidOperationException("Member names cannot contain spaces, square brackets or dots");
-  }
-}
+void VerifyMemberName(const std::string& name);
 
-std::pair<std::string, std::string> StripFirstFieldName(const std::string& fieldname)
-{
-  auto pos = fieldname.find_first_of("[.");
-  if (pos == std::string::npos)
-  {
-    return { fieldname, ""};
-  }
-  auto first = fieldname.substr(0, pos);
-  auto rest = fieldname.substr(pos);
-  if (rest[0] == '.')
-  {
-    // Only strip dots
-    rest = rest.substr(1);
-  }
-  return { first, rest };
-}
+std::pair<std::string, std::string> StripFirstFieldName(const std::string& fieldname);
+
+}  // namespace utils
 
 }  // namespace dto
 
 }  // namespace sup
+
+#endif  // SUP_DTO_FIELD_UTILS_H_

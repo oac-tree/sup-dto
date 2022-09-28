@@ -11,12 +11,12 @@ target_sources(sup-dto-obj
         ${CMAKE_CURRENT_LIST_DIR}/basic_scalar_types.cpp
         ${CMAKE_CURRENT_LIST_DIR}/empty_type_data.cpp
         ${CMAKE_CURRENT_LIST_DIR}/empty_value_data.cpp
+        ${CMAKE_CURRENT_LIST_DIR}/field_utils.cpp
         ${CMAKE_CURRENT_LIST_DIR}/i_type_data.cpp
         ${CMAKE_CURRENT_LIST_DIR}/i_value_data.cpp
         ${CMAKE_CURRENT_LIST_DIR}/scalar_type_data.cpp
         ${CMAKE_CURRENT_LIST_DIR}/scalar_value_data_base.cpp
         ${CMAKE_CURRENT_LIST_DIR}/scalar_value_data_t.cpp
-        ${CMAKE_CURRENT_LIST_DIR}/struct_data_t.cpp
         ${CMAKE_CURRENT_LIST_DIR}/struct_type_data.cpp
         ${CMAKE_CURRENT_LIST_DIR}/struct_value_data.cpp
 )

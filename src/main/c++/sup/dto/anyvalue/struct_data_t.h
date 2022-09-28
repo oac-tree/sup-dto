@@ -22,6 +22,8 @@
 #ifndef _SUP_StructDataT_h_
 #define _SUP_StructDataT_h_
 
+#include <sup/dto/anyvalue/field_utils.h>
+
 #include <sup/dto/anytype.h>
 #include <sup/dto/anyvalue_exceptions.h>
 
@@ -61,9 +63,6 @@ private:
   std::vector<std::pair<std::string, T>> members;
 };
 
-void VerifyMemberName(const std::string& name);
-std::pair<std::string, std::string> StripFirstFieldName(const std::string& fieldname);
-
 template <typename T>
 StructDataT<T>::StructDataT(const std::string& name_)
   : name{name_}
@@ -85,7 +84,7 @@ std::string StructDataT<T>::GetTypeName() const
 template <typename T>
 void StructDataT<T>::AddMember(const std::string& name, const T& type)
 {
-  VerifyMemberName(name);
+  utils::VerifyMemberName(name);
   if (HasMember(name))
   {
     throw InvalidOperationException("Cannot add duplicate member keys");
@@ -100,7 +99,7 @@ void StructDataT<T>::AddMember(const std::string& name, const T& type)
 template <typename T>
 bool StructDataT<T>::HasMember(const std::string& name) const
 {
-  auto fields = StripFirstFieldName(name);
+  auto fields = utils::StripFirstFieldName(name);
   auto it = std::find_if(members.cbegin(), members.cend(),
                          [&fields](typename decltype(members)::const_reference member){
                            return member.first == fields.first;
@@ -148,7 +147,7 @@ const T& StructDataT<T>::operator[](const std::string& fieldname) const
   {
     throw InvalidOperationException("Trying to access a member with empty field name");
   }
-  auto fields = StripFirstFieldName(fieldname);
+  auto fields = utils::StripFirstFieldName(fieldname);
   auto it = std::find_if(members.cbegin(), members.cend(),
                       [&fields](cref_pair_type member){
                         return member.first == fields.first;
