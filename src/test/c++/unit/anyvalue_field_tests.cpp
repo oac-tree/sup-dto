@@ -70,7 +70,7 @@ TEST(AnyValueFieldTest, NestedStruct)
   EXPECT_FALSE(nested_val.HasMember("scalars.signed[0]"));
 }
 
-TEST(AnyValueFieldTest, SimpleArray)
+TEST(AnyValueFieldTest, DISABLED_SimpleArray)
 {
   AnyValue array_val = ArrayValue({{UnsignedInteger16Type, 0}, 10 ,20 ,30});
   EXPECT_TRUE(IsArrayValue(array_val));
