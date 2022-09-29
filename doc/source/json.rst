@@ -13,6 +13,40 @@ AnyType
 
 ``AnyType`` objects can be serialized to JSON format.
 
+.. code-block:: json
+
+    {
+      "type": "",
+      "attributes": [
+        {
+          "array": {
+            "type": "",
+            "multiplicity": 4,
+            "element": {
+              "type": "",
+              "attributes": [
+                {
+                  "id": {
+                    "type": "string"
+                  }
+                },
+                {
+                  "number": {
+                    "type": "uint64"
+                  }
+                }
+              ]
+            }
+          }
+        },
+        {
+          "validated": {
+            "type": "bool"
+          }
+        }
+      ]
+    }
+
 AnyValue
 --------
 
