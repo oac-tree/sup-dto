@@ -36,7 +36,7 @@ class AnyTypeRegistry;
  * @brief Try to convert an AnyValue to another AnyValue.
  *
  * @param dest AnyValue object to assign to.
- * @param src AnyValue object to assign from.
+ * @param src AnyValue object to convert from.
  *
  * @note When conversion fails, the destination is left unchanged and false is returned.
  */

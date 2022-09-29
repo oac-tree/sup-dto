@@ -50,6 +50,8 @@ is provided mostly for constructing scalar types (see :ref:`scalar-values`):
    :param anytype: Type of the constructed ``AnyValue``.
    :param anyvalue: Value for the constructed ``AnyValue``, with possible conversions.
 
+   :throws InvalidConversionException: When the value couldn't be converted to the given type.
+
    Construct a value object with the given type and value.
 
 Empty value
@@ -243,13 +245,6 @@ These are listed here.
 
    Retrieve the type name.
 
-.. function:: bool AnyValue::HasField(const std::string& fieldname) const
-
-   :param fieldname: Name of the subvalue to search for.
-   :return: ``true`` when a subvalue with the given fieldname exists.
-
-   Check the presence of a subvalue with the given name. Composite fieldnames are supported.
-
 .. function:: std::vector<std::string> AnyValue::MemberNames() const
 
    :return: List of member names.
@@ -268,6 +263,13 @@ These are listed here.
 
    Retrieve the number of elements in the array. Returns zero when the current value is not an
    array value.
+
+.. function:: bool AnyValue::HasField(const std::string& fieldname) const
+
+   :param fieldname: Name of the subvalue to search for.
+   :return: ``true`` when a subvalue with the given fieldname exists.
+
+   Check the presence of a subvalue with the given name. Composite fieldnames are supported.
 
 .. _conversion-methods:
 
@@ -402,3 +404,21 @@ inequality operator:
      names and values that compare equal. The order of members is also taken into account.
    * Array values are only equal to other array values with the same name, number of elements and
      elements that compare equal.
+
+   In cases where a strict equality test is required, one could test equality of both types and
+   values.
+
+Global functions
+----------------
+
+Besides the serialization/parsing functions, the software module provides the following global
+functions:
+
+.. function:: bool TryConvert(AnyValue& dest, const AnyValue& src)
+
+   :param dest: ``AnyValue`` object to assign to.
+   :param src: ``AnyValue`` object to convert from.
+   :return: ``true`` on successful conversion.
+
+   Try to convert an AnyValue to another AnyValue. When conversion fails, the destination is left
+   unchanged and false is returned.

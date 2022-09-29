@@ -26,6 +26,7 @@ with respect to reference semantics:
 
    anytype
    anyvalue
+   json
 
 Indices and tables
 ==================
