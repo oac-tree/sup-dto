@@ -19,8 +19,8 @@
  * of the distribution package.
  ******************************************************************************/
 
-#ifndef _SUP_ScalarVisitorNode_h_
-#define _SUP_ScalarVisitorNode_h_
+#ifndef SUP_DTO_SCALAR_VISITORNODE_H_
+#define SUP_DTO_SCALAR_VISITORNODE_H_
 
 #include <sup/dto/visit/any_visitornode.h>
 
@@ -79,4 +79,4 @@ void ScalarVisitorNode<T>::AddEpilog(IAnyVisitor<T>& visitor) const
 
 }  // namespace sup
 
-#endif  // _SUP_ScalarVisitorNode_h_
+#endif  // SUP_DTO_SCALAR_VISITORNODE_H_

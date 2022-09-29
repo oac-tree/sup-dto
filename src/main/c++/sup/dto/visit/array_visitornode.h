@@ -19,8 +19,8 @@
  * of the distribution package.
  ******************************************************************************/
 
-#ifndef _SUP_ArrayVisitorNode_h_
-#define _SUP_ArrayVisitorNode_h_
+#ifndef SUP_DTO_ARRAY_VISITORNODE_H_
+#define SUP_DTO_ARRAY_VISITORNODE_H_
 
 #include <sup/dto/visit/any_visitornode.h>
 #include <sup/dto/visit/create_any_visitornode.h>
@@ -98,4 +98,4 @@ void ArrayVisitorNode<T>::AddEpilog(IAnyVisitor<T>& visitor) const
 
 }  // namespace sup
 
-#endif  // _SUP_ArrayVisitorNode_h_
+#endif  // SUP_DTO_ARRAY_VISITORNODE_H_

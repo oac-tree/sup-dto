@@ -19,8 +19,8 @@
  * of the distribution package.
  ******************************************************************************/
 
-#ifndef _SUP_AnyVisitorStack_h_
-#define _SUP_AnyVisitorStack_h_
+#ifndef SUP_DTO_ANY_VISITORSTACK_H_
+#define SUP_DTO_ANY_VISITORSTACK_H_
 
 #include <sup/dto/visit/any_visitornode.h>
 
@@ -97,4 +97,4 @@ void AnyVisitorStack<T>::Pop(IAnyVisitor<T>& visitor)
 
 }  // namespace sup
 
-#endif  // _SUP_AnyVisitorStack_h_
+#endif  // SUP_DTO_ANY_VISITORSTACK_H_

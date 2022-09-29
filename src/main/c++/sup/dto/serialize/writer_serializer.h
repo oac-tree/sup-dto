@@ -19,8 +19,8 @@
  * of the distribution package.
  ******************************************************************************/
 
-#ifndef _SUP_WriterSerializer_h_
-#define _SUP_WriterSerializer_h_
+#ifndef SUP_DTO_WRITER_SERIALIZER_H_
+#define SUP_DTO_WRITER_SERIALIZER_H_
 
 #include <sup/dto/serialize/i_writer.h>
 
@@ -111,4 +111,4 @@ private:
 
 }  // namespace sup
 
-#endif  // _SUP_WriterSerializer_h_
+#endif  // SUP_DTO_WRITER_SERIALIZER_H_

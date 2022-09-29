@@ -19,8 +19,8 @@
  * of the distribution package.
  ******************************************************************************/
 
-#ifndef _SUP_AnyTypeBuilder_h_
-#define _SUP_AnyTypeBuilder_h_
+#ifndef SUP_DTO_ANYTYPE_BUILDER_H_
+#define SUP_DTO_ANYTYPE_BUILDER_H_
 
 #include <sup/dto/anytype.h>
 #include <sup/dto/basic_scalar_types.h>
@@ -72,4 +72,4 @@ private:
 
 }  // namespace sup
 
-#endif  // _SUP_AnyTypeBuilder_h_
+#endif  // SUP_DTO_ANYTYPE_BUILDER_H_

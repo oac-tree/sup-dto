@@ -19,8 +19,8 @@
  * of the distribution package.
  ******************************************************************************/
 
-#ifndef _SUP_ByteSerializer_h_
-#define _SUP_ByteSerializer_h_
+#ifndef SUP_DTO_BYTE_SERIALIZER_H_
+#define SUP_DTO_BYTE_SERIALIZER_H_
 
 #include <sup/dto/basic_scalar_types.h>
 #include <sup/dto/i_any_visitor.h>
@@ -66,4 +66,4 @@ private:
 
 }  // namespace sup
 
-#endif  // _SUP_ByteSerializer_h_
+#endif  // SUP_DTO_BYTE_SERIALIZER_H_

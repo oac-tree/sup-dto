@@ -19,8 +19,8 @@
  * of the distribution package.
  ******************************************************************************/
 
-#ifndef _SUP_AnyValueRootBuildNode_h_
-#define _SUP_AnyValueRootBuildNode_h_
+#ifndef SUP_DTO_ANYVALUE_ROOT_BUILDNODE_H_
+#define SUP_DTO_ANYVALUE_ROOT_BUILDNODE_H_
 
 #include <sup/dto/parse/i_any_buildnode.h>
 #include <sup/dto/anyvalue.h>
@@ -53,4 +53,4 @@ private:
 
 }  // namespace sup
 
-#endif  // _SUP_AnyValueRootBuildNode_h_
+#endif  // SUP_DTO_ANYVALUE_ROOT_BUILDNODE_H_

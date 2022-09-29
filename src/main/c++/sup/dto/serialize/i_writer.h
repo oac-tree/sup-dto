@@ -19,8 +19,8 @@
  * of the distribution package.
  ******************************************************************************/
 
-#ifndef _SUP_IWriter_h_
-#define _SUP_IWriter_h_
+#ifndef SUP_DTO_I_WRITER_H_
+#define SUP_DTO_I_WRITER_H_
 
 #include <sup/dto/basic_scalar_types.h>
 
@@ -67,4 +67,4 @@ bool WriteScalarValue(const AnyValue& anyvalue, IWriter* writer);
 
 }  // namespace sup
 
-#endif  // _SUP_IWriter_h_
+#endif  // SUP_DTO_I_WRITER_H_

@@ -19,8 +19,8 @@
  * of the distribution package.
  ******************************************************************************/
 
-#ifndef _SUP_VisitT_h_
-#define _SUP_VisitT_h_
+#ifndef SUP_DTO_VISIT_T_H_
+#define SUP_DTO_VISIT_T_H_
 
 #include <sup/dto/visit/any_visitorstack.h>
 #include <sup/dto/visit/create_any_visitornode_t.h>
@@ -57,4 +57,4 @@ void Visit(T& any, IAnyVisitor<T>& visitor)
 
 }  // namespace sup
 
-#endif  // _SUP_VisitT_h_
+#endif  // SUP_DTO_VISIT_T_H_

@@ -19,8 +19,8 @@
  * of the distribution package.
  ******************************************************************************/
 
-#ifndef _SUP_EmptyVisitorNode_h_
-#define _SUP_EmptyVisitorNode_h_
+#ifndef SUP_DTO_EMPTY_VISITORNODE_H_
+#define SUP_DTO_EMPTY_VISITORNODE_H_
 
 #include <sup/dto/visit/any_visitornode.h>
 
@@ -81,4 +81,4 @@ void EmptyVisitorNode<T>::AddEpilog(IAnyVisitor<T>& visitor) const
 
 }  // namespace sup
 
-#endif  // _SUP_EmptyVisitorNode_h_
+#endif  // SUP_DTO_EMPTY_VISITORNODE_H_

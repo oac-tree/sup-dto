@@ -19,8 +19,8 @@
  * of the distribution package.
  ******************************************************************************/
 
-#ifndef _SUP_ScalarTypeData_h_
-#define _SUP_ScalarTypeData_h_
+#ifndef SUP_DTO_SCALAR_TYPE_DATA_H_
+#define SUP_DTO_SCALAR_TYPE_DATA_H_
 
 #include <sup/dto/anyvalue/i_type_data.h>
 
@@ -50,4 +50,4 @@ ScalarTypeData* CreateScalarData(TypeCode type_code);
 
 }  // namespace sup
 
-#endif  // _SUP_ScalarTypeData_h_
+#endif  // SUP_DTO_SCALAR_TYPE_DATA_H_

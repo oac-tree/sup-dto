@@ -19,8 +19,8 @@
  * of the distribution package.
  ******************************************************************************/
 
-#ifndef _SUP_ScalarValueDataT_h_
-#define _SUP_ScalarValueDataT_h_
+#ifndef SUP_DTO_SCALAR_VALUE_DATA_H_
+#define SUP_DTO_SCALAR_VALUE_DATA_H_
 
 #include <sup/dto/anyvalue/scalar_conversion.h>
 #include <sup/dto/anyvalue/scalar_value_data_base.h>
@@ -264,4 +264,4 @@ bool ScalarValueDataT<T>::Equals(const AnyValue& other) const
 
 }  // namespace sup
 
-#endif  // _SUP_ScalarValueDataT_h_
+#endif  // SUP_DTO_SCALAR_VALUE_DATA_H_

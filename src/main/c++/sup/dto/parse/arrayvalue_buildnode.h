@@ -19,8 +19,8 @@
  * of the distribution package.
  ******************************************************************************/
 
-#ifndef _SUP_ArrayValueBuildNode_h_
-#define _SUP_ArrayValueBuildNode_h_
+#ifndef SUP_DTO_ARRAYVALUE_BUILDNODE_H_
+#define SUP_DTO_ARRAYVALUE_BUILDNODE_H_
 
 #include <sup/dto/parse/i_any_buildnode.h>
 
@@ -73,4 +73,4 @@ std::unique_ptr<IAnyBuildNode> CreateArrayBuildNode(
 
 }  // namespace sup
 
-#endif  // _SUP_ArrayValueBuildNode_h_
+#endif  // SUP_DTO_ARRAYVALUE_BUILDNODE_H_

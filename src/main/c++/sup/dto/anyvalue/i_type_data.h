@@ -19,8 +19,8 @@
  * of the distribution package.
  ******************************************************************************/
 
-#ifndef _SUP_ITypeData_h_
-#define _SUP_ITypeData_h_
+#ifndef SUP_DTO_I_TYPE_DATA_H_
+#define SUP_DTO_I_TYPE_DATA_H_
 
 #include <sup/dto/anytype.h>
 
@@ -54,4 +54,4 @@ public:
 
 }  // namespace sup
 
-#endif  // _SUP_ITypeData_h_
+#endif  // SUP_DTO_I_TYPE_DATA_H_

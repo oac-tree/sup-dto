@@ -19,8 +19,8 @@
  * of the distribution package.
  ******************************************************************************/
 
-#ifndef _SUP_JSONWriterT_h_
-#define _SUP_JSONWriterT_h_
+#ifndef SUP_DTO_JSON_WRITER_T_H_
+#define SUP_DTO_JSON_WRITER_T_H_
 
 #include <sup/dto/rapidjson/prettywriter.h>
 #include <sup/dto/rapidjson/ostreamwrapper.h>
@@ -203,4 +203,4 @@ bool JSONStringWriterT<WriterImpl>::EndArray()
 
 }  // namespace sup
 
-#endif  // _SUP_JSONWriterT_h_
+#endif  // SUP_DTO_JSON_WRITER_T_H_

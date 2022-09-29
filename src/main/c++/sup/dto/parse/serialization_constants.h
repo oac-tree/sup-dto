@@ -19,8 +19,8 @@
  * of the distribution package.
  ******************************************************************************/
 
-#ifndef _SUP_SerializationConstants_h_
-#define _SUP_SerializationConstants_h_
+#ifndef SUP_DTO_SERIALIZATION_CONSTANTS_H_
+#define SUP_DTO_SERIALIZATION_CONSTANTS_H_
 
 #include <string>
 
@@ -47,4 +47,4 @@ static const std::string ATTRIBUTES_KEY = "attributes";
 
 }  // namespace sup
 
-#endif  // _SUP_SerializationConstants_h_
+#endif  // SUP_DTO_SERIALIZATION_CONSTANTS_H_

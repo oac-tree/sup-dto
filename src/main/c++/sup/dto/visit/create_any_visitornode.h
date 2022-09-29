@@ -19,8 +19,8 @@
  * of the distribution package.
  ******************************************************************************/
 
-#ifndef _SUP_CreateAnyVisitorNode_h_
-#define _SUP_CreateAnyVisitorNode_h_
+#ifndef SUP_DTO_CREATE_ANY_VISITORNODE_H_
+#define SUP_DTO_CREATE_ANY_VISITORNODE_H_
 
 #include <sup/dto/visit/any_visitornode.h>
 
@@ -44,4 +44,4 @@ std::unique_ptr<IAnyVisitorNode<const AnyValue>> CreateVisitorNode(const AnyValu
 
 }  // namespace sup
 
-#endif  // _SUP_CreateAnyVisitorNode_h_
+#endif  // SUP_DTO_CREATE_ANY_VISITORNODE_H_

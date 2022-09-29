@@ -19,8 +19,8 @@
  * of the distribution package.
  ******************************************************************************/
 
-#ifndef _SUP_ByteParser_h_
-#define _SUP_ByteParser_h_
+#ifndef SUP_DTO_BYTE_PARSER_H_
+#define SUP_DTO_BYTE_PARSER_H_
 
 #include <sup/dto/basic_scalar_types.h>
 #include <sup/dto/i_any_visitor.h>
@@ -71,4 +71,4 @@ private:
 
 }  // namespace sup
 
-#endif  // _SUP_ByteParser_h_
+#endif  // SUP_DTO_BYTE_PARSER_H_

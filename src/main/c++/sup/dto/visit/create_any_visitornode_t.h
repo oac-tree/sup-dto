@@ -19,8 +19,8 @@
  * of the distribution package.
  ******************************************************************************/
 
-#ifndef _SUP_CreateAnyVisitorNodeT_h_
-#define _SUP_CreateAnyVisitorNodeT_h_
+#ifndef SUP_DTO_CREATE_ANY_VISITORNODE_T_H_
+#define SUP_DTO_CREATE_ANY_VISITORNODE_T_H_
 
 #include <sup/dto/visit/array_visitornode.h>
 #include <sup/dto/visit/empty_visitornode.h>
@@ -73,4 +73,4 @@ AnyVisitorNode<T> CreateRootNodeT(T* any)
 
 }  // namespace sup
 
-#endif  // _SUP_CreateAnyVisitorNodeT_h_
+#endif  // SUP_DTO_CREATE_ANY_VISITORNODE_T_H_

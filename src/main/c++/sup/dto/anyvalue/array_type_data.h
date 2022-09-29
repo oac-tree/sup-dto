@@ -19,8 +19,8 @@
  * of the distribution package.
  ******************************************************************************/
 
-#ifndef _SUP_ARRAYTYPEDATA_H_
-#define _SUP_ARRAYTYPEDATA_H_
+#ifndef SUP_DTO_ARRAY_TYPE_DATA_H_
+#define SUP_DTO_ARRAY_TYPE_DATA_H_
 
 #include <sup/dto/anyvalue/i_type_data.h>
 
@@ -69,4 +69,4 @@ std::string StripTypeIndex(const std::string& fieldname);
 
 }  // namespace sup
 
-#endif  // _SUP_ARRAYTYPEDATA_H_
+#endif  // SUP_DTO_ARRAY_TYPE_DATA_H_

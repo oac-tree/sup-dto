@@ -19,8 +19,8 @@
  * of the distribution package.
  ******************************************************************************/
 
-#ifndef _SUP_ScalarValueDataBase_h_
-#define _SUP_ScalarValueDataBase_h_
+#ifndef SUP_DTO_SCALAR_VALUE_DATA_BASE_H_
+#define SUP_DTO_SCALAR_VALUE_DATA_BASE_H_
 
 #include <sup/dto/anyvalue/i_value_data.h>
 
@@ -52,4 +52,4 @@ ScalarValueDataBase* CreateScalarValueData(TypeCode type_code);
 
 }  // namespace sup
 
-#endif  // _SUP_ScalarValueDataBase_h_
+#endif  // SUP_DTO_SCALAR_VALUE_DATA_BASE_H_

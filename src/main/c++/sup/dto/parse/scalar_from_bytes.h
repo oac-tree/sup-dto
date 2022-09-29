@@ -19,6 +19,9 @@
  * of the distribution package.
  ******************************************************************************/
 
+#ifndef SUP_DTO_SCALAR_FROM_BYTES_H_
+#define SUP_DTO_SCALAR_FROM_BYTES_H_
+
 #include <sup/dto/anyvalue.h>
 
 #include <algorithm>
@@ -63,3 +66,5 @@ std::size_t AssignBytes<std::string>(AnyValue& anyvalue, const uint8* bytes, std
 }  // namespace dto
 
 }  // namespace sup
+
+#endif  // SUP_DTO_SCALAR_FROM_BYTES_H_

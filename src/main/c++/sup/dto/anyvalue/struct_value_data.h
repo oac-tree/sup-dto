@@ -19,8 +19,8 @@
  * of the distribution package.
  ******************************************************************************/
 
-#ifndef _SUP_StructValueData_h_
-#define _SUP_StructValueData_h_
+#ifndef SUP_DTO_STRUCT_VALUE_DATA_H_
+#define SUP_DTO_STRUCT_VALUE_DATA_H_
 
 #include <sup/dto/anyvalue/i_value_data.h>
 #include <sup/dto/anyvalue/struct_data_t.h>
@@ -63,4 +63,4 @@ StructValueData* CreateStructValueData(const AnyType& anytype);
 
 }  // namespace sup
 
-#endif  // _SUP_StructValueData_h_
+#endif  // SUP_DTO_STRUCT_VALUE_DATA_H_

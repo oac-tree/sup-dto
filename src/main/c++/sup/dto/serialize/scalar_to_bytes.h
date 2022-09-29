@@ -19,8 +19,8 @@
  * of the distribution package.
  ******************************************************************************/
 
-#ifndef _SUP_ScalarToBytes_h_
-#define _SUP_ScalarToBytes_h_
+#ifndef SUP_DTO_SCALAR_TO_BYTES_H_
+#define SUP_DTO_SCALAR_TO_BYTES_H_
 
 #include <sup/dto/basic_scalar_types.h>
 
@@ -38,4 +38,4 @@ std::vector<uint8> ScalarToBytes(const AnyValue& anyvalue);
 
 }  // namespace sup
 
-#endif  // _SUP_ScalarToBytes_h_
+#endif  // SUP_DTO_SCALAR_TO_BYTES_H_

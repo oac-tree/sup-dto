@@ -19,8 +19,8 @@
  * of the distribution package.
  ******************************************************************************/
 
-#ifndef _SUP_JSONReader_h_
-#define _SUP_JSONReader_h_
+#ifndef SUP_DTO_JSON_READER_H_
+#define SUP_DTO_JSON_READER_H_
 
 #include <istream>
 
@@ -40,4 +40,4 @@ AnyValue JSONParseAnyValue(const AnyTypeRegistry* anytype_registry, std::istream
 
 }  // namespace sup
 
-#endif  // _SUP_JSONReader_h_
+#endif  // SUP_DTO_JSON_READER_H_

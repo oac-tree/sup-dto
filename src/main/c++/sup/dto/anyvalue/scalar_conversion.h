@@ -19,8 +19,8 @@
  * of the distribution package.
  ******************************************************************************/
 
-#ifndef _SUP_ScalarConversion_h_
-#define _SUP_ScalarConversion_h_
+#ifndef SUP_DTO_SCALAR_CONVERSION_H_
+#define SUP_DTO_SCALAR_CONVERSION_H_
 
 #include <sup/dto/basic_scalar_types.h>
 #include <sup/dto/anyvalue_exceptions.h>
@@ -198,4 +198,4 @@ To ConvertScalar(const From& value)
 
 }  // namespace sup
 
-#endif  // _SUP_ScalarConversion_h_
+#endif  // SUP_DTO_SCALAR_CONVERSION_H_

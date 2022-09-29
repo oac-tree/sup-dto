@@ -19,8 +19,8 @@
  * of the distribution package.
  ******************************************************************************/
 
-#ifndef _SUP_JSONWriter_h_
-#define _SUP_JSONWriter_h_
+#ifndef SUP_DTO_JSON_WRITER_H_
+#define SUP_DTO_JSON_WRITER_H_
 
 #include <ostream>
 
@@ -43,4 +43,4 @@ void JSONSerializeAnyValueValues(std::ostream& json_stream, const AnyValue& anyv
 
 }  // namespace sup
 
-#endif  // _SUP_JSONWriter_h_
+#endif  // SUP_DTO_JSON_WRITER_H_

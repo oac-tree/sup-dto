@@ -19,8 +19,8 @@
  * of the distribution package.
  ******************************************************************************/
 
-#ifndef _SUP_StructDataT_h_
-#define _SUP_StructDataT_h_
+#ifndef SUP_DTO_STRUCT_DATA_T_H_
+#define SUP_DTO_STRUCT_DATA_T_H_
 
 #include <sup/dto/anyvalue/field_utils.h>
 
@@ -194,4 +194,4 @@ bool StructDataT<T>::Equals(const T& other) const
 
 }  // namespace sup
 
-#endif  // _SUP_StructDataT_h_
+#endif  // SUP_DTO_STRUCT_DATA_T_H_

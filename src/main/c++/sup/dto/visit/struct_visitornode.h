@@ -19,8 +19,8 @@
  * of the distribution package.
  ******************************************************************************/
 
-#ifndef _SUP_StructVisitorNode_h_
-#define _SUP_StructVisitorNode_h_
+#ifndef SUP_DTO_STRUCT_VISITORNODE_H_
+#define SUP_DTO_STRUCT_VISITORNODE_H_
 
 #include <sup/dto/visit/any_visitornode.h>
 #include <sup/dto/visit/member_visitornode.h>
@@ -96,4 +96,4 @@ void StructVisitorNode<T>::AddEpilog(IAnyVisitor<T>& visitor) const
 
 }  // namespace sup
 
-#endif  // _SUP_StructVisitorNode_h_
+#endif  // SUP_DTO_STRUCT_VISITORNODE_H_
