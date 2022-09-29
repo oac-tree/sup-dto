@@ -88,6 +88,9 @@ public:
    * @param anytype type specification.
    * @param anyvalue value specification.
    *
+   * @throws InvalidConversionException Thrown when the given AnyValue cannot be properly converted
+   * to an AnyValue of the given AnyType.
+   *
    * @note This constructor performs possible conversion of scalar types.
    */
   AnyValue(const AnyType& anytype, const AnyValue& anyvalue);

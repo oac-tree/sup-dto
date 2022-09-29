@@ -242,6 +242,7 @@ bool AnyValue::operator==(const AnyValue& other) const
 {
   if (data->IsScalar())
   {
+    // Enforce symmetry of scalar comparison when conversions are involved
     return data->Equals(other) && other.data->Equals(*this);
   }
   return data->Equals(other);
