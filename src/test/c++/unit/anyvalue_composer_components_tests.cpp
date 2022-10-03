@@ -265,9 +265,9 @@ TEST_F(AnyValueComposerComponentsTests, EndArrayElementBuildNodeProcess)
   }
 }
 
-TEST_F(AnyValueComposerComponentsTests, EndArrayBuildNodeProcess)
+TEST_F(AnyValueComposerComponentsTests, EndArrayComposerComponentProcess)
 {
-  EndArrayBuildNode node;
+  EndArrayComposerComponent node;
   EXPECT_EQ(node.GetNodeType(), AbstractComposerComponent::NodeType::kEndArray);
 
   {  // processing of empty stack is not allowed

@@ -112,7 +112,7 @@ private:
 
 //! The node which is created at the end of the array.
 
-class EndArrayBuildNode : public AbstractComposerComponent
+class EndArrayComposerComponent : public AbstractComposerComponent
 {
 public:
   NodeType GetNodeType() const override;

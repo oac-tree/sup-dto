@@ -82,7 +82,7 @@ void StartStructComposerComponent::AddMember(const std::string &name, const sup:
 }
 
 // ----------------------------------------------------------------------------
-// EndStructBuildNode
+// EndStructComposerComponent
 // ----------------------------------------------------------------------------
 
 AbstractComposerComponent::NodeType EndStructComposerComponent::GetNodeType() const
@@ -102,7 +102,7 @@ bool EndStructComposerComponent::Process(std::stack<node_t> &stack)
 }
 
 // ----------------------------------------------------------------------------
-// StartFieldBuildNode
+// EndFieldComposerComponent
 // ----------------------------------------------------------------------------
 
 StartFieldComposerComponent::StartFieldComposerComponent(const std::string &field_name)
@@ -129,7 +129,7 @@ bool StartFieldComposerComponent::Process(std::stack<node_t> &stack)
 }
 
 // ----------------------------------------------------------------------------
-// EndFieldBuildNode
+// EndFieldComposerComponent
 // ----------------------------------------------------------------------------
 
 AbstractComposerComponent::NodeType EndFieldComposerComponent::GetNodeType() const
@@ -163,7 +163,7 @@ bool EndFieldComposerComponent::Process(std::stack<node_t> &stack)
 }
 
 // ----------------------------------------------------------------------------
-// StartArrayBuildNode
+// StartArrayComposerComponent
 // ----------------------------------------------------------------------------
 
 StartArrayComposerComponent::StartArrayComposerComponent(const std::string &array_name) : m_array_name(array_name)
@@ -197,15 +197,15 @@ void StartArrayComposerComponent::AddElement(const sup::dto::AnyValue &value)
 }
 
 // ----------------------------------------------------------------------------
-// EndArrayBuildNode
+// EndArrayComposerComponent
 // ----------------------------------------------------------------------------
 
-AbstractComposerComponent::NodeType EndArrayBuildNode::GetNodeType() const
+AbstractComposerComponent::NodeType EndArrayComposerComponent::GetNodeType() const
 {
   return NodeType::kEndArray;
 }
 
-bool EndArrayBuildNode::Process(std::stack<node_t> &stack)
+bool EndArrayComposerComponent::Process(std::stack<node_t> &stack)
 {
   ValidateLastNode(stack, NodeType::kStartArray);
 

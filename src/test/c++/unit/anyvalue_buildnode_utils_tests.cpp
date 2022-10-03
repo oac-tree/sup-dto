@@ -67,7 +67,7 @@ TEST_F(AnyValueBuildNodeUtilsTests, CanAddValueNode)
   EXPECT_FALSE(CheckAddValueNode<StartStructComposerComponent>("name"));
   EXPECT_FALSE(CheckAddValueNode<StartArrayComposerComponent>("name"));
   EXPECT_FALSE(CheckAddValueNode<EndStructComposerComponent>());
-  EXPECT_FALSE(CheckAddValueNode<EndArrayBuildNode>());
+  EXPECT_FALSE(CheckAddValueNode<EndArrayComposerComponent>());
   EXPECT_FALSE(CheckAddValueNode<EndFieldComposerComponent>());
   EXPECT_FALSE(CheckAddValueNode<EndArrayElementBuildNode>());
 }
@@ -83,7 +83,8 @@ TEST_F(AnyValueBuildNodeUtilsTests, ValidateAddValueNode)
 
   {  // it is not possible to add value node if stack contains StartStructBuildNode
     std::stack<AbstractComposerComponent::node_t> stack;
-    stack.push(std::unique_ptr<StartStructComposerComponent>(new StartStructComposerComponent("name")));
+    stack.push(
+        std::unique_ptr<StartStructComposerComponent>(new StartStructComposerComponent("name")));
     EXPECT_THROW(ValidateAddValueNode(stack), std::runtime_error);
   }
 
@@ -98,7 +99,8 @@ TEST_F(AnyValueBuildNodeUtilsTests, ValidateLastNode)
   EXPECT_THROW(ValidateLastNode(stack, AbstractComposerComponent::NodeType::kStartArray),
                std::runtime_error);
 
-  stack.push(std::unique_ptr<StartStructComposerComponent>(new StartStructComposerComponent("name")));
+  stack.push(
+      std::unique_ptr<StartStructComposerComponent>(new StartStructComposerComponent("name")));
   EXPECT_NO_THROW(ValidateLastNode(stack, AbstractComposerComponent::NodeType::kStartStruct));
   EXPECT_THROW(ValidateLastNode(stack, AbstractComposerComponent::NodeType::kStartArray),
                std::runtime_error);
@@ -112,5 +114,5 @@ TEST_F(AnyValueBuildNodeUtilsTests, ValidateIfValueNodeIsComplete)
   EXPECT_THROW(ValidateIfValueNodeIsComplete(stack), std::runtime_error);
 
   EXPECT_NO_THROW(CheckAddValueNode<EndStructComposerComponent>());
-  EXPECT_NO_THROW(CheckAddValueNode<EndArrayBuildNode>());
+  EXPECT_NO_THROW(CheckAddValueNode<EndArrayComposerComponent>());
 }

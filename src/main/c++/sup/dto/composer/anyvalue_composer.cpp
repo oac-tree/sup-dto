@@ -192,7 +192,7 @@ void AnyValueComposer::AddArrayElement(const sup::dto::AnyValue &anyvalue)
 
 void AnyValueComposer::EndArray()
 {
-  p_impl->ProcessNode<EndArrayBuildNode>();
+  p_impl->ProcessNode<EndArrayComposerComponent>();
 }
 
 int AnyValueComposer::GetStackSize() const
