@@ -49,10 +49,10 @@ public:
 
 //! The node which is created at the start of the structure.
 
-class StartStructBuildNode : public AbstractComposerComponent
+class StartStructComposerComponent : public AbstractComposerComponent
 {
 public:
-  StartStructBuildNode(const std::string& struct_name);
+  StartStructComposerComponent(const std::string& struct_name);
 
   NodeType GetNodeType() const override;
 

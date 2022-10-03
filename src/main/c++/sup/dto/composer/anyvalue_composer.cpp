@@ -135,7 +135,7 @@ void AnyValueComposer::AddValue(const sup::dto::AnyValue &anyvalue)
 
 void AnyValueComposer::StartStruct(const std::string &struct_name)
 {
-  p_impl->ProcessNode<StartStructBuildNode>(struct_name);
+  p_impl->ProcessNode<StartStructComposerComponent>(struct_name);
 }
 
 void AnyValueComposer::EndStruct()

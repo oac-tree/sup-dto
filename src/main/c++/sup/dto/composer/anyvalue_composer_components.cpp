@@ -36,7 +36,7 @@ namespace dto
 {
 
 // ----------------------------------------------------------------------------
-// AnyValueBuildNode
+// ValueComposerComponent
 // ----------------------------------------------------------------------------
 
 ValueComposerComponent::ValueComposerComponent(const sup::dto::AnyValue &value)
@@ -56,27 +56,27 @@ bool ValueComposerComponent::Process(std::stack<node_t> &stack)
 }
 
 // ----------------------------------------------------------------------------
-// StartStructBuildNode
+// StartStructComposerComponent
 // ----------------------------------------------------------------------------
 
-StartStructBuildNode::StartStructBuildNode(const std::string &struct_name)
+StartStructComposerComponent::StartStructComposerComponent(const std::string &struct_name)
     : AbstractComposerComponent(::sup::dto::EmptyStruct(struct_name))
 
 {
 }
 
-AbstractComposerComponent::NodeType StartStructBuildNode::GetNodeType() const
+AbstractComposerComponent::NodeType StartStructComposerComponent::GetNodeType() const
 {
   return NodeType::kStartStruct;
 }
 
-bool StartStructBuildNode::Process(std::stack<node_t> &stack)
+bool StartStructComposerComponent::Process(std::stack<node_t> &stack)
 {
   ValidateAddValueNode(stack);
   return kKeepInStackRequest;
 }
 
-void StartStructBuildNode::AddMember(const std::string &name, const sup::dto::AnyValue &value)
+void StartStructComposerComponent::AddMember(const std::string &name, const sup::dto::AnyValue &value)
 {
   m_value.AddMember(name, value);
 }

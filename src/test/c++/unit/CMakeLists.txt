@@ -13,7 +13,7 @@ target_sources(unit-tests
         ${CMAKE_CURRENT_LIST_DIR}/anytype_tests.cpp
         ${CMAKE_CURRENT_LIST_DIR}/anyvalue_composer_tests.cpp
         ${CMAKE_CURRENT_LIST_DIR}/anyvalue_buildnode_utils_tests.cpp
-        ${CMAKE_CURRENT_LIST_DIR}/anyvalue_buildnodes_tests.cpp
+        ${CMAKE_CURRENT_LIST_DIR}/anyvalue_composer_components_tests.cpp
         ${CMAKE_CURRENT_LIST_DIR}/anyvalue_ctype_tests.cpp
         ${CMAKE_CURRENT_LIST_DIR}/anyvalue_equality_tests.cpp
         ${CMAKE_CURRENT_LIST_DIR}/anyvalue_exceptions_tests.cpp

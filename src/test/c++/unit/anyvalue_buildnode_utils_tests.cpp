@@ -64,7 +64,7 @@ TEST_F(AnyValueBuildNodeUtilsTests, CanAddValueNode)
   EXPECT_TRUE(CheckAddValueNode<StartArrayElementBuildNode>());
 
   // it is not possible to add value node if the last node in the stack is one of the following
-  EXPECT_FALSE(CheckAddValueNode<StartStructBuildNode>("name"));
+  EXPECT_FALSE(CheckAddValueNode<StartStructComposerComponent>("name"));
   EXPECT_FALSE(CheckAddValueNode<StartArrayBuildNode>("name"));
   EXPECT_FALSE(CheckAddValueNode<EndStructBuildNode>());
   EXPECT_FALSE(CheckAddValueNode<EndArrayBuildNode>());
@@ -83,7 +83,7 @@ TEST_F(AnyValueBuildNodeUtilsTests, ValidateAddValueNode)
 
   {  // it is not possible to add value node if stack contains StartStructBuildNode
     std::stack<AbstractComposerComponent::node_t> stack;
-    stack.push(std::unique_ptr<StartStructBuildNode>(new StartStructBuildNode("name")));
+    stack.push(std::unique_ptr<StartStructComposerComponent>(new StartStructComposerComponent("name")));
     EXPECT_THROW(ValidateAddValueNode(stack), std::runtime_error);
   }
 
@@ -98,7 +98,7 @@ TEST_F(AnyValueBuildNodeUtilsTests, ValidateLastNode)
   EXPECT_THROW(ValidateLastNode(stack, AbstractComposerComponent::NodeType::kStartArray),
                std::runtime_error);
 
-  stack.push(std::unique_ptr<StartStructBuildNode>(new StartStructBuildNode("name")));
+  stack.push(std::unique_ptr<StartStructComposerComponent>(new StartStructComposerComponent("name")));
   EXPECT_NO_THROW(ValidateLastNode(stack, AbstractComposerComponent::NodeType::kStartStruct));
   EXPECT_THROW(ValidateLastNode(stack, AbstractComposerComponent::NodeType::kStartArray),
                std::runtime_error);

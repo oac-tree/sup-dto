@@ -27,11 +27,11 @@ using namespace sup::dto;
 
 //! Tests for classes in anyvalue_
 
-class AnyValueBuildNodesTests : public ::testing::Test
+class AnyValueComposerComponentsTests : public ::testing::Test
 {
 };
 
-TEST_F(AnyValueBuildNodesTests, ValueComposerComponentProcess)
+TEST_F(AnyValueComposerComponentsTests, ValueComposerComponentProcess)
 {
   ValueComposerComponent node(sup::dto::AnyValue{sup::dto::SignedInteger32Type, 42});
   EXPECT_EQ(node.GetNodeType(), AbstractComposerComponent::NodeType::kValue);
@@ -55,9 +55,9 @@ TEST_F(AnyValueBuildNodesTests, ValueComposerComponentProcess)
   EXPECT_EQ(result, expected);
 }
 
-TEST_F(AnyValueBuildNodesTests, StartStructBuildNodeProcess)
+TEST_F(AnyValueComposerComponentsTests, StartStructBuildNodeProcess)
 {
-  StartStructBuildNode node("struct_name");
+  StartStructComposerComponent node("struct_name");
   EXPECT_EQ(node.GetNodeType(), AbstractComposerComponent::NodeType::kStartStruct);
 
   // processing empty stack
@@ -65,7 +65,7 @@ TEST_F(AnyValueBuildNodesTests, StartStructBuildNodeProcess)
   EXPECT_TRUE(node.Process(stack));
 
   // processing stack containing another struct
-  stack.push(std::unique_ptr<StartStructBuildNode>(new StartStructBuildNode(std::string())));
+  stack.push(std::unique_ptr<StartStructComposerComponent>(new StartStructComposerComponent(std::string())));
   EXPECT_THROW(node.Process(stack), std::runtime_error);
 
   // processing stack containing a field
@@ -78,9 +78,9 @@ TEST_F(AnyValueBuildNodesTests, StartStructBuildNodeProcess)
   EXPECT_EQ(result, expected);
 }
 
-TEST_F(AnyValueBuildNodesTests, StartStructBuildNodeProcessAddMember)
+TEST_F(AnyValueComposerComponentsTests, StartStructBuildNodeProcessAddMember)
 {
-  StartStructBuildNode node("struct_name");
+  StartStructComposerComponent node("struct_name");
 
   // adding a field to struct
   EXPECT_NO_THROW(
@@ -93,7 +93,7 @@ TEST_F(AnyValueBuildNodesTests, StartStructBuildNodeProcessAddMember)
   EXPECT_EQ(result, expected_anyvalue);
 }
 
-TEST_F(AnyValueBuildNodesTests, StartFieldBuildNodeProcess)
+TEST_F(AnyValueComposerComponentsTests, StartFieldBuildNodeProcess)
 {
   StartFieldBuildNode node("field_name");
   EXPECT_EQ(node.GetFieldName(), std::string("field_name"));
@@ -104,7 +104,7 @@ TEST_F(AnyValueBuildNodesTests, StartFieldBuildNodeProcess)
   EXPECT_THROW(node.Process(stack), std::runtime_error);
 
   // stack is possible to process if it contains StartStructBuildNode
-  stack.push(std::unique_ptr<StartStructBuildNode>(new StartStructBuildNode(std::string())));
+  stack.push(std::unique_ptr<StartStructComposerComponent>(new StartStructComposerComponent(std::string())));
   EXPECT_TRUE(node.Process(stack));
 
   // field name should be set
@@ -112,7 +112,7 @@ TEST_F(AnyValueBuildNodesTests, StartFieldBuildNodeProcess)
   EXPECT_THROW(node.Process(stack), std::runtime_error);
 }
 
-TEST_F(AnyValueBuildNodesTests, EndFieldBuildNodeProcess)
+TEST_F(AnyValueComposerComponentsTests, EndFieldBuildNodeProcess)
 {
   EndFieldBuildNode node;
   EXPECT_EQ(node.GetNodeType(), AbstractComposerComponent::NodeType::kEndField);
@@ -125,7 +125,7 @@ TEST_F(AnyValueBuildNodesTests, EndFieldBuildNodeProcess)
 
   {
     std::stack<AbstractComposerComponent::node_t> stack;
-    stack.push(std::unique_ptr<StartStructBuildNode>(new StartStructBuildNode("struct_name")));
+    stack.push(std::unique_ptr<StartStructComposerComponent>(new StartStructComposerComponent("struct_name")));
     stack.push(std::unique_ptr<StartFieldBuildNode>(new StartFieldBuildNode("field_name")));
     stack.push(std::unique_ptr<ValueComposerComponent>(
         new ValueComposerComponent(sup::dto::AnyValue{sup::dto::SignedInteger32Type, 42})));
@@ -141,7 +141,7 @@ TEST_F(AnyValueBuildNodesTests, EndFieldBuildNodeProcess)
   }
 }
 
-TEST_F(AnyValueBuildNodesTests, EndStructBuildNodeProcess)
+TEST_F(AnyValueComposerComponentsTests, EndStructBuildNodeProcess)
 {
   EndStructBuildNode node;
   EXPECT_EQ(node.GetNodeType(), AbstractComposerComponent::NodeType::kEndStruct);
@@ -153,7 +153,7 @@ TEST_F(AnyValueBuildNodesTests, EndStructBuildNodeProcess)
 
   {
     std::stack<AbstractComposerComponent::node_t> stack;
-    stack.push(std::unique_ptr<StartStructBuildNode>(new StartStructBuildNode("struct_name")));
+    stack.push(std::unique_ptr<StartStructComposerComponent>(new StartStructComposerComponent("struct_name")));
 
     // as a result of stack processing, the StartStructBuildNode should be removed, it's value
     // consumed
@@ -167,7 +167,7 @@ TEST_F(AnyValueBuildNodesTests, EndStructBuildNodeProcess)
   }
 }
 
-TEST_F(AnyValueBuildNodesTests, StartArrayBuildNodeProcess)
+TEST_F(AnyValueComposerComponentsTests, StartArrayBuildNodeProcess)
 {
   StartArrayBuildNode node("array_name");
   EXPECT_EQ(node.GetNodeType(), AbstractComposerComponent::NodeType::kStartArray);
@@ -177,7 +177,7 @@ TEST_F(AnyValueBuildNodesTests, StartArrayBuildNodeProcess)
   EXPECT_TRUE(node.Process(stack));
 
   // processing stack containing another struct is not possible
-  stack.push(std::unique_ptr<StartStructBuildNode>(new StartStructBuildNode(std::string())));
+  stack.push(std::unique_ptr<StartStructComposerComponent>(new StartStructComposerComponent(std::string())));
   EXPECT_THROW(node.Process(stack), std::runtime_error);
 
   // processing stack containing a field
@@ -191,7 +191,7 @@ TEST_F(AnyValueBuildNodesTests, StartArrayBuildNodeProcess)
 }
 
 //! Testing StartArrayBuildNode::AddElement method.
-TEST_F(AnyValueBuildNodesTests, StartArrayBuildNodeAddElement)
+TEST_F(AnyValueComposerComponentsTests, StartArrayBuildNodeAddElement)
 {
   StartArrayBuildNode node("array_name");
   EXPECT_EQ(node.GetNodeType(), AbstractComposerComponent::NodeType::kStartArray);
@@ -206,7 +206,7 @@ TEST_F(AnyValueBuildNodesTests, StartArrayBuildNodeAddElement)
 }
 
 //! Testing StartArrayElementBuildNode and its Process method.
-TEST_F(AnyValueBuildNodesTests, StartArrayElementBuildNodeProcess)
+TEST_F(AnyValueComposerComponentsTests, StartArrayElementBuildNodeProcess)
 {
   StartArrayElementBuildNode node;
   EXPECT_EQ(node.GetNodeType(), AbstractComposerComponent::NodeType::kStartArrayElement);
@@ -221,7 +221,7 @@ TEST_F(AnyValueBuildNodesTests, StartArrayElementBuildNodeProcess)
 }
 
 //! Testing EndArrayElementBuildNode and its Process method.
-TEST_F(AnyValueBuildNodesTests, EndArrayElementBuildNodeProcess)
+TEST_F(AnyValueComposerComponentsTests, EndArrayElementBuildNodeProcess)
 {
   EndArrayElementBuildNode node;
   EXPECT_EQ(node.GetNodeType(), AbstractComposerComponent::NodeType::kEndArrayElement);
@@ -254,7 +254,7 @@ TEST_F(AnyValueBuildNodesTests, EndArrayElementBuildNodeProcess)
   }
 }
 
-TEST_F(AnyValueBuildNodesTests, EndArrayBuildNodeProcess)
+TEST_F(AnyValueComposerComponentsTests, EndArrayBuildNodeProcess)
 {
   EndArrayBuildNode node;
   EXPECT_EQ(node.GetNodeType(), AbstractComposerComponent::NodeType::kEndArray);
