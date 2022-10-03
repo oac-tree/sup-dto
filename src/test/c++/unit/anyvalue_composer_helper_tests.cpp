@@ -19,7 +19,7 @@
  * of the distribution package.
  ******************************************************************************/
 
-#include "sup/dto/composer/anyvalue_buildnode_utils.h"
+#include "sup/dto/composer/anyvalue_composer_helper.h"
 
 #include <gtest/gtest.h>
 #include <sup/dto/composer/anyvalue_composer_components.h>
@@ -28,7 +28,7 @@
 
 using namespace sup::dto;
 
-class AnyValueBuildNodeUtilsTests : public ::testing::Test
+class AnyValueComposerHelperTests : public ::testing::Test
 {
 public:
   //! Utility function that creates a stack and put there one build node of given type.

@@ -19,11 +19,11 @@
  * of the distribution package.
  ******************************************************************************/
 
-#ifndef SUP_DTO_COMPOSER_ANYVALUE_BUILDNODES_UTILS_H_
-#define SUP_DTO_COMPOSER_ANYVALUE_BUILDNODES_UTILS_H_
+#ifndef SUP_DTO_COMPOSER_ANYVALUE_COMPOSER_HELPER_H_
+#define SUP_DTO_COMPOSER_ANYVALUE_COMPOSER_HELPER_H_
 
-//! @file anyvalue_composer_utils.h
-//! Collection of utility functions to support AbstractAnyValueBuildNode and Co.
+//! @file anyvalue_composer_helper.h
+//! Collection of utility functions to support AbstractComposerComponent and derived.
 
 #include <sup/dto/composer/abstract_composer_component.h>
 
@@ -52,4 +52,4 @@ void ValidateIfValueNodeIsComplete(const std::stack<AbstractComposerComponent::n
 
 }  // namespace sup
 
-#endif  // SUP_DTO_COMPOSER_ANYVALUE_BUILDNODES_UTILS_H_
+#endif  // SUP_DTO_COMPOSER_ANYVALUE_COMPOSER_HELPER_H_

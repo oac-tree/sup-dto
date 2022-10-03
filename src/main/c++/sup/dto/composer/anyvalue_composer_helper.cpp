@@ -17,7 +17,7 @@
  * of the distribution package.
  *****************************************************************************/
 
-#include "sup/dto/composer/anyvalue_buildnode_utils.h"
+#include "sup/dto/composer/anyvalue_composer_helper.h"
 
 #include <algorithm>
 #include <sstream>
