@@ -1,4 +1,5 @@
 add_subdirectory(anyvalue)
+add_subdirectory(builder)
 add_subdirectory(json)
 add_subdirectory(parse)
 add_subdirectory(serialize)
