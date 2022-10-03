@@ -47,8 +47,4 @@ target_link_libraries(unit-tests
         sup-dto-shared
 )
 
-if (DEFINED ENV{CODAC_ROOT})
-  set_target_properties(unit-tests PROPERTIES RUNTIME_OUTPUT_DIRECTORY "${SUP_DTO_PROJECT_DIR}/target/bin")
-endif()
-
 gtest_discover_tests(unit-tests)
