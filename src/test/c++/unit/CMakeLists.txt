@@ -46,3 +46,5 @@ target_link_libraries(unit-tests
         gmock
         sup-dto-shared
 )
+
+gtest_discover_tests(unit-tests)

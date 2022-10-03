@@ -1,6 +1,7 @@
 # Settings of CMake project
 
 include(GNUInstallDirs)
+include(CTest)
 
 set(LIBVERSION ${CMAKE_PROJECT_VERSION})
 set(LIBSOVERSION ${CMAKE_PROJECT_VERSION_MAJOR})
