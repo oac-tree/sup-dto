@@ -44,9 +44,9 @@ ValueComposerComponent::ValueComposerComponent(const sup::dto::AnyValue &value)
 {
 }
 
-AbstractComposerComponent::NodeType ValueComposerComponent::GetNodeType() const
+AbstractComposerComponent::Type ValueComposerComponent::GetNodeType() const
 {
-  return NodeType::kValue;
+  return Type::kValue;
 }
 
 bool ValueComposerComponent::Process(std::stack<node_t> &stack)
@@ -65,9 +65,9 @@ StartStructComposerComponent::StartStructComposerComponent(const std::string &st
 {
 }
 
-AbstractComposerComponent::NodeType StartStructComposerComponent::GetNodeType() const
+AbstractComposerComponent::Type StartStructComposerComponent::GetNodeType() const
 {
-  return NodeType::kStartStruct;
+  return Type::kStartStruct;
 }
 
 bool StartStructComposerComponent::Process(std::stack<node_t> &stack)
@@ -86,14 +86,14 @@ void StartStructComposerComponent::AddMember(const std::string &name,
 // EndStructComposerComponent
 // ----------------------------------------------------------------------------
 
-AbstractComposerComponent::NodeType EndStructComposerComponent::GetNodeType() const
+AbstractComposerComponent::Type EndStructComposerComponent::GetNodeType() const
 {
-  return NodeType::kEndStruct;
+  return Type::kEndStruct;
 }
 
 bool EndStructComposerComponent::Process(std::stack<node_t> &stack)
 {
-  ValidateLastComponent(stack, NodeType::kStartStruct);
+  ValidateLastComponent(stack, Type::kStartStruct);
 
   // saving the value and removing StartStructBuildNode
   Consume(stack.top()->MoveAnyValue());
@@ -112,14 +112,14 @@ StartFieldComposerComponent::StartFieldComposerComponent(const std::string &fiel
   SetFieldName(field_name);
 }
 
-AbstractComposerComponent::NodeType StartFieldComposerComponent::GetNodeType() const
+AbstractComposerComponent::Type StartFieldComposerComponent::GetNodeType() const
 {
-  return NodeType::kStartField;
+  return Type::kStartField;
 }
 
 bool StartFieldComposerComponent::Process(std::stack<node_t> &stack)
 {
-  ValidateLastComponent(stack, NodeType::kStartStruct);
+  ValidateLastComponent(stack, Type::kStartStruct);
 
   if (GetFieldName().empty())
   {
@@ -133,9 +133,9 @@ bool StartFieldComposerComponent::Process(std::stack<node_t> &stack)
 // EndFieldComposerComponent
 // ----------------------------------------------------------------------------
 
-AbstractComposerComponent::NodeType EndFieldComposerComponent::GetNodeType() const
+AbstractComposerComponent::Type EndFieldComposerComponent::GetNodeType() const
 {
-  return NodeType::kEndField;
+  return Type::kEndField;
 }
 
 //! Processes the stack, finalizes the adding of the field to StartStructBuildNode.
@@ -149,13 +149,13 @@ bool EndFieldComposerComponent::Process(std::stack<node_t> &stack)
   auto value = stack.top()->MoveAnyValue();
   stack.pop();
 
-  ValidateLastComponent(stack, NodeType::kStartField);
+  ValidateLastComponent(stack, Type::kStartField);
 
   // removing StartFieldNode, keeping the name for later reuse
   auto field_name = stack.top()->GetFieldName();
   stack.pop();
 
-  ValidateLastComponent(stack, NodeType::kStartStruct);
+  ValidateLastComponent(stack, Type::kStartStruct);
 
   // adding a new member to StartStructBuildNode
   stack.top()->AddMember(field_name, value);
@@ -172,9 +172,9 @@ StartArrayComposerComponent::StartArrayComposerComponent(const std::string &arra
 {
 }
 
-AbstractComposerComponent::NodeType StartArrayComposerComponent::GetNodeType() const
+AbstractComposerComponent::Type StartArrayComposerComponent::GetNodeType() const
 {
-  return NodeType::kStartArray;
+  return Type::kStartArray;
 }
 
 bool StartArrayComposerComponent::Process(std::stack<node_t> &stack)
@@ -202,14 +202,14 @@ void StartArrayComposerComponent::AddElement(const sup::dto::AnyValue &value)
 // EndArrayComposerComponent
 // ----------------------------------------------------------------------------
 
-AbstractComposerComponent::NodeType EndArrayComposerComponent::GetNodeType() const
+AbstractComposerComponent::Type EndArrayComposerComponent::GetNodeType() const
 {
-  return NodeType::kEndArray;
+  return Type::kEndArray;
 }
 
 bool EndArrayComposerComponent::Process(std::stack<node_t> &stack)
 {
-  ValidateLastComponent(stack, NodeType::kStartArray);
+  ValidateLastComponent(stack, Type::kStartArray);
 
   // replacing StartArrayBuildNode with EndArrayBuildNode
   Consume(stack.top()->MoveAnyValue());
@@ -222,14 +222,14 @@ bool EndArrayComposerComponent::Process(std::stack<node_t> &stack)
 // StartArrayElementComposerComponent
 // ----------------------------------------------------------------------------
 
-AbstractComposerComponent::NodeType StartArrayElementComposerComponent::GetNodeType() const
+AbstractComposerComponent::Type StartArrayElementComposerComponent::GetNodeType() const
 {
-  return NodeType::kStartArrayElement;
+  return Type::kStartArrayElement;
 }
 
 bool StartArrayElementComposerComponent::Process(std::stack<node_t> &stack)
 {
-  ValidateLastComponent(stack, NodeType::kStartArray);
+  ValidateLastComponent(stack, Type::kStartArray);
   return kKeepInStackRequest;
 }
 
@@ -237,9 +237,9 @@ bool StartArrayElementComposerComponent::Process(std::stack<node_t> &stack)
 // EndArrayElementComposerComponent
 // ----------------------------------------------------------------------------
 
-AbstractComposerComponent::NodeType EndArrayElementComposerComponent::GetNodeType() const
+AbstractComposerComponent::Type EndArrayElementComposerComponent::GetNodeType() const
 {
-  return NodeType::kEndArrayElement;
+  return Type::kEndArrayElement;
 }
 
 //! Processes the stack, finalizes the adding of the element to StartArrayBuildNode.
@@ -254,7 +254,7 @@ bool EndArrayElementComposerComponent::Process(std::stack<node_t> &stack)
   auto value = stack.top()->MoveAnyValue();
   stack.pop();
 
-  ValidateLastComponent(stack, NodeType::kStartArrayElement);
+  ValidateLastComponent(stack, Type::kStartArrayElement);
   stack.pop();
 
   // adding a new element to StartArrayBuildNode

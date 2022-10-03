@@ -43,7 +43,7 @@ void ValidateAddValueComponent(const std::stack<AbstractComposerComponent::node_
 
 //! Validate if the last value in a stack has given type, will throw if not.
 void ValidateLastComponent(const std::stack<AbstractComposerComponent::node_t>& stack,
-                           AbstractComposerComponent::NodeType node_type);
+                           AbstractComposerComponent::Type node_type);
 
 //! Returns true if the last node corresponds to a completed value node.
 void ValidateIfValueComponentIsComplete(const std::stack<AbstractComposerComponent::node_t>& stack);

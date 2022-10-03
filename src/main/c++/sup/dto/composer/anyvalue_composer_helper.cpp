@@ -35,9 +35,8 @@ bool CanAddValueComponent(const std::stack<AbstractComposerComponent::node_t> &s
     return true;
   }
 
-  using NodeType = AbstractComposerComponent::NodeType;
-  static const std::vector<NodeType> expected_types{NodeType::kStartArrayElement,
-                                                    NodeType::kStartField};
+  using Type = AbstractComposerComponent::Type;
+  static const std::vector<Type> expected_types{Type::kStartArrayElement, Type::kStartField};
 
   auto it = std::find(expected_types.begin(), expected_types.end(), stack.top()->GetNodeType());
   return it != expected_types.end();
@@ -63,7 +62,7 @@ void ValidateAddValueComponent(const std::stack<AbstractComposerComponent::node_
 }
 
 void ValidateLastComponent(const std::stack<AbstractComposerComponent::node_t> &stack,
-                      AbstractComposerComponent::NodeType node_type)
+                           AbstractComposerComponent::Type node_type)
 {
   if (stack.empty() || stack.top()->GetNodeType() != node_type)
   {
@@ -78,9 +77,8 @@ void ValidateIfValueComponentIsComplete(const std::stack<AbstractComposerCompone
     throw std::runtime_error("Error in ValidateIfValueNodeIsComplete(): stack is empty");
   }
 
-  using NodeType = AbstractComposerComponent::NodeType;
-  static const std::vector<NodeType> expected_types{NodeType::kValue, NodeType::kEndStruct,
-                                                    NodeType::kEndArray};
+  using Type = AbstractComposerComponent::Type;
+  static const std::vector<Type> expected_types{Type::kValue, Type::kEndStruct, Type::kEndArray};
 
   auto it = std::find(expected_types.begin(), expected_types.end(), stack.top()->GetNodeType());
 

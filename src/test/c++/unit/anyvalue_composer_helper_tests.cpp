@@ -96,13 +96,13 @@ TEST_F(AnyValueComposerHelperTests, ValidateAddValueComponent)
 TEST_F(AnyValueComposerHelperTests, ValidateLastComponent)
 {
   std::stack<AbstractComposerComponent::node_t> stack;
-  EXPECT_THROW(ValidateLastComponent(stack, AbstractComposerComponent::NodeType::kStartArray),
+  EXPECT_THROW(ValidateLastComponent(stack, AbstractComposerComponent::Type::kStartArray),
                std::runtime_error);
 
   stack.push(
       std::unique_ptr<StartStructComposerComponent>(new StartStructComposerComponent("name")));
-  EXPECT_NO_THROW(ValidateLastComponent(stack, AbstractComposerComponent::NodeType::kStartStruct));
-  EXPECT_THROW(ValidateLastComponent(stack, AbstractComposerComponent::NodeType::kStartArray),
+  EXPECT_NO_THROW(ValidateLastComponent(stack, AbstractComposerComponent::Type::kStartStruct));
+  EXPECT_THROW(ValidateLastComponent(stack, AbstractComposerComponent::Type::kStartArray),
                std::runtime_error);
 }
 

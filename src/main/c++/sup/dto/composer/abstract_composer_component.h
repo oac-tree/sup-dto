@@ -41,7 +41,7 @@ public:
   virtual ~AbstractComposerComponent() = default;
   using node_t = std::unique_ptr<AbstractComposerComponent>;
 
-  enum class NodeType
+  enum class Type
   {
     kValue,
     kStartStruct,
@@ -57,7 +57,7 @@ public:
   AbstractComposerComponent();
   AbstractComposerComponent(const sup::dto::AnyValue& value);
 
-  virtual NodeType GetNodeType() const = 0;
+  virtual Type GetNodeType() const = 0;
 
   //! Performs manipulations with the stack, if necessary.
   //! @return True if nodes wants it to be saved in a stack.
