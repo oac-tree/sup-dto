@@ -63,6 +63,7 @@ install(FILES
         sup/dto/anyvalue.h
         sup/dto/anyvalue_exceptions.h
         sup/dto/anyvalue_helper.h
+        sup/dto/anyvalue_composer.h
         sup/dto/basic_scalar_types.h
         sup/dto/i_any_visitor.h
         DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/sup/dto)
