@@ -40,7 +40,7 @@ public:
     TestNode() = default;
     TestNode(sup::dto::AnyValue&& value) : AbstractComposerComponent(std::move(value)) {}
 
-    Type GetNodeType() const override { return Type::kValue; }
+    Type GetComponentType() const override { return Type::kValue; }
     bool Process(std::stack<node_t>&) override { return false; }
   };
 };

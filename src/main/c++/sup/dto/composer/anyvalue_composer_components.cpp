@@ -44,7 +44,7 @@ ValueComposerComponent::ValueComposerComponent(const sup::dto::AnyValue &value)
 {
 }
 
-AbstractComposerComponent::Type ValueComposerComponent::GetNodeType() const
+AbstractComposerComponent::Type ValueComposerComponent::GetComponentType() const
 {
   return Type::kValue;
 }
@@ -65,7 +65,7 @@ StartStructComposerComponent::StartStructComposerComponent(const std::string &st
 {
 }
 
-AbstractComposerComponent::Type StartStructComposerComponent::GetNodeType() const
+AbstractComposerComponent::Type StartStructComposerComponent::GetComponentType() const
 {
   return Type::kStartStruct;
 }
@@ -86,7 +86,7 @@ void StartStructComposerComponent::AddMember(const std::string &name,
 // EndStructComposerComponent
 // ----------------------------------------------------------------------------
 
-AbstractComposerComponent::Type EndStructComposerComponent::GetNodeType() const
+AbstractComposerComponent::Type EndStructComposerComponent::GetComponentType() const
 {
   return Type::kEndStruct;
 }
@@ -112,7 +112,7 @@ StartFieldComposerComponent::StartFieldComposerComponent(const std::string &fiel
   SetFieldName(field_name);
 }
 
-AbstractComposerComponent::Type StartFieldComposerComponent::GetNodeType() const
+AbstractComposerComponent::Type StartFieldComposerComponent::GetComponentType() const
 {
   return Type::kStartField;
 }
@@ -133,7 +133,7 @@ bool StartFieldComposerComponent::Process(std::stack<node_t> &stack)
 // EndFieldComposerComponent
 // ----------------------------------------------------------------------------
 
-AbstractComposerComponent::Type EndFieldComposerComponent::GetNodeType() const
+AbstractComposerComponent::Type EndFieldComposerComponent::GetComponentType() const
 {
   return Type::kEndField;
 }
@@ -172,7 +172,7 @@ StartArrayComposerComponent::StartArrayComposerComponent(const std::string &arra
 {
 }
 
-AbstractComposerComponent::Type StartArrayComposerComponent::GetNodeType() const
+AbstractComposerComponent::Type StartArrayComposerComponent::GetComponentType() const
 {
   return Type::kStartArray;
 }
@@ -202,7 +202,7 @@ void StartArrayComposerComponent::AddElement(const sup::dto::AnyValue &value)
 // EndArrayComposerComponent
 // ----------------------------------------------------------------------------
 
-AbstractComposerComponent::Type EndArrayComposerComponent::GetNodeType() const
+AbstractComposerComponent::Type EndArrayComposerComponent::GetComponentType() const
 {
   return Type::kEndArray;
 }
@@ -222,7 +222,7 @@ bool EndArrayComposerComponent::Process(std::stack<node_t> &stack)
 // StartArrayElementComposerComponent
 // ----------------------------------------------------------------------------
 
-AbstractComposerComponent::Type StartArrayElementComposerComponent::GetNodeType() const
+AbstractComposerComponent::Type StartArrayElementComposerComponent::GetComponentType() const
 {
   return Type::kStartArrayElement;
 }
@@ -237,7 +237,7 @@ bool StartArrayElementComposerComponent::Process(std::stack<node_t> &stack)
 // EndArrayElementComposerComponent
 // ----------------------------------------------------------------------------
 
-AbstractComposerComponent::Type EndArrayElementComposerComponent::GetNodeType() const
+AbstractComposerComponent::Type EndArrayElementComposerComponent::GetComponentType() const
 {
   return Type::kEndArrayElement;
 }

@@ -42,7 +42,7 @@ class ValueComposerComponent : public AbstractComposerComponent
 public:
   ValueComposerComponent(const sup::dto::AnyValue& value);
 
-  Type GetNodeType() const override;
+  Type GetComponentType() const override;
 
   bool Process(std::stack<node_t>& stack) override;
 };
@@ -54,7 +54,7 @@ class StartStructComposerComponent : public AbstractComposerComponent
 public:
   StartStructComposerComponent(const std::string& struct_name);
 
-  Type GetNodeType() const override;
+  Type GetComponentType() const override;
 
   bool Process(std::stack<node_t>& stack) override;
 
@@ -66,7 +66,7 @@ public:
 class EndStructComposerComponent : public AbstractComposerComponent
 {
 public:
-  Type GetNodeType() const override;
+  Type GetComponentType() const override;
 
   bool Process(std::stack<node_t>& stack) override;
 };
@@ -78,7 +78,7 @@ class StartFieldComposerComponent : public AbstractComposerComponent
 public:
   explicit StartFieldComposerComponent(const std::string& field_name);
 
-  Type GetNodeType() const override;
+  Type GetComponentType() const override;
 
   bool Process(std::stack<node_t>& stack) override;
 };
@@ -88,7 +88,7 @@ public:
 class EndFieldComposerComponent : public AbstractComposerComponent
 {
 public:
-  Type GetNodeType() const override;
+  Type GetComponentType() const override;
 
   bool Process(std::stack<node_t>& stack) override;
 };
@@ -100,7 +100,7 @@ class StartArrayComposerComponent : public AbstractComposerComponent
 public:
   StartArrayComposerComponent(const std::string& array_name);
 
-  Type GetNodeType() const override;
+  Type GetComponentType() const override;
 
   bool Process(std::stack<node_t>& stack) override;
 
@@ -115,7 +115,7 @@ private:
 class EndArrayComposerComponent : public AbstractComposerComponent
 {
 public:
-  Type GetNodeType() const override;
+  Type GetComponentType() const override;
 
   bool Process(std::stack<node_t>& stack) override;
 };
@@ -125,7 +125,7 @@ public:
 class StartArrayElementComposerComponent : public AbstractComposerComponent
 {
 public:
-  Type GetNodeType() const override;
+  Type GetComponentType() const override;
 
   bool Process(std::stack<node_t>& stack) override;
 };
@@ -135,7 +135,7 @@ public:
 class EndArrayElementComposerComponent : public AbstractComposerComponent
 {
 public:
-  Type GetNodeType() const override;
+  Type GetComponentType() const override;
 
   bool Process(std::stack<node_t>& stack) override;
 };

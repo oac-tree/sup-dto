@@ -38,7 +38,7 @@ bool CanAddValueComponent(const std::stack<AbstractComposerComponent::node_t> &s
   using Type = AbstractComposerComponent::Type;
   static const std::vector<Type> expected_types{Type::kStartArrayElement, Type::kStartField};
 
-  auto it = std::find(expected_types.begin(), expected_types.end(), stack.top()->GetNodeType());
+  auto it = std::find(expected_types.begin(), expected_types.end(), stack.top()->GetComponentType());
   return it != expected_types.end();
 }
 
@@ -54,7 +54,7 @@ void ValidateAddValueComponent(const std::stack<AbstractComposerComponent::node_
     }
     else
     {
-      ostr << "last NodeType=" << static_cast<int>(stack.top()->GetNodeType()) << ".\n";
+      ostr << "last NodeType=" << static_cast<int>(stack.top()->GetComponentType()) << ".\n";
     }
 
     throw std::runtime_error(ostr.str());
@@ -64,7 +64,7 @@ void ValidateAddValueComponent(const std::stack<AbstractComposerComponent::node_
 void ValidateLastComponent(const std::stack<AbstractComposerComponent::node_t> &stack,
                            AbstractComposerComponent::Type node_type)
 {
-  if (stack.empty() || stack.top()->GetNodeType() != node_type)
+  if (stack.empty() || stack.top()->GetComponentType() != node_type)
   {
     throw std::runtime_error("Error in ValidateLastNode(): wrong type of the last node");
   }
@@ -80,7 +80,7 @@ void ValidateIfValueComponentIsComplete(const std::stack<AbstractComposerCompone
   using Type = AbstractComposerComponent::Type;
   static const std::vector<Type> expected_types{Type::kValue, Type::kEndStruct, Type::kEndArray};
 
-  auto it = std::find(expected_types.begin(), expected_types.end(), stack.top()->GetNodeType());
+  auto it = std::find(expected_types.begin(), expected_types.end(), stack.top()->GetComponentType());
 
   if (it == expected_types.end())
   {

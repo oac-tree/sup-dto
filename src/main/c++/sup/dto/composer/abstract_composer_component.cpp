@@ -26,10 +26,7 @@ namespace sup
 namespace dto
 {
 
-AbstractComposerComponent::AbstractComposerComponent() : m_value(), m_field_name()
-{
-
-}
+AbstractComposerComponent::AbstractComposerComponent() : m_value(), m_field_name() {}
 
 AbstractComposerComponent::AbstractComposerComponent(const sup::dto::AnyValue &value)
     : m_value(value), m_field_name()
