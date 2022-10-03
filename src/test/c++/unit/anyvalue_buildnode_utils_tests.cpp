@@ -22,7 +22,7 @@
 #include "sup/dto/composer/anyvalue_buildnode_utils.h"
 
 #include <gtest/gtest.h>
-#include <sup/dto/composer/anyvalue_buildnodes.h>
+#include <sup/dto/composer/anyvalue_composer_components.h>
 
 #include <stdexcept>
 

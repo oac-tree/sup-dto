@@ -22,7 +22,7 @@
 #include <sup/dto/anytype.h>
 #include <sup/dto/anyvalue.h>
 #include <sup/dto/anyvalue_helper.h>
-#include <sup/dto/composer/anyvalue_buildnodes.h>
+#include <sup/dto/composer/anyvalue_composer_components.h>
 
 #include <stack>
 #include <stdexcept>

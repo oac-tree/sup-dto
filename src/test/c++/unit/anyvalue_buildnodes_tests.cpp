@@ -19,7 +19,7 @@
  * of the distribution package.
  ******************************************************************************/
 
-#include "sup/dto/composer/anyvalue_buildnodes.h"
+#include "sup/dto/composer/anyvalue_composer_components.h"
 
 #include <gtest/gtest.h>
 
