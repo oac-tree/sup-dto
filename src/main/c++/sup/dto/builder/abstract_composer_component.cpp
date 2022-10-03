@@ -17,7 +17,7 @@
  * of the distribution package.
  *****************************************************************************/
 
-#include <sup/dto/builder/abstract_anyvalue_buildnode.h>
+#include <sup/dto/builder/abstract_composer_component.h>
 
 #include <stdexcept>
 
@@ -26,47 +26,47 @@ namespace sup
 namespace dto
 {
 
-AbstractAnyValueBuildNode::AbstractAnyValueBuildNode() : m_value(), m_field_name()
+AbstractComposerComponent::AbstractComposerComponent() : m_value(), m_field_name()
 {
 
 }
 
-AbstractAnyValueBuildNode::AbstractAnyValueBuildNode(const sup::dto::AnyValue &value)
+AbstractComposerComponent::AbstractComposerComponent(const sup::dto::AnyValue &value)
     : m_value(value), m_field_name()
 {
 }
 
-void AbstractAnyValueBuildNode::Consume(sup::dto::AnyValue &&value)
+void AbstractComposerComponent::Consume(sup::dto::AnyValue &&value)
 {
   m_value = std::move(value);
 }
 
-sup::dto::AnyValue AbstractAnyValueBuildNode::MoveAnyValue() const
+sup::dto::AnyValue AbstractComposerComponent::MoveAnyValue() const
 {
   return std::move(m_value);
 }
 
-std::string AbstractAnyValueBuildNode::GetFieldName() const
+std::string AbstractComposerComponent::GetFieldName() const
 {
   return m_field_name;
 }
 
-void AbstractAnyValueBuildNode::SetFieldName(const std::string &name)
+void AbstractComposerComponent::SetFieldName(const std::string &name)
 {
   m_field_name = name;
 }
 
-void AbstractAnyValueBuildNode::AddMember(const std::string &name, const sup::dto::AnyValue &value)
+void AbstractComposerComponent::AddMember(const std::string &name, const sup::dto::AnyValue &value)
 {
   (void)name;
   (void)value;
-  throw std::runtime_error("Error in AbstractAnyValueBuildNode::AddMember() : not implemented");
+  throw std::runtime_error("Error in AbstractComposerComponent::AddMember() : not implemented");
 }
 
-void AbstractAnyValueBuildNode::AddElement(const sup::dto::AnyValue &value)
+void AbstractComposerComponent::AddElement(const sup::dto::AnyValue &value)
 {
   (void)value;
-  throw std::runtime_error("Error in AbstractAnyValueBuildNode::AddMember() : not implemented");
+  throw std::runtime_error("Error in AbstractComposerComponent::AddMember() : not implemented");
 }
 
 }  // namespace dto

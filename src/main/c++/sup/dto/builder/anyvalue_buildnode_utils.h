@@ -25,7 +25,7 @@
 //! @file anyvalue_buildnode_utils.h
 //! Collection of utility functions to support AbstractAnyValueBuildNode and Co.
 
-#include <sup/dto/builder/abstract_anyvalue_buildnode.h>
+#include <sup/dto/builder/abstract_composer_component.h>
 
 namespace sup
 {
@@ -35,18 +35,18 @@ namespace dto
 //! Returns true if it is possible to add value node. This will be the case in one of three cases:
 //! 1) the stack is empty 2) last node denotes the start of the structure's field
 //! 3) last node denotes denotes the start of the array's element.
-bool CanAddValueNode(const std::stack<AbstractAnyValueBuildNode::node_t>& stack);
+bool CanAddValueNode(const std::stack<AbstractComposerComponent::node_t>& stack);
 
 //! Validates if adding of value node is possible for this stack configuration, and throws if it is
 //! not.
-void ValidateAddValueNode(const std::stack<AbstractAnyValueBuildNode::node_t>& stack);
+void ValidateAddValueNode(const std::stack<AbstractComposerComponent::node_t>& stack);
 
 //! Validate if the last value in a stack has given type, will throw if not.
-void ValidateLastNode(const std::stack<AbstractAnyValueBuildNode::node_t>& stack,
-                      AbstractAnyValueBuildNode::NodeType node_type);
+void ValidateLastNode(const std::stack<AbstractComposerComponent::node_t>& stack,
+                      AbstractComposerComponent::NodeType node_type);
 
 //! Returns true if the last node corresponds to a completed value node.
-void ValidateIfValueNodeIsComplete(const std::stack<AbstractAnyValueBuildNode::node_t>& stack);
+void ValidateIfValueNodeIsComplete(const std::stack<AbstractComposerComponent::node_t>& stack);
 
 }  // namespace dto
 

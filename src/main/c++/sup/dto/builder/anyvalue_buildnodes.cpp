@@ -40,11 +40,11 @@ namespace dto
 // ----------------------------------------------------------------------------
 
 AnyValueBuildNode::AnyValueBuildNode(const sup::dto::AnyValue &value)
-    : AbstractAnyValueBuildNode(value)
+    : AbstractComposerComponent(value)
 {
 }
 
-AbstractAnyValueBuildNode::NodeType AnyValueBuildNode::GetNodeType() const
+AbstractComposerComponent::NodeType AnyValueBuildNode::GetNodeType() const
 {
   return NodeType::kValue;
 }
@@ -60,12 +60,12 @@ bool AnyValueBuildNode::Process(std::stack<node_t> &stack)
 // ----------------------------------------------------------------------------
 
 StartStructBuildNode::StartStructBuildNode(const std::string &struct_name)
-    : AbstractAnyValueBuildNode(::sup::dto::EmptyStruct(struct_name))
+    : AbstractComposerComponent(::sup::dto::EmptyStruct(struct_name))
 
 {
 }
 
-AbstractAnyValueBuildNode::NodeType StartStructBuildNode::GetNodeType() const
+AbstractComposerComponent::NodeType StartStructBuildNode::GetNodeType() const
 {
   return NodeType::kStartStruct;
 }
@@ -85,7 +85,7 @@ void StartStructBuildNode::AddMember(const std::string &name, const sup::dto::An
 // EndStructBuildNode
 // ----------------------------------------------------------------------------
 
-AbstractAnyValueBuildNode::NodeType EndStructBuildNode::GetNodeType() const
+AbstractComposerComponent::NodeType EndStructBuildNode::GetNodeType() const
 {
   return NodeType::kEndStruct;
 }
@@ -106,12 +106,12 @@ bool EndStructBuildNode::Process(std::stack<node_t> &stack)
 // ----------------------------------------------------------------------------
 
 StartFieldBuildNode::StartFieldBuildNode(const std::string &field_name)
-    : AbstractAnyValueBuildNode()
+    : AbstractComposerComponent()
 {
   SetFieldName(field_name);
 }
 
-AbstractAnyValueBuildNode::NodeType StartFieldBuildNode::GetNodeType() const
+AbstractComposerComponent::NodeType StartFieldBuildNode::GetNodeType() const
 {
   return NodeType::kStartField;
 }
@@ -132,7 +132,7 @@ bool StartFieldBuildNode::Process(std::stack<node_t> &stack)
 // EndFieldBuildNode
 // ----------------------------------------------------------------------------
 
-AbstractAnyValueBuildNode::NodeType EndFieldBuildNode::GetNodeType() const
+AbstractComposerComponent::NodeType EndFieldBuildNode::GetNodeType() const
 {
   return NodeType::kEndField;
 }
@@ -170,7 +170,7 @@ StartArrayBuildNode::StartArrayBuildNode(const std::string &array_name) : m_arra
 {
 }
 
-AbstractAnyValueBuildNode::NodeType StartArrayBuildNode::GetNodeType() const
+AbstractComposerComponent::NodeType StartArrayBuildNode::GetNodeType() const
 {
   return NodeType::kStartArray;
 }
@@ -200,7 +200,7 @@ void StartArrayBuildNode::AddElement(const sup::dto::AnyValue &value)
 // EndArrayBuildNode
 // ----------------------------------------------------------------------------
 
-AbstractAnyValueBuildNode::NodeType EndArrayBuildNode::GetNodeType() const
+AbstractComposerComponent::NodeType EndArrayBuildNode::GetNodeType() const
 {
   return NodeType::kEndArray;
 }
@@ -220,7 +220,7 @@ bool EndArrayBuildNode::Process(std::stack<node_t> &stack)
 // StartArrayElementBuildNode
 // ----------------------------------------------------------------------------
 
-AbstractAnyValueBuildNode::NodeType StartArrayElementBuildNode::GetNodeType() const
+AbstractComposerComponent::NodeType StartArrayElementBuildNode::GetNodeType() const
 {
   return NodeType::kStartArrayElement;
 }
@@ -235,7 +235,7 @@ bool StartArrayElementBuildNode::Process(std::stack<node_t> &stack)
 // EndArrayElementBuildNode
 // ----------------------------------------------------------------------------
 
-AbstractAnyValueBuildNode::NodeType EndArrayElementBuildNode::GetNodeType() const
+AbstractComposerComponent::NodeType EndArrayElementBuildNode::GetNodeType() const
 {
   return NodeType::kEndArrayElement;
 }

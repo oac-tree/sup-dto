@@ -25,7 +25,7 @@
 //! @file anyvalue_buildnode.h
 //! Collection of classes representing nodes for AnyValueBuildAdapterV2.
 
-#include <sup/dto/builder/abstract_anyvalue_buildnode.h>
+#include <sup/dto/builder/abstract_composer_component.h>
 
 #include <string>
 
@@ -37,7 +37,7 @@ namespace dto
 //! The node to build AnyValue. Used when a single scalar is necessary, or during adding the
 //! structure's field or the element of the array.
 
-class AnyValueBuildNode : public AbstractAnyValueBuildNode
+class AnyValueBuildNode : public AbstractComposerComponent
 {
 public:
   AnyValueBuildNode(const sup::dto::AnyValue& value);
@@ -49,7 +49,7 @@ public:
 
 //! The node which is created at the start of the structure.
 
-class StartStructBuildNode : public AbstractAnyValueBuildNode
+class StartStructBuildNode : public AbstractComposerComponent
 {
 public:
   StartStructBuildNode(const std::string& struct_name);
@@ -63,7 +63,7 @@ public:
 
 //! The node which is created at the end of the structure.
 
-class EndStructBuildNode : public AbstractAnyValueBuildNode
+class EndStructBuildNode : public AbstractComposerComponent
 {
 public:
   NodeType GetNodeType() const override;
@@ -73,7 +73,7 @@ public:
 
 //! The node which is created at the beginning of the field creation.
 
-class StartFieldBuildNode : public AbstractAnyValueBuildNode
+class StartFieldBuildNode : public AbstractComposerComponent
 {
 public:
   explicit StartFieldBuildNode(const std::string& field_name);
@@ -85,7 +85,7 @@ public:
 
 //! The node which is created at the end of the field creation.
 
-class EndFieldBuildNode : public AbstractAnyValueBuildNode
+class EndFieldBuildNode : public AbstractComposerComponent
 {
 public:
   NodeType GetNodeType() const override;
@@ -95,7 +95,7 @@ public:
 
 //! The node which is created at the start of the array.
 
-class StartArrayBuildNode : public AbstractAnyValueBuildNode
+class StartArrayBuildNode : public AbstractComposerComponent
 {
 public:
   StartArrayBuildNode(const std::string& array_name);
@@ -112,7 +112,7 @@ private:
 
 //! The node which is created at the end of the array.
 
-class EndArrayBuildNode : public AbstractAnyValueBuildNode
+class EndArrayBuildNode : public AbstractComposerComponent
 {
 public:
   NodeType GetNodeType() const override;
@@ -122,7 +122,7 @@ public:
 
 //! The node which is created at the start of the element in the array.
 
-class StartArrayElementBuildNode : public AbstractAnyValueBuildNode
+class StartArrayElementBuildNode : public AbstractComposerComponent
 {
 public:
   NodeType GetNodeType() const override;
@@ -132,7 +132,7 @@ public:
 
 //! The node which is created at the start of the element in the array.
 
-class EndArrayElementBuildNode : public AbstractAnyValueBuildNode
+class EndArrayElementBuildNode : public AbstractComposerComponent
 {
 public:
   NodeType GetNodeType() const override;

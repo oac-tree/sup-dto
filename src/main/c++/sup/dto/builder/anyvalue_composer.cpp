@@ -34,7 +34,7 @@ namespace dto
 
 struct AnyValueComposer::AnyValueComposerImpl
 {
-  std::stack<AbstractAnyValueBuildNode::node_t> m_stack;
+  std::stack<AbstractComposerComponent::node_t> m_stack;
 
   template <typename T, typename... Args>
   void ProcessNode(Args &&...args)

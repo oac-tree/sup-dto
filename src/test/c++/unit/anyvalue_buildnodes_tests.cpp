@@ -34,10 +34,10 @@ class AnyValueBuildNodesTests : public ::testing::Test
 TEST_F(AnyValueBuildNodesTests, AnyValueBuildNodeProcess)
 {
   AnyValueBuildNode node(sup::dto::AnyValue{sup::dto::SignedInteger32Type, 42});
-  EXPECT_EQ(node.GetNodeType(), AbstractAnyValueBuildNode::NodeType::kValue);
+  EXPECT_EQ(node.GetNodeType(), AbstractComposerComponent::NodeType::kValue);
 
   // processing empty stack
-  std::stack<AbstractAnyValueBuildNode::node_t> stack;
+  std::stack<AbstractComposerComponent::node_t> stack;
   EXPECT_TRUE(node.Process(stack));
 
   // processing stack containing another value
@@ -58,10 +58,10 @@ TEST_F(AnyValueBuildNodesTests, AnyValueBuildNodeProcess)
 TEST_F(AnyValueBuildNodesTests, StartStructBuildNodeProcess)
 {
   StartStructBuildNode node("struct_name");
-  EXPECT_EQ(node.GetNodeType(), AbstractAnyValueBuildNode::NodeType::kStartStruct);
+  EXPECT_EQ(node.GetNodeType(), AbstractComposerComponent::NodeType::kStartStruct);
 
   // processing empty stack
-  std::stack<AbstractAnyValueBuildNode::node_t> stack;
+  std::stack<AbstractComposerComponent::node_t> stack;
   EXPECT_TRUE(node.Process(stack));
 
   // processing stack containing another struct
@@ -97,10 +97,10 @@ TEST_F(AnyValueBuildNodesTests, StartFieldBuildNodeProcess)
 {
   StartFieldBuildNode node("field_name");
   EXPECT_EQ(node.GetFieldName(), std::string("field_name"));
-  EXPECT_EQ(node.GetNodeType(), AbstractAnyValueBuildNode::NodeType::kStartField);
+  EXPECT_EQ(node.GetNodeType(), AbstractComposerComponent::NodeType::kStartField);
 
   // processing of empty stack is not allowed
-  std::stack<AbstractAnyValueBuildNode::node_t> stack;
+  std::stack<AbstractComposerComponent::node_t> stack;
   EXPECT_THROW(node.Process(stack), std::runtime_error);
 
   // stack is possible to process if it contains StartStructBuildNode
@@ -115,16 +115,16 @@ TEST_F(AnyValueBuildNodesTests, StartFieldBuildNodeProcess)
 TEST_F(AnyValueBuildNodesTests, EndFieldBuildNodeProcess)
 {
   EndFieldBuildNode node;
-  EXPECT_EQ(node.GetNodeType(), AbstractAnyValueBuildNode::NodeType::kEndField);
+  EXPECT_EQ(node.GetNodeType(), AbstractComposerComponent::NodeType::kEndField);
 
   {
     // processing of empty stack is not allowed
-    std::stack<AbstractAnyValueBuildNode::node_t> stack;
+    std::stack<AbstractComposerComponent::node_t> stack;
     EXPECT_THROW(node.Process(stack), std::runtime_error);
   }
 
   {
-    std::stack<AbstractAnyValueBuildNode::node_t> stack;
+    std::stack<AbstractComposerComponent::node_t> stack;
     stack.push(std::unique_ptr<StartStructBuildNode>(new StartStructBuildNode("struct_name")));
     stack.push(std::unique_ptr<StartFieldBuildNode>(new StartFieldBuildNode("field_name")));
     stack.push(std::unique_ptr<AnyValueBuildNode>(
@@ -144,15 +144,15 @@ TEST_F(AnyValueBuildNodesTests, EndFieldBuildNodeProcess)
 TEST_F(AnyValueBuildNodesTests, EndStructBuildNodeProcess)
 {
   EndStructBuildNode node;
-  EXPECT_EQ(node.GetNodeType(), AbstractAnyValueBuildNode::NodeType::kEndStruct);
+  EXPECT_EQ(node.GetNodeType(), AbstractComposerComponent::NodeType::kEndStruct);
 
   {  // processing of empty stack is not allowed
-    std::stack<AbstractAnyValueBuildNode::node_t> stack;
+    std::stack<AbstractComposerComponent::node_t> stack;
     EXPECT_THROW(node.Process(stack), std::runtime_error);
   }
 
   {
-    std::stack<AbstractAnyValueBuildNode::node_t> stack;
+    std::stack<AbstractComposerComponent::node_t> stack;
     stack.push(std::unique_ptr<StartStructBuildNode>(new StartStructBuildNode("struct_name")));
 
     // as a result of stack processing, the StartStructBuildNode should be removed, it's value
@@ -170,10 +170,10 @@ TEST_F(AnyValueBuildNodesTests, EndStructBuildNodeProcess)
 TEST_F(AnyValueBuildNodesTests, StartArrayBuildNodeProcess)
 {
   StartArrayBuildNode node("array_name");
-  EXPECT_EQ(node.GetNodeType(), AbstractAnyValueBuildNode::NodeType::kStartArray);
+  EXPECT_EQ(node.GetNodeType(), AbstractComposerComponent::NodeType::kStartArray);
 
   // processing empty stack
-  std::stack<AbstractAnyValueBuildNode::node_t> stack;
+  std::stack<AbstractComposerComponent::node_t> stack;
   EXPECT_TRUE(node.Process(stack));
 
   // processing stack containing another struct is not possible
@@ -194,7 +194,7 @@ TEST_F(AnyValueBuildNodesTests, StartArrayBuildNodeProcess)
 TEST_F(AnyValueBuildNodesTests, StartArrayBuildNodeAddElement)
 {
   StartArrayBuildNode node("array_name");
-  EXPECT_EQ(node.GetNodeType(), AbstractAnyValueBuildNode::NodeType::kStartArray);
+  EXPECT_EQ(node.GetNodeType(), AbstractComposerComponent::NodeType::kStartArray);
 
   // adding an element to the array
   EXPECT_NO_THROW(node.AddElement(sup::dto::AnyValue{sup::dto::SignedInteger32Type, 42}));
@@ -209,10 +209,10 @@ TEST_F(AnyValueBuildNodesTests, StartArrayBuildNodeAddElement)
 TEST_F(AnyValueBuildNodesTests, StartArrayElementBuildNodeProcess)
 {
   StartArrayElementBuildNode node;
-  EXPECT_EQ(node.GetNodeType(), AbstractAnyValueBuildNode::NodeType::kStartArrayElement);
+  EXPECT_EQ(node.GetNodeType(), AbstractComposerComponent::NodeType::kStartArrayElement);
 
   // processing of empty stack is not allowed
-  std::stack<AbstractAnyValueBuildNode::node_t> stack;
+  std::stack<AbstractComposerComponent::node_t> stack;
   EXPECT_THROW(node.Process(stack), std::runtime_error);
 
   // stack is possible to process if it contains StartArrayBuildNode
@@ -224,17 +224,17 @@ TEST_F(AnyValueBuildNodesTests, StartArrayElementBuildNodeProcess)
 TEST_F(AnyValueBuildNodesTests, EndArrayElementBuildNodeProcess)
 {
   EndArrayElementBuildNode node;
-  EXPECT_EQ(node.GetNodeType(), AbstractAnyValueBuildNode::NodeType::kEndArrayElement);
+  EXPECT_EQ(node.GetNodeType(), AbstractComposerComponent::NodeType::kEndArrayElement);
 
   // processing of empty stack is not allowed
   {
-    std::stack<AbstractAnyValueBuildNode::node_t> stack;
+    std::stack<AbstractComposerComponent::node_t> stack;
     EXPECT_THROW(node.Process(stack), std::runtime_error);
   }
 
   // stack should contains proper nodes for processing
   {
-    std::stack<AbstractAnyValueBuildNode::node_t> stack;
+    std::stack<AbstractComposerComponent::node_t> stack;
 
     stack.push(std::unique_ptr<StartArrayBuildNode>(new StartArrayBuildNode("array_name")));
     stack.push(std::unique_ptr<StartArrayElementBuildNode>(new StartArrayElementBuildNode()));
@@ -257,15 +257,15 @@ TEST_F(AnyValueBuildNodesTests, EndArrayElementBuildNodeProcess)
 TEST_F(AnyValueBuildNodesTests, EndArrayBuildNodeProcess)
 {
   EndArrayBuildNode node;
-  EXPECT_EQ(node.GetNodeType(), AbstractAnyValueBuildNode::NodeType::kEndArray);
+  EXPECT_EQ(node.GetNodeType(), AbstractComposerComponent::NodeType::kEndArray);
 
   {  // processing of empty stack is not allowed
-    std::stack<AbstractAnyValueBuildNode::node_t> stack;
+    std::stack<AbstractComposerComponent::node_t> stack;
     EXPECT_THROW(node.Process(stack), std::runtime_error);
   }
 
   {
-    std::stack<AbstractAnyValueBuildNode::node_t> stack;
+    std::stack<AbstractComposerComponent::node_t> stack;
     stack.push(std::unique_ptr<StartArrayBuildNode>(new StartArrayBuildNode("array_name")));
 
     // as a result of stack processing, the StartStructBuildNode should be removed, it's value

@@ -28,14 +28,14 @@ namespace sup
 namespace dto
 {
 
-bool CanAddValueNode(const std::stack<AbstractAnyValueBuildNode::node_t> &stack)
+bool CanAddValueNode(const std::stack<AbstractComposerComponent::node_t> &stack)
 {
   if (stack.empty())
   {
     return true;
   }
 
-  using NodeType = AbstractAnyValueBuildNode::NodeType;
+  using NodeType = AbstractComposerComponent::NodeType;
   static const std::vector<NodeType> expected_types{NodeType::kStartArrayElement,
                                                     NodeType::kStartField};
 
@@ -43,7 +43,7 @@ bool CanAddValueNode(const std::stack<AbstractAnyValueBuildNode::node_t> &stack)
   return it != expected_types.end();
 }
 
-void ValidateAddValueNode(const std::stack<AbstractAnyValueBuildNode::node_t> &stack)
+void ValidateAddValueNode(const std::stack<AbstractComposerComponent::node_t> &stack)
 {
   if (!CanAddValueNode(stack))
   {
@@ -62,8 +62,8 @@ void ValidateAddValueNode(const std::stack<AbstractAnyValueBuildNode::node_t> &s
   }
 }
 
-void ValidateLastNode(const std::stack<AbstractAnyValueBuildNode::node_t> &stack,
-                      AbstractAnyValueBuildNode::NodeType node_type)
+void ValidateLastNode(const std::stack<AbstractComposerComponent::node_t> &stack,
+                      AbstractComposerComponent::NodeType node_type)
 {
   if (stack.empty() || stack.top()->GetNodeType() != node_type)
   {
@@ -71,14 +71,14 @@ void ValidateLastNode(const std::stack<AbstractAnyValueBuildNode::node_t> &stack
   }
 }
 
-void ValidateIfValueNodeIsComplete(const std::stack<AbstractAnyValueBuildNode::node_t> &stack)
+void ValidateIfValueNodeIsComplete(const std::stack<AbstractComposerComponent::node_t> &stack)
 {
   if (stack.empty())
   {
     throw std::runtime_error("Error in ValidateIfValueNodeIsComplete(): stack is empty");
   }
 
-  using NodeType = AbstractAnyValueBuildNode::NodeType;
+  using NodeType = AbstractComposerComponent::NodeType;
   static const std::vector<NodeType> expected_types{NodeType::kValue, NodeType::kEndStruct,
                                                     NodeType::kEndArray};
 

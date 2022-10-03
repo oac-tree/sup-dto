@@ -19,8 +19,8 @@
  * of the distribution package.
  ******************************************************************************/
 
-#ifndef SUP_DTO_BUILDER_ABSTRACT_ANYVALUE_BUILDNODE_H_
-#define SUP_DTO_BUILDER_ABSTRACT_ANYVALUE_BUILDNODE_H_
+#ifndef SUP_DTO_BUILDER_ABSTRACT_COMPOSER_COMPONENT_H_
+#define SUP_DTO_BUILDER_ABSTRACT_COMPOSER_COMPONENT_H_
 
 #include <sup/dto/anyvalue.h>
 
@@ -35,11 +35,11 @@ namespace dto
 
 //! The node for AnyValueBuildAdapter to build AnyValue.
 
-class AbstractAnyValueBuildNode
+class AbstractComposerComponent
 {
 public:
-  virtual ~AbstractAnyValueBuildNode() = default;
-  using node_t = std::unique_ptr<AbstractAnyValueBuildNode>;
+  virtual ~AbstractComposerComponent() = default;
+  using node_t = std::unique_ptr<AbstractComposerComponent>;
 
   enum class NodeType
   {
@@ -54,8 +54,8 @@ public:
     kEndArrayElement
   };
 
-  AbstractAnyValueBuildNode();
-  AbstractAnyValueBuildNode(const sup::dto::AnyValue& value);
+  AbstractComposerComponent();
+  AbstractComposerComponent(const sup::dto::AnyValue& value);
 
   virtual NodeType GetNodeType() const = 0;
 
@@ -82,4 +82,4 @@ protected:
 }  // namespace dto
 }  // namespace sup
 
-#endif  // SUP_DTO_BUILDER_ABSTRACT_ANYVALUE_BUILDNODE_H_
+#endif  // SUP_DTO_BUILDER_ABSTRACT_COMPOSER_COMPONENT_H_
