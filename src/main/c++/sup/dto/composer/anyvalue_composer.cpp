@@ -19,7 +19,7 @@
  * of the distribution package.
  ******************************************************************************/
 
-#include "sup/dto/composer/anyvalue_composer.h"
+#include "sup/dto/anyvalue_composer.h"
 
 #include <sup/dto/anytype.h>
 #include <sup/dto/anyvalue.h>
