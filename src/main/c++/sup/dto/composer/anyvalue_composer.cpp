@@ -1,8 +1,10 @@
 /******************************************************************************
+ * $HeadURL: $
+ * $Id: $
  *
- * Project       : Supervision and automation system EPICS interface
+ * Project       : SUP - DTO
  *
- * Description   : Library of SUP components for EPICS network protocol
+ * Description   : Data transfer objects for SUP
  *
  * Author        : Gennady Pospelov (IO)
  *
@@ -15,7 +17,7 @@
  * For the terms and conditions of redistribution or use of this software
  * refer to the file ITER-LICENSE.TXT located in the top level directory
  * of the distribution package.
- *****************************************************************************/
+ ******************************************************************************/
 
 #include "sup/dto/composer/anyvalue_composer.h"
 
@@ -129,7 +131,7 @@ void AnyValueComposer::String(const std::string &value)
 //! 1. Adding this value is the only operation with the builder. It can be a
 //! scalar, array or structure. The value will be returned to the user on MoveAnyValue as it is.
 //! 2. StartArrayElement was called before. Then the value will be added to the array elements.
-//! 2. StartField was called before. Then the value will be added to current struct as a field.
+//! 3. StartField was called before. Then the value will be added to current struct as a field.
 
 void AnyValueComposer::AddValue(const sup::dto::AnyValue &anyvalue)
 {

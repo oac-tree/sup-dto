@@ -1,8 +1,10 @@
 /******************************************************************************
+ * $HeadURL: $
+ * $Id: $
  *
- * Project       : Supervision and automation system EPICS interface
+ * Project       : SUP - DTO
  *
- * Description   : Library of SUP components for EPICS network protocol
+ * Description   : Data transfer objects for SUP
  *
  * Author        : Gennady Pospelov (IO)
  *
@@ -15,7 +17,7 @@
  * For the terms and conditions of redistribution or use of this software
  * refer to the file ITER-LICENSE.TXT located in the top level directory
  * of the distribution package.
- *****************************************************************************/
+ ******************************************************************************/
 
 #include "sup/dto/composer/anyvalue_composer_helper.h"
 
@@ -55,7 +57,7 @@ void ValidateAddValueComponent(const std::stack<AbstractComposerComponent::compo
     }
     else
     {
-      ostr << "last NodeType=" << static_cast<int>(stack.top()->GetComponentType()) << ".\n";
+      ostr << "last Type=" << static_cast<int>(stack.top()->GetComponentType()) << ".\n";
     }
 
     throw std::runtime_error(ostr.str());
@@ -63,15 +65,16 @@ void ValidateAddValueComponent(const std::stack<AbstractComposerComponent::compo
 }
 
 void ValidateLastComponent(const std::stack<AbstractComposerComponent::component_t> &stack,
-                           AbstractComposerComponent::Type node_type)
+                           AbstractComposerComponent::Type component_type)
 {
-  if (stack.empty() || stack.top()->GetComponentType() != node_type)
+  if (stack.empty() || stack.top()->GetComponentType() != component_type)
   {
-    throw std::runtime_error("Error in ValidateLastComponent(): wrong type of the last node");
+    throw std::runtime_error("Error in ValidateLastComponent(): wrong type of the last component");
   }
 }
 
-void ValidateIfValueComponentIsComplete(const std::stack<AbstractComposerComponent::component_t> &stack)
+void ValidateIfValueComponentIsComplete(
+    const std::stack<AbstractComposerComponent::component_t> &stack)
 {
   if (stack.empty())
   {
@@ -86,7 +89,7 @@ void ValidateIfValueComponentIsComplete(const std::stack<AbstractComposerCompone
 
   if (it == expected_types.end())
   {
-    throw std::runtime_error("Error in ValidateIfValueComponentIsComplete(): wrong node type");
+    throw std::runtime_error("Error in ValidateIfValueComponentIsComplete(): wrong component type");
   }
 }
 

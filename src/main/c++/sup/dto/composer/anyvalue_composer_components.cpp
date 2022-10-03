@@ -1,8 +1,10 @@
 /******************************************************************************
+ * $HeadURL: $
+ * $Id: $
  *
- * Project       : Supervision and automation system EPICS interface
+ * Project       : SUP - DTO
  *
- * Description   : Library of SUP components for EPICS network protocol
+ * Description   : Data transfer objects for SUP
  *
  * Author        : Gennady Pospelov (IO)
  *
@@ -15,7 +17,7 @@
  * For the terms and conditions of redistribution or use of this software
  * refer to the file ITER-LICENSE.TXT located in the top level directory
  * of the distribution package.
- *****************************************************************************/
+ ******************************************************************************/
 
 #include "sup/dto/composer/anyvalue_composer_components.h"
 
@@ -95,7 +97,7 @@ bool EndStructComposerComponent::Process(std::stack<component_t> &stack)
 {
   ValidateLastComponent(stack, Type::kStartStruct);
 
-  // saving the value and removing StartStructBuildNode
+  // saving the value and removing StartStructComposerComponent
   Consume(stack.top()->MoveAnyValue());
   stack.pop();
 
@@ -123,7 +125,8 @@ bool StartFieldComposerComponent::Process(std::stack<component_t> &stack)
 
   if (GetFieldName().empty())
   {
-    throw std::runtime_error("Error in StartFieldBuildNode::Process(): fieldname is not defined");
+    throw std::runtime_error(
+        "Error in StartFieldComposerComponent::Process(): fieldname is not defined");
   }
 
   return kKeepInStackRequest;
@@ -138,26 +141,26 @@ AbstractComposerComponent::Type EndFieldComposerComponent::GetComponentType() co
   return Type::kEndField;
 }
 
-//! Processes the stack, finalizes the adding of the field to StartStructBuildNode.
-//! @note It will remove two last nodes (with the value, and with the field name) and then
-//! create a field in the remaining StartStructBuildNode.
+//! Processes the stack, finalizes the adding of the field to StartStructComposerComponent.
+//! @note It will remove two last stack elements (with the value, and with the field name) and then
+//! create a field in the remaining StartStructComposerComponent.
 bool EndFieldComposerComponent::Process(std::stack<component_t> &stack)
 {
   ValidateIfValueComponentIsComplete(stack);
 
-  // removing value node (scalar, struct or array), keeping the value for later reuse
+  // removing value component (scalar, struct or array), keeping the value for later reuse
   auto value = stack.top()->MoveAnyValue();
   stack.pop();
 
   ValidateLastComponent(stack, Type::kStartField);
 
-  // removing StartFieldNode, keeping the name for later reuse
+  // removing StartFieldComposerComponent, keeping the name for later reuse
   auto field_name = stack.top()->GetFieldName();
   stack.pop();
 
   ValidateLastComponent(stack, Type::kStartStruct);
 
-  // adding a new member to StartStructBuildNode
+  // adding a new member to StartStructComposerComponent
   stack.top()->AddMember(field_name, value);
 
   return kDoNotKeepInStackRequest;
@@ -211,7 +214,7 @@ bool EndArrayComposerComponent::Process(std::stack<component_t> &stack)
 {
   ValidateLastComponent(stack, Type::kStartArray);
 
-  // replacing StartArrayBuildNode with EndArrayBuildNode
+  // replacing StartArrayComposerComponent with EndArrayComposerComponent
   Consume(stack.top()->MoveAnyValue());
   stack.pop();
 
@@ -242,22 +245,23 @@ AbstractComposerComponent::Type EndArrayElementComposerComponent::GetComponentTy
   return Type::kEndArrayElement;
 }
 
-//! Processes the stack, finalizes the adding of the element to StartArrayBuildNode.
-//! @note It will remove two last nodes (with the value, and StartArrayElementNode) and then
-//! create a field in the remaining StartArrayBuildNode.
+//! Processes the stack, finalizes the adding of the element to StartArrayComposerComponent.
+//! @note It will remove two last stack elements (with the value, and
+//! StartArrayElementComposerComponent) and then create a field in the remaining
+//! StartArrayComposerComponent.
 
 bool EndArrayElementComposerComponent::Process(std::stack<component_t> &stack)
 {
   ValidateIfValueComponentIsComplete(stack);
 
-  // removing value node (scalar, struct or array), keeping the value for later reuse
+  // removing value component (scalar, struct or array), keeping the value for later reuse
   auto value = stack.top()->MoveAnyValue();
   stack.pop();
 
   ValidateLastComponent(stack, Type::kStartArrayElement);
   stack.pop();
 
-  // adding a new element to StartArrayBuildNode
+  // adding a new element to StartArrayComposerComponent
   stack.top()->AddElement(value);
 
   return kDoNotKeepInStackRequest;

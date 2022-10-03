@@ -19,11 +19,11 @@
  * of the distribution package.
  ******************************************************************************/
 
-#ifndef SUP_DTO_COMPOSER_ANYVALUE_BUILDNODES_H_
-#define SUP_DTO_COMPOSER_ANYVALUE_BUILDNODES_H_
+#ifndef SUP_DTO_COMPOSER_ANYVALUE_COMPOSER_COMPONENTS_H_
+#define SUP_DTO_COMPOSER_ANYVALUE_COMPOSER_COMPONENTS_H_
 
-//! @file anyvalue_buildnode.h
-//! Collection of classes representing nodes for AnyValueBuildAdapterV2.
+//! @file anyvalue_composer_components.h
+//! Collection of classes representing components for AnyValueComposer.
 
 #include <sup/dto/composer/abstract_composer_component.h>
 
@@ -34,7 +34,7 @@ namespace sup
 namespace dto
 {
 
-//! The node to build AnyValue. Used when a single scalar is necessary, or during adding the
+//! The component to build AnyValue. Used when a single scalar is necessary, or during adding the
 //! structure's field or the element of the array.
 
 class ValueComposerComponent : public AbstractComposerComponent
@@ -47,7 +47,7 @@ public:
   bool Process(std::stack<component_t>& stack) override;
 };
 
-//! The node which is created at the start of the structure.
+//! The component which is created at the start of the structure.
 
 class StartStructComposerComponent : public AbstractComposerComponent
 {
@@ -61,7 +61,7 @@ public:
   void AddMember(const std::string& name, const sup::dto::AnyValue& value) override;
 };
 
-//! The node which is created at the end of the structure.
+//! The component which is created at the end of the structure.
 
 class EndStructComposerComponent : public AbstractComposerComponent
 {
@@ -71,7 +71,7 @@ public:
   bool Process(std::stack<component_t>& stack) override;
 };
 
-//! The node which is created at the beginning of the field creation.
+//! The component which is created at the beginning of the field creation.
 
 class StartFieldComposerComponent : public AbstractComposerComponent
 {
@@ -83,7 +83,7 @@ public:
   bool Process(std::stack<component_t>& stack) override;
 };
 
-//! The node which is created at the end of the field creation.
+//! The component which is created at the end of the field creation.
 
 class EndFieldComposerComponent : public AbstractComposerComponent
 {
@@ -93,7 +93,7 @@ public:
   bool Process(std::stack<component_t>& stack) override;
 };
 
-//! The node which is created at the start of the array.
+//! The component which is created at the start of the array.
 
 class StartArrayComposerComponent : public AbstractComposerComponent
 {
@@ -110,7 +110,7 @@ private:
   std::string m_array_name{};
 };
 
-//! The node which is created at the end of the array.
+//! The component which is created at the end of the array.
 
 class EndArrayComposerComponent : public AbstractComposerComponent
 {
@@ -120,7 +120,7 @@ public:
   bool Process(std::stack<component_t>& stack) override;
 };
 
-//! The node which is created at the start of the element in the array.
+//! The component which is created at the start of the element in the array.
 
 class StartArrayElementComposerComponent : public AbstractComposerComponent
 {
@@ -130,7 +130,7 @@ public:
   bool Process(std::stack<component_t>& stack) override;
 };
 
-//! The node which is created at the start of the element in the array.
+//! The component which is created at the start of the element in the array.
 
 class EndArrayElementComposerComponent : public AbstractComposerComponent
 {
@@ -143,4 +143,4 @@ public:
 }  // namespace dto
 }  // namespace sup
 
-#endif  // SUP_DTO_COMPOSER_ANYVALUE_BUILDNODES_H_
+#endif  // SUP_DTO_COMPOSER_ANYVALUE_COMPOSER_COMPONENTS_H_

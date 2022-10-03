@@ -31,25 +31,25 @@
 
 using namespace sup::dto;
 
-class AbstractAnyValueBuildNodeTests : public ::testing::Test
+class AbstractComposerComponentTests : public ::testing::Test
 {
 public:
-  class TestNode : public AbstractComposerComponent
+  class TestComponent : public AbstractComposerComponent
   {
   public:
-    TestNode() = default;
-    TestNode(sup::dto::AnyValue&& value) : AbstractComposerComponent(std::move(value)) {}
+    TestComponent() = default;
+    TestComponent(sup::dto::AnyValue&& value) : AbstractComposerComponent(std::move(value)) {}
 
     Type GetComponentType() const override { return Type::kValue; }
     bool Process(std::stack<component_t>&) override { return false; }
   };
 };
 
-//! Checking initial state of TestNode class.
+//! Checking initial state of TestComponent class.
 
-TEST_F(AbstractAnyValueBuildNodeTests, InitialState)
+TEST_F(AbstractComposerComponentTests, InitialState)
 {
-  TestNode node;
+  TestComponent node;
   EXPECT_TRUE(node.GetFieldName().empty());
 
   std::stack<AbstractComposerComponent::component_t> stack;
@@ -59,9 +59,9 @@ TEST_F(AbstractAnyValueBuildNodeTests, InitialState)
   EXPECT_THROW(node.AddElement(sup::dto::AnyValue()), std::runtime_error);
 }
 
-TEST_F(AbstractAnyValueBuildNodeTests, MoveAnyValue)
+TEST_F(AbstractComposerComponentTests, MoveAnyValue)
 {
-  TestNode node(sup::dto::AnyValue{sup::dto::SignedInteger32Type, 42});
+  TestComponent node(sup::dto::AnyValue{sup::dto::SignedInteger32Type, 42});
 
   auto result = node.MoveAnyValue();
 
@@ -69,9 +69,9 @@ TEST_F(AbstractAnyValueBuildNodeTests, MoveAnyValue)
   EXPECT_EQ(result, expected);
 }
 
-TEST_F(AbstractAnyValueBuildNodeTests, SetFieldName)
+TEST_F(AbstractComposerComponentTests, SetFieldName)
 {
-  TestNode node;
+  TestComponent node;
   node.SetFieldName("field_name");
   EXPECT_EQ(node.GetFieldName(), std::string("field_name"));
 }

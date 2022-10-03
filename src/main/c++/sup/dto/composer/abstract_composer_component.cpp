@@ -1,8 +1,10 @@
 /******************************************************************************
+ * $HeadURL: $
+ * $Id: $
  *
- * Project       : Supervision and automation system EPICS interface
+ * Project       : SUP - DTO
  *
- * Description   : Library of SUP components for EPICS network protocol
+ * Description   : Data transfer objects for SUP
  *
  * Author        : Gennady Pospelov (IO)
  *
@@ -15,7 +17,7 @@
  * For the terms and conditions of redistribution or use of this software
  * refer to the file ITER-LICENSE.TXT located in the top level directory
  * of the distribution package.
- *****************************************************************************/
+ ******************************************************************************/
 
 #include <sup/dto/composer/abstract_composer_component.h>
 

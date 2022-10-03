@@ -34,7 +34,7 @@ public:
   //! Utility function that creates a stack and put there one build node of given type.
   //! It returns the value reported by CanAddValueNode for this stack.
   template <typename T, typename... Args>
-  bool CheckAddValueNode(Args&&... args)
+  bool CheckAddValueComponent(Args&&... args)
   {
     std::stack<AbstractComposerComponent::component_t> stack;
     stack.push(std::unique_ptr<T>(new T((args)...)));
@@ -42,7 +42,7 @@ public:
   }
 
   template <typename T, typename... Args>
-  void ValidateCompletedValueNode(Args&&... args)
+  void ValidateCompletedValueComponent(Args&&... args)
   {
     std::stack<AbstractComposerComponent::component_t> stack;
     stack.push(std::unique_ptr<T>(new T((args)...)));
@@ -60,16 +60,16 @@ TEST_F(AnyValueComposerHelperTests, CanAddValueComponent)
   }
 
   // it is possible to add value node if the last node is one of the following
-  EXPECT_TRUE(CheckAddValueNode<StartFieldComposerComponent>("name"));
-  EXPECT_TRUE(CheckAddValueNode<StartArrayElementComposerComponent>());
+  EXPECT_TRUE(CheckAddValueComponent<StartFieldComposerComponent>("name"));
+  EXPECT_TRUE(CheckAddValueComponent<StartArrayElementComposerComponent>());
 
   // it is not possible to add value node if the last node in the stack is one of the following
-  EXPECT_FALSE(CheckAddValueNode<StartStructComposerComponent>("name"));
-  EXPECT_FALSE(CheckAddValueNode<StartArrayComposerComponent>("name"));
-  EXPECT_FALSE(CheckAddValueNode<EndStructComposerComponent>());
-  EXPECT_FALSE(CheckAddValueNode<EndArrayComposerComponent>());
-  EXPECT_FALSE(CheckAddValueNode<EndFieldComposerComponent>());
-  EXPECT_FALSE(CheckAddValueNode<EndArrayElementComposerComponent>());
+  EXPECT_FALSE(CheckAddValueComponent<StartStructComposerComponent>("name"));
+  EXPECT_FALSE(CheckAddValueComponent<StartArrayComposerComponent>("name"));
+  EXPECT_FALSE(CheckAddValueComponent<EndStructComposerComponent>());
+  EXPECT_FALSE(CheckAddValueComponent<EndArrayComposerComponent>());
+  EXPECT_FALSE(CheckAddValueComponent<EndFieldComposerComponent>());
+  EXPECT_FALSE(CheckAddValueComponent<EndArrayElementComposerComponent>());
 }
 
 //! Unit tests for ValidateAddValueComponent utility function.
@@ -81,14 +81,14 @@ TEST_F(AnyValueComposerHelperTests, ValidateAddValueComponent)
     EXPECT_NO_THROW(ValidateAddValueComponent(stack));
   }
 
-  {  // it is not possible to add value node if stack contains StartStructBuildNode
+  {  // it is not possible to add value node if stack contains StartStructComposerComponent
     std::stack<AbstractComposerComponent::component_t> stack;
     stack.push(
         std::unique_ptr<StartStructComposerComponent>(new StartStructComposerComponent("name")));
     EXPECT_THROW(ValidateAddValueComponent(stack), std::runtime_error);
   }
 
-  // More tests above in AnyValueBuildNodeUtilsTests::CanAddValueNode.
+  // More tests above in CanAddValueComponent::CanAddValueComponent.
 }
 
 //! Unit tests for ValidateLastComponent utility function.
@@ -113,6 +113,6 @@ TEST_F(AnyValueComposerHelperTests, ValidateIfValueComponentIsComplete)
   std::stack<AbstractComposerComponent::component_t> stack;
   EXPECT_THROW(ValidateIfValueComponentIsComplete(stack), std::runtime_error);
 
-  EXPECT_NO_THROW(CheckAddValueNode<EndStructComposerComponent>());
-  EXPECT_NO_THROW(CheckAddValueNode<EndArrayComposerComponent>());
+  EXPECT_NO_THROW(CheckAddValueComponent<EndStructComposerComponent>());
+  EXPECT_NO_THROW(CheckAddValueComponent<EndArrayComposerComponent>());
 }
