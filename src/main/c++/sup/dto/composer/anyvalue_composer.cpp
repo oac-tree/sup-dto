@@ -176,7 +176,7 @@ void AnyValueComposer::StartArrayElement()
 
 void AnyValueComposer::EndArrayElement()
 {
-  p_impl->ProcessNode<EndArrayElementBuildNode>();
+  p_impl->ProcessNode<EndArrayElementComposerComponent>();
 }
 
 //! Adds array element.

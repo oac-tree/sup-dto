@@ -132,7 +132,7 @@ public:
 
 //! The node which is created at the start of the element in the array.
 
-class EndArrayElementBuildNode : public AbstractComposerComponent
+class EndArrayElementComposerComponent : public AbstractComposerComponent
 {
 public:
   NodeType GetNodeType() const override;

@@ -69,7 +69,7 @@ TEST_F(AnyValueBuildNodeUtilsTests, CanAddValueNode)
   EXPECT_FALSE(CheckAddValueNode<EndStructComposerComponent>());
   EXPECT_FALSE(CheckAddValueNode<EndArrayComposerComponent>());
   EXPECT_FALSE(CheckAddValueNode<EndFieldComposerComponent>());
-  EXPECT_FALSE(CheckAddValueNode<EndArrayElementBuildNode>());
+  EXPECT_FALSE(CheckAddValueNode<EndArrayElementComposerComponent>());
 }
 
 //! Unit tests for ValidateAddValueNode utility function.

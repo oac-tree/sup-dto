@@ -76,7 +76,8 @@ bool StartStructComposerComponent::Process(std::stack<node_t> &stack)
   return kKeepInStackRequest;
 }
 
-void StartStructComposerComponent::AddMember(const std::string &name, const sup::dto::AnyValue &value)
+void StartStructComposerComponent::AddMember(const std::string &name,
+                                             const sup::dto::AnyValue &value)
 {
   m_value.AddMember(name, value);
 }
@@ -166,7 +167,8 @@ bool EndFieldComposerComponent::Process(std::stack<node_t> &stack)
 // StartArrayComposerComponent
 // ----------------------------------------------------------------------------
 
-StartArrayComposerComponent::StartArrayComposerComponent(const std::string &array_name) : m_array_name(array_name)
+StartArrayComposerComponent::StartArrayComposerComponent(const std::string &array_name)
+    : m_array_name(array_name)
 {
 }
 
@@ -232,10 +234,10 @@ bool StartArrayElementComposerComponent::Process(std::stack<node_t> &stack)
 }
 
 // ----------------------------------------------------------------------------
-// EndArrayElementBuildNode
+// EndArrayElementComposerComponent
 // ----------------------------------------------------------------------------
 
-AbstractComposerComponent::NodeType EndArrayElementBuildNode::GetNodeType() const
+AbstractComposerComponent::NodeType EndArrayElementComposerComponent::GetNodeType() const
 {
   return NodeType::kEndArrayElement;
 }
@@ -244,7 +246,7 @@ AbstractComposerComponent::NodeType EndArrayElementBuildNode::GetNodeType() cons
 //! @note It will remove two last nodes (with the value, and StartArrayElementNode) and then
 //! create a field in the remaining StartArrayBuildNode.
 
-bool EndArrayElementBuildNode::Process(std::stack<node_t> &stack)
+bool EndArrayElementComposerComponent::Process(std::stack<node_t> &stack)
 {
   ValidateIfValueNodeIsComplete(stack);
 
