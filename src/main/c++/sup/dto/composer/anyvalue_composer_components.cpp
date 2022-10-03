@@ -217,15 +217,15 @@ bool EndArrayComposerComponent::Process(std::stack<node_t> &stack)
 }
 
 // ----------------------------------------------------------------------------
-// StartArrayElementBuildNode
+// StartArrayElementComposerComponent
 // ----------------------------------------------------------------------------
 
-AbstractComposerComponent::NodeType StartArrayElementBuildNode::GetNodeType() const
+AbstractComposerComponent::NodeType StartArrayElementComposerComponent::GetNodeType() const
 {
   return NodeType::kStartArrayElement;
 }
 
-bool StartArrayElementBuildNode::Process(std::stack<node_t> &stack)
+bool StartArrayElementComposerComponent::Process(std::stack<node_t> &stack)
 {
   ValidateLastNode(stack, NodeType::kStartArray);
   return kKeepInStackRequest;

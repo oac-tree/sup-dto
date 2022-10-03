@@ -215,9 +215,9 @@ TEST_F(AnyValueComposerComponentsTests, StartArrayBuildNodeAddElement)
 }
 
 //! Testing StartArrayElementBuildNode and its Process method.
-TEST_F(AnyValueComposerComponentsTests, StartArrayElementBuildNodeProcess)
+TEST_F(AnyValueComposerComponentsTests, StartArrayElementComposerComponentProcess)
 {
-  StartArrayElementBuildNode node;
+  StartArrayElementComposerComponent node;
   EXPECT_EQ(node.GetNodeType(), AbstractComposerComponent::NodeType::kStartArrayElement);
 
   // processing of empty stack is not allowed
@@ -248,7 +248,8 @@ TEST_F(AnyValueComposerComponentsTests, EndArrayElementBuildNodeProcess)
 
     stack.push(std::unique_ptr<StartArrayComposerComponent>(
         new StartArrayComposerComponent("array_name")));
-    stack.push(std::unique_ptr<StartArrayElementBuildNode>(new StartArrayElementBuildNode()));
+    stack.push(std::unique_ptr<StartArrayElementComposerComponent>(
+        new StartArrayElementComposerComponent()));
     stack.push(std::unique_ptr<ValueComposerComponent>(
         new ValueComposerComponent(sup::dto::AnyValue{sup::dto::SignedInteger32Type, 42})));
 

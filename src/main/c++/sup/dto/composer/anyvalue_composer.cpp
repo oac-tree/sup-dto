@@ -171,7 +171,7 @@ void AnyValueComposer::StartArray(const std::string &array_name)
 
 void AnyValueComposer::StartArrayElement()
 {
-  p_impl->ProcessNode<StartArrayElementBuildNode>();
+  p_impl->ProcessNode<StartArrayElementComposerComponent>();
 }
 
 void AnyValueComposer::EndArrayElement()

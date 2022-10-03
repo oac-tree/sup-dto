@@ -61,7 +61,7 @@ TEST_F(AnyValueBuildNodeUtilsTests, CanAddValueNode)
 
   // it is possible to add value node if the last node is one of the following
   EXPECT_TRUE(CheckAddValueNode<StartFieldComposerComponent>("name"));
-  EXPECT_TRUE(CheckAddValueNode<StartArrayElementBuildNode>());
+  EXPECT_TRUE(CheckAddValueNode<StartArrayElementComposerComponent>());
 
   // it is not possible to add value node if the last node in the stack is one of the following
   EXPECT_FALSE(CheckAddValueNode<StartStructComposerComponent>("name"));
