@@ -85,12 +85,12 @@ void StartStructComposerComponent::AddMember(const std::string &name, const sup:
 // EndStructBuildNode
 // ----------------------------------------------------------------------------
 
-AbstractComposerComponent::NodeType EndStructBuildNode::GetNodeType() const
+AbstractComposerComponent::NodeType EndStructComposerComponent::GetNodeType() const
 {
   return NodeType::kEndStruct;
 }
 
-bool EndStructBuildNode::Process(std::stack<node_t> &stack)
+bool EndStructComposerComponent::Process(std::stack<node_t> &stack)
 {
   ValidateLastNode(stack, NodeType::kStartStruct);
 

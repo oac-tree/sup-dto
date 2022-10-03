@@ -66,7 +66,7 @@ TEST_F(AnyValueBuildNodeUtilsTests, CanAddValueNode)
   // it is not possible to add value node if the last node in the stack is one of the following
   EXPECT_FALSE(CheckAddValueNode<StartStructComposerComponent>("name"));
   EXPECT_FALSE(CheckAddValueNode<StartArrayBuildNode>("name"));
-  EXPECT_FALSE(CheckAddValueNode<EndStructBuildNode>());
+  EXPECT_FALSE(CheckAddValueNode<EndStructComposerComponent>());
   EXPECT_FALSE(CheckAddValueNode<EndArrayBuildNode>());
   EXPECT_FALSE(CheckAddValueNode<EndFieldBuildNode>());
   EXPECT_FALSE(CheckAddValueNode<EndArrayElementBuildNode>());
@@ -111,6 +111,6 @@ TEST_F(AnyValueBuildNodeUtilsTests, ValidateIfValueNodeIsComplete)
   std::stack<AbstractComposerComponent::node_t> stack;
   EXPECT_THROW(ValidateIfValueNodeIsComplete(stack), std::runtime_error);
 
-  EXPECT_NO_THROW(CheckAddValueNode<EndStructBuildNode>());
+  EXPECT_NO_THROW(CheckAddValueNode<EndStructComposerComponent>());
   EXPECT_NO_THROW(CheckAddValueNode<EndArrayBuildNode>());
 }

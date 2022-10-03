@@ -141,9 +141,9 @@ TEST_F(AnyValueComposerComponentsTests, EndFieldBuildNodeProcess)
   }
 }
 
-TEST_F(AnyValueComposerComponentsTests, EndStructBuildNodeProcess)
+TEST_F(AnyValueComposerComponentsTests, EndStructComposerComponentProcess)
 {
-  EndStructBuildNode node;
+  EndStructComposerComponent node;
   EXPECT_EQ(node.GetNodeType(), AbstractComposerComponent::NodeType::kEndStruct);
 
   {  // processing of empty stack is not allowed

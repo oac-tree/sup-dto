@@ -63,7 +63,7 @@ public:
 
 //! The node which is created at the end of the structure.
 
-class EndStructBuildNode : public AbstractComposerComponent
+class EndStructComposerComponent : public AbstractComposerComponent
 {
 public:
   NodeType GetNodeType() const override;
