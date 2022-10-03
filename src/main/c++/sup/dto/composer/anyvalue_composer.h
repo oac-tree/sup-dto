@@ -19,8 +19,8 @@
  * of the distribution package.
  ******************************************************************************/
 
-#ifndef SUP_DTO_BUILDER_ANYVALUE_COMPOSER_H_
-#define SUP_DTO_BUILDER_ANYVALUE_COMPOSER_H_
+#ifndef SUP_DTO_COMPOSER_ANYVALUE_COMPOSER_H_
+#define SUP_DTO_COMPOSER_ANYVALUE_COMPOSER_H_
 
 #include <sup/dto/basic_scalar_types.h>
 
@@ -89,4 +89,4 @@ private:
 }  // namespace dto
 }  // namespace sup
 
-#endif  // SUP_DTO_BUILDER_ANYVALUE_COMPOSER_H_
+#endif  // SUP_DTO_COMPOSER_ANYVALUE_COMPOSER_H_

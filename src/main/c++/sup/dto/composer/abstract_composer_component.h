@@ -19,8 +19,8 @@
  * of the distribution package.
  ******************************************************************************/
 
-#ifndef SUP_DTO_BUILDER_ABSTRACT_COMPOSER_COMPONENT_H_
-#define SUP_DTO_BUILDER_ABSTRACT_COMPOSER_COMPONENT_H_
+#ifndef SUP_DTO_COMPOSER_ABSTRACT_COMPOSER_COMPONENT_H_
+#define SUP_DTO_COMPOSER_ABSTRACT_COMPOSER_COMPONENT_H_
 
 #include <sup/dto/anyvalue.h>
 
@@ -82,4 +82,4 @@ protected:
 }  // namespace dto
 }  // namespace sup
 
-#endif  // SUP_DTO_BUILDER_ABSTRACT_COMPOSER_COMPONENT_H_
+#endif  // SUP_DTO_COMPOSER_ABSTRACT_COMPOSER_COMPONENT_H_

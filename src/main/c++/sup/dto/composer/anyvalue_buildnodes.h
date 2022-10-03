@@ -19,13 +19,13 @@
  * of the distribution package.
  ******************************************************************************/
 
-#ifndef SUP_DTO_BUILDER_ANYVALUE_BUILDNODES_H_
-#define SUP_DTO_BUILDER_ANYVALUE_BUILDNODES_H_
+#ifndef SUP_DTO_COMPOSER_ANYVALUE_BUILDNODES_H_
+#define SUP_DTO_COMPOSER_ANYVALUE_BUILDNODES_H_
 
 //! @file anyvalue_buildnode.h
 //! Collection of classes representing nodes for AnyValueBuildAdapterV2.
 
-#include <sup/dto/builder/abstract_composer_component.h>
+#include <sup/dto/composer/abstract_composer_component.h>
 
 #include <string>
 
@@ -143,4 +143,4 @@ public:
 }  // namespace dto
 }  // namespace sup
 
-#endif  // SUP_DTO_BUILDER_ANYVALUE_BUILDNODES_H_
+#endif  // SUP_DTO_COMPOSER_ANYVALUE_BUILDNODES_H_

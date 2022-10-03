@@ -17,12 +17,12 @@
  * of the distribution package.
  *****************************************************************************/
 
-#include "sup/dto/builder/anyvalue_composer.h"
+#include "sup/dto/composer/anyvalue_composer.h"
 
 #include <sup/dto/anytype.h>
 #include <sup/dto/anyvalue.h>
 #include <sup/dto/anyvalue_helper.h>
-#include <sup/dto/builder/anyvalue_buildnodes.h>
+#include <sup/dto/composer/anyvalue_buildnodes.h>
 
 #include <stack>
 #include <stdexcept>

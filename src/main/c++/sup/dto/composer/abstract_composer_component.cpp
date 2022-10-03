@@ -17,7 +17,7 @@
  * of the distribution package.
  *****************************************************************************/
 
-#include <sup/dto/builder/abstract_composer_component.h>
+#include <sup/dto/composer/abstract_composer_component.h>
 
 #include <stdexcept>
 
