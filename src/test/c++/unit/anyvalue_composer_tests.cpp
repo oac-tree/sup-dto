@@ -19,7 +19,7 @@
  * of the distribution package.
  ******************************************************************************/
 
-#include "sup/dto/builder/anyvalue_build_adapter.h"
+#include "sup/dto/builder/anyvalue_composer.h"
 
 #include <gtest/gtest.h>
 #include <sup/dto/anytype.h>
@@ -29,15 +29,15 @@
 
 using namespace sup::dto;
 
-class AnyValueBuildAdapterTests : public ::testing::Test
+class AnyValueComposerTests : public ::testing::Test
 {
 };
 
 //! Checking that the builder returns an empty value.
 
-TEST_F(AnyValueBuildAdapterTests, InitialState)
+TEST_F(AnyValueComposerTests, InitialState)
 {
-  AnyValueBuildAdapter builder;
+  AnyValueComposer builder;
   auto value = builder.MoveAnyValue();
 
   EXPECT_EQ(builder.GetStackSize(), 0);
@@ -47,9 +47,9 @@ TEST_F(AnyValueBuildAdapterTests, InitialState)
 
 //! Creation of AnyValue scalar.
 
-TEST_F(AnyValueBuildAdapterTests, Scalar)
+TEST_F(AnyValueComposerTests, Scalar)
 {
-  AnyValueBuildAdapter builder;
+  AnyValueComposer builder;
 
   builder.Int32(42);
 
@@ -63,9 +63,9 @@ TEST_F(AnyValueBuildAdapterTests, Scalar)
 
 //! Creation of AnyValue scalar via AddMember method with empty name.
 
-TEST_F(AnyValueBuildAdapterTests, ScalarViaAddValue)
+TEST_F(AnyValueComposerTests, ScalarViaAddValue)
 {
-  AnyValueBuildAdapter builder;
+  AnyValueComposer builder;
 
   sup::dto::AnyValue expected_anyvalue{sup::dto::StringType, std::string("abc")};
 
@@ -80,9 +80,9 @@ TEST_F(AnyValueBuildAdapterTests, ScalarViaAddValue)
 
 //! Empty structure.
 
-TEST_F(AnyValueBuildAdapterTests, EmptyStruct)
+TEST_F(AnyValueComposerTests, EmptyStruct)
 {
-  AnyValueBuildAdapter builder;
+  AnyValueComposer builder;
 
   builder.StartStruct("struct_name");
   builder.EndStruct();
@@ -93,11 +93,11 @@ TEST_F(AnyValueBuildAdapterTests, EmptyStruct)
 
 //! Creation of AnyValue containing a struct with single field.
 
-TEST_F(AnyValueBuildAdapterTests, StructWithSingleField)
+TEST_F(AnyValueComposerTests, StructWithSingleField)
 {
   sup::dto::AnyType expected_anytype = {{"signed", {sup::dto::SignedInteger32Type}}};
 
-  AnyValueBuildAdapter builder;
+  AnyValueComposer builder;
 
   builder.StartStruct();
   builder.StartField("signed");
@@ -115,12 +115,12 @@ TEST_F(AnyValueBuildAdapterTests, StructWithSingleField)
 
 //! Creation of AnyValue containing a struct with two fields.
 
-TEST_F(AnyValueBuildAdapterTests, StructWithTwoFields)
+TEST_F(AnyValueComposerTests, StructWithTwoFields)
 {
   sup::dto::AnyType expected_anytype = {{"signed", {sup::dto::SignedInteger32Type}},
                                         {"bool", {sup::dto::BooleanType}}};
 
-  AnyValueBuildAdapter builder;
+  AnyValueComposer builder;
 
   builder.StartStruct();
   builder.StartField("signed");
@@ -143,12 +143,12 @@ TEST_F(AnyValueBuildAdapterTests, StructWithTwoFields)
 //! Creation of AnyValue containing a struct with two fields.
 //! Same as before using method AddScalar and pre-constructed AnyValue scalars
 
-TEST_F(AnyValueBuildAdapterTests, StructWithTwoFieldsViaAddValue)
+TEST_F(AnyValueComposerTests, StructWithTwoFieldsViaAddValue)
 {
   sup::dto::AnyType expected_anytype = {{"signed", {sup::dto::SignedInteger32Type}},
                                         {"bool", {sup::dto::BooleanType}}};
 
-  AnyValueBuildAdapter builder;
+  AnyValueComposer builder;
 
   builder.StartStruct();
   auto value1 = ::sup::dto::AnyValue(::sup::dto::SignedInteger32Type, 42);
@@ -174,12 +174,12 @@ TEST_F(AnyValueBuildAdapterTests, StructWithTwoFieldsViaAddValue)
 //! Creation of AnyValue containing a struct with two fields.
 //! Same as before using method AddScalar and pre-constructed AnyValue scalars
 
-TEST_F(AnyValueBuildAdapterTests, StructWithTwoFieldsViaAddMember)
+TEST_F(AnyValueComposerTests, StructWithTwoFieldsViaAddMember)
 {
   sup::dto::AnyType expected_anytype = {{"signed", {sup::dto::SignedInteger32Type}},
                                         {"bool", {sup::dto::BooleanType}}};
 
-  AnyValueBuildAdapter builder;
+  AnyValueComposer builder;
 
   builder.StartStruct();
   builder.AddMember("signed", ::sup::dto::AnyValue(::sup::dto::SignedInteger32Type, 42));
@@ -198,13 +198,13 @@ TEST_F(AnyValueBuildAdapterTests, StructWithTwoFieldsViaAddMember)
 
 //! Creation of AnyValue containing a struct with another struct in it.
 
-TEST_F(AnyValueBuildAdapterTests, StructWithNestedStructWithField)
+TEST_F(AnyValueComposerTests, StructWithNestedStructWithField)
 {
   sup::dto::AnyType two_scalars = {{"signed", {sup::dto::SignedInteger32Type}},
                                    {"bool", {sup::dto::BooleanType}}};
   sup::dto::AnyType expected_anytype = {{"scalars", two_scalars}};
 
-  AnyValueBuildAdapter builder;
+  AnyValueComposer builder;
 
   builder.StartStruct();
   builder.StartField("scalars");
@@ -233,7 +233,7 @@ TEST_F(AnyValueBuildAdapterTests, StructWithNestedStructWithField)
 
 //! Creation of AnyValue containing two structures.
 
-TEST_F(AnyValueBuildAdapterTests, StructWithTwoNestedStructs)
+TEST_F(AnyValueComposerTests, StructWithTwoNestedStructs)
 {
   const std::string struct_name = "struct_name";
   sup::dto::AnyType two_scalars = {
@@ -246,7 +246,7 @@ TEST_F(AnyValueBuildAdapterTests, StructWithTwoNestedStructs)
         {{"first", {sup::dto::SignedInteger8Type}}, {"second", {sup::dto::UnsignedInteger8Type}}}}},
       struct_name};
 
-  AnyValueBuildAdapter builder;
+  AnyValueComposer builder;
 
   builder.StartStruct(struct_name);
   builder.StartField("struct1");
@@ -289,7 +289,7 @@ TEST_F(AnyValueBuildAdapterTests, StructWithTwoNestedStructs)
 
 //! Same test as before when internal structs are added via AddValue method
 
-TEST_F(AnyValueBuildAdapterTests, StructWithTwoNestedStructsViaAddValue)
+TEST_F(AnyValueComposerTests, StructWithTwoNestedStructsViaAddValue)
 {
   const std::string struct_name = "struct_name";
   sup::dto::AnyType two_scalars = {
@@ -309,7 +309,7 @@ TEST_F(AnyValueBuildAdapterTests, StructWithTwoNestedStructsViaAddValue)
   sup::dto::AnyValue struct2 = {{"first", {sup::dto::SignedInteger8Type, -43}},
                                 {"second", {sup::dto::UnsignedInteger8Type, 44}}};
 
-  AnyValueBuildAdapter builder;
+  AnyValueComposer builder;
 
   builder.StartStruct(struct_name);
 
@@ -335,7 +335,7 @@ TEST_F(AnyValueBuildAdapterTests, StructWithTwoNestedStructsViaAddValue)
 
 //! Same test as before when internal structs are added via AddMember method
 
-TEST_F(AnyValueBuildAdapterTests, StructWithTwoNestedStructsViaAddMember)
+TEST_F(AnyValueComposerTests, StructWithTwoNestedStructsViaAddMember)
 {
   const std::string struct_name = "struct_name";
   sup::dto::AnyType two_scalars = {
@@ -355,7 +355,7 @@ TEST_F(AnyValueBuildAdapterTests, StructWithTwoNestedStructsViaAddMember)
   sup::dto::AnyValue struct2 = {{"first", {sup::dto::SignedInteger8Type, -43}},
                                 {"second", {sup::dto::UnsignedInteger8Type, 44}}};
 
-  AnyValueBuildAdapter builder;
+  AnyValueComposer builder;
 
   builder.StartStruct(struct_name);
   builder.AddMember("struct1", struct1);
@@ -375,9 +375,9 @@ TEST_F(AnyValueBuildAdapterTests, StructWithTwoNestedStructsViaAddMember)
 
 //! Validate array construction when no elements have beem added.
 
-TEST_F(AnyValueBuildAdapterTests, EmptyArray)
+TEST_F(AnyValueComposerTests, EmptyArray)
 {
-  AnyValueBuildAdapter builder;
+  AnyValueComposer builder;
 
   builder.StartArray("array_name");
   builder.EndArray();
@@ -390,11 +390,11 @@ TEST_F(AnyValueBuildAdapterTests, EmptyArray)
 
 //! Construction of scalar array with the name and two elements.
 
-TEST_F(AnyValueBuildAdapterTests, ScalarArray)
+TEST_F(AnyValueComposerTests, ScalarArray)
 {
   auto expected = sup::dto::ArrayValue({{sup::dto::SignedInteger32Type, 42}, 43}, "array_name");
 
-  AnyValueBuildAdapter builder;
+  AnyValueComposer builder;
 
   builder.StartArray("array_name");
   builder.StartArrayElement();
@@ -412,11 +412,11 @@ TEST_F(AnyValueBuildAdapterTests, ScalarArray)
 //! Construction of scalar array with the name and two elements.
 //! Using convenience AddArrayElement methods.
 
-TEST_F(AnyValueBuildAdapterTests, ScalarArrayViaAddArrayElement)
+TEST_F(AnyValueComposerTests, ScalarArrayViaAddArrayElement)
 {
   auto expected = sup::dto::ArrayValue({{sup::dto::SignedInteger32Type, 42}, 43}, "array_name");
 
-  AnyValueBuildAdapter builder;
+  AnyValueComposer builder;
 
   builder.StartArray("array_name");
   builder.AddArrayElement(::sup::dto::AnyValue(::sup::dto::SignedInteger32Type, 42));
@@ -429,12 +429,12 @@ TEST_F(AnyValueBuildAdapterTests, ScalarArrayViaAddArrayElement)
 
 //! Building a structure with scalar array as a single field.
 
-TEST_F(AnyValueBuildAdapterTests, StructWithScalarArrayAsField)
+TEST_F(AnyValueComposerTests, StructWithScalarArrayAsField)
 {
   auto array_value = sup::dto::ArrayValue({{sup::dto::SignedInteger32Type, 42}, 43}, "array_name");
   sup::dto::AnyValue expected_struct_value = {{{"array_field", array_value}}, "struct_name"};
 
-  AnyValueBuildAdapter builder;
+  AnyValueComposer builder;
 
   builder.StartStruct("struct_name");
   builder.StartField("array_field");
@@ -455,14 +455,14 @@ TEST_F(AnyValueBuildAdapterTests, StructWithScalarArrayAsField)
 
 //! Building a structure with two scalar array as fields.
 
-TEST_F(AnyValueBuildAdapterTests, StructWithTwoScalarArrayAsField)
+TEST_F(AnyValueComposerTests, StructWithTwoScalarArrayAsField)
 {
   auto array1 = sup::dto::ArrayValue({{sup::dto::SignedInteger32Type, 42}, 43}, "array_name1");
   auto array2 = sup::dto::ArrayValue({{sup::dto::SignedInteger32Type, 44}, 45, 46}, "array_name2");
   sup::dto::AnyValue expected_struct_value = {{{"field1", array1}, {"field2", array2}},
                                               "struct_name"};
 
-  AnyValueBuildAdapter builder;
+  AnyValueComposer builder;
 
   builder.StartStruct("struct_name");
 
@@ -489,7 +489,7 @@ TEST_F(AnyValueBuildAdapterTests, StructWithTwoScalarArrayAsField)
 
 //! Building an array with two structure elements.
 
-TEST_F(AnyValueBuildAdapterTests, ArrayWithTwoStructureElements)
+TEST_F(AnyValueComposerTests, ArrayWithTwoStructureElements)
 {
   sup::dto::AnyValue struct1 = {{{"first", {sup::dto::SignedInteger8Type, -43}},
                                  {"second", {sup::dto::UnsignedInteger8Type, 44}}},
@@ -500,7 +500,7 @@ TEST_F(AnyValueBuildAdapterTests, ArrayWithTwoStructureElements)
 
   auto expected_array_value = sup::dto::ArrayValue({{struct1}, struct2}, "array_name");
 
-  AnyValueBuildAdapter builder;
+  AnyValueComposer builder;
 
   builder.StartArray("array_name");
 
@@ -530,7 +530,7 @@ TEST_F(AnyValueBuildAdapterTests, ArrayWithTwoStructureElements)
 
 //! Building a structure with array as a field with two structures.
 
-TEST_F(AnyValueBuildAdapterTests, StructureWithArrayWithStructure)
+TEST_F(AnyValueComposerTests, StructureWithArrayWithStructure)
 {
   sup::dto::AnyValue struct1 = {{{"first", {sup::dto::SignedInteger8Type, -43}},
                                  {"second", {sup::dto::UnsignedInteger8Type, 44}}},
@@ -543,7 +543,7 @@ TEST_F(AnyValueBuildAdapterTests, StructureWithArrayWithStructure)
 
   sup::dto::AnyValue expected_struct_value = {{{"field", array_value}}, "struct_name2"};
 
-  AnyValueBuildAdapter builder;
+  AnyValueComposer builder;
 
   builder.StartStruct("struct_name2");
   builder.StartField("field");

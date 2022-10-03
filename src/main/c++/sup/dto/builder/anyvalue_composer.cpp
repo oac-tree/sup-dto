@@ -17,7 +17,7 @@
  * of the distribution package.
  *****************************************************************************/
 
-#include "sup/dto/builder/anyvalue_build_adapter.h"
+#include "sup/dto/builder/anyvalue_composer.h"
 
 #include <sup/dto/anytype.h>
 #include <sup/dto/anyvalue.h>
@@ -32,7 +32,7 @@ namespace sup
 namespace dto
 {
 
-struct AnyValueBuildAdapter::AnyValueBuildAdapterImpl
+struct AnyValueComposer::AnyValueComposerImpl
 {
   std::stack<AbstractAnyValueBuildNode::node_t> m_stack;
 
@@ -47,73 +47,75 @@ struct AnyValueBuildAdapter::AnyValueBuildAdapterImpl
   }
 
   void AddValueNode(const ::sup::dto::AnyValue &value) { ProcessNode<AnyValueBuildNode>(value); }
+
+  AnyValueComposerImpl() : m_stack() {}
 };
 
-AnyValueBuildAdapter::AnyValueBuildAdapter() : p_impl(new AnyValueBuildAdapterImpl) {}
+AnyValueComposer::AnyValueComposer() : p_impl(new AnyValueComposerImpl) {}
 
-sup::dto::AnyValue AnyValueBuildAdapter::MoveAnyValue() const
+sup::dto::AnyValue AnyValueComposer::MoveAnyValue() const
 {
   return p_impl->m_stack.empty() ? sup::dto::AnyValue() : p_impl->m_stack.top()->MoveAnyValue();
 }
 
-AnyValueBuildAdapter::~AnyValueBuildAdapter() = default;
+AnyValueComposer::~AnyValueComposer() = default;
 
-void AnyValueBuildAdapter::Bool(sup::dto::boolean value)
+void AnyValueComposer::Bool(sup::dto::boolean value)
 {
   p_impl->AddValueNode(::sup::dto::AnyValue(value));
 }
 
-void AnyValueBuildAdapter::Int8(sup::dto::int8 value)
+void AnyValueComposer::Int8(sup::dto::int8 value)
 {
   p_impl->AddValueNode(::sup::dto::AnyValue(value));
 }
 
-void AnyValueBuildAdapter::UInt8(sup::dto::uint8 value)
+void AnyValueComposer::UInt8(sup::dto::uint8 value)
 {
   p_impl->AddValueNode(::sup::dto::AnyValue(value));
 }
 
-void AnyValueBuildAdapter::Int16(sup::dto::int16 value)
+void AnyValueComposer::Int16(sup::dto::int16 value)
 {
   p_impl->AddValueNode(::sup::dto::AnyValue(value));
 }
 
-void AnyValueBuildAdapter::UInt16(sup::dto::uint16 value)
+void AnyValueComposer::UInt16(sup::dto::uint16 value)
 {
   p_impl->AddValueNode(::sup::dto::AnyValue(value));
 }
 
-void AnyValueBuildAdapter::Int32(sup::dto::int32 value)
+void AnyValueComposer::Int32(sup::dto::int32 value)
 {
   p_impl->AddValueNode(::sup::dto::AnyValue(value));
 }
 
-void AnyValueBuildAdapter::UInt32(sup::dto::uint32 value)
+void AnyValueComposer::UInt32(sup::dto::uint32 value)
 {
   p_impl->AddValueNode(::sup::dto::AnyValue(value));
 }
 
-void AnyValueBuildAdapter::Int64(sup::dto::int64 value)
+void AnyValueComposer::Int64(sup::dto::int64 value)
 {
   p_impl->AddValueNode(::sup::dto::AnyValue(value));
 }
 
-void AnyValueBuildAdapter::UInt64(sup::dto::uint64 value)
+void AnyValueComposer::UInt64(sup::dto::uint64 value)
 {
   p_impl->AddValueNode(::sup::dto::AnyValue(value));
 }
 
-void AnyValueBuildAdapter::Float32(sup::dto::float32 value)
+void AnyValueComposer::Float32(sup::dto::float32 value)
 {
   p_impl->AddValueNode(::sup::dto::AnyValue(value));
 }
 
-void AnyValueBuildAdapter::Float64(sup::dto::float64 value)
+void AnyValueComposer::Float64(sup::dto::float64 value)
 {
   p_impl->AddValueNode(::sup::dto::AnyValue(value));
 }
 
-void AnyValueBuildAdapter::String(const std::string &value)
+void AnyValueComposer::String(const std::string &value)
 {
   p_impl->AddValueNode(::sup::dto::AnyValue(value));
 }
@@ -126,27 +128,27 @@ void AnyValueBuildAdapter::String(const std::string &value)
 //! 2. StartArrayElement was called before. Then the value will be added to the array elements.
 //! 2. StartField was called before. Then the value will be added to current struct as a field.
 
-void AnyValueBuildAdapter::AddValue(const sup::dto::AnyValue &anyvalue)
+void AnyValueComposer::AddValue(const sup::dto::AnyValue &anyvalue)
 {
   p_impl->AddValueNode(anyvalue);
 }
 
-void AnyValueBuildAdapter::StartStruct(const std::string &struct_name)
+void AnyValueComposer::StartStruct(const std::string &struct_name)
 {
   p_impl->ProcessNode<StartStructBuildNode>(struct_name);
 }
 
-void AnyValueBuildAdapter::EndStruct()
+void AnyValueComposer::EndStruct()
 {
   p_impl->ProcessNode<EndStructBuildNode>();
 }
 
-void AnyValueBuildAdapter::StartField(const std::string &field_name)
+void AnyValueComposer::StartField(const std::string &field_name)
 {
   p_impl->ProcessNode<StartFieldBuildNode>(field_name);
 }
 
-void AnyValueBuildAdapter::EndField()
+void AnyValueComposer::EndField()
 {
   p_impl->ProcessNode<EndFieldBuildNode>();
 }
@@ -155,24 +157,24 @@ void AnyValueBuildAdapter::EndField()
 //! @param anyvalue Scalar anyvalue, completed structure or array.
 //! @note Equivalent of calls StartField/AddValue/EndField.
 
-void AnyValueBuildAdapter::AddMember(const std::string &name, sup::dto::AnyValue anyvalue)
+void AnyValueComposer::AddMember(const std::string &name, sup::dto::AnyValue anyvalue)
 {
   StartField(name);
   AddValue(anyvalue);
   EndField();
 }
 
-void AnyValueBuildAdapter::StartArray(const std::string &array_name)
+void AnyValueComposer::StartArray(const std::string &array_name)
 {
   p_impl->ProcessNode<StartArrayBuildNode>(array_name);
 }
 
-void AnyValueBuildAdapter::StartArrayElement()
+void AnyValueComposer::StartArrayElement()
 {
   p_impl->ProcessNode<StartArrayElementBuildNode>();
 }
 
-void AnyValueBuildAdapter::EndArrayElement()
+void AnyValueComposer::EndArrayElement()
 {
   p_impl->ProcessNode<EndArrayElementBuildNode>();
 }
@@ -181,19 +183,19 @@ void AnyValueBuildAdapter::EndArrayElement()
 //! @param anyvalue Scalar anyvalue, completed structure or array.
 //! @note Equivalent of calls StartArrayElement/AddValue/EndArrayElement.
 
-void AnyValueBuildAdapter::AddArrayElement(const sup::dto::AnyValue &anyvalue)
+void AnyValueComposer::AddArrayElement(const sup::dto::AnyValue &anyvalue)
 {
   StartArrayElement();
   AddValue(anyvalue);
   EndArrayElement();
 }
 
-void AnyValueBuildAdapter::EndArray()
+void AnyValueComposer::EndArray()
 {
   p_impl->ProcessNode<EndArrayBuildNode>();
 }
 
-int AnyValueBuildAdapter::GetStackSize() const
+int AnyValueComposer::GetStackSize() const
 {
   return static_cast<int>(p_impl->m_stack.size());
 }

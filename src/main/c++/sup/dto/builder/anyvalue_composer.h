@@ -19,8 +19,8 @@
  * of the distribution package.
  ******************************************************************************/
 
-#ifndef SUP_DTO_BUILDER_ANYVALUE_BUILD_ADAPTER_H_
-#define SUP_DTO_BUILDER_ANYVALUE_BUILD_ADAPTER_H_
+#ifndef SUP_DTO_BUILDER_ANYVALUE_COMPOSER_H_
+#define SUP_DTO_BUILDER_ANYVALUE_COMPOSER_H_
 
 #include <sup/dto/basic_scalar_types.h>
 
@@ -36,11 +36,11 @@ class AnyValue;
 
 //! Builds AnyValue in step-wise manner by calling methods to add fields and structs.
 
-class AnyValueBuildAdapter
+class AnyValueComposer
 {
 public:
-  AnyValueBuildAdapter();
-  ~AnyValueBuildAdapter();
+  AnyValueComposer();
+  ~AnyValueComposer();
 
   sup::dto::AnyValue MoveAnyValue() const;
 
@@ -82,11 +82,11 @@ public:
   int GetStackSize() const;
 
 private:
-  struct AnyValueBuildAdapterImpl;
-  std::unique_ptr<AnyValueBuildAdapterImpl> p_impl;
+  struct AnyValueComposerImpl;
+  std::unique_ptr<AnyValueComposerImpl> p_impl;
 };
 
 }  // namespace dto
 }  // namespace sup
 
-#endif  // SUP_DTO_BUILDER_ANYVALUE_BUILD_ADAPTER_H_
+#endif  // SUP_DTO_BUILDER_ANYVALUE_COMPOSER_H_
