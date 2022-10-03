@@ -39,17 +39,17 @@ namespace dto
 // AnyValueBuildNode
 // ----------------------------------------------------------------------------
 
-AnyValueBuildNode::AnyValueBuildNode(const sup::dto::AnyValue &value)
+ValueComposerComponent::ValueComposerComponent(const sup::dto::AnyValue &value)
     : AbstractComposerComponent(value)
 {
 }
 
-AbstractComposerComponent::NodeType AnyValueBuildNode::GetNodeType() const
+AbstractComposerComponent::NodeType ValueComposerComponent::GetNodeType() const
 {
   return NodeType::kValue;
 }
 
-bool AnyValueBuildNode::Process(std::stack<node_t> &stack)
+bool ValueComposerComponent::Process(std::stack<node_t> &stack)
 {
   ValidateAddValueNode(stack);
   return kKeepInStackRequest;

@@ -46,7 +46,7 @@ struct AnyValueComposer::AnyValueComposerImpl
     }
   }
 
-  void AddValueNode(const ::sup::dto::AnyValue &value) { ProcessNode<AnyValueBuildNode>(value); }
+  void AddValueNode(const ::sup::dto::AnyValue &value) { ProcessNode<ValueComposerComponent>(value); }
 
   AnyValueComposerImpl() : m_stack() {}
 };

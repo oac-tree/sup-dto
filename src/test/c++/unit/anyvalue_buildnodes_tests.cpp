@@ -31,9 +31,9 @@ class AnyValueBuildNodesTests : public ::testing::Test
 {
 };
 
-TEST_F(AnyValueBuildNodesTests, AnyValueBuildNodeProcess)
+TEST_F(AnyValueBuildNodesTests, ValueComposerComponentProcess)
 {
-  AnyValueBuildNode node(sup::dto::AnyValue{sup::dto::SignedInteger32Type, 42});
+  ValueComposerComponent node(sup::dto::AnyValue{sup::dto::SignedInteger32Type, 42});
   EXPECT_EQ(node.GetNodeType(), AbstractComposerComponent::NodeType::kValue);
 
   // processing empty stack
@@ -41,8 +41,8 @@ TEST_F(AnyValueBuildNodesTests, AnyValueBuildNodeProcess)
   EXPECT_TRUE(node.Process(stack));
 
   // processing stack containing another value
-  stack.push(std::unique_ptr<AnyValueBuildNode>(
-      new AnyValueBuildNode(sup::dto::AnyValue{sup::dto::SignedInteger32Type, 42})));
+  stack.push(std::unique_ptr<ValueComposerComponent>(
+      new ValueComposerComponent(sup::dto::AnyValue{sup::dto::SignedInteger32Type, 42})));
   EXPECT_THROW(node.Process(stack), std::runtime_error);
 
   // processing stack containing a field
@@ -127,8 +127,8 @@ TEST_F(AnyValueBuildNodesTests, EndFieldBuildNodeProcess)
     std::stack<AbstractComposerComponent::node_t> stack;
     stack.push(std::unique_ptr<StartStructBuildNode>(new StartStructBuildNode("struct_name")));
     stack.push(std::unique_ptr<StartFieldBuildNode>(new StartFieldBuildNode("field_name")));
-    stack.push(std::unique_ptr<AnyValueBuildNode>(
-        new AnyValueBuildNode(sup::dto::AnyValue{sup::dto::SignedInteger32Type, 42})));
+    stack.push(std::unique_ptr<ValueComposerComponent>(
+        new ValueComposerComponent(sup::dto::AnyValue{sup::dto::SignedInteger32Type, 42})));
 
     EXPECT_FALSE(node.Process(stack));
 
@@ -238,8 +238,8 @@ TEST_F(AnyValueBuildNodesTests, EndArrayElementBuildNodeProcess)
 
     stack.push(std::unique_ptr<StartArrayBuildNode>(new StartArrayBuildNode("array_name")));
     stack.push(std::unique_ptr<StartArrayElementBuildNode>(new StartArrayElementBuildNode()));
-    stack.push(std::unique_ptr<AnyValueBuildNode>(
-        new AnyValueBuildNode(sup::dto::AnyValue{sup::dto::SignedInteger32Type, 42})));
+    stack.push(std::unique_ptr<ValueComposerComponent>(
+        new ValueComposerComponent(sup::dto::AnyValue{sup::dto::SignedInteger32Type, 42})));
 
     // processing should return false since EndArrayElementBuildNode doesn't want to be in the stack
     EXPECT_FALSE(node.Process(stack));

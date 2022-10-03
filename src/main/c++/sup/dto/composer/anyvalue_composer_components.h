@@ -37,10 +37,10 @@ namespace dto
 //! The node to build AnyValue. Used when a single scalar is necessary, or during adding the
 //! structure's field or the element of the array.
 
-class AnyValueBuildNode : public AbstractComposerComponent
+class ValueComposerComponent : public AbstractComposerComponent
 {
 public:
-  AnyValueBuildNode(const sup::dto::AnyValue& value);
+  ValueComposerComponent(const sup::dto::AnyValue& value);
 
   NodeType GetNodeType() const override;
 
