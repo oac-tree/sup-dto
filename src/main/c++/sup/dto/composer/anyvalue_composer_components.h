@@ -73,10 +73,10 @@ public:
 
 //! The node which is created at the beginning of the field creation.
 
-class StartFieldBuildNode : public AbstractComposerComponent
+class StartFieldComposerComponent : public AbstractComposerComponent
 {
 public:
-  explicit StartFieldBuildNode(const std::string& field_name);
+  explicit StartFieldComposerComponent(const std::string& field_name);
 
   NodeType GetNodeType() const override;
 

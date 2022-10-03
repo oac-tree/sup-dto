@@ -46,7 +46,8 @@ TEST_F(AnyValueComposerComponentsTests, ValueComposerComponentProcess)
   EXPECT_THROW(node.Process(stack), std::runtime_error);
 
   // processing stack containing a field
-  stack.push(std::unique_ptr<StartFieldBuildNode>(new StartFieldBuildNode("field_name")));
+  stack.push(
+      std::unique_ptr<StartFieldComposerComponent>(new StartFieldComposerComponent("field_name")));
   EXPECT_TRUE(node.Process(stack));
 
   // expected value
@@ -55,7 +56,7 @@ TEST_F(AnyValueComposerComponentsTests, ValueComposerComponentProcess)
   EXPECT_EQ(result, expected);
 }
 
-TEST_F(AnyValueComposerComponentsTests, StartStructBuildNodeProcess)
+TEST_F(AnyValueComposerComponentsTests, StartStructComposerComponentProcess)
 {
   StartStructComposerComponent node("struct_name");
   EXPECT_EQ(node.GetNodeType(), AbstractComposerComponent::NodeType::kStartStruct);
@@ -65,11 +66,13 @@ TEST_F(AnyValueComposerComponentsTests, StartStructBuildNodeProcess)
   EXPECT_TRUE(node.Process(stack));
 
   // processing stack containing another struct
-  stack.push(std::unique_ptr<StartStructComposerComponent>(new StartStructComposerComponent(std::string())));
+  stack.push(std::unique_ptr<StartStructComposerComponent>(
+      new StartStructComposerComponent(std::string())));
   EXPECT_THROW(node.Process(stack), std::runtime_error);
 
   // processing stack containing a field
-  stack.push(std::unique_ptr<StartFieldBuildNode>(new StartFieldBuildNode("field_name")));
+  stack.push(
+      std::unique_ptr<StartFieldComposerComponent>(new StartFieldComposerComponent("field_name")));
   EXPECT_TRUE(node.Process(stack));
 
   // expected value
@@ -93,9 +96,9 @@ TEST_F(AnyValueComposerComponentsTests, StartStructBuildNodeProcessAddMember)
   EXPECT_EQ(result, expected_anyvalue);
 }
 
-TEST_F(AnyValueComposerComponentsTests, StartFieldBuildNodeProcess)
+TEST_F(AnyValueComposerComponentsTests, StartFieldComposerComponentProcess)
 {
-  StartFieldBuildNode node("field_name");
+  StartFieldComposerComponent node("field_name");
   EXPECT_EQ(node.GetFieldName(), std::string("field_name"));
   EXPECT_EQ(node.GetNodeType(), AbstractComposerComponent::NodeType::kStartField);
 
@@ -104,7 +107,8 @@ TEST_F(AnyValueComposerComponentsTests, StartFieldBuildNodeProcess)
   EXPECT_THROW(node.Process(stack), std::runtime_error);
 
   // stack is possible to process if it contains StartStructBuildNode
-  stack.push(std::unique_ptr<StartStructComposerComponent>(new StartStructComposerComponent(std::string())));
+  stack.push(std::unique_ptr<StartStructComposerComponent>(
+      new StartStructComposerComponent(std::string())));
   EXPECT_TRUE(node.Process(stack));
 
   // field name should be set
@@ -125,8 +129,10 @@ TEST_F(AnyValueComposerComponentsTests, EndFieldBuildNodeProcess)
 
   {
     std::stack<AbstractComposerComponent::node_t> stack;
-    stack.push(std::unique_ptr<StartStructComposerComponent>(new StartStructComposerComponent("struct_name")));
-    stack.push(std::unique_ptr<StartFieldBuildNode>(new StartFieldBuildNode("field_name")));
+    stack.push(std::unique_ptr<StartStructComposerComponent>(
+        new StartStructComposerComponent("struct_name")));
+    stack.push(std::unique_ptr<StartFieldComposerComponent>(
+        new StartFieldComposerComponent("field_name")));
     stack.push(std::unique_ptr<ValueComposerComponent>(
         new ValueComposerComponent(sup::dto::AnyValue{sup::dto::SignedInteger32Type, 42})));
 
@@ -153,7 +159,8 @@ TEST_F(AnyValueComposerComponentsTests, EndStructComposerComponentProcess)
 
   {
     std::stack<AbstractComposerComponent::node_t> stack;
-    stack.push(std::unique_ptr<StartStructComposerComponent>(new StartStructComposerComponent("struct_name")));
+    stack.push(std::unique_ptr<StartStructComposerComponent>(
+        new StartStructComposerComponent("struct_name")));
 
     // as a result of stack processing, the StartStructBuildNode should be removed, it's value
     // consumed
@@ -177,11 +184,13 @@ TEST_F(AnyValueComposerComponentsTests, StartArrayBuildNodeProcess)
   EXPECT_TRUE(node.Process(stack));
 
   // processing stack containing another struct is not possible
-  stack.push(std::unique_ptr<StartStructComposerComponent>(new StartStructComposerComponent(std::string())));
+  stack.push(std::unique_ptr<StartStructComposerComponent>(
+      new StartStructComposerComponent(std::string())));
   EXPECT_THROW(node.Process(stack), std::runtime_error);
 
   // processing stack containing a field
-  stack.push(std::unique_ptr<StartFieldBuildNode>(new StartFieldBuildNode("field_name")));
+  stack.push(
+      std::unique_ptr<StartFieldComposerComponent>(new StartFieldComposerComponent("field_name")));
   EXPECT_TRUE(node.Process(stack));
 
   // at the beginning, StartArrayBuildNode doesn't contain valid AnyValue since it waits the first

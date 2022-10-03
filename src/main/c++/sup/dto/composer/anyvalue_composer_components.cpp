@@ -105,18 +105,18 @@ bool EndStructComposerComponent::Process(std::stack<node_t> &stack)
 // StartFieldBuildNode
 // ----------------------------------------------------------------------------
 
-StartFieldBuildNode::StartFieldBuildNode(const std::string &field_name)
+StartFieldComposerComponent::StartFieldComposerComponent(const std::string &field_name)
     : AbstractComposerComponent()
 {
   SetFieldName(field_name);
 }
 
-AbstractComposerComponent::NodeType StartFieldBuildNode::GetNodeType() const
+AbstractComposerComponent::NodeType StartFieldComposerComponent::GetNodeType() const
 {
   return NodeType::kStartField;
 }
 
-bool StartFieldBuildNode::Process(std::stack<node_t> &stack)
+bool StartFieldComposerComponent::Process(std::stack<node_t> &stack)
 {
   ValidateLastNode(stack, NodeType::kStartStruct);
 
