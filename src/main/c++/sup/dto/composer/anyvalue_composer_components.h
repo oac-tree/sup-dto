@@ -95,10 +95,10 @@ public:
 
 //! The node which is created at the start of the array.
 
-class StartArrayBuildNode : public AbstractComposerComponent
+class StartArrayComposerComponent : public AbstractComposerComponent
 {
 public:
-  StartArrayBuildNode(const std::string& array_name);
+  StartArrayComposerComponent(const std::string& array_name);
 
   NodeType GetNodeType() const override;
 

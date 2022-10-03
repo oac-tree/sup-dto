@@ -174,9 +174,9 @@ TEST_F(AnyValueComposerComponentsTests, EndStructComposerComponentProcess)
   }
 }
 
-TEST_F(AnyValueComposerComponentsTests, StartArrayBuildNodeProcess)
+TEST_F(AnyValueComposerComponentsTests, StartArrayComposerComponentProcess)
 {
-  StartArrayBuildNode node("array_name");
+  StartArrayComposerComponent node("array_name");
   EXPECT_EQ(node.GetNodeType(), AbstractComposerComponent::NodeType::kStartArray);
 
   // processing empty stack
@@ -202,7 +202,7 @@ TEST_F(AnyValueComposerComponentsTests, StartArrayBuildNodeProcess)
 //! Testing StartArrayBuildNode::AddElement method.
 TEST_F(AnyValueComposerComponentsTests, StartArrayBuildNodeAddElement)
 {
-  StartArrayBuildNode node("array_name");
+  StartArrayComposerComponent node("array_name");
   EXPECT_EQ(node.GetNodeType(), AbstractComposerComponent::NodeType::kStartArray);
 
   // adding an element to the array
@@ -225,7 +225,8 @@ TEST_F(AnyValueComposerComponentsTests, StartArrayElementBuildNodeProcess)
   EXPECT_THROW(node.Process(stack), std::runtime_error);
 
   // stack is possible to process if it contains StartArrayBuildNode
-  stack.push(std::unique_ptr<StartArrayBuildNode>(new StartArrayBuildNode(std::string())));
+  stack.push(
+      std::unique_ptr<StartArrayComposerComponent>(new StartArrayComposerComponent(std::string())));
   EXPECT_TRUE(node.Process(stack));
 }
 
@@ -245,7 +246,8 @@ TEST_F(AnyValueComposerComponentsTests, EndArrayElementBuildNodeProcess)
   {
     std::stack<AbstractComposerComponent::node_t> stack;
 
-    stack.push(std::unique_ptr<StartArrayBuildNode>(new StartArrayBuildNode("array_name")));
+    stack.push(std::unique_ptr<StartArrayComposerComponent>(
+        new StartArrayComposerComponent("array_name")));
     stack.push(std::unique_ptr<StartArrayElementBuildNode>(new StartArrayElementBuildNode()));
     stack.push(std::unique_ptr<ValueComposerComponent>(
         new ValueComposerComponent(sup::dto::AnyValue{sup::dto::SignedInteger32Type, 42})));
@@ -275,7 +277,8 @@ TEST_F(AnyValueComposerComponentsTests, EndArrayBuildNodeProcess)
 
   {
     std::stack<AbstractComposerComponent::node_t> stack;
-    stack.push(std::unique_ptr<StartArrayBuildNode>(new StartArrayBuildNode("array_name")));
+    stack.push(std::unique_ptr<StartArrayComposerComponent>(
+        new StartArrayComposerComponent("array_name")));
 
     // as a result of stack processing, the StartStructBuildNode should be removed, it's value
     // consumed

@@ -166,7 +166,7 @@ void AnyValueComposer::AddMember(const std::string &name, sup::dto::AnyValue any
 
 void AnyValueComposer::StartArray(const std::string &array_name)
 {
-  p_impl->ProcessNode<StartArrayBuildNode>(array_name);
+  p_impl->ProcessNode<StartArrayComposerComponent>(array_name);
 }
 
 void AnyValueComposer::StartArrayElement()

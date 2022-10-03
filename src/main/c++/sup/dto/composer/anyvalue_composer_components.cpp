@@ -166,16 +166,16 @@ bool EndFieldComposerComponent::Process(std::stack<node_t> &stack)
 // StartArrayBuildNode
 // ----------------------------------------------------------------------------
 
-StartArrayBuildNode::StartArrayBuildNode(const std::string &array_name) : m_array_name(array_name)
+StartArrayComposerComponent::StartArrayComposerComponent(const std::string &array_name) : m_array_name(array_name)
 {
 }
 
-AbstractComposerComponent::NodeType StartArrayBuildNode::GetNodeType() const
+AbstractComposerComponent::NodeType StartArrayComposerComponent::GetNodeType() const
 {
   return NodeType::kStartArray;
 }
 
-bool StartArrayBuildNode::Process(std::stack<node_t> &stack)
+bool StartArrayComposerComponent::Process(std::stack<node_t> &stack)
 {
   ValidateAddValueNode(stack);
   return kKeepInStackRequest;
@@ -183,7 +183,7 @@ bool StartArrayBuildNode::Process(std::stack<node_t> &stack)
 
 //! Adds element to the array. If array doesn't exist, it will be initialised using the type of the
 //! given value.
-void StartArrayBuildNode::AddElement(const sup::dto::AnyValue &value)
+void StartArrayComposerComponent::AddElement(const sup::dto::AnyValue &value)
 {
   if (sup::dto::IsEmptyValue(m_value))
   {
