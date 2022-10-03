@@ -27,7 +27,7 @@
 #include <sup/dto/anyvalue.h>
 #include <sup/dto/anyvalue_helper.h>
 
-#include <stdexcept>
+#include <sup/dto/anyvalue_exceptions.h>
 
 using namespace sup::dto;
 
@@ -55,8 +55,8 @@ TEST_F(AbstractComposerComponentTests, InitialState)
   std::stack<AbstractComposerComponent::component_t> stack;
   EXPECT_FALSE(node.Process(stack));
 
-  EXPECT_THROW(node.AddMember("name", sup::dto::AnyValue()), std::runtime_error);
-  EXPECT_THROW(node.AddElement(sup::dto::AnyValue()), std::runtime_error);
+  EXPECT_THROW(node.AddMember("name", sup::dto::AnyValue()), sup::dto::MessageException);
+  EXPECT_THROW(node.AddElement(sup::dto::AnyValue()), sup::dto::MessageException);
 }
 
 TEST_F(AbstractComposerComponentTests, MoveAnyValue)

@@ -21,10 +21,10 @@
 
 #include "sup/dto/composer/anyvalue_composer_components.h"
 
+#include <sup/dto/anyvalue_exceptions.h>
 #include <sup/dto/composer/anyvalue_composer_helper.h>
 
 #include <iostream>
-#include <stdexcept>
 
 namespace
 {
@@ -125,7 +125,7 @@ bool StartFieldComposerComponent::Process(std::stack<component_t> &stack)
 
   if (GetFieldName().empty())
   {
-    throw std::runtime_error(
+    throw sup::dto::MessageException(
         "Error in StartFieldComposerComponent::Process(): fieldname is not defined");
   }
 

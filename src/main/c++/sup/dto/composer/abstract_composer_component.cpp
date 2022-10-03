@@ -19,9 +19,8 @@
  * of the distribution package.
  ******************************************************************************/
 
+#include <sup/dto/anyvalue_exceptions.h>
 #include <sup/dto/composer/abstract_composer_component.h>
-
-#include <stdexcept>
 
 namespace sup
 {
@@ -59,13 +58,15 @@ void AbstractComposerComponent::AddMember(const std::string &name, const sup::dt
 {
   (void)name;
   (void)value;
-  throw std::runtime_error("Error in AbstractComposerComponent::AddMember() : not implemented");
+  throw sup::dto::MessageException(
+      "Error in AbstractComposerComponent::AddMember() : not implemented");
 }
 
 void AbstractComposerComponent::AddElement(const sup::dto::AnyValue &value)
 {
   (void)value;
-  throw std::runtime_error("Error in AbstractComposerComponent::AddMember() : not implemented");
+  throw sup::dto::MessageException(
+      "Error in AbstractComposerComponent::AddMember() : not implemented");
 }
 
 }  // namespace dto

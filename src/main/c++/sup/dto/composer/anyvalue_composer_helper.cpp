@@ -21,6 +21,8 @@
 
 #include "sup/dto/composer/anyvalue_composer_helper.h"
 
+#include <sup/dto/anyvalue_exceptions.h>
+
 #include <algorithm>
 #include <sstream>
 #include <vector>
@@ -60,7 +62,7 @@ void ValidateAddValueComponent(const std::stack<AbstractComposerComponent::compo
       ostr << "last Type=" << static_cast<int>(stack.top()->GetComponentType()) << ".\n";
     }
 
-    throw std::runtime_error(ostr.str());
+    throw sup::dto::MessageException(ostr.str());
   }
 }
 
@@ -69,7 +71,8 @@ void ValidateLastComponent(const std::stack<AbstractComposerComponent::component
 {
   if (stack.empty() || stack.top()->GetComponentType() != component_type)
   {
-    throw std::runtime_error("Error in ValidateLastComponent(): wrong type of the last component");
+    throw sup::dto::MessageException(
+        "Error in ValidateLastComponent(): wrong type of the last component");
   }
 }
 
@@ -78,7 +81,8 @@ void ValidateIfValueComponentIsComplete(
 {
   if (stack.empty())
   {
-    throw std::runtime_error("Error in ValidateIfValueComponentIsComplete(): stack is empty");
+    throw sup::dto::MessageException(
+        "Error in ValidateIfValueComponentIsComplete(): stack is empty");
   }
 
   using Type = AbstractComposerComponent::Type;
@@ -89,7 +93,8 @@ void ValidateIfValueComponentIsComplete(
 
   if (it == expected_types.end())
   {
-    throw std::runtime_error("Error in ValidateIfValueComponentIsComplete(): wrong component type");
+    throw sup::dto::MessageException(
+        "Error in ValidateIfValueComponentIsComplete(): wrong component type");
   }
 }
 
