@@ -38,7 +38,7 @@ public:
   {
     std::stack<AbstractComposerComponent::node_t> stack;
     stack.push(std::unique_ptr<T>(new T((args)...)));
-    return CanAddValueNode(stack);
+    return CanAddValueComponent(stack);
   }
 
   template <typename T, typename... Args>
@@ -46,17 +46,17 @@ public:
   {
     std::stack<AbstractComposerComponent::node_t> stack;
     stack.push(std::unique_ptr<T>(new T((args)...)));
-    ValidateIfValueNodeIsComplete(stack);
+    ValidateIfValueComponentIsComplete(stack);
   }
 };
 
-//! Unit tests for CanAddValueNode utility function.
+//! Unit tests for CanAddValueComponent utility function.
 
-TEST_F(AnyValueBuildNodeUtilsTests, CanAddValueNode)
+TEST_F(AnyValueComposerHelperTests, CanAddValueComponent)
 {
   {  // it is possible to add value node to empty stack
     std::stack<AbstractComposerComponent::node_t> stack;
-    EXPECT_TRUE(CanAddValueNode(stack));
+    EXPECT_TRUE(CanAddValueComponent(stack));
   }
 
   // it is possible to add value node if the last node is one of the following
@@ -72,46 +72,46 @@ TEST_F(AnyValueBuildNodeUtilsTests, CanAddValueNode)
   EXPECT_FALSE(CheckAddValueNode<EndArrayElementComposerComponent>());
 }
 
-//! Unit tests for ValidateAddValueNode utility function.
+//! Unit tests for ValidateAddValueComponent utility function.
 
-TEST_F(AnyValueBuildNodeUtilsTests, ValidateAddValueNode)
+TEST_F(AnyValueComposerHelperTests, ValidateAddValueComponent)
 {
   {  // it is possible to add value node to empty stack
     std::stack<AbstractComposerComponent::node_t> stack;
-    EXPECT_NO_THROW(ValidateAddValueNode(stack));
+    EXPECT_NO_THROW(ValidateAddValueComponent(stack));
   }
 
   {  // it is not possible to add value node if stack contains StartStructBuildNode
     std::stack<AbstractComposerComponent::node_t> stack;
     stack.push(
         std::unique_ptr<StartStructComposerComponent>(new StartStructComposerComponent("name")));
-    EXPECT_THROW(ValidateAddValueNode(stack), std::runtime_error);
+    EXPECT_THROW(ValidateAddValueComponent(stack), std::runtime_error);
   }
 
   // More tests above in AnyValueBuildNodeUtilsTests::CanAddValueNode.
 }
 
-//! Unit tests for ValidateAddValueNode utility function.
+//! Unit tests for ValidateLastComponent utility function.
 
-TEST_F(AnyValueBuildNodeUtilsTests, ValidateLastNode)
+TEST_F(AnyValueComposerHelperTests, ValidateLastComponent)
 {
   std::stack<AbstractComposerComponent::node_t> stack;
-  EXPECT_THROW(ValidateLastNode(stack, AbstractComposerComponent::NodeType::kStartArray),
+  EXPECT_THROW(ValidateLastComponent(stack, AbstractComposerComponent::NodeType::kStartArray),
                std::runtime_error);
 
   stack.push(
       std::unique_ptr<StartStructComposerComponent>(new StartStructComposerComponent("name")));
-  EXPECT_NO_THROW(ValidateLastNode(stack, AbstractComposerComponent::NodeType::kStartStruct));
-  EXPECT_THROW(ValidateLastNode(stack, AbstractComposerComponent::NodeType::kStartArray),
+  EXPECT_NO_THROW(ValidateLastComponent(stack, AbstractComposerComponent::NodeType::kStartStruct));
+  EXPECT_THROW(ValidateLastComponent(stack, AbstractComposerComponent::NodeType::kStartArray),
                std::runtime_error);
 }
 
-//! Unit tests for ValidateIfValueNodeIsComplete utility function.
+//! Unit tests for ValidateIfValueComponentIsComplete utility function.
 
-TEST_F(AnyValueBuildNodeUtilsTests, ValidateIfValueNodeIsComplete)
+TEST_F(AnyValueComposerHelperTests, ValidateIfValueComponentIsComplete)
 {
   std::stack<AbstractComposerComponent::node_t> stack;
-  EXPECT_THROW(ValidateIfValueNodeIsComplete(stack), std::runtime_error);
+  EXPECT_THROW(ValidateIfValueComponentIsComplete(stack), std::runtime_error);
 
   EXPECT_NO_THROW(CheckAddValueNode<EndStructComposerComponent>());
   EXPECT_NO_THROW(CheckAddValueNode<EndArrayComposerComponent>());

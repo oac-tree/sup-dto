@@ -51,7 +51,7 @@ AbstractComposerComponent::NodeType ValueComposerComponent::GetNodeType() const
 
 bool ValueComposerComponent::Process(std::stack<node_t> &stack)
 {
-  ValidateAddValueNode(stack);
+  ValidateAddValueComponent(stack);
   return kKeepInStackRequest;
 }
 
@@ -72,7 +72,7 @@ AbstractComposerComponent::NodeType StartStructComposerComponent::GetNodeType() 
 
 bool StartStructComposerComponent::Process(std::stack<node_t> &stack)
 {
-  ValidateAddValueNode(stack);
+  ValidateAddValueComponent(stack);
   return kKeepInStackRequest;
 }
 
@@ -93,7 +93,7 @@ AbstractComposerComponent::NodeType EndStructComposerComponent::GetNodeType() co
 
 bool EndStructComposerComponent::Process(std::stack<node_t> &stack)
 {
-  ValidateLastNode(stack, NodeType::kStartStruct);
+  ValidateLastComponent(stack, NodeType::kStartStruct);
 
   // saving the value and removing StartStructBuildNode
   Consume(stack.top()->MoveAnyValue());
@@ -119,7 +119,7 @@ AbstractComposerComponent::NodeType StartFieldComposerComponent::GetNodeType() c
 
 bool StartFieldComposerComponent::Process(std::stack<node_t> &stack)
 {
-  ValidateLastNode(stack, NodeType::kStartStruct);
+  ValidateLastComponent(stack, NodeType::kStartStruct);
 
   if (GetFieldName().empty())
   {
@@ -143,19 +143,19 @@ AbstractComposerComponent::NodeType EndFieldComposerComponent::GetNodeType() con
 //! create a field in the remaining StartStructBuildNode.
 bool EndFieldComposerComponent::Process(std::stack<node_t> &stack)
 {
-  ValidateIfValueNodeIsComplete(stack);
+  ValidateIfValueComponentIsComplete(stack);
 
   // removing value node (scalar, struct or array), keeping the value for later reuse
   auto value = stack.top()->MoveAnyValue();
   stack.pop();
 
-  ValidateLastNode(stack, NodeType::kStartField);
+  ValidateLastComponent(stack, NodeType::kStartField);
 
   // removing StartFieldNode, keeping the name for later reuse
   auto field_name = stack.top()->GetFieldName();
   stack.pop();
 
-  ValidateLastNode(stack, NodeType::kStartStruct);
+  ValidateLastComponent(stack, NodeType::kStartStruct);
 
   // adding a new member to StartStructBuildNode
   stack.top()->AddMember(field_name, value);
@@ -179,7 +179,7 @@ AbstractComposerComponent::NodeType StartArrayComposerComponent::GetNodeType() c
 
 bool StartArrayComposerComponent::Process(std::stack<node_t> &stack)
 {
-  ValidateAddValueNode(stack);
+  ValidateAddValueComponent(stack);
   return kKeepInStackRequest;
 }
 
@@ -209,7 +209,7 @@ AbstractComposerComponent::NodeType EndArrayComposerComponent::GetNodeType() con
 
 bool EndArrayComposerComponent::Process(std::stack<node_t> &stack)
 {
-  ValidateLastNode(stack, NodeType::kStartArray);
+  ValidateLastComponent(stack, NodeType::kStartArray);
 
   // replacing StartArrayBuildNode with EndArrayBuildNode
   Consume(stack.top()->MoveAnyValue());
@@ -229,7 +229,7 @@ AbstractComposerComponent::NodeType StartArrayElementComposerComponent::GetNodeT
 
 bool StartArrayElementComposerComponent::Process(std::stack<node_t> &stack)
 {
-  ValidateLastNode(stack, NodeType::kStartArray);
+  ValidateLastComponent(stack, NodeType::kStartArray);
   return kKeepInStackRequest;
 }
 
@@ -248,13 +248,13 @@ AbstractComposerComponent::NodeType EndArrayElementComposerComponent::GetNodeTyp
 
 bool EndArrayElementComposerComponent::Process(std::stack<node_t> &stack)
 {
-  ValidateIfValueNodeIsComplete(stack);
+  ValidateIfValueComponentIsComplete(stack);
 
   // removing value node (scalar, struct or array), keeping the value for later reuse
   auto value = stack.top()->MoveAnyValue();
   stack.pop();
 
-  ValidateLastNode(stack, NodeType::kStartArrayElement);
+  ValidateLastComponent(stack, NodeType::kStartArrayElement);
   stack.pop();
 
   // adding a new element to StartArrayBuildNode

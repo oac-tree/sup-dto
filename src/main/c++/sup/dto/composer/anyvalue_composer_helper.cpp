@@ -28,7 +28,7 @@ namespace sup
 namespace dto
 {
 
-bool CanAddValueNode(const std::stack<AbstractComposerComponent::node_t> &stack)
+bool CanAddValueComponent(const std::stack<AbstractComposerComponent::node_t> &stack)
 {
   if (stack.empty())
   {
@@ -43,9 +43,9 @@ bool CanAddValueNode(const std::stack<AbstractComposerComponent::node_t> &stack)
   return it != expected_types.end();
 }
 
-void ValidateAddValueNode(const std::stack<AbstractComposerComponent::node_t> &stack)
+void ValidateAddValueComponent(const std::stack<AbstractComposerComponent::node_t> &stack)
 {
-  if (!CanAddValueNode(stack))
+  if (!CanAddValueComponent(stack))
   {
     std::ostringstream ostr;
     ostr << "Error in ValidateAddValueNode(): AnyValueNode can not be added, ";
@@ -62,7 +62,7 @@ void ValidateAddValueNode(const std::stack<AbstractComposerComponent::node_t> &s
   }
 }
 
-void ValidateLastNode(const std::stack<AbstractComposerComponent::node_t> &stack,
+void ValidateLastComponent(const std::stack<AbstractComposerComponent::node_t> &stack,
                       AbstractComposerComponent::NodeType node_type)
 {
   if (stack.empty() || stack.top()->GetNodeType() != node_type)
@@ -71,7 +71,7 @@ void ValidateLastNode(const std::stack<AbstractComposerComponent::node_t> &stack
   }
 }
 
-void ValidateIfValueNodeIsComplete(const std::stack<AbstractComposerComponent::node_t> &stack)
+void ValidateIfValueComponentIsComplete(const std::stack<AbstractComposerComponent::node_t> &stack)
 {
   if (stack.empty())
   {
