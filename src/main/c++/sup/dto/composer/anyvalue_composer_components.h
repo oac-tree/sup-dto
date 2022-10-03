@@ -85,7 +85,7 @@ public:
 
 //! The node which is created at the end of the field creation.
 
-class EndFieldBuildNode : public AbstractComposerComponent
+class EndFieldComposerComponent : public AbstractComposerComponent
 {
 public:
   NodeType GetNodeType() const override;

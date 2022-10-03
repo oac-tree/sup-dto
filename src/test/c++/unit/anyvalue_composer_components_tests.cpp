@@ -116,9 +116,9 @@ TEST_F(AnyValueComposerComponentsTests, StartFieldComposerComponentProcess)
   EXPECT_THROW(node.Process(stack), std::runtime_error);
 }
 
-TEST_F(AnyValueComposerComponentsTests, EndFieldBuildNodeProcess)
+TEST_F(AnyValueComposerComponentsTests, EndFieldComposerComponentProcess)
 {
-  EndFieldBuildNode node;
+  EndFieldComposerComponent node;
   EXPECT_EQ(node.GetNodeType(), AbstractComposerComponent::NodeType::kEndField);
 
   {

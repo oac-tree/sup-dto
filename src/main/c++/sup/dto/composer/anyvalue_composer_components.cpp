@@ -132,7 +132,7 @@ bool StartFieldComposerComponent::Process(std::stack<node_t> &stack)
 // EndFieldBuildNode
 // ----------------------------------------------------------------------------
 
-AbstractComposerComponent::NodeType EndFieldBuildNode::GetNodeType() const
+AbstractComposerComponent::NodeType EndFieldComposerComponent::GetNodeType() const
 {
   return NodeType::kEndField;
 }
@@ -140,7 +140,7 @@ AbstractComposerComponent::NodeType EndFieldBuildNode::GetNodeType() const
 //! Processes the stack, finalizes the adding of the field to StartStructBuildNode.
 //! @note It will remove two last nodes (with the value, and with the field name) and then
 //! create a field in the remaining StartStructBuildNode.
-bool EndFieldBuildNode::Process(std::stack<node_t> &stack)
+bool EndFieldComposerComponent::Process(std::stack<node_t> &stack)
 {
   ValidateIfValueNodeIsComplete(stack);
 

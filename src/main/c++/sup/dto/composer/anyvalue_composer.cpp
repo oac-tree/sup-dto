@@ -150,7 +150,7 @@ void AnyValueComposer::StartField(const std::string &field_name)
 
 void AnyValueComposer::EndField()
 {
-  p_impl->ProcessNode<EndFieldBuildNode>();
+  p_impl->ProcessNode<EndFieldComposerComponent>();
 }
 
 //! Adds member with given name to the structure.

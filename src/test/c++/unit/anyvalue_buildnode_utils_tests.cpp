@@ -68,7 +68,7 @@ TEST_F(AnyValueBuildNodeUtilsTests, CanAddValueNode)
   EXPECT_FALSE(CheckAddValueNode<StartArrayBuildNode>("name"));
   EXPECT_FALSE(CheckAddValueNode<EndStructComposerComponent>());
   EXPECT_FALSE(CheckAddValueNode<EndArrayBuildNode>());
-  EXPECT_FALSE(CheckAddValueNode<EndFieldBuildNode>());
+  EXPECT_FALSE(CheckAddValueNode<EndFieldComposerComponent>());
   EXPECT_FALSE(CheckAddValueNode<EndArrayElementBuildNode>());
 }
 
