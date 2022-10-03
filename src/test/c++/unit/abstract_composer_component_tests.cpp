@@ -41,7 +41,7 @@ public:
     TestNode(sup::dto::AnyValue&& value) : AbstractComposerComponent(std::move(value)) {}
 
     Type GetComponentType() const override { return Type::kValue; }
-    bool Process(std::stack<node_t>&) override { return false; }
+    bool Process(std::stack<component_t>&) override { return false; }
   };
 };
 
@@ -52,7 +52,7 @@ TEST_F(AbstractAnyValueBuildNodeTests, InitialState)
   TestNode node;
   EXPECT_TRUE(node.GetFieldName().empty());
 
-  std::stack<AbstractComposerComponent::node_t> stack;
+  std::stack<AbstractComposerComponent::component_t> stack;
   EXPECT_FALSE(node.Process(stack));
 
   EXPECT_THROW(node.AddMember("name", sup::dto::AnyValue()), std::runtime_error);

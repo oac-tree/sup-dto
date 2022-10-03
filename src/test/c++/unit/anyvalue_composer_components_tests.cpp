@@ -37,7 +37,7 @@ TEST_F(AnyValueComposerComponentsTests, ValueComposerComponentProcess)
   EXPECT_EQ(node.GetComponentType(), AbstractComposerComponent::Type::kValue);
 
   // processing empty stack
-  std::stack<AbstractComposerComponent::node_t> stack;
+  std::stack<AbstractComposerComponent::component_t> stack;
   EXPECT_TRUE(node.Process(stack));
 
   // processing stack containing another value
@@ -62,7 +62,7 @@ TEST_F(AnyValueComposerComponentsTests, StartStructComposerComponentProcess)
   EXPECT_EQ(node.GetComponentType(), AbstractComposerComponent::Type::kStartStruct);
 
   // processing empty stack
-  std::stack<AbstractComposerComponent::node_t> stack;
+  std::stack<AbstractComposerComponent::component_t> stack;
   EXPECT_TRUE(node.Process(stack));
 
   // processing stack containing another struct
@@ -103,7 +103,7 @@ TEST_F(AnyValueComposerComponentsTests, StartFieldComposerComponentProcess)
   EXPECT_EQ(node.GetComponentType(), AbstractComposerComponent::Type::kStartField);
 
   // processing of empty stack is not allowed
-  std::stack<AbstractComposerComponent::node_t> stack;
+  std::stack<AbstractComposerComponent::component_t> stack;
   EXPECT_THROW(node.Process(stack), std::runtime_error);
 
   // stack is possible to process if it contains StartStructBuildNode
@@ -123,12 +123,12 @@ TEST_F(AnyValueComposerComponentsTests, EndFieldComposerComponentProcess)
 
   {
     // processing of empty stack is not allowed
-    std::stack<AbstractComposerComponent::node_t> stack;
+    std::stack<AbstractComposerComponent::component_t> stack;
     EXPECT_THROW(node.Process(stack), std::runtime_error);
   }
 
   {
-    std::stack<AbstractComposerComponent::node_t> stack;
+    std::stack<AbstractComposerComponent::component_t> stack;
     stack.push(std::unique_ptr<StartStructComposerComponent>(
         new StartStructComposerComponent("struct_name")));
     stack.push(std::unique_ptr<StartFieldComposerComponent>(
@@ -153,12 +153,12 @@ TEST_F(AnyValueComposerComponentsTests, EndStructComposerComponentProcess)
   EXPECT_EQ(node.GetComponentType(), AbstractComposerComponent::Type::kEndStruct);
 
   {  // processing of empty stack is not allowed
-    std::stack<AbstractComposerComponent::node_t> stack;
+    std::stack<AbstractComposerComponent::component_t> stack;
     EXPECT_THROW(node.Process(stack), std::runtime_error);
   }
 
   {
-    std::stack<AbstractComposerComponent::node_t> stack;
+    std::stack<AbstractComposerComponent::component_t> stack;
     stack.push(std::unique_ptr<StartStructComposerComponent>(
         new StartStructComposerComponent("struct_name")));
 
@@ -180,7 +180,7 @@ TEST_F(AnyValueComposerComponentsTests, StartArrayComposerComponentProcess)
   EXPECT_EQ(node.GetComponentType(), AbstractComposerComponent::Type::kStartArray);
 
   // processing empty stack
-  std::stack<AbstractComposerComponent::node_t> stack;
+  std::stack<AbstractComposerComponent::component_t> stack;
   EXPECT_TRUE(node.Process(stack));
 
   // processing stack containing another struct is not possible
@@ -221,7 +221,7 @@ TEST_F(AnyValueComposerComponentsTests, StartArrayElementComposerComponentProces
   EXPECT_EQ(node.GetComponentType(), AbstractComposerComponent::Type::kStartArrayElement);
 
   // processing of empty stack is not allowed
-  std::stack<AbstractComposerComponent::node_t> stack;
+  std::stack<AbstractComposerComponent::component_t> stack;
   EXPECT_THROW(node.Process(stack), std::runtime_error);
 
   // stack is possible to process if it contains StartArrayBuildNode
@@ -238,13 +238,13 @@ TEST_F(AnyValueComposerComponentsTests, EndArrayElementComposerComponentProcess)
 
   // processing of empty stack is not allowed
   {
-    std::stack<AbstractComposerComponent::node_t> stack;
+    std::stack<AbstractComposerComponent::component_t> stack;
     EXPECT_THROW(node.Process(stack), std::runtime_error);
   }
 
   // stack should contains proper nodes for processing
   {
-    std::stack<AbstractComposerComponent::node_t> stack;
+    std::stack<AbstractComposerComponent::component_t> stack;
 
     stack.push(std::unique_ptr<StartArrayComposerComponent>(
         new StartArrayComposerComponent("array_name")));
@@ -272,12 +272,12 @@ TEST_F(AnyValueComposerComponentsTests, EndArrayComposerComponentProcess)
   EXPECT_EQ(node.GetComponentType(), AbstractComposerComponent::Type::kEndArray);
 
   {  // processing of empty stack is not allowed
-    std::stack<AbstractComposerComponent::node_t> stack;
+    std::stack<AbstractComposerComponent::component_t> stack;
     EXPECT_THROW(node.Process(stack), std::runtime_error);
   }
 
   {
-    std::stack<AbstractComposerComponent::node_t> stack;
+    std::stack<AbstractComposerComponent::component_t> stack;
     stack.push(std::unique_ptr<StartArrayComposerComponent>(
         new StartArrayComposerComponent("array_name")));
 

@@ -34,19 +34,22 @@ namespace dto
 
 struct AnyValueComposer::AnyValueComposerImpl
 {
-  std::stack<AbstractComposerComponent::node_t> m_stack;
+  std::stack<AbstractComposerComponent::component_t> m_stack;
 
   template <typename T, typename... Args>
-  void ProcessNode(Args &&...args)
+  void ProcessComponent(Args &&...args)
   {
-    auto node = std::unique_ptr<T>(new T((args)...));
-    if (node->Process(m_stack))
+    auto component = std::unique_ptr<T>(new T((args)...));
+    if (component->Process(m_stack))
     {
-      m_stack.push(std::move(node));
+      m_stack.push(std::move(component));
     }
   }
 
-  void AddValueNode(const ::sup::dto::AnyValue &value) { ProcessNode<ValueComposerComponent>(value); }
+  void AddValueComponent(const ::sup::dto::AnyValue &value)
+  {
+    ProcessComponent<ValueComposerComponent>(value);
+  }
 
   AnyValueComposerImpl() : m_stack() {}
 };
@@ -62,62 +65,62 @@ AnyValueComposer::~AnyValueComposer() = default;
 
 void AnyValueComposer::Bool(sup::dto::boolean value)
 {
-  p_impl->AddValueNode(::sup::dto::AnyValue(value));
+  p_impl->AddValueComponent(::sup::dto::AnyValue(value));
 }
 
 void AnyValueComposer::Int8(sup::dto::int8 value)
 {
-  p_impl->AddValueNode(::sup::dto::AnyValue(value));
+  p_impl->AddValueComponent(::sup::dto::AnyValue(value));
 }
 
 void AnyValueComposer::UInt8(sup::dto::uint8 value)
 {
-  p_impl->AddValueNode(::sup::dto::AnyValue(value));
+  p_impl->AddValueComponent(::sup::dto::AnyValue(value));
 }
 
 void AnyValueComposer::Int16(sup::dto::int16 value)
 {
-  p_impl->AddValueNode(::sup::dto::AnyValue(value));
+  p_impl->AddValueComponent(::sup::dto::AnyValue(value));
 }
 
 void AnyValueComposer::UInt16(sup::dto::uint16 value)
 {
-  p_impl->AddValueNode(::sup::dto::AnyValue(value));
+  p_impl->AddValueComponent(::sup::dto::AnyValue(value));
 }
 
 void AnyValueComposer::Int32(sup::dto::int32 value)
 {
-  p_impl->AddValueNode(::sup::dto::AnyValue(value));
+  p_impl->AddValueComponent(::sup::dto::AnyValue(value));
 }
 
 void AnyValueComposer::UInt32(sup::dto::uint32 value)
 {
-  p_impl->AddValueNode(::sup::dto::AnyValue(value));
+  p_impl->AddValueComponent(::sup::dto::AnyValue(value));
 }
 
 void AnyValueComposer::Int64(sup::dto::int64 value)
 {
-  p_impl->AddValueNode(::sup::dto::AnyValue(value));
+  p_impl->AddValueComponent(::sup::dto::AnyValue(value));
 }
 
 void AnyValueComposer::UInt64(sup::dto::uint64 value)
 {
-  p_impl->AddValueNode(::sup::dto::AnyValue(value));
+  p_impl->AddValueComponent(::sup::dto::AnyValue(value));
 }
 
 void AnyValueComposer::Float32(sup::dto::float32 value)
 {
-  p_impl->AddValueNode(::sup::dto::AnyValue(value));
+  p_impl->AddValueComponent(::sup::dto::AnyValue(value));
 }
 
 void AnyValueComposer::Float64(sup::dto::float64 value)
 {
-  p_impl->AddValueNode(::sup::dto::AnyValue(value));
+  p_impl->AddValueComponent(::sup::dto::AnyValue(value));
 }
 
 void AnyValueComposer::String(const std::string &value)
 {
-  p_impl->AddValueNode(::sup::dto::AnyValue(value));
+  p_impl->AddValueComponent(::sup::dto::AnyValue(value));
 }
 
 //! Adds the value as array element, or structure field, or single scalar.
@@ -130,27 +133,27 @@ void AnyValueComposer::String(const std::string &value)
 
 void AnyValueComposer::AddValue(const sup::dto::AnyValue &anyvalue)
 {
-  p_impl->AddValueNode(anyvalue);
+  p_impl->AddValueComponent(anyvalue);
 }
 
 void AnyValueComposer::StartStruct(const std::string &struct_name)
 {
-  p_impl->ProcessNode<StartStructComposerComponent>(struct_name);
+  p_impl->ProcessComponent<StartStructComposerComponent>(struct_name);
 }
 
 void AnyValueComposer::EndStruct()
 {
-  p_impl->ProcessNode<EndStructComposerComponent>();
+  p_impl->ProcessComponent<EndStructComposerComponent>();
 }
 
 void AnyValueComposer::StartField(const std::string &field_name)
 {
-  p_impl->ProcessNode<StartFieldComposerComponent>(field_name);
+  p_impl->ProcessComponent<StartFieldComposerComponent>(field_name);
 }
 
 void AnyValueComposer::EndField()
 {
-  p_impl->ProcessNode<EndFieldComposerComponent>();
+  p_impl->ProcessComponent<EndFieldComposerComponent>();
 }
 
 //! Adds member with given name to the structure.
@@ -166,17 +169,17 @@ void AnyValueComposer::AddMember(const std::string &name, sup::dto::AnyValue any
 
 void AnyValueComposer::StartArray(const std::string &array_name)
 {
-  p_impl->ProcessNode<StartArrayComposerComponent>(array_name);
+  p_impl->ProcessComponent<StartArrayComposerComponent>(array_name);
 }
 
 void AnyValueComposer::StartArrayElement()
 {
-  p_impl->ProcessNode<StartArrayElementComposerComponent>();
+  p_impl->ProcessComponent<StartArrayElementComposerComponent>();
 }
 
 void AnyValueComposer::EndArrayElement()
 {
-  p_impl->ProcessNode<EndArrayElementComposerComponent>();
+  p_impl->ProcessComponent<EndArrayElementComposerComponent>();
 }
 
 //! Adds array element.
@@ -192,7 +195,7 @@ void AnyValueComposer::AddArrayElement(const sup::dto::AnyValue &anyvalue)
 
 void AnyValueComposer::EndArray()
 {
-  p_impl->ProcessNode<EndArrayComposerComponent>();
+  p_impl->ProcessComponent<EndArrayComposerComponent>();
 }
 
 int AnyValueComposer::GetStackSize() const

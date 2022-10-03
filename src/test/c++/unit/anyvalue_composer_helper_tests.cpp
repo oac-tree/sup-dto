@@ -36,7 +36,7 @@ public:
   template <typename T, typename... Args>
   bool CheckAddValueNode(Args&&... args)
   {
-    std::stack<AbstractComposerComponent::node_t> stack;
+    std::stack<AbstractComposerComponent::component_t> stack;
     stack.push(std::unique_ptr<T>(new T((args)...)));
     return CanAddValueComponent(stack);
   }
@@ -44,7 +44,7 @@ public:
   template <typename T, typename... Args>
   void ValidateCompletedValueNode(Args&&... args)
   {
-    std::stack<AbstractComposerComponent::node_t> stack;
+    std::stack<AbstractComposerComponent::component_t> stack;
     stack.push(std::unique_ptr<T>(new T((args)...)));
     ValidateIfValueComponentIsComplete(stack);
   }
@@ -55,7 +55,7 @@ public:
 TEST_F(AnyValueComposerHelperTests, CanAddValueComponent)
 {
   {  // it is possible to add value node to empty stack
-    std::stack<AbstractComposerComponent::node_t> stack;
+    std::stack<AbstractComposerComponent::component_t> stack;
     EXPECT_TRUE(CanAddValueComponent(stack));
   }
 
@@ -77,12 +77,12 @@ TEST_F(AnyValueComposerHelperTests, CanAddValueComponent)
 TEST_F(AnyValueComposerHelperTests, ValidateAddValueComponent)
 {
   {  // it is possible to add value node to empty stack
-    std::stack<AbstractComposerComponent::node_t> stack;
+    std::stack<AbstractComposerComponent::component_t> stack;
     EXPECT_NO_THROW(ValidateAddValueComponent(stack));
   }
 
   {  // it is not possible to add value node if stack contains StartStructBuildNode
-    std::stack<AbstractComposerComponent::node_t> stack;
+    std::stack<AbstractComposerComponent::component_t> stack;
     stack.push(
         std::unique_ptr<StartStructComposerComponent>(new StartStructComposerComponent("name")));
     EXPECT_THROW(ValidateAddValueComponent(stack), std::runtime_error);
@@ -95,7 +95,7 @@ TEST_F(AnyValueComposerHelperTests, ValidateAddValueComponent)
 
 TEST_F(AnyValueComposerHelperTests, ValidateLastComponent)
 {
-  std::stack<AbstractComposerComponent::node_t> stack;
+  std::stack<AbstractComposerComponent::component_t> stack;
   EXPECT_THROW(ValidateLastComponent(stack, AbstractComposerComponent::Type::kStartArray),
                std::runtime_error);
 
@@ -110,7 +110,7 @@ TEST_F(AnyValueComposerHelperTests, ValidateLastComponent)
 
 TEST_F(AnyValueComposerHelperTests, ValidateIfValueComponentIsComplete)
 {
-  std::stack<AbstractComposerComponent::node_t> stack;
+  std::stack<AbstractComposerComponent::component_t> stack;
   EXPECT_THROW(ValidateIfValueComponentIsComplete(stack), std::runtime_error);
 
   EXPECT_NO_THROW(CheckAddValueNode<EndStructComposerComponent>());

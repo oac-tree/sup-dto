@@ -33,13 +33,13 @@ namespace sup
 namespace dto
 {
 
-//! The node for AnyValueBuildAdapter to build AnyValue.
+//! The component for AnyValueComposer to build AnyValue.
 
 class AbstractComposerComponent
 {
 public:
   virtual ~AbstractComposerComponent() = default;
-  using node_t = std::unique_ptr<AbstractComposerComponent>;
+  using component_t = std::unique_ptr<AbstractComposerComponent>;
 
   enum class Type
   {
@@ -60,8 +60,8 @@ public:
   virtual Type GetComponentType() const = 0;
 
   //! Performs manipulations with the stack, if necessary.
-  //! @return True if nodes wants it to be saved in a stack.
-  virtual bool Process(std::stack<node_t>& stack) = 0;
+  //! @return True if component wants it to be saved in a stack.
+  virtual bool Process(std::stack<component_t>& stack) = 0;
 
   virtual void Consume(sup::dto::AnyValue&& value);
 

@@ -49,7 +49,7 @@ AbstractComposerComponent::Type ValueComposerComponent::GetComponentType() const
   return Type::kValue;
 }
 
-bool ValueComposerComponent::Process(std::stack<node_t> &stack)
+bool ValueComposerComponent::Process(std::stack<component_t> &stack)
 {
   ValidateAddValueComponent(stack);
   return kKeepInStackRequest;
@@ -70,7 +70,7 @@ AbstractComposerComponent::Type StartStructComposerComponent::GetComponentType()
   return Type::kStartStruct;
 }
 
-bool StartStructComposerComponent::Process(std::stack<node_t> &stack)
+bool StartStructComposerComponent::Process(std::stack<component_t> &stack)
 {
   ValidateAddValueComponent(stack);
   return kKeepInStackRequest;
@@ -91,7 +91,7 @@ AbstractComposerComponent::Type EndStructComposerComponent::GetComponentType() c
   return Type::kEndStruct;
 }
 
-bool EndStructComposerComponent::Process(std::stack<node_t> &stack)
+bool EndStructComposerComponent::Process(std::stack<component_t> &stack)
 {
   ValidateLastComponent(stack, Type::kStartStruct);
 
@@ -117,7 +117,7 @@ AbstractComposerComponent::Type StartFieldComposerComponent::GetComponentType() 
   return Type::kStartField;
 }
 
-bool StartFieldComposerComponent::Process(std::stack<node_t> &stack)
+bool StartFieldComposerComponent::Process(std::stack<component_t> &stack)
 {
   ValidateLastComponent(stack, Type::kStartStruct);
 
@@ -141,7 +141,7 @@ AbstractComposerComponent::Type EndFieldComposerComponent::GetComponentType() co
 //! Processes the stack, finalizes the adding of the field to StartStructBuildNode.
 //! @note It will remove two last nodes (with the value, and with the field name) and then
 //! create a field in the remaining StartStructBuildNode.
-bool EndFieldComposerComponent::Process(std::stack<node_t> &stack)
+bool EndFieldComposerComponent::Process(std::stack<component_t> &stack)
 {
   ValidateIfValueComponentIsComplete(stack);
 
@@ -177,7 +177,7 @@ AbstractComposerComponent::Type StartArrayComposerComponent::GetComponentType() 
   return Type::kStartArray;
 }
 
-bool StartArrayComposerComponent::Process(std::stack<node_t> &stack)
+bool StartArrayComposerComponent::Process(std::stack<component_t> &stack)
 {
   ValidateAddValueComponent(stack);
   return kKeepInStackRequest;
@@ -207,7 +207,7 @@ AbstractComposerComponent::Type EndArrayComposerComponent::GetComponentType() co
   return Type::kEndArray;
 }
 
-bool EndArrayComposerComponent::Process(std::stack<node_t> &stack)
+bool EndArrayComposerComponent::Process(std::stack<component_t> &stack)
 {
   ValidateLastComponent(stack, Type::kStartArray);
 
@@ -227,7 +227,7 @@ AbstractComposerComponent::Type StartArrayElementComposerComponent::GetComponent
   return Type::kStartArrayElement;
 }
 
-bool StartArrayElementComposerComponent::Process(std::stack<node_t> &stack)
+bool StartArrayElementComposerComponent::Process(std::stack<component_t> &stack)
 {
   ValidateLastComponent(stack, Type::kStartArray);
   return kKeepInStackRequest;
@@ -246,7 +246,7 @@ AbstractComposerComponent::Type EndArrayElementComposerComponent::GetComponentTy
 //! @note It will remove two last nodes (with the value, and StartArrayElementNode) and then
 //! create a field in the remaining StartArrayBuildNode.
 
-bool EndArrayElementComposerComponent::Process(std::stack<node_t> &stack)
+bool EndArrayElementComposerComponent::Process(std::stack<component_t> &stack)
 {
   ValidateIfValueComponentIsComplete(stack);
 

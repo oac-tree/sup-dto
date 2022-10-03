@@ -44,7 +44,7 @@ public:
 
   Type GetComponentType() const override;
 
-  bool Process(std::stack<node_t>& stack) override;
+  bool Process(std::stack<component_t>& stack) override;
 };
 
 //! The node which is created at the start of the structure.
@@ -56,7 +56,7 @@ public:
 
   Type GetComponentType() const override;
 
-  bool Process(std::stack<node_t>& stack) override;
+  bool Process(std::stack<component_t>& stack) override;
 
   void AddMember(const std::string& name, const sup::dto::AnyValue& value) override;
 };
@@ -68,7 +68,7 @@ class EndStructComposerComponent : public AbstractComposerComponent
 public:
   Type GetComponentType() const override;
 
-  bool Process(std::stack<node_t>& stack) override;
+  bool Process(std::stack<component_t>& stack) override;
 };
 
 //! The node which is created at the beginning of the field creation.
@@ -80,7 +80,7 @@ public:
 
   Type GetComponentType() const override;
 
-  bool Process(std::stack<node_t>& stack) override;
+  bool Process(std::stack<component_t>& stack) override;
 };
 
 //! The node which is created at the end of the field creation.
@@ -90,7 +90,7 @@ class EndFieldComposerComponent : public AbstractComposerComponent
 public:
   Type GetComponentType() const override;
 
-  bool Process(std::stack<node_t>& stack) override;
+  bool Process(std::stack<component_t>& stack) override;
 };
 
 //! The node which is created at the start of the array.
@@ -102,7 +102,7 @@ public:
 
   Type GetComponentType() const override;
 
-  bool Process(std::stack<node_t>& stack) override;
+  bool Process(std::stack<component_t>& stack) override;
 
   void AddElement(const sup::dto::AnyValue& value) override;
 
@@ -117,7 +117,7 @@ class EndArrayComposerComponent : public AbstractComposerComponent
 public:
   Type GetComponentType() const override;
 
-  bool Process(std::stack<node_t>& stack) override;
+  bool Process(std::stack<component_t>& stack) override;
 };
 
 //! The node which is created at the start of the element in the array.
@@ -127,7 +127,7 @@ class StartArrayElementComposerComponent : public AbstractComposerComponent
 public:
   Type GetComponentType() const override;
 
-  bool Process(std::stack<node_t>& stack) override;
+  bool Process(std::stack<component_t>& stack) override;
 };
 
 //! The node which is created at the start of the element in the array.
@@ -137,7 +137,7 @@ class EndArrayElementComposerComponent : public AbstractComposerComponent
 public:
   Type GetComponentType() const override;
 
-  bool Process(std::stack<node_t>& stack) override;
+  bool Process(std::stack<component_t>& stack) override;
 };
 
 }  // namespace dto

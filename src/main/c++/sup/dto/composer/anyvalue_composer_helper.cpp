@@ -28,7 +28,7 @@ namespace sup
 namespace dto
 {
 
-bool CanAddValueComponent(const std::stack<AbstractComposerComponent::node_t> &stack)
+bool CanAddValueComponent(const std::stack<AbstractComposerComponent::component_t> &stack)
 {
   if (stack.empty())
   {
@@ -38,16 +38,17 @@ bool CanAddValueComponent(const std::stack<AbstractComposerComponent::node_t> &s
   using Type = AbstractComposerComponent::Type;
   static const std::vector<Type> expected_types{Type::kStartArrayElement, Type::kStartField};
 
-  auto it = std::find(expected_types.begin(), expected_types.end(), stack.top()->GetComponentType());
+  auto it =
+      std::find(expected_types.begin(), expected_types.end(), stack.top()->GetComponentType());
   return it != expected_types.end();
 }
 
-void ValidateAddValueComponent(const std::stack<AbstractComposerComponent::node_t> &stack)
+void ValidateAddValueComponent(const std::stack<AbstractComposerComponent::component_t> &stack)
 {
   if (!CanAddValueComponent(stack))
   {
     std::ostringstream ostr;
-    ostr << "Error in ValidateAddValueNode(): AnyValueNode can not be added, ";
+    ostr << "Error in ValidateAddValueComponent(): component can not be added, ";
     if (stack.empty())
     {
       ostr << "stack is empty.";
@@ -61,30 +62,31 @@ void ValidateAddValueComponent(const std::stack<AbstractComposerComponent::node_
   }
 }
 
-void ValidateLastComponent(const std::stack<AbstractComposerComponent::node_t> &stack,
+void ValidateLastComponent(const std::stack<AbstractComposerComponent::component_t> &stack,
                            AbstractComposerComponent::Type node_type)
 {
   if (stack.empty() || stack.top()->GetComponentType() != node_type)
   {
-    throw std::runtime_error("Error in ValidateLastNode(): wrong type of the last node");
+    throw std::runtime_error("Error in ValidateLastComponent(): wrong type of the last node");
   }
 }
 
-void ValidateIfValueComponentIsComplete(const std::stack<AbstractComposerComponent::node_t> &stack)
+void ValidateIfValueComponentIsComplete(const std::stack<AbstractComposerComponent::component_t> &stack)
 {
   if (stack.empty())
   {
-    throw std::runtime_error("Error in ValidateIfValueNodeIsComplete(): stack is empty");
+    throw std::runtime_error("Error in ValidateIfValueComponentIsComplete(): stack is empty");
   }
 
   using Type = AbstractComposerComponent::Type;
   static const std::vector<Type> expected_types{Type::kValue, Type::kEndStruct, Type::kEndArray};
 
-  auto it = std::find(expected_types.begin(), expected_types.end(), stack.top()->GetComponentType());
+  auto it =
+      std::find(expected_types.begin(), expected_types.end(), stack.top()->GetComponentType());
 
   if (it == expected_types.end())
   {
-    throw std::runtime_error("Error in ValidateIfValueNodeIsComplete(): wrong node type");
+    throw std::runtime_error("Error in ValidateIfValueComponentIsComplete(): wrong node type");
   }
 }
 
