@@ -66,5 +66,7 @@ install(FILES
         sup/dto/anyvalue_composer.h
         sup/dto/basic_scalar_types.h
         sup/dto/i_any_visitor.h
+        sup/dto/json_type_parser.h
+        sup/dto/json_value_parser.h
         DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/sup/dto)
 
