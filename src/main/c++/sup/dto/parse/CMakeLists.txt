@@ -13,6 +13,7 @@ target_sources(sup-dto-obj
         ${CMAKE_CURRENT_LIST_DIR}/arrayvalue_buildnode.cpp
         ${CMAKE_CURRENT_LIST_DIR}/byteparser.cpp
         ${CMAKE_CURRENT_LIST_DIR}/i_any_buildnode.cpp
+        ${CMAKE_CURRENT_LIST_DIR}/json_type_parser.cpp
         ${CMAKE_CURRENT_LIST_DIR}/membertype_array_buildnode.cpp
         ${CMAKE_CURRENT_LIST_DIR}/membertype_buildnode.cpp
 )
