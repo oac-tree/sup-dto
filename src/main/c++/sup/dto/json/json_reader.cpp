@@ -42,7 +42,14 @@ AnyType JSONParseAnyType(const AnyTypeRegistry* anytype_registry, std::istream& 
   rapidjson::IStreamWrapper istream(json_stream);
   rapidjson::Reader reader;
 
-  reader.Parse(istream, builder);
+  try
+  {
+    reader.Parse(istream, builder);
+  }
+  catch(const InvalidConversionException&)
+  {
+    throw ParseException("Parsing AnyType from JSON failed");
+  }
   if (reader.HasParseError())
   {
     throw ParseException("Parsing AnyType from JSON failed");
@@ -56,7 +63,14 @@ AnyValue JSONParseAnyValue(const AnyTypeRegistry* anytype_registry, std::istream
   rapidjson::IStreamWrapper istream(json_stream);
   rapidjson::Reader reader;
 
-  reader.Parse(istream, builder);
+  try
+  {
+    reader.Parse(istream, builder);
+  }
+  catch(const InvalidConversionException&)
+  {
+    throw ParseException("Parsing AnyValue from JSON failed");
+  }
   if (reader.HasParseError())
   {
     throw ParseException("Parsing AnyValue from JSON failed");
@@ -70,7 +84,14 @@ AnyValue JSONParseTypedAnyValue(const AnyType& anytype, std::istream& json_strea
   rapidjson::IStreamWrapper istream(json_stream);
   rapidjson::Reader reader;
 
-  reader.Parse(istream, builder);
+  try
+  {
+    reader.Parse(istream, builder);
+  }
+  catch(const InvalidConversionException&)
+  {
+    throw ParseException("Parsing typed AnyValue from JSON failed");
+  }
   if (reader.HasParseError())
   {
     throw ParseException("Parsing typed AnyValue from JSON failed");
