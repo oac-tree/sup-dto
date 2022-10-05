@@ -61,52 +61,6 @@ std::string AnyTypeToJSONString(const AnyType& anytype, bool pretty=false);
  */
 void AnyTypeToJSONFile(const AnyType& anytype, const std::string& filename, bool pretty=false);
 
-/**
- * @brief Parse an AnyType from a JSON string.
- *
- * @param json_str JSON string.
- *
- * @return Parsed AnyType.
- *
- * @throws ParseException Thrown when the JSON string could not be properly parsed into an AnyType.
- */
-AnyType AnyTypeFromJSONString(const std::string& json_str);
-
-/**
- * @brief Parse an AnyType from a JSON string.
- *
- * @param json_str JSON string.
- * @param anytype_registry AnyType registry to use during parsing.
- *
- * @return Parsed AnyType.
- *
- * @throws ParseException Thrown when the JSON string could not be properly parsed into an AnyType.
- */
-AnyType AnyTypeFromJSONString(const AnyTypeRegistry* anytype_registry, const std::string& json_str);
-
-/**
- * @brief Parse an AnyType from a JSON file.
- *
- * @param filename Filename to use.
- *
- * @return Parsed AnyType.
- *
- * @throws ParseException Thrown when the JSON file could not be properly parsed into an AnyType.
- */
-AnyType AnyTypeFromJSONFile(const std::string& filename);
-
-/**
- * @brief Parse an AnyType from a JSON file.
- *
- * @param filename Filename to use.
- * @param anytype_registry AnyType registry to use during parsing.
- *
- * @return Parsed AnyType.
- *
- * @throws ParseException Thrown when the JSON file could not be properly parsed into an AnyType.
- */
-AnyType AnyTypeFromJSONFile(const AnyTypeRegistry* anytype_registry, const std::string& filename);
-
 }  // namespace dto
 
 }  // namespace sup

@@ -27,6 +27,7 @@
 #include <sup/dto/anytype_helper.h>
 #include <sup/dto/anyvalue.h>
 #include <sup/dto/anyvalue_helper.h>
+#include <sup/dto/json_type_parser.h>
 #include <sup/dto/json_value_parser.h>
 
 #include <fstream>
@@ -54,14 +55,18 @@ TEST_F(JSONFileTest, AnyTypeToFromFile)
     {"nested", simple_struct_type},
     {"validated", BooleanType}
   });
+
+  JSONAnyTypeParser parser;
   auto filename = GetLocalFilename("complex_struct_type.json");
   EXPECT_NO_THROW(AnyTypeToJSONFile(complex_struct_type, filename));
-  auto parsed_type = AnyTypeFromJSONFile(filename);
+  EXPECT_TRUE(parser.ParseFile(filename));
+  auto parsed_type = parser.MoveAnyType();
   EXPECT_EQ(parsed_type, complex_struct_type);
 
   auto filename_pretty = GetLocalFilename("complex_struct_type_pretty.json");
   EXPECT_NO_THROW(AnyTypeToJSONFile(complex_struct_type, filename_pretty, true));
-  auto parsed_type_pretty = AnyTypeFromJSONFile(filename_pretty);
+  EXPECT_TRUE(parser.ParseFile(filename_pretty));
+  auto parsed_type_pretty = parser.MoveAnyType();
   EXPECT_EQ(parsed_type_pretty, complex_struct_type);
 }
 
@@ -105,11 +110,12 @@ TEST_F(JSONFileTest, FailureToOpenFile)
     {"number", UnsignedInteger64Type}
   });
   AnyValue test_value(test_type);
-  JSONAnyValueParser parser;
+  JSONAnyTypeParser type_parser;
+  JSONAnyValueParser value_parser;
   EXPECT_THROW(AnyTypeToJSONFile(test_type, filename_dir), SerializeException);
   EXPECT_THROW(AnyValueToJSONFile(test_value, filename_dir), SerializeException);
-  EXPECT_THROW(AnyTypeFromJSONFile(filename_dir), ParseException);
-  EXPECT_FALSE(parser.ParseFile(filename_dir));
+  EXPECT_FALSE(type_parser.ParseFile(filename_dir));
+  EXPECT_FALSE(value_parser.ParseFile(filename_dir));
 }
 
 JSONFileTest::JSONFileTest() = default;
