@@ -29,6 +29,7 @@ target_sources(unit-tests
         ${CMAKE_CURRENT_LIST_DIR}/integervalue_tests.cpp
         ${CMAKE_CURRENT_LIST_DIR}/json_file_tests.cpp
         ${CMAKE_CURRENT_LIST_DIR}/json_type_parser_tests.cpp
+        ${CMAKE_CURRENT_LIST_DIR}/json_typed_value_parser_tests.cpp
         ${CMAKE_CURRENT_LIST_DIR}/json_value_parser_tests.cpp
         ${CMAKE_CURRENT_LIST_DIR}/scalar_conversion_tests.cpp
         ${CMAKE_CURRENT_LIST_DIR}/scalartype_tests.cpp

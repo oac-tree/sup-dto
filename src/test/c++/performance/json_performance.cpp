@@ -24,6 +24,7 @@
 #include <sup/dto/anytype.h>
 #include <sup/dto/anyvalue.h>
 #include <sup/dto/anyvalue_helper.h>
+#include <sup/dto/json_value_parser.h>
 
 #include <algorithm>
 #include <chrono>
@@ -106,6 +107,7 @@ AnyType CreateManyFullConfig_t_Type()
 
 void MeasureSerializeParse(const AnyType& anytype)
 {
+  JSONAnyValueParser parser;
   std::cout << "Test JSON serialize/parse performance" << std::endl;
   std::cout << "*************************************" << std::endl;
   AnyValue value(anytype);
@@ -113,7 +115,8 @@ void MeasureSerializeParse(const AnyType& anytype)
   auto json_string = AnyValueToJSONString(value);
   auto json_size = json_string.size();
   std::cout << "JSON string size: " << json_size << std::endl;
-  auto parsed = AnyValueFromJSONString(json_string);
+  parser.ParseString(json_string);
+  auto parsed = parser.MoveAnyValue();
   auto one_cycle = std::chrono::duration_cast<std::chrono::milliseconds>(
       std::chrono::system_clock::now() - start).count();
   if (one_cycle < 1)
@@ -130,7 +133,8 @@ void MeasureSerializeParse(const AnyType& anytype)
     json_string = AnyValueToJSONString(value);
     auto middle = std::chrono::system_clock::now();
     serialize_duration += middle - start;
-    parsed = AnyValueFromJSONString(json_string);
+    parser.ParseString(json_string);
+    parsed = parser.MoveAnyValue();
     parse_duration += std::chrono::system_clock::now() - middle;
   }
   auto serialize_duration_ms =
