@@ -120,7 +120,7 @@ AnyValue JSONAnyValueParser::MoveAnyValue()
   {
     return {};
   }
-  return std::move(*m_anyvalue.release());
+  return std::move(*m_anyvalue);
 }
 
 }  // namespace dto

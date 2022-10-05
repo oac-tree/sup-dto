@@ -86,7 +86,7 @@ AnyType JSONAnyTypeParser::MoveAnyType()
   {
     return {};
   }
-  return std::move(*m_anytype.release());
+  return std::move(*m_anytype);
 }
 
 }  // namespace dto
