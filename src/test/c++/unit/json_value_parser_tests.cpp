@@ -201,6 +201,11 @@ TEST_F(JSONValueParserTest, EmptyValue)
   EXPECT_TRUE(m_parser.ParseString(json_string));
   auto parsed_val = m_parser.MoveAnyValue();
   EXPECT_EQ(empty, parsed_val);
+
+  auto json_value_string = ValuesToJSONString(empty);
+  EXPECT_TRUE(m_parser.TypedParseString(EmptyType, json_value_string));
+  auto parsed_from_type = m_parser.MoveAnyValue();
+  EXPECT_EQ(empty, parsed_from_type);
 }
 
 TEST_F(JSONValueParserTest, BooleanValue)
@@ -210,6 +215,11 @@ TEST_F(JSONValueParserTest, BooleanValue)
   EXPECT_TRUE(m_parser.ParseString(json_string));
   auto parsed_val = m_parser.MoveAnyValue();
   EXPECT_EQ(bool_val, parsed_val);
+
+  auto json_value_string = ValuesToJSONString(bool_val);
+  EXPECT_TRUE(m_parser.TypedParseString(BooleanType, json_value_string));
+  auto parsed_from_type = m_parser.MoveAnyValue();
+  EXPECT_EQ(bool_val, parsed_from_type);
 }
 
 TEST_F(JSONValueParserTest, Char8Value)
@@ -219,6 +229,11 @@ TEST_F(JSONValueParserTest, Char8Value)
   EXPECT_TRUE(m_parser.ParseString(json_string));
   auto parsed_val = m_parser.MoveAnyValue();
   EXPECT_EQ(char8_val, parsed_val);
+
+  auto json_value_string = ValuesToJSONString(char8_val);
+  EXPECT_TRUE(m_parser.TypedParseString(Character8Type, json_value_string));
+  auto parsed_from_type = m_parser.MoveAnyValue();
+  EXPECT_EQ(char8_val, parsed_from_type);
 }
 
 TEST_F(JSONValueParserTest, Int8Value)
@@ -228,6 +243,11 @@ TEST_F(JSONValueParserTest, Int8Value)
   EXPECT_TRUE(m_parser.ParseString(json_string));
   auto parsed_val = m_parser.MoveAnyValue();
   EXPECT_EQ(int8_val, parsed_val);
+
+  auto json_value_string = ValuesToJSONString(int8_val);
+  EXPECT_TRUE(m_parser.TypedParseString(SignedInteger8Type, json_value_string));
+  auto parsed_from_type = m_parser.MoveAnyValue();
+  EXPECT_EQ(int8_val, parsed_from_type);
 }
 
 TEST_F(JSONValueParserTest, UInt8Value)
@@ -237,6 +257,11 @@ TEST_F(JSONValueParserTest, UInt8Value)
   EXPECT_TRUE(m_parser.ParseString(json_string));
   auto parsed_val = m_parser.MoveAnyValue();
   EXPECT_EQ(uint8_val, parsed_val);
+
+  auto json_value_string = ValuesToJSONString(uint8_val);
+  EXPECT_TRUE(m_parser.TypedParseString(UnsignedInteger8Type, json_value_string));
+  auto parsed_from_type = m_parser.MoveAnyValue();
+  EXPECT_EQ(uint8_val, parsed_from_type);
 }
 
 TEST_F(JSONValueParserTest, Int16Value)
@@ -246,6 +271,11 @@ TEST_F(JSONValueParserTest, Int16Value)
   EXPECT_TRUE(m_parser.ParseString(json_string));
   auto parsed_val = m_parser.MoveAnyValue();
   EXPECT_EQ(int16_val, parsed_val);
+
+  auto json_value_string = ValuesToJSONString(int16_val);
+  EXPECT_TRUE(m_parser.TypedParseString(SignedInteger16Type, json_value_string));
+  auto parsed_from_type = m_parser.MoveAnyValue();
+  EXPECT_EQ(int16_val, parsed_from_type);
 }
 
 TEST_F(JSONValueParserTest, UInt16Value)
@@ -255,6 +285,11 @@ TEST_F(JSONValueParserTest, UInt16Value)
   EXPECT_TRUE(m_parser.ParseString(json_string));
   auto parsed_val = m_parser.MoveAnyValue();
   EXPECT_EQ(uint16_val, parsed_val);
+
+  auto json_value_string = ValuesToJSONString(uint16_val);
+  EXPECT_TRUE(m_parser.TypedParseString(UnsignedInteger16Type, json_value_string));
+  auto parsed_from_type = m_parser.MoveAnyValue();
+  EXPECT_EQ(uint16_val, parsed_from_type);
 }
 
 TEST_F(JSONValueParserTest, Int32Value)
@@ -264,6 +299,11 @@ TEST_F(JSONValueParserTest, Int32Value)
   EXPECT_TRUE(m_parser.ParseString(json_string));
   auto parsed_val = m_parser.MoveAnyValue();
   EXPECT_EQ(int32_val, parsed_val);
+
+  auto json_value_string = ValuesToJSONString(int32_val);
+  EXPECT_TRUE(m_parser.TypedParseString(SignedInteger32Type, json_value_string));
+  auto parsed_from_type = m_parser.MoveAnyValue();
+  EXPECT_EQ(int32_val, parsed_from_type);
 }
 
 TEST_F(JSONValueParserTest, UInt32Value)
@@ -273,6 +313,11 @@ TEST_F(JSONValueParserTest, UInt32Value)
   EXPECT_TRUE(m_parser.ParseString(json_string));
   auto parsed_val = m_parser.MoveAnyValue();
   EXPECT_EQ(uint32_val, parsed_val);
+
+  auto json_value_string = ValuesToJSONString(uint32_val);
+  EXPECT_TRUE(m_parser.TypedParseString(UnsignedInteger32Type, json_value_string));
+  auto parsed_from_type = m_parser.MoveAnyValue();
+  EXPECT_EQ(uint32_val, parsed_from_type);
 }
 
 TEST_F(JSONValueParserTest, Int64Value)
@@ -282,6 +327,11 @@ TEST_F(JSONValueParserTest, Int64Value)
   EXPECT_TRUE(m_parser.ParseString(json_string));
   auto parsed_val = m_parser.MoveAnyValue();
   EXPECT_EQ(int64_val, parsed_val);
+
+  auto json_value_string = ValuesToJSONString(int64_val);
+  EXPECT_TRUE(m_parser.TypedParseString(SignedInteger64Type, json_value_string));
+  auto parsed_from_type = m_parser.MoveAnyValue();
+  EXPECT_EQ(int64_val, parsed_from_type);
 }
 
 TEST_F(JSONValueParserTest, UInt64Value)
@@ -291,6 +341,11 @@ TEST_F(JSONValueParserTest, UInt64Value)
   EXPECT_TRUE(m_parser.ParseString(json_string));
   auto parsed_val = m_parser.MoveAnyValue();
   EXPECT_EQ(uint64_val, parsed_val);
+
+  auto json_value_string = ValuesToJSONString(uint64_val);
+  EXPECT_TRUE(m_parser.TypedParseString(UnsignedInteger64Type, json_value_string));
+  auto parsed_from_type = m_parser.MoveAnyValue();
+  EXPECT_EQ(uint64_val, parsed_from_type);
 }
 
 TEST_F(JSONValueParserTest, Float32Value)
@@ -300,6 +355,11 @@ TEST_F(JSONValueParserTest, Float32Value)
   EXPECT_TRUE(m_parser.ParseString(json_string));
   auto parsed_val = m_parser.MoveAnyValue();
   EXPECT_EQ(float32_val, parsed_val);
+
+  auto json_value_string = ValuesToJSONString(float32_val);
+  EXPECT_TRUE(m_parser.TypedParseString(Float32Type, json_value_string));
+  auto parsed_from_type = m_parser.MoveAnyValue();
+  EXPECT_EQ(float32_val, parsed_from_type);
 }
 
 TEST_F(JSONValueParserTest, Float64Value)
@@ -309,6 +369,11 @@ TEST_F(JSONValueParserTest, Float64Value)
   EXPECT_TRUE(m_parser.ParseString(json_string));
   auto parsed_val = m_parser.MoveAnyValue();
   EXPECT_EQ(float64_val, parsed_val);
+
+  auto json_value_string = ValuesToJSONString(float64_val);
+  EXPECT_TRUE(m_parser.TypedParseString(Float64Type, json_value_string));
+  auto parsed_from_type = m_parser.MoveAnyValue();
+  EXPECT_EQ(float64_val, parsed_from_type);
 }
 
 TEST_F(JSONValueParserTest, SimpleStructValue)
@@ -325,6 +390,11 @@ TEST_F(JSONValueParserTest, SimpleStructValue)
   EXPECT_TRUE(m_parser.ParseString(json_simple_struct_full));
   auto parsed_val2 = m_parser.MoveAnyValue();
   EXPECT_EQ(simple_struct_val, parsed_val2);
+
+  auto json_value_string = ValuesToJSONString(simple_struct_val);
+  EXPECT_TRUE(m_parser.TypedParseString(simple_struct_val.GetType(), json_value_string));
+  auto parsed_from_type = m_parser.MoveAnyValue();
+  EXPECT_EQ(simple_struct_val, parsed_from_type);
 }
 
 TEST_F(JSONValueParserTest, PrettySimpleStructValue)
@@ -337,6 +407,11 @@ TEST_F(JSONValueParserTest, PrettySimpleStructValue)
   EXPECT_TRUE(m_parser.ParseString(pretty_json_simple_struct));
   auto parsed_val = m_parser.MoveAnyValue();
   EXPECT_EQ(simple_struct_val, parsed_val);
+
+  auto json_value_string = ValuesToJSONString(simple_struct_val, true);
+  EXPECT_TRUE(m_parser.TypedParseString(simple_struct_val.GetType(), json_value_string));
+  auto parsed_from_type = m_parser.MoveAnyValue();
+  EXPECT_EQ(simple_struct_val, parsed_from_type);
 }
 
 TEST_F(JSONValueParserTest, NTEnumValue)
@@ -352,6 +427,11 @@ TEST_F(JSONValueParserTest, NTEnumValue)
   EXPECT_TRUE(m_parser.ParseString(json_ntenum_full));
   auto parsed_val = m_parser.MoveAnyValue();
   EXPECT_EQ(ntenum_val, parsed_val);
+
+  auto json_value_string = ValuesToJSONString(ntenum_val);
+  EXPECT_TRUE(m_parser.TypedParseString(ntenum_type, json_value_string));
+  auto parsed_from_type = m_parser.MoveAnyValue();
+  EXPECT_EQ(ntenum_val, parsed_from_type);
 }
 
 TEST_F(JSONValueParserTest, SimpleArrayValue)
@@ -368,6 +448,11 @@ TEST_F(JSONValueParserTest, SimpleArrayValue)
   EXPECT_TRUE(m_parser.ParseString(json_simple_array_full));
   auto parsed_val2 = m_parser.MoveAnyValue();
   EXPECT_EQ(simple_array_val, parsed_val2);
+
+  auto json_value_string = ValuesToJSONString(simple_array_val);
+  EXPECT_TRUE(m_parser.TypedParseString(simple_array_val.GetType(), json_value_string));
+  auto parsed_from_type = m_parser.MoveAnyValue();
+  EXPECT_EQ(simple_array_val, parsed_from_type);
 }
 
 TEST_F(JSONValueParserTest, DynamicArrayValue)
@@ -384,6 +469,11 @@ TEST_F(JSONValueParserTest, DynamicArrayValue)
   EXPECT_TRUE(m_parser.ParseString(json_dynamic_array_full));
   auto parsed_val2 = m_parser.MoveAnyValue();
   EXPECT_EQ(dynamic_array_val, parsed_val2);
+
+  auto json_value_string = ValuesToJSONString(dynamic_array_val);
+  EXPECT_TRUE(m_parser.TypedParseString(dynamic_array_val.GetType(), json_value_string));
+  auto parsed_from_type = m_parser.MoveAnyValue();
+  EXPECT_EQ(dynamic_array_val, parsed_from_type);
 }
 
 TEST_F(JSONValueParserTest, EmptyDynamicArrayValue)
@@ -396,6 +486,11 @@ TEST_F(JSONValueParserTest, EmptyDynamicArrayValue)
   EXPECT_TRUE(m_parser.ParseString(json_empty_array_full));
   auto parsed_val2 = m_parser.MoveAnyValue();
   EXPECT_EQ(empty_dynamic_array_val, parsed_val2);
+
+  auto json_value_string = ValuesToJSONString(empty_dynamic_array_val);
+  EXPECT_TRUE(m_parser.TypedParseString(empty_dynamic_array_val.GetType(), json_value_string));
+  auto parsed_from_type = m_parser.MoveAnyValue();
+  EXPECT_EQ(empty_dynamic_array_val, parsed_from_type);
 }
 
 TEST_F(JSONValueParserTest, ComplexStructValue)
@@ -418,6 +513,11 @@ TEST_F(JSONValueParserTest, ComplexStructValue)
   EXPECT_TRUE(m_parser.ParseString(json_string));
   auto parsed_val = m_parser.MoveAnyValue();
   EXPECT_EQ(complex_struct_val, parsed_val);
+
+  auto json_value_string = ValuesToJSONString(complex_struct_val);
+  EXPECT_TRUE(m_parser.TypedParseString(complex_struct_type, json_value_string));
+  auto parsed_from_type = m_parser.MoveAnyValue();
+  EXPECT_EQ(complex_struct_val, parsed_from_type);
 }
 
 TEST_F(JSONValueParserTest, DynamicArrayOfStructValue)
@@ -436,6 +536,11 @@ TEST_F(JSONValueParserTest, DynamicArrayOfStructValue)
   EXPECT_TRUE(m_parser.ParseString(json_dynamic_array_of_struct));
   auto parsed_val_2 = m_parser.MoveAnyValue();
   EXPECT_EQ(array_of_struct_val, parsed_val_2);
+
+  auto json_value_string = ValuesToJSONString(array_of_struct_val);
+  EXPECT_TRUE(m_parser.TypedParseString(array_of_struct_type, json_value_string));
+  auto parsed_from_type = m_parser.MoveAnyValue();
+  EXPECT_EQ(array_of_struct_val, parsed_from_type);
 }
 
 TEST_F(JSONValueParserTest, EmptyDynamicArrayOfStructValue)
@@ -449,6 +554,11 @@ TEST_F(JSONValueParserTest, EmptyDynamicArrayOfStructValue)
   EXPECT_TRUE(m_parser.ParseString(json_string));
   auto parsed_val = m_parser.MoveAnyValue();
   EXPECT_EQ(empty_array_of_struct_val, parsed_val);
+
+  auto json_value_string = ValuesToJSONString(empty_array_of_struct_val);
+  EXPECT_TRUE(m_parser.TypedParseString(empty_array_of_struct_val.GetType(), json_value_string));
+  auto parsed_from_type = m_parser.MoveAnyValue();
+  EXPECT_EQ(empty_array_of_struct_val, parsed_from_type);
 }
 
 TEST_F(JSONValueParserTest, DynamicArrayOfArrayValue)
@@ -466,6 +576,11 @@ TEST_F(JSONValueParserTest, DynamicArrayOfArrayValue)
   EXPECT_TRUE(m_parser.ParseString(json_dynamic_array_of_array));
   auto parsed_val_2 = m_parser.MoveAnyValue();
   EXPECT_EQ(array_of_array_val, parsed_val_2);
+
+  auto json_value_string = ValuesToJSONString(array_of_array_val);
+  EXPECT_TRUE(m_parser.TypedParseString(array_of_array_type, json_value_string));
+  auto parsed_from_type = m_parser.MoveAnyValue();
+  EXPECT_EQ(array_of_array_val, parsed_from_type);
 }
 
 TEST_F(JSONValueParserTest, EmptyDynamicArrayOfArrayValue)
@@ -476,6 +591,11 @@ TEST_F(JSONValueParserTest, EmptyDynamicArrayOfArrayValue)
   EXPECT_TRUE(m_parser.ParseString(json_string));
   auto parsed_val = m_parser.MoveAnyValue();
   EXPECT_EQ(empty_array_of_array_val, parsed_val);
+
+  auto json_value_string = ValuesToJSONString(empty_array_of_array_val);
+  EXPECT_TRUE(m_parser.TypedParseString(empty_array_of_array_val.GetType(), json_value_string));
+  auto parsed_from_type = m_parser.MoveAnyValue();
+  EXPECT_EQ(empty_array_of_array_val, parsed_from_type);
 }
 
 JSONValueParserTest::JSONValueParserTest() = default;

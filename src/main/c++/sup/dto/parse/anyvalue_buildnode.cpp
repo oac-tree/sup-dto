@@ -43,7 +43,7 @@ AnyValueBuildNode::~AnyValueBuildNode() = default;
 
 bool AnyValueBuildNode::Bool(boolean b)
 {
-  if (member_name.empty())
+  if (member_name.empty() || !anyvalue.HasField(member_name))
   {
     throw ParseException(
         "AnyValueBuildNode::Bool must be called after member name");
@@ -55,7 +55,7 @@ bool AnyValueBuildNode::Bool(boolean b)
 
 bool AnyValueBuildNode::Int32(int32 i)
 {
-  if (member_name.empty())
+  if (member_name.empty() || !anyvalue.HasField(member_name))
   {
     throw ParseException(
         "AnyValueBuildNode::Int32 must be called after member name");
@@ -67,7 +67,7 @@ bool AnyValueBuildNode::Int32(int32 i)
 
 bool AnyValueBuildNode::Uint32(uint32 u)
 {
-  if (member_name.empty())
+  if (member_name.empty() || !anyvalue.HasField(member_name))
   {
     throw ParseException(
         "AnyValueBuildNode::Uint32 must be called after member name");
@@ -79,7 +79,7 @@ bool AnyValueBuildNode::Uint32(uint32 u)
 
 bool AnyValueBuildNode::Int64(int64 i)
 {
-  if (member_name.empty())
+  if (member_name.empty() || !anyvalue.HasField(member_name))
   {
     throw ParseException(
         "AnyValueBuildNode::Int64 must be called after member name");
@@ -91,7 +91,7 @@ bool AnyValueBuildNode::Int64(int64 i)
 
 bool AnyValueBuildNode::Uint64(uint64 u)
 {
-  if (member_name.empty())
+  if (member_name.empty() || !anyvalue.HasField(member_name))
   {
     throw ParseException(
         "AnyValueBuildNode::Uint64 must be called after member name");
@@ -103,7 +103,7 @@ bool AnyValueBuildNode::Uint64(uint64 u)
 
 bool AnyValueBuildNode::Double(float64 d)
 {
-  if (member_name.empty())
+  if (member_name.empty() || !anyvalue.HasField(member_name))
   {
     throw ParseException(
         "AnyValueBuildNode::Double must be called after member name");
@@ -115,7 +115,7 @@ bool AnyValueBuildNode::Double(float64 d)
 
 bool AnyValueBuildNode::String(const std::string& str)
 {
-  if (member_name.empty())
+  if (member_name.empty() || !anyvalue.HasField(member_name))
   {
     throw ParseException(
         "AnyValueBuildNode::String must be called after member name");
@@ -139,7 +139,7 @@ bool AnyValueBuildNode::Member(const std::string& str)
 
 IAnyBuildNode* AnyValueBuildNode::GetStructureNode()
 {
-  if (value_node || member_name.empty())
+  if (value_node || member_name.empty() || !anyvalue.HasField(member_name))
   {
     throw ParseException(
         "AnyValueBuildNode::GetStructureNode must be called with non-empty member name "
@@ -151,7 +151,7 @@ IAnyBuildNode* AnyValueBuildNode::GetStructureNode()
 
 IAnyBuildNode* AnyValueBuildNode::GetArrayNode()
 {
-  if (array_node || member_name.empty())
+  if (array_node || member_name.empty() || !anyvalue.HasField(member_name))
   {
     throw ParseException(
         "AnyValueBuildNode::GetArrayNode must be called with non-empty member name "
