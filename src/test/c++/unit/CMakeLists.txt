@@ -11,6 +11,7 @@ target_sources(unit-tests
         ${CMAKE_CURRENT_LIST_DIR}/anytype_registry_tests.cpp
         ${CMAKE_CURRENT_LIST_DIR}/anytype_serialize_tests.cpp
         ${CMAKE_CURRENT_LIST_DIR}/anytype_tests.cpp
+        ${CMAKE_CURRENT_LIST_DIR}/anyvalue_builder_tests.cpp
         ${CMAKE_CURRENT_LIST_DIR}/anyvalue_composer_components_tests.cpp
         ${CMAKE_CURRENT_LIST_DIR}/anyvalue_composer_helper_tests.cpp
         ${CMAKE_CURRENT_LIST_DIR}/anyvalue_composer_tests.cpp
@@ -18,7 +19,6 @@ target_sources(unit-tests
         ${CMAKE_CURRENT_LIST_DIR}/anyvalue_equality_tests.cpp
         ${CMAKE_CURRENT_LIST_DIR}/anyvalue_exceptions_tests.cpp
         ${CMAKE_CURRENT_LIST_DIR}/anyvalue_field_tests.cpp
-        ${CMAKE_CURRENT_LIST_DIR}/anyvalue_json_parse_tests.cpp
         ${CMAKE_CURRENT_LIST_DIR}/anyvalue_json_serialize_tests.cpp
         ${CMAKE_CURRENT_LIST_DIR}/anyvalue_serialize_tests.cpp
         ${CMAKE_CURRENT_LIST_DIR}/anyvalue_tests.cpp

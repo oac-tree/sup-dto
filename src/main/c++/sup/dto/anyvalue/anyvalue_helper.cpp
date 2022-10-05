@@ -79,35 +79,6 @@ void AnyValueToJSONFile(const AnyValue& anyvalue, const std::string& filename, b
   return;
 }
 
-AnyValue AnyValueFromJSONString(const std::string& json_str)
-{
-  AnyTypeRegistry anytype_registry;
-  return AnyValueFromJSONString(&anytype_registry, json_str);
-}
-
-AnyValue AnyValueFromJSONString(const AnyTypeRegistry* anytype_registry,
-                                const std::string& json_str)
-{
-  std::istringstream iss(json_str);
-  return JSONParseAnyValue(anytype_registry, iss);
-}
-
-AnyValue AnyValueFromJSONFile(const std::string& filename)
-{
-  AnyTypeRegistry anytype_registry;
-  return AnyValueFromJSONFile(&anytype_registry, filename);
-}
-
-AnyValue AnyValueFromJSONFile(const AnyTypeRegistry* anytype_registry, const std::string& filename)
-{
-  std::ifstream ifs(filename);
-  if (!ifs.is_open())
-  {
-    throw ParseException("AnyValueFromJSONFile could not open the file for reading");
-  }
-  return JSONParseAnyValue(anytype_registry, ifs);
-}
-
 }  // namespace dto
 
 }  // namespace sup

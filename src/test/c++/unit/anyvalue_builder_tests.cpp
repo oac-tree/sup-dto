@@ -192,268 +192,14 @@ R"RAW([
   }
 ])RAW";
 
-class AnyValueJSONParseTest : public ::testing::Test
+class AnyValueBuilderTest : public ::testing::Test
 {
 protected:
-  AnyValueJSONParseTest();
-  virtual ~AnyValueJSONParseTest();
+  AnyValueBuilderTest();
+  virtual ~AnyValueBuilderTest();
 };
 
-TEST_F(AnyValueJSONParseTest, EmptyValue)
-{
-  AnyValue empty{};
-  auto json_string = AnyValueToJSONString(empty);
-  auto parsed_val = AnyValueFromJSONString(json_string);
-  EXPECT_EQ(empty, parsed_val);
-}
-
-TEST_F(AnyValueJSONParseTest, BooleanValue)
-{
-  AnyValue bool_val = true;
-  auto json_string = AnyValueToJSONString(bool_val);
-  auto parsed_val = AnyValueFromJSONString(json_string);
-  EXPECT_EQ(bool_val, parsed_val);
-}
-
-TEST_F(AnyValueJSONParseTest, Char8Value)
-{
-  AnyValue char8_val = 'a';
-  auto json_string = AnyValueToJSONString(char8_val);
-  auto parsed_val = AnyValueFromJSONString(json_string);
-  EXPECT_EQ(char8_val, parsed_val);
-}
-
-TEST_F(AnyValueJSONParseTest, Int8Value)
-{
-  AnyValue int8_val = {SignedInteger8Type, -7};
-  auto json_string = AnyValueToJSONString(int8_val);
-  auto parsed_val = AnyValueFromJSONString(json_string);
-  EXPECT_EQ(int8_val, parsed_val);
-}
-
-TEST_F(AnyValueJSONParseTest, UInt8Value)
-{
-  AnyValue uint8_val = {UnsignedInteger8Type, 240};
-  auto json_string = AnyValueToJSONString(uint8_val);
-  auto parsed_val = AnyValueFromJSONString(json_string);
-  EXPECT_EQ(uint8_val, parsed_val);
-}
-
-TEST_F(AnyValueJSONParseTest, Int16Value)
-{
-  AnyValue int16_val = {SignedInteger16Type, -300};
-  auto json_string = AnyValueToJSONString(int16_val);
-  auto parsed_val = AnyValueFromJSONString(json_string);
-  EXPECT_EQ(int16_val, parsed_val);
-}
-
-TEST_F(AnyValueJSONParseTest, UInt16Value)
-{
-  AnyValue uint16_val = {UnsignedInteger16Type, 4008};
-  auto json_string = AnyValueToJSONString(uint16_val);
-  auto parsed_val = AnyValueFromJSONString(json_string);
-  EXPECT_EQ(uint16_val, parsed_val);
-}
-
-TEST_F(AnyValueJSONParseTest, Int32Value)
-{
-  AnyValue int32_val = {SignedInteger32Type, -300001};
-  auto json_string = AnyValueToJSONString(int32_val);
-  auto parsed_val = AnyValueFromJSONString(json_string);
-  EXPECT_EQ(int32_val, parsed_val);
-}
-
-TEST_F(AnyValueJSONParseTest, UInt32Value)
-{
-  AnyValue uint32_val = {UnsignedInteger32Type, 123456};
-  auto json_string = AnyValueToJSONString(uint32_val);
-  auto parsed_val = AnyValueFromJSONString(json_string);
-  EXPECT_EQ(uint32_val, parsed_val);
-}
-
-TEST_F(AnyValueJSONParseTest, Int64Value)
-{
-  AnyValue int64_val = {SignedInteger64Type, -5001002003004};
-  auto json_string = AnyValueToJSONString(int64_val);
-  auto parsed_val = AnyValueFromJSONString(json_string);
-  EXPECT_EQ(int64_val, parsed_val);
-}
-
-TEST_F(AnyValueJSONParseTest, UInt64Value)
-{
-  AnyValue uint64_val = {UnsignedInteger64Type, 2001002003004005};
-  auto json_string = AnyValueToJSONString(uint64_val);
-  auto parsed_val = AnyValueFromJSONString(json_string);
-  EXPECT_EQ(uint64_val, parsed_val);
-}
-
-TEST_F(AnyValueJSONParseTest, Float32Value)
-{
-  AnyValue float32_val = {Float32Type, 90};
-  auto json_string = AnyValueToJSONString(float32_val);
-  auto parsed_val = AnyValueFromJSONString(json_string);
-  EXPECT_EQ(float32_val, parsed_val);
-}
-
-TEST_F(AnyValueJSONParseTest, Float64Value)
-{
-  AnyValue float64_val = {Float64Type, -777.125};
-  auto json_string = AnyValueToJSONString(float64_val);
-  auto parsed_val = AnyValueFromJSONString(json_string);
-  EXPECT_EQ(float64_val, parsed_val);
-}
-
-TEST_F(AnyValueJSONParseTest, SimpleStructValue)
-{
-  AnyValue simple_struct_val({
-    {"id", {StringType, "my_id"}},
-    {"number", {SignedInteger32Type, 1729}},
-    {"weight", {Float64Type, 50.25}}
-  });
-  auto json_string = AnyValueToJSONString(simple_struct_val);
-  auto parsed_val = AnyValueFromJSONString(json_string);
-  EXPECT_EQ(simple_struct_val, parsed_val);
-  auto parsed_val2 = AnyValueFromJSONString(json_simple_struct_full);
-  EXPECT_EQ(simple_struct_val, parsed_val2);
-}
-
-TEST_F(AnyValueJSONParseTest, PrettySimpleStructValue)
-{
-  AnyValue simple_struct_val({
-    {"id", {StringType, "my_id"}},
-    {"number", {SignedInteger32Type, 1729}},
-    {"weight", {Float64Type, 50.25}}
-  });
-  auto parsed_val = AnyValueFromJSONString(pretty_json_simple_struct);
-  EXPECT_EQ(simple_struct_val, parsed_val);
-}
-
-TEST_F(AnyValueJSONParseTest, NTEnumValue)
-{
-  AnyType string_array_type(4, StringType, "string[]");
-  AnyType enum_t_type({
-    {"index", SignedInteger32Type},
-    {"choices", string_array_type}
-  }, "enum_t");
-  AnyType ntenum_type({{"value", enum_t_type}}, "epics:nt/NTEnum:1.0");
-  AnyValue ntenum_val(ntenum_type);
-  ntenum_val["value.choices"] = ArrayValue({"Off", "Idle", "Running", "Fault"});
-  auto parsed_val = AnyValueFromJSONString(json_ntenum_full);
-  EXPECT_EQ(ntenum_val, parsed_val);
-}
-
-TEST_F(AnyValueJSONParseTest, SimpleArrayValue)
-{
-  AnyValue simple_array_val(5, SignedInteger32Type);
-  for (int i=0; i<5; ++i)
-  {
-    simple_array_val[i] = 20*i;
-  }
-  auto json_string = AnyValueToJSONString(simple_array_val);
-  auto parsed_val = AnyValueFromJSONString(json_string);
-  EXPECT_EQ(simple_array_val, parsed_val);
-  auto parsed_val2 = AnyValueFromJSONString(json_simple_array_full);
-  EXPECT_EQ(simple_array_val, parsed_val2);
-}
-
-TEST_F(AnyValueJSONParseTest, DynamicArrayValue)
-{
-  AnyValue dynamic_array_val(0, UnsignedInteger64Type);
-  for (int i=1; i<4; ++i)
-  {
-    dynamic_array_val.AddElement(11*i);
-  }
-  auto json_string = AnyValueToJSONString(dynamic_array_val);
-  auto parsed_val = AnyValueFromJSONString(json_string);
-  EXPECT_EQ(dynamic_array_val, parsed_val);
-  auto parsed_val2 = AnyValueFromJSONString(json_dynamic_array_full);
-  EXPECT_EQ(dynamic_array_val, parsed_val2);
-}
-
-TEST_F(AnyValueJSONParseTest, EmptyDynamicArrayValue)
-{
-  AnyValue empty_dynamic_array_val(0, Float32Type);
-  auto json_string = AnyValueToJSONString(empty_dynamic_array_val);
-  auto parsed_val = AnyValueFromJSONString(json_string);
-  EXPECT_EQ(empty_dynamic_array_val, parsed_val);
-  auto parsed_val2 = AnyValueFromJSONString(json_empty_array_full);
-  EXPECT_EQ(empty_dynamic_array_val, parsed_val2);
-}
-
-TEST_F(AnyValueJSONParseTest, ComplexStructValue)
-{
-  AnyType simple_struct_type({
-    {"id", StringType},
-    {"number", UnsignedInteger64Type}
-  });
-  AnyType array_of_struct_type(2, simple_struct_type);
-  AnyType complex_struct_type({
-    {"array", array_of_struct_type},
-    {"nested", simple_struct_type},
-    {"validated", BooleanType}
-  });
-  AnyValue complex_struct_val(complex_struct_type);
-  complex_struct_val["array[1].id"] = "second_id";
-  complex_struct_val["array[0].number"] = 23;
-  complex_struct_val["validated"] = false;
-  auto json_string = AnyValueToJSONString(complex_struct_val);
-  auto parsed_val = AnyValueFromJSONString(json_string);
-  EXPECT_EQ(complex_struct_val, parsed_val);
-}
-
-TEST_F(AnyValueJSONParseTest, DynamicArrayOfStructValue)
-{
-  AnyValue simple_struct_val({
-    {"id", {StringType, "MyId"}},
-    {"number", {UnsignedInteger64Type, 14}}
-  });
-  AnyType array_of_struct_type(0, simple_struct_val.GetType());
-  AnyValue array_of_struct_val(array_of_struct_type);
-  array_of_struct_val.AddElement(simple_struct_val);
-  auto json_string = AnyValueToJSONString(array_of_struct_val);
-  auto parsed_val = AnyValueFromJSONString(json_string);
-  EXPECT_EQ(array_of_struct_val, parsed_val);
-  auto parsed_val_2 = AnyValueFromJSONString(json_dynamic_array_of_struct);
-  EXPECT_EQ(array_of_struct_val, parsed_val_2);
-}
-
-TEST_F(AnyValueJSONParseTest, EmptyDynamicArrayOfStructValue)
-{
-  AnyType simple_struct_type({
-    {"id", StringType},
-    {"number", UnsignedInteger64Type}
-  });
-  AnyValue empty_array_of_struct_val(0, simple_struct_type);
-  auto json_string = AnyValueToJSONString(empty_array_of_struct_val);
-  auto parsed_val = AnyValueFromJSONString(json_string);
-  EXPECT_EQ(empty_array_of_struct_val, parsed_val);
-}
-
-TEST_F(AnyValueJSONParseTest, DynamicArrayOfArrayValue)
-{
-  AnyValue simple_array_val = ArrayValue({
-    {UnsignedInteger8Type, 2}, 4, 6, 8
-  });
-  AnyType array_of_array_type(0, simple_array_val.GetType());
-  AnyValue array_of_array_val(array_of_array_type);
-  array_of_array_val.AddElement(simple_array_val);
-  auto json_string = AnyValueToJSONString(array_of_array_val);
-  auto parsed_val = AnyValueFromJSONString(json_string);
-  EXPECT_EQ(array_of_array_val, parsed_val);
-  auto parsed_val_2 = AnyValueFromJSONString(json_dynamic_array_of_array);
-  EXPECT_EQ(array_of_array_val, parsed_val_2);
-}
-
-TEST_F(AnyValueJSONParseTest, EmptyDynamicArrayOfArrayValue)
-{
-  AnyType simple_array_type(4, SignedInteger16Type);
-  AnyValue empty_array_of_array_val(0, simple_array_type);
-  auto json_string = AnyValueToJSONString(empty_array_of_array_val);
-  auto parsed_val = AnyValueFromJSONString(json_string);
-  EXPECT_EQ(empty_array_of_array_val, parsed_val);
-}
-
-TEST_F(AnyValueJSONParseTest, AnyValueBuilderMethods)
+TEST_F(AnyValueBuilderTest, AnyValueBuilderMethods)
 {
   AnyTypeRegistry anytype_registry;
   AnyValueBuilder builder{&anytype_registry};
@@ -478,7 +224,7 @@ TEST_F(AnyValueJSONParseTest, AnyValueBuilderMethods)
   EXPECT_THROW(builder.MoveAnyValue(), ParseException);
 }
 
-TEST_F(AnyValueJSONParseTest, AnyValueBuildNodeMethods)
+TEST_F(AnyValueBuilderTest, AnyValueBuildNodeMethods)
 {
   // Exceptions:
   AnyTypeRegistry anytype_registry;
@@ -526,7 +272,7 @@ TEST_F(AnyValueJSONParseTest, AnyValueBuildNodeMethods)
   EXPECT_TRUE(struct_node.String("text"));
 }
 
-TEST_F(AnyValueJSONParseTest, AnyValueRootBuildNodeMethods)
+TEST_F(AnyValueBuilderTest, AnyValueRootBuildNodeMethods)
 {
   AnyTypeRegistry anytype_registry;
   EXPECT_THROW(AnyValueRootBuildNode invalid_node(nullptr, nullptr), InvalidOperationException);
@@ -537,7 +283,7 @@ TEST_F(AnyValueJSONParseTest, AnyValueRootBuildNodeMethods)
   EXPECT_THROW(node.GetArrayNode(), ParseException);
 }
 
-TEST_F(AnyValueJSONParseTest, AnyValueArrayBuildNodeMethods)
+TEST_F(AnyValueBuilderTest, AnyValueArrayBuildNodeMethods)
 {
   AnyTypeRegistry anytype_registry;
   EXPECT_THROW(AnyValueArrayBuildNode invalid_node(nullptr, nullptr), InvalidOperationException);
@@ -590,7 +336,7 @@ TEST_F(AnyValueJSONParseTest, AnyValueArrayBuildNodeMethods)
   EXPECT_THROW(node.GetStructureNode(), ParseException);
 }
 
-TEST_F(AnyValueJSONParseTest, AnyValueEncodingElementBuildNodeMethods)
+TEST_F(AnyValueBuilderTest, AnyValueEncodingElementBuildNodeMethods)
 {
   AnyTypeRegistry anytype_registry;
   EXPECT_THROW(AnyValueEncodingElementBuildNode invalid_node(nullptr, nullptr),
@@ -611,7 +357,7 @@ TEST_F(AnyValueJSONParseTest, AnyValueEncodingElementBuildNodeMethods)
   EXPECT_THROW(node.PopStructureNode(), ParseException);
 }
 
-TEST_F(AnyValueJSONParseTest, AnyValueTypeElementBuildNodeMethods)
+TEST_F(AnyValueBuilderTest, AnyValueTypeElementBuildNodeMethods)
 {
   AnyTypeRegistry anytype_registry;
   EXPECT_THROW(AnyValueTypeElementBuildNode invalid_node(nullptr, nullptr),
@@ -633,7 +379,7 @@ TEST_F(AnyValueJSONParseTest, AnyValueTypeElementBuildNodeMethods)
   EXPECT_THROW(node.PopStructureNode(), ParseException);
 }
 
-TEST_F(AnyValueJSONParseTest, AnyValueValueElementBuildNodeMethods)
+TEST_F(AnyValueBuilderTest, AnyValueValueElementBuildNodeMethods)
 {
   AnyTypeRegistry anytype_registry;
   AnyValue empty{StringType};
@@ -659,7 +405,7 @@ TEST_F(AnyValueJSONParseTest, AnyValueValueElementBuildNodeMethods)
   EXPECT_TRUE(node.String("Text"));
 }
 
-TEST_F(AnyValueJSONParseTest, ArrayValueBuildNodeMethods)
+TEST_F(AnyValueBuilderTest, ArrayValueBuildNodeMethods)
 {
 
   // Exceptions
@@ -766,6 +512,6 @@ TEST_F(AnyValueJSONParseTest, ArrayValueBuildNodeMethods)
   }
 }
 
-AnyValueJSONParseTest::AnyValueJSONParseTest() = default;
+AnyValueBuilderTest::AnyValueBuilderTest() = default;
 
-AnyValueJSONParseTest::~AnyValueJSONParseTest() = default;
+AnyValueBuilderTest::~AnyValueBuilderTest() = default;

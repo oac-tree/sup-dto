@@ -91,53 +91,6 @@ std::string AnyValueToJSONString(const AnyValue& anyvalue, bool pretty=false);
  */
 void AnyValueToJSONFile(const AnyValue& anyvalue, const std::string& filename, bool pretty=false);
 
-/**
- * @brief Parse an AnyValue from a JSON string.
- *
- * @param json_str JSON string.
- *
- * @return Parsed AnyValue.
- *
- * @throws ParseException Thrown when the JSON string cannot be correctly parsed into an AnyValue.
- */
-AnyValue AnyValueFromJSONString(const std::string& json_str);
-
-/**
- * @brief Parse an AnyValue from a JSON string.
- *
- * @param json_str JSON string.
- * @param anytype_registry AnyType registry to use during parsing.
- *
- * @return Parsed AnyValue.
- *
- * @throws ParseException Thrown when the JSON string cannot be correctly parsed into an AnyValue.
- */
-AnyValue AnyValueFromJSONString(const AnyTypeRegistry* anytype_registry,
-                                const std::string& json_str);
-
-/**
- * @brief Parse an AnyValue from a JSON file.
- *
- * @param filename Filename to use.
- *
- * @return Parsed AnyValue.
- *
- * @throws ParseException Thrown when the JSON file cannot be correctly parsed into an AnyValue.
- */
-AnyValue AnyValueFromJSONFile(const std::string& filename);
-
-/**
- * @brief Parse an AnyValue from a JSON file.
- *
- * @param filename Filename to use.
- * @param anytype_registry AnyType registry to use during parsing.
- *
- * @return Parsed AnyValue.
- *
- * @throws ParseException Thrown when the JSON file cannot be correctly parsed into an AnyValue.
- */
-AnyValue AnyValueFromJSONFile(const AnyTypeRegistry* anytype_registry, const std::string& filename);
-
 }  // namespace dto
 
 }  // namespace sup
