@@ -69,4 +69,3 @@ install(FILES
         sup/dto/json_type_parser.h
         sup/dto/json_value_parser.h
         DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/sup/dto)
-

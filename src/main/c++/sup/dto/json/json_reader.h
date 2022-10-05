@@ -36,6 +36,8 @@ AnyType JSONParseAnyType(const AnyTypeRegistry* anytype_registry, std::istream& 
 
 AnyValue JSONParseAnyValue(const AnyTypeRegistry* anytype_registry, std::istream& json_stream);
 
+AnyValue JSONParseTypedAnyValue(const AnyType& anytype, std::istream& json_stream);
+
 }  // namespace dto
 
 }  // namespace sup

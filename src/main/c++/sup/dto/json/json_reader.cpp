@@ -23,6 +23,7 @@
 
 #include <sup/dto/parse/anytype_builder.h>
 #include <sup/dto/parse/anyvalue_builder.h>
+#include <sup/dto/parse/anyvalue_value_builder.h>
 #include <sup/dto/rapidjson/istreamwrapper.h>
 #include <sup/dto/rapidjson/reader.h>
 
@@ -59,6 +60,20 @@ AnyValue JSONParseAnyValue(const AnyTypeRegistry* anytype_registry, std::istream
   if (reader.HasParseError())
   {
     throw ParseException("Parsing AnyValue from JSON failed");
+  }
+  return builder.MoveAnyValue();
+}
+
+AnyValue JSONParseTypedAnyValue(const AnyType& anytype, std::istream& json_stream)
+{
+  AnyValueValueBuilder builder(anytype);
+  rapidjson::IStreamWrapper istream(json_stream);
+  rapidjson::Reader reader;
+
+  reader.Parse(istream, builder);
+  if (reader.HasParseError())
+  {
+    throw ParseException("Parsing typed AnyValue from JSON failed");
   }
   return builder.MoveAnyValue();
 }

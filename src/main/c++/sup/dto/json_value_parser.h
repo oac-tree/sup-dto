@@ -28,6 +28,7 @@ namespace sup
 {
 namespace dto
 {
+class AnyType;
 class AnyValue;
 class AnyTypeRegistry;
 
@@ -56,6 +57,26 @@ public:
    * @return true on successful parsing, false otherwise.
    */
   bool ParseFile(const std::string& filename, const AnyTypeRegistry* type_registry = nullptr);
+
+  /**
+   * @brief Parse an AnyValue with given type from a JSON string.
+   *
+   * @param anytype Type to use for resulting value.
+   * @param json_str JSON string.
+   *
+   * @return true on successful parsing, false otherwise.
+   */
+  bool TypedParseString(const AnyType& anytype, const std::string& json_str);
+
+  /**
+   * @brief Parse an AnyValue with given type from a JSON file.
+   *
+   * @param anytype Type to use for resulting value.
+   * @param filename name of the file containing the JSON representation.
+   *
+   * @return true on successful parsing, false otherwise.
+   */
+  bool TypedParseFile(const AnyType& anytype, const std::string& filename);
 
   /**
    * @brief Return the parsed AnyValue with move semantics.

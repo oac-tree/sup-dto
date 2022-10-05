@@ -10,6 +10,7 @@ target_sources(sup-dto-obj
         ${CMAKE_CURRENT_LIST_DIR}/anyvalue_root_buildnode.cpp
         ${CMAKE_CURRENT_LIST_DIR}/anyvalue_typeelement_buildnode.cpp
         ${CMAKE_CURRENT_LIST_DIR}/anyvalue_valueelement_buildnode.cpp
+        ${CMAKE_CURRENT_LIST_DIR}/anyvalue_value_builder.cpp
         ${CMAKE_CURRENT_LIST_DIR}/arrayvalue_buildnode.cpp
         ${CMAKE_CURRENT_LIST_DIR}/byteparser.cpp
         ${CMAKE_CURRENT_LIST_DIR}/i_any_buildnode.cpp

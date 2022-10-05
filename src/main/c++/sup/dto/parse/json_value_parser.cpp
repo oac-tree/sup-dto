@@ -80,6 +80,40 @@ bool JSONAnyValueParser::ParseFile(const std::string& filename,
   return true;
 }
 
+bool JSONAnyValueParser::TypedParseString(const AnyType& anytype, const std::string& json_str)
+{
+  std::istringstream iss(json_str);
+  try
+  {
+    auto parsed_value = JSONParseTypedAnyValue(anytype, iss);
+    m_anyvalue.reset(new AnyValue(std::move(parsed_value)));
+  }
+  catch(const ParseException&)
+  {
+    return false;
+  }
+  return true;
+}
+
+bool JSONAnyValueParser::TypedParseFile(const AnyType& anytype, const std::string& filename)
+{
+  std::ifstream ifs(filename);
+  if (!ifs.is_open())
+  {
+    return false;
+  }
+  try
+  {
+    auto parsed_value = JSONParseTypedAnyValue(anytype, ifs);
+    m_anyvalue.reset(new AnyValue(std::move(parsed_value)));
+  }
+  catch(const ParseException&)
+  {
+    return false;
+  }
+  return true;
+}
+
 AnyValue JSONAnyValueParser::MoveAnyValue()
 {
   if (!m_anyvalue)
