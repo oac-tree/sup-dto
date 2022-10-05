@@ -33,7 +33,6 @@
 
 #include <sup/dto/anytype_registry.h>
 #include <sup/dto/anyvalue.h>
-#include <sup/dto/anyvalue_helper.h>
 
 using namespace sup::dto;
 

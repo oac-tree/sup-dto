@@ -21,9 +21,6 @@
 
 #include <gtest/gtest.h>
 
-#include <sup/dto/parse/serialization_constants.h>
-
-#include <sup/dto/anytype_registry.h>
 #include <sup/dto/anyvalue.h>
 #include <sup/dto/anyvalue_helper.h>
 #include <sup/dto/json_value_parser.h>

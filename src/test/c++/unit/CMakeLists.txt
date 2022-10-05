@@ -6,7 +6,7 @@ target_sources(unit-tests
     PRIVATE
         ${CMAKE_CURRENT_LIST_DIR}/abstract_composer_component_tests.cpp
         ${CMAKE_CURRENT_LIST_DIR}/anytype_field_tests.cpp
-        ${CMAKE_CURRENT_LIST_DIR}/anytype_json_parse_tests.cpp
+        ${CMAKE_CURRENT_LIST_DIR}/anytype_builder_tests.cpp
         ${CMAKE_CURRENT_LIST_DIR}/anytype_json_serialize_tests.cpp
         ${CMAKE_CURRENT_LIST_DIR}/anytype_registry_tests.cpp
         ${CMAKE_CURRENT_LIST_DIR}/anytype_serialize_tests.cpp
