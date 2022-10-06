@@ -3,13 +3,13 @@
 
 get_filename_component(SUP_DTO_CMAKE_DIR "${CMAKE_CURRENT_LIST_FILE}" PATH)
 
-if(TARGET sup-dto::sup-dto)
+if(TARGET sup-dto::sup-dto OR TARGET sup-dto::sup-rpc)
 else()
   message(STATUS "sup-dto-config.cmake including ${SUP_DTO_CMAKE_DIR}/sup-dto-targets.cmake")
- include("${SUP_DTO_CMAKE_DIR}/sup-dto-targets.cmake")
+  include("${SUP_DTO_CMAKE_DIR}/sup-dto-targets.cmake")
 endif()
 
-set(SUP_DTO_LIBRARIES sup-dto::sup-dto)
+set(SUP_DTO_LIBRARIES sup-dto::sup-dto sup-dto::sup-rpc)
 
 message(STATUS "sup-dto-config.cmake in ${CMAKE_CURRENT_LIST_FILE}")
 message(STATUS "SUP_DTO_LIBRARIES ${SUP_DTO_LIBRARIES}")

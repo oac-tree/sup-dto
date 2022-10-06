@@ -22,16 +22,11 @@ add_library(sup-dto::sup-dto ALIAS sup-dto-shared) # alias for build-tree usage
 add_library(sup-dto::sup-dto-static ALIAS sup-dto-static) # alias for build-tree usage
 
 add_library(sup-rpc SHARED)
-add_library(sup-rpc::sup-rpc ALIAS sup-rpc) # alias for build-tree usage
+add_library(sup-dto::sup-rpc ALIAS sup-rpc) # alias for build-tree usage
 
 add_subdirectory(sup)
 
 target_include_directories(sup-dto-obj
-    PUBLIC
-        ${CMAKE_CURRENT_LIST_DIR}
-)
-
-target_include_directories(sup-rpc
     PUBLIC
         ${CMAKE_CURRENT_LIST_DIR}
 )
@@ -77,10 +72,10 @@ target_link_libraries(sup-rpc
 )
 
 target_include_directories(sup-rpc PUBLIC
-$<INSTALL_INTERFACE:include>
-$<BUILD_INTERFACE:${CMAKE_CURRENT_LIST_DIR}>)
+  $<INSTALL_INTERFACE:include>
+  $<BUILD_INTERFACE:${CMAKE_CURRENT_LIST_DIR}>)
 
-install(TARGETS sup-rpc EXPORT sup-rpc-targets LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR})
+install(TARGETS sup-rpc EXPORT sup-dto-targets LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR})
 
 install(FILES
         sup/dto/anytype.h

@@ -14,7 +14,7 @@ install(EXPORT sup-dto-targets FILE sup-dto-targets.cmake NAMESPACE sup-dto:: DE
 # -----------------------------------------------------------------------------
 
 # Add all targets to the build-tree export set
-export(TARGETS sup-dto-shared NAMESPACE sup-dto:: FILE "${PROJECT_BINARY_DIR}/sup-dto-targets.cmake")
+export(TARGETS sup-dto-shared sup-rpc NAMESPACE sup-dto:: FILE "${PROJECT_BINARY_DIR}/sup-dto-targets.cmake")
 
 # Export the package for use from the build-tree (goes to $HOME/.cmake)
 if(SUP_DTO_EXPORT_BUILDTREE)
