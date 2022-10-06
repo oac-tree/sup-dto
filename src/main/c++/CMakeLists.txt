@@ -21,9 +21,17 @@ add_library(sup-dto-static STATIC)
 add_library(sup-dto::sup-dto ALIAS sup-dto-shared) # alias for build-tree usage
 add_library(sup-dto::sup-dto-static ALIAS sup-dto-static) # alias for build-tree usage
 
+add_library(sup-rpc SHARED)
+add_library(sup-rpc::sup-rpc ALIAS sup-rpc) # alias for build-tree usage
+
 add_subdirectory(sup)
 
 target_include_directories(sup-dto-obj
+    PUBLIC
+        ${CMAKE_CURRENT_LIST_DIR}
+)
+
+target_include_directories(sup-rpc
     PUBLIC
         ${CMAKE_CURRENT_LIST_DIR}
 )
@@ -56,6 +64,24 @@ set_target_properties(sup-dto-shared PROPERTIES EXPORT_NAME sup-dto)
 install(TARGETS sup-dto-static EXPORT sup-dto-targets LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR})
 set_target_properties(sup-dto-static PROPERTIES EXPORT_NAME sup-dto-static)
 
+set_target_properties(sup-rpc PROPERTIES
+  VERSION ${LIBVERSION}
+  SOVERSION ${LIBSOVERSION}
+  OUTPUT_NAME sup-rpc
+)
+
+target_link_libraries(sup-rpc
+  PRIVATE
+  sup-dto-shared
+  PUBLIC
+)
+
+target_include_directories(sup-rpc PUBLIC
+$<INSTALL_INTERFACE:include>
+$<BUILD_INTERFACE:${CMAKE_CURRENT_LIST_DIR}>)
+
+install(TARGETS sup-rpc EXPORT sup-rpc-targets LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR})
+
 install(FILES
         sup/dto/anytype.h
         sup/dto/anytype_helper.h
@@ -69,3 +95,8 @@ install(FILES
         sup/dto/json_type_parser.h
         sup/dto/json_value_parser.h
         DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/sup/dto)
+
+install(FILES
+        sup/rpc/protocol_result.h
+        sup/rpc/protocol.h
+        DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/sup/rpc)
