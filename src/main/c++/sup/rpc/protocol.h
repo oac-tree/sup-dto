@@ -6,7 +6,7 @@
  *
  * Description   : Data transfer objects for SUP
  *
- * Author        : Walter Van Herck (IO)
+ * Author        : Kevin Meyer
  *
  * Copyright (c) : 2010-2022 ITER Organization,
  *                 CS 90 046
