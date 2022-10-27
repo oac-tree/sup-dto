@@ -36,7 +36,7 @@ namespace rpc
  * convenience functions to support the Protocol implementation.
  * @sa ProtocolResult
  */
-static const int GENERAL_APPLICATION_ERROR_START = 100;
+static const unsigned int GENERAL_APPLICATION_ERROR_START = 100u;
 
 /**
  * @brief Offset that specifies the enum offset for implementation application-specific errors.
@@ -45,7 +45,7 @@ static const int GENERAL_APPLICATION_ERROR_START = 100;
  * user-level functions that provide the Protocol inplementation.
  * @sa ProtocolResult
  */
-static const int SPECIFIC_APPLICATION_ERROR_START = 1000;
+static const unsigned int SPECIFIC_APPLICATION_ERROR_START = 1000u;
 
 /**
  * @brief The ProtocolResult class represents the return value from an RPC operation.
@@ -86,7 +86,7 @@ static const int SPECIFIC_APPLICATION_ERROR_START = 1000;
 class ProtocolResult
 {
 protected:
-  int m_value;
+  unsigned int m_value;
 
 public:
   /**
@@ -99,7 +99,7 @@ public:
   /**
    * @brief Construct a new ProtocolResult object for ApplicationSpecific results.
    */
-  ProtocolResult(int value);
+  ProtocolResult(unsigned int value);
 
   /**
    * @brief Copy construction and assigment.
@@ -112,7 +112,7 @@ public:
    *
    * @return Application Specific error result as integer.
    */
-  int GetValue() const;
+  unsigned int GetValue() const;
 
   /**
    * @brief Comparison operators.

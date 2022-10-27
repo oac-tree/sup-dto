@@ -44,7 +44,7 @@ ProtocolResult::ProtocolResult()
 
 ProtocolResult::~ProtocolResult() = default;
 
-ProtocolResult::ProtocolResult(int value)
+ProtocolResult::ProtocolResult(unsigned int value)
   : m_value{value}
 {}
 
@@ -58,7 +58,7 @@ ProtocolResult& ProtocolResult::operator=(const ProtocolResult& other)
   return *this;
 }
 
-int ProtocolResult::GetValue() const
+unsigned int ProtocolResult::GetValue() const
 {
   return m_value;
 }
