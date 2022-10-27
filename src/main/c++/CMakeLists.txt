@@ -86,6 +86,7 @@ install(FILES
         sup/dto/anyvalue_helper.h
         sup/dto/anyvalue_composer.h
         sup/dto/basic_scalar_types.h
+        sup/dto/any_functor.h
         sup/dto/i_any_visitor.h
         sup/dto/json_type_parser.h
         sup/dto/json_value_parser.h
@@ -93,5 +94,8 @@ install(FILES
 
 install(FILES
         sup/rpc/protocol_result.h
+        sup/rpc/protocol_rpc_client.h
+        sup/rpc/protocol_rpc_server.h
+        sup/rpc/protocol_rpc.h
         sup/rpc/protocol.h
         DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/sup/rpc)
