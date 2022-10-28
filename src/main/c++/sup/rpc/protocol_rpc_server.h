@@ -47,7 +47,7 @@ public:
   ProtocolRPCServer(std::unique_ptr<Protocol>&& protocol);
   ~ProtocolRPCServer();
 
-  sup::dto::AnyValue operator()(const sup::dto::AnyValue& input) override;
+  sup::dto::AnyValue operator()(const sup::dto::AnyValue& request) override;
 private:
   std::unique_ptr<Protocol> m_protocol;
 };

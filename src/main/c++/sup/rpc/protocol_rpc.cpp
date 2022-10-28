@@ -90,23 +90,15 @@ sup::dto::AnyValue CreateRPCReply(const sup::rpc::ProtocolResult& result,
                                   const std::string& reason,
                                   const sup::dto::AnyValue& payload)
 {
-  sup::dto::AnyValue reply = CreateRPCBaseReply(result, GetTimestamp(), reason);
+  sup::dto::AnyValue reply = {{
+    { constants::REPLY_RESULT, {sup::dto::UnsignedInteger32Type, result.GetValue()} },
+    { constants::REPLY_TIMESTAMP, {sup::dto::UnsignedInteger64Type, GetTimestamp()} },
+    { constants::REPLY_REASON, {sup::dto::StringType, reason} }
+  }, constants::REPLY_TYPE_NAME};
   if (!sup::dto::IsEmptyValue(payload))
   {
     reply.AddMember(constants::REPLY_PAYLOAD, payload);
   }
-  return reply;
-}
-
-sup::dto::AnyValue CreateRPCBaseReply(const sup::rpc::ProtocolResult& result,
-                                      const sup::dto::uint64 timestamp,
-                                      const std::string& reason)
-{
-  sup::dto::AnyValue reply = {{
-    { constants::REPLY_RESULT, {sup::dto::UnsignedInteger32Type, result.GetValue()} },
-    { constants::REPLY_TIMESTAMP, {sup::dto::UnsignedInteger64Type, timestamp} },
-    { constants::REPLY_REASON, {sup::dto::StringType, reason} }
-  }, constants::REPLY_TYPE_NAME};
   return reply;
 }
 

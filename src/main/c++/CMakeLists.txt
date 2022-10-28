@@ -98,4 +98,5 @@ install(FILES
         sup/rpc/protocol_rpc_server.h
         sup/rpc/protocol_rpc.h
         sup/rpc/protocol.h
+        sup/rpc/rpc_exceptions.h
         DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/sup/rpc)

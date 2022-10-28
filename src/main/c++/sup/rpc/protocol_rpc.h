@@ -64,12 +64,8 @@ bool CheckReplyFormat(const sup::dto::AnyValue& reply);
 sup::dto::AnyValue CreateRPCRequest(const sup::dto::AnyValue& payload);
 
 sup::dto::AnyValue CreateRPCReply(const sup::rpc::ProtocolResult& result,
-                                  const std::string& reason,
+                                  const std::string& reason = "",
                                   const sup::dto::AnyValue& payload = {});
-
-sup::dto::AnyValue CreateRPCBaseReply(const sup::rpc::ProtocolResult& result,
-                                      const sup::dto::uint64 timestamp = 0,
-                                      const std::string& reason = {});
 
 }  // namespace utils
 
