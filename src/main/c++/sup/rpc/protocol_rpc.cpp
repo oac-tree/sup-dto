@@ -76,14 +76,13 @@ bool CheckReplyFormat(const sup::dto::AnyValue& reply)
 
 sup::dto::AnyValue CreateRPCRequest(const sup::dto::AnyValue& payload)
 {
-  if (sup::dto::IsEmptyValue(payload))
-  {
-    return {};
-  }
   sup::dto::AnyValue request = {{
-    { constants::REQUEST_TIMESTAMP, {sup::dto::UnsignedInteger64Type, GetTimestamp()} },
-    { constants::REQUEST_PAYLOAD, payload }
+    { constants::REQUEST_TIMESTAMP, {sup::dto::UnsignedInteger64Type, GetTimestamp()} }
   }, constants::REQUEST_TYPE_NAME};
+  if (!sup::dto::IsEmptyValue(payload))
+  {
+    request.AddMember(constants::REQUEST_PAYLOAD, payload);
+  }
   return request;
 }
 

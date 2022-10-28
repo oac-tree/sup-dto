@@ -39,14 +39,18 @@ namespace rpc
  *
  * @details A remote procedure call (RPC) framework provides the ability for a client to invoke
  * functions on a remote server. The rpc unit provides support for an RPC framework that is based on
- * this Protocol class, the universal Invoke method and the ProtocolResult return value.
+ * this Protocol class, the universal Invoke method and the ProtocolResult return value. This
+ * interface sits between an application layer and a transport layer.
  *
- * The details of how the the remote function and its parameters are encoded in the AnyValue input
- * and the function ouput is encoded into the AnyValue output are left to an RPC implementation.
+ * Transport layer:
+ * A transport layer can define how input, output and result are encoded for transport over the
+ * network (typically as payload into well defined request/reply structures). See e.g.
+ * ProtocolRPCClient/Server in this software module for a standardized implementation of such a
+ * transport layer.
  *
- * The ProtocolDefinition and the corresponding RegisteredFunction classes provide a standardised
- * mechanism that can be used to implement RPC against a common interface.
- *
+ * Application layer:
+ * The details of how the remote function and its parameters are encoded in the AnyValue input
+ * and the function ouput is encoded into the AnyValue output are left to a specific implementation.
  */
 class Protocol
 {
@@ -56,8 +60,8 @@ public:
   /**
    * @brief Initiate an RPC call.
    *
-   * @param input an AnyValue structure that encodes the function call and its paramters.
-   * @param output an AnyValue structure that encodes the function output, if any.
+   * @param input An input AnyValue structure. This AnyValue cannot be empty.
+   * @param output An output AnyValue structure, which may be empty.
    * @return ProtocolResult Success if the call was made, else an error code.
    */
   virtual ProtocolResult Invoke(const sup::dto::AnyValue& input,
