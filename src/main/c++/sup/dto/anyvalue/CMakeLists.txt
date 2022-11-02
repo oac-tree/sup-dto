@@ -1,5 +1,6 @@
 target_sources(sup-dto-obj
     PRIVATE
+        ${CMAKE_CURRENT_LIST_DIR}/any_functor.cpp
         ${CMAKE_CURRENT_LIST_DIR}/anytype.cpp
         ${CMAKE_CURRENT_LIST_DIR}/anytype_helper.cpp
         ${CMAKE_CURRENT_LIST_DIR}/anytype_registry.cpp

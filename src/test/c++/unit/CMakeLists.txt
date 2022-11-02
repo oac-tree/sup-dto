@@ -32,6 +32,7 @@ target_sources(unit-tests
         ${CMAKE_CURRENT_LIST_DIR}/json_type_parser_tests.cpp
         ${CMAKE_CURRENT_LIST_DIR}/json_typed_value_parser_tests.cpp
         ${CMAKE_CURRENT_LIST_DIR}/json_value_parser_tests.cpp
+        ${CMAKE_CURRENT_LIST_DIR}/protocol_rpc_client_tests.cpp
         ${CMAKE_CURRENT_LIST_DIR}/scalar_conversion_tests.cpp
         ${CMAKE_CURRENT_LIST_DIR}/scalartype_tests.cpp
         ${CMAKE_CURRENT_LIST_DIR}/scalarvalue_tests.cpp
@@ -52,6 +53,7 @@ target_link_libraries(unit-tests
         GTest::GTest
         GTest::Main
         gmock
+        sup-rpc
         sup-dto-shared
 )
 
