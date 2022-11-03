@@ -51,7 +51,7 @@ sup::dto::AnyValue ProtocolRPCServer::operator()(const sup::dto::AnyValue& reque
   ProtocolResult result = Success;
   try
   {
-    auto result = m_protocol->Invoke(request[constants::REQUEST_PAYLOAD], output);
+    result = m_protocol->Invoke(request[constants::REQUEST_PAYLOAD], output);
   }
   catch(...)
   {

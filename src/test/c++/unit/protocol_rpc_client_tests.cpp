@@ -137,7 +137,7 @@ TEST_F(ProtocolRPCClientTest, InvokeBadOutput)
   EXPECT_EQ(output, output_start);
 }
 
-TEST_F(ProtocolRPCClientTest, InvokeThrow)
+TEST_F(ProtocolRPCClientTest, FunctorThrows)
 {
   ProtocolRPCClient client{GetSharedFunctor()};
   sup::dto::AnyValue input = {{
