@@ -19,6 +19,8 @@
  * of the distribution package.
  ******************************************************************************/
 
+#include "anyvalue_meta.h"
+
 #include <gtest/gtest.h>
 
 #include <sup/dto/anyvalue.h>
@@ -60,6 +62,34 @@ TEST(AnyValueTest, CopyConstruction)
   EXPECT_TRUE(copy.HasField("scalars"));
   EXPECT_TRUE(copy.HasField("single"));
   EXPECT_TRUE(copy.HasField("index"));
+}
+
+TEST(AnyValueTest, PointerConstruction)
+{
+  // valid constructor argument types (without conversion)
+  EXPECT_TRUE(IsValidAnyValueConstructorArgument<boolean>::value);
+  EXPECT_TRUE(IsValidAnyValueConstructorArgument<char8>::value);
+  EXPECT_TRUE(IsValidAnyValueConstructorArgument<int8>::value);
+  EXPECT_TRUE(IsValidAnyValueConstructorArgument<uint8>::value);
+  EXPECT_TRUE(IsValidAnyValueConstructorArgument<int16>::value);
+  EXPECT_TRUE(IsValidAnyValueConstructorArgument<uint16>::value);
+  EXPECT_TRUE(IsValidAnyValueConstructorArgument<int32>::value);
+  EXPECT_TRUE(IsValidAnyValueConstructorArgument<uint32>::value);
+  EXPECT_TRUE(IsValidAnyValueConstructorArgument<int64>::value);
+  EXPECT_TRUE(IsValidAnyValueConstructorArgument<uint64>::value);
+  EXPECT_TRUE(IsValidAnyValueConstructorArgument<float32>::value);
+  EXPECT_TRUE(IsValidAnyValueConstructorArgument<float64>::value);
+  EXPECT_TRUE(IsValidAnyValueConstructorArgument<const std::string&>::value);
+  EXPECT_TRUE(IsValidAnyValueConstructorArgument<const char*>::value);
+
+  // valid constructor argument types (with conversion)
+  EXPECT_TRUE(IsValidAnyValueConstructorArgument<std::string>::value);
+  EXPECT_TRUE(IsValidAnyValueConstructorArgument<const std::string>::value);
+
+  // invalid constructor argument types
+  EXPECT_FALSE(IsValidAnyValueConstructorArgument<std::nullptr_t>::value);
+  EXPECT_FALSE(IsValidAnyValueConstructorArgument<int*>::value);
+  EXPECT_FALSE(IsValidAnyValueConstructorArgument<char*>::value);
 }
 
 TEST(AnyValueTest, CopyAssignment)

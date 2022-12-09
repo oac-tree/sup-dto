@@ -83,6 +83,13 @@ public:
   AnyValue(const char* val);
 
   /**
+   * Delete constructors to prevent implicit conversion from pointers to boolean, or nullptr to
+   * const char*.
+  */
+  AnyValue(std::nullptr_t) = delete;
+  template <typename T> AnyValue(T*) = delete;
+
+  /**
    * @brief Constructor with type and value specification.
    *
    * @param anytype type specification.
