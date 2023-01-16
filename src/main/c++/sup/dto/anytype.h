@@ -22,6 +22,7 @@
 #ifndef SUP_DTO_ANYTYPE_H_
 #define SUP_DTO_ANYTYPE_H_
 
+#include <functional>
 #include <initializer_list>
 #include <memory>
 #include <string>
@@ -300,5 +301,19 @@ extern const AnyType StringType;
 }  // namespace dto
 
 }  // namespace sup
+
+namespace std
+{
+/**
+ * @brief Related to defect report LWG 2148
+*/
+template <> struct hash<::sup::dto::TypeCode>
+{
+  size_t operator()(const ::sup::dto::TypeCode& val) const
+  {
+    return std::hash<int>{}(static_cast<int>(val));
+  }
+};
+}
 
 #endif  // SUP_DTO_ANYTYPE_H_
