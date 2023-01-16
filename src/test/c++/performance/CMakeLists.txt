@@ -6,8 +6,6 @@ target_sources(performance-tests
         ${CMAKE_CURRENT_LIST_DIR}/json_performance.cpp
 )
 
-find_package(GTest REQUIRED)
-
 target_link_libraries(performance-tests
     PRIVATE
     sup-dto-shared

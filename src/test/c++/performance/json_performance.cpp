@@ -123,7 +123,7 @@ void MeasureSerializeParse(const AnyType& anytype)
   {
     one_cycle = 1;
   }
-  unsigned N = std::min(1000L, 5000 / one_cycle);  // max 5s
+  unsigned N = std::min(1000L, static_cast<long>(5000 / one_cycle));  // max 5s
   N = std::max(N, 3u);  // at least 3 iterations
   std::chrono::nanoseconds serialize_duration{0};
   std::chrono::nanoseconds parse_duration{0};
