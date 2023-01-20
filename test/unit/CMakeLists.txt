@@ -61,4 +61,6 @@ target_link_libraries(unit-tests
         sup-dto-shared
 )
 
+set_target_properties(unit-tests PROPERTIES RUNTIME_OUTPUT_DIRECTORY ${TEST_OUTPUT_DIRECTORY})
+
 gtest_discover_tests(unit-tests)
