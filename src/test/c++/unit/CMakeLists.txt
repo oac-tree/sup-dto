@@ -51,6 +51,8 @@ target_include_directories(unit-tests
 
 find_package(GTest REQUIRED)
 
+include(GoogleTest)
+
 target_link_libraries(unit-tests
     PRIVATE
         GTest::GTest
