@@ -58,6 +58,7 @@
             <organization>ITER Organisation</organization>
             <email>walter.vanherck@iter.org</email>
             <roles>
+                <role>unit owner</role>
                 <role>developer</role>
             </roles>
         </developer>
@@ -67,7 +68,7 @@
             <organization>CSW</organization>
             <email>rg-silva@criticalsoftware.com</email>
             <roles>
-                <role>unit owner</role>
+                <role>developer</role>
             </roles>
         </developer>
     </developers>
