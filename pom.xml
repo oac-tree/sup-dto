@@ -101,6 +101,10 @@
                             <requires version="current" buildOnly="true">gtest-devel</requires>
                         </package>
                         <package name="devel">
+                            <!-- CMAKE -->
+                            <include type="file" source="lib64/cmake/sup-dto" target="lib/cmake/sup-dto">
+                                <include>*.cmake</include>
+                            </include>
                             <!--  Libraries  -->
                             <include type="file" source="lib64" target="lib">
                                 <include>*.a</include>
