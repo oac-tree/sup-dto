@@ -94,7 +94,7 @@
                     <packaging>
                         <package>
                             <!-- Libraries  -->
-                            <include type="file" source="lib64" target="lib">
+                            <include type="file" source="lib" target="lib">
                                 <include>*.so.*</include>
                             </include>
                             <!-- Package dependencies -->
@@ -103,11 +103,11 @@
                         </package>
                         <package name="devel">
                             <!-- CMAKE -->
-                            <include type="file" source="lib64/cmake/sup-dto" target="lib/cmake/sup-dto">
+                            <include type="file" source="lib/cmake/sup-dto" target="lib/cmake/sup-dto">
                                 <include>*.cmake</include>
                             </include>
                             <!--  Libraries  -->
-                            <include type="file" source="lib64" target="lib">
+                            <include type="file" source="lib" target="lib">
                                 <include>*.a</include>
                                 <include>*.so</include>
                             </include>
@@ -143,6 +143,7 @@
                                 <!-- CMAKE configuration options -->
                                 <argument>-B${project.build.directory}/main/build</argument>
                                 <argument>-DCMAKE_INSTALL_PREFIX=${project.build.directory}</argument>
+                                <argument>-DCMAKE_INSTALL_LIBDIR=lib</argument>
                                 <argument>-DTEST_OUTPUT_DIRECTORY=${project.build.directory}/test</argument>
                                 <argument>-DCOVERAGE=${coverage}</argument>
                                 <argument>${project.build.directory}/main</argument>
