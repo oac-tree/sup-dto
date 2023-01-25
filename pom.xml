@@ -88,6 +88,7 @@
                         <copy source="src" target="main/src" />
                         <copy source="test" target="main/test" />
                         <copy source="doc" target="main/doc" />
+                        <copy source="cmake" target="main/cmake" />
                         <copy source="CMakeLists.txt" target="main/CMakeLists.txt" />
                      </init>
                     <!-- Configure packaging and dependencies -->
