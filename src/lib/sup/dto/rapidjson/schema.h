@@ -1590,6 +1590,7 @@ public:
     //! Constructor with output handler.
     /*!
         \param schemaDocument The schema document to conform to.
+        \param outputHandler The output handler.
         \param allocator Optional allocator for storing internal validation states.
         \param schemaStackCapacity Optional initial capacity of schema path stack.
         \param documentStackCapacity Optional initial capacity of document path stack.

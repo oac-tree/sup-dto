@@ -93,7 +93,7 @@ struct GenericMember {
 
     \note Define \c RAPIDJSON_NOMEMBERITERATORCLASS to fall back to a
         pointer-based implementation, if your platform doesn't provide
-        the C++ <iterator> header.
+        the C++ `<iterator>` header.
 
     \see GenericMember, GenericValue::MemberIterator, GenericValue::ConstMemberIterator
  */
@@ -227,7 +227,7 @@ struct GenericMemberIterator<true,Encoding,Allocator> {
     character arrays.
 
     The main use is for creating JSON string values without copying the
-    source string via an \ref Allocator.  This requires that the referenced
+    source string via an allocator.  This requires that the referenced
     string pointers have a sufficient lifetime, which exceeds the lifetime
     of the associated GenericValue.
 
