@@ -23,6 +23,7 @@
 
 using namespace sup::dto;
 
+//! @cond HIDDEN_FROM_DOXYGEN
 constexpr TypeCode TypeToCode<boolean>::code;
 constexpr TypeCode TypeToCode<char8>::code;
 constexpr TypeCode TypeToCode<int8>::code;
@@ -36,3 +37,4 @@ constexpr TypeCode TypeToCode<uint64>::code;
 constexpr TypeCode TypeToCode<float32>::code;
 constexpr TypeCode TypeToCode<float64>::code;
 constexpr TypeCode TypeToCode<std::string>::code;
+//! @endcond
