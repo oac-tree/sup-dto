@@ -138,7 +138,7 @@ extern const ProtocolResult NotConnected;
 /**
  * @brief Error when the network layer cannot encode the transport packet into a network packet.
  *
- * @example The format of the AnyValue, representing a transport packet, is not supported for
+ * Example: the format of the AnyValue, representing a transport packet, is not supported for
  * translation into a pvxs::Value (network packet). This happens when some allowed AnyValue types
  * are not supported in the underlying network implementation, such as arrays of structures.
 */
@@ -146,7 +146,7 @@ extern const ProtocolResult NetworkEncodingError;
 /**
  * @brief Error when the network layer cannot decode the network packet into a transport packet.
  *
- * @example The received pvxs::Value (network packet) cannot be converted to an AnyValue. Note that
+ * Example: the received pvxs::Value (network packet) cannot be converted to an AnyValue. Note that
  * with the current implementation, this never happens.
 */
 extern const ProtocolResult NetworkDecodingError;
