@@ -164,6 +164,7 @@
                             <arguments>
                                 <argument>--build</argument>
                                 <argument>${project.build.directory}/build</argument>
+                                <argument>-j4</argument>
                                 <argument>--target</argument>
                                 <argument>install</argument>
                             </arguments>
