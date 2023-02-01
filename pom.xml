@@ -39,7 +39,7 @@
         <cppcheck.args>--enable=all --suppress=missingInclude --inline-suppr</cppcheck.args>
         <sonar.sources.cpp>src</sonar.sources.cpp>
         <sonar.tests.cpp>test</sonar.tests.cpp>
-        <sonar.exclusions>src/sup/dto/rapidjson/**, test/**</sonar.exclusions>
+        <sonar.exclusions>src/lib/sup/dto/rapidjson/**, test/**</sonar.exclusions>
         <coverage>false</coverage>
     </properties>
 
