@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.5)
 
-set(CMAKE_CXX_STANDARD 11)
-set(CMAKE_CXX_STANDARD_REQUIRED ON)
+set(CMAKE_MODULE_PATH ${CMAKE_CURRENT_LIST_DIR}/../cmake/module)
+include(configuration)
 
 if (COVERAGE)
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -O0 -g -fprofile-arcs -ftest-coverage --coverage")
@@ -23,5 +23,5 @@ file(WRITE ${TEST_OUTPUT_DIRECTORY}/test.sh
 exit $?
 ")
 
-configure_file(${TEST_OUTPUT_DIRECTORY}/test.sh ${TEST_OUTPUT_DIRECTORY}/test.sh 
+configure_file(${TEST_OUTPUT_DIRECTORY}/test.sh ${TEST_OUTPUT_DIRECTORY}/test.sh
                FILE_PERMISSIONS OWNER_EXECUTE OWNER_WRITE OWNER_READ)
