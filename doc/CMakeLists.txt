@@ -24,6 +24,9 @@ set(DOXYGEN_GENERATE_XML YES)
 set(DOXYGEN_QUIET YES)
 set(DOXYGEN_WARN_IF_UNDOCUMENTED NO)
 
+# Exclude all rapidjson files from Doxygen input.
+set(DOXYGEN_EXCLUDE ${PROJECT_SOURCE_DIR}/src/lib/sup/dto/rapidjson)
+
 doxygen_add_docs(doxygen-doc ${PROJECT_SOURCE_DIR}/src/lib/sup COMMENT
                  "Generating API documentation with Doxygen")
 
