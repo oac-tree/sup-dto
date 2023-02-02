@@ -24,7 +24,7 @@ set(DOXYGEN_GENERATE_XML YES)
 set(DOXYGEN_QUIET YES)
 set(DOXYGEN_WARN_IF_UNDOCUMENTED NO)
 
-doxygen_add_docs(doxygen-doc ${PROJECT_SOURCE_DIR}/src/sup COMMENT
+doxygen_add_docs(doxygen-doc ${PROJECT_SOURCE_DIR}/src/lib/sup COMMENT
                  "Generating API documentation with Doxygen")
 
 	 configure_file(${CMAKE_CONFIG_PATH}/sphinx-conf.py.in ${CMAKE_CURRENT_BINARY_DIR}/conf.py @ONLY)
