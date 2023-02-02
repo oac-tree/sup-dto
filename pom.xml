@@ -90,7 +90,7 @@
                         <copy source="doc" target="doc" />
                         <copy source="cmake" target="cmake" />
                         <copy source="CMakeLists.txt" target="CMakeLists.txt" />
-                     </init>
+                    </init>
                     <!-- Configure packaging and dependencies -->
                     <packaging>
                         <package>
