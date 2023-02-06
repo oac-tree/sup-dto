@@ -19,8 +19,8 @@
  * of the distribution package.
  ******************************************************************************/
 
-#ifndef _SUP_RPC_PROTOCOL_RESULT_H_
-#define _SUP_RPC_PROTOCOL_RESULT_H_
+#ifndef SUP_RPC_PROTOCOL_RESULT_H_
+#define SUP_RPC_PROTOCOL_RESULT_H_
 
 #include <string>
 
@@ -170,4 +170,4 @@ extern const ProtocolResult TransportDecodingError;
 
 }  // namespace sup
 
-#endif  // _SUP_RPC_PROTOCOL_RESULT_H_
+#endif  // SUP_RPC_PROTOCOL_RESULT_H_

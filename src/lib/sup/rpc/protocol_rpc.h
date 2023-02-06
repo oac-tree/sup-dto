@@ -19,8 +19,8 @@
  * of the distribution package.
  ******************************************************************************/
 
-#ifndef _SUP_RPC_PROTOCOL_RPC_H_
-#define _SUP_RPC_PROTOCOL_RPC_H_
+#ifndef SUP_RPC_PROTOCOL_RPC_H_
+#define SUP_RPC_PROTOCOL_RPC_H_
 
 #include <sup/dto/anyvalue.h>
 #include <sup/rpc/protocol_result.h>
@@ -73,4 +73,4 @@ sup::dto::AnyValue CreateRPCReply(const sup::rpc::ProtocolResult& result,
 
 }  // namespace sup
 
-#endif  // _SUP_RPC_PROTOCOL_RPC_H_
+#endif  // SUP_RPC_PROTOCOL_RPC_H_

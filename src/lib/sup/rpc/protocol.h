@@ -19,8 +19,8 @@
  * of the distribution package.
  ******************************************************************************/
 
-#ifndef _SUP_RPC_PROTOCOL_H_
-#define _SUP_RPC_PROTOCOL_H_
+#ifndef SUP_RPC_PROTOCOL_H_
+#define SUP_RPC_PROTOCOL_H_
 
 #include <sup/rpc/protocol_result.h>
 
@@ -72,4 +72,4 @@ public:
 
 }  // namespace sup
 
-#endif  // _SUP_RPC_PROTOCOL_H_
+#endif  // SUP_RPC_PROTOCOL_H_

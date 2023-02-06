@@ -19,8 +19,8 @@
  * of the distribution package.
  ******************************************************************************/
 
-#ifndef _SUP_RPC_PROTOCOL_RPC_CLIENT_H_
-#define _SUP_RPC_PROTOCOL_RPC_CLIENT_H_
+#ifndef SUP_RPC_PROTOCOL_RPC_CLIENT_H_
+#define SUP_RPC_PROTOCOL_RPC_CLIENT_H_
 
 #include <sup/dto/any_functor.h>
 #include <sup/rpc/protocol.h>
@@ -56,4 +56,4 @@ private:
 
 }  // namespace sup
 
-#endif  // _SUP_RPC_PROTOCOL_RPC_CLIENT_H_
+#endif  // SUP_RPC_PROTOCOL_RPC_CLIENT_H_
