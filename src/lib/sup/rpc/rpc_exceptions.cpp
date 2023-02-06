@@ -30,6 +30,10 @@ NullDependencyException::NullDependencyException(const std::string& message)
   : MessageException{message}
 {}
 
+InvalidOperationException::InvalidOperationException(const std::string& message)
+  : MessageException{message}
+{}
+
 }  // namespace rpc
 
 }  // namespace sup

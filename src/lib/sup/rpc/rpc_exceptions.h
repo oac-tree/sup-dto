@@ -37,6 +37,15 @@ public:
   NullDependencyException(const std::string& message);
 };
 
+/**
+ * @brief Exception thrown when injecting a null dependency.
+ */
+class InvalidOperationException : public sup::dto::MessageException
+{
+public:
+  InvalidOperationException(const std::string& message);
+};
+
 }  // namespace rpc
 
 }  // namespace sup
