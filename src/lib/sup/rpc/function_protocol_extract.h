@@ -22,24 +22,28 @@
 #ifndef SUP_RPC_FUNCTION_PROTOCOL_EXTRACT_H_
 #define SUP_RPC_FUNCTION_PROTOCOL_EXTRACT_H_
 
+#include <sup/dto/anytype.h>
 #include <sup/dto/anyvalue.h>
-#include <sup/rpc/protocol_result.h>
 
-#include <map>
 #include <string>
+#include <vector>
 
 namespace sup
 {
 namespace rpc
 {
 
+bool FunctionProtocolExtract(bool& b, const sup::dto::AnyValue& input,
+                             const std::string& field_name);
+
 bool FunctionProtocolExtract(std::string& str, const sup::dto::AnyValue& input,
                              const std::string& field_name);
 
-bool FunctionProtocolExtract(sup::dto::AnyValue& anyvalue, const sup::dto::AnyValue& input,
+bool FunctionProtocolExtract(std::vector<std::string>& string_list,
+                             const sup::dto::AnyValue& input,
                              const std::string& field_name);
 
-bool FunctionProtocolExtract(sup::dto::AnyType& anytype, const sup::dto::AnyValue& input,
+bool FunctionProtocolExtract(sup::dto::AnyValue& anyvalue, const sup::dto::AnyValue& input,
                              const std::string& field_name);
 
 }  // namespace rpc

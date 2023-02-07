@@ -28,6 +28,7 @@ target_sources(unit-tests
         ${CMAKE_CURRENT_LIST_DIR}/arraytype_tests.cpp
         ${CMAKE_CURRENT_LIST_DIR}/arrayvalue_invariant_tests.cpp
         ${CMAKE_CURRENT_LIST_DIR}/arrayvalue_tests.cpp
+        ${CMAKE_CURRENT_LIST_DIR}/function_protocol_extract_tests.cpp
         ${CMAKE_CURRENT_LIST_DIR}/integertype_tests.cpp
         ${CMAKE_CURRENT_LIST_DIR}/integervalue_tests.cpp
         ${CMAKE_CURRENT_LIST_DIR}/json_file_tests.cpp
