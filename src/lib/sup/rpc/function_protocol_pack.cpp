@@ -21,12 +21,14 @@
 
 #include "function_protocol_pack.h"
 
+#include <sup/rpc/rpc_exceptions.h>
+
 #include <sup/dto/anyvalue_helper.h>
 
 namespace
 {
 const sup::dto::AnyType STRING_ARRAY_TYPE{0, sup::dto::StringType};
-bool FunctionProtocolPrepareOutput(sup::dto::AnyValue& output, const std::string& field_name);
+void FunctionProtocolPrepareOutput(sup::dto::AnyValue& output, const std::string& field_name);
 }  // unnamed namespace
 
 namespace sup
@@ -35,52 +37,45 @@ namespace rpc
 {
 
 template <typename T>
-bool FunctionProtocolPackT(sup::dto::AnyValue& output, const std::string& field_name, const T& val)
+void FunctionProtocolPackT(sup::dto::AnyValue& output, const std::string& field_name, const T& val)
 {
-  if (!FunctionProtocolPrepareOutput(output, field_name))
-  {
-    return false;
-  }
+  FunctionProtocolPrepareOutput(output, field_name);
   output.AddMember(field_name, sup::dto::AnyValue(val));
-  return true;
 }
 
-bool FunctionProtocolPack(sup::dto::AnyValue& output, const std::string& field_name, bool b)
+void FunctionProtocolPack(sup::dto::AnyValue& output, const std::string& field_name, bool b)
 {
   return FunctionProtocolPackT(output, field_name, b);
 }
 
-bool FunctionProtocolPack(sup::dto::AnyValue& output, const std::string& field_name,
+void FunctionProtocolPack(sup::dto::AnyValue& output, const std::string& field_name,
                           const std::string& str)
 {
   return FunctionProtocolPackT(output, field_name, str);
 }
 
-bool FunctionProtocolPack(sup::dto::AnyValue& output, const std::string& field_name,
+void FunctionProtocolPack(sup::dto::AnyValue& output, const std::string& field_name,
                           const std::vector<std::string>& string_list)
 {
-  if (!FunctionProtocolPrepareOutput(output, field_name))
-  {
-    return false;
-  }
+  FunctionProtocolPrepareOutput(output, field_name);
   sup::dto::AnyValue any_list{STRING_ARRAY_TYPE};
   for (const auto& str : string_list)
   {
     any_list.AddElement(sup::dto::AnyValue(str));
   }
   output.AddMember(field_name, any_list);
-  return true;
 }
 
-bool FunctionProtocolPack(sup::dto::AnyValue& output, const std::string& field_name,
+void FunctionProtocolPack(sup::dto::AnyValue& output, const std::string& field_name,
                           const sup::dto::AnyValue& anyvalue)
 {
-  if (sup::dto::IsEmptyValue(anyvalue) || !FunctionProtocolPrepareOutput(output, field_name))
+  if (sup::dto::IsEmptyValue(anyvalue))
   {
-    return false;
+    throw sup::rpc::InvalidOperationException("FunctionProtocolPack(): trying to pack an empty "
+                                              "value in a structure");
   }
+  FunctionProtocolPrepareOutput(output, field_name);
   output.AddMember(field_name, anyvalue);
-  return true;
 }
 
 }  // namespace rpc
@@ -89,20 +84,23 @@ bool FunctionProtocolPack(sup::dto::AnyValue& output, const std::string& field_n
 
 namespace
 {
-bool FunctionProtocolPrepareOutput(sup::dto::AnyValue& output, const std::string& field_name)
+void FunctionProtocolPrepareOutput(sup::dto::AnyValue& output, const std::string& field_name)
 {
   if (sup::dto::IsEmptyValue(output))
   {
     output = sup::dto::EmptyStruct();
+    return;
   }
   if (!sup::dto::IsStructValue(output))
   {
-    return false;
+    throw sup::rpc::InvalidOperationException("FunctionProtocolPrepareOutput(): output is not a "
+                                              "structure");
   }
   if (output.HasField(field_name))
   {
-    return false;
+    std::string error = "FunctionProtocolPrepareOutput(): output already contains a field with "
+                        "name [" + field_name + "]";
+    throw sup::rpc::InvalidOperationException(error);
   }
-  return true;
 }
 }  // unnamed namespace

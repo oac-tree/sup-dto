@@ -33,15 +33,15 @@ namespace sup
 namespace rpc
 {
 
-bool FunctionProtocolPack(sup::dto::AnyValue& output, const std::string& field_name, bool b);
+void FunctionProtocolPack(sup::dto::AnyValue& output, const std::string& field_name, bool b);
 
-bool FunctionProtocolPack(sup::dto::AnyValue& output, const std::string& field_name,
+void FunctionProtocolPack(sup::dto::AnyValue& output, const std::string& field_name,
                           const std::string& str);
 
-bool FunctionProtocolPack(sup::dto::AnyValue& output, const std::string& field_name,
+void FunctionProtocolPack(sup::dto::AnyValue& output, const std::string& field_name,
                           const std::vector<std::string>& string_list);
 
-bool FunctionProtocolPack(sup::dto::AnyValue& output, const std::string& field_name,
+void FunctionProtocolPack(sup::dto::AnyValue& output, const std::string& field_name,
                           const sup::dto::AnyValue& anyvalue);
 
 }  // namespace rpc
