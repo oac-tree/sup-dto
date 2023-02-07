@@ -22,7 +22,6 @@
 #include <gtest/gtest.h>
 
 #include <sup/rpc/function_protocol_extract.h>
-#include <sup/dto/json_type_parser.h>
 
 using namespace sup::rpc;
 
