@@ -61,15 +61,6 @@ ProtocolResult CallFunctionProtocol(T& obj, const ProtocolMemberFunctionMap<T>& 
   return (obj.*mem_fun)(input, output);
 }
 
-bool FunctionProtocolPack(sup::dto::AnyValue& output, const std::string& field_name,
-                          const std::vector<std::string>& string_list);
-
-bool FunctionProtocolPack(sup::dto::AnyValue& output, const std::string& field_name,
-                          const sup::dto::AnyType& anytype);
-
-bool FunctionProtocolPack(sup::dto::AnyValue& output, const std::string& field_name,
-                          const sup::dto::AnyValue& anyvalue);
-
 }  // namespace rpc
 
 }  // namespace sup

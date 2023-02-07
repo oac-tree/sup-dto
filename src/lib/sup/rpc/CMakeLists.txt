@@ -22,6 +22,7 @@ target_link_libraries(sup-rpc
 target_sources(sup-rpc
   PRIVATE
     ${CMAKE_CURRENT_LIST_DIR}/function_protocol_extract.cpp
+    ${CMAKE_CURRENT_LIST_DIR}/function_protocol_pack.cpp
     ${CMAKE_CURRENT_LIST_DIR}/protocol_result.cpp
     ${CMAKE_CURRENT_LIST_DIR}/protocol_rpc_client.cpp
     ${CMAKE_CURRENT_LIST_DIR}/protocol_rpc_server.cpp
@@ -36,6 +37,8 @@ install(TARGETS sup-rpc EXPORT sup-dto-targets LIBRARY DESTINATION ${CMAKE_INSTA
 
 install(FILES
   function_protocol_extract.h
+  function_protocol_pack.h
+  function_protocol.h
   protocol_result.h
   protocol_rpc_client.h
   protocol_rpc_server.h

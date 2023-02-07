@@ -21,9 +21,7 @@
 
 #include "function_protocol_extract.h"
 
-#include <sup/dto/anytype_helper.h>
 #include <sup/dto/anyvalue_helper.h>
-#include <sup/dto/json_type_parser.h>
 
 namespace
 {
