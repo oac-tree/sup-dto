@@ -35,6 +35,8 @@ namespace rpc
 
 static const std::string FUNCTION_FIELD_NAME = "function";
 
+sup::dto::AnyValue FunctionProtocolInput(const std::string& func_name);
+
 template <typename T>
 using ProtocolMemberFunction = ProtocolResult(T::*)(const sup::dto::AnyValue&, sup::dto::AnyValue&);
 

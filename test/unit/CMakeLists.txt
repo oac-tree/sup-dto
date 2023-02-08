@@ -30,6 +30,7 @@ target_sources(unit-tests
         ${CMAKE_CURRENT_LIST_DIR}/arrayvalue_tests.cpp
         ${CMAKE_CURRENT_LIST_DIR}/function_protocol_extract_tests.cpp
         ${CMAKE_CURRENT_LIST_DIR}/function_protocol_pack_tests.cpp
+        ${CMAKE_CURRENT_LIST_DIR}/function_protocol_tests.cpp
         ${CMAKE_CURRENT_LIST_DIR}/integertype_tests.cpp
         ${CMAKE_CURRENT_LIST_DIR}/integervalue_tests.cpp
         ${CMAKE_CURRENT_LIST_DIR}/json_file_tests.cpp

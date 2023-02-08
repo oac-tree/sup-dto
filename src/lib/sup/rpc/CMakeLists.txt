@@ -23,6 +23,7 @@ target_sources(sup-rpc
   PRIVATE
     ${CMAKE_CURRENT_LIST_DIR}/function_protocol_extract.cpp
     ${CMAKE_CURRENT_LIST_DIR}/function_protocol_pack.cpp
+    ${CMAKE_CURRENT_LIST_DIR}/function_protocol.cpp
     ${CMAKE_CURRENT_LIST_DIR}/protocol_result.cpp
     ${CMAKE_CURRENT_LIST_DIR}/protocol_rpc_client.cpp
     ${CMAKE_CURRENT_LIST_DIR}/protocol_rpc_server.cpp
