@@ -1,5 +1,4 @@
 # Setup target for documentation generation.
-# Use `make sphinx-doc` to generate documentation in <build>/doc directory.
 
 # --- Finding Doxygen ---
 find_package(Doxygen)
@@ -30,12 +29,13 @@ set(DOXYGEN_EXCLUDE ${PROJECT_SOURCE_DIR}/src/lib/sup/dto/rapidjson)
 doxygen_add_docs(doxygen-doc ${PROJECT_SOURCE_DIR}/src/lib/sup COMMENT
                  "Generating API documentation with Doxygen")
 
-	 configure_file(${CMAKE_CONFIG_PATH}/sphinx-conf.py.in ${CMAKE_CURRENT_BINARY_DIR}/conf.py @ONLY)
-add_custom_target(sphinx-doc
+configure_file(${CMAKE_CONFIG_PATH}/sphinx-conf.py.in ${CMAKE_CURRENT_BINARY_DIR}/conf.py @ONLY)
+
+add_custom_target(sphinx-doc ALL
   COMMAND ${SPHINX_EXECUTABLE} -b html -c ${CMAKE_CURRENT_BINARY_DIR}
   ${CMAKE_CURRENT_SOURCE_DIR} ${CMAKE_CURRENT_BINARY_DIR}
   WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}
   COMMENT "Generating API documentation with Sphinx"
   VERBATIM)
 
- add_dependencies(sphinx-doc doxygen-doc)
+add_dependencies(sphinx-doc doxygen-doc)
