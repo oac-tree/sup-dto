@@ -22,6 +22,7 @@
 #include "function_protocol_extract.h"
 
 #include <sup/dto/anyvalue_helper.h>
+#include <sup/dto/json_type_parser.h>
 
 namespace
 {
@@ -55,6 +56,12 @@ template <>
 sup::dto::AnyType FunctionProtocolExpectedType<std::vector<std::string>>()
 {
   return STRING_ARRAY_TYPE;
+}
+
+template <>
+sup::dto::AnyType FunctionProtocolExpectedType<sup::dto::AnyType>()
+{
+  return sup::dto::StringType;
 }
 
 template <typename T>
@@ -134,6 +141,23 @@ bool FunctionProtocolExtract(sup::dto::AnyValue& anyvalue, const sup::dto::AnyVa
   {
     return false;
   }
+  return true;
+}
+
+bool FunctionProtocolExtract(sup::dto::AnyType& anytype, const sup::dto::AnyValue& input,
+                             const std::string& field_name)
+{
+  if (!ValidateFunctionProtocolInput<sup::dto::AnyType>(input, field_name))
+  {
+    return false;
+  }
+  auto json_type = input[field_name].As<std::string>();
+  sup::dto::JSONAnyTypeParser parser{};
+  if (!parser.ParseString(json_type))
+  {
+    return false;
+  }
+  anytype = parser.MoveAnyType();
   return true;
 }
 

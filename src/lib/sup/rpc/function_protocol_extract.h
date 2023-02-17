@@ -46,6 +46,9 @@ bool FunctionProtocolExtract(std::vector<std::string>& string_list,
 bool FunctionProtocolExtract(sup::dto::AnyValue& anyvalue, const sup::dto::AnyValue& input,
                              const std::string& field_name);
 
+bool FunctionProtocolExtract(sup::dto::AnyType& anytype, const sup::dto::AnyValue& input,
+                             const std::string& field_name);
+
 }  // namespace rpc
 
 }  // namespace sup

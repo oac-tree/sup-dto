@@ -21,6 +21,7 @@
 
 #include <gtest/gtest.h>
 
+#include <sup/dto/anytype_helper.h>
 #include <sup/rpc/function_protocol_extract.h>
 
 using namespace sup::rpc;
@@ -94,6 +95,30 @@ TEST_F(FunctionProtocolExtractTest, AnyValue)
   EXPECT_TRUE(FunctionProtocolExtract(anyvalue, input, "number"));
   EXPECT_FALSE(sup::dto::IsEmptyValue(anyvalue));
   EXPECT_EQ(anyvalue, 5);
+}
+
+TEST_F(FunctionProtocolExtractTest, AnyType)
+{
+  sup::dto::AnyType anytype = {{
+    { "enabled", sup::dto::BooleanType },
+    { "counter", sup::dto::UnsignedInteger32Type }
+  }, "counter_t"};
+  auto json_type = sup::dto::AnyTypeToJSONString(anytype);
+  sup::dto::AnyValue input = {
+    { "type", json_type },
+    { "wrong_type", {sup::dto::BooleanType, true }},
+    { "cannot_be_parsed", {sup::dto::StringType, "this_is_not_a_valid_anytype_json"}}
+  };
+  sup::dto::AnyType extracted_type;
+  EXPECT_FALSE(FunctionProtocolExtract(extracted_type, input, "does_not_exist"));
+  EXPECT_TRUE(sup::dto::IsEmptyType(extracted_type));
+  EXPECT_FALSE(FunctionProtocolExtract(extracted_type, input, "wrong_type"));
+  EXPECT_TRUE(sup::dto::IsEmptyType(extracted_type));
+  EXPECT_FALSE(FunctionProtocolExtract(extracted_type, input, "cannot_be_parsed"));
+  EXPECT_TRUE(sup::dto::IsEmptyType(extracted_type));
+  EXPECT_TRUE(FunctionProtocolExtract(extracted_type, input, "type"));
+  EXPECT_FALSE(sup::dto::IsEmptyType(extracted_type));
+  EXPECT_EQ(extracted_type, anytype);
 }
 
 FunctionProtocolExtractTest::FunctionProtocolExtractTest() = default;
