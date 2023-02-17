@@ -23,6 +23,7 @@
 
 #include <sup/rpc/rpc_exceptions.h>
 
+#include <sup/dto/anytype_helper.h>
 #include <sup/dto/anyvalue_helper.h>
 
 namespace
@@ -76,6 +77,14 @@ void FunctionProtocolPack(sup::dto::AnyValue& output, const std::string& field_n
   }
   FunctionProtocolPrepareOutput(output, field_name);
   output.AddMember(field_name, anyvalue);
+}
+
+void FunctionProtocolPack(sup::dto::AnyValue& output, const std::string& field_name,
+                          const sup::dto::AnyType& anytype)
+{
+  FunctionProtocolPrepareOutput(output, field_name);
+  auto json_type = sup::dto::AnyTypeToJSONString(anytype);
+  output.AddMember(field_name, json_type);
 }
 
 }  // namespace rpc

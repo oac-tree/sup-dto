@@ -44,6 +44,9 @@ void FunctionProtocolPack(sup::dto::AnyValue& output, const std::string& field_n
 void FunctionProtocolPack(sup::dto::AnyValue& output, const std::string& field_name,
                           const sup::dto::AnyValue& anyvalue);
 
+void FunctionProtocolPack(sup::dto::AnyValue& output, const std::string& field_name,
+                          const sup::dto::AnyType& anytype);
+
 }  // namespace rpc
 
 }  // namespace sup

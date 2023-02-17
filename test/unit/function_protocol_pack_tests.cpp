@@ -21,6 +21,7 @@
 
 #include <gtest/gtest.h>
 
+#include <sup/dto/anytype_helper.h>
 #include <sup/rpc/rpc_exceptions.h>
 #include <sup/rpc/function_protocol_pack.h>
 
@@ -113,6 +114,26 @@ TEST_F(FunctionProtocolPackTest, AnyValue)
   EXPECT_NO_THROW(FunctionProtocolPack(m_empty, "new_field", anyvalue));
   ASSERT_TRUE(m_empty.HasField("new_field"));
   EXPECT_EQ(m_empty["new_field"], anyvalue);
+}
+
+TEST_F(FunctionProtocolPackTest, AnyType)
+{
+  sup::dto::AnyType anytype = {{
+    { "enabled", sup::dto::BooleanType },
+    { "counter", sup::dto::UnsignedInteger32Type }
+  }, "counter_t"};
+  auto json_type = sup::dto::AnyTypeToJSONString(anytype);
+  EXPECT_THROW(FunctionProtocolPack(m_array, "whatever", anytype), InvalidOperationException);
+  EXPECT_THROW(FunctionProtocolPack(m_scalar, "whatever", anytype), InvalidOperationException);
+  EXPECT_THROW(FunctionProtocolPack(m_struct, "field_exists", anytype), InvalidOperationException);
+
+  EXPECT_NO_THROW(FunctionProtocolPack(m_struct, "new_field", anytype));
+  ASSERT_TRUE(m_struct.HasField("new_field"));
+  EXPECT_EQ(m_struct["new_field"], json_type);
+
+  EXPECT_NO_THROW(FunctionProtocolPack(m_empty, "new_field", anytype));
+  ASSERT_TRUE(m_empty.HasField("new_field"));
+  EXPECT_EQ(m_empty["new_field"], json_type);
 }
 
 FunctionProtocolPackTest::FunctionProtocolPackTest()
