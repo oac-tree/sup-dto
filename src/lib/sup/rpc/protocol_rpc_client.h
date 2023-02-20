@@ -23,6 +23,7 @@
 #define SUP_RPC_PROTOCOL_RPC_CLIENT_H_
 
 #include <sup/dto/any_functor.h>
+#include <sup/dto/basic_scalar_types.h>
 #include <sup/rpc/protocol.h>
 
 #include <memory>
@@ -31,7 +32,19 @@ namespace sup
 {
 namespace rpc
 {
-// Function declaration
+/**
+ * Structure holding server status fields:
+ * - current timestamp
+ * - timestamp at instantiation
+ * - increasing counter
+*/
+struct ServerStatusInfo
+{
+  sup::dto::uint64 m_timestamp;
+  sup::dto::uint64 m_alive_since;
+  sup::dto::uint64 m_counter;
+};
+
 /**
  * @brief The ProtocolRPCClient is a Protocol implementation that forwards to an AnyFunctor.
  *
@@ -48,6 +61,11 @@ public:
   ~ProtocolRPCClient();
 
   ProtocolResult Invoke(const sup::dto::AnyValue& input, sup::dto::AnyValue& output) override;
+
+  ApplicationProtocolInfo GetApplicationProtocol() override;
+
+  ServerStatusInfo GetServerStatus();
+
 private:
   std::unique_ptr<dto::AnyFunctor> m_any_functor;
 };

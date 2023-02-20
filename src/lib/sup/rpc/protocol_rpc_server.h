@@ -23,6 +23,7 @@
 #define SUP_RPC_PROTOCOL_RPC_SERVER_H_
 
 #include <sup/dto/any_functor.h>
+#include <sup/dto/basic_scalar_types.h>
 #include <sup/rpc/protocol.h>
 
 #include <memory>
@@ -49,7 +50,10 @@ public:
 
   sup::dto::AnyValue operator()(const sup::dto::AnyValue& request) override;
 private:
+  sup::dto::AnyValue HandleServiceRequest(const sup::dto::AnyValue& request);
   std::unique_ptr<Protocol> m_protocol;
+  sup::dto::uint64 m_alive_since;
+  sup::dto::uint64 m_counter;
 };
 
 }  // namespace rpc

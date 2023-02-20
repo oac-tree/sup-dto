@@ -93,11 +93,15 @@ namespace utils
 {
 sup::dto::uint64 GetTimestamp();
 
-bool IsServiceRequest(const sup::dto::AnyValue& request);
-
 bool CheckRequestFormat(const sup::dto::AnyValue& request);
 
 bool CheckReplyFormat(const sup::dto::AnyValue& reply);
+
+bool IsServiceRequest(const sup::dto::AnyValue& request);
+
+bool CheckServerStatusReplyFormat(const sup::dto::AnyValue& reply);
+
+bool CheckApplicationProtocolReplyFormat(const sup::dto::AnyValue& reply);
 
 sup::dto::AnyValue CreateRPCRequest(const sup::dto::AnyValue& payload);
 

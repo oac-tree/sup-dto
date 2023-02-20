@@ -37,15 +37,6 @@ sup::dto::uint64 GetTimestamp()
   return ns.count();
 }
 
-bool IsServiceRequest(const sup::dto::AnyValue& request)
-{
-  if (!request.HasField(constants::SERVICE_REQUEST_FIELD))
-  {
-    return false;
-  }
-  return request[constants::SERVICE_REQUEST_FIELD].GetType() == sup::dto::StringType;
-}
-
 bool CheckRequestFormat(const sup::dto::AnyValue& request)
 {
   if (!request.HasField(constants::REQUEST_TIMESTAMP)
@@ -74,6 +65,50 @@ bool CheckReplyFormat(const sup::dto::AnyValue& reply)
   }
   if (!reply.HasField(constants::REPLY_REASON)
       || reply[constants::REPLY_REASON].GetType() != sup::dto::StringType)
+  {
+    return false;
+  }
+  return true;
+}
+
+bool IsServiceRequest(const sup::dto::AnyValue& request)
+{
+  if (!request.HasField(constants::SERVICE_REQUEST_FIELD))
+  {
+    return false;
+  }
+  return request[constants::SERVICE_REQUEST_FIELD].GetType() == sup::dto::StringType;
+}
+
+bool CheckServerStatusReplyFormat(const sup::dto::AnyValue& reply)
+{
+  if (!reply.HasField(constants::SERVER_STATUS_REPLY_TIMESTAMP) ||
+      reply[constants::SERVER_STATUS_REPLY_TIMESTAMP].GetType() != sup::dto::UnsignedInteger64Type)
+  {
+    return false;
+  }
+  if (!reply.HasField(constants::SERVER_STATUS_REPLY_ALIVE_SINCE) ||
+      reply[constants::SERVER_STATUS_REPLY_ALIVE_SINCE].GetType() != sup::dto::UnsignedInteger64Type)
+  {
+    return false;
+  }
+  if (!reply.HasField(constants::SERVER_STATUS_REPLY_COUNTER) ||
+      reply[constants::SERVER_STATUS_REPLY_COUNTER].GetType() != sup::dto::UnsignedInteger64Type)
+  {
+    return false;
+  }
+  return true;
+}
+
+bool CheckApplicationProtocolReplyFormat(const sup::dto::AnyValue& reply)
+{
+  if (!reply.HasField(constants::PROTOCOL_REPLY_TYPE) ||
+      reply[constants::PROTOCOL_REPLY_TYPE].GetType() != sup::dto::StringType)
+  {
+    return false;
+  }
+  if (!reply.HasField(constants::PROTOCOL_REPLY_VERSION) ||
+      reply[constants::PROTOCOL_REPLY_VERSION].GetType() != sup::dto::StringType)
   {
     return false;
   }

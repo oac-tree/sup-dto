@@ -72,6 +72,49 @@ ProtocolResult ProtocolRPCClient::Invoke(const sup::dto::AnyValue& input,
   return ProtocolResult{reply[constants::REPLY_RESULT].As<sup::dto::uint32>()};
 }
 
+ApplicationProtocolInfo ProtocolRPCClient::GetApplicationProtocol()
+{
+  auto request = utils::CreateApplicationProtocolRequest();
+  sup::dto::AnyValue reply;
+  try
+  {
+    reply = (*m_any_functor)(request);
+  }
+  catch(...)
+  {
+    // If the previous code threw an exception, the next check will detect a malformed reply.
+  }
+  if (!utils::CheckApplicationProtocolReplyFormat(reply))
+  {
+    return {};
+  }
+  auto application_type = reply[constants::PROTOCOL_REPLY_TYPE].As<std::string>();
+  auto application_version = reply[constants::PROTOCOL_REPLY_VERSION].As<std::string>();
+  return { application_type, application_version };
+}
+
+ServerStatusInfo ProtocolRPCClient::GetServerStatus()
+{
+  auto request = utils::CreateServerStatusRequest();
+  sup::dto::AnyValue reply;
+  try
+  {
+    reply = (*m_any_functor)(request);
+  }
+  catch(...)
+  {
+    // If the previous code threw an exception, the next check will detect a malformed reply.
+  }
+  if (!utils::CheckServerStatusReplyFormat(reply))
+  {
+    return {};
+  }
+  auto timestamp = reply[constants::SERVER_STATUS_REPLY_TIMESTAMP].As<sup::dto::uint64>();
+  auto alive_since = reply[constants::SERVER_STATUS_REPLY_ALIVE_SINCE].As<sup::dto::uint64>();
+  auto counter = reply[constants::SERVER_STATUS_REPLY_COUNTER].As<sup::dto::uint64>();
+  return { timestamp, alive_since, counter };
+}
+
 }  // namespace rpc
 
 }  // namespace sup

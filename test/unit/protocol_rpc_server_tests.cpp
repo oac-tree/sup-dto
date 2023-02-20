@@ -42,6 +42,8 @@ public:
 
   ProtocolResult Invoke(const sup::dto::AnyValue& input, sup::dto::AnyValue& output) override;
 
+  ApplicationProtocolInfo GetApplicationProtocol() override;
+
   sup::dto::AnyValue GetLastInput() const;
 
 private:
@@ -55,6 +57,8 @@ public:
   ~SharedTestProtocol();
 
   ProtocolResult Invoke(const sup::dto::AnyValue& input, sup::dto::AnyValue& output) override;
+
+  ApplicationProtocolInfo GetApplicationProtocol() override;
 
 private:
   Protocol* m_shared_protocol;
@@ -257,6 +261,11 @@ ProtocolResult TestProtocol::Invoke(const sup::dto::AnyValue& input, sup::dto::A
   return Success;
 }
 
+ApplicationProtocolInfo TestProtocol::GetApplicationProtocol()
+{
+  return { "TestProtocol", "1.0" };
+}
+
 sup::dto::AnyValue TestProtocol::GetLastInput() const
 {
   if (!m_last_input)
@@ -277,6 +286,11 @@ ProtocolResult SharedTestProtocol::Invoke(const sup::dto::AnyValue& input,
                                           sup::dto::AnyValue& output)
 {
   return m_shared_protocol->Invoke(input, output);
+}
+
+ApplicationProtocolInfo SharedTestProtocol::GetApplicationProtocol()
+{
+  return m_shared_protocol->GetApplicationProtocol();
 }
 
 ProtocolRPCServerTest::ProtocolRPCServerTest()
