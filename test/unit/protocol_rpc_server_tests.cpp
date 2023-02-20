@@ -19,7 +19,7 @@
  * of the distribution package.
  ******************************************************************************/
 
-#include <gtest/gtest.h>
+#include "test_protocol.h"
 
 #include <sup/rpc/protocol_rpc_server.h>
 
@@ -28,27 +28,9 @@
 #include <sup/dto/anyvalue.h>
 #include <sup/dto/anyvalue_helper.h>
 
+#include <gtest/gtest.h>
+
 using namespace sup::rpc;
-
-static const std::string THROW_FIELD = "throw";
-static const std::string ECHO_FIELD = "echo";
-static const std::string REQUESTED_STATUS_FIELD = "requested_status";
-
-class TestProtocol : public Protocol
-{
-public:
-  TestProtocol();
-  ~TestProtocol();
-
-  ProtocolResult Invoke(const sup::dto::AnyValue& input, sup::dto::AnyValue& output) override;
-
-  ApplicationProtocolInfo GetApplicationProtocol() override;
-
-  sup::dto::AnyValue GetLastInput() const;
-
-private:
-  std::unique_ptr<sup::dto::AnyValue> m_last_input;
-};
 
 class SharedTestProtocol : public Protocol
 {
@@ -72,7 +54,7 @@ protected:
 
   std::unique_ptr<Protocol> GetSharedProtocol();
 
-  TestProtocol m_test_protocol;
+  test::TestProtocol m_test_protocol;
 };
 
 TEST_F(ProtocolRPCServerTest, Construction)
@@ -170,7 +152,7 @@ TEST_F(ProtocolRPCServerTest, ProtocolThrows)
   ProtocolRPCServer server{GetSharedProtocol()};
 
   sup::dto::AnyValue payload = {{
-    { THROW_FIELD, {sup::dto::BooleanType, true }}
+    { test::THROW_FIELD, {sup::dto::BooleanType, true }}
   }};
   sup::dto::AnyValue request = {{
     { constants::REQUEST_TIMESTAMP, {sup::dto::UnsignedInteger64Type, 54321u }},
@@ -192,7 +174,7 @@ TEST_F(ProtocolRPCServerTest, RequestProtocolResult)
   ProtocolRPCServer server{GetSharedProtocol()};
 
   sup::dto::AnyValue payload = {{
-    { REQUESTED_STATUS_FIELD, {sup::dto::UnsignedInteger32Type, 42 }}
+    { test::REQUESTED_STATUS_FIELD, {sup::dto::UnsignedInteger32Type, 42 }}
   }};
   sup::dto::AnyValue request = {{
     { constants::REQUEST_TIMESTAMP, {sup::dto::UnsignedInteger64Type, 54321u }},
@@ -214,8 +196,8 @@ TEST_F(ProtocolRPCServerTest, EchoPayload)
   ProtocolRPCServer server{GetSharedProtocol()};
 
   sup::dto::AnyValue payload = {{
-    { REQUESTED_STATUS_FIELD, {sup::dto::UnsignedInteger32Type, 65 }},
-    { ECHO_FIELD, {sup::dto::BooleanType, true }}
+    { test::REQUESTED_STATUS_FIELD, {sup::dto::UnsignedInteger32Type, 65 }},
+    { test::ECHO_FIELD, {sup::dto::BooleanType, true }}
   }};
   sup::dto::AnyValue request = {{
     { constants::REQUEST_TIMESTAMP, {sup::dto::UnsignedInteger64Type, 54321u }},
@@ -234,46 +216,6 @@ TEST_F(ProtocolRPCServerTest, EchoPayload)
   auto reply_payload = reply[constants::REPLY_PAYLOAD];
   EXPECT_EQ(reply_payload.GetType(), payload.GetType());
   EXPECT_EQ(reply_payload, payload);
-}
-
-TestProtocol::TestProtocol()
-  : m_last_input{}
-{}
-
-TestProtocol::~TestProtocol() = default;
-
-ProtocolResult TestProtocol::Invoke(const sup::dto::AnyValue& input, sup::dto::AnyValue& output)
-{
-  m_last_input.reset(new sup::dto::AnyValue(input));
-  if (input.HasField(ECHO_FIELD) && input[ECHO_FIELD].As<bool>())
-  {
-    sup::dto::TryConvert(output, input);
-  }
-  if (input.HasField(THROW_FIELD) && input[THROW_FIELD].As<bool>())
-  {
-    throw std::runtime_error("Throwing on demand");
-  }
-  if (input.HasField(REQUESTED_STATUS_FIELD) &&
-      input[REQUESTED_STATUS_FIELD].GetType() == sup::dto::UnsignedInteger32Type)
-  {
-    return ProtocolResult(input[REQUESTED_STATUS_FIELD].As<sup::dto::uint32>());
-  }
-  return Success;
-}
-
-ApplicationProtocolInfo TestProtocol::GetApplicationProtocol()
-{
-  return { "TestProtocol", "1.0" };
-}
-
-sup::dto::AnyValue TestProtocol::GetLastInput() const
-{
-  if (!m_last_input)
-  {
-    return {};
-  }
-  sup::dto::AnyValue result{*m_last_input};
-  return result;
 }
 
 SharedTestProtocol::SharedTestProtocol(Protocol* shared_protocol)

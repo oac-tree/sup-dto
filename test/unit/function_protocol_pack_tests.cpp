@@ -106,6 +106,7 @@ TEST_F(FunctionProtocolPackTest, AnyValue)
   EXPECT_THROW(FunctionProtocolPack(m_array, "whatever", anyvalue), InvalidOperationException);
   EXPECT_THROW(FunctionProtocolPack(m_scalar, "whatever", anyvalue), InvalidOperationException);
   EXPECT_THROW(FunctionProtocolPack(m_struct, "field_exists", anyvalue), InvalidOperationException);
+  EXPECT_THROW(FunctionProtocolPack(m_struct, "does_not_matter", m_empty), InvalidOperationException);
 
   EXPECT_NO_THROW(FunctionProtocolPack(m_struct, "new_field", anyvalue));
   ASSERT_TRUE(m_struct.HasField("new_field"));

@@ -19,14 +19,17 @@
  * of the distribution package.
  ******************************************************************************/
 
-#include <gtest/gtest.h>
+#include "test_protocol.h"
 
 #include <sup/rpc/protocol_rpc_client.h>
+#include <sup/rpc/protocol_rpc_server.h>
 
 #include <sup/rpc/protocol_rpc.h>
 #include <sup/rpc/rpc_exceptions.h>
 #include <sup/dto/any_functor.h>
 #include <sup/dto/anyvalue.h>
+
+#include <gtest/gtest.h>
 
 using namespace sup::rpc;
 
@@ -47,18 +50,6 @@ private:
   std::unique_ptr<sup::dto::AnyValue> m_last_request;
 };
 
-class SharedTestFunctor : public sup::dto::AnyFunctor
-{
-public:
-  SharedTestFunctor(sup::dto::AnyFunctor* shared_functor);
-  ~SharedTestFunctor();
-
-  sup::dto::AnyValue operator()(const sup::dto::AnyValue& input) override;
-
-private:
-  sup::dto::AnyFunctor* m_shared_functor;
-};
-
 class ProtocolRPCClientTest : public ::testing::Test
 {
 protected:
@@ -66,8 +57,10 @@ protected:
   virtual ~ProtocolRPCClientTest();
 
   std::unique_ptr<sup::dto::AnyFunctor> GetSharedFunctor();
+  std::unique_ptr<sup::dto::AnyFunctor> GetServerFunctor();
 
-  TestFunctor m_test_functor;
+  TestFunctor* m_test_functor;
+  test::TestProtocol* m_test_protocol;
 };
 
 TEST_F(ProtocolRPCClientTest, Construction)
@@ -77,13 +70,20 @@ TEST_F(ProtocolRPCClientTest, Construction)
   EXPECT_NO_THROW(ProtocolRPCClient client{GetSharedFunctor()});
 }
 
+TEST_F(ProtocolRPCClientTest, GetApplicationProtocol)
+{
+  ProtocolRPCClient client{GetServerFunctor()};
+  ApplicationProtocolInfo protocol_info;
+  EXPECT_NO_THROW(protocol_info = client.GetApplicationProtocol());
+}
+
 TEST_F(ProtocolRPCClientTest, InvokeEmptyInput)
 {
   ProtocolRPCClient client{GetSharedFunctor()};
   sup::dto::AnyValue output;
   EXPECT_EQ(client.Invoke(sup::dto::AnyValue{}, output), TransportEncodingError);
   EXPECT_TRUE(sup::dto::IsEmptyValue(output));
-  EXPECT_TRUE(sup::dto::IsEmptyValue(m_test_functor.GetLastRequest()));
+  EXPECT_TRUE(sup::dto::IsEmptyValue(m_test_functor->GetLastRequest()));
 }
 
 TEST_F(ProtocolRPCClientTest, InvokeScalarInput)
@@ -94,7 +94,7 @@ TEST_F(ProtocolRPCClientTest, InvokeScalarInput)
   EXPECT_EQ(client.Invoke(input, output), Success);
   EXPECT_FALSE(sup::dto::IsEmptyValue(output));
   EXPECT_EQ(input, output);
-  auto last_request = m_test_functor.GetLastRequest();
+  auto last_request = m_test_functor->GetLastRequest();
   EXPECT_FALSE(sup::dto::IsEmptyValue(last_request));
   EXPECT_TRUE(utils::CheckRequestFormat(last_request));
   EXPECT_EQ(last_request.GetTypeName(), constants::REQUEST_TYPE_NAME);
@@ -115,7 +115,7 @@ TEST_F(ProtocolRPCClientTest, InvokeBadReply)
   EXPECT_EQ(client.Invoke(input, output), TransportDecodingError);
   EXPECT_TRUE(sup::dto::IsEmptyValue(output));
 
-  auto last_request = m_test_functor.GetLastRequest();
+  auto last_request = m_test_functor->GetLastRequest();
   EXPECT_FALSE(sup::dto::IsEmptyValue(last_request));
   EXPECT_TRUE(utils::CheckRequestFormat(last_request));
   EXPECT_EQ(last_request.GetTypeName(), constants::REQUEST_TYPE_NAME);
@@ -147,7 +147,7 @@ TEST_F(ProtocolRPCClientTest, FunctorThrows)
   EXPECT_EQ(client.Invoke(input, output), TransportDecodingError);
   EXPECT_TRUE(sup::dto::IsEmptyValue(output));
 
-  auto last_request = m_test_functor.GetLastRequest();
+  auto last_request = m_test_functor->GetLastRequest();
   EXPECT_FALSE(sup::dto::IsEmptyValue(last_request));
   EXPECT_TRUE(utils::CheckRequestFormat(last_request));
   EXPECT_EQ(last_request.GetTypeName(), constants::REQUEST_TYPE_NAME);
@@ -189,24 +189,20 @@ sup::dto::AnyValue TestFunctor::GetLastRequest() const
   return result;
 }
 
-SharedTestFunctor::SharedTestFunctor(sup::dto::AnyFunctor* shared_functor)
-  : m_shared_functor{shared_functor}
-{}
-
-SharedTestFunctor::~SharedTestFunctor() = default;
-
-sup::dto::AnyValue SharedTestFunctor::operator()(const sup::dto::AnyValue& input)
-{
-  return m_shared_functor->operator()(input);
-}
-
 ProtocolRPCClientTest::ProtocolRPCClientTest()
-  : m_test_functor{}
+  : m_test_functor{new TestFunctor{}}
+  , m_test_protocol{new test::TestProtocol{}}
 {}
 
 ProtocolRPCClientTest::~ProtocolRPCClientTest() = default;
 
 std::unique_ptr<sup::dto::AnyFunctor> ProtocolRPCClientTest::GetSharedFunctor()
 {
-  return std::unique_ptr<sup::dto::AnyFunctor>(new SharedTestFunctor(&m_test_functor));
+  return std::unique_ptr<sup::dto::AnyFunctor>{m_test_functor};
+}
+
+std::unique_ptr<sup::dto::AnyFunctor> ProtocolRPCClientTest::GetServerFunctor()
+{
+  std::unique_ptr<Protocol> protocol{m_test_protocol};
+  return std::unique_ptr<sup::dto::AnyFunctor>{new ProtocolRPCServer{std::move(protocol)}};
 }

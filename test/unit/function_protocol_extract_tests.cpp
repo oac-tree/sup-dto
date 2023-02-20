@@ -92,6 +92,8 @@ TEST_F(FunctionProtocolExtractTest, AnyValue)
   sup::dto::AnyValue anyvalue;
   EXPECT_FALSE(FunctionProtocolExtract(anyvalue, input, "does_not_exist"));
   EXPECT_TRUE(sup::dto::IsEmptyValue(anyvalue));
+  sup::dto::AnyValue wrong_output{ sup::dto::StringType, "" };
+  EXPECT_FALSE(FunctionProtocolExtract(wrong_output, input, "number"));
   EXPECT_TRUE(FunctionProtocolExtract(anyvalue, input, "number"));
   EXPECT_FALSE(sup::dto::IsEmptyValue(anyvalue));
   EXPECT_EQ(anyvalue, 5);

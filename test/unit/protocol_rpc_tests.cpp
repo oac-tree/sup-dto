@@ -152,6 +152,124 @@ TEST_F(ProtocolRPCTest, ReplyFormat)
   EXPECT_FALSE(utils::CheckReplyFormat(reply_wrong_reason_type));
 }
 
+TEST_F(ProtocolRPCTest, ServiceRequestFormat)
+{
+  // Correctly formatted server status request
+  sup::dto::AnyValue correct_server_status_request = utils::CreateServerStatusRequest();
+  EXPECT_TRUE(utils::IsServiceRequest(correct_server_status_request));
+
+  // Correctly formatted application protocol request
+  sup::dto::AnyValue correct_application_protocol_request =
+    utils::CreateApplicationProtocolRequest();
+  EXPECT_TRUE(utils::IsServiceRequest(correct_application_protocol_request));
+
+  sup::dto::AnyValue missing_field_service_request = {{
+    { "not_a_service_field", {sup::dto::StringType, constants::PROTOCOL_REQUEST_VALUE }}
+  }, constants::SERVICE_REQUEST_TYPE_NAME };
+  EXPECT_FALSE(utils::IsServiceRequest(missing_field_service_request));
+
+  sup::dto::AnyValue wrong_type_service_request = {{
+    { constants::SERVICE_REQUEST_FIELD, {sup::dto::BooleanType, true }}
+  }, constants::SERVICE_REQUEST_TYPE_NAME };
+  EXPECT_FALSE(utils::IsServiceRequest(wrong_type_service_request));
+}
+
+TEST_F(ProtocolRPCTest, CheckServerStatusReplyFormat)
+{
+  // Correctly formatted server status reply
+  sup::dto::AnyValue correct_server_status_reply = utils::CreateServerStatusReply(0, 0);
+  EXPECT_TRUE(utils::CheckServerStatusReplyFormat(correct_server_status_reply));
+  {
+    // No timestamp field
+    sup::dto::AnyValue missing_field_reply = {{
+      { constants::SERVER_STATUS_REPLY_ALIVE_SINCE, {sup::dto::UnsignedInteger64Type, 0 }},
+      { constants::SERVER_STATUS_REPLY_COUNTER, {sup::dto::UnsignedInteger64Type, 0 }}
+    }, constants::SERVER_STATUS_REPLY_TYPE_NAME };
+    EXPECT_FALSE(utils::CheckServerStatusReplyFormat(missing_field_reply));
+  }
+  {
+    // No alive since field
+    sup::dto::AnyValue missing_field_reply = {{
+      { constants::SERVER_STATUS_REPLY_TIMESTAMP, {sup::dto::UnsignedInteger64Type, 0 }},
+      { constants::SERVER_STATUS_REPLY_COUNTER, {sup::dto::UnsignedInteger64Type, 0 }}
+    }, constants::SERVER_STATUS_REPLY_TYPE_NAME };
+    EXPECT_FALSE(utils::CheckServerStatusReplyFormat(missing_field_reply));
+  }
+  {
+    // No counter field
+    sup::dto::AnyValue missing_field_reply = {{
+      { constants::SERVER_STATUS_REPLY_TIMESTAMP, {sup::dto::UnsignedInteger64Type, 0 }},
+      { constants::SERVER_STATUS_REPLY_ALIVE_SINCE, {sup::dto::UnsignedInteger64Type, 0 }}
+    }, constants::SERVER_STATUS_REPLY_TYPE_NAME };
+    EXPECT_FALSE(utils::CheckServerStatusReplyFormat(missing_field_reply));
+  }
+  {
+    // Wrong timestamp field type
+    sup::dto::AnyValue wrong_type_reply = {{
+      { constants::SERVER_STATUS_REPLY_TIMESTAMP, {sup::dto::BooleanType, true }},
+      { constants::SERVER_STATUS_REPLY_ALIVE_SINCE, {sup::dto::UnsignedInteger64Type, 0 }},
+      { constants::SERVER_STATUS_REPLY_COUNTER, {sup::dto::UnsignedInteger64Type, 0 }}
+    }, constants::SERVER_STATUS_REPLY_TYPE_NAME };
+    EXPECT_FALSE(utils::CheckServerStatusReplyFormat(wrong_type_reply));
+  }
+  {
+    // Wrong alive since field type
+    sup::dto::AnyValue wrong_type_reply = {{
+      { constants::SERVER_STATUS_REPLY_TIMESTAMP, {sup::dto::UnsignedInteger64Type, 0 }},
+      { constants::SERVER_STATUS_REPLY_ALIVE_SINCE, {sup::dto::BooleanType, true }},
+      { constants::SERVER_STATUS_REPLY_COUNTER, {sup::dto::UnsignedInteger64Type, 0 }}
+    }, constants::SERVER_STATUS_REPLY_TYPE_NAME };
+    EXPECT_FALSE(utils::CheckServerStatusReplyFormat(wrong_type_reply));
+  }
+  {
+    // Wrong counter field type
+    sup::dto::AnyValue wrong_type_reply = {{
+      { constants::SERVER_STATUS_REPLY_TIMESTAMP, {sup::dto::UnsignedInteger64Type, 0 }},
+      { constants::SERVER_STATUS_REPLY_ALIVE_SINCE, {sup::dto::UnsignedInteger64Type, 0 }},
+      { constants::SERVER_STATUS_REPLY_COUNTER, {sup::dto::BooleanType, true }}
+    }, constants::SERVER_STATUS_REPLY_TYPE_NAME };
+    EXPECT_FALSE(utils::CheckServerStatusReplyFormat(wrong_type_reply));
+  }
+}
+
+TEST_F(ProtocolRPCTest, CheckApplicationProtocolReplyFormat)
+{
+  // Correctly formatted application protocol reply
+  sup::dto::AnyValue correct_application_protocol_reply =
+    utils::CreateApplicationProtocolReply("", "");
+  EXPECT_TRUE(utils::CheckApplicationProtocolReplyFormat(correct_application_protocol_reply));
+  {
+    // No protocol type field
+    sup::dto::AnyValue missing_field_reply = {{
+      { constants::PROTOCOL_REPLY_VERSION, {sup::dto::StringType, "1.0" }}
+    }, constants::PROTOCOL_REPLY_TYPE_NAME };
+    EXPECT_FALSE(utils::CheckApplicationProtocolReplyFormat(missing_field_reply));
+  }
+  {
+    // No protocol version field
+    sup::dto::AnyValue missing_field_reply = {{
+      { constants::PROTOCOL_REPLY_TYPE, {sup::dto::StringType, "test_protocol" }}
+    }, constants::PROTOCOL_REPLY_TYPE_NAME };
+    EXPECT_FALSE(utils::CheckApplicationProtocolReplyFormat(missing_field_reply));
+  }
+  {
+    // Wrong protocol type field type
+    sup::dto::AnyValue wrong_type_reply = {{
+      { constants::PROTOCOL_REPLY_TYPE, {sup::dto::BooleanType, true }},
+      { constants::PROTOCOL_REPLY_VERSION, {sup::dto::StringType, "1.0" }}
+    }, constants::PROTOCOL_REPLY_TYPE_NAME };
+    EXPECT_FALSE(utils::CheckApplicationProtocolReplyFormat(wrong_type_reply));
+  }
+  {
+    // Wrong protocol version field type
+    sup::dto::AnyValue wrong_type_reply = {{
+      { constants::PROTOCOL_REPLY_TYPE, {sup::dto::StringType, "test_protocol" }},
+      { constants::PROTOCOL_REPLY_VERSION, {sup::dto::BooleanType, true }}
+    }, constants::PROTOCOL_REPLY_TYPE_NAME };
+    EXPECT_FALSE(utils::CheckApplicationProtocolReplyFormat(wrong_type_reply));
+  }
+}
+
 TEST_F(ProtocolRPCTest, CreateRequest)
 {
   // Request without payload
