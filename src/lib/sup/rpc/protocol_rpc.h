@@ -53,10 +53,48 @@ static const std::string REPLY_RESULT = "result";
 static const std::string REPLY_TIMESTAMP = "timestamp";
 static const std::string REPLY_REASON = "reason";
 static const std::string REPLY_PAYLOAD = "reply";
+
+/**
+ * A service request is a simple packet, used for querying protocol types and health. It will
+ * never reach the application layer, as it is either:
+ * - intercepted by ProtocolRPCServer in case of a "server_status" request
+ * - delegated to IProtocol::ApplicationType and IProtocol::ApplicationVersion in case of
+ *   a "protocol_request" request
+ * It contains:
+ * - service: a string identifying the service request
+*/
+static const std::string SERVICE_REQUEST_TYPE_NAME = "sup::ServiceRequest/v1.0";
+static const std::string SERVICE_REQUEST_FIELD = "service";
+static const std::string PROTOCOL_REQUEST_VALUE = "protocol_request";
+static const std::string SERVER_STATUS_VALUE = "server_status";
+
+/**
+ * A protocol reply is a structured AnyValue with the following fields:
+ * - application_type: a string identifying the type of encapsulated application protocol
+ * - application_version: a string identifying the version of the encapsulated application protocol
+*/
+static const std::string PROTOCOL_REPLY_TYPE_NAME = "sup::ProtocolReply/v1.0";
+static const std::string PROTOCOL_REPLY_TYPE = "application_type";
+static const std::string PROTOCOL_REPLY_VERSION = "application_version";
+
+/**
+ * A ping reply is a structured AnyValue with the following fields:
+ * - timestamp: a 64bit unsigned integer
+ * - alive_since: a 64bit unsigned integer timestamp indicating when the server was instantiated
+ * - counter: a 64bit unsigned integer that increments on each request
+*/
+static const std::string SERVER_STATUS_REPLY_TYPE_NAME = "sup::ServerStatusReply/v1.0";
+static const std::string SERVER_STATUS_REPLY_TIMESTAMP = "timestamp";
+static const std::string SERVER_STATUS_REPLY_ALIVE_SINCE = "alive_since";
+static const std::string SERVER_STATUS_REPLY_COUNTER = "counter";
 }  // namespace constants
 
 namespace utils
 {
+sup::dto::uint64 GetTimestamp();
+
+bool IsServiceRequest(const sup::dto::AnyValue& request);
+
 bool CheckRequestFormat(const sup::dto::AnyValue& request);
 
 bool CheckReplyFormat(const sup::dto::AnyValue& reply);

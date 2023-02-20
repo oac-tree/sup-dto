@@ -23,7 +23,11 @@
 
 #include <chrono>
 
-namespace
+namespace sup
+{
+namespace rpc
+{
+namespace utils
 {
 sup::dto::uint64 GetTimestamp()
 {
@@ -32,14 +36,7 @@ sup::dto::uint64 GetTimestamp()
     now.time_since_epoch());
   return ns.count();
 }
-}  // unnamed namespace
 
-namespace sup
-{
-namespace rpc
-{
-namespace utils
-{
 bool CheckRequestFormat(const sup::dto::AnyValue& request)
 {
   if (!request.HasField(constants::REQUEST_TIMESTAMP)
