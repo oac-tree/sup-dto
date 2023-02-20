@@ -37,6 +37,15 @@ sup::dto::uint64 GetTimestamp()
   return ns.count();
 }
 
+bool IsServiceRequest(const sup::dto::AnyValue& request)
+{
+  if (!request.HasField(constants::SERVICE_REQUEST_FIELD))
+  {
+    return false;
+  }
+  return request[constants::SERVICE_REQUEST_FIELD].GetType() == sup::dto::StringType;
+}
+
 bool CheckRequestFormat(const sup::dto::AnyValue& request)
 {
   if (!request.HasField(constants::REQUEST_TIMESTAMP)
@@ -97,6 +106,42 @@ sup::dto::AnyValue CreateRPCReply(const sup::rpc::ProtocolResult& result,
     reply.AddMember(constants::REPLY_PAYLOAD, payload);
   }
   return reply;
+}
+
+sup::dto::AnyValue CreateServerStatusRequest()
+{
+  sup::dto::AnyValue server_status_request = {{
+    { constants::SERVICE_REQUEST_FIELD, {sup::dto::StringType, constants::SERVER_STATUS_VALUE} }
+  }, constants::SERVICE_REQUEST_TYPE_NAME};
+  return server_status_request;
+}
+
+sup::dto::AnyValue CreateServerStatusReply(sup::dto::uint64 alive_since, sup::dto::uint64 counter)
+{
+  sup::dto::AnyValue server_status_reply = {{
+    { constants::SERVER_STATUS_REPLY_TIMESTAMP, {sup::dto::UnsignedInteger64Type, GetTimestamp()} },
+    { constants::SERVER_STATUS_REPLY_ALIVE_SINCE, {sup::dto::UnsignedInteger64Type, alive_since} },
+    { constants::SERVER_STATUS_REPLY_COUNTER, {sup::dto::UnsignedInteger64Type, counter} },
+  }, constants::SERVER_STATUS_REPLY_TYPE_NAME};
+  return server_status_reply;
+}
+
+sup::dto::AnyValue CreateApplicationProtocolRequest()
+{
+  sup::dto::AnyValue application_protocol_request = {{
+    { constants::SERVICE_REQUEST_FIELD, {sup::dto::StringType, constants::PROTOCOL_REQUEST_VALUE} }
+  }, constants::SERVICE_REQUEST_TYPE_NAME};
+  return application_protocol_request;
+}
+
+sup::dto::AnyValue CreateApplicationProtocolReply(const std::string& application_type,
+                                                  const std::string& application_version)
+{
+  sup::dto::AnyValue server_status_reply = {{
+    { constants::PROTOCOL_REPLY_TYPE, {sup::dto::StringType, application_type} },
+    { constants::PROTOCOL_REPLY_VERSION, {sup::dto::StringType, application_version} },
+  }, constants::PROTOCOL_REPLY_TYPE_NAME};
+  return server_status_reply;
 }
 
 }  // namespace utils

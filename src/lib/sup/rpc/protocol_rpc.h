@@ -105,6 +105,15 @@ sup::dto::AnyValue CreateRPCReply(const sup::rpc::ProtocolResult& result,
                                   const std::string& reason = "",
                                   const sup::dto::AnyValue& payload = {});
 
+sup::dto::AnyValue CreateServerStatusRequest();
+
+sup::dto::AnyValue CreateServerStatusReply(sup::dto::uint64 alive_since, sup::dto::uint64 counter);
+
+sup::dto::AnyValue CreateApplicationProtocolRequest();
+
+sup::dto::AnyValue CreateApplicationProtocolReply(const std::string& application_type,
+                                                  const std::string& application_version);
+
 }  // namespace utils
 
 }  // namespace rpc
