@@ -74,7 +74,7 @@ TEST_F(ProtocolRPCClientTest, InvokeEmptyInput)
 {
   ProtocolRPCClient client{GetTestFunctor()};
   sup::dto::AnyValue output;
-  EXPECT_EQ(client.Invoke(sup::dto::AnyValue{}, output), TransportEncodingError);
+  EXPECT_EQ(client.Invoke(sup::dto::AnyValue{}, output), ClientTransportEncodingError);
   EXPECT_TRUE(sup::dto::IsEmptyValue(output));
   EXPECT_TRUE(sup::dto::IsEmptyValue(m_test_functor->GetLastRequest()));
 }
@@ -105,7 +105,7 @@ TEST_F(ProtocolRPCClientTest, InvokeBadReply)
     {BAD_REPLY_FIELD, {sup::dto::BooleanType, true}}
   }};
   sup::dto::AnyValue output{};
-  EXPECT_EQ(client.Invoke(input, output), TransportDecodingError);
+  EXPECT_EQ(client.Invoke(input, output), ClientTransportDecodingError);
   EXPECT_TRUE(sup::dto::IsEmptyValue(output));
 
   auto last_request = m_test_functor->GetLastRequest();
@@ -125,7 +125,7 @@ TEST_F(ProtocolRPCClientTest, InvokeBadOutput)
   sup::dto::AnyValue input{sup::dto::SignedInteger32Type, 42};
   sup::dto::AnyValue output_start{sup::dto::StringType, "start_value"};
   sup::dto::AnyValue output{output_start};
-  EXPECT_EQ(client.Invoke(input, output), TransportDecodingError);
+  EXPECT_EQ(client.Invoke(input, output), ClientTransportDecodingError);
   EXPECT_FALSE(sup::dto::IsEmptyValue(output));
   EXPECT_EQ(output, output_start);
 }
@@ -137,7 +137,7 @@ TEST_F(ProtocolRPCClientTest, FunctorThrows)
     {THROW_FIELD, {sup::dto::BooleanType, true}}
   }};
   sup::dto::AnyValue output{};
-  EXPECT_EQ(client.Invoke(input, output), TransportDecodingError);
+  EXPECT_EQ(client.Invoke(input, output), ClientTransportDecodingError);
   EXPECT_TRUE(sup::dto::IsEmptyValue(output));
 
   auto last_request = m_test_functor->GetLastRequest();
@@ -165,7 +165,7 @@ TEST_F(ProtocolRPCClientTest, ServiceMethod)
     // service call with empty payload fails
     sup::dto::AnyValue input;
     sup::dto::AnyValue output;
-    EXPECT_EQ(client.Service(input, output), sup::rpc::TransportEncodingError);
+    EXPECT_EQ(client.Service(input, output), sup::rpc::ClientTransportEncodingError);
   }
   {
     // underlying functor throws
@@ -173,14 +173,14 @@ TEST_F(ProtocolRPCClientTest, ServiceMethod)
       { THROW_FIELD, {sup::dto::BooleanType, true}}
     };
     sup::dto::AnyValue output;
-    EXPECT_EQ(client.Service(input, output), sup::rpc::TransportDecodingError);
+    EXPECT_EQ(client.Service(input, output), sup::rpc::ClientTransportDecodingError);
   }
   {
     // wrong output type provided
     const std::string SERVICE_REQUEST_VALUE = "service_request_value";
     sup::dto::AnyValue input{ sup::dto::StringType, SERVICE_REQUEST_VALUE };
     sup::dto::AnyValue output{ sup::dto::BooleanType };
-    EXPECT_EQ(client.Service(input, output), sup::rpc::TransportDecodingError);
+    EXPECT_EQ(client.Service(input, output), sup::rpc::ClientTransportDecodingError);
   }
 }
 

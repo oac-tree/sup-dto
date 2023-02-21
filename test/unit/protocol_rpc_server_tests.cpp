@@ -56,7 +56,8 @@ TEST_F(ProtocolRPCServerTest, EmptyRequest)
   sup::dto::AnyValue request;
   auto reply = server(request);
   EXPECT_TRUE(utils::CheckReplyFormat(reply));
-  EXPECT_EQ(reply[constants::REPLY_RESULT].As<unsigned int>(), TransportDecodingError.GetValue());
+  EXPECT_EQ(reply[constants::REPLY_RESULT].As<unsigned int>(),
+            ServerTransportDecodingError.GetValue());
   EXPECT_FALSE(reply.HasField(constants::REPLY_PAYLOAD));
 }
 
@@ -70,7 +71,8 @@ TEST_F(ProtocolRPCServerTest, BadRequest)
   }};
   auto reply_1 = server(request_no_timestamp);
   EXPECT_TRUE(utils::CheckReplyFormat(reply_1));
-  EXPECT_EQ(reply_1[constants::REPLY_RESULT].As<unsigned int>(), TransportDecodingError.GetValue());
+  EXPECT_EQ(reply_1[constants::REPLY_RESULT].As<unsigned int>(),
+            ServerTransportDecodingError.GetValue());
   EXPECT_FALSE(reply_1.HasField(constants::REPLY_PAYLOAD));
 
   // Request contains no payload field
@@ -79,7 +81,8 @@ TEST_F(ProtocolRPCServerTest, BadRequest)
   }};
   auto reply_2 = server(request_no_payload);
   EXPECT_TRUE(utils::CheckReplyFormat(reply_2));
-  EXPECT_EQ(reply_2[constants::REPLY_RESULT].As<unsigned int>(), TransportDecodingError.GetValue());
+  EXPECT_EQ(reply_2[constants::REPLY_RESULT].As<unsigned int>(),
+            ServerTransportDecodingError.GetValue());
   EXPECT_FALSE(reply_2.HasField(constants::REPLY_PAYLOAD));
 
   // Request contains timestamp field of wrong type
@@ -89,7 +92,8 @@ TEST_F(ProtocolRPCServerTest, BadRequest)
   }};
   auto reply_3 = server(request_wrong_timestamp_type);
   EXPECT_TRUE(utils::CheckReplyFormat(reply_3));
-  EXPECT_EQ(reply_3[constants::REPLY_RESULT].As<unsigned int>(), TransportDecodingError.GetValue());
+  EXPECT_EQ(reply_3[constants::REPLY_RESULT].As<unsigned int>(),
+            ServerTransportDecodingError.GetValue());
   EXPECT_FALSE(reply_3.HasField(constants::REPLY_PAYLOAD));
 }
 
@@ -146,7 +150,8 @@ TEST_F(ProtocolRPCServerTest, ProtocolThrows)
   }};
   auto reply = server(request);
   EXPECT_TRUE(utils::CheckReplyFormat(reply));
-  EXPECT_EQ(reply[constants::REPLY_RESULT].As<unsigned int>(), TransportEncodingError.GetValue());
+  EXPECT_EQ(reply[constants::REPLY_RESULT].As<unsigned int>(),
+            ServerTransportEncodingError.GetValue());
   EXPECT_FALSE(reply.HasField(constants::REPLY_PAYLOAD));
 
   auto last_input = m_test_protocol->GetLastInput();
@@ -214,7 +219,7 @@ TEST_F(ProtocolRPCServerTest, ServiceThrows)
   auto reply = server(request);
   EXPECT_TRUE(utils::CheckServiceReplyFormat(reply));
   EXPECT_EQ(reply[constants::SERVICE_REPLY_RESULT].As<unsigned int>(),
-            TransportEncodingError.GetValue());
+            ServerTransportEncodingError.GetValue());
   EXPECT_FALSE(reply.HasField(constants::REPLY_PAYLOAD));
 }
 

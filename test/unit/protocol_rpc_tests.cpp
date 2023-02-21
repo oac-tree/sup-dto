@@ -225,13 +225,13 @@ TEST_F(ProtocolRPCTest, CreateRPCReply)
     { "enabled", true },
     { "value", 2.0f }
   }};
-  auto reply_payload = utils::CreateRPCReply(NetworkEncodingError, custom_reason, payload);
+  auto reply_payload = utils::CreateRPCReply(ServerNetworkEncodingError, custom_reason, payload);
   EXPECT_EQ(reply_payload.GetTypeName(), constants::REPLY_TYPE_NAME);
   ASSERT_TRUE(reply_payload.HasField(constants::REPLY_RESULT));
   EXPECT_EQ(reply_payload[constants::REPLY_RESULT].GetType(),
             sup::dto::UnsignedInteger32Type);
   EXPECT_EQ(reply_payload[constants::REPLY_RESULT].As<unsigned int>(),
-            NetworkEncodingError.GetValue());
+            ServerNetworkEncodingError.GetValue());
   ASSERT_TRUE(reply_payload.HasField(constants::REPLY_TIMESTAMP));
   EXPECT_EQ(reply_payload[constants::REPLY_TIMESTAMP].GetType(),
             sup::dto::UnsignedInteger64Type);
@@ -467,7 +467,7 @@ TEST_F(ProtocolRPCTest, HandleApplicationProtocolInfo)
     // Wrong output type gives error status
     sup::dto::AnyValue output{ sup::dto::StringType, "does_not_matter"};
     EXPECT_EQ(utils::HandleApplicationProtocolInfo(
-      output, APPLICATION_TYPE, APPLICATION_VERSION), sup::rpc::TransportEncodingError);
+      output, APPLICATION_TYPE, APPLICATION_VERSION), sup::rpc::ServerProtocolEncodingError);
     EXPECT_FALSE(utils::CheckApplicationProtocolReplyPayload(output));
   }
 }

@@ -64,7 +64,7 @@ ProtocolResult TestProtocol::Service(const sup::dto::AnyValue& input, sup::dto::
   m_last_input.reset(new sup::dto::AnyValue(input));
   if (m_service_fail)
   {
-    return sup::rpc::TransportEncodingError;
+    return sup::rpc::ServerTransportEncodingError;
   }
   if (m_service_throw)
   {

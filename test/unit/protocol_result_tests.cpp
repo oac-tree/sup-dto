@@ -60,25 +60,65 @@ TEST_F(ProtocolResultTest, Copy)
   EXPECT_EQ(result.GetValue(), NotConnected.GetValue());
   EXPECT_EQ(result, NotConnected);
 
-  // NetworkEncodingError
-  result = NetworkEncodingError;
-  EXPECT_EQ(result.GetValue(), NetworkEncodingError.GetValue());
-  EXPECT_EQ(result, NetworkEncodingError);
+  // ClientNetworkEncodingError
+  result = ClientNetworkEncodingError;
+  EXPECT_EQ(result.GetValue(), ClientNetworkEncodingError.GetValue());
+  EXPECT_EQ(result, ClientNetworkEncodingError);
 
-  // NetworkDecodingError
-  result = NetworkDecodingError;
-  EXPECT_EQ(result.GetValue(), NetworkDecodingError.GetValue());
-  EXPECT_EQ(result, NetworkDecodingError);
+  // ServerNetworkEncodingError
+  result = ServerNetworkEncodingError;
+  EXPECT_EQ(result.GetValue(), ServerNetworkEncodingError.GetValue());
+  EXPECT_EQ(result, ServerNetworkEncodingError);
 
-  // TransportEncodingError
-  result = TransportEncodingError;
-  EXPECT_EQ(result.GetValue(), TransportEncodingError.GetValue());
-  EXPECT_EQ(result, TransportEncodingError);
+  // ClientNetworkDecodingError
+  result = ClientNetworkDecodingError;
+  EXPECT_EQ(result.GetValue(), ClientNetworkDecodingError.GetValue());
+  EXPECT_EQ(result, ClientNetworkDecodingError);
 
-  // TransportDecodingError
-  result = TransportDecodingError;
-  EXPECT_EQ(result.GetValue(), TransportDecodingError.GetValue());
-  EXPECT_EQ(result, TransportDecodingError);
+  // ServerNetworkDecodingError
+  result = ServerNetworkDecodingError;
+  EXPECT_EQ(result.GetValue(), ServerNetworkDecodingError.GetValue());
+  EXPECT_EQ(result, ServerNetworkDecodingError);
+
+  // ClientTransportEncodingError
+  result = ClientTransportEncodingError;
+  EXPECT_EQ(result.GetValue(), ClientTransportEncodingError.GetValue());
+  EXPECT_EQ(result, ClientTransportEncodingError);
+
+  // ServerTransportEncodingError
+  result = ServerTransportEncodingError;
+  EXPECT_EQ(result.GetValue(), ServerTransportEncodingError.GetValue());
+  EXPECT_EQ(result, ServerTransportEncodingError);
+
+  // ClientTransportDecodingError
+  result = ClientTransportDecodingError;
+  EXPECT_EQ(result.GetValue(), ClientTransportDecodingError.GetValue());
+  EXPECT_EQ(result, ClientTransportDecodingError);
+
+  // ServerTransportDecodingError
+  result = ServerTransportDecodingError;
+  EXPECT_EQ(result.GetValue(), ServerTransportDecodingError.GetValue());
+  EXPECT_EQ(result, ServerTransportDecodingError);
+
+  // ClientProtocolEncodingError
+  result = ClientProtocolEncodingError;
+  EXPECT_EQ(result.GetValue(), ClientProtocolEncodingError.GetValue());
+  EXPECT_EQ(result, ClientProtocolEncodingError);
+
+  // ServerProtocolEncodingError
+  result = ServerProtocolEncodingError;
+  EXPECT_EQ(result.GetValue(), ServerProtocolEncodingError.GetValue());
+  EXPECT_EQ(result, ServerProtocolEncodingError);
+
+  // ClientProtocolDecodingError
+  result = ClientProtocolDecodingError;
+  EXPECT_EQ(result.GetValue(), ClientProtocolDecodingError.GetValue());
+  EXPECT_EQ(result, ClientProtocolDecodingError);
+
+  // ServerProtocolDecodingError
+  result = ServerProtocolDecodingError;
+  EXPECT_EQ(result.GetValue(), ServerProtocolDecodingError.GetValue());
+  EXPECT_EQ(result, ServerProtocolDecodingError);
 
   // Custom result
   ProtocolResult custom_result{42};
@@ -96,21 +136,53 @@ TEST_F(ProtocolResultTest, ToString)
   result = NotConnected;
   EXPECT_EQ(ProtocolResultToString(result), "NotConnected");
 
-  // NetworkEncodingError
-  result = NetworkEncodingError;
-  EXPECT_EQ(ProtocolResultToString(result), "NetworkEncodingError");
+  // ClientNetworkEncodingError
+  result = ClientNetworkEncodingError;
+  EXPECT_EQ(ProtocolResultToString(result), "ClientNetworkEncodingError");
 
-  // NetworkDecodingError
-  result = NetworkDecodingError;
-  EXPECT_EQ(ProtocolResultToString(result), "NetworkDecodingError");
+  // ServerNetworkEncodingError
+  result = ServerNetworkEncodingError;
+  EXPECT_EQ(ProtocolResultToString(result), "ServerNetworkEncodingError");
 
-  // TransportEncodingError
-  result = TransportEncodingError;
-  EXPECT_EQ(ProtocolResultToString(result), "TransportEncodingError");
+  // ClientNetworkDecodingError
+  result = ClientNetworkDecodingError;
+  EXPECT_EQ(ProtocolResultToString(result), "ClientNetworkDecodingError");
 
-  // TransportDecodingError
-  result = TransportDecodingError;
-  EXPECT_EQ(ProtocolResultToString(result), "TransportDecodingError");
+  // ServerNetworkDecodingError
+  result = ServerNetworkDecodingError;
+  EXPECT_EQ(ProtocolResultToString(result), "ServerNetworkDecodingError");
+
+  // ClientTransportEncodingError
+  result = ClientTransportEncodingError;
+  EXPECT_EQ(ProtocolResultToString(result), "ClientTransportEncodingError");
+
+  // ServerTransportEncodingError
+  result = ServerTransportEncodingError;
+  EXPECT_EQ(ProtocolResultToString(result), "ServerTransportEncodingError");
+
+  // ClientTransportDecodingError
+  result = ClientTransportDecodingError;
+  EXPECT_EQ(ProtocolResultToString(result), "ClientTransportDecodingError");
+
+  // ServerTransportDecodingError
+  result = ServerTransportDecodingError;
+  EXPECT_EQ(ProtocolResultToString(result), "ServerTransportDecodingError");
+
+  // ClientProtocolEncodingError
+  result = ClientProtocolEncodingError;
+  EXPECT_EQ(ProtocolResultToString(result), "ClientProtocolEncodingError");
+
+  // ServerProtocolEncodingError
+  result = ServerProtocolEncodingError;
+  EXPECT_EQ(ProtocolResultToString(result), "ServerProtocolEncodingError");
+
+  // ClientProtocolDecodingError
+  result = ClientProtocolDecodingError;
+  EXPECT_EQ(ProtocolResultToString(result), "ClientProtocolDecodingError");
+
+  // ServerProtocolDecodingError
+  result = ServerProtocolDecodingError;
+  EXPECT_EQ(ProtocolResultToString(result), "ServerProtocolDecodingError");
 
   // Custom result
   ProtocolResult custom_result{42};
@@ -124,19 +196,27 @@ TEST_F(ProtocolResultTest, Comparison)
   ProtocolResult result;
   EXPECT_TRUE(result == Success);
   EXPECT_FALSE(result == NotConnected);
-  EXPECT_FALSE(result == NetworkEncodingError);
-  EXPECT_FALSE(result == NetworkDecodingError);
-  EXPECT_FALSE(result == TransportEncodingError);
-  EXPECT_FALSE(result == TransportDecodingError);
+  EXPECT_FALSE(result == ClientNetworkEncodingError);
+  EXPECT_FALSE(result == ServerNetworkDecodingError);
+  EXPECT_FALSE(result == ClientTransportEncodingError);
+  EXPECT_FALSE(result == ServerTransportDecodingError);
 
   // Non equality
   ProtocolResult custom_result{42};
   EXPECT_TRUE(custom_result != Success);
   EXPECT_TRUE(custom_result != NotConnected);
-  EXPECT_TRUE(custom_result != NetworkEncodingError);
-  EXPECT_TRUE(custom_result != NetworkDecodingError);
-  EXPECT_TRUE(custom_result != TransportEncodingError);
-  EXPECT_TRUE(custom_result != TransportDecodingError);
+  EXPECT_TRUE(custom_result != ClientNetworkEncodingError);
+  EXPECT_TRUE(custom_result != ServerNetworkEncodingError);
+  EXPECT_TRUE(custom_result != ClientNetworkDecodingError);
+  EXPECT_TRUE(custom_result != ServerNetworkDecodingError);
+  EXPECT_TRUE(custom_result != ClientTransportEncodingError);
+  EXPECT_TRUE(custom_result != ServerTransportEncodingError);
+  EXPECT_TRUE(custom_result != ClientTransportDecodingError);
+  EXPECT_TRUE(custom_result != ServerTransportDecodingError);
+  EXPECT_TRUE(custom_result != ClientProtocolEncodingError);
+  EXPECT_TRUE(custom_result != ServerProtocolEncodingError);
+  EXPECT_TRUE(custom_result != ClientProtocolDecodingError);
+  EXPECT_TRUE(custom_result != ServerProtocolDecodingError);
   EXPECT_FALSE(custom_result != ProtocolResult(42u));
 }
 

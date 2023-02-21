@@ -49,7 +49,7 @@ sup::dto::AnyValue ProtocolRPCServer::operator()(const sup::dto::AnyValue& reque
   }
   if (!utils::CheckRequestFormat(request))
   {
-    return utils::CreateRPCReply(TransportDecodingError);
+    return utils::CreateRPCReply(ServerTransportDecodingError);
   }
   sup::dto::AnyValue output;
   ProtocolResult result = Success;
@@ -59,7 +59,7 @@ sup::dto::AnyValue ProtocolRPCServer::operator()(const sup::dto::AnyValue& reque
   }
   catch(...)
   {
-    return utils::CreateRPCReply(TransportEncodingError);
+    return utils::CreateRPCReply(ServerTransportEncodingError);
   }
   return utils::CreateRPCReply(result, "", output);
 }
@@ -75,7 +75,7 @@ sup::dto::AnyValue ProtocolRPCServer::HandleServiceRequest(const sup::dto::AnyVa
   }
   catch(...)
   {
-    return utils::CreateServiceReply(TransportEncodingError);
+    return utils::CreateServiceReply(ServerTransportEncodingError);
   }
   return utils::CreateServiceReply(result, output);
 }

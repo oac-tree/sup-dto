@@ -188,7 +188,7 @@ sup::rpc::ProtocolResult HandleApplicationProtocolInfo(sup::dto::AnyValue& outpu
   auto payload = CreateApplicationProtocolReplyPayload(application_type, application_version);
   if (!sup::dto::TryConvert(output, payload))
   {
-    return sup::rpc::TransportEncodingError;
+    return sup::rpc::ServerProtocolEncodingError;
   }
   return sup::rpc::Success;
 }

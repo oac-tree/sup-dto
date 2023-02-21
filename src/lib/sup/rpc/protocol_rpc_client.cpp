@@ -46,7 +46,7 @@ ProtocolResult ProtocolRPCClient::Invoke(const sup::dto::AnyValue& input,
 {
   if (sup::dto::IsEmptyValue(input))
   {
-    return TransportEncodingError;
+    return ClientTransportEncodingError;
   }
   auto request = utils::CreateRPCRequest(input);
   sup::dto::AnyValue reply;
@@ -60,13 +60,13 @@ ProtocolResult ProtocolRPCClient::Invoke(const sup::dto::AnyValue& input,
   }
   if (!utils::CheckReplyFormat(reply))
   {
-    return TransportDecodingError;
+    return ClientTransportDecodingError;
   }
   if (reply.HasField(constants::REPLY_PAYLOAD))
   {
     if (!sup::dto::TryConvert(output, reply[constants::REPLY_PAYLOAD]))
     {
-      return TransportDecodingError;
+      return ClientTransportDecodingError;
     }
   }
   return ProtocolResult{reply[constants::REPLY_RESULT].As<sup::dto::uint32>()};
@@ -77,7 +77,7 @@ ProtocolResult ProtocolRPCClient::Service(const sup::dto::AnyValue& input,
 {
   if (sup::dto::IsEmptyValue(input))
   {
-    return TransportEncodingError;
+    return ClientTransportEncodingError;
   }
   auto request = utils::CreateServiceRequest(input);
   sup::dto::AnyValue reply;
@@ -91,13 +91,13 @@ ProtocolResult ProtocolRPCClient::Service(const sup::dto::AnyValue& input,
   }
   if (!utils::CheckServiceReplyFormat(reply))
   {
-    return TransportDecodingError;
+    return ClientTransportDecodingError;
   }
   if (reply.HasField(constants::SERVICE_REPLY_PAYLOAD))
   {
     if (!sup::dto::TryConvert(output, reply[constants::SERVICE_REPLY_PAYLOAD]))
     {
-      return TransportDecodingError;
+      return ClientTransportDecodingError;
     }
   }
   return ProtocolResult{reply[constants::SERVICE_REPLY_RESULT].As<sup::dto::uint32>()};
