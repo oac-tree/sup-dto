@@ -52,8 +52,6 @@ public:
 private:
   sup::dto::AnyValue HandleServiceRequest(const sup::dto::AnyValue& request);
   std::unique_ptr<Protocol> m_protocol;
-  sup::dto::uint64 m_alive_since;
-  sup::dto::uint64 m_counter;
 };
 
 }  // namespace rpc

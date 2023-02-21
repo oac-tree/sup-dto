@@ -32,8 +32,6 @@ namespace rpc
 
 ProtocolRPCServer::ProtocolRPCServer(std::unique_ptr<Protocol>&& protocol)
   : m_protocol{std::move(protocol)}
-  , m_alive_since{utils::GetTimestamp()}
-  , m_counter{0}
 {
   if (!m_protocol)
   {
@@ -68,18 +66,18 @@ sup::dto::AnyValue ProtocolRPCServer::operator()(const sup::dto::AnyValue& reque
 
 sup::dto::AnyValue ProtocolRPCServer::HandleServiceRequest(const sup::dto::AnyValue& request)
 {
-  auto request_type = request[constants::SERVICE_REQUEST_FIELD].As<std::string>();
-  if (request_type == constants::SERVER_STATUS_VALUE)
+  auto payload = request[constants::SERVICE_REQUEST_PAYLOAD];
+  sup::dto::AnyValue output;
+  ProtocolResult result = Success;
+  try
   {
-    return utils::CreateServerStatusReply(m_alive_since, m_counter++);
+    result = m_protocol->Service(payload, output);
   }
-  if (request_type == constants::PROTOCOL_REQUEST_VALUE)
+  catch(...)
   {
-    auto info = m_protocol->GetApplicationProtocol();
-    return utils::CreateApplicationProtocolReply(info.m_application_type,
-                                                 info.m_application_version);
+    return utils::CreateServiceReply(TransportEncodingError);
   }
-  return utils::CreateRPCReply(TransportDecodingError);
+  return utils::CreateServiceReply(result, output);
 }
 
 }  // namespace rpc

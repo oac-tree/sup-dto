@@ -29,6 +29,8 @@ namespace sup
 {
 namespace rpc
 {
+class Protocol;
+
 namespace constants
 {
 /**
@@ -55,53 +57,53 @@ static const std::string REPLY_REASON = "reason";
 static const std::string REPLY_PAYLOAD = "reply";
 
 /**
- * A service request is a simple packet, used for querying protocol types and health. It will
- * never reach the application layer, as it is either:
- * - intercepted by ProtocolRPCServer in case of a "server_status" request
- * - delegated to IProtocol::ApplicationType and IProtocol::ApplicationVersion in case of
- *   a "protocol_request" request
+ * A service request is a simple packet, used for querying the application protocol. It will
+ * never reach the application layer and is intercepted by the application layer specific
+ * protocol implementation. This allows providing generic information about the application
+ * interface that is encapsulated by the protocol.
  * It contains:
- * - service: a string identifying the service request
+ * - service: a payload identifying the service request
 */
 static const std::string SERVICE_REQUEST_TYPE_NAME = "sup::ServiceRequest/v1.0";
-static const std::string SERVICE_REQUEST_FIELD = "service";
-static const std::string PROTOCOL_REQUEST_VALUE = "protocol_request";
-static const std::string SERVER_STATUS_VALUE = "server_status";
+static const std::string SERVICE_REQUEST_PAYLOAD = "service";
 
 /**
- * A protocol reply is a structured AnyValue with the following fields:
- * - application_type: a string identifying the type of encapsulated application protocol
- * - application_version: a string identifying the version of the encapsulated application protocol
+ * A service reply is a structured AnyValue with the following fields:
+ * - result: a 32bit unsigned integer denoting success or failure status
+ * - reply (optional): the payload of the service reply
 */
-static const std::string PROTOCOL_REPLY_TYPE_NAME = "sup::ProtocolReply/v1.0";
-static const std::string PROTOCOL_REPLY_TYPE = "application_type";
-static const std::string PROTOCOL_REPLY_VERSION = "application_version";
+static const std::string SERVICE_REPLY_TYPE_NAME = "sup::ServiceReply/v1.0";
+static const std::string SERVICE_REPLY_RESULT = "result";
+static const std::string SERVICE_REPLY_PAYLOAD = "reply";
 
 /**
- * A ping reply is a structured AnyValue with the following fields:
- * - timestamp: a 64bit unsigned integer
- * - alive_since: a 64bit unsigned integer timestamp indicating when the server was instantiated
- * - counter: a 64bit unsigned integer that increments on each request
+ * Currently only one generic service request and reply is defined: the request to receive the
+ * name and version of the application protocol. Any other service request will be application
+ * protocol specific and can be requested after identifying the application protocol.
+ * The reply for this application protocol info contains:
+ * - application_type: string identifying the encapsulated application interface
+ * - application_version: string identifying the version for the application protocol
 */
-static const std::string SERVER_STATUS_REPLY_TYPE_NAME = "sup::ServerStatusReply/v1.0";
-static const std::string SERVER_STATUS_REPLY_TIMESTAMP = "timestamp";
-static const std::string SERVER_STATUS_REPLY_ALIVE_SINCE = "alive_since";
-static const std::string SERVER_STATUS_REPLY_COUNTER = "counter";
+static const std::string APPLICATION_PROTOCOL_INFO_REQUEST = "application_protocol_info";
+static const std::string APPLICATION_PROTOCOL_TYPE = "application_type";
+static const std::string APPLICATION_PROTOCOL_VERSION = "application_version";
+
 }  // namespace constants
 
 namespace utils
 {
-sup::dto::uint64 GetTimestamp();
+/**
+ * Structure that identifies a specific application protocol with its version.
+*/
+struct ApplicationProtocolInfo
+{
+  std::string m_application_type;
+  std::string m_application_version;
+};
 
 bool CheckRequestFormat(const sup::dto::AnyValue& request);
 
 bool CheckReplyFormat(const sup::dto::AnyValue& reply);
-
-bool IsServiceRequest(const sup::dto::AnyValue& request);
-
-bool CheckServerStatusReplyFormat(const sup::dto::AnyValue& reply);
-
-bool CheckApplicationProtocolReplyFormat(const sup::dto::AnyValue& reply);
 
 sup::dto::AnyValue CreateRPCRequest(const sup::dto::AnyValue& payload);
 
@@ -109,14 +111,24 @@ sup::dto::AnyValue CreateRPCReply(const sup::rpc::ProtocolResult& result,
                                   const std::string& reason = "",
                                   const sup::dto::AnyValue& payload = {});
 
-sup::dto::AnyValue CreateServerStatusRequest();
+bool IsServiceRequest(const sup::dto::AnyValue& request);
 
-sup::dto::AnyValue CreateServerStatusReply(sup::dto::uint64 alive_since, sup::dto::uint64 counter);
+bool CheckServiceReplyFormat(const sup::dto::AnyValue& reply);
 
-sup::dto::AnyValue CreateApplicationProtocolRequest();
+sup::dto::AnyValue CreateServiceRequest(const sup::dto::AnyValue& payload);
 
-sup::dto::AnyValue CreateApplicationProtocolReply(const std::string& application_type,
-                                                  const std::string& application_version);
+sup::dto::AnyValue CreateServiceReply(const sup::rpc::ProtocolResult& result,
+                                      const sup::dto::AnyValue& payload = {});
+
+bool IsApplicationProtocolRequestPayload(const sup::dto::AnyValue& payload);
+
+bool CheckApplicationProtocolReplyPayload(const sup::dto::AnyValue& payload);
+
+ApplicationProtocolInfo GetApplicationProtocolInfo(Protocol& protocol);
+
+sup::rpc::ProtocolResult HandleApplicationProtocolInfo(sup::dto::AnyValue& output,
+                                                       const std::string& application_type,
+                                                       const std::string& application_version);
 
 }  // namespace utils
 

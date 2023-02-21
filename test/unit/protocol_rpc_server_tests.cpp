@@ -32,20 +32,6 @@
 
 using namespace sup::rpc;
 
-class SharedTestProtocol : public Protocol
-{
-public:
-  SharedTestProtocol(Protocol* shared_protocol);
-  ~SharedTestProtocol();
-
-  ProtocolResult Invoke(const sup::dto::AnyValue& input, sup::dto::AnyValue& output) override;
-
-  ApplicationProtocolInfo GetApplicationProtocol() override;
-
-private:
-  Protocol* m_shared_protocol;
-};
-
 class ProtocolRPCServerTest : public ::testing::Test
 {
 protected:
@@ -54,7 +40,7 @@ protected:
 
   std::unique_ptr<Protocol> GetSharedProtocol();
 
-  test::TestProtocol m_test_protocol;
+  test::TestProtocol* m_test_protocol;
 };
 
 TEST_F(ProtocolRPCServerTest, Construction)
@@ -120,7 +106,7 @@ TEST_F(ProtocolRPCServerTest, ScalarPayload)
   EXPECT_EQ(reply[constants::REPLY_RESULT].As<unsigned int>(), Success.GetValue());
   EXPECT_FALSE(reply.HasField(constants::REPLY_PAYLOAD));
 
-  auto last_input = m_test_protocol.GetLastInput();
+  auto last_input = m_test_protocol->GetLastInput();
   EXPECT_FALSE(sup::dto::IsEmptyValue(last_input));
   EXPECT_EQ(last_input.GetType(), sup::dto::UnsignedInteger8Type);
   EXPECT_EQ(last_input.As<sup::dto::uint8>(), 1);
@@ -141,7 +127,7 @@ TEST_F(ProtocolRPCServerTest, ExtraFieldInRequest)
   EXPECT_EQ(reply[constants::REPLY_RESULT].As<unsigned int>(), Success.GetValue());
   EXPECT_FALSE(reply.HasField(constants::REPLY_PAYLOAD));
 
-  auto last_input = m_test_protocol.GetLastInput();
+  auto last_input = m_test_protocol->GetLastInput();
   EXPECT_FALSE(sup::dto::IsEmptyValue(last_input));
   EXPECT_EQ(last_input.GetType(), sup::dto::UnsignedInteger8Type);
   EXPECT_EQ(last_input.As<sup::dto::uint8>(), 1);
@@ -163,7 +149,7 @@ TEST_F(ProtocolRPCServerTest, ProtocolThrows)
   EXPECT_EQ(reply[constants::REPLY_RESULT].As<unsigned int>(), TransportEncodingError.GetValue());
   EXPECT_FALSE(reply.HasField(constants::REPLY_PAYLOAD));
 
-  auto last_input = m_test_protocol.GetLastInput();
+  auto last_input = m_test_protocol->GetLastInput();
   EXPECT_FALSE(sup::dto::IsEmptyValue(last_input));
   EXPECT_EQ(last_input.GetType(), payload.GetType());
   EXPECT_EQ(last_input, payload);
@@ -185,7 +171,7 @@ TEST_F(ProtocolRPCServerTest, RequestProtocolResult)
   EXPECT_EQ(reply[constants::REPLY_RESULT].As<unsigned int>(), 42u);
   EXPECT_FALSE(reply.HasField(constants::REPLY_PAYLOAD));
 
-  auto last_input = m_test_protocol.GetLastInput();
+  auto last_input = m_test_protocol->GetLastInput();
   EXPECT_FALSE(sup::dto::IsEmptyValue(last_input));
   EXPECT_EQ(last_input.GetType(), payload.GetType());
   EXPECT_EQ(last_input, payload);
@@ -207,7 +193,7 @@ TEST_F(ProtocolRPCServerTest, EchoPayload)
   EXPECT_TRUE(utils::CheckReplyFormat(reply));
   EXPECT_EQ(reply[constants::REPLY_RESULT].As<unsigned int>(), 65u);
 
-  auto last_input = m_test_protocol.GetLastInput();
+  auto last_input = m_test_protocol->GetLastInput();
   EXPECT_FALSE(sup::dto::IsEmptyValue(last_input));
   EXPECT_EQ(last_input.GetType(), payload.GetType());
   EXPECT_EQ(last_input, payload);
@@ -218,30 +204,14 @@ TEST_F(ProtocolRPCServerTest, EchoPayload)
   EXPECT_EQ(reply_payload, payload);
 }
 
-SharedTestProtocol::SharedTestProtocol(Protocol* shared_protocol)
-  : m_shared_protocol{shared_protocol}
-{}
-
-SharedTestProtocol::~SharedTestProtocol() = default;
-
-ProtocolResult SharedTestProtocol::Invoke(const sup::dto::AnyValue& input,
-                                          sup::dto::AnyValue& output)
-{
-  return m_shared_protocol->Invoke(input, output);
-}
-
-ApplicationProtocolInfo SharedTestProtocol::GetApplicationProtocol()
-{
-  return m_shared_protocol->GetApplicationProtocol();
-}
-
 ProtocolRPCServerTest::ProtocolRPCServerTest()
-  : m_test_protocol{}
+  : m_test_protocol{nullptr}
 {}
 
 ProtocolRPCServerTest::~ProtocolRPCServerTest() = default;
 
 std::unique_ptr<Protocol> ProtocolRPCServerTest::GetSharedProtocol()
 {
-  return std::unique_ptr<Protocol>(new SharedTestProtocol(&m_test_protocol));
+  m_test_protocol = new test::TestProtocol{};
+  return std::unique_ptr<Protocol>(m_test_protocol);
 }

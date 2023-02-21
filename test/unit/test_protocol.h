@@ -32,9 +32,12 @@ namespace rpc
 {
 namespace test
 {
-static const std::string ECHO_FIELD = "echo";
-static const std::string THROW_FIELD = "throw";
-static const std::string REQUESTED_STATUS_FIELD = "requested_status";
+const std::string ECHO_FIELD = "echo";
+const std::string THROW_FIELD = "throw";
+const std::string REQUESTED_STATUS_FIELD = "requested_status";
+
+const std::string TEST_PROTOCOL_TYPE = "TestProtocol";
+const std::string TEST_PROTOCOL_VERSION = "1.0";
 
 class TestProtocol : public Protocol
 {
@@ -44,12 +47,15 @@ public:
 
   ProtocolResult Invoke(const sup::dto::AnyValue& input, sup::dto::AnyValue& output) override;
 
-  ApplicationProtocolInfo GetApplicationProtocol() override;
+  ProtocolResult Service(const sup::dto::AnyValue& input, sup::dto::AnyValue& output) override;
+
+  void SetFailForServiceRequest(bool fail);
 
   sup::dto::AnyValue GetLastInput() const;
 
 private:
   std::unique_ptr<sup::dto::AnyValue> m_last_input;
+  bool m_service_fail;
 };
 
 }  // namespace test

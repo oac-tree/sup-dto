@@ -34,15 +34,6 @@ class AnyValue;
 namespace rpc
 {
 /**
- * Structure that identifies a specific application protocol with its version.
-*/
-struct ApplicationProtocolInfo
-{
-  std::string m_application_type;
-  std::string m_application_version;
-};
-
-/**
  * @brief The Protocol interface is used to provide an abstract re-useable RPC protocol.
  *
  * @details A remote procedure call (RPC) framework provides the ability for a client to invoke
@@ -70,17 +61,21 @@ public:
    *
    * @param input An input AnyValue structure. This AnyValue cannot be empty.
    * @param output An output AnyValue structure, which may be empty.
-   * @return ProtocolResult Success if the call was made, else an error code.
+   * @return ProtocolResult Success if the call was successfully made, else an error code.
    */
   virtual ProtocolResult Invoke(const sup::dto::AnyValue& input,
                                 sup::dto::AnyValue& output) = 0;
 
   /**
-   * @brief Identify the underlying application protocol and its version.
+   * @brief A service RPC call. This call will not be forwarded to the encapsulated application
+   * interface and serves to provide generic application protocol information to the caller.
    *
-   * @return ApplicationProtocolInfo containing both the application protocol type and version.
+   * @param input An input AnyValue structure. This AnyValue cannot be empty.
+   * @param output An output AnyValue structure.
+   * @return ProtocolResult Success if the call was successfully made, else an error code.
    */
-  virtual ApplicationProtocolInfo GetApplicationProtocol() = 0;
+  virtual ProtocolResult Service(const sup::dto::AnyValue& input,
+                                 sup::dto::AnyValue& output) = 0;
 };
 
 }  // namespace rpc

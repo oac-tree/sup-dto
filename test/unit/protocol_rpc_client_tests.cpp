@@ -70,13 +70,6 @@ TEST_F(ProtocolRPCClientTest, Construction)
   EXPECT_NO_THROW(ProtocolRPCClient client{GetSharedFunctor()});
 }
 
-TEST_F(ProtocolRPCClientTest, GetApplicationProtocol)
-{
-  ProtocolRPCClient client{GetServerFunctor()};
-  ApplicationProtocolInfo protocol_info;
-  EXPECT_NO_THROW(protocol_info = client.GetApplicationProtocol());
-}
-
 TEST_F(ProtocolRPCClientTest, InvokeEmptyInput)
 {
   ProtocolRPCClient client{GetSharedFunctor()};
@@ -158,6 +151,21 @@ TEST_F(ProtocolRPCClientTest, FunctorThrows)
   EXPECT_EQ(last_request[constants::REQUEST_PAYLOAD], input);
 }
 
+TEST_F(ProtocolRPCClientTest, ApplicationProtocolInfo)
+{
+  ProtocolRPCClient client{GetServerFunctor()};
+  // Successful retrieval of application protocol information
+  m_test_protocol->SetFailForServiceRequest(false);
+  auto protocol_info = utils::GetApplicationProtocolInfo(client);
+  EXPECT_EQ(protocol_info.m_application_type, test::TEST_PROTOCOL_TYPE);
+  EXPECT_EQ(protocol_info.m_application_version, test::TEST_PROTOCOL_VERSION);
+  // Failing retrieval of application protocol information
+  m_test_protocol->SetFailForServiceRequest(true);
+  protocol_info = utils::GetApplicationProtocolInfo(client);
+  EXPECT_TRUE(protocol_info.m_application_type.empty());
+  EXPECT_TRUE(protocol_info.m_application_version.empty());
+}
+
 TestFunctor::TestFunctor()
   : m_last_request{}
 {}
@@ -190,19 +198,21 @@ sup::dto::AnyValue TestFunctor::GetLastRequest() const
 }
 
 ProtocolRPCClientTest::ProtocolRPCClientTest()
-  : m_test_functor{new TestFunctor{}}
-  , m_test_protocol{new test::TestProtocol{}}
+  : m_test_functor{nullptr}
+  , m_test_protocol{nullptr}
 {}
 
 ProtocolRPCClientTest::~ProtocolRPCClientTest() = default;
 
 std::unique_ptr<sup::dto::AnyFunctor> ProtocolRPCClientTest::GetSharedFunctor()
 {
+  m_test_functor = new TestFunctor{};
   return std::unique_ptr<sup::dto::AnyFunctor>{m_test_functor};
 }
 
 std::unique_ptr<sup::dto::AnyFunctor> ProtocolRPCClientTest::GetServerFunctor()
 {
+  m_test_protocol = new test::TestProtocol;
   std::unique_ptr<Protocol> protocol{m_test_protocol};
   return std::unique_ptr<sup::dto::AnyFunctor>{new ProtocolRPCServer{std::move(protocol)}};
 }

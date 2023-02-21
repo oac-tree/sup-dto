@@ -21,6 +21,8 @@
 
 #include "test_protocol.h"
 
+#include <sup/rpc/protocol_rpc.h>
+
 #include <sup/dto/anyvalue.h>
 #include <sup/dto/anyvalue_helper.h>
 
@@ -30,9 +32,9 @@ namespace rpc
 {
 namespace test
 {
-
 TestProtocol::TestProtocol()
   : m_last_input{}
+  , m_service_fail{false}
 {}
 
 TestProtocol::~TestProtocol() = default;
@@ -56,9 +58,23 @@ ProtocolResult TestProtocol::Invoke(const sup::dto::AnyValue& input, sup::dto::A
   return Success;
 }
 
-ApplicationProtocolInfo TestProtocol::GetApplicationProtocol()
+ProtocolResult TestProtocol::Service(const sup::dto::AnyValue& input, sup::dto::AnyValue& output)
 {
-  return { "TestProtocol", "1.0" };
+  m_last_input.reset(new sup::dto::AnyValue(input));
+  if (m_service_fail)
+  {
+    return sup::rpc::TransportEncodingError;
+  }
+  if (utils::IsApplicationProtocolRequestPayload(input))
+  {
+    return utils::HandleApplicationProtocolInfo(output, TEST_PROTOCOL_TYPE, TEST_PROTOCOL_VERSION);
+  }
+  return Success;
+}
+
+void TestProtocol::SetFailForServiceRequest(bool fail)
+{
+  m_service_fail = fail;
 }
 
 sup::dto::AnyValue TestProtocol::GetLastInput() const

@@ -21,7 +21,22 @@
 
 #include "protocol_rpc.h"
 
+#include <sup/rpc/protocol.h>
+#include <sup/rpc/rpc_exceptions.h>
+
+#include <sup/dto/anyvalue_helper.h>
+
 #include <chrono>
+
+namespace
+{
+sup::dto::uint64 GetTimestamp();
+
+sup::dto::AnyValue CreateApplicationProtocolRequestPayload();
+
+sup::dto::AnyValue CreateApplicationProtocolReplyPayload(const std::string& application_type,
+                                                         const std::string& application_version);
+}  // unnamed namespace
 
 namespace sup
 {
@@ -29,14 +44,6 @@ namespace rpc
 {
 namespace utils
 {
-sup::dto::uint64 GetTimestamp()
-{
-  auto now = std::chrono::system_clock::now();
-  auto ns = std::chrono::duration_cast<std::chrono::duration<sup::dto::uint64, std::nano>>(
-    now.time_since_epoch());
-  return ns.count();
-}
-
 bool CheckRequestFormat(const sup::dto::AnyValue& request)
 {
   if (!request.HasField(constants::REQUEST_TIMESTAMP)
@@ -71,50 +78,6 @@ bool CheckReplyFormat(const sup::dto::AnyValue& reply)
   return true;
 }
 
-bool IsServiceRequest(const sup::dto::AnyValue& request)
-{
-  if (!request.HasField(constants::SERVICE_REQUEST_FIELD))
-  {
-    return false;
-  }
-  return request[constants::SERVICE_REQUEST_FIELD].GetType() == sup::dto::StringType;
-}
-
-bool CheckServerStatusReplyFormat(const sup::dto::AnyValue& reply)
-{
-  if (!reply.HasField(constants::SERVER_STATUS_REPLY_TIMESTAMP) ||
-      reply[constants::SERVER_STATUS_REPLY_TIMESTAMP].GetType() != sup::dto::UnsignedInteger64Type)
-  {
-    return false;
-  }
-  if (!reply.HasField(constants::SERVER_STATUS_REPLY_ALIVE_SINCE) ||
-      reply[constants::SERVER_STATUS_REPLY_ALIVE_SINCE].GetType() != sup::dto::UnsignedInteger64Type)
-  {
-    return false;
-  }
-  if (!reply.HasField(constants::SERVER_STATUS_REPLY_COUNTER) ||
-      reply[constants::SERVER_STATUS_REPLY_COUNTER].GetType() != sup::dto::UnsignedInteger64Type)
-  {
-    return false;
-  }
-  return true;
-}
-
-bool CheckApplicationProtocolReplyFormat(const sup::dto::AnyValue& reply)
-{
-  if (!reply.HasField(constants::PROTOCOL_REPLY_TYPE) ||
-      reply[constants::PROTOCOL_REPLY_TYPE].GetType() != sup::dto::StringType)
-  {
-    return false;
-  }
-  if (!reply.HasField(constants::PROTOCOL_REPLY_VERSION) ||
-      reply[constants::PROTOCOL_REPLY_VERSION].GetType() != sup::dto::StringType)
-  {
-    return false;
-  }
-  return true;
-}
-
 sup::dto::AnyValue CreateRPCRequest(const sup::dto::AnyValue& payload)
 {
   sup::dto::AnyValue request = {{
@@ -143,40 +106,91 @@ sup::dto::AnyValue CreateRPCReply(const sup::rpc::ProtocolResult& result,
   return reply;
 }
 
-sup::dto::AnyValue CreateServerStatusRequest()
+bool IsServiceRequest(const sup::dto::AnyValue& request)
 {
-  sup::dto::AnyValue server_status_request = {{
-    { constants::SERVICE_REQUEST_FIELD, {sup::dto::StringType, constants::SERVER_STATUS_VALUE} }
+  return request.HasField(constants::SERVICE_REQUEST_PAYLOAD);
+}
+
+bool CheckServiceReplyFormat(const sup::dto::AnyValue& reply)
+{
+  if (!reply.HasField(constants::SERVICE_REPLY_RESULT) ||
+      reply[constants::SERVICE_REPLY_RESULT].GetType() != sup::dto::UnsignedInteger32Type)
+  {
+    return false;
+  }
+  return true;
+}
+
+sup::dto::AnyValue CreateServiceRequest(const sup::dto::AnyValue& payload)
+{
+  if (sup::dto::IsEmptyValue(payload))
+  {
+    std::string error_message = "CreateServiceRequest(): empty payload is not allowed";
+    throw InvalidOperationException(error_message);
+  }
+  sup::dto::AnyValue service_request = {{
+    { constants::SERVICE_REQUEST_PAYLOAD, payload }
   }, constants::SERVICE_REQUEST_TYPE_NAME};
-  return server_status_request;
+  return service_request;
 }
 
-sup::dto::AnyValue CreateServerStatusReply(sup::dto::uint64 alive_since, sup::dto::uint64 counter)
+sup::dto::AnyValue CreateServiceReply(const sup::rpc::ProtocolResult& result,
+                                      const sup::dto::AnyValue& payload)
 {
-  sup::dto::AnyValue server_status_reply = {{
-    { constants::SERVER_STATUS_REPLY_TIMESTAMP, {sup::dto::UnsignedInteger64Type, GetTimestamp()} },
-    { constants::SERVER_STATUS_REPLY_ALIVE_SINCE, {sup::dto::UnsignedInteger64Type, alive_since} },
-    { constants::SERVER_STATUS_REPLY_COUNTER, {sup::dto::UnsignedInteger64Type, counter} },
-  }, constants::SERVER_STATUS_REPLY_TYPE_NAME};
-  return server_status_reply;
+  sup::dto::AnyValue service_reply = {{
+    { constants::SERVICE_REPLY_RESULT, {sup::dto::UnsignedInteger32Type, result.GetValue()} }
+  }, constants::SERVICE_REPLY_TYPE_NAME};
+  if (!sup::dto::IsEmptyValue(payload))
+  {
+    service_reply.AddMember(constants::SERVICE_REPLY_PAYLOAD, payload);
+  }
+  return service_reply;
 }
 
-sup::dto::AnyValue CreateApplicationProtocolRequest()
+bool IsApplicationProtocolRequestPayload(const sup::dto::AnyValue& payload)
 {
-  sup::dto::AnyValue application_protocol_request = {{
-    { constants::SERVICE_REQUEST_FIELD, {sup::dto::StringType, constants::PROTOCOL_REQUEST_VALUE} }
-  }, constants::SERVICE_REQUEST_TYPE_NAME};
-  return application_protocol_request;
+  return payload ==
+    sup::dto::AnyValue{sup::dto::StringType, constants::APPLICATION_PROTOCOL_INFO_REQUEST};
 }
 
-sup::dto::AnyValue CreateApplicationProtocolReply(const std::string& application_type,
-                                                  const std::string& application_version)
+bool CheckApplicationProtocolReplyPayload(const sup::dto::AnyValue& payload)
 {
-  sup::dto::AnyValue server_status_reply = {{
-    { constants::PROTOCOL_REPLY_TYPE, {sup::dto::StringType, application_type} },
-    { constants::PROTOCOL_REPLY_VERSION, {sup::dto::StringType, application_version} },
-  }, constants::PROTOCOL_REPLY_TYPE_NAME};
-  return server_status_reply;
+  if (!payload.HasField(constants::APPLICATION_PROTOCOL_TYPE) ||
+      payload[constants::APPLICATION_PROTOCOL_TYPE].GetType() != sup::dto::StringType)
+  {
+    return false;
+  }
+  if (!payload.HasField(constants::APPLICATION_PROTOCOL_VERSION) ||
+      payload[constants::APPLICATION_PROTOCOL_VERSION].GetType() != sup::dto::StringType)
+  {
+    return false;
+  }
+  return true;
+}
+
+ApplicationProtocolInfo GetApplicationProtocolInfo(Protocol& protocol)
+{
+  sup::dto::AnyValue reply;
+  auto result = protocol.Service(CreateApplicationProtocolRequestPayload(), reply);
+  if (result != sup::rpc::Success || !CheckApplicationProtocolReplyPayload(reply))
+  {
+    return {};
+  }
+  auto application_type = reply[constants::APPLICATION_PROTOCOL_TYPE].As<std::string>();
+  auto application_version = reply[constants::APPLICATION_PROTOCOL_VERSION].As<std::string>();
+  return { application_type, application_version };
+}
+
+sup::rpc::ProtocolResult HandleApplicationProtocolInfo(sup::dto::AnyValue& output,
+                                                       const std::string& application_type,
+                                                       const std::string& application_version)
+{
+  auto payload = CreateApplicationProtocolReplyPayload(application_type, application_version);
+  if (!sup::dto::TryConvert(output, payload))
+  {
+    return sup::rpc::TransportEncodingError;
+  }
+  return sup::rpc::Success;
 }
 
 }  // namespace utils
@@ -184,3 +198,31 @@ sup::dto::AnyValue CreateApplicationProtocolReply(const std::string& application
 }  // namespace rpc
 
 }  // namespace sup
+
+namespace
+{
+using namespace sup::rpc;
+
+sup::dto::uint64 GetTimestamp()
+{
+  auto now = std::chrono::system_clock::now();
+  auto ns = std::chrono::duration_cast<std::chrono::duration<sup::dto::uint64, std::nano>>(
+    now.time_since_epoch());
+  return ns.count();
+}
+
+sup::dto::AnyValue CreateApplicationProtocolRequestPayload()
+{
+  return {sup::dto::StringType, constants::APPLICATION_PROTOCOL_INFO_REQUEST};
+}
+
+sup::dto::AnyValue CreateApplicationProtocolReplyPayload(const std::string& application_type,
+                                                         const std::string& application_version)
+{
+  sup::dto::AnyValue payload = {
+    { constants::APPLICATION_PROTOCOL_TYPE, {sup::dto::StringType, application_type} },
+    { constants::APPLICATION_PROTOCOL_VERSION, {sup::dto::StringType, application_version} }
+  };
+  return payload;
+}
+}  // unnamed namespace
