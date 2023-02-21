@@ -56,7 +56,7 @@ protected:
   ProtocolRPCClientTest();
   virtual ~ProtocolRPCClientTest();
 
-  std::unique_ptr<sup::dto::AnyFunctor> GetSharedFunctor();
+  std::unique_ptr<sup::dto::AnyFunctor> GetTestFunctor();
   std::unique_ptr<sup::dto::AnyFunctor> GetServerFunctor();
 
   TestFunctor* m_test_functor;
@@ -67,12 +67,12 @@ TEST_F(ProtocolRPCClientTest, Construction)
 {
   EXPECT_THROW(ProtocolRPCClient null_client{std::unique_ptr<sup::dto::AnyFunctor>{}},
                NullDependencyException);
-  EXPECT_NO_THROW(ProtocolRPCClient client{GetSharedFunctor()});
+  EXPECT_NO_THROW(ProtocolRPCClient client{GetTestFunctor()});
 }
 
 TEST_F(ProtocolRPCClientTest, InvokeEmptyInput)
 {
-  ProtocolRPCClient client{GetSharedFunctor()};
+  ProtocolRPCClient client{GetTestFunctor()};
   sup::dto::AnyValue output;
   EXPECT_EQ(client.Invoke(sup::dto::AnyValue{}, output), TransportEncodingError);
   EXPECT_TRUE(sup::dto::IsEmptyValue(output));
@@ -81,7 +81,7 @@ TEST_F(ProtocolRPCClientTest, InvokeEmptyInput)
 
 TEST_F(ProtocolRPCClientTest, InvokeScalarInput)
 {
-  ProtocolRPCClient client{GetSharedFunctor()};
+  ProtocolRPCClient client{GetTestFunctor()};
   sup::dto::AnyValue input{sup::dto::SignedInteger32Type, 42};
   sup::dto::AnyValue output;
   EXPECT_EQ(client.Invoke(input, output), Success);
@@ -100,7 +100,7 @@ TEST_F(ProtocolRPCClientTest, InvokeScalarInput)
 
 TEST_F(ProtocolRPCClientTest, InvokeBadReply)
 {
-  ProtocolRPCClient client{GetSharedFunctor()};
+  ProtocolRPCClient client{GetTestFunctor()};
   sup::dto::AnyValue input = {{
     {BAD_REPLY_FIELD, {sup::dto::BooleanType, true}}
   }};
@@ -121,7 +121,7 @@ TEST_F(ProtocolRPCClientTest, InvokeBadReply)
 
 TEST_F(ProtocolRPCClientTest, InvokeBadOutput)
 {
-  ProtocolRPCClient client{GetSharedFunctor()};
+  ProtocolRPCClient client{GetTestFunctor()};
   sup::dto::AnyValue input{sup::dto::SignedInteger32Type, 42};
   sup::dto::AnyValue output_start{sup::dto::StringType, "start_value"};
   sup::dto::AnyValue output{output_start};
@@ -132,7 +132,7 @@ TEST_F(ProtocolRPCClientTest, InvokeBadOutput)
 
 TEST_F(ProtocolRPCClientTest, FunctorThrows)
 {
-  ProtocolRPCClient client{GetSharedFunctor()};
+  ProtocolRPCClient client{GetTestFunctor()};
   sup::dto::AnyValue input = {{
     {THROW_FIELD, {sup::dto::BooleanType, true}}
   }};
@@ -149,6 +149,39 @@ TEST_F(ProtocolRPCClientTest, FunctorThrows)
   EXPECT_TRUE(last_request.HasField(constants::REQUEST_PAYLOAD));
   EXPECT_EQ(last_request[constants::REQUEST_PAYLOAD].GetType(), input.GetType());
   EXPECT_EQ(last_request[constants::REQUEST_PAYLOAD], input);
+}
+
+TEST_F(ProtocolRPCClientTest, ServiceMethod)
+{
+  ProtocolRPCClient client{GetTestFunctor()};
+  {
+    // successful service call
+    const std::string SERVICE_REQUEST_VALUE = "service_request_value";
+    sup::dto::AnyValue input{ sup::dto::StringType, SERVICE_REQUEST_VALUE };
+    sup::dto::AnyValue output;
+    EXPECT_EQ(client.Service(input, output), sup::rpc::Success);
+  }
+  {
+    // service call with empty payload fails
+    sup::dto::AnyValue input;
+    sup::dto::AnyValue output;
+    EXPECT_EQ(client.Service(input, output), sup::rpc::TransportEncodingError);
+  }
+  {
+    // underlying functor throws
+    sup::dto::AnyValue input = {
+      { THROW_FIELD, {sup::dto::BooleanType, true}}
+    };
+    sup::dto::AnyValue output;
+    EXPECT_EQ(client.Service(input, output), sup::rpc::TransportDecodingError);
+  }
+  {
+    // wrong output type provided
+    const std::string SERVICE_REQUEST_VALUE = "service_request_value";
+    sup::dto::AnyValue input{ sup::dto::StringType, SERVICE_REQUEST_VALUE };
+    sup::dto::AnyValue output{ sup::dto::BooleanType };
+    EXPECT_EQ(client.Service(input, output), sup::rpc::TransportDecodingError);
+  }
 }
 
 TEST_F(ProtocolRPCClientTest, ApplicationProtocolInfo)
@@ -175,7 +208,9 @@ TestFunctor::~TestFunctor() = default;
 sup::dto::AnyValue TestFunctor::operator()(const sup::dto::AnyValue& input)
 {
   m_last_request.reset(new sup::dto::AnyValue(input));
-  auto query = input[constants::REQUEST_PAYLOAD];
+  bool normal_request = input.HasField(constants::REQUEST_PAYLOAD);
+  auto query = normal_request ? input[constants::REQUEST_PAYLOAD]
+                              : input[constants::SERVICE_REQUEST_PAYLOAD];
   if (query.HasField(BAD_REPLY_FIELD) && query[BAD_REPLY_FIELD].As<bool>())
   {
     return sup::dto::AnyValue{{{"BadReplyFormat", {sup::dto::BooleanType, true}}}};
@@ -184,7 +219,8 @@ sup::dto::AnyValue TestFunctor::operator()(const sup::dto::AnyValue& input)
   {
     throw std::runtime_error("Throwing on demand");
   }
-  return utils::CreateRPCReply(Success, "", query);
+  return normal_request ? utils::CreateRPCReply(Success, "", query)
+                        : utils::CreateServiceReply(Success, query);
 }
 
 sup::dto::AnyValue TestFunctor::GetLastRequest() const
@@ -204,7 +240,7 @@ ProtocolRPCClientTest::ProtocolRPCClientTest()
 
 ProtocolRPCClientTest::~ProtocolRPCClientTest() = default;
 
-std::unique_ptr<sup::dto::AnyFunctor> ProtocolRPCClientTest::GetSharedFunctor()
+std::unique_ptr<sup::dto::AnyFunctor> ProtocolRPCClientTest::GetTestFunctor()
 {
   m_test_functor = new TestFunctor{};
   return std::unique_ptr<sup::dto::AnyFunctor>{m_test_functor};

@@ -50,12 +50,14 @@ public:
   ProtocolResult Service(const sup::dto::AnyValue& input, sup::dto::AnyValue& output) override;
 
   void SetFailForServiceRequest(bool fail);
+  void SetThrowForServiceRequest(bool enable_throw);
 
   sup::dto::AnyValue GetLastInput() const;
 
 private:
   std::unique_ptr<sup::dto::AnyValue> m_last_input;
   bool m_service_fail;
+  bool m_service_throw;
 };
 
 }  // namespace test

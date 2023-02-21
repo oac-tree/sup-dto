@@ -38,7 +38,7 @@ protected:
   ProtocolRPCServerTest();
   virtual ~ProtocolRPCServerTest();
 
-  std::unique_ptr<Protocol> GetSharedProtocol();
+  std::unique_ptr<Protocol> GetTestProtocol();
 
   test::TestProtocol* m_test_protocol;
 };
@@ -47,12 +47,12 @@ TEST_F(ProtocolRPCServerTest, Construction)
 {
   EXPECT_THROW(ProtocolRPCServer null_server{std::unique_ptr<Protocol>{}},
                NullDependencyException);
-  EXPECT_NO_THROW(ProtocolRPCServer server{GetSharedProtocol()});
+  EXPECT_NO_THROW(ProtocolRPCServer server{GetTestProtocol()});
 }
 
 TEST_F(ProtocolRPCServerTest, EmptyRequest)
 {
-  ProtocolRPCServer server{GetSharedProtocol()};
+  ProtocolRPCServer server{GetTestProtocol()};
   sup::dto::AnyValue request;
   auto reply = server(request);
   EXPECT_TRUE(utils::CheckReplyFormat(reply));
@@ -62,7 +62,7 @@ TEST_F(ProtocolRPCServerTest, EmptyRequest)
 
 TEST_F(ProtocolRPCServerTest, BadRequest)
 {
-  ProtocolRPCServer server{GetSharedProtocol()};
+  ProtocolRPCServer server{GetTestProtocol()};
 
   // Request contains no timestamp field
   sup::dto::AnyValue request_no_timestamp = {{
@@ -95,7 +95,7 @@ TEST_F(ProtocolRPCServerTest, BadRequest)
 
 TEST_F(ProtocolRPCServerTest, ScalarPayload)
 {
-  ProtocolRPCServer server{GetSharedProtocol()};
+  ProtocolRPCServer server{GetTestProtocol()};
 
   sup::dto::AnyValue request = {{
     { constants::REQUEST_TIMESTAMP, {sup::dto::UnsignedInteger64Type, 54321u }},
@@ -114,7 +114,7 @@ TEST_F(ProtocolRPCServerTest, ScalarPayload)
 
 TEST_F(ProtocolRPCServerTest, ExtraFieldInRequest)
 {
-  ProtocolRPCServer server{GetSharedProtocol()};
+  ProtocolRPCServer server{GetTestProtocol()};
 
   // Extra fields are ignored in the request structure
   sup::dto::AnyValue request = {{
@@ -135,7 +135,7 @@ TEST_F(ProtocolRPCServerTest, ExtraFieldInRequest)
 
 TEST_F(ProtocolRPCServerTest, ProtocolThrows)
 {
-  ProtocolRPCServer server{GetSharedProtocol()};
+  ProtocolRPCServer server{GetTestProtocol()};
 
   sup::dto::AnyValue payload = {{
     { test::THROW_FIELD, {sup::dto::BooleanType, true }}
@@ -157,7 +157,7 @@ TEST_F(ProtocolRPCServerTest, ProtocolThrows)
 
 TEST_F(ProtocolRPCServerTest, RequestProtocolResult)
 {
-  ProtocolRPCServer server{GetSharedProtocol()};
+  ProtocolRPCServer server{GetTestProtocol()};
 
   sup::dto::AnyValue payload = {{
     { test::REQUESTED_STATUS_FIELD, {sup::dto::UnsignedInteger32Type, 42 }}
@@ -179,7 +179,7 @@ TEST_F(ProtocolRPCServerTest, RequestProtocolResult)
 
 TEST_F(ProtocolRPCServerTest, EchoPayload)
 {
-  ProtocolRPCServer server{GetSharedProtocol()};
+  ProtocolRPCServer server{GetTestProtocol()};
 
   sup::dto::AnyValue payload = {{
     { test::REQUESTED_STATUS_FIELD, {sup::dto::UnsignedInteger32Type, 65 }},
@@ -204,13 +204,27 @@ TEST_F(ProtocolRPCServerTest, EchoPayload)
   EXPECT_EQ(reply_payload, payload);
 }
 
+TEST_F(ProtocolRPCServerTest, ServiceThrows)
+{
+  ProtocolRPCServer server{GetTestProtocol()};
+  m_test_protocol->SetThrowForServiceRequest(true);
+
+  sup::dto::AnyValue payload{ sup::dto::StringType, "does_not_matter"};
+  sup::dto::AnyValue request = utils::CreateServiceRequest(payload);
+  auto reply = server(request);
+  EXPECT_TRUE(utils::CheckServiceReplyFormat(reply));
+  EXPECT_EQ(reply[constants::SERVICE_REPLY_RESULT].As<unsigned int>(),
+            TransportEncodingError.GetValue());
+  EXPECT_FALSE(reply.HasField(constants::REPLY_PAYLOAD));
+}
+
 ProtocolRPCServerTest::ProtocolRPCServerTest()
   : m_test_protocol{nullptr}
 {}
 
 ProtocolRPCServerTest::~ProtocolRPCServerTest() = default;
 
-std::unique_ptr<Protocol> ProtocolRPCServerTest::GetSharedProtocol()
+std::unique_ptr<Protocol> ProtocolRPCServerTest::GetTestProtocol()
 {
   m_test_protocol = new test::TestProtocol{};
   return std::unique_ptr<Protocol>(m_test_protocol);

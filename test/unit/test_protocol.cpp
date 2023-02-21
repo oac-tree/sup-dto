@@ -35,6 +35,7 @@ namespace test
 TestProtocol::TestProtocol()
   : m_last_input{}
   , m_service_fail{false}
+  , m_service_throw{false}
 {}
 
 TestProtocol::~TestProtocol() = default;
@@ -65,6 +66,10 @@ ProtocolResult TestProtocol::Service(const sup::dto::AnyValue& input, sup::dto::
   {
     return sup::rpc::TransportEncodingError;
   }
+  if (m_service_throw)
+  {
+    throw std::runtime_error("Throwing on demand");
+  }
   if (utils::IsApplicationProtocolRequestPayload(input))
   {
     return utils::HandleApplicationProtocolInfo(output, TEST_PROTOCOL_TYPE, TEST_PROTOCOL_VERSION);
@@ -75,6 +80,11 @@ ProtocolResult TestProtocol::Service(const sup::dto::AnyValue& input, sup::dto::
 void TestProtocol::SetFailForServiceRequest(bool fail)
 {
   m_service_fail = fail;
+}
+
+void TestProtocol::SetThrowForServiceRequest(bool enable_throw)
+{
+  m_service_throw = enable_throw;
 }
 
 sup::dto::AnyValue TestProtocol::GetLastInput() const
