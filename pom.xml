@@ -116,9 +116,6 @@
                             <include type="file" source="include/sup/dto" target="include/sup/dto">
                                 <include>*.h</include>
                             </include>
-                            <include type="file" source="include/sup/rpc" target="include/sup/rpc">
-                                <include>*.h</include>
-                            </include>
                             <!-- Package dependencies -->
                             <requires version="current">%{codac_rpm_prefix}-${project.artifactId}</requires>
                         </package>

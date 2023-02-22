@@ -28,25 +28,17 @@ target_sources(unit-tests
     ${CMAKE_CURRENT_LIST_DIR}/arraytype_tests.cpp
     ${CMAKE_CURRENT_LIST_DIR}/arrayvalue_invariant_tests.cpp
     ${CMAKE_CURRENT_LIST_DIR}/arrayvalue_tests.cpp
-    ${CMAKE_CURRENT_LIST_DIR}/function_protocol_extract_tests.cpp
-    ${CMAKE_CURRENT_LIST_DIR}/function_protocol_pack_tests.cpp
-    ${CMAKE_CURRENT_LIST_DIR}/function_protocol_tests.cpp
     ${CMAKE_CURRENT_LIST_DIR}/integertype_tests.cpp
     ${CMAKE_CURRENT_LIST_DIR}/integervalue_tests.cpp
     ${CMAKE_CURRENT_LIST_DIR}/json_file_tests.cpp
     ${CMAKE_CURRENT_LIST_DIR}/json_type_parser_tests.cpp
     ${CMAKE_CURRENT_LIST_DIR}/json_typed_value_parser_tests.cpp
     ${CMAKE_CURRENT_LIST_DIR}/json_value_parser_tests.cpp
-    ${CMAKE_CURRENT_LIST_DIR}/protocol_result_tests.cpp
-    ${CMAKE_CURRENT_LIST_DIR}/protocol_rpc_client_tests.cpp
-    ${CMAKE_CURRENT_LIST_DIR}/protocol_rpc_server_tests.cpp
-    ${CMAKE_CURRENT_LIST_DIR}/protocol_rpc_tests.cpp
     ${CMAKE_CURRENT_LIST_DIR}/scalar_conversion_tests.cpp
     ${CMAKE_CURRENT_LIST_DIR}/scalartype_tests.cpp
     ${CMAKE_CURRENT_LIST_DIR}/scalarvalue_tests.cpp
     ${CMAKE_CURRENT_LIST_DIR}/structuredtype_tests.cpp
     ${CMAKE_CURRENT_LIST_DIR}/structuredvalue_tests.cpp
-    ${CMAKE_CURRENT_LIST_DIR}/test_protocol.cpp
     ${CMAKE_CURRENT_LIST_DIR}/test_serializers.cpp
 )
 
@@ -63,7 +55,6 @@ target_link_libraries(unit-tests
   PRIVATE
     GTest::GTest
     GTest::Main
-    sup-rpc
     sup-dto-shared
 )
 
