@@ -63,6 +63,16 @@ CompareResult Compare(const AnyValue& lhs, const AnyValue& rhs);
 */
 bool Increment(AnyValue& value);
 
+/**
+ * @brief Decrement the underlying scalar value if possible.
+ *
+ * @details For numeric types (integers and floating point types), the underlying value will be
+ * decremented by 1. Integral types will wrap around (min value becomes max value).
+ * The following types are not supported and will cause the function to return 'false':
+ * 'empty', 'bool', 'char8', 'string', 'struct' and 'array'.
+*/
+bool Decrement(AnyValue& value);
+
 }  // namespace dto
 
 }  // namespace sup

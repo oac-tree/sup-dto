@@ -19,6 +19,7 @@ target_sources(unit-tests
     ${CMAKE_CURRENT_LIST_DIR}/anyvalue_composer_helper_tests.cpp
     ${CMAKE_CURRENT_LIST_DIR}/anyvalue_composer_tests.cpp
     ${CMAKE_CURRENT_LIST_DIR}/anyvalue_ctype_tests.cpp
+    ${CMAKE_CURRENT_LIST_DIR}/anyvalue_decrement_tests.cpp
     ${CMAKE_CURRENT_LIST_DIR}/anyvalue_equality_tests.cpp
     ${CMAKE_CURRENT_LIST_DIR}/anyvalue_exceptions_tests.cpp
     ${CMAKE_CURRENT_LIST_DIR}/anyvalue_field_tests.cpp

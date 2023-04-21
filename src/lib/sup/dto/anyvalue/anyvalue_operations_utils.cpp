@@ -152,6 +152,47 @@ UnaryOperatorFunction GetIncrementFunction(TypeCode type_code)
   return increment_map.at(type_code);
 }
 
+/**
+ * Templated decrement will be instantiated only for the supported promotion types U: 'uint64',
+ * 'float64' and 'float32'. Unsupported types will use the function UnsupportedDecrement below.
+*/
+template <typename S, typename U>
+bool DecrementT(AnyValue& value)
+{
+  auto temp = static_cast<U>(value.As<S>());
+  value = static_cast<S>(--temp);
+  return true;
+}
+
+bool UnsupportedDecrement(AnyValue& value)
+{
+  (void)value;
+  return false;
+}
+
+UnaryOperatorFunction GetDecrementFunction(TypeCode type_code)
+{
+  const std::map<TypeCode, UnaryOperatorFunction> decrement_map = {
+    { TypeCode::Empty, UnsupportedDecrement },
+    { TypeCode::Bool, UnsupportedDecrement },
+    { TypeCode::Char8, UnsupportedDecrement },
+    { TypeCode::Int8, DecrementT<int8, uint64> },
+    { TypeCode::UInt8, DecrementT<uint8, uint64> },
+    { TypeCode::Int16, DecrementT<int16, uint64> },
+    { TypeCode::UInt16, DecrementT<uint16, uint64> },
+    { TypeCode::Int32, DecrementT<int32, uint64> },
+    { TypeCode::UInt32, DecrementT<uint32, uint64> },
+    { TypeCode::Int64, DecrementT<int64, uint64> },
+    { TypeCode::UInt64, DecrementT<uint64, uint64> },
+    { TypeCode::Float32, DecrementT<float32, float32> },
+    { TypeCode::Float64, DecrementT<float64, float64> },
+    { TypeCode::String, UnsupportedDecrement },
+    { TypeCode::Struct, UnsupportedDecrement },
+    { TypeCode::Array, UnsupportedDecrement }
+  };
+  return decrement_map.at(type_code);
+}
+
 }  // namespace utils
 
 }  // namespace dto

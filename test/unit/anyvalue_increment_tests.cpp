@@ -105,15 +105,15 @@ TEST_F(AnyValueIncrementTests, UnsignedIntegerTypes)
     AnyValue ui8{UnsignedInteger8Type, 5};
     EXPECT_TRUE(Increment(ui8));
     EXPECT_EQ(ui8.As<uint8>(), 6);
-    AnyValue i16{UnsignedInteger16Type, 30};
-    EXPECT_TRUE(Increment(i16));
-    EXPECT_EQ(i16.As<int16>(), 31);
-    AnyValue i32{UnsignedInteger32Type, 0};
-    EXPECT_TRUE(Increment(i32));
-    EXPECT_EQ(i32.As<int32>(), 1);
-    AnyValue i64{UnsignedInteger64Type, 1000000ul};
-    EXPECT_TRUE(Increment(i64));
-    EXPECT_EQ(i64.As<int64>(), 1000001ul);
+    AnyValue ui16{UnsignedInteger16Type, 30};
+    EXPECT_TRUE(Increment(ui16));
+    EXPECT_EQ(ui16.As<uint16>(), 31);
+    AnyValue ui32{UnsignedInteger32Type, 0};
+    EXPECT_TRUE(Increment(ui32));
+    EXPECT_EQ(ui32.As<uint32>(), 1);
+    AnyValue ui64{UnsignedInteger64Type, 1000000ul};
+    EXPECT_TRUE(Increment(ui64));
+    EXPECT_EQ(ui64.As<uint64>(), 1000001ul);
   }
   {
     // Values that wrap around

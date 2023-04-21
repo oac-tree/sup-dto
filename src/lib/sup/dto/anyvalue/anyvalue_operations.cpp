@@ -50,6 +50,11 @@ bool Increment(AnyValue& value)
   return utils::GetIncrementFunction(value.GetTypeCode())(value);
 }
 
+bool Decrement(AnyValue& value)
+{
+  return utils::GetDecrementFunction(value.GetTypeCode())(value);
+}
+
 }  // namespace dto
 
 }  // namespace sup

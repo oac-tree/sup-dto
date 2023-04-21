@@ -59,6 +59,8 @@ using UnaryOperatorFunction = bool(*)(AnyValue&);
 
 UnaryOperatorFunction GetIncrementFunction(TypeCode type_code);
 
+UnaryOperatorFunction GetDecrementFunction(TypeCode type_code);
+
 }  // namespace utils
 
 }  // namespace dto
