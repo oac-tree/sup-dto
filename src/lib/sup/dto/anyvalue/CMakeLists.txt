@@ -6,6 +6,7 @@ target_sources(sup-dto-obj
         ${CMAKE_CURRENT_LIST_DIR}/anytype.cpp
         ${CMAKE_CURRENT_LIST_DIR}/anyvalue_exceptions.cpp
         ${CMAKE_CURRENT_LIST_DIR}/anyvalue_helper.cpp
+        ${CMAKE_CURRENT_LIST_DIR}/anyvalue_operations_utils.cpp
         ${CMAKE_CURRENT_LIST_DIR}/anyvalue_operations.cpp
         ${CMAKE_CURRENT_LIST_DIR}/anyvalue.cpp
         ${CMAKE_CURRENT_LIST_DIR}/array_type_data.cpp

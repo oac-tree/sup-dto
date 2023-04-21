@@ -53,17 +53,6 @@ enum class CompareResult
 */
 CompareResult Compare(const AnyValue& lhs, const AnyValue& rhs);
 
-/**
- * @brief Promote typecodes.
- *
- * @details Unsupported types will all be mapped to TypeCode::Empty. Floating point types are not
- * promoted. Signed and unsigned integer types are mapped to TypeCode::Int64 and TypeCode::UInt64
- * respectively.
-*/
-TypeCode PromoteIntegralCode(TypeCode t);
-
-TypeCode CommonTypeCode(TypeCode t_1, TypeCode t_2);
-
 }  // namespace dto
 
 }  // namespace sup

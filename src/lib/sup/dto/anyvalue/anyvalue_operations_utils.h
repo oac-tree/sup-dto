@@ -1,0 +1,56 @@
+/******************************************************************************
+ * $HeadURL: $
+ * $Id: $
+ *
+ * Project       : SUP - DTO
+ *
+ * Description   : Data transfer objects for SUP
+ *
+ * Author        : Walter Van Herck (IO)
+ *
+ * Copyright (c) : 2010-2022 ITER Organization,
+ *                 CS 90 046
+ *                 13067 St. Paul-lez-Durance Cedex
+ *                 France
+ *
+ * This file is part of ITER CODAC software.
+ * For the terms and conditions of redistribution or use of this software
+ * refer to the file ITER-LICENSE.TXT located in the top level directory
+ * of the distribution package.
+ ******************************************************************************/
+
+#ifndef SUP_DTO_ANYVALUE_COMPARISON_UTILS_H_
+#define SUP_DTO_ANYVALUE_COMPARISON_UTILS_H_
+
+#include <sup/dto/anytype.h>
+
+namespace sup
+{
+namespace dto
+{
+namespace utils
+{
+
+/**
+ * @brief Promote typecodes.
+ *
+ * @details Unsupported types will all be mapped to TypeCode::Empty. Floating point types are not
+ * promoted. Signed and unsigned integer types are mapped to TypeCode::Int64 and TypeCode::UInt64
+ * respectively.
+*/
+TypeCode PromoteIntegralCode(TypeCode t);
+
+/**
+ * @brief Calculate common typecode for the two given typecodes.
+ *
+ * @details Unsupported types will all be mapped to TypeCode::Empty.
+*/
+TypeCode CommonTypeCode(TypeCode t_1, TypeCode t_2);
+
+}  // namespace utils
+
+}  // namespace dto
+
+}  // namespace sup
+
+#endif  // SUP_DTO_ANYVALUE_COMPARISON_UTILS_H_
