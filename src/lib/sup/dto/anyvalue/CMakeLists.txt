@@ -1,12 +1,13 @@
 target_sources(sup-dto-obj
     PRIVATE
         ${CMAKE_CURRENT_LIST_DIR}/any_functor.cpp
-        ${CMAKE_CURRENT_LIST_DIR}/anytype.cpp
         ${CMAKE_CURRENT_LIST_DIR}/anytype_helper.cpp
         ${CMAKE_CURRENT_LIST_DIR}/anytype_registry.cpp
-        ${CMAKE_CURRENT_LIST_DIR}/anyvalue.cpp
+        ${CMAKE_CURRENT_LIST_DIR}/anytype.cpp
         ${CMAKE_CURRENT_LIST_DIR}/anyvalue_exceptions.cpp
         ${CMAKE_CURRENT_LIST_DIR}/anyvalue_helper.cpp
+        ${CMAKE_CURRENT_LIST_DIR}/anyvalue_operations.cpp
+        ${CMAKE_CURRENT_LIST_DIR}/anyvalue.cpp
         ${CMAKE_CURRENT_LIST_DIR}/array_type_data.cpp
         ${CMAKE_CURRENT_LIST_DIR}/array_value_data.cpp
         ${CMAKE_CURRENT_LIST_DIR}/basic_scalar_types.cpp

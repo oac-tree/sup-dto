@@ -57,15 +57,16 @@ install(TARGETS sup-dto-static EXPORT sup-dto-targets LIBRARY DESTINATION ${CMAK
 set_target_properties(sup-dto-static PROPERTIES EXPORT_NAME sup-dto-static)
 
 install(FILES
-  anytype.h
+  any_functor.h
   anytype_helper.h
   anytype_registry.h
-  anyvalue.h
+  anytype.h
+  anyvalue_composer.h
   anyvalue_exceptions.h
   anyvalue_helper.h
-  anyvalue_composer.h
+  anyvalue_operations.h
+  anyvalue.h
   basic_scalar_types.h
-  any_functor.h
   i_any_visitor.h
   json_type_parser.h
   json_value_parser.h
