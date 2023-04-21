@@ -408,6 +408,23 @@ inequality operator:
    In cases where a strict equality test is required, one could test equality of both types and
    values.
 
+A custom comparison function is also provided that handles arithmetic types (excluding 'bool',
+'char8' and 'string'):
+
+.. function:: CompareResult Compare(const AnyValue& lhs, const AnyValue& rhs)
+
+   :param lhs: ``AnyValue`` object on the left hand side.
+   :param rhs: ``AnyValue`` object on the right hand side.
+   :return: Enumerator indicating if lhs is less, greater, equivalent to rhs or if they are
+   unordered.
+
+   If one of the types is floating point, the comparison will use the largest floating point type
+   among the given types as the common type ('float64' if there is one, 'float32' otherwise).
+   Integral comparisons are only supported between types that are both signed or both unsigned. In
+   these cases, the widest signed or unsigned integral type is used ('int64' or 'uint64').
+   For all comparisons that are not supported (for example 'string', structures, signed with
+   unsigned, etc.), the function returns 'Unordered'.
+
 Global functions
 ----------------
 
@@ -422,3 +439,21 @@ functions:
 
    Try to convert an AnyValue to another AnyValue. When conversion fails, the destination is left
    unchanged and false is returned.
+
+.. function:: bool Increment(AnyValue& value)
+
+   :param value: ``AnyValue`` object to increment.
+   :return: ``true`` on successful increment.
+
+   Try to increment (add 1) an AnyValue. This is only supported for arythmetic types (excluding
+   'bool', 'char8' and 'string'). In case of integer types, the behavior is defined to wrap around
+   the maximum value to the minimum value (also for signed types).
+
+.. function:: bool Decrement(AnyValue& value)
+
+   :param value: ``AnyValue`` object to decrement.
+   :return: ``true`` on successful decrement.
+
+   Try to decrement (subtract 1) an AnyValue. This is only supported for arythmetic types (excluding
+   'bool', 'char8' and 'string'). In case of integer types, the behavior is defined to wrap around
+   the minimum value to the maximum value (also for signed types).
