@@ -55,6 +55,10 @@ using CompareFunction = CompareResult(*)(const AnyValue&, const AnyValue&);
 
 CompareFunction GetCompareFunction(TypeCode type_code);
 
+using UnaryOperatorFunction = bool(*)(AnyValue&);
+
+UnaryOperatorFunction GetIncrementFunction(TypeCode type_code);
+
 }  // namespace utils
 
 }  // namespace dto

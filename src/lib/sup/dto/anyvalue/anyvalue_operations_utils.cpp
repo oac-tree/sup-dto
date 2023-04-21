@@ -73,7 +73,7 @@ TypeCode CommonTypeCode(TypeCode t_1, TypeCode t_2)
 
 /**
  * Templated comparison assumes both AnyValues can be cast to T and that there is a total order
- * for values of type T, unless T is void (see specialization).
+ * for values of type T. Unsupported types will use the function UnsupportedCompare below.
 */
 template <typename T>
 CompareResult CompareT(const AnyValue& lhs, const AnyValue& rhs)
@@ -91,8 +91,7 @@ CompareResult CompareT(const AnyValue& lhs, const AnyValue& rhs)
   return CompareResult::Equivalent;
 }
 
-template <>
-CompareResult CompareT<void>(const AnyValue& lhs, const AnyValue& rhs)
+CompareResult UnsupportedCompare(const AnyValue& lhs, const AnyValue& rhs)
 {
   (void)lhs;
   (void)rhs;
@@ -102,13 +101,55 @@ CompareResult CompareT<void>(const AnyValue& lhs, const AnyValue& rhs)
 CompareFunction GetCompareFunction(TypeCode type_code)
 {
   const std::map<TypeCode, CompareFunction> compare_map = {
-    { TypeCode::Empty, CompareT<void> },
+    { TypeCode::Empty, UnsupportedCompare },
     { TypeCode::Int64, CompareT<int64> },
     { TypeCode::UInt64, CompareT<uint64> },
     { TypeCode::Float32, CompareT<float32> },
     { TypeCode::Float64, CompareT<float64> }
   };
   return compare_map.at(type_code);
+}
+
+
+/**
+ * Templated increment will be instantiated only for the supported types: 'uint64', 'float64'
+ * and 'float32'. Unsupported types will use the function UnsupportedIncrement below.
+*/
+template <typename S, typename U>
+bool IncrementT(AnyValue& value)
+{
+  auto temp = static_cast<U>(value.As<S>());
+  value = static_cast<S>(++temp);
+  return true;
+}
+
+bool UnsupportedIncrement(AnyValue& value)
+{
+  (void)value;
+  return false;
+}
+
+UnaryOperatorFunction GetIncrementFunction(TypeCode type_code)
+{
+  const std::map<TypeCode, UnaryOperatorFunction> increment_map = {
+    { TypeCode::Empty, UnsupportedIncrement },
+    { TypeCode::Bool, UnsupportedIncrement },
+    { TypeCode::Char8, UnsupportedIncrement },
+    { TypeCode::Int8, IncrementT<int8, uint64> },
+    { TypeCode::UInt8, IncrementT<uint8, uint64> },
+    { TypeCode::Int16, IncrementT<int16, uint64> },
+    { TypeCode::UInt16, IncrementT<uint16, uint64> },
+    { TypeCode::Int32, IncrementT<int32, uint64> },
+    { TypeCode::UInt32, IncrementT<uint32, uint64> },
+    { TypeCode::Int64, IncrementT<int64, uint64> },
+    { TypeCode::UInt64, IncrementT<uint64, uint64> },
+    { TypeCode::Float32, IncrementT<float32, float32> },
+    { TypeCode::Float64, IncrementT<float64, float64> },
+    { TypeCode::String, UnsupportedIncrement },
+    { TypeCode::Struct, UnsupportedIncrement },
+    { TypeCode::Array, UnsupportedIncrement }
+  };
+  return increment_map.at(type_code);
 }
 
 }  // namespace utils

@@ -23,6 +23,7 @@ target_sources(unit-tests
     ${CMAKE_CURRENT_LIST_DIR}/anyvalue_exceptions_tests.cpp
     ${CMAKE_CURRENT_LIST_DIR}/anyvalue_field_tests.cpp
     ${CMAKE_CURRENT_LIST_DIR}/anyvalue_helper_tests.cpp
+    ${CMAKE_CURRENT_LIST_DIR}/anyvalue_increment_tests.cpp
     ${CMAKE_CURRENT_LIST_DIR}/anyvalue_json_serialize_tests.cpp
     ${CMAKE_CURRENT_LIST_DIR}/anyvalue_serialize_tests.cpp
     ${CMAKE_CURRENT_LIST_DIR}/anyvalue_tests.cpp

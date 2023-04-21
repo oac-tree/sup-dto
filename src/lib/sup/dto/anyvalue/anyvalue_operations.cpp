@@ -45,6 +45,11 @@ CompareResult Compare(const AnyValue& lhs, const AnyValue& rhs)
   return utils::GetCompareFunction(common_type)(lhs, rhs);
 }
 
+bool Increment(AnyValue& value)
+{
+  return utils::GetIncrementFunction(value.GetTypeCode())(value);
+}
+
 }  // namespace dto
 
 }  // namespace sup
