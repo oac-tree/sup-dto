@@ -19,10 +19,14 @@
  * of the distribution package.
  ******************************************************************************/
 
-#ifndef SUP_DTO_ANYVALUE_COMPARISON_UTILS_H_
-#define SUP_DTO_ANYVALUE_COMPARISON_UTILS_H_
+#ifndef SUP_DTO_ANYVALUE_OPERATIONS_UTILS_H_
+#define SUP_DTO_ANYVALUE_OPERATIONS_UTILS_H_
 
 #include <sup/dto/anytype.h>
+#include <sup/dto/anyvalue.h>
+#include <sup/dto/anyvalue_operations.h>
+
+#include <map>
 
 namespace sup
 {
@@ -47,10 +51,14 @@ TypeCode PromoteIntegralCode(TypeCode t);
 */
 TypeCode CommonTypeCode(TypeCode t_1, TypeCode t_2);
 
+using CompareFunction = CompareResult(*)(const AnyValue&, const AnyValue&);
+
+CompareFunction GetCompareFunction(TypeCode type_code);
+
 }  // namespace utils
 
 }  // namespace dto
 
 }  // namespace sup
 
-#endif  // SUP_DTO_ANYVALUE_COMPARISON_UTILS_H_
+#endif  // SUP_DTO_ANYVALUE_OPERATIONS_UTILS_H_

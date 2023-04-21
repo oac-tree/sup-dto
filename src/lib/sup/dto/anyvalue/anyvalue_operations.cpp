@@ -28,43 +28,7 @@
 
 namespace
 {
-/**
- * Templated comparison assumes both AnyValues can be cast to T and that there is a total order
- * for values of type T, unless T is void (see specialization).
-*/
-template <typename T>
-sup::dto::CompareResult CompareT(const sup::dto::AnyValue& lhs, const sup::dto::AnyValue& rhs)
-{
-  auto left = lhs.As<T>();
-  auto right = rhs.As<T>();
-  if (left < right)
-  {
-    return sup::dto::CompareResult::Less;
-  }
-  if (left > right)
-  {
-    return sup::dto::CompareResult::Greater;
-  }
-  return sup::dto::CompareResult::Equivalent;
-}
 
-template <>
-sup::dto::CompareResult CompareT<void>(const sup::dto::AnyValue& lhs, const sup::dto::AnyValue& rhs)
-{
-  (void)lhs;
-  (void)rhs;
-  return sup::dto::CompareResult::Unordered;
-}
-
-using CompareFunction = sup::dto::CompareResult(*)(const sup::dto::AnyValue&,
-                                                   const sup::dto::AnyValue&);
-const std::map<sup::dto::TypeCode, CompareFunction> compare_map = {
-  { sup::dto::TypeCode::Empty, CompareT<void> },
-  { sup::dto::TypeCode::Int64, CompareT<sup::dto::int64> },
-  { sup::dto::TypeCode::UInt64, CompareT<sup::dto::uint64> },
-  { sup::dto::TypeCode::Float32, CompareT<sup::dto::float32> },
-  { sup::dto::TypeCode::Float64, CompareT<sup::dto::float64> }
-};
 }  // unnamed namespace
 
 namespace sup
@@ -78,7 +42,7 @@ CompareResult Compare(const AnyValue& lhs, const AnyValue& rhs)
   auto p_1 = utils::PromoteIntegralCode(t_1);
   auto p_2 = utils::PromoteIntegralCode(t_2);
   auto common_type = utils::CommonTypeCode(p_1, p_2);
-  return compare_map.at(common_type)(lhs, rhs);
+  return utils::GetCompareFunction(common_type)(lhs, rhs);
 }
 
 }  // namespace dto

@@ -71,6 +71,46 @@ TypeCode CommonTypeCode(TypeCode t_1, TypeCode t_2)
   return t_1 == t_2 ? t_1 : TypeCode::Empty;
 }
 
+/**
+ * Templated comparison assumes both AnyValues can be cast to T and that there is a total order
+ * for values of type T, unless T is void (see specialization).
+*/
+template <typename T>
+CompareResult CompareT(const AnyValue& lhs, const AnyValue& rhs)
+{
+  auto left = lhs.As<T>();
+  auto right = rhs.As<T>();
+  if (left < right)
+  {
+    return CompareResult::Less;
+  }
+  if (left > right)
+  {
+    return CompareResult::Greater;
+  }
+  return CompareResult::Equivalent;
+}
+
+template <>
+CompareResult CompareT<void>(const AnyValue& lhs, const AnyValue& rhs)
+{
+  (void)lhs;
+  (void)rhs;
+  return CompareResult::Unordered;
+}
+
+CompareFunction GetCompareFunction(TypeCode type_code)
+{
+  const std::map<TypeCode, CompareFunction> compare_map = {
+    { TypeCode::Empty, CompareT<void> },
+    { TypeCode::Int64, CompareT<int64> },
+    { TypeCode::UInt64, CompareT<uint64> },
+    { TypeCode::Float32, CompareT<float32> },
+    { TypeCode::Float64, CompareT<float64> }
+  };
+  return compare_map.at(type_code);
+}
+
 }  // namespace utils
 
 }  // namespace dto
