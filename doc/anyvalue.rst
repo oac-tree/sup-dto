@@ -445,7 +445,7 @@ functions:
    :param value: ``AnyValue`` object to increment.
    :return: ``true`` on successful increment.
 
-   Try to increment (add 1) an AnyValue. This is only supported for arythmetic types (excluding
+   Try to increment (add 1) an AnyValue. This is only supported for arithmetic types (excluding
    'bool', 'char8' and 'string'). In case of integer types, the behavior is defined to wrap around
    the maximum value to the minimum value (also for signed types).
 
@@ -454,6 +454,6 @@ functions:
    :param value: ``AnyValue`` object to decrement.
    :return: ``true`` on successful decrement.
 
-   Try to decrement (subtract 1) an AnyValue. This is only supported for arythmetic types (excluding
+   Try to decrement (subtract 1) an AnyValue. This is only supported for arithmetic types (excluding
    'bool', 'char8' and 'string'). In case of integer types, the behavior is defined to wrap around
    the minimum value to the maximum value (also for signed types).
