@@ -36,7 +36,6 @@ namespace dto
 namespace
 {
 std::unordered_set<TypeCode> ScalarTypes();
-void AssertValidTypeAssignment(const AnyType& lhs, const AnyType& rhs);
 }  // unnamed namespace
 
 AnyType::AnyType()
@@ -70,30 +69,15 @@ AnyType::AnyType(const AnyType& other)
   : m_data{other.m_data->Clone()}
 {}
 
-AnyType& AnyType::operator=(const AnyType& other)
-{
-  if (this != &other)
-  {
-    AssertValidTypeAssignment(*this, other);
-    m_data.reset(other.m_data->Clone());
-  }
-  return *this;
-}
-
 AnyType::AnyType(AnyType&& other)
-  : m_data{other.m_data.release()}
+  : m_data{new EmptyTypeData()}
 {
-  other.m_data.reset(new EmptyTypeData());
+  std::swap(m_data, other.m_data);
 }
 
-AnyType& AnyType::operator=(AnyType&& other)
+AnyType& AnyType::operator=(AnyType other)
 {
-  if (this != &other)
-  {
-    AssertValidTypeAssignment(*this, other);
-    m_data.reset(other.m_data.release());
-    other.m_data.reset(new EmptyTypeData());
-  }
+  std::swap(m_data, other.m_data);
   return *this;
 }
 
@@ -253,13 +237,6 @@ std::unordered_set<TypeCode> ScalarTypes()
   return result;
 }
 
-void AssertValidTypeAssignment(const AnyType& lhs, const AnyType& rhs)
-{
-  if (IsEmptyType(rhs) && !IsEmptyType(lhs))
-  {
-    throw InvalidOperationException("Empty type can not be assigned to non-empty type");
-  }
-}
 }  // unnamed namespace
 
 }  // namespace dto

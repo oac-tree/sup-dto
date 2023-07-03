@@ -221,18 +221,18 @@ TEST(AnyTypeTest, AssignEmptyFields)
   AnyType empty{};
   EXPECT_NO_THROW(empty = EmptyType);
 
-  // Do not allow assigning an empty type to a scalar type
+  // Allow assigning an empty type to a scalar type
   AnyType my_scalar = StringType;
-  EXPECT_THROW(my_scalar = EmptyType, InvalidOperationException);
+  EXPECT_NO_THROW(my_scalar = EmptyType);
 
-  // Do not allow assigning an empty type to a member
+  // Allow assigning an empty type to a member
   AnyType my_struct({
     {"number", SignedInteger16Type},
     {"other", BooleanType}
   }, "MyStruct");
-  EXPECT_THROW(my_struct["other"] = EmptyType, InvalidOperationException);
+  EXPECT_NO_THROW(my_struct["other"] = EmptyType);
 
   // Do not allow assigning the empty type as the element type of an array
   AnyType my_array(4, UnsignedInteger64Type);
-  EXPECT_THROW(my_array["[]"] = EmptyType, InvalidOperationException);
+  EXPECT_NO_THROW(my_array["[]"] = EmptyType);
 }

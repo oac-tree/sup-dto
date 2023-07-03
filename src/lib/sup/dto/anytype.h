@@ -123,6 +123,13 @@ public:
   AnyType(const AnyType& other);
 
   /**
+   * @brief Move constructor.
+   *
+   * @param other Source AnyType for move construction.
+   */
+  AnyType(AnyType&& other);
+
+  /**
    * @brief Copy assignment.
    *
    * @param other Source AnyType for copy assignment.
@@ -131,25 +138,7 @@ public:
    *
    * @note Always succeeds and overwrites the currently held type.
    */
-  AnyType& operator=(const AnyType& other);
-
-  /**
-   * @brief Move constructor.
-   *
-   * @param other Source AnyType for move construction.
-   */
-  AnyType(AnyType&& other);
-
-  /**
-   * @brief Move assignment.
-   *
-   * @param other Source AnyType for move assignment.
-   *
-   * @return Reference to this.
-   *
-   * @note Always succeeds and overwrites the currently held type.
-   */
-  AnyType& operator=(AnyType&& other);
+  AnyType& operator=(AnyType other);
 
   /**
    * @brief Destructor.
