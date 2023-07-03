@@ -318,7 +318,7 @@ public:
   bool operator!=(const AnyValue& other) const;
 
 private:
-  std::unique_ptr<IValueData> data;
+  std::unique_ptr<IValueData> m_data;
 };
 
   /**

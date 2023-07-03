@@ -35,96 +35,96 @@ namespace dto
 {
 
 AnyValue::AnyValue()
-  : data{new EmptyValueData{}}
+  : m_data{new EmptyValueData{}}
 {}
 
 AnyValue::AnyValue(boolean val)
-  : data{new ScalarValueDataT<boolean>(val)}
+  : m_data{new ScalarValueDataT<boolean>(val)}
 {}
 
 AnyValue::AnyValue(char8 val)
-  : data{new ScalarValueDataT<char8>(val)}
+  : m_data{new ScalarValueDataT<char8>(val)}
 {}
 
 AnyValue::AnyValue(int8 val)
-  : data{new ScalarValueDataT<int8>(val)}
+  : m_data{new ScalarValueDataT<int8>(val)}
 {}
 
 AnyValue::AnyValue(uint8 val)
-  : data{new ScalarValueDataT<uint8>(val)}
+  : m_data{new ScalarValueDataT<uint8>(val)}
 {}
 
 AnyValue::AnyValue(int16 val)
-  : data{new ScalarValueDataT<int16>(val)}
+  : m_data{new ScalarValueDataT<int16>(val)}
 {}
 
 AnyValue::AnyValue(uint16 val)
-  : data{new ScalarValueDataT<uint16>(val)}
+  : m_data{new ScalarValueDataT<uint16>(val)}
 {}
 
 AnyValue::AnyValue(int32 val)
-  : data{new ScalarValueDataT<int32>(val)}
+  : m_data{new ScalarValueDataT<int32>(val)}
 {}
 
 AnyValue::AnyValue(uint32 val)
-  : data{new ScalarValueDataT<uint32>(val)}
+  : m_data{new ScalarValueDataT<uint32>(val)}
 {}
 
 AnyValue::AnyValue(int64 val)
-  : data{new ScalarValueDataT<int64>(val)}
+  : m_data{new ScalarValueDataT<int64>(val)}
 {}
 
 AnyValue::AnyValue(uint64 val)
-  : data{new ScalarValueDataT<uint64>(val)}
+  : m_data{new ScalarValueDataT<uint64>(val)}
 {}
 
 AnyValue::AnyValue(float32 val)
-  : data{new ScalarValueDataT<float32>(val)}
+  : m_data{new ScalarValueDataT<float32>(val)}
 {}
 
 AnyValue::AnyValue(float64 val)
-  : data{new ScalarValueDataT<float64>(val)}
+  : m_data{new ScalarValueDataT<float64>(val)}
 {}
 
 AnyValue::AnyValue(const std::string& val)
-  : data{new ScalarValueDataT<std::string>(val)}
+  : m_data{new ScalarValueDataT<std::string>(val)}
 {}
 
 AnyValue::AnyValue(const char* val)
-  : data{new ScalarValueDataT<std::string>(val)}
+  : m_data{new ScalarValueDataT<std::string>(val)}
 {}
 
 AnyValue::AnyValue(const AnyType& anytype)
-  : data{CreateValueData(anytype)}
+  : m_data{CreateValueData(anytype)}
 {}
 
 AnyValue::AnyValue(const AnyType& anytype, const AnyValue& anyvalue)
-  : data{CreateValueData(anytype)}
+  : m_data{CreateValueData(anytype)}
 {
-  data->Assign(anyvalue);
+  m_data->Assign(anyvalue);
 }
 
 AnyValue::AnyValue(std::initializer_list<std::pair<std::string, AnyValue>> members,
                    const std::string& type_name)
-  : data{new EmptyValueData{}}
+  : m_data{new EmptyValueData{}}
 {
   auto struct_data = std::unique_ptr<StructValueData>(new StructValueData(type_name));
   for (auto& member : members)
   {
     struct_data->AddMember(member.first, member.second);
   }
-  data = std::move(struct_data);
+  m_data = std::move(struct_data);
 }
 
 AnyValue::AnyValue(std::size_t size, const AnyType& elem_type, const std::string& name)
-  : data{new EmptyValueData{}}
+  : m_data{new EmptyValueData{}}
 {
-  auto array_data = std::unique_ptr<ArrayValueData>(new ArrayValueData(size, elem_type, name));
-  data = std::move(array_data);
+  auto array_data = std::unique_ptr<IValueData>(new ArrayValueData(size, elem_type, name));
+  std::swap(m_data, array_data);
 }
 
 AnyValue::AnyValue(const AnyValue& other)
-  : data{other.data->Clone()}
+  : m_data{other.m_data->Clone()}
 {}
 
 AnyValue& AnyValue::operator=(const AnyValue& other)
@@ -135,19 +135,19 @@ AnyValue& AnyValue::operator=(const AnyValue& other)
   }
   if (!IsEmptyValue(*this))
   {
-    data->Assign(other);
+    m_data->Assign(other);
   }
   else
   {
-    data.reset(other.data->Clone());
+    m_data.reset(other.m_data->Clone());
   }
   return *this;
 }
 
 AnyValue::AnyValue(AnyValue&& other)
-  : data{other.data.release()}
+  : m_data{other.m_data.release()}
 {
-  other.data.reset(new EmptyValueData());
+  other.m_data.reset(new EmptyValueData());
 }
 
 AnyValue& AnyValue::operator=(AnyValue&& other)
@@ -158,13 +158,13 @@ AnyValue& AnyValue::operator=(AnyValue&& other)
   }
   if (GetType() == other.GetType() || IsEmptyValue(*this))
   {
-    data.reset(other.data.release());
-    other.data.reset(new EmptyValueData());
+    m_data.reset(other.m_data.release());
+    other.m_data.reset(new EmptyValueData());
   }
   else
   {
     // Fallback to copy
-    data->Assign(other);
+    m_data->Assign(other);
   }
   return *this;
 }
@@ -173,79 +173,79 @@ AnyValue::~AnyValue() = default;
 
 TypeCode AnyValue::GetTypeCode() const
 {
-  return data->GetTypeCode();
+  return m_data->GetTypeCode();
 }
 
 AnyType AnyValue::GetType() const
 {
-  return data->GetType();
+  return m_data->GetType();
 }
 
 std::string AnyValue::GetTypeName() const
 {
-  return data->GetTypeName();
+  return m_data->GetTypeName();
 }
 
 AnyValue& AnyValue::AddMember(const std::string& name, const AnyValue& value)
 {
-  data->AddMember(name, value);
+  m_data->AddMember(name, value);
   return *this;
 }
 
 std::vector<std::string> AnyValue::MemberNames() const
 {
-  return data->MemberNames();
+  return m_data->MemberNames();
 }
 
 std::size_t AnyValue::NumberOfMembers() const
 {
-  return data->NumberOfMembers();
+  return m_data->NumberOfMembers();
 }
 
 AnyValue& AnyValue::AddElement(const AnyValue& value)
 {
-  data->AddElement(value);
+  m_data->AddElement(value);
   return *this;
 }
 
 std::size_t AnyValue::NumberOfElements() const
 {
-  return data->NumberOfElements();
+  return m_data->NumberOfElements();
 }
 
 bool AnyValue::HasField(const std::string& fieldname) const
 {
-  return data->HasField(fieldname);
+  return m_data->HasField(fieldname);
 }
 
 AnyValue& AnyValue::operator[](const std::string& fieldname)
 {
-  return (*data)[fieldname];
+  return (*m_data)[fieldname];
 }
 
 const AnyValue& AnyValue::operator[](const std::string& fieldname) const
 {
-  return (*data)[fieldname];
+  return (*m_data)[fieldname];
 }
 
 AnyValue& AnyValue::operator[](std::size_t idx)
 {
-  return (*data)[idx];
+  return (*m_data)[idx];
 }
 
 const AnyValue& AnyValue::operator[](std::size_t idx) const
 {
-  return (*data)[idx];
+  return (*m_data)[idx];
 }
 
 bool AnyValue::operator==(const AnyValue& other) const
 {
-  if (data->IsScalar())
+  if (m_data->IsScalar())
   {
     // Enforce symmetry of scalar comparison when conversions are involved
-    return data->Equals(other) && other.data->Equals(*this);
+    return m_data->Equals(other) && other.m_data->Equals(*this);
   }
-  return data->Equals(other);
+  return m_data->Equals(other);
 }
 
 bool AnyValue::operator!=(const AnyValue& other) const
@@ -262,79 +262,79 @@ AnyValue AnyValue::As<AnyValue>() const
 template <>
 boolean AnyValue::As<boolean>() const
 {
-  return data->AsBoolean();
+  return m_data->AsBoolean();
 }
 
 template <>
 char8 AnyValue::As<char8>() const
 {
-  return data->AsCharacter8();
+  return m_data->AsCharacter8();
 }
 
 template <>
 int8 AnyValue::As<int8>() const
 {
-  return data->AsSignedInteger8();
+  return m_data->AsSignedInteger8();
 }
 
 template <>
 uint8 AnyValue::As<uint8>() const
 {
-  return data->AsUnsignedInteger8();
+  return m_data->AsUnsignedInteger8();
 }
 
 template <>
 int16 AnyValue::As<int16>() const
 {
-  return data->AsSignedInteger16();
+  return m_data->AsSignedInteger16();
 }
 
 template <>
 uint16 AnyValue::As<uint16>() const
 {
-  return data->AsUnsignedInteger16();
+  return m_data->AsUnsignedInteger16();
 }
 
 template <>
 int32 AnyValue::As<int32>() const
 {
-  return data->AsSignedInteger32();
+  return m_data->AsSignedInteger32();
 }
 
 template <>
 uint32 AnyValue::As<uint32>() const
 {
-  return data->AsUnsignedInteger32();
+  return m_data->AsUnsignedInteger32();
 }
 
 template <>
 int64 AnyValue::As<int64>() const
 {
-  return data->AsSignedInteger64();
+  return m_data->AsSignedInteger64();
 }
 
 template <>
 uint64 AnyValue::As<uint64>() const
 {
-  return data->AsUnsignedInteger64();
+  return m_data->AsUnsignedInteger64();
 }
 
 template <>
 float32 AnyValue::As<float32>() const
 {
-  return data->AsFloat32();
+  return m_data->AsFloat32();
 }
 
 template <>
 float64 AnyValue::As<float64>() const
 {
-  return data->AsFloat64();
+  return m_data->AsFloat64();
 }
 
 template <>
 std::string AnyValue::As<std::string>() const
 {
-  return data->AsString();
+  return m_data->AsString();
 }
 
 AnyValue EmptyStruct(const std::string& type_name)
