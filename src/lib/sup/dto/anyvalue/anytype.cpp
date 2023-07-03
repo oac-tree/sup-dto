@@ -40,34 +40,34 @@ void AssertValidTypeAssignment(const AnyType& lhs, const AnyType& rhs);
 }  // unnamed namespace
 
 AnyType::AnyType()
-  : data{new EmptyTypeData()}
+  : m_data{new EmptyTypeData()}
 {}
 
 AnyType::AnyType(TypeCode type_code)
-  : data{CreateScalarData(type_code)}
+  : m_data{CreateScalarData(type_code)}
 {}
 
 AnyType::AnyType(std::initializer_list<std::pair<std::string, AnyType>> members,
                  const std::string& name)
-  : data{new EmptyTypeData()}
+  : m_data{new EmptyTypeData()}
 {
   auto struct_data = std::unique_ptr<StructTypeData>(new StructTypeData(name));
   for (auto& member : members)
   {
     struct_data->AddMember(member.first, member.second);
   }
-  data = std::move(struct_data);
+  m_data = std::move(struct_data);
 }
 
 AnyType::AnyType(std::size_t size, const AnyType& elem_type, const std::string& name)
-  : data{new EmptyTypeData()}
+  : m_data{new EmptyTypeData()}
 {
   auto array_data = std::unique_ptr<ArrayTypeData>(new ArrayTypeData(size, elem_type, name));
-  data = std::move(array_data);
+  m_data = std::move(array_data);
 }
 
 AnyType::AnyType(const AnyType& other)
-  : data{other.data->Clone()}
+  : m_data{other.m_data->Clone()}
 {}
 
 AnyType& AnyType::operator=(const AnyType& other)
@@ -75,15 +75,15 @@ AnyType& AnyType::operator=(const AnyType& other)
   if (this != &other)
   {
     AssertValidTypeAssignment(*this, other);
-    data.reset(other.data->Clone());
+    m_data.reset(other.m_data->Clone());
   }
   return *this;
 }
 
 AnyType::AnyType(AnyType&& other)
-  : data{other.data.release()}
+  : m_data{other.m_data.release()}
 {
-  other.data.reset(new EmptyTypeData());
+  other.m_data.reset(new EmptyTypeData());
 }
 
 AnyType& AnyType::operator=(AnyType&& other)
@@ -91,8 +91,8 @@ AnyType& AnyType::operator=(AnyType&& other)
   if (this != &other)
   {
     AssertValidTypeAssignment(*this, other);
-    data.reset(other.data.release());
-    other.data.reset(new EmptyTypeData());
+    m_data.reset(other.m_data.release());
+    other.m_data.reset(new EmptyTypeData());
   }
   return *this;
 }
@@ -101,58 +101,58 @@ AnyType::~AnyType() = default;
 
 TypeCode AnyType::GetTypeCode() const
 {
-  return data->GetTypeCode();
+  return m_data->GetTypeCode();
 }
 
 std::string AnyType::GetTypeName() const
 {
-  return data->GetTypeName();
+  return m_data->GetTypeName();
 }
 
 AnyType& AnyType::AddMember(const std::string& name, const AnyType& type)
 {
-  data->AddMember(name, type);
+  m_data->AddMember(name, type);
   return *this;
 }
 
 std::vector<std::string> AnyType::MemberNames() const
 {
-  return data->MemberNames();
+  return m_data->MemberNames();
 }
 
 std::size_t AnyType::NumberOfMembers() const
 {
-  return data->NumberOfMembers();
+  return m_data->NumberOfMembers();
 }
 
 AnyType AnyType::ElementType() const
 {
-  return data->ElementType();
+  return m_data->ElementType();
 }
 
 std::size_t AnyType::NumberOfElements() const
 {
-  return data->NumberOfElements();
+  return m_data->NumberOfElements();
 }
 
 bool AnyType::HasField(const std::string& fieldname) const
 {
-  return data->HasField(fieldname);
+  return m_data->HasField(fieldname);
 }
 
 AnyType& AnyType::operator[](const std::string& fieldname)
 {
-  return (*data)[fieldname];
+  return (*m_data)[fieldname];
 }
 
 const AnyType& AnyType::operator[](const std::string& fieldname) const
 {
-  return (*data)[fieldname];
+  return (*m_data)[fieldname];
 }
 
 bool AnyType::operator==(const AnyType& other) const
 {
-  return data->Equals(other);
+  return m_data->Equals(other);
 }
 
 bool AnyType::operator!=(const AnyType& other) const
