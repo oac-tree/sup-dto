@@ -61,8 +61,8 @@ AnyType::AnyType(std::initializer_list<std::pair<std::string, AnyType>> members,
 AnyType::AnyType(std::size_t size, const AnyType& elem_type, const std::string& name)
   : m_data{new EmptyTypeData()}
 {
-  auto array_data = std::unique_ptr<ArrayTypeData>(new ArrayTypeData(size, elem_type, name));
-  m_data = std::move(array_data);
+  auto array_data = std::unique_ptr<ITypeData>(new ArrayTypeData(size, elem_type, name));
+  std::swap(m_data, array_data);
 }
 
 AnyType::AnyType(const AnyType& other)

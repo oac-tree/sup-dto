@@ -202,17 +202,17 @@ TEST(AnyTypeTest, MoveAssignment)
 
 TEST(AnyTypeTest, CreateEmptyFields)
 {
-  // Do not allow creating a structure type with an empty type as member
-  EXPECT_THROW(AnyType({
+  // Allow creating a structure type with an empty type as member
+  EXPECT_NO_THROW(AnyType({
                  {"number", SignedInteger16Type},
                  {"empty", EmptyType}
-               }, "EmptyMemberStruct"), InvalidOperationException);
+               }, "EmptyMemberStruct"));
   AnyType my_struct = EmptyStructType("MyStruct");
   EXPECT_NO_THROW(my_struct.AddMember("number", UnsignedInteger32Type));
-  EXPECT_THROW(my_struct.AddMember("empty", EmptyType), InvalidOperationException);
+  EXPECT_NO_THROW(my_struct.AddMember("empty", EmptyType));
 
-  // Do not allow creating an array of empty types
-  EXPECT_THROW(AnyType(12, EmptyType), InvalidOperationException);
+  // Allow creating an array of empty types
+  EXPECT_NO_THROW(AnyType(12, EmptyType));
 }
 
 TEST(AnyTypeTest, AssignEmptyFields)

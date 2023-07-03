@@ -32,12 +32,7 @@ ArrayTypeData::ArrayTypeData(std::size_t size_, const AnyType& elem_type_, const
   : size{size_}
   , elem_type{elem_type_}
   , name{name_}
-{
-  if (elem_type == EmptyType)
-  {
-    throw InvalidOperationException("Empty type is not allowed as element type");
-  }
-}
+{}
 
 ArrayTypeData::~ArrayTypeData() = default;
 

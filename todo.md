@@ -8,7 +8,7 @@
 
 Shortlist:
 
-- [ ] AnyType: remove constraints.
+- [x] AnyType: remove constraints.
 - [ ] AnyValue: disallow violating value invariants in case of arrays, i.e. all elements of an array should have the exact same type.
 - [ ] Documentation
 

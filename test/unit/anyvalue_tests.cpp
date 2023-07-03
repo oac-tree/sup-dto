@@ -260,14 +260,14 @@ TEST(AnyValueTest, CastToAnyValue)
 
 TEST(AnyValueTest, CreateEmptyFields)
 {
-  // Do not allow creating a structure value with an empty value as member
-  EXPECT_THROW(AnyValue({
+  // Allow creating a structure value with an empty value as member
+  EXPECT_NO_THROW(AnyValue({
                  {"number", {SignedInteger16Type, 8765}},
                  {"empty", AnyValue{}}
-               }, "EmptyMemberStruct"), InvalidOperationException);
+               }, "EmptyMemberStruct"));
   AnyValue my_struct = EmptyStruct("MyStruct");
   EXPECT_NO_THROW(my_struct.AddMember("number", 0));
-  EXPECT_THROW(my_struct.AddMember("empty", AnyValue{}), InvalidOperationException);
+  EXPECT_NO_THROW(my_struct.AddMember("empty", AnyValue{}));
 
   // Do not allow creating an array of empty types
   EXPECT_THROW(AnyValue(12, EmptyType), InvalidOperationException);
