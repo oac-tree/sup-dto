@@ -98,7 +98,7 @@ public:
    * @param name Optional name for the type.
    *
    * @throws InvalidOperationException Thrown when the given arguments do not allow the construction
-   * of a structure type (e.g. empty type as member).
+   * of a valid structure type (e.g. duplicate or invalid member names).
    */
   AnyType(std::initializer_list<std::pair<std::string, AnyType>> members,
           const std::string& name = {});
@@ -109,9 +109,6 @@ public:
    * @param size number of elements in the array.
    * @param elem_type type of the elements in the array.
    * @param name Optional name for the type.
-   *
-   * @throws InvalidOperationException Thrown when the given arguments do not allow the construction
-   * of an array type (e.g. empty type as element type).
    */
   AnyType(std::size_t size, const AnyType& elem_type, const std::string& name = {});
 
