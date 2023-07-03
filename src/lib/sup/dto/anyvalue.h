@@ -134,6 +134,13 @@ public:
   AnyValue(const AnyValue& other);
 
   /**
+   * @brief Move constructor.
+   *
+   * @param other Source AnyValue for move construction.
+   */
+  AnyValue(AnyValue&& other);
+
+  /**
    * @brief Copy assignment.
    *
    * @param other Source AnyValue for copy assignment.
@@ -144,13 +151,6 @@ public:
    * to this AnyValue.
    */
   AnyValue& operator=(const AnyValue& other);
-
-  /**
-   * @brief Move constructor.
-   *
-   * @param other Source AnyValue for move construction.
-   */
-  AnyValue(AnyValue&& other);
 
   /**
    * @brief Move assignment.

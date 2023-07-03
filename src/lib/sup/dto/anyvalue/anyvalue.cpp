@@ -127,6 +127,12 @@ AnyValue::AnyValue(const AnyValue& other)
   : m_data{other.m_data->Clone()}
 {}
 
+AnyValue::AnyValue(AnyValue&& other)
+  : m_data{new EmptyValueData{}}
+{
+  std::swap(m_data, other.m_data);
+}
+
 AnyValue& AnyValue::operator=(const AnyValue& other)
 {
   if (this == &other)
@@ -142,12 +148,6 @@ AnyValue& AnyValue::operator=(const AnyValue& other)
     m_data.reset(other.m_data->Clone());
   }
   return *this;
-}
-
-AnyValue::AnyValue(AnyValue&& other)
-  : m_data{other.m_data.release()}
-{
-  other.m_data.reset(new EmptyValueData());
 }
 
 AnyValue& AnyValue::operator=(AnyValue&& other)
