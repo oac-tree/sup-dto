@@ -139,103 +139,103 @@ public:
   bool Equals(const AnyValue& other) const override;
 
 private:
-  T value;
+  T m_value;
 };
 
 template <typename T>
-ScalarValueDataT<T>::ScalarValueDataT(T value_)
+ScalarValueDataT<T>::ScalarValueDataT(T value)
   : ScalarValueDataBase{TypeToCode<T>::code}
-  , value{value_}
+  , m_value{value}
 {}
 
 template <typename T>
 ScalarValueDataT<T>* ScalarValueDataT<T>::Clone() const
 {
-  return new ScalarValueDataT<T>(value);
+  return new ScalarValueDataT<T>(m_value);
 }
 
 template <typename T>
-void ScalarValueDataT<T>::Assign(const AnyValue& value_)
+void ScalarValueDataT<T>::Assign(const AnyValue& value)
 {
-  value = value_.As<T>();
+  m_value = value.As<T>();
 }
 
 template <typename T>
 boolean ScalarValueDataT<T>::AsBoolean() const
 {
-  return ConvertScalar<boolean, T>(value);
+  return ConvertScalar<boolean, T>(m_value);
 }
 
 template <typename T>
 char8 ScalarValueDataT<T>::AsCharacter8() const
 {
-  return ConvertScalar<char8, T>(value);
+  return ConvertScalar<char8, T>(m_value);
 }
 
 template <typename T>
 int8 ScalarValueDataT<T>::AsSignedInteger8() const
 {
-  return ConvertScalar<int8, T>(value);
+  return ConvertScalar<int8, T>(m_value);
 }
 
 template <typename T>
 uint8 ScalarValueDataT<T>::AsUnsignedInteger8() const
 {
-  return ConvertScalar<uint8, T>(value);
+  return ConvertScalar<uint8, T>(m_value);
 }
 
 template <typename T>
 int16 ScalarValueDataT<T>::AsSignedInteger16() const
 {
-  return ConvertScalar<int16, T>(value);
+  return ConvertScalar<int16, T>(m_value);
 }
 
 template <typename T>
 uint16 ScalarValueDataT<T>::AsUnsignedInteger16() const
 {
-  return ConvertScalar<uint16, T>(value);
+  return ConvertScalar<uint16, T>(m_value);
 }
 
 template <typename T>
 int32 ScalarValueDataT<T>::AsSignedInteger32() const
 {
-  return ConvertScalar<int32, T>(value);
+  return ConvertScalar<int32, T>(m_value);
 }
 
 template <typename T>
 uint32 ScalarValueDataT<T>::AsUnsignedInteger32() const
 {
-  return ConvertScalar<uint32, T>(value);
+  return ConvertScalar<uint32, T>(m_value);
 }
 
 template <typename T>
 int64 ScalarValueDataT<T>::AsSignedInteger64() const
 {
-  return ConvertScalar<int64, T>(value);
+  return ConvertScalar<int64, T>(m_value);
 }
 
 template <typename T>
 uint64 ScalarValueDataT<T>::AsUnsignedInteger64() const
 {
-  return ConvertScalar<uint64, T>(value);
+  return ConvertScalar<uint64, T>(m_value);
 }
 
 template <typename T>
 float32 ScalarValueDataT<T>::AsFloat32() const
 {
-  return ConvertScalar<float32, T>(value);
+  return ConvertScalar<float32, T>(m_value);
 }
 
 template <typename T>
 float64 ScalarValueDataT<T>::AsFloat64() const
 {
-  return ConvertScalar<float64, T>(value);
+  return ConvertScalar<float64, T>(m_value);
 }
 
 template <typename T>
 std::string ScalarValueDataT<T>::AsString() const
 {
-  return ConvertScalar<std::string, T>(value);
+  return ConvertScalar<std::string, T>(m_value);
 }
 
 template <typename T>
@@ -247,7 +247,7 @@ bool ScalarValueDataT<T>::Equals(const AnyValue& other) const
   }
   try
   {
-    if (value == other.As<T>())
+    if (m_value == other.As<T>())
     {
       return true;
     }

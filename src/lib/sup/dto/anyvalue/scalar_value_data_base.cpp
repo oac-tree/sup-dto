@@ -34,20 +34,21 @@ namespace sup
 namespace dto
 {
 
-ScalarValueDataBase::ScalarValueDataBase(TypeCode type_code_)
-  : type_code{type_code_}
+ScalarValueDataBase::ScalarValueDataBase(TypeCode type_code)
+  : m_type_code{type_code}
+  , m_constraints{value_flags::kNone}
 {}
 
 ScalarValueDataBase::~ScalarValueDataBase() = default;
 
 TypeCode ScalarValueDataBase::GetTypeCode() const
 {
-  return type_code;
+  return m_type_code;
 }
 
 AnyType ScalarValueDataBase::GetType() const
 {
-  return AnyType(type_code);
+  return AnyType(m_type_code);
 }
 
 bool ScalarValueDataBase::IsScalar() const

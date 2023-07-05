@@ -43,7 +43,8 @@ protected:
   ScalarValueDataBase(TypeCode type_code);
 
 private:
-  TypeCode type_code;
+  TypeCode m_type_code;
+  value_flags::Constraints m_constraints;
 };
 
 ScalarValueDataBase* CreateScalarValueData(TypeCode type_code);

@@ -46,6 +46,12 @@ bool IValueData::IsScalar() const
   return false;
 }
 
+bool IValueData::HasLockedType() const
+{
+  // TODO: make this pure virtual instead
+  return false;
+}
+
 void IValueData::AddMember(const std::string&, const AnyValue&)
 {
   throw InvalidOperationException("Add member only supported for structured types");
@@ -72,8 +78,9 @@ std::size_t IValueData::NumberOfElements() const
   return 0;
 }
 
-void IValueData::Assign(const AnyValue&)
+void IValueData::Assign(const AnyValue& value)
 {
+  (void)value;
   throw InvalidConversionException("Cannot assign incompatible AnyValue");
 }
 
