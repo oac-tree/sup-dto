@@ -31,15 +31,21 @@ namespace dto
 class EmptyValueData : public IValueData
 {
 public:
-  EmptyValueData();
+  explicit EmptyValueData(value_flags::Constraints constraints);
   ~EmptyValueData() override;
 
   EmptyValueData* Clone() const override;
   TypeCode GetTypeCode() const override;
   AnyType GetType() const override;
 
+  value_flags::Constraints GetConstraints() const override;
+
   bool Equals(const AnyValue& other) const override;
+private:
+  value_flags::Constraints m_constraints;
 };
+
+IValueData* CreateDefaultValueData();
 
 }  // namespace dto
 

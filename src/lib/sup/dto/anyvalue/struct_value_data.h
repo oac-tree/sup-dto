@@ -34,18 +34,21 @@ namespace dto
 class StructValueData : public IValueData
 {
 public:
-  StructValueData(const std::string& type_name);
+  StructValueData(const std::string& type_name, value_flags::Constraints constraints);
   ~StructValueData() override;
 
   StructValueData* Clone() const override;
   TypeCode GetTypeCode() const override;
-  AnyType GetType() const override;
   std::string GetTypeName() const override;
-  void Assign(const AnyValue& value) override;
+  AnyType GetType() const override;
+
+  value_flags::Constraints GetConstraints() const override;
 
   void AddMember(const std::string& name, const AnyValue& value) override;
   std::vector<std::string> MemberNames() const override;
   std::size_t NumberOfMembers() const override;
+
+  void Assign(const AnyValue& value) override;
 
   bool HasField(const std::string& fieldname) const override;
   AnyValue& operator[](const std::string& fieldname) override;
@@ -54,10 +57,12 @@ public:
 
 private:
   StructValueData(const StructDataT<AnyValue>& member_data);
-  StructDataT<AnyValue> member_data;
+  StructDataT<AnyValue> m_member_data;
+  value_flags::Constraints m_constraints;
 };
 
-StructValueData* CreateStructValueData(const AnyType& anytype);
+StructValueData* CreateStructValueData(const AnyType& anytype,
+                                       value_flags::Constraints constraints);
 
 }  // namespace dto
 

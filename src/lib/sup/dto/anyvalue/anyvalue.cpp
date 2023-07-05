@@ -35,7 +35,7 @@ namespace dto
 {
 
 AnyValue::AnyValue()
-  : m_data{new EmptyValueData{}}
+  : m_data{CreateDefaultValueData()}
 {}
 
 AnyValue::AnyValue(boolean val)
@@ -106,9 +106,10 @@ AnyValue::AnyValue(const AnyType& anytype, const AnyValue& anyvalue)
 
 AnyValue::AnyValue(std::initializer_list<std::pair<std::string, AnyValue>> members,
                    const std::string& type_name)
-  : m_data{new EmptyValueData{}}
+  : m_data{CreateDefaultValueData()}
 {
-  auto struct_data = std::unique_ptr<StructValueData>(new StructValueData(type_name));
+  auto struct_data =
+    std::unique_ptr<StructValueData>(new StructValueData(type_name, value_flags::kNone));
   for (auto& member : members)
   {
     struct_data->AddMember(member.first, member.second);
@@ -117,9 +118,10 @@ AnyValue::AnyValue(std::initializer_list<std::pair<std::string, AnyValue>> membe
 }
 
 AnyValue::AnyValue(std::size_t size, const AnyType& elem_type, const std::string& name)
-  : m_data{new EmptyValueData{}}
+  : m_data{CreateDefaultValueData()}
 {
-  auto array_data = std::unique_ptr<IValueData>(new ArrayValueData(size, elem_type, name));
+  auto array_data =
+    std::unique_ptr<IValueData>(new ArrayValueData(size, elem_type, name, value_flags::kNone));
   std::swap(m_data, array_data);
 }
 
@@ -128,7 +130,7 @@ AnyValue::AnyValue(const AnyValue& other)
 {}
 
 AnyValue::AnyValue(AnyValue&& other)
-  : m_data{new EmptyValueData{}}
+  : m_data{CreateDefaultValueData()}
 {
   std::swap(m_data, other.m_data);
 }
@@ -159,7 +161,7 @@ AnyValue& AnyValue::operator=(AnyValue&& other)
   if (GetType() == other.GetType() || IsEmptyValue(*this))
   {
     m_data.reset(other.m_data.release());
-    other.m_data.reset(new EmptyValueData());
+    other.m_data.reset(CreateDefaultValueData());
   }
   else
   {

@@ -26,36 +26,57 @@ namespace sup
 namespace dto
 {
 
-StructValueData::StructValueData(const std::string& type_name)
-  : member_data{type_name}
+StructValueData::StructValueData(const std::string& type_name, value_flags::Constraints constraints)
+  : m_member_data{type_name}
+  , m_constraints{constraints}
 {}
 
 StructValueData::~StructValueData() = default;
 
 StructValueData* StructValueData::Clone() const
 {
-  auto result = std::unique_ptr<StructValueData>(new StructValueData(member_data));
+  auto result = std::unique_ptr<StructValueData>(new StructValueData(m_member_data));
   return result.release();
 }
 
 TypeCode StructValueData::GetTypeCode() const
 {
-  return member_data.GetTypeCode();
-}
-
-AnyType StructValueData::GetType() const
-{
-  auto result = EmptyStructType(member_data.GetTypeName());
-  for (const auto& member_name : member_data.MemberNames())
-  {
-    result.AddMember(member_name, member_data[member_name].GetType());
-  }
-  return result;
+  return m_member_data.GetTypeCode();
 }
 
 std::string StructValueData::GetTypeName() const
 {
-  return member_data.GetTypeName();
+  return m_member_data.GetTypeName();
+}
+
+AnyType StructValueData::GetType() const
+{
+  auto result = EmptyStructType(m_member_data.GetTypeName());
+  for (const auto& member_name : m_member_data.MemberNames())
+  {
+    result.AddMember(member_name, m_member_data[member_name].GetType());
+  }
+  return result;
+}
+
+value_flags::Constraints StructValueData::GetConstraints() const
+{
+  return m_constraints;
+}
+
+void StructValueData::AddMember(const std::string& name, const AnyValue& value)
+{
+  return m_member_data.AddMember(name, value);
+}
+
+std::vector<std::string> StructValueData::MemberNames() const
+{
+  return m_member_data.MemberNames();
+}
+
+std::size_t StructValueData::NumberOfMembers() const
+{
+  return m_member_data.NumberOfMembers();
 }
 
 void StructValueData::Assign(const AnyValue& value)
@@ -68,50 +89,37 @@ void StructValueData::Assign(const AnyValue& value)
   {
     throw InvalidConversionException("Can't convert AnyValues with different list of fields");
   }
-  for (const auto &member_name : member_data.MemberNames())
+  for (const auto &member_name : m_member_data.MemberNames())
   {
     auto &other_member_value = value[member_name];
-    member_data[member_name] = other_member_value;
+    m_member_data[member_name] = other_member_value;
   }
-}
-
-void StructValueData::AddMember(const std::string& name, const AnyValue& value)
-{
-  return member_data.AddMember(name, value);
-}
-
-std::vector<std::string> StructValueData::MemberNames() const
-{
-  return member_data.MemberNames();
-}
-
-std::size_t StructValueData::NumberOfMembers() const
-{
-  return member_data.NumberOfMembers();
 }
 
 bool StructValueData::HasField(const std::string& fieldname) const
 {
-  return member_data.HasField(fieldname);
+  return m_member_data.HasField(fieldname);
 }
 
 AnyValue& StructValueData::operator[](const std::string& fieldname)
 {
-  return member_data[fieldname];
+  return m_member_data[fieldname];
 }
 
 bool StructValueData::Equals(const AnyValue& other) const
 {
-  return member_data.Equals(other);
+  return m_member_data.Equals(other);
 }
 
-StructValueData::StructValueData(const StructDataT<AnyValue>& member_data_)
-  : member_data{member_data_}
+StructValueData::StructValueData(const StructDataT<AnyValue>& member_data)
+  : m_member_data{member_data}
+  , m_constraints{value_flags::kNone}
 {}
 
-StructValueData* CreateStructValueData(const AnyType& anytype)
+StructValueData* CreateStructValueData(const AnyType& anytype, value_flags::Constraints constraints)
 {
-  auto result = std::unique_ptr<StructValueData>(new StructValueData(anytype.GetTypeName()));
+  auto result =
+    std::unique_ptr<StructValueData>(new StructValueData(anytype.GetTypeName(), constraints));
   for (const auto& member_name : anytype.MemberNames())
   {
     result->AddMember(member_name, AnyValue(anytype[member_name]));

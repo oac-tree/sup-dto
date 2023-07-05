@@ -31,12 +31,14 @@ namespace sup
 namespace dto
 {
 
-ArrayValueData::ArrayValueData(std::size_t size_, const AnyType& elem_type_, const std::string& name_)
-  : elem_type{elem_type_}
-  , name{name_}
-  , elements(size_, AnyValue{elem_type_})
+ArrayValueData::ArrayValueData(std::size_t size, const AnyType& elem_type,
+                               const std::string& name, value_flags::Constraints constraints)
+  : m_elem_type{elem_type}
+  , m_name{name}
+  , m_elements(size, AnyValue{elem_type})
+  , m_constraints{constraints}
 {
-  if (elem_type == EmptyType)
+  if (m_elem_type == EmptyType)
   {
     throw InvalidOperationException("Empty type is not allowed as element type");
   }
@@ -47,8 +49,8 @@ ArrayValueData::~ArrayValueData() = default;
 ArrayValueData* ArrayValueData::Clone() const
 {
   auto result = std::unique_ptr<ArrayValueData>(
-      new ArrayValueData(NumberOfElements(), elem_type, name));
-  result->elements = elements;
+      new ArrayValueData(NumberOfElements(), m_elem_type, m_name, m_constraints));
+  result->m_elements = m_elements;
   return result.release();
 }
 
@@ -59,24 +61,29 @@ TypeCode ArrayValueData::GetTypeCode() const
 
 std::string ArrayValueData::GetTypeName() const
 {
-  return name;
+  return m_name;
 }
 
 AnyType ArrayValueData::GetType() const
 {
-  return AnyType(NumberOfElements(), elem_type, name);
+  return AnyType(NumberOfElements(), m_elem_type, m_name);
+}
+
+value_flags::Constraints ArrayValueData::GetConstraints() const
+{
+  return m_constraints;
 }
 
 void ArrayValueData::AddElement(const AnyValue& value)
 {
-  AnyValue copy{elem_type};
+  AnyValue copy{m_elem_type};
   copy = value;
-  elements.push_back(std::move(copy));
+  m_elements.push_back(std::move(copy));
 }
 
 std::size_t ArrayValueData::NumberOfElements() const
 {
-  return elements.size();
+  return m_elements.size();
 }
 
 void ArrayValueData::Assign(const AnyValue& value)
@@ -87,7 +94,7 @@ void ArrayValueData::Assign(const AnyValue& value)
   }
   if (NumberOfElements() == 0)
   {
-    elements = std::vector<AnyValue>(value.NumberOfElements(), AnyValue{elem_type});
+    m_elements = std::vector<AnyValue>(value.NumberOfElements(), AnyValue{m_elem_type});
   }
   if (value.NumberOfElements() != NumberOfElements())
   {
@@ -96,7 +103,7 @@ void ArrayValueData::Assign(const AnyValue& value)
   }
   for (std::size_t idx = 0; idx < NumberOfElements(); ++idx)
   {
-    elements[idx] = value[idx];
+    m_elements[idx] = value[idx];
   }
 }
 
@@ -119,7 +126,7 @@ bool ArrayValueData::HasField(const std::string& fieldname) const
   {
     return true;
   }
-  return elements[idx_remainder.first].HasField(idx_remainder.second);
+  return m_elements[idx_remainder.first].HasField(idx_remainder.second);
 }
 
 AnyValue& ArrayValueData::operator[](const std::string& fieldname)
@@ -139,7 +146,7 @@ AnyValue& ArrayValueData::operator[](std::size_t idx)
   {
     throw InvalidOperationException("Index operator argument out of bounds");
   }
-  return elements[idx];
+  return m_elements[idx];
 }
 
 bool ArrayValueData::Equals(const AnyValue& other) const
@@ -158,7 +165,7 @@ bool ArrayValueData::Equals(const AnyValue& other) const
   }
   for (std::size_t idx = 0; idx < NumberOfElements(); ++idx)
   {
-    if (other[idx] != elements[idx])
+    if (other[idx] != m_elements[idx])
     {
       return false;
     }
@@ -201,10 +208,11 @@ std::pair<std::size_t, std::string> StripValueIndex(const std::string& fieldname
   return { idx, remainder };
 }
 
-ArrayValueData* CreateArrayValueData(const AnyType& anytype)
+ArrayValueData* CreateArrayValueData(const AnyType& anytype, value_flags::Constraints constraints)
 {
   auto result = std::unique_ptr<ArrayValueData>(
-    new ArrayValueData(anytype.NumberOfElements(), anytype.ElementType(), anytype.GetTypeName()));
+    new ArrayValueData(anytype.NumberOfElements(), anytype.ElementType(), anytype.GetTypeName(),
+                       constraints));
   return result.release();
 }
 

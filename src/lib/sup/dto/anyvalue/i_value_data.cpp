@@ -174,13 +174,13 @@ IValueData* CreateValueData(const AnyType& anytype)
   }
   if (IsStructType(anytype))
   {
-    return CreateStructValueData(anytype);
+    return CreateStructValueData(anytype, value_flags::kNone);
   }
   if (IsArrayType(anytype))
   {
-    return CreateArrayValueData(anytype);
+    return CreateArrayValueData(anytype, value_flags::kNone);
   }
-  return new EmptyValueData{};
+  return new EmptyValueData{value_flags::kNone};
 }
 
 }  // namespace dto

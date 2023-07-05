@@ -33,13 +33,16 @@ namespace dto
 class ArrayValueData : public IValueData
 {
 public:
-  ArrayValueData(std::size_t size, const AnyType& elem_type, const std::string& name);
+  ArrayValueData(std::size_t size, const AnyType& elem_type, const std::string& name,
+                 value_flags::Constraints constraints);
   ~ArrayValueData() override;
 
   ArrayValueData* Clone() const override;
   TypeCode GetTypeCode() const override;
   std::string GetTypeName() const override;
   AnyType GetType() const override;
+
+  value_flags::Constraints GetConstraints() const override;
 
   void AddElement(const AnyValue& value) override;
   std::size_t NumberOfElements() const override;
@@ -53,12 +56,14 @@ public:
   bool Equals(const AnyValue& other) const override;
 
 private:
-  AnyType elem_type;
-  std::string name;
-  std::vector<AnyValue> elements;
+  AnyType m_elem_type;
+  std::string m_name;
+  std::vector<AnyValue> m_elements;
+  value_flags::Constraints m_constraints;
 };
 
-ArrayValueData* CreateArrayValueData(const AnyType& anytype);
+ArrayValueData* CreateArrayValueData(const AnyType& anytype,
+                                     value_flags::Constraints constraints);
 
 /**
  * @brief Strips the index from the fieldname.
