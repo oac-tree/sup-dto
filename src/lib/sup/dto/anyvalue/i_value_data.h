@@ -50,7 +50,7 @@ public:
   virtual bool IsScalar() const;
 
   // Return the constraints on the current value node.
-  virtual value_flags::Constraints GetConstraints() const;
+  virtual value_flags::Constraints GetConstraints() const = 0;
 
   virtual void AddMember(const std::string& name, const AnyValue& type);
   virtual std::vector<std::string> MemberNames() const;
@@ -81,7 +81,7 @@ public:
   virtual bool Equals(const AnyValue& other) const = 0;
 };
 
-IValueData* CreateValueData(const AnyType& anytype);
+IValueData* CreateValueData(const AnyType& anytype, value_flags::Constraints constraints);
 
 }  // namespace dto
 

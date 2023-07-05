@@ -95,11 +95,11 @@ AnyValue::AnyValue(const char* val)
 {}
 
 AnyValue::AnyValue(const AnyType& anytype)
-  : m_data{CreateValueData(anytype)}
+  : m_data{CreateValueData(anytype, value_flags::kNone)}
 {}
 
 AnyValue::AnyValue(const AnyType& anytype, const AnyValue& anyvalue)
-  : m_data{CreateValueData(anytype)}
+  : m_data{CreateValueData(anytype, value_flags::kNone)}
 {
   m_data->Assign(anyvalue);
 }

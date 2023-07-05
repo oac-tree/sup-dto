@@ -46,12 +46,6 @@ bool IValueData::IsScalar() const
   return false;
 }
 
-value_flags::Constraints IValueData::GetConstraints() const
-{
-  // TODO: make this pure virtual instead
-  return value_flags::kNone;
-}
-
 void IValueData::AddMember(const std::string&, const AnyValue&)
 {
   throw InvalidOperationException("Add member only supported for structured types");
@@ -166,21 +160,21 @@ AnyValue& IValueData::operator[](std::size_t idx)
   throw InvalidOperationException("Member access operator with unsigned index not supported");
 }
 
-IValueData* CreateValueData(const AnyType& anytype)
+IValueData* CreateValueData(const AnyType& anytype, value_flags::Constraints constraints)
 {
   if (IsScalarType(anytype))
   {
-    return CreateScalarValueData(anytype.GetTypeCode(), value_flags::kNone);
+    return CreateScalarValueData(anytype.GetTypeCode(), constraints);
   }
   if (IsStructType(anytype))
   {
-    return CreateStructValueData(anytype, value_flags::kNone);
+    return CreateStructValueData(anytype, constraints);
   }
   if (IsArrayType(anytype))
   {
-    return CreateArrayValueData(anytype, value_flags::kNone);
+    return CreateArrayValueData(anytype, constraints);
   }
-  return new EmptyValueData{value_flags::kNone};
+  return new EmptyValueData{constraints};
 }
 
 }  // namespace dto
