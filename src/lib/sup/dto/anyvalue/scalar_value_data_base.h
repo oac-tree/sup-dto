@@ -39,7 +39,7 @@ public:
 
   bool IsScalar() const override;
 
-  bool HasLockedType() const override;
+  value_flags::Constraints GetConstraints() const override;
 
 protected:
   ScalarValueDataBase(TypeCode type_code, value_flags::Constraints constraints);

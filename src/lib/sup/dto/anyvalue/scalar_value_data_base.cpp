@@ -56,9 +56,9 @@ bool ScalarValueDataBase::IsScalar() const
   return true;
 }
 
-bool ScalarValueDataBase::HasLockedType() const
+value_flags::Constraints ScalarValueDataBase::GetConstraints() const
 {
-  return m_constraints & value_flags::kLockedType;
+  return m_constraints;
 }
 
 template <typename T>

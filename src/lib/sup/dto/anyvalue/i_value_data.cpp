@@ -46,10 +46,10 @@ bool IValueData::IsScalar() const
   return false;
 }
 
-bool IValueData::HasLockedType() const
+value_flags::Constraints IValueData::GetConstraints() const
 {
   // TODO: make this pure virtual instead
-  return false;
+  return value_flags::kNone;
 }
 
 void IValueData::AddMember(const std::string&, const AnyValue&)

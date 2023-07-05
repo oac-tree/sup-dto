@@ -33,7 +33,7 @@ namespace value_flags
 enum Constraints
 {
   kNone       = 0x00,
-  kLockedType = 0x01
+  kLockedType = 0x01  // Indicates this value node cannot change type (e.g. array element)
 };
 }
 class IValueData
@@ -49,9 +49,8 @@ public:
   // Only used to provide a fast private way for AnyValue to assess if it's scalar
   virtual bool IsScalar() const;
 
-  // All descendants of array values have a locked type to prevent
-  // corruption of the value, i.e. elements of the same array with differing type.
-  virtual bool HasLockedType() const;
+  // Return the constraints on the current value node.
+  virtual value_flags::Constraints GetConstraints() const;
 
   virtual void AddMember(const std::string& name, const AnyValue& type);
   virtual std::vector<std::string> MemberNames() const;
