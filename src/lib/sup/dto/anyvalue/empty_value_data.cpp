@@ -36,9 +36,9 @@ EmptyValueData::EmptyValueData(value_flags::Constraints constraints)
 
 EmptyValueData::~EmptyValueData() = default;
 
-EmptyValueData* EmptyValueData::Clone() const
+EmptyValueData* EmptyValueData::Clone(value_flags::Constraints constraints) const
 {
-  return new EmptyValueData(m_constraints);
+  return new EmptyValueData(constraints);
 }
 
 TypeCode EmptyValueData::GetTypeCode() const

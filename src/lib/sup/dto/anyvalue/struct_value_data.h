@@ -37,7 +37,7 @@ public:
   StructValueData(const std::string& type_name, value_flags::Constraints constraints);
   ~StructValueData() override;
 
-  StructValueData* Clone() const override;
+  StructValueData* Clone(value_flags::Constraints constraints) const override;
   TypeCode GetTypeCode() const override;
   std::string GetTypeName() const override;
   AnyType GetType() const override;
@@ -56,7 +56,7 @@ public:
   bool Equals(const AnyValue& other) const override;
 
 private:
-  StructValueData(const StructDataT<AnyValue>& member_data);
+  StructValueData(const StructDataT<AnyValue>& member_data, value_flags::Constraints constraints);
   StructDataT<AnyValue> m_member_data;
   value_flags::Constraints m_constraints;
 };

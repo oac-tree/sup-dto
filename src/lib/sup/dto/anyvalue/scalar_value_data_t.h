@@ -115,10 +115,10 @@ template <typename T>
 class ScalarValueDataT : public ScalarValueDataBase
 {
 public:
-  ScalarValueDataT(T value, value_flags::Constraints constraints = value_flags::kNone);
+  ScalarValueDataT(T value, value_flags::Constraints constraints);
   ~ScalarValueDataT() override = default;
 
-  ScalarValueDataT<T>* Clone() const override;
+  ScalarValueDataT<T>* Clone(value_flags::Constraints constraints) const override;
 
   void Assign(const AnyValue& value) override;
 
@@ -149,9 +149,9 @@ ScalarValueDataT<T>::ScalarValueDataT(T value, value_flags::Constraints constrai
 {}
 
 template <typename T>
-ScalarValueDataT<T>* ScalarValueDataT<T>::Clone() const
+ScalarValueDataT<T>* ScalarValueDataT<T>::Clone(value_flags::Constraints constraints) const
 {
-  return new ScalarValueDataT<T>(m_value);
+  return new ScalarValueDataT<T>{m_value, constraints};
 }
 
 template <typename T>

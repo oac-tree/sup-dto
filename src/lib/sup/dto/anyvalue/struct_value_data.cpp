@@ -33,9 +33,9 @@ StructValueData::StructValueData(const std::string& type_name, value_flags::Cons
 
 StructValueData::~StructValueData() = default;
 
-StructValueData* StructValueData::Clone() const
+StructValueData* StructValueData::Clone(value_flags::Constraints constraints) const
 {
-  auto result = std::unique_ptr<StructValueData>(new StructValueData(m_member_data));
+  auto result = std::unique_ptr<StructValueData>(new StructValueData(m_member_data, constraints));
   return result.release();
 }
 
@@ -111,9 +111,10 @@ bool StructValueData::Equals(const AnyValue& other) const
   return m_member_data.Equals(other);
 }
 
-StructValueData::StructValueData(const StructDataT<AnyValue>& member_data)
+StructValueData::StructValueData(const StructDataT<AnyValue>& member_data,
+                                 value_flags::Constraints constraints)
   : m_member_data{member_data}
-  , m_constraints{value_flags::kNone}
+  , m_constraints{constraints}
 {}
 
 StructValueData* CreateStructValueData(const AnyType& anytype, value_flags::Constraints constraints)

@@ -41,7 +41,7 @@ class IValueData
 public:
   virtual ~IValueData();
 
-  virtual IValueData* Clone() const = 0;
+  virtual IValueData* Clone(value_flags::Constraints constraints) const = 0;
   virtual TypeCode GetTypeCode() const = 0;
   virtual std::string GetTypeName() const;
   virtual AnyType GetType() const = 0;

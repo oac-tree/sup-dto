@@ -46,10 +46,10 @@ ArrayValueData::ArrayValueData(std::size_t size, const AnyType& elem_type,
 
 ArrayValueData::~ArrayValueData() = default;
 
-ArrayValueData* ArrayValueData::Clone() const
+ArrayValueData* ArrayValueData::Clone(value_flags::Constraints constraints) const
 {
   auto result = std::unique_ptr<ArrayValueData>(
-      new ArrayValueData(NumberOfElements(), m_elem_type, m_name, m_constraints));
+      new ArrayValueData(NumberOfElements(), m_elem_type, m_name, constraints));
   result->m_elements = m_elements;
   return result.release();
 }

@@ -33,65 +33,70 @@ namespace sup
 {
 namespace dto
 {
+template <typename T>
+IValueData* CreateUnconstrainedScalarData(const T& val)
+{
+  return new ScalarValueDataT<T>(val, value_flags::kNone);
+}
 
 AnyValue::AnyValue()
   : m_data{CreateDefaultValueData()}
 {}
 
 AnyValue::AnyValue(boolean val)
-  : m_data{new ScalarValueDataT<boolean>(val)}
+  : m_data{CreateUnconstrainedScalarData<boolean>(val)}
 {}
 
 AnyValue::AnyValue(char8 val)
-  : m_data{new ScalarValueDataT<char8>(val)}
+  : m_data{CreateUnconstrainedScalarData<char8>(val)}
 {}
 
 AnyValue::AnyValue(int8 val)
-  : m_data{new ScalarValueDataT<int8>(val)}
+  : m_data{CreateUnconstrainedScalarData<int8>(val)}
 {}
 
 AnyValue::AnyValue(uint8 val)
-  : m_data{new ScalarValueDataT<uint8>(val)}
+  : m_data{CreateUnconstrainedScalarData<uint8>(val)}
 {}
 
 AnyValue::AnyValue(int16 val)
-  : m_data{new ScalarValueDataT<int16>(val)}
+  : m_data{CreateUnconstrainedScalarData<int16>(val)}
 {}
 
 AnyValue::AnyValue(uint16 val)
-  : m_data{new ScalarValueDataT<uint16>(val)}
+  : m_data{CreateUnconstrainedScalarData<uint16>(val)}
 {}
 
 AnyValue::AnyValue(int32 val)
-  : m_data{new ScalarValueDataT<int32>(val)}
+  : m_data{CreateUnconstrainedScalarData<int32>(val)}
 {}
 
 AnyValue::AnyValue(uint32 val)
-  : m_data{new ScalarValueDataT<uint32>(val)}
+  : m_data{CreateUnconstrainedScalarData<uint32>(val)}
 {}
 
 AnyValue::AnyValue(int64 val)
-  : m_data{new ScalarValueDataT<int64>(val)}
+  : m_data{CreateUnconstrainedScalarData<int64>(val)}
 {}
 
 AnyValue::AnyValue(uint64 val)
-  : m_data{new ScalarValueDataT<uint64>(val)}
+  : m_data{CreateUnconstrainedScalarData<uint64>(val)}
 {}
 
 AnyValue::AnyValue(float32 val)
-  : m_data{new ScalarValueDataT<float32>(val)}
+  : m_data{CreateUnconstrainedScalarData<float32>(val)}
 {}
 
 AnyValue::AnyValue(float64 val)
-  : m_data{new ScalarValueDataT<float64>(val)}
+  : m_data{CreateUnconstrainedScalarData<float64>(val)}
 {}
 
 AnyValue::AnyValue(const std::string& val)
-  : m_data{new ScalarValueDataT<std::string>(val)}
+  : m_data{CreateUnconstrainedScalarData<std::string>(val)}
 {}
 
 AnyValue::AnyValue(const char* val)
-  : m_data{new ScalarValueDataT<std::string>(val)}
+  : m_data{CreateUnconstrainedScalarData<std::string>(val)}
 {}
 
 AnyValue::AnyValue(const AnyType& anytype)
@@ -126,7 +131,7 @@ AnyValue::AnyValue(std::size_t size, const AnyType& elem_type, const std::string
 }
 
 AnyValue::AnyValue(const AnyValue& other)
-  : m_data{other.m_data->Clone()}
+  : m_data{other.m_data->Clone(value_flags::kNone)}
 {}
 
 AnyValue::AnyValue(AnyValue&& other)
@@ -147,7 +152,7 @@ AnyValue& AnyValue::operator=(const AnyValue& other)
   }
   else
   {
-    m_data.reset(other.m_data->Clone());
+    m_data.reset(other.m_data->Clone(value_flags::kNone));
   }
   return *this;
 }
