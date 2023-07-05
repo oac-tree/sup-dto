@@ -170,7 +170,7 @@ IValueData* CreateValueData(const AnyType& anytype)
 {
   if (IsScalarType(anytype))
   {
-    return CreateScalarValueData(anytype.GetTypeCode());
+    return CreateScalarValueData(anytype.GetTypeCode(), value_flags::kNone);
   }
   if (IsStructType(anytype))
   {

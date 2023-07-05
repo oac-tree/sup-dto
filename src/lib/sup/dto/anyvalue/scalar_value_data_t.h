@@ -115,7 +115,7 @@ template <typename T>
 class ScalarValueDataT : public ScalarValueDataBase
 {
 public:
-  ScalarValueDataT(T value = {});
+  ScalarValueDataT(T value, value_flags::Constraints constraints = value_flags::kNone);
   ~ScalarValueDataT() override = default;
 
   ScalarValueDataT<T>* Clone() const override;
@@ -143,8 +143,8 @@ private:
 };
 
 template <typename T>
-ScalarValueDataT<T>::ScalarValueDataT(T value)
-  : ScalarValueDataBase{TypeToCode<T>::code}
+ScalarValueDataT<T>::ScalarValueDataT(T value, value_flags::Constraints constraints)
+  : ScalarValueDataBase{TypeToCode<T>::code, constraints}
   , m_value{value}
 {}
 
@@ -258,7 +258,6 @@ bool ScalarValueDataT<T>::Equals(const AnyValue& other) const
   }
   return false;
 }
-
 
 }  // namespace dto
 

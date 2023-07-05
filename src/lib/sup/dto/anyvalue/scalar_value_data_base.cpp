@@ -34,9 +34,9 @@ namespace sup
 namespace dto
 {
 
-ScalarValueDataBase::ScalarValueDataBase(TypeCode type_code)
+ScalarValueDataBase::ScalarValueDataBase(TypeCode type_code, value_flags::Constraints constraints)
   : m_type_code{type_code}
-  , m_constraints{value_flags::kNone}
+  , m_constraints{constraints}
 {}
 
 ScalarValueDataBase::~ScalarValueDataBase() = default;
@@ -56,15 +56,21 @@ bool ScalarValueDataBase::IsScalar() const
   return true;
 }
 
-template <typename T>
-ScalarValueDataBase* ScalarValueConstructor()
+bool ScalarValueDataBase::HasLockedType() const
 {
-    return new ScalarValueDataT<T>{};
+  return m_constraints & value_flags::kLockedType;
 }
 
-ScalarValueDataBase* CreateScalarValueData(TypeCode type_code)
+template <typename T>
+ScalarValueDataBase* ScalarValueConstructor(value_flags::Constraints constraints)
 {
-  static const std::map<TypeCode, std::function<ScalarValueDataBase*()>> constructor_map{
+    return new ScalarValueDataT<T>{T{}, constraints};
+}
+
+ScalarValueDataBase* CreateScalarValueData(TypeCode type_code, value_flags::Constraints constraints)
+{
+  using ScalarValueDataConstructor = std::function<ScalarValueDataBase*(value_flags::Constraints)>;
+  static const std::map<TypeCode, ScalarValueDataConstructor> constructor_map{
     {TypeCode::Bool, ScalarValueConstructor<boolean> },
     {TypeCode::Char8, ScalarValueConstructor<char8> },
     {TypeCode::Int8, ScalarValueConstructor<int8> },
@@ -84,7 +90,7 @@ ScalarValueDataBase* CreateScalarValueData(TypeCode type_code)
   {
     throw InvalidOperationException("Not a known scalar type code");
   }
-  return it->second();
+  return it->second(constraints);
 }
 
 }  // namespace dto

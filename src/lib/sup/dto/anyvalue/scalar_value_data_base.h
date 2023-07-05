@@ -39,15 +39,18 @@ public:
 
   bool IsScalar() const override;
 
+  bool HasLockedType() const override;
+
 protected:
-  ScalarValueDataBase(TypeCode type_code);
+  ScalarValueDataBase(TypeCode type_code, value_flags::Constraints constraints);
 
 private:
   TypeCode m_type_code;
   value_flags::Constraints m_constraints;
 };
 
-ScalarValueDataBase* CreateScalarValueData(TypeCode type_code);
+ScalarValueDataBase* CreateScalarValueData(TypeCode type_code,
+                                           value_flags::Constraints constraints);
 
 }  // namespace dto
 
