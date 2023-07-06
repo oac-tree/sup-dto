@@ -318,6 +318,8 @@ public:
   bool operator!=(const AnyValue& other) const;
 
 private:
+  explicit AnyValue(std::unique_ptr<IValueData>&& data);
+  friend class IValueData;
   std::unique_ptr<IValueData> m_data;
 };
 

@@ -79,6 +79,8 @@ public:
   virtual AnyValue& operator[](std::size_t idx);
 
   virtual bool Equals(const AnyValue& other) const = 0;
+protected:
+  static std::unique_ptr<AnyValue> MakeAnyValue(std::unique_ptr<IValueData>&& data);
 };
 
 IValueData* CreateValueData(const AnyType& anytype, value_flags::Constraints constraints);

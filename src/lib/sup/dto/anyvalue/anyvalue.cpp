@@ -43,6 +43,10 @@ AnyValue::AnyValue()
   : m_data{CreateDefaultValueData()}
 {}
 
+AnyValue::AnyValue(const AnyType& anytype)
+  : m_data{CreateValueData(anytype, value_flags::kNone)}
+{}
+
 AnyValue::AnyValue(boolean val)
   : m_data{CreateUnconstrainedScalarData<boolean>(val)}
 {}
@@ -97,10 +101,6 @@ AnyValue::AnyValue(const std::string& val)
 
 AnyValue::AnyValue(const char* val)
   : m_data{CreateUnconstrainedScalarData<std::string>(val)}
-{}
-
-AnyValue::AnyValue(const AnyType& anytype)
-  : m_data{CreateValueData(anytype, value_flags::kNone)}
 {}
 
 AnyValue::AnyValue(const AnyType& anytype, const AnyValue& anyvalue)
@@ -220,46 +220,6 @@ std::size_t AnyValue::NumberOfElements() const
   return m_data->NumberOfElements();
 }
 
-bool AnyValue::HasField(const std::string& fieldname) const
-{
-  return m_data->HasField(fieldname);
-}
-
-AnyValue& AnyValue::operator[](const std::string& fieldname)
-{
-  return (*m_data)[fieldname];
-}
-
-const AnyValue& AnyValue::operator[](const std::string& fieldname) const
-{
-  return (*m_data)[fieldname];
-}
-
-AnyValue& AnyValue::operator[](std::size_t idx)
-{
-  return (*m_data)[idx];
-}
-
-const AnyValue& AnyValue::operator[](std::size_t idx) const
-{
-  return (*m_data)[idx];
-}
-
-bool AnyValue::operator==(const AnyValue& other) const
-{
-  if (m_data->IsScalar())
-  {
-    // Enforce symmetry of scalar comparison when conversions are involved
-    return m_data->Equals(other) && other.m_data->Equals(*this);
-  }
-  return m_data->Equals(other);
-}
-
-bool AnyValue::operator!=(const AnyValue& other) const
-{
-  return !(this->operator==(other));
-}
-
 template <>
 AnyValue AnyValue::As<AnyValue>() const
 {
@@ -343,6 +303,50 @@ std::string AnyValue::As<std::string>() const
 {
   return m_data->AsString();
 }
+
+bool AnyValue::HasField(const std::string& fieldname) const
+{
+  return m_data->HasField(fieldname);
+}
+
+AnyValue& AnyValue::operator[](const std::string& fieldname)
+{
+  return (*m_data)[fieldname];
+}
+
+const AnyValue& AnyValue::operator[](const std::string& fieldname) const
+{
+  return (*m_data)[fieldname];
+}
+
+AnyValue& AnyValue::operator[](std::size_t idx)
+{
+  return (*m_data)[idx];
+}
+
+const AnyValue& AnyValue::operator[](std::size_t idx) const
+{
+  return (*m_data)[idx];
+}
+
+bool AnyValue::operator==(const AnyValue& other) const
+{
+  if (m_data->IsScalar())
+  {
+    // Enforce symmetry of scalar comparison when conversions are involved
+    return m_data->Equals(other) && other.m_data->Equals(*this);
+  }
+  return m_data->Equals(other);
+}
+
+bool AnyValue::operator!=(const AnyValue& other) const
+{
+  return !(this->operator==(other));
+}
+
+AnyValue::AnyValue(std::unique_ptr<IValueData>&& data)
+  : m_data{std::move(data)}
+{}
 
 AnyValue EmptyStruct(const std::string& type_name)
 {

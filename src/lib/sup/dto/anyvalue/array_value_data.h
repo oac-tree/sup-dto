@@ -58,7 +58,7 @@ public:
 private:
   AnyType m_elem_type;
   std::string m_name;
-  std::vector<AnyValue> m_elements;
+  std::vector<std::unique_ptr<AnyValue>> m_elements;
   value_flags::Constraints m_constraints;
 };
 

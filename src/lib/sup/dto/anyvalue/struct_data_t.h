@@ -59,14 +59,14 @@ public:
   bool Equals(const T& other) const;
 
 private:
-  std::string name;
-  std::vector<std::pair<std::string, T>> members;
+  std::string m_name;
+  std::vector<std::pair<std::string, T>> m_members;
 };
 
 template <typename T>
-StructDataT<T>::StructDataT(const std::string& name_)
-  : name{name_}
-  , members{}
+StructDataT<T>::StructDataT(const std::string& name)
+  : m_name{name}
+  , m_members{}
 {}
 
 template <typename T>
@@ -78,7 +78,7 @@ TypeCode StructDataT<T>::GetTypeCode() const
 template <typename T>
 std::string StructDataT<T>::GetTypeName() const
 {
-  return name;
+  return m_name;
 }
 
 template <typename T>
@@ -89,18 +89,18 @@ void StructDataT<T>::AddMember(const std::string& name, const T& type)
   {
     throw InvalidOperationException("Cannot add duplicate member keys");
   }
-  members.push_back({name, type});
+  m_members.push_back({name, type});
 }
 
 template <typename T>
 bool StructDataT<T>::HasField(const std::string& fieldname) const
 {
   auto fields = utils::StripFirstFieldName(fieldname);
-  auto it = std::find_if(members.cbegin(), members.cend(),
-                         [&fields](typename decltype(members)::const_reference member){
+  auto it = std::find_if(m_members.cbegin(), m_members.cend(),
+                         [&fields](typename decltype(m_members)::const_reference member){
                            return member.first == fields.first;
                          });
-  if (it == members.cend())
+  if (it == m_members.cend())
   {
     return false;
   }
@@ -116,8 +116,8 @@ template <typename T>
 std::vector<std::string> StructDataT<T>::MemberNames() const
 {
   std::vector<std::string> result;
-  std::transform(members.begin(), members.end(), std::back_inserter(result),
-                 [](typename decltype(members)::const_reference member){
+  std::transform(m_members.begin(), m_members.end(), std::back_inserter(result),
+                 [](typename decltype(m_members)::const_reference member){
                    return member.first;
                  });
   return result;
@@ -126,7 +126,7 @@ std::vector<std::string> StructDataT<T>::MemberNames() const
 template <typename T>
 std::size_t StructDataT<T>::NumberOfMembers() const
 {
-  return members.size();
+  return m_members.size();
 }
 
 template <typename T>
@@ -138,17 +138,17 @@ T& StructDataT<T>::operator[](const std::string& fieldname)
 template <typename T>
 const T& StructDataT<T>::operator[](const std::string& fieldname) const
 {
-  using cref_pair_type = typename decltype(members)::const_reference;
+  using cref_pair_type = typename decltype(m_members)::const_reference;
   if (fieldname.empty())
   {
     throw InvalidOperationException("Trying to access a member with empty field name");
   }
   auto fields = utils::StripFirstFieldName(fieldname);
-  auto it = std::find_if(members.cbegin(), members.cend(),
+  auto it = std::find_if(m_members.cbegin(), m_members.cend(),
                       [&fields](cref_pair_type member){
                         return member.first == fields.first;
                       });
-  if (it == members.cend())
+  if (it == m_members.cend())
   {
     throw InvalidOperationException("Trying to access a member with unknown field name");
   }
@@ -175,7 +175,7 @@ bool StructDataT<T>::Equals(const T& other) const
   {
     return false;
   }
-  for (auto &member : members)
+  for (auto &member : m_members)
   {
     auto &other_member_field = other[member.first];
     if (other_member_field != member.second)

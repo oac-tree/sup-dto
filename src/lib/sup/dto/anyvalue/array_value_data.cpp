@@ -35,12 +35,17 @@ ArrayValueData::ArrayValueData(std::size_t size, const AnyType& elem_type,
                                const std::string& name, value_flags::Constraints constraints)
   : m_elem_type{elem_type}
   , m_name{name}
-  , m_elements(size, AnyValue{elem_type})
+  , m_elements{}
   , m_constraints{constraints}
 {
   if (m_elem_type == EmptyType)
   {
     throw InvalidOperationException("Empty type is not allowed as element type");
+  }
+  for (std::size_t i = 0; i < size; ++i)
+  {
+    std::unique_ptr<IValueData> data{CreateValueData(m_elem_type, value_flags::kLockedType)};
+    m_elements.push_back(MakeAnyValue(std::move(data)));
   }
 }
 
@@ -50,7 +55,10 @@ ArrayValueData* ArrayValueData::Clone(value_flags::Constraints constraints) cons
 {
   auto result = std::unique_ptr<ArrayValueData>(
       new ArrayValueData(NumberOfElements(), m_elem_type, m_name, constraints));
-  result->m_elements = m_elements;
+  for (std::size_t i = 0; i < NumberOfElements(); ++i)
+  {
+    result->operator[](i) = *m_elements[i];
+  }
   return result.release();
 }
 
@@ -76,9 +84,9 @@ value_flags::Constraints ArrayValueData::GetConstraints() const
 
 void ArrayValueData::AddElement(const AnyValue& value)
 {
-  AnyValue copy{m_elem_type};
-  copy = value;
-  m_elements.push_back(std::move(copy));
+  std::unique_ptr<IValueData> data{CreateValueData(m_elem_type, value_flags::kLockedType)};
+  data->Assign(value);
+  m_elements.push_back(MakeAnyValue(std::move(data)));
 }
 
 std::size_t ArrayValueData::NumberOfElements() const
@@ -94,7 +102,11 @@ void ArrayValueData::Assign(const AnyValue& value)
   }
   if (NumberOfElements() == 0)
   {
-    m_elements = std::vector<AnyValue>(value.NumberOfElements(), AnyValue{m_elem_type});
+    for (std::size_t i = 0; i < value.NumberOfElements(); ++i)
+    {
+      std::unique_ptr<IValueData> data{CreateValueData(m_elem_type, value_flags::kLockedType)};
+      m_elements.push_back(MakeAnyValue(std::move(data)));
+    }
   }
   if (value.NumberOfElements() != NumberOfElements())
   {
@@ -103,7 +115,7 @@ void ArrayValueData::Assign(const AnyValue& value)
   }
   for (std::size_t idx = 0; idx < NumberOfElements(); ++idx)
   {
-    m_elements[idx] = value[idx];
+    *m_elements[idx] = value[idx];
   }
 }
 
@@ -126,7 +138,7 @@ bool ArrayValueData::HasField(const std::string& fieldname) const
   {
     return true;
   }
-  return m_elements[idx_remainder.first].HasField(idx_remainder.second);
+  return m_elements[idx_remainder.first]->HasField(idx_remainder.second);
 }
 
 AnyValue& ArrayValueData::operator[](const std::string& fieldname)
@@ -146,7 +158,7 @@ AnyValue& ArrayValueData::operator[](std::size_t idx)
   {
     throw InvalidOperationException("Index operator argument out of bounds");
   }
-  return m_elements[idx];
+  return *m_elements[idx];
 }
 
 bool ArrayValueData::Equals(const AnyValue& other) const
@@ -165,7 +177,7 @@ bool ArrayValueData::Equals(const AnyValue& other) const
   }
   for (std::size_t idx = 0; idx < NumberOfElements(); ++idx)
   {
-    if (other[idx] != m_elements[idx])
+    if (other[idx] != *m_elements[idx])
     {
       return false;
     }

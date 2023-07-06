@@ -160,6 +160,11 @@ AnyValue& IValueData::operator[](std::size_t idx)
   throw InvalidOperationException("Member access operator with unsigned index not supported");
 }
 
+std::unique_ptr<AnyValue> IValueData::MakeAnyValue(std::unique_ptr<IValueData>&& data)
+{
+  return std::unique_ptr<AnyValue>{new AnyValue{std::move(data)}};
+}
+
 IValueData* CreateValueData(const AnyType& anytype, value_flags::Constraints constraints)
 {
   if (IsScalarType(anytype))
