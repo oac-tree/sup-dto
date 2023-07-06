@@ -21,13 +21,18 @@
 
 #include "struct_value_data.h"
 
+#include <sup/dto/anyvalue/field_utils.h>
+
+#include <algorithm>
+
 namespace sup
 {
 namespace dto
 {
 
 StructValueData::StructValueData(const std::string& type_name, value_flags::Constraints constraints)
-  : m_member_data{type_name}
+  : m_name{type_name}
+  , m_members{}
   , m_constraints{constraints}
 {}
 
@@ -35,26 +40,30 @@ StructValueData::~StructValueData() = default;
 
 StructValueData* StructValueData::Clone(value_flags::Constraints constraints) const
 {
-  auto result = std::unique_ptr<StructValueData>(new StructValueData(m_member_data, constraints));
+  auto result = std::unique_ptr<StructValueData>(new StructValueData(m_name, constraints));
+  for (auto& member : m_members)
+  {
+    result->AddMember(member.first, *member.second);
+  }
   return result.release();
 }
 
 TypeCode StructValueData::GetTypeCode() const
 {
-  return m_member_data.GetTypeCode();
+  return TypeCode::Struct;
 }
 
 std::string StructValueData::GetTypeName() const
 {
-  return m_member_data.GetTypeName();
+  return m_name;
 }
 
 AnyType StructValueData::GetType() const
 {
-  auto result = EmptyStructType(m_member_data.GetTypeName());
-  for (const auto& member_name : m_member_data.MemberNames())
+  auto result = EmptyStructType(m_name);
+  for (const auto& member : m_members)
   {
-    result.AddMember(member_name, m_member_data[member_name].GetType());
+    result.AddMember(member.first, member.second->GetType());
   }
   return result;
 }
@@ -66,17 +75,29 @@ value_flags::Constraints StructValueData::GetConstraints() const
 
 void StructValueData::AddMember(const std::string& name, const AnyValue& value)
 {
-  return m_member_data.AddMember(name, value);
+  utils::VerifyMemberName(name);
+  if (HasField(name))
+  {
+    throw InvalidOperationException("Cannot add duplicate member keys");
+  }
+  std::unique_ptr<IValueData> data{CreateValueData(value.GetType(), m_constraints)};
+  data->Assign(value);
+  m_members.emplace_back(name, MakeAnyValue(std::move(data)));
 }
 
 std::vector<std::string> StructValueData::MemberNames() const
 {
-  return m_member_data.MemberNames();
+  std::vector<std::string> result;
+  std::transform(m_members.begin(), m_members.end(), std::back_inserter(result),
+                 [](typename decltype(m_members)::const_reference member){
+                   return member.first;
+                 });
+  return result;
 }
 
 std::size_t StructValueData::NumberOfMembers() const
 {
-  return m_member_data.NumberOfMembers();
+  return m_members.size();
 }
 
 void StructValueData::Assign(const AnyValue& value)
@@ -89,33 +110,78 @@ void StructValueData::Assign(const AnyValue& value)
   {
     throw InvalidConversionException("Can't convert AnyValues with different list of fields");
   }
-  for (const auto &member_name : m_member_data.MemberNames())
+  for (auto& member : m_members)
   {
-    auto &other_member_value = value[member_name];
-    m_member_data[member_name] = other_member_value;
+    *member.second = value[member.first];
   }
 }
 
 bool StructValueData::HasField(const std::string& fieldname) const
 {
-  return m_member_data.HasField(fieldname);
+  auto fields = utils::StripFirstFieldName(fieldname);
+  auto it = std::find_if(m_members.cbegin(), m_members.cend(),
+                         [&fields](typename decltype(m_members)::const_reference member){
+                           return member.first == fields.first;
+                         });
+  if (it == m_members.cend())
+  {
+    return false;
+  }
+  if (fields.second.empty())
+  {
+    return true;
+  }
+  return it->second->HasField(fields.second);
 }
 
 AnyValue& StructValueData::operator[](const std::string& fieldname)
 {
-  return m_member_data[fieldname];
+  using ref_pair_type = typename decltype(m_members)::reference;
+  if (fieldname.empty())
+  {
+    throw InvalidOperationException("Trying to access a member with empty field name");
+  }
+  auto fields = utils::StripFirstFieldName(fieldname);
+  auto it = std::find_if(m_members.begin(), m_members.end(),
+                         [&fields](ref_pair_type member) {
+                           return member.first == fields.first;
+                         });
+  if (it == m_members.end())
+  {
+    throw InvalidOperationException("Trying to access a member with unknown field name");
+  }
+  auto& member = it->second;
+  if (fields.second.empty())
+  {
+    return *member;
+  }
+  return member->operator[](fields.second);
 }
 
 bool StructValueData::Equals(const AnyValue& other) const
 {
-  return m_member_data.Equals(other);
+  if (other.GetTypeCode() != TypeCode::Struct)
+  {
+    return false;
+  }
+  if (other.GetTypeName() != GetTypeName())
+  {
+    return false;
+  }
+  if (other.MemberNames() != MemberNames())
+  {
+    return false;
+  }
+  for (auto& member : m_members)
+  {
+    auto& other_member_field = other[member.first];
+    if (other_member_field != *member.second)
+    {
+      return false;
+    }
+  }
+  return true;
 }
-
-StructValueData::StructValueData(const StructDataT<AnyValue>& member_data,
-                                 value_flags::Constraints constraints)
-  : m_member_data{member_data}
-  , m_constraints{constraints}
-{}
 
 StructValueData* CreateStructValueData(const AnyType& anytype, value_flags::Constraints constraints)
 {

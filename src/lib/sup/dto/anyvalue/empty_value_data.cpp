@@ -56,6 +56,14 @@ value_flags::Constraints EmptyValueData::GetConstraints() const
   return m_constraints;
 }
 
+void EmptyValueData::Assign(const AnyValue& value)
+{
+  if (!IsEmptyValue(value))
+  {
+    return IValueData::Assign(value);
+  }
+}
+
 bool EmptyValueData::Equals(const AnyValue& other) const
 {
   return other.GetTypeCode() == TypeCode::Empty;

@@ -23,8 +23,8 @@
 #define SUP_DTO_STRUCT_VALUE_DATA_H_
 
 #include <sup/dto/anyvalue/i_value_data.h>
-#include <sup/dto/anyvalue/struct_data_t.h>
 
+#include <utility>
 #include <vector>
 
 namespace sup
@@ -56,8 +56,8 @@ public:
   bool Equals(const AnyValue& other) const override;
 
 private:
-  StructValueData(const StructDataT<AnyValue>& member_data, value_flags::Constraints constraints);
-  StructDataT<AnyValue> m_member_data;
+  std::string m_name;
+  std::vector<std::pair<std::string, std::unique_ptr<AnyValue>>> m_members;
   value_flags::Constraints m_constraints;
 };
 
