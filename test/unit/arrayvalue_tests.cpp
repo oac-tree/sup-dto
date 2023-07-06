@@ -190,7 +190,7 @@ TEST(ArrayValueTest, ArrayAssign)
   EXPECT_EQ(zero_sized_array.NumberOfElements(), 9);
 }
 
-TEST(ArrayValueTest, InvalidArrayAssign)
+TEST(ArrayValueTest, ValidArrayAssign)
 {
   AnyValue my_array = ArrayValue({
     {SignedInteger64Type, 1}, 2, 3, 4, 5
@@ -205,9 +205,11 @@ TEST(ArrayValueTest, InvalidArrayAssign)
   EXPECT_FALSE(IsStructValue(other));
   EXPECT_TRUE(IsArrayValue(other));
   EXPECT_FALSE(IsScalarValue(other));
-  EXPECT_THROW(other = my_array, InvalidConversionException);
+  EXPECT_NO_THROW(other = my_array);
+  EXPECT_EQ(other.NumberOfElements(), 5);
   AnyValue scalar = 4u;
-  EXPECT_THROW(other = scalar, InvalidConversionException);
+  EXPECT_NO_THROW(other = scalar);
+  EXPECT_TRUE(IsScalarValue(other));
 }
 
 TEST(ArrayValueTest, AddElement)

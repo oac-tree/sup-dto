@@ -215,7 +215,6 @@ TEST(AnyValueTest, MoveAssignment)
   moved_again = std::move(moved);
   EXPECT_NE(moved_again, moved);
   EXPECT_TRUE(IsStructValue(moved_again));
-  EXPECT_TRUE(IsEmptyValue(moved));
   EXPECT_EQ(moved_again.GetTypeCode(), TypeCode::Struct);
   EXPECT_EQ(moved_again.GetTypeName(), nested_name);
   EXPECT_TRUE(moved_again.HasField("scalars"));
@@ -279,18 +278,18 @@ TEST(AnyValueTest, AssignEmptyFields)
   AnyValue empty{};
   EXPECT_NO_THROW(empty = AnyValue{});
 
-  // Do not allow assigning an empty value to a scalar value
+  // Allow assigning an empty value to a scalar value
   AnyValue my_scalar = {StringType, "scalarname"};
-  EXPECT_THROW(my_scalar = AnyValue{}, InvalidConversionException);
+  EXPECT_NO_THROW(my_scalar = AnyValue{});
 
-  // Do not allow assigning an empty value to a member
+  // Allow assigning an empty value to a member
   AnyValue my_struct({
     {"number", {SignedInteger16Type, -99}},
     {"other", false}
   }, "MyStruct");
-  EXPECT_THROW(my_struct["other"] = AnyValue{}, InvalidConversionException);
+  EXPECT_NO_THROW(my_struct["other"] = AnyValue{});
 
-  // Do not allow assigning the empty value as the element value of an array
+  // Do not allow assignment to an array element if that changes its type
   AnyValue my_array(4, UnsignedInteger64Type);
   EXPECT_THROW(my_array[0] = AnyValue{}, InvalidConversionException);
 }

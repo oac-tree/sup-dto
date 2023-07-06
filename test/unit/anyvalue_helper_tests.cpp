@@ -47,8 +47,8 @@ TEST(AnyValueHelperTest, TryConvertEmpty)
   {
     AnyValue empty_value{};
     EXPECT_TRUE(IsEmptyValue(empty_value));
-    EXPECT_TRUE(TryConvert(empty_value, 42));
-    EXPECT_EQ(empty_value, 42);
+    EXPECT_FALSE(TryConvert(empty_value, 42));
+    EXPECT_TRUE(IsEmptyValue(empty_value));
   }
   {
     AnyValue empty_value{};
@@ -57,7 +57,17 @@ TEST(AnyValueHelperTest, TryConvertEmpty)
       {"value", {Float32Type, 1.5}}
     };
     EXPECT_TRUE(IsEmptyValue(empty_value));
-    EXPECT_TRUE(TryConvert(empty_value, struct_value));
+    EXPECT_FALSE(TryConvert(empty_value, struct_value));
+    EXPECT_TRUE(IsEmptyValue(empty_value));
+  }
+  {
+    AnyValue empty_value{};
+    AnyValue struct_value{
+      {"flag", true},
+      {"value", {Float32Type, 1.5}}
+    };
+    EXPECT_TRUE(IsEmptyValue(empty_value));
+    EXPECT_NO_THROW(empty_value = struct_value);
     ASSERT_TRUE(empty_value.HasField("flag"));
     EXPECT_EQ(empty_value["flag"], true);
     ASSERT_TRUE(empty_value.HasField("value"));

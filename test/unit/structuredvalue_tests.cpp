@@ -68,7 +68,7 @@ TEST(StructuredValueTest, StructEqualityName)
   EXPECT_NE(other, two_scalars);
 }
 
-TEST(StructuredValueTest, InvalidStructAssign)
+TEST(StructuredValueTest, ValidStructAssign)
 {
   AnyValue two_scalars{{
     {"signed", {SignedInteger8Type, -5}},
@@ -79,12 +79,12 @@ TEST(StructuredValueTest, InvalidStructAssign)
   two_scalars.AddMember("status", true);
   EXPECT_NE(two_scalars, other);
 
-  EXPECT_THROW(two_scalars = other, InvalidConversionException);
-  EXPECT_NE(two_scalars, other);
+  EXPECT_NO_THROW(two_scalars = other);
+  EXPECT_EQ(two_scalars, other);
 
   AnyValue index{UnsignedInteger64Type, 1};
-  EXPECT_THROW(two_scalars = index, InvalidConversionException);
-  EXPECT_NE(two_scalars, index);
+  EXPECT_NO_THROW(two_scalars = index);
+  EXPECT_EQ(two_scalars, index);
 }
 
 TEST(StructuredValueTest, MemberAccess)

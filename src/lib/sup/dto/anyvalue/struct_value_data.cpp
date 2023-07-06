@@ -75,6 +75,10 @@ value_flags::Constraints StructValueData::GetConstraints() const
 
 void StructValueData::AddMember(const std::string& name, const AnyValue& value)
 {
+  // if (IsLockedTypeConstraint(m_constraints))
+  // {
+  //   throw InvalidOperationException("Cannot add member to struct whose type is locked");
+  // }
   utils::VerifyMemberName(name);
   if (HasField(name))
   {

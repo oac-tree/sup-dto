@@ -239,7 +239,7 @@ TEST(ScalarValueTest, Float32Value)
   EXPECT_THROW(float32_value.As<std::string>(), InvalidConversionException);
   auto new_val = 8.25;
   int trunc_val = new_val;
-  float32_value = new_val;
+  EXPECT_NO_THROW(float32_value.ConvertFrom(new_val));
   EXPECT_EQ(float32_value.As<boolean>(), true);
   EXPECT_EQ(float32_value.As<int8>(), trunc_val);
   EXPECT_EQ(float32_value.As<uint8>(), trunc_val);

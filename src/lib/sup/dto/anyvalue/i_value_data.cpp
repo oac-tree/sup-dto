@@ -75,7 +75,7 @@ std::size_t IValueData::NumberOfElements() const
 void IValueData::Assign(const AnyValue& value)
 {
   (void)value;
-  throw InvalidConversionException("Cannot assign incompatible AnyValue");
+  throw InvalidConversionException("Cannot convert from incompatible AnyValue");
 }
 
 boolean IValueData::AsBoolean() const
@@ -163,6 +163,22 @@ AnyValue& IValueData::operator[](std::size_t idx)
 std::unique_ptr<AnyValue> IValueData::MakeAnyValue(std::unique_ptr<IValueData>&& data)
 {
   return std::unique_ptr<AnyValue>{new AnyValue{std::move(data)}};
+}
+
+bool IsLockedTypeConstraint(value_flags::Constraints constraints)
+{
+  return constraints == value_flags::kLockedType;
+}
+
+std::unique_ptr<IValueData> StealOrClone(std::unique_ptr<IValueData>&& data)
+{
+  if (IsLockedTypeConstraint(data->GetConstraints()))
+  {
+    return std::unique_ptr<IValueData>{data->Clone(value_flags::kNone)};
+  }
+  std::unique_ptr<IValueData> tmp{CreateDefaultValueData()};
+  std::swap(tmp, data);
+  return std::move(tmp);
 }
 
 IValueData* CreateValueData(const AnyType& anytype, value_flags::Constraints constraints)

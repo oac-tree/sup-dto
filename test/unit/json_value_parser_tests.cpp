@@ -420,7 +420,7 @@ TEST_F(JSONValueParserTest, NTEnumValue)
   }, "enum_t");
   AnyType ntenum_type({{"value", enum_t_type}}, "epics:nt/NTEnum:1.0");
   AnyValue ntenum_val(ntenum_type);
-  ntenum_val["value.choices"] = ArrayValue({"Off", "Idle", "Running", "Fault"});
+  ntenum_val["value.choices"] = ArrayValue({"Off", "Idle", "Running", "Fault"}, "string[]");
   EXPECT_TRUE(m_parser.ParseString(json_ntenum_full));
   auto parsed_val = m_parser.MoveAnyValue();
   EXPECT_EQ(ntenum_val, parsed_val);

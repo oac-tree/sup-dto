@@ -48,55 +48,55 @@ AnyValue::AnyValue(const AnyType& anytype)
 {}
 
 AnyValue::AnyValue(boolean val)
-  : m_data{CreateUnconstrainedScalarData<boolean>(val)}
+  : m_data{CreateUnconstrainedScalarData(val)}
 {}
 
 AnyValue::AnyValue(char8 val)
-  : m_data{CreateUnconstrainedScalarData<char8>(val)}
+  : m_data{CreateUnconstrainedScalarData(val)}
 {}
 
 AnyValue::AnyValue(int8 val)
-  : m_data{CreateUnconstrainedScalarData<int8>(val)}
+  : m_data{CreateUnconstrainedScalarData(val)}
 {}
 
 AnyValue::AnyValue(uint8 val)
-  : m_data{CreateUnconstrainedScalarData<uint8>(val)}
+  : m_data{CreateUnconstrainedScalarData(val)}
 {}
 
 AnyValue::AnyValue(int16 val)
-  : m_data{CreateUnconstrainedScalarData<int16>(val)}
+  : m_data{CreateUnconstrainedScalarData(val)}
 {}
 
 AnyValue::AnyValue(uint16 val)
-  : m_data{CreateUnconstrainedScalarData<uint16>(val)}
+  : m_data{CreateUnconstrainedScalarData(val)}
 {}
 
 AnyValue::AnyValue(int32 val)
-  : m_data{CreateUnconstrainedScalarData<int32>(val)}
+  : m_data{CreateUnconstrainedScalarData(val)}
 {}
 
 AnyValue::AnyValue(uint32 val)
-  : m_data{CreateUnconstrainedScalarData<uint32>(val)}
+  : m_data{CreateUnconstrainedScalarData(val)}
 {}
 
 AnyValue::AnyValue(int64 val)
-  : m_data{CreateUnconstrainedScalarData<int64>(val)}
+  : m_data{CreateUnconstrainedScalarData(val)}
 {}
 
 AnyValue::AnyValue(uint64 val)
-  : m_data{CreateUnconstrainedScalarData<uint64>(val)}
+  : m_data{CreateUnconstrainedScalarData(val)}
 {}
 
 AnyValue::AnyValue(float32 val)
-  : m_data{CreateUnconstrainedScalarData<float32>(val)}
+  : m_data{CreateUnconstrainedScalarData(val)}
 {}
 
 AnyValue::AnyValue(float64 val)
-  : m_data{CreateUnconstrainedScalarData<float64>(val)}
+  : m_data{CreateUnconstrainedScalarData(val)}
 {}
 
 AnyValue::AnyValue(const std::string& val)
-  : m_data{CreateUnconstrainedScalarData<std::string>(val)}
+  : m_data{CreateUnconstrainedScalarData(val)}
 {}
 
 AnyValue::AnyValue(const char* val)
@@ -127,7 +127,7 @@ AnyValue::AnyValue(std::size_t size, const AnyType& elem_type, const std::string
 {
   auto array_data =
     std::unique_ptr<IValueData>(new ArrayValueData(size, elem_type, name, value_flags::kNone));
-  std::swap(m_data, array_data);
+  m_data = std::move(array_data);
 }
 
 AnyValue::AnyValue(const AnyValue& other)
@@ -135,45 +135,45 @@ AnyValue::AnyValue(const AnyValue& other)
 {}
 
 AnyValue::AnyValue(AnyValue&& other)
-  : m_data{CreateDefaultValueData()}
-{
-  std::swap(m_data, other.m_data);
-}
+  : m_data{StealOrClone(std::move(other.m_data))}
+{}
 
 AnyValue& AnyValue::operator=(const AnyValue& other)
 {
-  if (this == &other)
-  {
-    return *this;
-  }
-  if (!IsEmptyValue(*this))
+  if (IsLockedTypeConstraint(m_data->GetConstraints()))
   {
     m_data->Assign(other);
+    return *this;
   }
-  else
-  {
-    m_data.reset(other.m_data->Clone(value_flags::kNone));
-  }
+  std::unique_ptr<IValueData> tmp{other.m_data->Clone(value_flags::kNone)};
+  std::swap(m_data, tmp);
   return *this;
 }
 
 AnyValue& AnyValue::operator=(AnyValue&& other)
 {
-  if (this == &other)
+  if (IsLockedTypeConstraint(m_data->GetConstraints()))
   {
+    m_data->Assign(other);
     return *this;
   }
-  if (GetType() == other.GetType() || IsEmptyValue(*this))
+  if (IsLockedTypeConstraint(other.m_data->GetConstraints()))
   {
-    m_data.reset(other.m_data.release());
-    other.m_data.reset(CreateDefaultValueData());
+    std::unique_ptr<IValueData> tmp{other.m_data->Clone(value_flags::kNone)};
+    std::swap(m_data, tmp);
   }
   else
   {
-    // Fallback to copy
-    m_data->Assign(other);
+    std::swap(m_data, other.m_data);
   }
   return *this;
+}
+
+void AnyValue::ConvertFrom(const AnyValue& other)
+{
+  std::unique_ptr<IValueData> tmp{CreateValueData(GetType(), m_data->GetConstraints())};
+  tmp->Assign(other);
+  std::swap(m_data, tmp);
 }
 
 AnyValue::~AnyValue() = default;

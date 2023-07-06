@@ -498,7 +498,7 @@ TEST_F(AnyValueComposerTests, ArrayWithTwoStructureElements)
                                  {"second", {sup::dto::UnsignedInteger8Type, 43}}},
                                 "struct_name"};
 
-  auto expected_array_value = sup::dto::ArrayValue({{struct1}, struct2}, "array_name");
+  auto expected_array_value = sup::dto::ArrayValue({struct1, struct2}, "array_name");
 
   AnyValueComposer builder;
 

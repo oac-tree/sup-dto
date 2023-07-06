@@ -50,7 +50,7 @@ bool AnyValueValueElementBuildNode::Null()
     throw ParseException(
         "AnyValueValueElementBuildNode::Null must be called after \"instance\" key");
   }
-  anyvalue = AnyValue{};
+  anyvalue.ConvertFrom(AnyValue{});
   member_name.clear();
   return true;
 }
@@ -62,7 +62,7 @@ bool AnyValueValueElementBuildNode::Bool(boolean b)
     throw ParseException(
         "AnyValueValueElementBuildNode::Bool must be called after \"instance\" key");
   }
-  anyvalue = b;
+  anyvalue.ConvertFrom(b);
   member_name.clear();
   return true;
 }
@@ -74,7 +74,7 @@ bool AnyValueValueElementBuildNode::Int32(int32 i)
     throw ParseException(
         "AnyValueValueElementBuildNode::Int32 must be called after \"instance\" key");
   }
-  anyvalue = i;
+  anyvalue.ConvertFrom(i);
   member_name.clear();
   return true;
 }
@@ -86,7 +86,7 @@ bool AnyValueValueElementBuildNode::Uint32(uint32 u)
     throw ParseException(
         "AnyValueValueElementBuildNode::Uint32 must be called after \"instance\" key");
   }
-  anyvalue = u;
+  anyvalue.ConvertFrom(u);
   member_name.clear();
   return true;
 }
@@ -98,7 +98,7 @@ bool AnyValueValueElementBuildNode::Int64(int64 i)
     throw ParseException(
         "AnyValueValueElementBuildNode::Int64 must be called after \"instance\" key");
   }
-  anyvalue = i;
+  anyvalue.ConvertFrom(i);
   member_name.clear();
   return true;
 }
@@ -110,7 +110,7 @@ bool AnyValueValueElementBuildNode::Uint64(uint64 u)
     throw ParseException(
         "AnyValueValueElementBuildNode::Uint64 must be called after \"instance\" key");
   }
-  anyvalue = u;
+  anyvalue.ConvertFrom(u);
   member_name.clear();
   return true;
 }
@@ -122,7 +122,7 @@ bool AnyValueValueElementBuildNode::Double(float64 d)
     throw ParseException(
         "AnyValueValueElementBuildNode::Double must be called after \"instance\" key");
   }
-  anyvalue = d;
+  anyvalue.ConvertFrom(d);
   member_name.clear();
   return true;
 }
@@ -134,7 +134,7 @@ bool AnyValueValueElementBuildNode::String(const std::string& str)
     throw ParseException(
         "AnyValueValueElementBuildNode::String must be called after \"instance\" key");
   }
-  anyvalue = str;
+  anyvalue.ConvertFrom(str);
   member_name.clear();
   return true;
 }

@@ -39,9 +39,7 @@ bool TryConvert(AnyValue& dest, const AnyValue& src)
 {
   try
   {
-    AnyValue copy_of_right_type{dest.GetType()};
-    copy_of_right_type = src;
-    dest = std::move(copy_of_right_type);
+    dest.ConvertFrom(src);
   }
   catch(const InvalidConversionException&)
   {

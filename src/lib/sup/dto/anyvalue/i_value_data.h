@@ -83,6 +83,10 @@ protected:
   static std::unique_ptr<AnyValue> MakeAnyValue(std::unique_ptr<IValueData>&& data);
 };
 
+bool IsLockedTypeConstraint(value_flags::Constraints constraints);
+
+std::unique_ptr<IValueData> StealOrClone(std::unique_ptr<IValueData>&& data);
+
 IValueData* CreateValueData(const AnyType& anytype, value_flags::Constraints constraints);
 
 }  // namespace dto

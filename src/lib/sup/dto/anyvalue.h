@@ -166,6 +166,17 @@ public:
   AnyValue& operator=(AnyValue&& other);
 
   /**
+   * @brief Try to convert from other AnyValue without changing the underlying type.
+   *
+   * @param other Source AnyValue for conversion.
+   *
+   * @throws InvalidConversionException Thrown when the given AnyValue cannot be properly converted
+   * to this AnyValue (only possible when conversions are required, meaning the types are not
+   * exactly equal).
+   */
+  void ConvertFrom(const AnyValue& other);
+
+  /**
    * @brief Destructor.
    */
   ~AnyValue();
