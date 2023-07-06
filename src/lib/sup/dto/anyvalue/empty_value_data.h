@@ -40,7 +40,7 @@ public:
 
   value_flags::Constraints GetConstraints() const override;
 
-  void Assign(const AnyValue& value) override;
+  void ConvertFrom(const AnyValue& value) override;
 
   bool Equals(const AnyValue& other) const override;
 private:

@@ -56,11 +56,11 @@ value_flags::Constraints EmptyValueData::GetConstraints() const
   return m_constraints;
 }
 
-void EmptyValueData::Assign(const AnyValue& value)
+void EmptyValueData::ConvertFrom(const AnyValue& value)
 {
   if (!IsEmptyValue(value))
   {
-    return IValueData::Assign(value);
+    return IValueData::ConvertFrom(value);
   }
 }
 

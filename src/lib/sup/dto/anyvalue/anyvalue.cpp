@@ -106,7 +106,7 @@ AnyValue::AnyValue(const char* val)
 AnyValue::AnyValue(const AnyType& anytype, const AnyValue& anyvalue)
   : m_data{CreateValueData(anytype, value_flags::kNone)}
 {
-  m_data->Assign(anyvalue);
+  m_data->ConvertFrom(anyvalue);
 }
 
 AnyValue::AnyValue(std::initializer_list<std::pair<std::string, AnyValue>> members,
@@ -142,7 +142,7 @@ AnyValue& AnyValue::operator=(const AnyValue& other)
 {
   if (IsLockedTypeConstraint(m_data->GetConstraints()))
   {
-    m_data->Assign(other);
+    ConvertFrom(other);
     return *this;
   }
   std::unique_ptr<IValueData> tmp{other.m_data->Clone(value_flags::kNone)};
@@ -154,7 +154,7 @@ AnyValue& AnyValue::operator=(AnyValue&& other)
 {
   if (IsLockedTypeConstraint(m_data->GetConstraints()))
   {
-    m_data->Assign(other);
+    ConvertFrom(other);
     return *this;
   }
   if (IsLockedTypeConstraint(other.m_data->GetConstraints()))
@@ -172,7 +172,7 @@ AnyValue& AnyValue::operator=(AnyValue&& other)
 void AnyValue::ConvertFrom(const AnyValue& other)
 {
   std::unique_ptr<IValueData> tmp{CreateValueData(GetType(), m_data->GetConstraints())};
-  tmp->Assign(other);
+  tmp->ConvertFrom(other);
   std::swap(m_data, tmp);
 }
 

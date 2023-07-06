@@ -85,7 +85,7 @@ value_flags::Constraints ArrayValueData::GetConstraints() const
 void ArrayValueData::AddElement(const AnyValue& value)
 {
   std::unique_ptr<IValueData> data{CreateValueData(m_elem_type, value_flags::kLockedType)};
-  data->Assign(value);
+  data->ConvertFrom(value);
   m_elements.push_back(MakeAnyValue(std::move(data)));
 }
 
@@ -94,11 +94,11 @@ std::size_t ArrayValueData::NumberOfElements() const
   return m_elements.size();
 }
 
-void ArrayValueData::Assign(const AnyValue& value)
+void ArrayValueData::ConvertFrom(const AnyValue& value)
 {
   if (value.GetTypeCode() != TypeCode::Array)
   {
-    IValueData::Assign(value);
+    IValueData::ConvertFrom(value);
   }
   if (NumberOfElements() == 0)
   {

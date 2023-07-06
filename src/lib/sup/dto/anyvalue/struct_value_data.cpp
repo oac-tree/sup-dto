@@ -85,7 +85,7 @@ void StructValueData::AddMember(const std::string& name, const AnyValue& value)
     throw InvalidOperationException("Cannot add duplicate member keys");
   }
   std::unique_ptr<IValueData> data{CreateValueData(value.GetType(), m_constraints)};
-  data->Assign(value);
+  data->ConvertFrom(value);
   m_members.emplace_back(name, MakeAnyValue(std::move(data)));
 }
 
@@ -104,11 +104,11 @@ std::size_t StructValueData::NumberOfMembers() const
   return m_members.size();
 }
 
-void StructValueData::Assign(const AnyValue& value)
+void StructValueData::ConvertFrom(const AnyValue& value)
 {
   if (value.GetTypeCode() != TypeCode::Struct)
   {
-    IValueData::Assign(value);
+    IValueData::ConvertFrom(value);
   }
   if (value.MemberNames() != MemberNames())
   {

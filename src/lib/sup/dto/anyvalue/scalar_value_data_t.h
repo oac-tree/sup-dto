@@ -120,7 +120,7 @@ public:
 
   ScalarValueDataT<T>* Clone(value_flags::Constraints constraints) const override;
 
-  void Assign(const AnyValue& value) override;
+  void ConvertFrom(const AnyValue& value) override;
 
   boolean AsBoolean() const override;
   char8 AsCharacter8() const override;
@@ -155,7 +155,7 @@ ScalarValueDataT<T>* ScalarValueDataT<T>::Clone(value_flags::Constraints constra
 }
 
 template <typename T>
-void ScalarValueDataT<T>::Assign(const AnyValue& value)
+void ScalarValueDataT<T>::ConvertFrom(const AnyValue& value)
 {
   m_value = value.As<T>();
 }

@@ -58,7 +58,7 @@ public:
   virtual void AddElement(const AnyValue& value);
   virtual std::size_t NumberOfElements() const;
 
-  virtual void Assign(const AnyValue& value);
+  virtual void ConvertFrom(const AnyValue& value);
 
   virtual boolean AsBoolean() const;
   virtual char8 AsCharacter8() const;

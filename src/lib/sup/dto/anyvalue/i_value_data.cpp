@@ -72,7 +72,7 @@ std::size_t IValueData::NumberOfElements() const
   return 0;
 }
 
-void IValueData::Assign(const AnyValue& value)
+void IValueData::ConvertFrom(const AnyValue& value)
 {
   (void)value;
   throw InvalidConversionException("Cannot convert from incompatible AnyValue");

@@ -47,7 +47,7 @@ public:
   void AddElement(const AnyValue& value) override;
   std::size_t NumberOfElements() const override;
 
-  void Assign(const AnyValue& value) override;
+  void ConvertFrom(const AnyValue& value) override;
 
   bool HasField(const std::string& fieldname) const override;
   AnyValue& operator[](const std::string& fieldname) override;
