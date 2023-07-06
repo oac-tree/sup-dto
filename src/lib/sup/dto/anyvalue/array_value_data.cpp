@@ -84,6 +84,10 @@ value_flags::Constraints ArrayValueData::GetConstraints() const
 
 void ArrayValueData::AddElement(const AnyValue& value)
 {
+  // if (IsLockedTypeConstraint(m_constraints))
+  // {
+  //   throw InvalidOperationException("Cannot add element to array whose type is locked");
+  // }
   std::unique_ptr<IValueData> data{CreateValueData(m_elem_type, value_flags::kLockedType)};
   data->ConvertFrom(value);
   m_elements.push_back(MakeAnyValue(std::move(data)));
@@ -100,14 +104,6 @@ void ArrayValueData::ConvertFrom(const AnyValue& value)
   {
     IValueData::ConvertFrom(value);
   }
-  if (NumberOfElements() == 0)
-  {
-    for (std::size_t i = 0; i < value.NumberOfElements(); ++i)
-    {
-      std::unique_ptr<IValueData> data{CreateValueData(m_elem_type, value_flags::kLockedType)};
-      m_elements.push_back(MakeAnyValue(std::move(data)));
-    }
-  }
   if (value.NumberOfElements() != NumberOfElements())
   {
     throw InvalidConversionException("Can't convert between array values with different length "
@@ -115,7 +111,7 @@ void ArrayValueData::ConvertFrom(const AnyValue& value)
   }
   for (std::size_t idx = 0; idx < NumberOfElements(); ++idx)
   {
-    *m_elements[idx] = value[idx];
+    m_elements[idx]->ConvertFrom(value[idx]);
   }
 }
 

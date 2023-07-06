@@ -116,7 +116,7 @@ void StructValueData::ConvertFrom(const AnyValue& value)
   }
   for (auto& member : m_members)
   {
-    *member.second = value[member.first];
+    member.second->ConvertFrom(value[member.first]);
   }
 }
 
