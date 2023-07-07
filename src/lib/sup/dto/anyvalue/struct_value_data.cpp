@@ -120,7 +120,7 @@ void StructValueData::ConvertFrom(const AnyValue& value)
   }
   for (const auto& member_name : MemberNames())
   {
-    m_member_data[member_name].ConvertFrom(value[member_name]);
+    UnsafeConversion(m_member_data[member_name], value[member_name]);
   }
 }
 

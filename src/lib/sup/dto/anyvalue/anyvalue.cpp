@@ -348,6 +348,11 @@ AnyValue::AnyValue(std::unique_ptr<IValueData>&& data)
   : m_data{std::move(data)}
 {}
 
+void AnyValue::UnsafeConvertFrom(const AnyValue& other)
+{
+  m_data->ConvertFrom(other);
+}
+
 AnyValue EmptyStruct(const std::string& type_name)
 {
   return AnyValue(EmptyStructType(type_name));

@@ -111,7 +111,7 @@ void ArrayValueData::ConvertFrom(const AnyValue& value)
   }
   for (std::size_t idx = 0; idx < NumberOfElements(); ++idx)
   {
-    m_elements[idx]->ConvertFrom(value[idx]);
+    UnsafeConversion(*m_elements[idx], value[idx]);
   }
 }
 

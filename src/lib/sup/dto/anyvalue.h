@@ -330,6 +330,11 @@ public:
 
 private:
   explicit AnyValue(std::unique_ptr<IValueData>&& data);
+  /**
+   * @brief Conversion that could leave this AnyValue in a partially changed state if the execution
+   * throws.
+   */
+  void UnsafeConvertFrom(const AnyValue& other);
   friend class IValueData;
   std::unique_ptr<IValueData> m_data;
 };

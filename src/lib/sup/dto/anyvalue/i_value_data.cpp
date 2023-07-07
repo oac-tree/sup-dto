@@ -165,6 +165,11 @@ std::unique_ptr<AnyValue> IValueData::MakeAnyValue(std::unique_ptr<IValueData>&&
   return std::unique_ptr<AnyValue>{new AnyValue{std::move(data)}};
 }
 
+void IValueData::UnsafeConversion(AnyValue& dest, const AnyValue& src)
+{
+  dest.UnsafeConvertFrom(src);
+}
+
 bool IsLockedTypeConstraint(value_flags::Constraints constraints)
 {
   return constraints == value_flags::kLockedType;

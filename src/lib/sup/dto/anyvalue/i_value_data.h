@@ -81,6 +81,7 @@ public:
   virtual bool Equals(const AnyValue& other) const = 0;
 protected:
   static std::unique_ptr<AnyValue> MakeAnyValue(std::unique_ptr<IValueData>&& data);
+  static void UnsafeConversion(AnyValue& dest, const AnyValue& src);
 };
 
 bool IsLockedTypeConstraint(value_flags::Constraints constraints);
