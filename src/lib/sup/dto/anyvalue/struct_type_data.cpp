@@ -34,7 +34,12 @@ StructTypeData::~StructTypeData() = default;
 
 StructTypeData* StructTypeData::Clone() const
 {
-  auto result = std::unique_ptr<StructTypeData>(new StructTypeData(m_member_data));
+  auto result = std::unique_ptr<StructTypeData>(new StructTypeData(GetTypeName()));
+  for (const auto& member_name : MemberNames())
+  {
+    std::unique_ptr<AnyType> copy{new AnyType{m_member_data[member_name]}};
+    result->m_member_data.AddMember(member_name, std::move(copy));
+  }
   return result.release();
 }
 
@@ -50,7 +55,8 @@ std::string StructTypeData::GetTypeName() const
 
 void StructTypeData::AddMember(const std::string& name, const AnyType& type)
 {
-  return m_member_data.AddMember(name, type);
+  std::unique_ptr<AnyType> copy{new AnyType{type}};
+  m_member_data.AddMember(name, std::move(copy));
 }
 
 std::vector<std::string> StructTypeData::MemberNames() const
@@ -77,10 +83,6 @@ bool StructTypeData::Equals(const AnyType& other) const
 {
   return m_member_data.Equals(other);
 }
-
-StructTypeData::StructTypeData(const StructDataT<AnyType>& member_data_)
-  : m_member_data{member_data_}
-{}
 
 }  // namespace dto
 

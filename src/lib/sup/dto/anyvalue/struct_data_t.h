@@ -48,7 +48,7 @@ public:
   TypeCode GetTypeCode() const;
   std::string GetTypeName() const;
 
-  void AddMember(const std::string& name, const T& type);
+  void AddMember(const std::string& name, std::unique_ptr<T>&& val);
   std::vector<std::string> MemberNames() const;
   std::size_t NumberOfMembers() const;
 
@@ -60,7 +60,7 @@ public:
 
 private:
   std::string m_name;
-  std::vector<std::pair<std::string, T>> m_members;
+  std::vector<std::pair<std::string, std::unique_ptr<T>>> m_members;
 };
 
 template <typename T>
@@ -82,14 +82,14 @@ std::string StructDataT<T>::GetTypeName() const
 }
 
 template <typename T>
-void StructDataT<T>::AddMember(const std::string& name, const T& type)
+void StructDataT<T>::AddMember(const std::string& name, std::unique_ptr<T>&& val)
 {
   utils::VerifyMemberName(name);
   if (HasField(name))
   {
     throw InvalidOperationException("Cannot add duplicate member keys");
   }
-  m_members.push_back({name, type});
+  m_members.emplace_back(name, std::move(val));
 }
 
 template <typename T>
@@ -109,7 +109,7 @@ bool StructDataT<T>::HasField(const std::string& fieldname) const
     return true;
   }
   auto& member = it->second;
-  return member.HasField(fields.second);
+  return member->HasField(fields.second);
 }
 
 template <typename T>
@@ -155,9 +155,9 @@ const T& StructDataT<T>::operator[](const std::string& fieldname) const
   auto& member = it->second;
   if (fields.second.empty())
   {
-    return member;
+    return *member;
   }
-  return member[fields.second];
+  return member->operator[](fields.second);
 }
 
 template <typename T>
@@ -175,10 +175,10 @@ bool StructDataT<T>::Equals(const T& other) const
   {
     return false;
   }
-  for (auto &member : m_members)
+  for (auto& member : m_members)
   {
-    auto &other_member_field = other[member.first];
-    if (other_member_field != member.second)
+    auto& other_member_field = other[member.first];
+    if (other_member_field != *member.second)
     {
       return false;
     }

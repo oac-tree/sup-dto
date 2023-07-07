@@ -51,7 +51,6 @@ public:
   bool Equals(const AnyType& other) const override;
 
 private:
-  StructTypeData(const StructDataT<AnyType>& member_data);
   StructDataT<AnyType> m_member_data;
 };
 
