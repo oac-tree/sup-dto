@@ -43,6 +43,17 @@ class AnyTypeRegistry;
 bool TryConvert(AnyValue& dest, const AnyValue& src);
 
 /**
+ * @brief Try to assign an AnyValue to another AnyValue.
+ *
+ * @param dest AnyValue object to assign to.
+ * @param src AnyValue object to assign from.
+ *
+ * @note When assignment or conversion fails, the destination is left unchanged and false is
+ * returned.
+ */
+bool TryAssign(AnyValue& dest, const AnyValue& src);
+
+/**
  * @brief Serialize an AnyValue using the given generic serializer.
  *
  * @param anyvalue AnyValue object to serialize.

@@ -456,6 +456,16 @@ functions:
    unchanged and false is returned. This is basically a non-throwing version of
    :func:`void AnyValue::ConvertFrom(const AnyValue&)`.
 
+.. function:: bool TryAssign(AnyValue& dest, const AnyValue& src)
+
+   :param dest: ``AnyValue`` object to assign to.
+   :param src: ``AnyValue`` object to assign from.
+   :return: ``true`` on successful assignment.
+
+   Try to assign an AnyValue to another AnyValue. When assignment or conversion fails, the
+   destination is left unchanged and false is returned. This is basically a non-throwing version of
+   :func:`AnyValue& AnyValue::operator=(const AnyValue&)`.
+
 .. function:: bool Increment(AnyValue& value)
 
    :param value: ``AnyValue`` object to increment.
