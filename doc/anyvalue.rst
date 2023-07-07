@@ -179,8 +179,6 @@ constructor::
      }}
    }, "CustomerType");
 
-.. _anyvalue-copy-move:
-
 Copy and move
 -------------
 
