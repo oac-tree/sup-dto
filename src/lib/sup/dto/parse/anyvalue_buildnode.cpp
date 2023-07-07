@@ -48,7 +48,7 @@ bool AnyValueBuildNode::Bool(boolean b)
     throw ParseException(
         "AnyValueBuildNode::Bool must be called after member name");
   }
-  anyvalue[member_name] = b;
+  anyvalue[member_name].ConvertFrom(b);
   member_name.clear();
   return true;
 }
@@ -60,7 +60,7 @@ bool AnyValueBuildNode::Int32(int32 i)
     throw ParseException(
         "AnyValueBuildNode::Int32 must be called after member name");
   }
-  anyvalue[member_name] = i;
+  anyvalue[member_name].ConvertFrom(i);
   member_name.clear();
   return true;
 }
@@ -72,7 +72,7 @@ bool AnyValueBuildNode::Uint32(uint32 u)
     throw ParseException(
         "AnyValueBuildNode::Uint32 must be called after member name");
   }
-  anyvalue[member_name] = u;
+  anyvalue[member_name].ConvertFrom(u);
   member_name.clear();
   return true;
 }
@@ -84,7 +84,7 @@ bool AnyValueBuildNode::Int64(int64 i)
     throw ParseException(
         "AnyValueBuildNode::Int64 must be called after member name");
   }
-  anyvalue[member_name] = i;
+  anyvalue[member_name].ConvertFrom(i);
   member_name.clear();
   return true;
 }
@@ -96,7 +96,7 @@ bool AnyValueBuildNode::Uint64(uint64 u)
     throw ParseException(
         "AnyValueBuildNode::Uint64 must be called after member name");
   }
-  anyvalue[member_name] = u;
+  anyvalue[member_name].ConvertFrom(u);
   member_name.clear();
   return true;
 }
@@ -108,7 +108,7 @@ bool AnyValueBuildNode::Double(float64 d)
     throw ParseException(
         "AnyValueBuildNode::Double must be called after member name");
   }
-  anyvalue[member_name] = d;
+  anyvalue[member_name].ConvertFrom(d);
   member_name.clear();
   return true;
 }
@@ -120,7 +120,7 @@ bool AnyValueBuildNode::String(const std::string& str)
     throw ParseException(
         "AnyValueBuildNode::String must be called after member name");
   }
-  anyvalue[member_name] = str;
+  anyvalue[member_name].ConvertFrom(str);
   member_name.clear();
   return true;
 }
