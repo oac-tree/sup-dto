@@ -183,7 +183,7 @@ std::unique_ptr<IValueData> StealOrClone(std::unique_ptr<IValueData>&& data)
   }
   std::unique_ptr<IValueData> tmp{CreateDefaultValueData()};
   std::swap(tmp, data);
-  return std::move(tmp);
+  return tmp;
 }
 
 IValueData* CreateValueData(const AnyType& anytype, value_flags::Constraints constraints)
