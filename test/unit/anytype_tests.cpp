@@ -232,7 +232,7 @@ TEST(AnyTypeTest, AssignEmptyFields)
   }, "MyStruct");
   EXPECT_NO_THROW(my_struct["other"] = EmptyType);
 
-  // Do not allow assigning the empty type as the element type of an array
+  // Allow assigning an empty type as the element type of an array
   AnyType my_array(4, UnsignedInteger64Type);
   EXPECT_NO_THROW(my_array["[]"] = EmptyType);
 }

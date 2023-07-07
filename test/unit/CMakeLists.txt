@@ -13,6 +13,7 @@ target_sources(unit-tests
     ${CMAKE_CURRENT_LIST_DIR}/anytype_registry_tests.cpp
     ${CMAKE_CURRENT_LIST_DIR}/anytype_serialize_tests.cpp
     ${CMAKE_CURRENT_LIST_DIR}/anytype_tests.cpp
+    ${CMAKE_CURRENT_LIST_DIR}/anyvalue_assign_tests.cpp
     ${CMAKE_CURRENT_LIST_DIR}/anyvalue_builder_tests.cpp
     ${CMAKE_CURRENT_LIST_DIR}/anyvalue_comparison_tests.cpp
     ${CMAKE_CURRENT_LIST_DIR}/anyvalue_composer_components_tests.cpp
