@@ -52,3 +52,39 @@ AnyValue
 
 ``AnyValue`` objects can be serialized to JSON format.
 
+.. code-block:: json
+
+    [
+      {
+        "encoding": "sup-dto/v1.0/JSON"
+      },
+      {
+        "datatype": {
+          "type": "",
+          "attributes": [
+            {
+              "id": {
+                "type": "string"
+              }
+            },
+            {
+              "number": {
+                "type": "int32"
+              }
+            },
+            {
+              "weight": {
+                "type": "float64"
+              }
+            }
+          ]
+        }
+      },
+      {
+        "instance": {
+          "id": "my_id",
+          "number": 1729,
+          "weight": 50.25
+        }
+      }
+    ]

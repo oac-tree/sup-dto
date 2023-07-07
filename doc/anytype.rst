@@ -2,7 +2,8 @@ AnyType
 =======
 
 The ``AnyType`` class represents runtime introspectable types for empty, scalar, structured or array
-values. Objects of this type respect value semantics and can easily be passed or returned by value.
+values. Objects of this type respect value semantics and can easily be passed, assigned or returned
+by value.
 
 .. contents::
    :local:
@@ -120,8 +121,8 @@ The following scalar type enumerators are supported:
 Array types
 ^^^^^^^^^^^
 
-Array types represent fixed size arrays of values of the same type. The provided element type is not
-allowed to be empty. These are constructed using a dedicated constructor::
+Array types represent fixed size arrays of values of the same type. These are constructed using a
+dedicated constructor::
 
    // Create array type containing 20 boolean values and provide a name:
    AnyType my_bool_array(20, BooleanType, "TwentyBooleans");
@@ -129,18 +130,15 @@ allowed to be empty. These are constructed using a dedicated constructor::
 The last argument of this constructor is optional and if not provided, the typename will be an empty
 string.
 
-Array types with zero size are allowed and provide for dynamic array types (see
-:ref:`AnyValue - Copy and Move <anyvalue-copy-move>`).
-
-.. _structured-types:
+Array types with zero size are allowed, since elements can be added later. However, this implicitly
+changes the type, since its size if part of the type.
 
 Structured types
 ^^^^^^^^^^^^^^^^
 
 Structured types are key to providing flexible types that are composed of simpler ones. Contrary to
 array types, they can contain different subtypes. This allows users to compose any kind of nested
-structure, with the only restriction that the leaf types need to be scalar (empty types are not
-allowed as leafs).
+structure.
 
 A structured type can be constructed by adding subtypes to an originally empty structure. This step
 by step construction is mainly meant to support runtime construction. The following example shows
@@ -157,7 +155,7 @@ how this is achieved::
 
 Although the example showed only the addition of scalar members/subtypes, the only restriction is
 that member types need to be ``AnyType`` objects. As a result, one can create structures of
-structures, structures of arrays, arrays of structures, etc.
+structures, structures of arrays, arrays of structures, structures of empty values, etc.
 
 To facilitate the static creation of structured types, a dedicated constructor can be used that
 accepts a braced-init-list of pairs of member names and types. This constructor also allows to
@@ -185,10 +183,7 @@ Copy and move
 
 The ``AnyType`` class provides copy and move constructors and assignment operators that behave as
 one would expect from objects with value semantics. In general, the underlying types are always
-overwritten. There is only one restriction: the ``EmptyType`` cannot be assigned to any type other
-than the ``EmptyType`` itself. This restriction is required to prevent subtypes of structured or
-array types to become empty types, which can lead to broken invariants (e.g. array type with
-elements of different type).
+overwritten.
 
 The following example shows this behavior::
 

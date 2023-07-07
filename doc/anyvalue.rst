@@ -2,8 +2,8 @@ AnyValue
 ========
 
 The ``AnyValue`` class represents runtime introspectable values that can be empty, scalar,
-structured or array values. Objects of this type respect value semantics and can easily be passed or
-returned by value.
+structured or array values. Objects of this type respect value semantics and can easily be passed,
+assigned or returned by value.
 
 .. contents::
    :local:
@@ -43,7 +43,7 @@ leaf values by using the following constructor:
    Construct a value object with the given type.
 
 There also exists a constructor that takes both an ``AnyType`` and an ``AnyValue`` parameter, that
-is provided mostly for constructing scalar types (see :ref:`scalar-values`):
+is provided mostly as a conversion constructor (see :ref:`conversion-methods`):
 
 .. function:: AnyValue::AnyValue(const AnyType& anytype, const AnyValue& anyvalue)
 
@@ -63,8 +63,6 @@ Empty values are created by using the default ``AnyValue`` constructor::
 
    // Use default constructor to create an empty value:
    AnyValue empty_value{};
-
-.. _scalar-values:
 
 Scalar values
 ^^^^^^^^^^^^^
@@ -108,7 +106,7 @@ string types by using the converting constructors:
 
    Create an ``AnyValue`` object of String type and initialize it with the given value.
 
-Due to these converting constructors, it is possible to construct scalar ``AnyValue`` objects of
+Due to these non-explicit constructors, it is possible to construct scalar ``AnyValue`` objects of
 specific numeric types by numerical conversion from standard numeric literal values (see also
 :ref:`conversion-methods` for the supported conversions)::
 
@@ -118,8 +116,8 @@ specific numeric types by numerical conversion from standard numeric literal val
 Array values
 ^^^^^^^^^^^^
 
-Array values represent fixed size arrays of values of the same type. The provided element type is
-not allowed to be empty. These are constructed using a dedicated constructor::
+Array values represent fixed size arrays of values of the same type. These are constructed using a
+dedicated constructor::
 
    // Create array value containing 20 boolean values and provide a name:
    AnyValue my_bool_array(20, BooleanType, "TwentyBooleans");
@@ -186,25 +184,29 @@ constructor::
 Copy and move
 -------------
 
-The ``AnyValue`` class provides copy and move constructors and assignment operators that are more
-strict than their ``AnyType`` counterparts. In general, only compatible values can be assigned to
-each other.
+The ``AnyValue`` class provides copy and move constructors and assignment operators that are only
+slightly stricter than their ``AnyType`` counterparts. In general, all assignments are allowed,
+except when they would result in different elements of an array having different types. This means
+that assignment to array elements, or descendents thereof, will result in three alternatives:
 
-For the scalar types, this requires that the underlying value can be converted to the
+1. Source and destination value have the exact same type: the destination will become a copy of the
+   source.
+2. The source value can be correctly converted to the destination type: the destination value will
+   be a conversion of the source.
+3. Failure to assignment will throw an exception of type ``InvalidConversionException``.
+
+For the scalar types, conversion requires that the underlying value can be converted to the
 destination type and that it fits into that representation (e.g. a negative integer cannot be
 assigned to an unsigned value type).
 
-For array values, assigment requires equal length arrays and compatibility for each of their
-elements. An expection to this rule occurs when the target array has zero length. In that case, the
-target can be assigned arrays of any length, as long as the element types are compatible.
+For array values, conversion requires equal length arrays and compatibility for each of their
+elements.
 
-Structured values can be assigned to one another if they have
-the same member names (in the exact same order) and their member values are compatible. Note that
-for both array and structured value assignment, the type name is ignored.
+Structured values can be converted to one another if they have the same member names (in the exact
+same order) and their member values are compatible. Note that for both array and structured value
+conversion, the type name is ignored.
 
-Empty values are an exception to this strict assignment rules: they can be assigned any other
-``AnyValue`` object (structured, array, scalar or empty). However, they can not be assigned *to* any
-other value type, except an empty value itself.
+Empty values can only be converted to and from other empty values.
 
 The following example shows this behavior::
 
@@ -213,13 +215,16 @@ The following example shows this behavior::
 
    // Assign this boolean value to an integer AnyValue:
    AnyValue my_int{UnsignedInteger32Type};  // gets default value zero
-   my_int = my_true;  // my_int now contains the value '1', corresponding to 'true'
+   my_int = my_true;  // my_int now contains the boolean value 'true' (type changed)
 
-   // Empty types:
-   AnyValue empty_1{};
-   AnyValue empty_2{};
-   empty_1 = my_int;  // empty_1 is now a 32 bit integer with value '1'
-   my_true = empty_2;  // ERROR! Throws InvalidOperationException.
+   // Array element assignment:
+   AnyValue my_array = ArrayValue({0, 1, 2, 3});
+   my_array[1] = my_true;  // The second array element now contains the value '1', converted from
+                           // boolean value 'true'.
+   AnyValue my_struct{{
+      {"a": {UnsignedInteger8Type, 42}}
+   }};
+   my_array[0] = my_struct;  // ERROR! Throws InvalidConversionException.
 
 Query methods
 -------------
@@ -305,6 +310,16 @@ The following examples show the usage of this conversion method::
    bool is_non_zero = val.as<boolean>();  // is_non_zero is true
    int16 signed_val = val.as<int16>();  // signed_val is also 19
 
+There is also a member function that tries to convert another ``AnyValue`` to the type of the
+current ``AnyValue``:
+
+.. function:: void AnyValue::ConvertFrom(const AnyValue& other)
+
+   :param other: ``AnyValue`` object to convert from.
+   :throws InvalidConversionException: If this operation could not successfully convert between
+   the different types.
+
+
 Element access
 --------------
 
@@ -354,7 +369,9 @@ Modifier methods
 
 The ``AnyValue`` API provides modifier methods to extend structured or array values. These methods
 are mostly used for runtime creation of ``AnyValue`` objects, e.g. during parsing. Note that the
-effect of these methods includes a change of the underlying type.
+effect of these methods includes a change of the underlying type. Hence these methods will throw an
+exception of type ``InvalidOperationException`` when called on an element of an array or one of its
+descendents.
 
 .. function:: AnyValue& AnyValue::AddMember(const std::string& name, const AnyValue& value)
 
@@ -362,7 +379,7 @@ effect of these methods includes a change of the underlying type.
    :param value: ``AnyValue`` object for the member value.
    :return: Reference to ``this`` to allow chaining such calls.
    :throws InvalidOperationException: If this operation is not supported
-      (e.g. not a structured value or trying to add an empty value).
+      (e.g. not a structured value or a structured array element).
 
    Add a member value for this structured value with the given name and value. Empty values are
    not allowed as member values.
@@ -372,7 +389,7 @@ effect of these methods includes a change of the underlying type.
    :param value: ``AnyValue`` object to add as an element.
    :return: Reference to ``this`` to allow chaining such calls.
    :throws InvalidOperationException: If this operation is not supported
-      (not an array value or trying to add an empty value).
+      (not an array value or an element of an array of arrays).
 
    Add an element to the end of this array value with the given value.
 
@@ -438,7 +455,8 @@ functions:
    :return: ``true`` on successful conversion.
 
    Try to convert an AnyValue to another AnyValue. When conversion fails, the destination is left
-   unchanged and false is returned.
+   unchanged and false is returned. This is basically a non-throwing version of
+   :func:`void AnyValue::ConvertFrom(const AnyValue&)`.
 
 .. function:: bool Increment(AnyValue& value)
 
