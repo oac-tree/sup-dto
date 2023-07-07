@@ -35,6 +35,7 @@ class StructValueData : public IValueData
 {
 public:
   StructValueData(const std::string& type_name, value_flags::Constraints constraints);
+  StructValueData(const AnyType& anytype, value_flags::Constraints constraints);
   ~StructValueData() override;
 
   StructValueData* Clone(value_flags::Constraints constraints) const override;

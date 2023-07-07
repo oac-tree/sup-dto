@@ -10,7 +10,8 @@ Shortlist:
 
 - [x] AnyType: remove constraints.
 - [ ] AnyValue: disallow violating value invariants in case of arrays, i.e. all elements of an array should have the exact same type.
-  - [ ] Remove default constraint parameter in IValueData constructors
+  - Refactor StructDataT and reuse it in StructValueData
+  - Fine tune copy/move/assign
 - [ ] Documentation
 
 ## AnyType

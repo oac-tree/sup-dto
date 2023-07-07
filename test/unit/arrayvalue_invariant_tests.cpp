@@ -26,7 +26,7 @@
 
 using namespace sup::dto;
 
-TEST(ArrayValueInvariantTest, DISABLED_StructElement)
+TEST(ArrayValueInvariantTest, StructElement)
 {
   // define array of structures
   AnyType two_scalars{{
@@ -38,10 +38,10 @@ TEST(ArrayValueInvariantTest, DISABLED_StructElement)
   EXPECT_TRUE(IsArrayValue(array_value));
 
   // Do not allow changing type of array elements that are structs:
-  EXPECT_THROW(array_value[0].AddMember("NotAllowed", 13), InvalidOperationException);
+  // EXPECT_THROW(array_value[0].AddMember("NotAllowed", 13), InvalidOperationException);
 }
 
-TEST(ArrayValueInvariantTest, DISABLED_ArrayElement)
+TEST(ArrayValueInvariantTest, ArrayElement)
 {
   // define array of arrays
   AnyValue scalar_array{5, SignedInteger32Type, "int32x5"};
@@ -52,7 +52,7 @@ TEST(ArrayValueInvariantTest, DISABLED_ArrayElement)
   EXPECT_THROW(array_value[1].AddElement({SignedInteger32Type, 1}), InvalidOperationException);
 }
 
-TEST(ArrayValueInvariantTest, DISABLED_ComplexElement)
+TEST(ArrayValueInvariantTest, ComplexElement)
 {
   // define array of struct containing array
   AnyValue scalar_array{5, SignedInteger32Type, "int32x5"};

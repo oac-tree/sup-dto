@@ -84,10 +84,10 @@ value_flags::Constraints ArrayValueData::GetConstraints() const
 
 void ArrayValueData::AddElement(const AnyValue& value)
 {
-  // if (IsLockedTypeConstraint(m_constraints))
-  // {
-  //   throw InvalidOperationException("Cannot add element to array whose type is locked");
-  // }
+  if (IsLockedTypeConstraint(m_constraints))
+  {
+    throw InvalidOperationException("Cannot add element to array whose type is locked");
+  }
   std::unique_ptr<IValueData> data{CreateValueData(m_elem_type, value_flags::kLockedType)};
   data->ConvertFrom(value);
   m_elements.push_back(MakeAnyValue(std::move(data)));

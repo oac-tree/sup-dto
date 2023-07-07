@@ -36,6 +36,19 @@ StructValueData::StructValueData(const std::string& type_name, value_flags::Cons
   , m_constraints{constraints}
 {}
 
+StructValueData::StructValueData(const AnyType& anytype, value_flags::Constraints constraints)
+  : m_name{anytype.GetTypeName()}
+  , m_members{}
+  , m_constraints{constraints}
+{
+  for (auto& member_name : anytype.MemberNames())
+  {
+    const auto& member_type = anytype[member_name];
+    std::unique_ptr<IValueData> data{CreateValueData(member_type, constraints)};
+    m_members.emplace_back(member_name, MakeAnyValue(std::move(data)));
+  }
+}
+
 StructValueData::~StructValueData() = default;
 
 StructValueData* StructValueData::Clone(value_flags::Constraints constraints) const
@@ -43,7 +56,9 @@ StructValueData* StructValueData::Clone(value_flags::Constraints constraints) co
   auto result = std::unique_ptr<StructValueData>(new StructValueData(m_name, constraints));
   for (auto& member : m_members)
   {
-    result->AddMember(member.first, *member.second);
+    std::unique_ptr<IValueData> data{CreateValueData(member.second->GetType(), constraints)};
+    data->ConvertFrom(*member.second);
+    result->m_members.emplace_back(member.first, MakeAnyValue(std::move(data)));
   }
   return result.release();
 }
@@ -75,10 +90,10 @@ value_flags::Constraints StructValueData::GetConstraints() const
 
 void StructValueData::AddMember(const std::string& name, const AnyValue& value)
 {
-  // if (IsLockedTypeConstraint(m_constraints))
-  // {
-  //   throw InvalidOperationException("Cannot add member to struct whose type is locked");
-  // }
+  if (IsLockedTypeConstraint(m_constraints))
+  {
+    throw InvalidOperationException("Cannot add member to struct whose type is locked");
+  }
   utils::VerifyMemberName(name);
   if (HasField(name))
   {
@@ -189,12 +204,7 @@ bool StructValueData::Equals(const AnyValue& other) const
 
 StructValueData* CreateStructValueData(const AnyType& anytype, value_flags::Constraints constraints)
 {
-  auto result =
-    std::unique_ptr<StructValueData>(new StructValueData(anytype.GetTypeName(), constraints));
-  for (const auto& member_name : anytype.MemberNames())
-  {
-    result->AddMember(member_name, AnyValue(anytype[member_name]));
-  }
+  auto result = std::unique_ptr<StructValueData>(new StructValueData(anytype, constraints));
   return result.release();
 }
 
