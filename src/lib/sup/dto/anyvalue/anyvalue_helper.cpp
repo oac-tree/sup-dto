@@ -61,6 +61,26 @@ bool TryAssign(AnyValue& dest, const AnyValue& src)
   return true;
 }
 
+bool TryAssignIfEmptyOrConvert(AnyValue& dest, const AnyValue& src)
+{
+  try
+  {
+    if (IsEmptyValue(dest))
+    {
+      dest = src;
+    }
+    else
+    {
+      dest.ConvertFrom(src);
+    }
+  }
+  catch(const InvalidConversionException&)
+  {
+    return false;
+  }
+  return true;
+}
+
 void SerializeAnyValue(const AnyValue& anyvalue, IAnyVisitor<const AnyValue>& serializer)
 {
   return Visit(anyvalue, serializer);

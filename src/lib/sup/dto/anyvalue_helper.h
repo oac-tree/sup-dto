@@ -54,6 +54,17 @@ bool TryConvert(AnyValue& dest, const AnyValue& src);
 bool TryAssign(AnyValue& dest, const AnyValue& src);
 
 /**
+ * @brief Assign if destination is empty, otherwise try to convert.
+ *
+ * @param dest AnyValue object to assign/convert to.
+ * @param src AnyValue object to assign/convert from.
+ *
+ * @note When assignment or conversion fails, the destination is left unchanged and false is
+ * returned.
+ */
+bool TryAssignIfEmptyOrConvert(AnyValue& dest, const AnyValue& src);
+
+/**
  * @brief Serialize an AnyValue using the given generic serializer.
  *
  * @param anyvalue AnyValue object to serialize.
