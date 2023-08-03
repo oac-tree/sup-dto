@@ -1,4 +1,4 @@
-# To-do list for v1.0
+# To-do list
 
 * Complete documentation (mostly serialize/parse)
 * Binary serialization (with optional base64 stage)
