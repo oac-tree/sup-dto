@@ -26,7 +26,7 @@
 #include <sup/dto/anyvalue/scalar_value_data_t.h>
 #include <sup/dto/anyvalue/struct_value_data.h>
 #include <sup/dto/parse/byteparser.h>
-#include <sup/dto/serialize/byte_serializer.h>
+#include <sup/dto/serialize/ctype_serializer.h>
 #include <sup/dto/visit/visit_t.h>
 
 namespace sup

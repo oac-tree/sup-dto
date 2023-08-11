@@ -19,7 +19,7 @@
  * of the distribution package.
  ******************************************************************************/
 
-#include "byte_serializer.h"
+#include "ctype_serializer.h"
 
 #include <sup/dto/serialize/scalar_to_bytes.h>
 
