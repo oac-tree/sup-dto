@@ -1,12 +1,13 @@
 target_sources(sup-dto-obj
-    PRIVATE
-        ${CMAKE_CURRENT_LIST_DIR}/ctype_serializer.cpp
-        ${CMAKE_CURRENT_LIST_DIR}/i_writer.cpp
-        ${CMAKE_CURRENT_LIST_DIR}/scalar_to_bytes.cpp
-        ${CMAKE_CURRENT_LIST_DIR}/writer_serializer.cpp
+  PRIVATE
+    ${CMAKE_CURRENT_LIST_DIR}/binary_serializer.cpp
+    ${CMAKE_CURRENT_LIST_DIR}/ctype_serializer.cpp
+    ${CMAKE_CURRENT_LIST_DIR}/i_writer.cpp
+    ${CMAKE_CURRENT_LIST_DIR}/scalar_to_bytes.cpp
+    ${CMAKE_CURRENT_LIST_DIR}/writer_serializer.cpp
 )
 
 target_include_directories(sup-dto-obj
-    PRIVATE
-        ${CMAKE_CURRENT_LIST_DIR}
+  PRIVATE
+    ${CMAKE_CURRENT_LIST_DIR}
 )
