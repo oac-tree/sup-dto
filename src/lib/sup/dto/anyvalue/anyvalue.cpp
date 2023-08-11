@@ -396,7 +396,7 @@ bool IsScalarValue(const AnyValue& anyvalue)
 
 std::vector<uint8> ToBytes(const AnyValue& anyvalue)
 {
-  ByteSerializer serializer;
+  CTypeSerializer serializer;
   Visit(anyvalue, serializer);
   return serializer.GetRepresentation();
 }

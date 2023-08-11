@@ -33,11 +33,11 @@ namespace dto
 {
 class AnyValue;
 
-class ByteSerializer : public IAnyVisitor<const AnyValue>
+class CTypeSerializer : public IAnyVisitor<const AnyValue>
 {
 public:
-  ByteSerializer();
-  ~ByteSerializer() override;
+  CTypeSerializer();
+  ~CTypeSerializer() override;
 
   std::vector<uint8> GetRepresentation() const;
 
