@@ -1,5 +1,6 @@
 target_sources(sup-dto-obj
   PRIVATE
+    ${CMAKE_CURRENT_LIST_DIR}/binary_serialization_functions.cpp
     ${CMAKE_CURRENT_LIST_DIR}/binary_serializer.cpp
     ${CMAKE_CURRENT_LIST_DIR}/ctype_serializer.cpp
     ${CMAKE_CURRENT_LIST_DIR}/i_writer.cpp

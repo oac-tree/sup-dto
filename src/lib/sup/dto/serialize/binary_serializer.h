@@ -60,7 +60,6 @@ public:
 
 private:
   std::vector<uint8> representation;
-  void AppendString(const std::string& str);
 };
 
 }  // namespace dto

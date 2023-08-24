@@ -21,8 +21,8 @@
 
 #include "binary_serializer.h"
 
+#include <sup/dto/serialize/binary_serialization_functions.h>
 #include <sup/dto/serialize/binary_tokens.h>
-#include <sup/dto/serialize/scalar_to_bytes.h>
 
 #include <sup/dto/anyvalue.h>
 
@@ -64,7 +64,7 @@ void BinarySerializer::StructEpilog(const AnyValue*)
 
 void BinarySerializer::MemberProlog(const AnyValue*, const std::string& member_name)
 {
-  AppendString(member_name);
+  AppendBinaryString(representation, member_name);
 }
 
 void BinarySerializer::MemberEpilog(const AnyValue*, const std::string&)
@@ -85,31 +85,11 @@ void BinarySerializer::ArrayEpilog(const AnyValue*)
 
 void BinarySerializer::ScalarProlog(const AnyValue* anyvalue)
 {
-  auto byte_val = ScalarToBytes(*anyvalue);
-  representation.insert(representation.end(), byte_val.begin(), byte_val.end());
+  AppendBinaryScalar(representation, *anyvalue);
 }
 
 void BinarySerializer::ScalarEpilog(const AnyValue*)
 {}
-
-void BinarySerializer::AppendString(const std::string& str)
-{
-  representation.push_back(STRING_TOKEN);
-  auto str_size = str.size();
-  if (str_size < 0x80)
-  {
-    auto size_byte = static_cast<sup::dto::uint8>(str_size);
-    representation.push_back(size_byte);
-  }
-  else
-  {
-    representation.push_back(0x80);
-    auto size_t_size = sizeof(str_size);
-    std::vector<uint8> tmp(size_t_size);
-    std::memcpy(tmp.data(), &str_size, size_t_size);
-  }
-  representation.insert(representation.end(), std::begin(str), std::end(str));
-}
 
 }  // namespace dto
 
