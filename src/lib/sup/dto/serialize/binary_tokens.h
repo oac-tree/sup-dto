@@ -49,6 +49,9 @@ const sup::dto::uint8 END_STRUCT_TOKEN   = 0x21;
 const sup::dto::uint8 START_ARRAY_TOKEN  = 0x22;
 const sup::dto::uint8 END_ARRAY_TOKEN    = 0x23;
 
+const sup::dto::uint8 SHORT_STRING_LENGTH_LIMIT = 0xFF;
+const sup::dto::uint8 LONG_STRING_LENGTH_TOKEN = SHORT_STRING_LENGTH_LIMIT;
+
 }  // namespace dto
 
 }  // namespace sup

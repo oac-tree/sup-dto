@@ -58,17 +58,17 @@ void AppendBinaryScalar(std::vector<uint8>& representation, const AnyValue& anyv
   using AppendFunction = std::function<void(std::vector<uint8>&, const AnyValue&)>;
   static std::map<TypeCode, AppendFunction> function_map {
     {TypeCode::Bool, AppendScalarAnyValueT<boolean, BOOL_TOKEN> },
-    {TypeCode::Char8, AppendScalarAnyValueT<boolean, CHAR8_TOKEN> },
-    {TypeCode::Int8, AppendScalarAnyValueT<boolean, INT8_TOKEN> },
-    {TypeCode::UInt8, AppendScalarAnyValueT<boolean, UINT8_TOKEN> },
-    {TypeCode::Int16, AppendScalarAnyValueT<boolean, INT16_TOKEN> },
-    {TypeCode::UInt16, AppendScalarAnyValueT<boolean, UINT16_TOKEN> },
-    {TypeCode::Int32, AppendScalarAnyValueT<boolean, INT32_TOKEN> },
-    {TypeCode::UInt32, AppendScalarAnyValueT<boolean, UINT32_TOKEN> },
-    {TypeCode::Int64, AppendScalarAnyValueT<boolean, INT64_TOKEN> },
-    {TypeCode::UInt64, AppendScalarAnyValueT<boolean, UINT64_TOKEN> },
-    {TypeCode::Float32, AppendScalarAnyValueT<boolean, FLOAT32_TOKEN> },
-    {TypeCode::Float64, AppendScalarAnyValueT<boolean, FLOAT64_TOKEN> },
+    {TypeCode::Char8, AppendScalarAnyValueT<char8, CHAR8_TOKEN> },
+    {TypeCode::Int8, AppendScalarAnyValueT<int8, INT8_TOKEN> },
+    {TypeCode::UInt8, AppendScalarAnyValueT<uint8, UINT8_TOKEN> },
+    {TypeCode::Int16, AppendScalarAnyValueT<int16, INT16_TOKEN> },
+    {TypeCode::UInt16, AppendScalarAnyValueT<uint16, UINT16_TOKEN> },
+    {TypeCode::Int32, AppendScalarAnyValueT<int32, INT32_TOKEN> },
+    {TypeCode::UInt32, AppendScalarAnyValueT<uint32, UINT32_TOKEN> },
+    {TypeCode::Int64, AppendScalarAnyValueT<int64, INT64_TOKEN> },
+    {TypeCode::UInt64, AppendScalarAnyValueT<uint64, UINT64_TOKEN> },
+    {TypeCode::Float32, AppendScalarAnyValueT<float32, FLOAT32_TOKEN> },
+    {TypeCode::Float64, AppendScalarAnyValueT<float64, FLOAT64_TOKEN> },
     {TypeCode::String, AppendBinaryStringValue }
   };
   auto it = function_map.find(anyvalue.GetTypeCode());
@@ -83,14 +83,14 @@ void AppendBinaryString(std::vector<uint8>& representation, const std::string& s
 {
   representation.push_back(STRING_TOKEN);
   auto str_size = str.size();
-  if (str_size < 0x80)
+  if (str_size < SHORT_STRING_LENGTH_LIMIT)
   {
     auto size_byte = static_cast<sup::dto::uint8>(str_size);
     representation.push_back(size_byte);
   }
   else
   {
-    representation.push_back(0x80);
+    representation.push_back(LONG_STRING_LENGTH_TOKEN);
     AppendScalarT(representation, str_size);
   }
   representation.insert(representation.end(), std::begin(str), std::end(str));
