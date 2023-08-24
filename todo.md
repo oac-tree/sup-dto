@@ -1,5 +1,6 @@
 # To-do list
 
 * Complete documentation (mostly serialize/parse)
-* Binary serialization (with optional base64 stage)
+* Binary serialization
+  * Make the code endianness independent
 * XML serialization/parsing
