@@ -65,7 +65,17 @@ sup::dto::AnyValue AnyValueComposer::MoveAnyValue() const
 
 AnyValueComposer::~AnyValueComposer() = default;
 
+void AnyValueComposer::Empty()
+{
+  p_impl->AddValueComponent(::sup::dto::AnyValue{});
+}
+
 void AnyValueComposer::Bool(sup::dto::boolean value)
+{
+  p_impl->AddValueComponent(::sup::dto::AnyValue(value));
+}
+
+void AnyValueComposer::Char8(sup::dto::char8 value)
 {
   p_impl->AddValueComponent(::sup::dto::AnyValue(value));
 }

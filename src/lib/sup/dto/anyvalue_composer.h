@@ -44,7 +44,9 @@ public:
 
   sup::dto::AnyValue MoveAnyValue() const;
 
+  void Empty();
   void Bool(::sup::dto::boolean value);
+  void Char8(::sup::dto::char8 value);
   void Int8(::sup::dto::int8 value);
   void UInt8(::sup::dto::uint8 value);
   void Int16(::sup::dto::int16 value);
