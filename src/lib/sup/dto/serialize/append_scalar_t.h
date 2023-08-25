@@ -1,0 +1,102 @@
+/******************************************************************************
+ * $HeadURL: $
+ * $Id: $
+ *
+ * Project       : SUP - DTO
+ *
+ * Description   : Data transfer objects for SUP
+ *
+ * Author        : Walter Van Herck (IO)
+ *
+ * Copyright (c) : 2010-2022 ITER Organization,
+ *                 CS 90 046
+ *                 13067 St. Paul-lez-Durance Cedex
+ *                 France
+ *
+ * This file is part of ITER CODAC software.
+ * For the terms and conditions of redistribution or use of this software
+ * refer to the file ITER-LICENSE.TXT located in the top level directory
+ * of the distribution package.
+ ******************************************************************************/
+
+#ifndef SUP_DTO_APPEND_SCALAR_T_H_
+#define SUP_DTO_APPEND_SCALAR_T_H_
+
+#include <sup/dto/basic_scalar_types.h>
+
+#include <cstring>
+#include <vector>
+
+namespace sup
+{
+namespace dto
+{
+template <unsigned long Size>
+struct UnsignedRepresentation
+{};
+
+template <>
+struct UnsignedRepresentation<1u>
+{
+  using type = sup::dto::uint8;
+};
+
+template <>
+struct UnsignedRepresentation<2u>
+{
+  using type = sup::dto::uint16;
+};
+
+template <>
+struct UnsignedRepresentation<4u>
+{
+  using type = sup::dto::uint32;
+};
+
+template <>
+struct UnsignedRepresentation<8u>
+{
+  using type = sup::dto::uint64;
+};
+
+template <unsigned long Size>
+using UnsignedRepresentationType = typename UnsignedRepresentation<Size>::type;
+
+// The passed value is converted to an unsigned integral type and then serialized in little
+// endian format (regardless of system endianness)
+// The choice for little endian encoding is motivated by the fact that most common systems use this
+// format, which would allow a more performant implementation (if required) on these systems.
+template <typename T, typename std::enable_if<std::is_integral<T>::value, bool>::type = true>
+void AppendScalarT(std::vector<uint8>& representation, const T& val)
+{
+  auto u_val = static_cast<UnsignedRepresentationType<sizeof(T)>>(val);
+  uint8 buffer[sizeof(T)];
+  for (unsigned i = 0; i < sizeof(T); ++i)
+  {
+    buffer[i] = u_val & 0xFF;
+    u_val >>= 8;
+  }
+  representation.insert(representation.end(), buffer, buffer + sizeof(T));
+}
+
+// This implementation assumes that the same endianness is used for floating point values as
+// for integral values.
+template <typename T, typename std::enable_if<std::is_floating_point<T>::value, bool>::type = true>
+void AppendScalarT(std::vector<uint8>& representation, const T& val)
+{
+  UnsignedRepresentationType<sizeof(T)> u_val;
+  std::memcpy(&u_val, std::addressof(val), sizeof(T));
+  uint8 buffer[sizeof(T)];
+  for (unsigned i = 0; i < sizeof(T); ++i)
+  {
+    buffer[i] = u_val & 0xFF;
+    u_val >>= 8;
+  }
+  representation.insert(representation.end(), buffer, buffer + sizeof(T));
+}
+
+}  // namespace dto
+
+}  // namespace sup
+
+#endif  // SUP_DTO_APPEND_SCALAR_T_H_

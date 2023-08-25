@@ -2,5 +2,5 @@
 
 * Complete documentation (mostly serialize/parse)
 * Binary serialization
-  * Make the code endianness independent
+  * Encode typenames of structures and arrays
 * XML serialization/parsing

@@ -21,6 +21,7 @@
 
 #include "binary_serialization_functions.h"
 
+#include <sup/dto/serialize/append_scalar_t.h>
 #include <sup/dto/serialize/binary_tokens.h>
 
 #include <sup/dto/anyvalue.h>
@@ -31,13 +32,6 @@ namespace sup
 {
 namespace dto
 {
-template <typename T>
-void AppendScalarT(std::vector<uint8>& representation, const T& val)
-{
-  auto size = sizeof(T);
-  auto val_as_buffer = reinterpret_cast<const sup::dto::uint8*>(std::addressof(val));
-  representation.insert(representation.end(), val_as_buffer, val_as_buffer + size);
-}
 
 template <typename T, uint8 token>
 void AppendScalarAnyValueT(std::vector<uint8>& representation, const AnyValue& anyvalue)
