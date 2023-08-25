@@ -25,6 +25,8 @@
 #include <sup/dto/i_any_visitor.h>
 #include <sup/dto/basic_scalar_types.h>
 
+#include <vector>
+
 namespace sup
 {
 namespace dto
@@ -112,6 +114,16 @@ std::string AnyValueToJSONString(const AnyValue& anyvalue, bool pretty=false);
  * information as specific values of leaf nodes.
  */
 void AnyValueToJSONFile(const AnyValue& anyvalue, const std::string& filename, bool pretty=false);
+
+/**
+ * @brief Serialize an AnyValue to a binary representation.
+ *
+ * @param anyvalue AnyValue object to serialize.
+ *
+ * @note This serialization is reversible and, unlike the C type casting support in AnyValue, it
+ * supports arbitrary length strings.
+ */
+std::vector<uint8> AnyValueToBinary(const AnyValue& anyvalue);
 
 }  // namespace dto
 
