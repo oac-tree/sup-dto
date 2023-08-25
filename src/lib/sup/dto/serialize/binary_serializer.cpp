@@ -49,9 +49,10 @@ void BinarySerializer::EmptyProlog(const AnyValue*)
 void BinarySerializer::EmptyEpilog(const AnyValue*)
 {}
 
-void BinarySerializer::StructProlog(const AnyValue*)
+void BinarySerializer::StructProlog(const AnyValue* value)
 {
   representation.push_back(START_STRUCT_TOKEN);
+  AppendBinaryString(representation, value->GetTypeName());
 }
 
 void BinarySerializer::StructMemberSeparator()
@@ -70,9 +71,10 @@ void BinarySerializer::MemberProlog(const AnyValue*, const std::string& member_n
 void BinarySerializer::MemberEpilog(const AnyValue*, const std::string&)
 {}
 
-void BinarySerializer::ArrayProlog(const AnyValue*)
+void BinarySerializer::ArrayProlog(const AnyValue* value)
 {
   representation.push_back(START_ARRAY_TOKEN);
+  AppendBinaryString(representation, value->GetTypeName());
 }
 
 void BinarySerializer::ArrayElementSeparator()

@@ -2,5 +2,6 @@
 
 * Complete documentation (mostly serialize/parse)
 * Binary serialization
-  * Encode typenames of structures and arrays
+  * Use binary serializer in public serialization functions
+  * Test binary serialization functions for scalars, structures and arrays
 * XML serialization/parsing
