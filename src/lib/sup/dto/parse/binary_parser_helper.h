@@ -23,6 +23,7 @@
 #define SUP_DTO_BINARY_PARSER_HELPER_H_
 
 #include <sup/dto/parse/binary_parser.h>
+#include <sup/dto/parse/binary_parser_functions.h>
 
 #include <sup/dto/anyvalue_composer.h>
 
@@ -53,9 +54,29 @@ public:
 private:
   AnyValueComposer m_composer;
   std::stack<ParseState> m_parse_states;
+  bool PopState();
+
+  bool HandleEmpty(ByteIterator& it, const ByteIterator& end);
+
+  template <typename T, void (AnyValueComposer::*mem_fun)(T) >
+  bool HandleScalar(ByteIterator& it, const ByteIterator& end);
+
+  bool HandleString(ByteIterator& it, const ByteIterator& end);
+  bool HandleStartStruct(ByteIterator& it, const ByteIterator& end);
+  bool HandleEndStruct(ByteIterator& it, const ByteIterator& end);
+  bool HandleStartArray(ByteIterator& it, const ByteIterator& end);
+  bool HandleEndArray(ByteIterator& it, const ByteIterator& end);
 };
 
 sup::dto::uint8 FetchToken(ByteIterator& it);
+
+template <typename T, void (AnyValueComposer::*mem_fun)(T) >
+bool BinaryParserHelper::HandleScalar(ByteIterator& it, const ByteIterator& end)
+{
+  auto val = ParseBinaryScalarT<T>(it, end);
+  (m_composer.*mem_fun)(val);
+  return PopState();
+}
 
 }  // namespace dto
 
