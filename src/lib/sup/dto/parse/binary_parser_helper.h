@@ -19,29 +19,46 @@
  * of the distribution package.
  ******************************************************************************/
 
-#include "binary_parser.h"
+#ifndef SUP_DTO_BINARY_PARSER_HELPER_H_
+#define SUP_DTO_BINARY_PARSER_HELPER_H_
 
-#include <sup/dto/parse/binary_parser_helper.h>
+#include <sup/dto/parse/binary_parser.h>
+
+#include <sup/dto/anyvalue_composer.h>
+
+#include <stack>
 
 namespace sup
 {
 namespace dto
 {
 
-AnyValue ParseAnyValue(ByteIterator& it, const ByteIterator& end)
+enum ParseState
 {
-  BinaryParserHelper helper;
-  while (it != end)
-  {
-    if (!helper.HandleToken(it, end))
-    {
-      break;
-    }
-  }
-  // Make sure the helper has correctly finished (e.g. stack empty)
-  return helper.MoveAnyValue();
-}
+  kInStruct = 0,
+  kInStructElement,
+  kInArray,
+  kInArrayElement
+};
+
+class BinaryParserHelper
+{
+public:
+  BinaryParserHelper();
+  ~BinaryParserHelper() = default;
+
+  bool HandleToken(ByteIterator& it, const ByteIterator& end);
+
+  AnyValue MoveAnyValue();
+private:
+  AnyValueComposer m_composer;
+  std::stack<ParseState> m_parse_states;
+};
+
+sup::dto::uint8 FetchToken(ByteIterator& it);
 
 }  // namespace dto
 
 }  // namespace sup
+
+#endif  // SUP_DTO_BINARY_PARSER_HELPER_H_
