@@ -23,6 +23,7 @@
 #define SUP_DTO_BINARY_PARSER_FUNCTIONS_H_
 
 #include <sup/dto/parse/binary_parser.h>
+#include <sup/dto/serialize/append_scalar_t.h>
 
 namespace sup
 {
@@ -31,9 +32,19 @@ namespace dto
 template <typename T>
 T ParseBinaryScalarT(ByteIterator& it, const ByteIterator& end)
 {
-  (void)it;
-  (void)end;
-  return {};
+  if (static_cast<std::size_t>(std::distance(it, end)) < sizeof(T))
+  {
+    throw ParseException("End of byte stream encountered during scalar value parsing");
+  }
+  UnsignedRepresentationType<sizeof(T)> u_val = 0;
+  for (unsigned i = 0; i < sizeof(T); ++i)
+  {
+    u_val <<= 8;
+    u_val += *it++;
+  }
+  T result;
+  std::memcpy(std::addressof(result), &u_val, sizeof(T));
+  return result;
 }
 
 std::string ParseBinaryString(ByteIterator& it, const ByteIterator& end);

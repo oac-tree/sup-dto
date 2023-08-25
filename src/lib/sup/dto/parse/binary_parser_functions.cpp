@@ -21,6 +21,14 @@
 
 #include "binary_parser_functions.h"
 
+#include <sup/dto/serialize/binary_tokens.h>
+
+namespace
+{
+using namespace sup::dto;
+std::size_t ParseBinaryStringSize(ByteIterator& it, const ByteIterator& end);
+}
+
 namespace sup
 {
 namespace dto
@@ -28,11 +36,43 @@ namespace dto
 
 std::string ParseBinaryString(ByteIterator& it, const ByteIterator& end)
 {
-  (void)it;
-  (void)end;
-  return {};
+  auto str_size = ParseBinaryStringSize(it, end);
+  if (static_cast<std::size_t>(std::distance(it, end)) < str_size)
+  {
+    throw ParseException("End of byte stream encountered during string value parsing");
+  }
+  std::string result;
+  result.reserve(str_size);
+  for (unsigned i = 0; i < str_size; ++i)
+  {
+    auto u = *it++;
+    char c;
+    std::memcpy(&c, &u, 1);
+    result.push_back(c);
+  }
+  return result;
 }
 
 }  // namespace dto
 
 }  // namespace sup
+
+namespace
+{
+using namespace sup::dto;
+std::size_t ParseBinaryStringSize(ByteIterator& it, const ByteIterator& end)
+{
+  if (it == end)
+  {
+    throw ParseException("End of byte stream encountered during string size parsing");
+  }
+  auto token = *it++;
+  if (token < SHORT_STRING_LENGTH_LIMIT)
+  {
+    return token;
+  }
+  // No test is done to check that the current token is LONG_STRING_LENGTH_TOKEN, since the
+  // current value of the limit is 0xFF.
+  return ParseBinaryScalarT<std::size_t>(it, end);
+}
+}
