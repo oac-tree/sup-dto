@@ -39,8 +39,9 @@ T ParseBinaryScalarT(ByteIterator& it, const ByteIterator& end)
   UnsignedRepresentationType<sizeof(T)> u_val = 0;
   for (unsigned i = 0; i < sizeof(T); ++i)
   {
-    u_val <<= 8;
-    u_val += *it++;
+    UnsignedRepresentationType<sizeof(T)> u_tmp = *it++;
+    u_tmp <<= (8*i);
+    u_val += u_tmp;
   }
   T result;
   std::memcpy(std::addressof(result), &u_val, sizeof(T));
