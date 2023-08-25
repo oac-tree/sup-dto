@@ -31,19 +31,14 @@ namespace sup
 namespace dto
 {
 
-BinarySerializer::BinarySerializer()
-  : representation{}
+BinarySerializer::BinarySerializer(std::vector<uint8>& representation)
+  : m_representation{representation}
 {}
 BinarySerializer::~BinarySerializer() = default;
 
-std::vector<uint8> BinarySerializer::GetRepresentation() const
-{
-  return representation;
-}
-
 void BinarySerializer::EmptyProlog(const AnyValue*)
 {
-  representation.push_back(EMPTY_TOKEN);
+  m_representation.push_back(EMPTY_TOKEN);
 }
 
 void BinarySerializer::EmptyEpilog(const AnyValue*)
@@ -51,8 +46,8 @@ void BinarySerializer::EmptyEpilog(const AnyValue*)
 
 void BinarySerializer::StructProlog(const AnyValue* value)
 {
-  representation.push_back(START_STRUCT_TOKEN);
-  AppendBinaryString(representation, value->GetTypeName());
+  m_representation.push_back(START_STRUCT_TOKEN);
+  AppendBinaryString(m_representation, value->GetTypeName());
 }
 
 void BinarySerializer::StructMemberSeparator()
@@ -60,12 +55,12 @@ void BinarySerializer::StructMemberSeparator()
 
 void BinarySerializer::StructEpilog(const AnyValue*)
 {
-  representation.push_back(END_STRUCT_TOKEN);
+  m_representation.push_back(END_STRUCT_TOKEN);
 }
 
 void BinarySerializer::MemberProlog(const AnyValue*, const std::string& member_name)
 {
-  AppendBinaryString(representation, member_name);
+  AppendBinaryString(m_representation, member_name);
 }
 
 void BinarySerializer::MemberEpilog(const AnyValue*, const std::string&)
@@ -73,8 +68,8 @@ void BinarySerializer::MemberEpilog(const AnyValue*, const std::string&)
 
 void BinarySerializer::ArrayProlog(const AnyValue* value)
 {
-  representation.push_back(START_ARRAY_TOKEN);
-  AppendBinaryString(representation, value->GetTypeName());
+  m_representation.push_back(START_ARRAY_TOKEN);
+  AppendBinaryString(m_representation, value->GetTypeName());
 }
 
 void BinarySerializer::ArrayElementSeparator()
@@ -82,12 +77,12 @@ void BinarySerializer::ArrayElementSeparator()
 
 void BinarySerializer::ArrayEpilog(const AnyValue*)
 {
-  representation.push_back(END_ARRAY_TOKEN);
+  m_representation.push_back(END_ARRAY_TOKEN);
 }
 
 void BinarySerializer::ScalarProlog(const AnyValue* anyvalue)
 {
-  AppendBinaryScalar(representation, *anyvalue);
+  AppendBinaryScalar(m_representation, *anyvalue);
 }
 
 void BinarySerializer::ScalarEpilog(const AnyValue*)

@@ -24,6 +24,7 @@
 #include <sup/dto/json/json_reader.h>
 #include <sup/dto/json/json_writer.h>
 #include <sup/dto/serialize/binary_serializer.h>
+#include <sup/dto/serialize/binary_tokens.h>
 #include <sup/dto/visit/visit_t.h>
 
 #include <sup/dto/anytype_registry.h>
@@ -114,9 +115,11 @@ void AnyValueToJSONFile(const AnyValue& anyvalue, const std::string& filename, b
 
 std::vector<uint8> AnyValueToBinary(const AnyValue& anyvalue)
 {
-  BinarySerializer serializer;
+  std::vector<uint8> result;
+  result.push_back(ANYVALUE_TOKEN);
+  BinarySerializer serializer{result};
   SerializeAnyValue(anyvalue, serializer);
-  return serializer.GetRepresentation();
+  return result;
 }
 
 }  // namespace dto

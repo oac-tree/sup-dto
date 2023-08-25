@@ -36,10 +36,8 @@ class AnyValue;
 class BinarySerializer : public IAnyVisitor<const AnyValue>
 {
 public:
-  BinarySerializer();
+  BinarySerializer(std::vector<uint8>& representation);
   ~BinarySerializer() override;
-
-  std::vector<uint8> GetRepresentation() const;
 
   void EmptyProlog(const AnyValue* anyvalue) override;
   void EmptyEpilog(const AnyValue* anyvalue) override;
@@ -59,7 +57,7 @@ public:
   void ScalarEpilog(const AnyValue* anyvalue) override;
 
 private:
-  std::vector<uint8> representation;
+  std::vector<uint8>& m_representation;
 };
 
 }  // namespace dto
