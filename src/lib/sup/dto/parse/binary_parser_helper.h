@@ -54,6 +54,7 @@ public:
 private:
   AnyValueComposer m_composer;
   std::stack<ParseState> m_parse_states;
+  void PushState();
   bool PopState();
 
   bool HandleEmpty(ByteIterator& it, const ByteIterator& end);
@@ -74,6 +75,7 @@ template <typename T, void (AnyValueComposer::*mem_fun)(T) >
 bool BinaryParserHelper::HandleScalar(ByteIterator& it, const ByteIterator& end)
 {
   auto val = ParseBinaryScalarT<T>(it, end);
+  PushState();
   (m_composer.*mem_fun)(val);
   return PopState();
 }

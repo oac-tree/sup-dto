@@ -47,6 +47,20 @@ AnyValue BinaryParserHelper::MoveAnyValue()
   return m_composer.MoveAnyValue();
 }
 
+void BinaryParserHelper::PushState()
+{
+  if (m_parse_states.empty())
+  {
+    return;
+  }
+  auto current_state = m_parse_states.top();
+  // Only arrays need to be handled here, structures do this during the field name parsing.
+  if (current_state == kInArray)
+  {
+    m_parse_states.push(kInArrayElement);
+  }
+}
+
 bool BinaryParserHelper::PopState()
 {
   if (m_parse_states.empty())
@@ -73,6 +87,7 @@ bool BinaryParserHelper::HandleEmpty(ByteIterator& it, const ByteIterator& end)
 {
   (void)it;
   (void)end;
+  PushState();
   m_composer.Empty();
   return PopState();
 }
@@ -88,6 +103,7 @@ bool BinaryParserHelper::HandleString(ByteIterator& it, const ByteIterator& end)
     m_parse_states.push(kInStructElement);
     return true;
   }
+  PushState();
   m_composer.String(str);
   return PopState();
 }
@@ -99,6 +115,7 @@ bool BinaryParserHelper::HandleStartStruct(ByteIterator& it, const ByteIterator&
     return false;
   }
   auto str = ParseBinaryString(it, end);
+  PushState();
   m_composer.StartStruct(str);
   m_parse_states.push(kInStruct);
   return true;
@@ -124,6 +141,7 @@ bool BinaryParserHelper::HandleStartArray(ByteIterator& it, const ByteIterator& 
     return false;
   }
   auto str = ParseBinaryString(it, end);
+  PushState();
   m_composer.StartArray(str);
   m_parse_states.push(kInArray);
   return true;
