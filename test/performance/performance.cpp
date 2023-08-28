@@ -19,18 +19,15 @@
  * of the distribution package.
  ******************************************************************************/
 
-#include "json_performance.h"
+#include "performance.h"
 
 #include <sup/dto/anytype.h>
 #include <sup/dto/anyvalue.h>
 #include <sup/dto/anyvalue_helper.h>
 #include <sup/dto/json_value_parser.h>
 
-#include <algorithm>
-#include <chrono>
 #include <ctime>
 #include <iomanip>
-#include <iostream>
 
 namespace sup
 {
@@ -105,54 +102,49 @@ AnyType CreateManyFullConfig_t_Type()
   return many_full_config_t;
 }
 
-void MeasureSerializeParse(const AnyType& anytype)
+JSONEncoder::JSONEncoder(const AnyValue& value)
+  : m_value{value}
+  , m_representation{}
+{}
+
+JSONEncoder::~JSONEncoder() = default;
+
+void JSONEncoder::Encode()
+{
+  m_representation = AnyValueToJSONString(m_value);
+}
+
+void JSONEncoder::Decode()
 {
   JSONAnyValueParser parser;
-  std::cout << "Test JSON serialize/parse performance" << std::endl;
-  std::cout << "*************************************" << std::endl;
-  AnyValue value(anytype);
-  auto start = std::chrono::system_clock::now();
-  auto json_string = AnyValueToJSONString(value);
-  auto json_size = json_string.size();
-  std::cout << "JSON string size: " << json_size << std::endl;
-  parser.ParseString(json_string);
-  auto parsed = parser.MoveAnyValue();
-  auto one_cycle = std::chrono::duration_cast<std::chrono::milliseconds>(
-      std::chrono::system_clock::now() - start).count();
-  if (one_cycle < 1)
-  {
-    one_cycle = 1;
-  }
-  unsigned N = std::min(1000u, static_cast<unsigned>(5000 / one_cycle));  // max 5s
-  N = std::max(N, 3u);  // at least 3 iterations
-  std::chrono::nanoseconds serialize_duration{0};
-  std::chrono::nanoseconds parse_duration{0};
-  for (unsigned i=0; i<N; ++i)
-  {
-    auto start = std::chrono::system_clock::now();
-    json_string = AnyValueToJSONString(value);
-    auto middle = std::chrono::system_clock::now();
-    serialize_duration += middle - start;
-    parser.ParseString(json_string);
-    parsed = parser.MoveAnyValue();
-    parse_duration += std::chrono::system_clock::now() - middle;
-  }
-  auto serialize_duration_ms =
-      std::chrono::duration_cast<std::chrono::milliseconds>(serialize_duration).count();
-  auto parse_duration_ms =
-      std::chrono::duration_cast<std::chrono::milliseconds>(parse_duration).count();
-  std::cout << "Results for " << N << " iterations:" << std::endl;
-  std::cout << "  Total serialize time (ms) : " << serialize_duration_ms << std::endl;
-  std::cout << "  Total parse time (ms)     : " << parse_duration_ms << std::endl;
-  auto mean_serialize_ms = (double)serialize_duration_ms / N;
-  auto mean_parse_ms = (double)parse_duration_ms / N;
-  std::cout << "  Mean serialize time (ms) : " << mean_serialize_ms << std::endl;
-  std::cout << "  Mean parse time (ms)     : " << mean_parse_ms << std::endl;
-  auto serialize_bytes_per_s = (1000.0 / mean_serialize_ms) * json_size;
-  auto parse_bytes_per_s = (1000.0 / mean_parse_ms) * json_size;
-  std::cout << "  Mean bytes/s (serialize) : " << serialize_bytes_per_s << std::endl;
-  std::cout << "  Mean bytes/s (parse)     : " << parse_bytes_per_s << std::endl;
-  std::cout << std::endl;
+  parser.ParseString(m_representation);
+}
+
+std::size_t JSONEncoder::Size() const
+{
+  return m_representation.size();
+}
+
+BinaryEncoder::BinaryEncoder(const AnyValue& value)
+  : m_value{value}
+  , m_representation{}
+{}
+
+BinaryEncoder::~BinaryEncoder() = default;
+
+void BinaryEncoder::Encode()
+{
+  m_representation = AnyValueToBinary(m_value);
+}
+
+void BinaryEncoder::Decode()
+{
+  auto decoded_val = AnyValueFromBinary(m_representation);
+  (void)decoded_val;
+}
+std::size_t BinaryEncoder::Size() const
+{
+  return m_representation.size();
 }
 
 }  // namespace performance

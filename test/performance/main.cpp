@@ -19,25 +19,29 @@
  * of the distribution package.
  ******************************************************************************/
 
-#include "json_performance.h"
+#include "performance.h"
 
 #include <sup/dto/anytype.h>
 #include <sup/dto/anyvalue.h>
 #include <sup/dto/anyvalue_helper.h>
+
+#include <iostream>
 
 using namespace sup::dto;
 
 int main()
 {
   performance::PrintDateTime();
-  auto scalar_mix_t = performance::CreateScalarMix_Type();
-  performance::MeasureSerializeParse(scalar_mix_t);
-  auto scalar_mix_array_t = performance::CreateScalarMixArray_Type();
-  performance::MeasureSerializeParse(scalar_mix_array_t);
-  auto system_configs_t = performance::CreateSystemConfigs_Type();
-  performance::MeasureSerializeParse(system_configs_t);
-  auto full_config_t = performance::CreateFullConfig_Type();
-  performance::MeasureSerializeParse(full_config_t);
-  auto many_full_config_t = performance::CreateManyFullConfig_t_Type();
-  performance::MeasureSerializeParse(many_full_config_t);
+
+  // Measure JSON performance:
+  std::cout << "Test JSON serialize/parse performance" << std::endl;
+  std::cout << "*************************************" << std::endl;
+  performance::MeasureEncoder<performance::JSONEncoder>();
+
+  std::cout << std::endl;
+
+  // Measure binary performance:
+  std::cout << "Test binary serialize/parse performance" << std::endl;
+  std::cout << "***************************************" << std::endl;
+  performance::MeasureEncoder<performance::BinaryEncoder>();
 }

@@ -1,58 +1,97 @@
-Performance tests (2022-04-13T09:32:32Z)
+Performance tests (2023-08-28T15:32:23Z)
 ========================================
 
 Test JSON serialize/parse performance
 *************************************
-JSON string size: 493
+Encoded size: 493
 Results for 1000 iterations:
   Total serialize time (ms) : 28
-  Total parse time (ms)     : 58
+  Total parse time (ms)     : 66
   Mean serialize time (ms) : 0.028
-  Mean parse time (ms)     : 0.058
+  Mean parse time (ms)     : 0.066
   Mean bytes/s (serialize) : 1.76071e+07
-  Mean bytes/s (parse)     : 8.5e+06
+  Mean bytes/s (parse)     : 7.4697e+06
 
-Test JSON serialize/parse performance
-*************************************
-JSON string size: 11145
-Results for 1000 iterations:
-  Total serialize time (ms) : 1059
-  Total parse time (ms)     : 1699
-  Mean serialize time (ms) : 1.059
-  Mean parse time (ms)     : 1.699
-  Mean bytes/s (serialize) : 1.05241e+07
-  Mean bytes/s (parse)     : 6.55974e+06
+Encoded size: 11145
+Results for 833 iterations:
+  Total serialize time (ms) : 870
+  Total parse time (ms)     : 3601
+  Mean serialize time (ms) : 1.04442
+  Mean parse time (ms)     : 4.32293
+  Mean bytes/s (serialize) : 1.0671e+07
+  Mean bytes/s (parse)     : 2.57811e+06
 
-Test JSON serialize/parse performance
-*************************************
-JSON string size: 66866
-Results for 238 iterations:
-  Total serialize time (ms) : 1584
-  Total parse time (ms)     : 3784
-  Mean serialize time (ms) : 6.65546
-  Mean parse time (ms)     : 15.8992
-  Mean bytes/s (serialize) : 1.00468e+07
-  Mean bytes/s (parse)     : 4.20563e+06
+Encoded size: 66866
+Results for 217 iterations:
+  Total serialize time (ms) : 1294
+  Total parse time (ms)     : 3641
+  Mean serialize time (ms) : 5.96313
+  Mean parse time (ms)     : 16.7788
+  Mean bytes/s (serialize) : 1.12132e+07
+  Mean bytes/s (parse)     : 3.98515e+06
 
-Test JSON serialize/parse performance
-*************************************
-JSON string size: 1029906
-Results for 9 iterations:
-  Total serialize time (ms) : 1009
-  Total parse time (ms)     : 2770
-  Mean serialize time (ms) : 112.111
-  Mean parse time (ms)     : 307.778
-  Mean bytes/s (serialize) : 9.18648e+06
-  Mean bytes/s (parse)     : 3.34626e+06
+Encoded size: 1029906
+Results for 10 iterations:
+  Total serialize time (ms) : 927
+  Total parse time (ms)     : 3839
+  Mean serialize time (ms) : 92.7
+  Mean parse time (ms)     : 383.9
+  Mean bytes/s (serialize) : 1.11101e+07
+  Mean bytes/s (parse)     : 2.68275e+06
 
-Test JSON serialize/parse performance
-*************************************
-JSON string size: 20546500
+Encoded size: 20546500
 Results for 3 iterations:
-  Total serialize time (ms) : 6247
-  Total parse time (ms)     : 23483
-  Mean serialize time (ms) : 2082.33
-  Mean parse time (ms)     : 7827.67
-  Mean bytes/s (serialize) : 9.86706e+06
-  Mean bytes/s (parse)     : 2.62486e+06
+  Total serialize time (ms) : 5921
+  Total parse time (ms)     : 24637
+  Mean serialize time (ms) : 1973.67
+  Mean parse time (ms)     : 8212.33
+  Mean bytes/s (serialize) : 1.04103e+07
+  Mean bytes/s (parse)     : 2.50191e+06
 
+
+Test binary serialize/parse performance
+***************************************
+Encoded size: 114
+Results for 1000 iterations:
+  Total serialize time (ms) : 7
+  Total parse time (ms)     : 17
+  Mean serialize time (ms) : 0.007
+  Mean parse time (ms)     : 0.017
+  Mean bytes/s (serialize) : 1.62857e+07
+  Mean bytes/s (parse)     : 6.70588e+06
+
+Encoded size: 13583
+Results for 32 iterations:
+  Total serialize time (ms) : 29
+  Total parse time (ms)     : 201
+  Mean serialize time (ms) : 0.90625
+  Mean parse time (ms)     : 6.28125
+  Mean bytes/s (serialize) : 1.49881e+07
+  Mean bytes/s (parse)     : 2.16247e+06
+
+Encoded size: 81605
+Results for 86 iterations:
+  Total serialize time (ms) : 473
+  Total parse time (ms)     : 4249
+  Mean serialize time (ms) : 5.5
+  Mean parse time (ms)     : 49.407
+  Mean bytes/s (serialize) : 1.48373e+07
+  Mean bytes/s (parse)     : 1.65169e+06
+
+Encoded size: 1305682
+Results for 4 iterations:
+  Total serialize time (ms) : 406
+  Total parse time (ms)     : 4466
+  Mean serialize time (ms) : 101.5
+  Mean parse time (ms)     : 1116.5
+  Mean bytes/s (serialize) : 1.28639e+07
+  Mean bytes/s (parse)     : 1.16944e+06
+
+Encoded size: 26113643
+Results for 3 iterations:
+  Total serialize time (ms) : 5990
+  Total parse time (ms)     : 93204
+  Mean serialize time (ms) : 1996.67
+  Mean parse time (ms)     : 31068
+  Mean bytes/s (serialize) : 1.30786e+07
+  Mean bytes/s (parse)     : 840532
