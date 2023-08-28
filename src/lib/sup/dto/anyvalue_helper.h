@@ -125,6 +125,13 @@ void AnyValueToJSONFile(const AnyValue& anyvalue, const std::string& filename, b
  */
 std::vector<uint8> AnyValueToBinary(const AnyValue& anyvalue);
 
+/**
+ * @brief Parse an AnyValue from a binary representation.
+ *
+ * @param representation Binary representation of an AnyValue object.
+ */
+AnyValue AnyValueFromBinary(const std::vector<uint8>& representation);
+
 }  // namespace dto
 
 }  // namespace sup

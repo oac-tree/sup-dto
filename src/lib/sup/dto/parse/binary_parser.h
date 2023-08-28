@@ -30,7 +30,7 @@ namespace sup
 {
 namespace dto
 {
-using ByteIterator = typename std::vector<sup::dto::uint8>::iterator;
+using ByteIterator = typename std::vector<sup::dto::uint8>::const_iterator;
 
 AnyValue ParseAnyValue(ByteIterator& begin, const ByteIterator& end);
 

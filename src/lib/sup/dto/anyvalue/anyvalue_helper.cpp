@@ -23,6 +23,7 @@
 
 #include <sup/dto/json/json_reader.h>
 #include <sup/dto/json/json_writer.h>
+#include <sup/dto/parse/binary_parser.h>
 #include <sup/dto/serialize/binary_serializer.h>
 #include <sup/dto/serialize/binary_tokens.h>
 #include <sup/dto/visit/visit_t.h>
@@ -120,6 +121,17 @@ std::vector<uint8> AnyValueToBinary(const AnyValue& anyvalue)
   BinarySerializer serializer{result};
   SerializeAnyValue(anyvalue, serializer);
   return result;
+}
+
+AnyValue AnyValueFromBinary(const std::vector<uint8>& representation)
+{
+  if (representation.empty() || representation[0] != ANYVALUE_TOKEN)
+  {
+    throw ParseException(
+      "AnyValueFromBinary(): representation does not start with correct AnyValue token");
+  }
+  auto it = representation.cbegin() + 1;
+  return ParseAnyValue(it, representation.cend());
 }
 
 }  // namespace dto
