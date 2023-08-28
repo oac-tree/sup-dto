@@ -35,9 +35,10 @@ namespace sup
 namespace dto
 {
 
-enum ParseState
+enum class ParseState
 {
-  kInStruct = 0,
+  kNone = 0,
+  kInStruct,
   kInStructElement,
   kInArray,
   kInArrayElement
@@ -61,6 +62,8 @@ private:
 
   AnyValueComposer m_composer;
   std::stack<ParseState> m_parse_states;
+
+  ParseState GetCurrentState() const;
 
   void PushState();
   bool PopState();

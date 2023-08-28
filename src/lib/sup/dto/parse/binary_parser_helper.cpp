@@ -48,6 +48,11 @@ bool BinaryParserHelper::HandleToken(ByteIterator& it, const ByteIterator& end)
 
 AnyValue BinaryParserHelper::MoveAnyValue()
 {
+  if (GetCurrentState() != ParseState::kNone)
+  {
+    std::string error = "BinaryParserHelper::MoveAnyValue(): parsing was not complete";
+    throw ParseException(error);
+  }
   return m_composer.MoveAnyValue();
 }
 
@@ -95,34 +100,40 @@ BinaryParserHelper::GetHandlerMemberFunction(sup::dto::uint8 token)
   return functions[token];
 }
 
-void BinaryParserHelper::PushState()
+ParseState BinaryParserHelper::GetCurrentState() const
 {
   if (m_parse_states.empty())
   {
-    return;
+    return ParseState::kNone;
   }
-  auto current_state = m_parse_states.top();
+  return m_parse_states.top();
+}
+
+void BinaryParserHelper::PushState()
+{
+  auto current_state = GetCurrentState();
   // Only arrays need to be handled here, structures do this during the field name parsing.
-  if (current_state == kInArray)
+  if (current_state == ParseState::kInArray)
   {
-    m_parse_states.push(kInArrayElement);
+    m_composer.StartArrayElement();
+    m_parse_states.push(ParseState::kInArrayElement);
   }
 }
 
 bool BinaryParserHelper::PopState()
 {
-  if (m_parse_states.empty())
+  auto current_state = GetCurrentState();
+  if (current_state == ParseState::kNone)
   {
     return false;
   }
-  auto current_state = m_parse_states.top();
-  if (current_state == kInStructElement)
+  if (current_state == ParseState::kInStructElement)
   {
     m_composer.EndField();
     m_parse_states.pop();
     return true;
   }
-  if (current_state == kInArrayElement)
+  if (current_state == ParseState::kInArrayElement)
   {
     m_composer.EndArrayElement();
     m_parse_states.pop();
@@ -144,11 +155,11 @@ bool BinaryParserHelper::HandleEmpty(ByteIterator& it, const ByteIterator& end)
 bool BinaryParserHelper::HandleString(ByteIterator& it, const ByteIterator& end)
 {
   auto str = ParseBinaryString(it, end);
-  auto current_state = m_parse_states.top();
-  if (current_state == kInStruct)
+  auto current_state = GetCurrentState();
+  if (current_state == ParseState::kInStruct)
   {
     m_composer.StartField(str);
-    m_parse_states.push(kInStructElement);
+    m_parse_states.push(ParseState::kInStructElement);
     return true;
   }
   PushState();
@@ -165,7 +176,7 @@ bool BinaryParserHelper::HandleStartStruct(ByteIterator& it, const ByteIterator&
   auto str = ParseBinaryString(it, end);
   PushState();
   m_composer.StartStruct(str);
-  m_parse_states.push(kInStruct);
+  m_parse_states.push(ParseState::kInStruct);
   return true;
 }
 
@@ -173,7 +184,7 @@ bool BinaryParserHelper::HandleEndStruct(ByteIterator& it, const ByteIterator& e
 {
   (void)it;
   (void)end;
-  if (m_parse_states.top() != kInStruct)
+  if (GetCurrentState() != ParseState::kInStruct)
   {
     return false;
   }
@@ -191,7 +202,7 @@ bool BinaryParserHelper::HandleStartArray(ByteIterator& it, const ByteIterator& 
   auto str = ParseBinaryString(it, end);
   PushState();
   m_composer.StartArray(str);
-  m_parse_states.push(kInArray);
+  m_parse_states.push(ParseState::kInArray);
   return true;
 }
 
@@ -199,7 +210,7 @@ bool BinaryParserHelper::HandleEndArray(ByteIterator& it, const ByteIterator& en
 {
   (void)it;
   (void)end;
-  if (m_parse_states.top() != kInArray)
+  if (GetCurrentState() != ParseState::kInArray)
   {
     return false;
   }
