@@ -131,7 +131,16 @@ AnyValue AnyValueFromBinary(const std::vector<uint8>& representation)
       "AnyValueFromBinary(): representation does not start with correct AnyValue token");
   }
   auto it = representation.cbegin() + 1;
-  return ParseAnyValue(it, representation.cend());
+  AnyValue result;
+  try
+  {
+    result = ParseAnyValue(it, representation.cend());
+  }
+  catch(const MessageException& e)
+  {
+    throw ParseException(e.what());
+  }
+  return result;
 }
 
 }  // namespace dto

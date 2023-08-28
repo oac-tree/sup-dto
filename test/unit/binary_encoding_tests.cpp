@@ -39,6 +39,39 @@ TEST_F(BinaryEncodingTests, EmptyBuffer)
   EXPECT_THROW(AnyValueFromBinary(buffer), ParseException);
 }
 
+//! Incomplete buffer parsing throws.
+TEST_F(BinaryEncodingTests, IncompleteBuffer)
+{
+  {
+    // Scalar representation missing last byte
+    AnyValue val{sup::dto::UnsignedInteger64Type, 571};
+    auto representation = AnyValueToBinary(val);
+    ASSERT_TRUE(representation.size() > 1);
+    representation.pop_back();
+    EXPECT_THROW(AnyValueFromBinary(representation), ParseException);
+  }
+  {
+    // Structure representation missing last byte
+    AnyValue val = {{"signed", {sup::dto::SignedInteger32Type, 42}}};
+    auto representation = AnyValueToBinary(val);
+    ASSERT_TRUE(representation.size() > 1);
+    representation.pop_back();
+    EXPECT_THROW(AnyValueFromBinary(representation), ParseException);
+  }
+}
+
+//! Structure with unnamed field throws.
+TEST_F(BinaryEncodingTests, StructWithUnnamedField)
+{
+  AnyValue val = {{"a", {sup::dto::SignedInteger32Type, 42}}};
+  auto representation = AnyValueToBinary(val);
+  ASSERT_EQ(representation.size(), 13);
+  auto fieldname_start = representation.begin() + 4;
+  auto fieldname_end = representation.begin() + 7;
+  representation.erase(fieldname_start, fieldname_end);
+  EXPECT_THROW(AnyValueFromBinary(representation), ParseException);
+}
+
 //! Encode/decode empty value.
 TEST_F(BinaryEncodingTests, EmptyValue)
 {
