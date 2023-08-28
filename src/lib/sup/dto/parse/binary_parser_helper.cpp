@@ -35,16 +35,64 @@ BinaryParserHelper::BinaryParserHelper()
 
 bool BinaryParserHelper::HandleToken(ByteIterator& it, const ByteIterator& end)
 {
-  (void)end;
   auto token = FetchToken(it);
-  (void)token;
-  // take appropriate action, based on token and current parsing state
-  return true;
+  auto handler_func = GetHandlerMemberFunction(token);
+  if (!handler_func)
+  {
+    std::string error = "BinaryParserHelper::HandleToken(): encountered unknown token: " +
+      std::to_string(token);
+    throw ParseException(error);
+  }
+  return handler_func(*this, it, end);
 }
 
 AnyValue BinaryParserHelper::MoveAnyValue()
 {
   return m_composer.MoveAnyValue();
+}
+
+std::array<BinaryParserHelper::HandlerMemberFunction, 0x100>
+BinaryParserHelper::CreateHandlerMemberFunctionArray()
+{
+  std::array<BinaryParserHelper::HandlerMemberFunction, 0x100> result;
+  result[EMPTY_TOKEN] = &BinaryParserHelper::HandleEmpty;
+  result[BOOL_TOKEN] =
+    &BinaryParserHelper::HandleScalar<sup::dto::boolean, &AnyValueComposer::Bool>;
+  result[CHAR8_TOKEN] =
+    &BinaryParserHelper::HandleScalar<sup::dto::char8, &AnyValueComposer::Char8>;
+  result[INT8_TOKEN] =
+    &BinaryParserHelper::HandleScalar<sup::dto::int8, &AnyValueComposer::Int8>;
+  result[UINT8_TOKEN] =
+    &BinaryParserHelper::HandleScalar<sup::dto::uint8, &AnyValueComposer::UInt8>;
+  result[INT16_TOKEN] =
+    &BinaryParserHelper::HandleScalar<sup::dto::int16, &AnyValueComposer::Int16>;
+  result[UINT16_TOKEN] =
+    &BinaryParserHelper::HandleScalar<sup::dto::uint16, &AnyValueComposer::UInt16>;
+  result[INT32_TOKEN] =
+    &BinaryParserHelper::HandleScalar<sup::dto::int32, &AnyValueComposer::Int32>;
+  result[UINT32_TOKEN] =
+    &BinaryParserHelper::HandleScalar<sup::dto::uint32, &AnyValueComposer::UInt32>;
+  result[INT64_TOKEN] =
+    &BinaryParserHelper::HandleScalar<sup::dto::int64, &AnyValueComposer::Int64>;
+  result[UINT64_TOKEN] =
+    &BinaryParserHelper::HandleScalar<sup::dto::uint64, &AnyValueComposer::UInt64>;
+  result[FLOAT32_TOKEN] =
+    &BinaryParserHelper::HandleScalar<sup::dto::float32, &AnyValueComposer::Float32>;
+  result[FLOAT64_TOKEN] =
+    &BinaryParserHelper::HandleScalar<sup::dto::float64, &AnyValueComposer::Float64>;
+  result[STRING_TOKEN] = &BinaryParserHelper::HandleString;
+  result[START_STRUCT_TOKEN] = &BinaryParserHelper::HandleStartStruct;
+  result[END_STRUCT_TOKEN] = &BinaryParserHelper::HandleEndStruct;
+  result[START_ARRAY_TOKEN] = &BinaryParserHelper::HandleStartArray;
+  result[END_ARRAY_TOKEN] = &BinaryParserHelper::HandleEndArray;
+  return result;
+}
+
+BinaryParserHelper::HandlerMemberFunction
+BinaryParserHelper::GetHandlerMemberFunction(sup::dto::uint8 token)
+{
+  static auto functions = CreateHandlerMemberFunctionArray();
+  return functions[token];
 }
 
 void BinaryParserHelper::PushState()

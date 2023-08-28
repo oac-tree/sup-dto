@@ -27,6 +27,7 @@
 
 #include <sup/dto/anyvalue_composer.h>
 
+#include <array>
 #include <stack>
 
 namespace sup
@@ -51,9 +52,16 @@ public:
   bool HandleToken(ByteIterator& it, const ByteIterator& end);
 
   AnyValue MoveAnyValue();
+
 private:
+  using HandlerMemberFunction =
+    std::function<bool(BinaryParserHelper&, ByteIterator&, const ByteIterator&)>;
+  static std::array<HandlerMemberFunction, 0x100> CreateHandlerMemberFunctionArray();
+  static HandlerMemberFunction GetHandlerMemberFunction(sup::dto::uint8 token);
+
   AnyValueComposer m_composer;
   std::stack<ParseState> m_parse_states;
+
   void PushState();
   bool PopState();
 
