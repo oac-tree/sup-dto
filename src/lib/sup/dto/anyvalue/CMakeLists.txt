@@ -1,30 +1,30 @@
 target_sources(sup-dto-obj
     PRIVATE
-        ${CMAKE_CURRENT_LIST_DIR}/any_functor.cpp
-        ${CMAKE_CURRENT_LIST_DIR}/anytype_helper.cpp
-        ${CMAKE_CURRENT_LIST_DIR}/anytype_registry.cpp
-        ${CMAKE_CURRENT_LIST_DIR}/anytype.cpp
-        ${CMAKE_CURRENT_LIST_DIR}/anyvalue_exceptions.cpp
-        ${CMAKE_CURRENT_LIST_DIR}/anyvalue_helper.cpp
-        ${CMAKE_CURRENT_LIST_DIR}/anyvalue_operations_utils.cpp
-        ${CMAKE_CURRENT_LIST_DIR}/anyvalue_operations.cpp
-        ${CMAKE_CURRENT_LIST_DIR}/anyvalue.cpp
-        ${CMAKE_CURRENT_LIST_DIR}/array_type_data.cpp
-        ${CMAKE_CURRENT_LIST_DIR}/array_value_data.cpp
-        ${CMAKE_CURRENT_LIST_DIR}/basic_scalar_types.cpp
-        ${CMAKE_CURRENT_LIST_DIR}/empty_type_data.cpp
-        ${CMAKE_CURRENT_LIST_DIR}/empty_value_data.cpp
-        ${CMAKE_CURRENT_LIST_DIR}/field_utils.cpp
-        ${CMAKE_CURRENT_LIST_DIR}/i_type_data.cpp
-        ${CMAKE_CURRENT_LIST_DIR}/i_value_data.cpp
-        ${CMAKE_CURRENT_LIST_DIR}/scalar_type_data.cpp
-        ${CMAKE_CURRENT_LIST_DIR}/scalar_value_data_base.cpp
-        ${CMAKE_CURRENT_LIST_DIR}/scalar_value_data_t.cpp
-        ${CMAKE_CURRENT_LIST_DIR}/struct_type_data.cpp
-        ${CMAKE_CURRENT_LIST_DIR}/struct_value_data.cpp
+    any_functor.cpp
+    anytype_helper.cpp
+    anytype_registry.cpp
+    anytype.cpp
+    anyvalue_exceptions.cpp
+    anyvalue_helper.cpp
+    anyvalue_operations_utils.cpp
+    anyvalue_operations.cpp
+    anyvalue.cpp
+    array_type_data.cpp
+    array_value_data.cpp
+    basic_scalar_types.cpp
+    empty_type_data.cpp
+    empty_value_data.cpp
+    field_utils.cpp
+    i_type_data.cpp
+    i_value_data.cpp
+    scalar_type_data.cpp
+    scalar_value_data_base.cpp
+    scalar_value_data_t.cpp
+    struct_type_data.cpp
+    struct_value_data.cpp
 )
 
 target_include_directories(sup-dto-obj
     PRIVATE
-        ${CMAKE_CURRENT_LIST_DIR}
+    ${CMAKE_CURRENT_LIST_DIR}
 )

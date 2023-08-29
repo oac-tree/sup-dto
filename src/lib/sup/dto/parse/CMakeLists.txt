@@ -1,29 +1,29 @@
 target_sources(sup-dto-obj
-    PRIVATE
-        ${CMAKE_CURRENT_LIST_DIR}/anytype_builder.cpp
-        ${CMAKE_CURRENT_LIST_DIR}/anytype_buildnode.cpp
-        ${CMAKE_CURRENT_LIST_DIR}/anytype_root_buildnode.cpp
-        ${CMAKE_CURRENT_LIST_DIR}/anyvalue_array_buildnode.cpp
-        ${CMAKE_CURRENT_LIST_DIR}/anyvalue_builder.cpp
-        ${CMAKE_CURRENT_LIST_DIR}/anyvalue_buildnode.cpp
-        ${CMAKE_CURRENT_LIST_DIR}/anyvalue_encodingelement_buildnode.cpp
-        ${CMAKE_CURRENT_LIST_DIR}/anyvalue_root_buildnode.cpp
-        ${CMAKE_CURRENT_LIST_DIR}/anyvalue_typeelement_buildnode.cpp
-        ${CMAKE_CURRENT_LIST_DIR}/anyvalue_valueelement_buildnode.cpp
-        ${CMAKE_CURRENT_LIST_DIR}/anyvalue_value_builder.cpp
-        ${CMAKE_CURRENT_LIST_DIR}/arrayvalue_buildnode.cpp
-        ${CMAKE_CURRENT_LIST_DIR}/binary_parser_functions.cpp
-        ${CMAKE_CURRENT_LIST_DIR}/binary_parser_helper.cpp
-        ${CMAKE_CURRENT_LIST_DIR}/binary_parser.cpp
-        ${CMAKE_CURRENT_LIST_DIR}/byteparser.cpp
-        ${CMAKE_CURRENT_LIST_DIR}/i_any_buildnode.cpp
-        ${CMAKE_CURRENT_LIST_DIR}/json_type_parser.cpp
-        ${CMAKE_CURRENT_LIST_DIR}/json_value_parser.cpp
-        ${CMAKE_CURRENT_LIST_DIR}/membertype_array_buildnode.cpp
-        ${CMAKE_CURRENT_LIST_DIR}/membertype_buildnode.cpp
+  PRIVATE
+    anytype_builder.cpp
+    anytype_buildnode.cpp
+    anytype_root_buildnode.cpp
+    anyvalue_array_buildnode.cpp
+    anyvalue_builder.cpp
+    anyvalue_buildnode.cpp
+    anyvalue_encodingelement_buildnode.cpp
+    anyvalue_root_buildnode.cpp
+    anyvalue_typeelement_buildnode.cpp
+    anyvalue_valueelement_buildnode.cpp
+    anyvalue_value_builder.cpp
+    arrayvalue_buildnode.cpp
+    binary_parser_functions.cpp
+    binary_parser_helper.cpp
+    binary_parser.cpp
+    byteparser.cpp
+    i_any_buildnode.cpp
+    json_type_parser.cpp
+    json_value_parser.cpp
+    membertype_array_buildnode.cpp
+    membertype_buildnode.cpp
 )
 
 target_include_directories(sup-dto-obj
     PRIVATE
-        ${CMAKE_CURRENT_LIST_DIR}
+    ${CMAKE_CURRENT_LIST_DIR}
 )
