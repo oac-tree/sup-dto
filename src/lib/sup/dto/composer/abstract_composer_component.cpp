@@ -39,7 +39,7 @@ void AbstractComposerComponent::Consume(sup::dto::AnyValue &&value)
   m_value = std::move(value);
 }
 
-sup::dto::AnyValue AbstractComposerComponent::MoveAnyValue() const
+sup::dto::AnyValue AbstractComposerComponent::MoveAnyValue()
 {
   return std::move(m_value);
 }

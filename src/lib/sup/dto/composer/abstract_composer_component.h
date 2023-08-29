@@ -65,7 +65,7 @@ public:
 
   virtual void Consume(sup::dto::AnyValue&& value);
 
-  sup::dto::AnyValue MoveAnyValue() const;
+  sup::dto::AnyValue MoveAnyValue();
 
   std::string GetFieldName() const;
   void SetFieldName(const std::string& name);
