@@ -24,6 +24,8 @@
 #include <sup/dto/anytype_registry.h>
 #include <sup/dto/json/json_reader.h>
 #include <sup/dto/json/json_writer.h>
+#include <sup/dto/serialize/binary_serializer.h>
+#include <sup/dto/serialize/binary_tokens.h>
 #include <sup/dto/visit/visit_t.h>
 #include <sup/dto/anytype.h>
 
@@ -56,6 +58,15 @@ void AnyTypeToJSONFile(const AnyType& anytype, const std::string& filename, bool
   }
   JSONSerializeAnyType(ofs, anytype, pretty);
   return;
+}
+
+std::vector<uint8> AnyTypeToBinary(const AnyType& anytype)
+{
+  std::vector<uint8> result;
+  result.push_back(ANYVALUE_TOKEN);
+  BinaryTypeSerializer serializer{result};
+  SerializeAnyType(anytype, serializer);
+  return result;
 }
 
 }  // namespace dto

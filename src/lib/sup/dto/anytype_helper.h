@@ -22,7 +22,10 @@
 #ifndef SUP_DTO_ANYTYPE_HELPER_H_
 #define SUP_DTO_ANYTYPE_HELPER_H_
 
+#include <sup/dto/basic_scalar_types.h>
 #include <sup/dto/i_any_visitor.h>
+
+#include <vector>
 
 namespace sup
 {
@@ -60,6 +63,15 @@ std::string AnyTypeToJSONString(const AnyType& anytype, bool pretty=false);
  * written to the file with given filename.
  */
 void AnyTypeToJSONFile(const AnyType& anytype, const std::string& filename, bool pretty=false);
+
+/**
+ * @brief Serialize an AnyType to a binary representation.
+ *
+ * @param anytype AnyType object to serialize.
+ *
+ * @return Binary representation of the anytype.
+ */
+std::vector<uint8> AnyTypeToBinary(const AnyType& anytype);
 
 }  // namespace dto
 
