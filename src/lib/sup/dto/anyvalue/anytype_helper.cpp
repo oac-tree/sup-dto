@@ -63,7 +63,7 @@ void AnyTypeToJSONFile(const AnyType& anytype, const std::string& filename, bool
 std::vector<uint8> AnyTypeToBinary(const AnyType& anytype)
 {
   std::vector<uint8> result;
-  result.push_back(ANYVALUE_TOKEN);
+  result.push_back(ANYTYPE_TOKEN);
   BinaryTypeSerializer serializer{result};
   SerializeAnyType(anytype, serializer);
   return result;
