@@ -22,6 +22,7 @@
 #ifndef SUP_DTO_BINARY_SERIALIZATION_FUNCTIONS_H_
 #define SUP_DTO_BINARY_SERIALIZATION_FUNCTIONS_H_
 
+#include <sup/dto/anytype.h>
 #include <sup/dto/basic_scalar_types.h>
 
 #include <string>
@@ -34,6 +35,8 @@ namespace dto
 class AnyValue;
 
 void AppendBinaryScalar(std::vector<uint8>& representation, const AnyValue& anyvalue);
+
+void AppendScalarToken(std::vector<uint8>& representation, const TypeCode& type_code);
 
 void AppendBinaryString(std::vector<uint8>& representation, const std::string& str);
 

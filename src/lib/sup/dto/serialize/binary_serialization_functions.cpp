@@ -73,6 +73,31 @@ void AppendBinaryScalar(std::vector<uint8>& representation, const AnyValue& anyv
   return it->second(representation, anyvalue);
 }
 
+void AppendScalarToken(std::vector<uint8>& representation, const TypeCode& type_code)
+{
+  static std::map<TypeCode, sup::dto::uint8> token_map {
+    {TypeCode::Bool, BOOL_TOKEN },
+    {TypeCode::Char8, CHAR8_TOKEN },
+    {TypeCode::Int8, INT8_TOKEN },
+    {TypeCode::UInt8, UINT8_TOKEN },
+    {TypeCode::Int16, INT16_TOKEN },
+    {TypeCode::UInt16, UINT16_TOKEN },
+    {TypeCode::Int32, INT32_TOKEN },
+    {TypeCode::UInt32, UINT32_TOKEN },
+    {TypeCode::Int64, INT64_TOKEN },
+    {TypeCode::UInt64, UINT64_TOKEN },
+    {TypeCode::Float32, FLOAT32_TOKEN },
+    {TypeCode::Float64, FLOAT64_TOKEN },
+    {TypeCode::String, STRING_TOKEN }
+  };
+  auto it = token_map.find(type_code);
+  if (it == token_map.end())
+  {
+    throw SerializeException("Not a known scalar type code");
+  }
+  representation.push_back(it->second);
+}
+
 void AppendBinaryString(std::vector<uint8>& representation, const std::string& str)
 {
   representation.push_back(STRING_TOKEN);

@@ -21,6 +21,7 @@
 
 #include "binary_serializer.h"
 
+#include <sup/dto/serialize/append_scalar_t.h>
 #include <sup/dto/serialize/binary_serialization_functions.h>
 #include <sup/dto/serialize/binary_tokens.h>
 
@@ -30,6 +31,64 @@ namespace sup
 {
 namespace dto
 {
+BinaryTypeSerializer::BinaryTypeSerializer(std::vector<uint8>& representation)
+  : m_representation{representation}
+{}
+BinaryTypeSerializer::~BinaryTypeSerializer() = default;
+
+void BinaryTypeSerializer::EmptyProlog(const AnyType*)
+{
+  m_representation.push_back(EMPTY_TOKEN);
+}
+
+void BinaryTypeSerializer::EmptyEpilog(const AnyType*)
+{}
+
+void BinaryTypeSerializer::StructProlog(const AnyType* anytype)
+{
+  m_representation.push_back(START_STRUCT_TOKEN);
+  AppendBinaryString(m_representation, anytype->GetTypeName());
+}
+
+void BinaryTypeSerializer::StructMemberSeparator()
+{}
+
+void BinaryTypeSerializer::StructEpilog(const AnyType*)
+{
+  m_representation.push_back(END_STRUCT_TOKEN);
+}
+
+void BinaryTypeSerializer::MemberProlog(const AnyType*, const std::string& member_name)
+{
+  AppendBinaryString(m_representation, member_name);
+}
+
+void BinaryTypeSerializer::MemberEpilog(const AnyType*, const std::string&)
+{}
+
+void BinaryTypeSerializer::ArrayProlog(const AnyType* anytype)
+{
+  m_representation.push_back(START_ARRAY_TOKEN);
+  AppendBinaryString(m_representation, anytype->GetTypeName());
+  sup::dto::uint64 n_elements = anytype->NumberOfElements();
+  AppendScalarT(m_representation, n_elements);
+}
+
+void BinaryTypeSerializer::ArrayElementSeparator()
+{}
+
+void BinaryTypeSerializer::ArrayEpilog(const AnyType*)
+{
+  m_representation.push_back(END_ARRAY_TOKEN);
+}
+
+void BinaryTypeSerializer::ScalarProlog(const AnyType* anytype)
+{
+  AppendScalarToken(m_representation, anytype->GetTypeCode());
+}
+
+void BinaryTypeSerializer::ScalarEpilog(const AnyType*)
+{}
 
 BinaryValueSerializer::BinaryValueSerializer(std::vector<uint8>& representation)
   : m_representation{representation}

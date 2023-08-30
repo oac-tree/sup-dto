@@ -31,7 +31,35 @@ namespace sup
 {
 namespace dto
 {
+class AnyType;
 class AnyValue;
+
+class BinaryTypeSerializer : public IAnyVisitor<const AnyType>
+{
+public:
+  BinaryTypeSerializer(std::vector<uint8>& representation);
+  ~BinaryTypeSerializer() override;
+
+  void EmptyProlog(const AnyType* anytype) override;
+  void EmptyEpilog(const AnyType* anytype) override;
+
+  void StructProlog(const AnyType* anytype) override;
+  void StructMemberSeparator() override;
+  void StructEpilog(const AnyType* anytype) override;
+
+  void MemberProlog(const AnyType* anytype, const std::string& member_name) override;
+  void MemberEpilog(const AnyType* anytype, const std::string& member_name) override;
+
+  void ArrayProlog(const AnyType* anytype) override;
+  void ArrayElementSeparator() override;
+  void ArrayEpilog(const AnyType* anytype) override;
+
+  void ScalarProlog(const AnyType* anytype) override;
+  void ScalarEpilog(const AnyType* anytype) override;
+
+private:
+  std::vector<uint8>& m_representation;
+};
 
 class BinaryValueSerializer : public IAnyVisitor<const AnyValue>
 {
