@@ -31,61 +31,61 @@ namespace sup
 namespace dto
 {
 
-BinarySerializer::BinarySerializer(std::vector<uint8>& representation)
+BinaryValueSerializer::BinaryValueSerializer(std::vector<uint8>& representation)
   : m_representation{representation}
 {}
-BinarySerializer::~BinarySerializer() = default;
+BinaryValueSerializer::~BinaryValueSerializer() = default;
 
-void BinarySerializer::EmptyProlog(const AnyValue*)
+void BinaryValueSerializer::EmptyProlog(const AnyValue*)
 {
   m_representation.push_back(EMPTY_TOKEN);
 }
 
-void BinarySerializer::EmptyEpilog(const AnyValue*)
+void BinaryValueSerializer::EmptyEpilog(const AnyValue*)
 {}
 
-void BinarySerializer::StructProlog(const AnyValue* value)
+void BinaryValueSerializer::StructProlog(const AnyValue* value)
 {
   m_representation.push_back(START_STRUCT_TOKEN);
   AppendBinaryString(m_representation, value->GetTypeName());
 }
 
-void BinarySerializer::StructMemberSeparator()
+void BinaryValueSerializer::StructMemberSeparator()
 {}
 
-void BinarySerializer::StructEpilog(const AnyValue*)
+void BinaryValueSerializer::StructEpilog(const AnyValue*)
 {
   m_representation.push_back(END_STRUCT_TOKEN);
 }
 
-void BinarySerializer::MemberProlog(const AnyValue*, const std::string& member_name)
+void BinaryValueSerializer::MemberProlog(const AnyValue*, const std::string& member_name)
 {
   AppendBinaryString(m_representation, member_name);
 }
 
-void BinarySerializer::MemberEpilog(const AnyValue*, const std::string&)
+void BinaryValueSerializer::MemberEpilog(const AnyValue*, const std::string&)
 {}
 
-void BinarySerializer::ArrayProlog(const AnyValue* value)
+void BinaryValueSerializer::ArrayProlog(const AnyValue* value)
 {
   m_representation.push_back(START_ARRAY_TOKEN);
   AppendBinaryString(m_representation, value->GetTypeName());
 }
 
-void BinarySerializer::ArrayElementSeparator()
+void BinaryValueSerializer::ArrayElementSeparator()
 {}
 
-void BinarySerializer::ArrayEpilog(const AnyValue*)
+void BinaryValueSerializer::ArrayEpilog(const AnyValue*)
 {
   m_representation.push_back(END_ARRAY_TOKEN);
 }
 
-void BinarySerializer::ScalarProlog(const AnyValue* anyvalue)
+void BinaryValueSerializer::ScalarProlog(const AnyValue* anyvalue)
 {
   AppendBinaryScalar(m_representation, *anyvalue);
 }
 
-void BinarySerializer::ScalarEpilog(const AnyValue*)
+void BinaryValueSerializer::ScalarEpilog(const AnyValue*)
 {}
 
 }  // namespace dto

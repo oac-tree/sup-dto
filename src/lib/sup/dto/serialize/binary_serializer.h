@@ -33,11 +33,11 @@ namespace dto
 {
 class AnyValue;
 
-class BinarySerializer : public IAnyVisitor<const AnyValue>
+class BinaryValueSerializer : public IAnyVisitor<const AnyValue>
 {
 public:
-  BinarySerializer(std::vector<uint8>& representation);
-  ~BinarySerializer() override;
+  BinaryValueSerializer(std::vector<uint8>& representation);
+  ~BinaryValueSerializer() override;
 
   void EmptyProlog(const AnyValue* anyvalue) override;
   void EmptyEpilog(const AnyValue* anyvalue) override;

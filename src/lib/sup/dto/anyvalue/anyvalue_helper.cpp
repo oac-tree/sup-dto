@@ -118,7 +118,7 @@ std::vector<uint8> AnyValueToBinary(const AnyValue& anyvalue)
 {
   std::vector<uint8> result;
   result.push_back(ANYVALUE_TOKEN);
-  BinarySerializer serializer{result};
+  BinaryValueSerializer serializer{result};
   SerializeAnyValue(anyvalue, serializer);
   return result;
 }
