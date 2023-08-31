@@ -34,11 +34,13 @@ namespace dto
 {
 class AnyValue;
 
-void AppendBinaryScalar(std::vector<uint8>& representation, const AnyValue& anyvalue);
+void AppendScalarToken(std::vector<sup::dto::uint8>& representation, const TypeCode& type_code);
 
-void AppendScalarToken(std::vector<uint8>& representation, const TypeCode& type_code);
+void AppendSize(std::vector<sup::dto::uint8>& representation, sup::dto::uint64 size);
 
-void AppendBinaryString(std::vector<uint8>& representation, const std::string& str);
+void AppendBinaryScalar(std::vector<sup::dto::uint8>& representation, const AnyValue& anyvalue);
+
+void AppendBinaryString(std::vector<sup::dto::uint8>& representation, const std::string& str);
 
 }  // namespace dto
 

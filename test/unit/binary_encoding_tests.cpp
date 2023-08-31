@@ -191,7 +191,7 @@ TEST_F(BinaryEncodingTests, Scalars)
   }
   {
     // long string
-    std::string str(10 * SHORT_STRING_LENGTH_LIMIT, 'x');
+    std::string str(10 * SHORT_SIZE_LIMIT, 'x');
     AnyValue val{str};
     auto representation = AnyValueToBinary(val);
     EXPECT_TRUE(representation.size() > 1);

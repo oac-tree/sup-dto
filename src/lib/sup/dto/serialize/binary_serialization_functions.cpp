@@ -47,6 +47,45 @@ void AppendBinaryStringValue(std::vector<uint8>& representation, const AnyValue&
   AppendBinaryString(representation, str);
 }
 
+void AppendScalarToken(std::vector<uint8>& representation, const TypeCode& type_code)
+{
+  static std::map<TypeCode, sup::dto::uint8> token_map {
+    {TypeCode::Bool, BOOL_TOKEN },
+    {TypeCode::Char8, CHAR8_TOKEN },
+    {TypeCode::Int8, INT8_TOKEN },
+    {TypeCode::UInt8, UINT8_TOKEN },
+    {TypeCode::Int16, INT16_TOKEN },
+    {TypeCode::UInt16, UINT16_TOKEN },
+    {TypeCode::Int32, INT32_TOKEN },
+    {TypeCode::UInt32, UINT32_TOKEN },
+    {TypeCode::Int64, INT64_TOKEN },
+    {TypeCode::UInt64, UINT64_TOKEN },
+    {TypeCode::Float32, FLOAT32_TOKEN },
+    {TypeCode::Float64, FLOAT64_TOKEN },
+    {TypeCode::String, STRING_TOKEN }
+  };
+  auto it = token_map.find(type_code);
+  if (it == token_map.end())
+  {
+    throw SerializeException("Not a known scalar type code");
+  }
+  representation.push_back(it->second);
+}
+
+void AppendSize(std::vector<sup::dto::uint8>& representation, sup::dto::uint64 size)
+{
+  if (size < SHORT_SIZE_LIMIT)
+  {
+    auto size_byte = static_cast<sup::dto::uint8>(size);
+    representation.push_back(size_byte);
+  }
+  else
+  {
+    representation.push_back(LONG_SIZE_TOKEN);
+    AppendScalarT(representation, size);
+  }
+}
+
 void AppendBinaryScalar(std::vector<uint8>& representation, const AnyValue& anyvalue)
 {
   using AppendFunction = std::function<void(std::vector<uint8>&, const AnyValue&)>;
@@ -73,45 +112,11 @@ void AppendBinaryScalar(std::vector<uint8>& representation, const AnyValue& anyv
   return it->second(representation, anyvalue);
 }
 
-void AppendScalarToken(std::vector<uint8>& representation, const TypeCode& type_code)
-{
-  static std::map<TypeCode, sup::dto::uint8> token_map {
-    {TypeCode::Bool, BOOL_TOKEN },
-    {TypeCode::Char8, CHAR8_TOKEN },
-    {TypeCode::Int8, INT8_TOKEN },
-    {TypeCode::UInt8, UINT8_TOKEN },
-    {TypeCode::Int16, INT16_TOKEN },
-    {TypeCode::UInt16, UINT16_TOKEN },
-    {TypeCode::Int32, INT32_TOKEN },
-    {TypeCode::UInt32, UINT32_TOKEN },
-    {TypeCode::Int64, INT64_TOKEN },
-    {TypeCode::UInt64, UINT64_TOKEN },
-    {TypeCode::Float32, FLOAT32_TOKEN },
-    {TypeCode::Float64, FLOAT64_TOKEN },
-    {TypeCode::String, STRING_TOKEN }
-  };
-  auto it = token_map.find(type_code);
-  if (it == token_map.end())
-  {
-    throw SerializeException("Not a known scalar type code");
-  }
-  representation.push_back(it->second);
-}
-
 void AppendBinaryString(std::vector<uint8>& representation, const std::string& str)
 {
   representation.push_back(STRING_TOKEN);
   auto str_size = str.size();
-  if (str_size < SHORT_STRING_LENGTH_LIMIT)
-  {
-    auto size_byte = static_cast<sup::dto::uint8>(str_size);
-    representation.push_back(size_byte);
-  }
-  else
-  {
-    representation.push_back(LONG_STRING_LENGTH_TOKEN);
-    AppendScalarT(representation, str_size);
-  }
+  AppendSize(representation, str_size);
   representation.insert(representation.end(), std::begin(str), std::end(str));
 }
 

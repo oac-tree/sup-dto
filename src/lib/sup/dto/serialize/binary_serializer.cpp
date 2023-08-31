@@ -70,8 +70,7 @@ void BinaryTypeSerializer::ArrayProlog(const AnyType* anytype)
 {
   m_representation.push_back(START_ARRAY_TOKEN);
   AppendBinaryString(m_representation, anytype->GetTypeName());
-  sup::dto::uint64 n_elements = anytype->NumberOfElements();
-  AppendScalarT(m_representation, n_elements);
+  AppendSize(m_representation, anytype->NumberOfElements());
 }
 
 void BinaryTypeSerializer::ArrayElementSeparator()

@@ -215,7 +215,7 @@ TEST_F(BinaryParserFunctionsTest, Strings)
   }
   {
     // long string (size = SHORT_STRING_LENGTH_LIMIT)
-    std::string str(SHORT_STRING_LENGTH_LIMIT, 'x');
+    std::string str(SHORT_SIZE_LIMIT, 'x');
     std::vector<uint8> representation;
     EXPECT_NO_THROW(AppendBinaryString(representation, str));
     // string token and size bytes make the total size larger by 2 + sizeof(std::size_t)
@@ -228,7 +228,7 @@ TEST_F(BinaryParserFunctionsTest, Strings)
   }
   {
     // long string (size > SHORT_STRING_LENGTH_LIMIT)
-    std::string str(10 * SHORT_STRING_LENGTH_LIMIT, 'x');
+    std::string str(10 * SHORT_SIZE_LIMIT, 'x');
     std::vector<uint8> representation;
     EXPECT_NO_THROW(AppendBinaryString(representation, str));
     // string token and size bytes make the total size larger by 2 + sizeof(std::size_t)

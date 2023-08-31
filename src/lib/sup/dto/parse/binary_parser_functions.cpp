@@ -67,11 +67,11 @@ std::size_t ParseBinaryStringSize(ByteIterator& it, const ByteIterator& end)
     throw ParseException("End of byte stream encountered during string size parsing");
   }
   auto token = *it++;
-  if (token < SHORT_STRING_LENGTH_LIMIT)
+  if (token < SHORT_SIZE_LIMIT)
   {
     return token;
   }
-  // No test is done to check that the current token is LONG_STRING_LENGTH_TOKEN, since the
+  // No test is done to check that the current token is LONG_SIZE_TOKEN, since the
   // current value of the limit is 0xFF.
   return ParseBinaryScalarT<std::size_t>(it, end);
 }
