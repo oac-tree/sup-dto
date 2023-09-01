@@ -132,15 +132,7 @@ AnyValue AnyValueFromBinary(const std::vector<uint8>& representation)
   }
   auto it = representation.cbegin() + 1;
   AnyValue result;
-  try
-  {
-    result = ParseAnyValue(it, representation.cend());
-  }
-  catch(const MessageException& e)
-  {
-    throw ParseException(e.what());
-  }
-  return result;
+  return ParseAnyValue(it, representation.cend());
 }
 
 }  // namespace dto

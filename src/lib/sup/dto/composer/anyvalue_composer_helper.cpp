@@ -62,7 +62,7 @@ void ValidateAddValueComponent(const std::stack<AbstractComposerComponent::compo
       ostr << "last Type=" << static_cast<int>(stack.top()->GetComponentType()) << ".\n";
     }
 
-    throw sup::dto::MessageException(ostr.str());
+    throw sup::dto::ParseException(ostr.str());
   }
 }
 
@@ -71,7 +71,7 @@ void ValidateLastComponent(const std::stack<AbstractComposerComponent::component
 {
   if (stack.empty() || stack.top()->GetComponentType() != component_type)
   {
-    throw sup::dto::MessageException(
+    throw sup::dto::ParseException(
         "Error in ValidateLastComponent(): wrong type of the last component");
   }
 }
@@ -81,7 +81,7 @@ void ValidateIfValueComponentIsComplete(
 {
   if (stack.empty())
   {
-    throw sup::dto::MessageException(
+    throw sup::dto::ParseException(
         "Error in ValidateIfValueComponentIsComplete(): stack is empty");
   }
 
@@ -93,7 +93,7 @@ void ValidateIfValueComponentIsComplete(
 
   if (it == expected_types.end())
   {
-    throw sup::dto::MessageException(
+    throw sup::dto::ParseException(
         "Error in ValidateIfValueComponentIsComplete(): wrong component type");
   }
 }

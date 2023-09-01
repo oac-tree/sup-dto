@@ -58,6 +58,7 @@ set_target_properties(sup-dto-static PROPERTIES EXPORT_NAME sup-dto-static)
 
 install(FILES
   any_functor.h
+  anytype_composer.h
   anytype_helper.h
   anytype_registry.h
   anytype.h

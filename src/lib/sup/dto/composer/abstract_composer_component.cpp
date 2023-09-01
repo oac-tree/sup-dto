@@ -58,14 +58,14 @@ void AbstractComposerComponent::AddMember(const std::string &name, const sup::dt
 {
   (void)name;
   (void)value;
-  throw sup::dto::MessageException(
+  throw sup::dto::ParseException(
       "Error in AbstractComposerComponent::AddMember() : not implemented");
 }
 
 void AbstractComposerComponent::AddElement(const sup::dto::AnyValue &value)
 {
   (void)value;
-  throw sup::dto::MessageException(
+  throw sup::dto::ParseException(
       "Error in AbstractComposerComponent::AddMember() : not implemented");
 }
 

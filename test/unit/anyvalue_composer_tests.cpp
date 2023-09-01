@@ -38,11 +38,8 @@ class AnyValueComposerTests : public ::testing::Test
 TEST_F(AnyValueComposerTests, InitialState)
 {
   AnyValueComposer builder;
-  auto value = builder.MoveAnyValue();
-
   EXPECT_EQ(builder.GetStackSize(), 0);
-
-  EXPECT_TRUE(::sup::dto::IsEmptyValue(value));
+  EXPECT_THROW(builder.MoveAnyValue(), ParseException);
 }
 
 //! Creation of AnyValue scalar.

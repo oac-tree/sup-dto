@@ -6,7 +6,7 @@
  *
  * Description   : Data transfer objects for SUP
  *
- * Author        : Gennady Pospelov (IO)
+ * Author        : Walter Van Herck (IO)
  *
  * Copyright (c) : 2010-2023 ITER Organization,
  *                 CS 90 046
@@ -19,10 +19,10 @@
  * of the distribution package.
  ******************************************************************************/
 
-#ifndef SUP_DTO_COMPOSER_ABSTRACT_COMPOSER_COMPONENT_H_
-#define SUP_DTO_COMPOSER_ABSTRACT_COMPOSER_COMPONENT_H_
+#ifndef SUP_DTO_COMPOSER_ABSTRACT_TYPE_COMPOSER_COMPONENT_H_
+#define SUP_DTO_COMPOSER_ABSTRACT_TYPE_COMPOSER_COMPONENT_H_
 
-#include <sup/dto/anyvalue.h>
+#include <sup/dto/anytype.h>
 
 #include <memory>
 #include <stack>
@@ -33,17 +33,21 @@ namespace sup
 namespace dto
 {
 
-//! The component for AnyValueComposer to build AnyValue.
+//! The component for AnyTypeComposer to build AnyType.
 
-class AbstractComposerComponent
+class AbstractTypeComposerComponent
 {
 public:
-  virtual ~AbstractComposerComponent() = default;
-  using component_t = std::unique_ptr<AbstractComposerComponent>;
+  using component_t = std::unique_ptr<AbstractTypeComposerComponent>;
+
+  AbstractTypeComposerComponent();
+  AbstractTypeComposerComponent(const sup::dto::AnyType& anytype);
+
+  virtual ~AbstractTypeComposerComponent();
 
   enum class Type
   {
-    kValue,
+    kScalarType,
     kStartStruct,
     kEndStruct,
     kStartField,
@@ -54,32 +58,30 @@ public:
     kEndArrayElement
   };
 
-  AbstractComposerComponent();
-  AbstractComposerComponent(const sup::dto::AnyValue& value);
-
   virtual Type GetComponentType() const = 0;
 
   //! Performs manipulations with the stack, if necessary.
   //! @return True if component wants it to be saved in a stack.
   virtual bool Process(std::stack<component_t>& stack) = 0;
 
-  void Consume(sup::dto::AnyValue&& value);
+  void Consume(sup::dto::AnyType&& anytype);
 
-  sup::dto::AnyValue MoveAnyValue();
+  sup::dto::AnyType MoveAnyType();
 
   std::string GetFieldName() const;
   void SetFieldName(const std::string& name);
 
-  virtual void AddMember(const std::string& name, const sup::dto::AnyValue& value);
+  virtual void AddMember(const std::string& name, const sup::dto::AnyType& anytype);
 
-  virtual void AddElement(const sup::dto::AnyValue& value);
+  virtual void AddElement(sup::dto::AnyType& anytype);
 
 protected:
-  sup::dto::AnyValue m_value;
+  sup::dto::AnyType m_type;
   std::string m_field_name;
 };
 
 }  // namespace dto
+
 }  // namespace sup
 
-#endif  // SUP_DTO_COMPOSER_ABSTRACT_COMPOSER_COMPONENT_H_
+#endif  // SUP_DTO_COMPOSER_ABSTRACT_TYPE_COMPOSER_COMPONENT_H_

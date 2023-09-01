@@ -125,7 +125,7 @@ bool StartFieldComposerComponent::Process(std::stack<component_t> &stack)
 
   if (GetFieldName().empty())
   {
-    throw sup::dto::MessageException(
+    throw sup::dto::ParseException(
         "Error in StartFieldComposerComponent::Process(): fieldname is not defined");
   }
 
