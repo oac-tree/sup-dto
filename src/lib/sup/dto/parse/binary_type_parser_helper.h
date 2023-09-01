@@ -19,13 +19,13 @@
  * of the distribution package.
  ******************************************************************************/
 
-#ifndef SUP_DTO_BINARY_PARSER_HELPER_H_
-#define SUP_DTO_BINARY_PARSER_HELPER_H_
+#ifndef SUP_DTO_BINARY_TYPE_PARSER_HELPER_H_
+#define SUP_DTO_BINARY_TYPE_PARSER_HELPER_H_
 
 #include <sup/dto/parse/binary_parser.h>
 #include <sup/dto/parse/binary_parser_functions.h>
 
-#include <sup/dto/anyvalue_composer.h>
+#include <sup/dto/anytype_composer.h>
 
 #include <array>
 #include <stack>
@@ -35,11 +35,11 @@ namespace sup
 namespace dto
 {
 
-class BinaryValueParserHelper
+class BinaryTypeParserHelper
 {
 public:
-  BinaryValueParserHelper();
-  ~BinaryValueParserHelper() = default;
+  BinaryTypeParserHelper();
+  ~BinaryTypeParserHelper() = default;
 
   bool HandleToken(ByteIterator& it, const ByteIterator& end);
 
@@ -47,11 +47,11 @@ public:
 
 private:
   using HandlerMemberFunction =
-    std::function<bool(BinaryValueParserHelper&, ByteIterator&, const ByteIterator&)>;
+    std::function<bool(BinaryTypeParserHelper&, ByteIterator&, const ByteIterator&)>;
   static std::array<HandlerMemberFunction, 0x100> CreateHandlerMemberFunctionArray();
   static HandlerMemberFunction GetHandlerMemberFunction(sup::dto::uint8 token);
 
-  AnyValueComposer m_composer;
+  AnyTypeComposer m_composer;
   std::stack<ParseState> m_parse_states;
 
   ParseState GetCurrentState() const;
@@ -61,7 +61,7 @@ private:
 
   bool HandleEmpty(ByteIterator& it, const ByteIterator& end);
 
-  template <typename T, void (AnyValueComposer::*mem_fun)(T) >
+  template <typename T, void (AnyTypeComposer::*mem_fun)(T) >
   bool HandleScalar(ByteIterator& it, const ByteIterator& end);
 
   bool HandleString(ByteIterator& it, const ByteIterator& end);
@@ -73,8 +73,8 @@ private:
 
 sup::dto::uint8 FetchToken(ByteIterator& it);
 
-template <typename T, void (AnyValueComposer::*mem_fun)(T) >
-bool BinaryValueParserHelper::HandleScalar(ByteIterator& it, const ByteIterator& end)
+template <typename T, void (AnyTypeComposer::*mem_fun)(T) >
+bool BinaryTypeParserHelper::HandleScalar(ByteIterator& it, const ByteIterator& end)
 {
   auto val = ParseBinaryScalarT<T>(it, end);
   PushState();
@@ -86,4 +86,4 @@ bool BinaryValueParserHelper::HandleScalar(ByteIterator& it, const ByteIterator&
 
 }  // namespace sup
 
-#endif  // SUP_DTO_BINARY_PARSER_HELPER_H_
+#endif  // SUP_DTO_BINARY_TYPE_PARSER_HELPER_H_

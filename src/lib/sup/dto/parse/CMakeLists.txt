@@ -15,7 +15,7 @@ target_sources(sup-dto-obj
     binary_parser_functions.cpp
     binary_parser.cpp
     binary_value_parser_helper.cpp
-    byteparser.cpp
+    ctype_parser.cpp
     i_any_buildnode.cpp
     json_type_parser.cpp
     json_value_parser.cpp

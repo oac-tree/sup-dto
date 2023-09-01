@@ -31,16 +31,16 @@ namespace dto
 {
 class AnyValue;
 
-class ByteParser : public IAnyVisitor<AnyValue>
+class CTypeParser : public IAnyVisitor<AnyValue>
 {
 public:
-  ByteParser(const uint8* bytes, std::size_t total_size);
-  ~ByteParser() override;
+  CTypeParser(const uint8* bytes, std::size_t total_size);
+  ~CTypeParser() override;
 
-  ByteParser(const ByteParser& other) = delete;
-  ByteParser(ByteParser&& other) = delete;
-  ByteParser& operator=(const ByteParser& other) = delete;
-  ByteParser& operator=(ByteParser&& other) = delete;
+  CTypeParser(const CTypeParser& other) = delete;
+  CTypeParser(CTypeParser&& other) = delete;
+  CTypeParser& operator=(const CTypeParser& other) = delete;
+  CTypeParser& operator=(CTypeParser&& other) = delete;
 
   bool IsFinished() const;
 

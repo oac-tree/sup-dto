@@ -19,7 +19,7 @@
  * of the distribution package.
  ******************************************************************************/
 
-#include "byteparser.h"
+#include "ctype_parser.h"
 
 #include <sup/dto/parse/scalar_from_bytes.h>
 
@@ -33,50 +33,50 @@ namespace sup
 namespace dto
 {
 
-ByteParser::ByteParser(const uint8* bytes_, std::size_t total_size_)
+CTypeParser::CTypeParser(const uint8* bytes_, std::size_t total_size_)
   : bytes{bytes_}
   , total_size{total_size_}
   , current_position{0}
 {}
 
-ByteParser::~ByteParser() = default;
+CTypeParser::~CTypeParser() = default;
 
-bool ByteParser::IsFinished() const
+bool CTypeParser::IsFinished() const
 {
   return current_position == total_size;
 }
 
-void ByteParser::EmptyProlog(AnyValue*)
+void CTypeParser::EmptyProlog(AnyValue*)
 {}
 
-void ByteParser::EmptyEpilog(AnyValue*)
+void CTypeParser::EmptyEpilog(AnyValue*)
 {}
 
-void ByteParser::StructProlog(AnyValue*)
+void CTypeParser::StructProlog(AnyValue*)
 {}
 
-void ByteParser::StructMemberSeparator()
+void CTypeParser::StructMemberSeparator()
 {}
 
-void ByteParser::StructEpilog(AnyValue*)
+void CTypeParser::StructEpilog(AnyValue*)
 {}
 
-void ByteParser::MemberProlog(AnyValue*, const std::string&)
+void CTypeParser::MemberProlog(AnyValue*, const std::string&)
 {}
 
-void ByteParser::MemberEpilog(AnyValue*, const std::string&)
+void CTypeParser::MemberEpilog(AnyValue*, const std::string&)
 {}
 
-void ByteParser::ArrayProlog(AnyValue*)
+void CTypeParser::ArrayProlog(AnyValue*)
 {}
 
-void ByteParser::ArrayElementSeparator()
+void CTypeParser::ArrayElementSeparator()
 {}
 
-void ByteParser::ArrayEpilog(AnyValue*)
+void CTypeParser::ArrayEpilog(AnyValue*)
 {}
 
-void ByteParser::ScalarProlog(AnyValue* anyvalue)
+void CTypeParser::ScalarProlog(AnyValue* anyvalue)
 {
   static std::map<TypeCode, std::function<std::size_t(AnyValue&, const uint8*, std::size_t,
                                                       std::size_t)>> assign_map {
@@ -97,12 +97,12 @@ void ByteParser::ScalarProlog(AnyValue* anyvalue)
   auto it = assign_map.find(anyvalue->GetTypeCode());
   if (it == assign_map.end())
   {
-    throw ParseException("ByteParser: unknown scalar type code");
+    throw ParseException("CTypeParser: unknown scalar type code");
   }
   current_position = it->second(*anyvalue, bytes, total_size, current_position);
 }
 
-void ByteParser::ScalarEpilog(AnyValue*)
+void CTypeParser::ScalarEpilog(AnyValue*)
 {}
 
 }  // namespace dto
