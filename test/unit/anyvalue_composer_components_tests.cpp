@@ -35,10 +35,10 @@ class AnyValueComposerComponentsTests : public ::testing::Test
 TEST_F(AnyValueComposerComponentsTests, ValueComposerComponentProcess)
 {
   ValueComposerComponent node(sup::dto::AnyValue{sup::dto::SignedInteger32Type, 42});
-  EXPECT_EQ(node.GetComponentType(), AbstractComposerComponent::Type::kValue);
+  EXPECT_EQ(node.GetComponentType(), AbstractValueComposerComponent::Type::kValue);
 
   // processing empty stack
-  std::stack<AbstractComposerComponent::component_t> stack;
+  std::stack<AbstractValueComposerComponent::component_t> stack;
   EXPECT_TRUE(node.Process(stack));
 
   // processing stack containing another value
@@ -48,7 +48,7 @@ TEST_F(AnyValueComposerComponentsTests, ValueComposerComponentProcess)
 
   // processing stack containing a field
   stack.push(
-      std::unique_ptr<StartFieldComposerComponent>(new StartFieldComposerComponent("field_name")));
+      std::unique_ptr<StartFieldValueComposerComponent>(new StartFieldValueComposerComponent("field_name")));
   EXPECT_TRUE(node.Process(stack));
 
   // expected value
@@ -59,21 +59,21 @@ TEST_F(AnyValueComposerComponentsTests, ValueComposerComponentProcess)
 
 TEST_F(AnyValueComposerComponentsTests, StartStructComposerComponentProcess)
 {
-  StartStructComposerComponent node("struct_name");
-  EXPECT_EQ(node.GetComponentType(), AbstractComposerComponent::Type::kStartStruct);
+  StartStructValueComposerComponent node("struct_name");
+  EXPECT_EQ(node.GetComponentType(), AbstractValueComposerComponent::Type::kStartStruct);
 
   // processing empty stack
-  std::stack<AbstractComposerComponent::component_t> stack;
+  std::stack<AbstractValueComposerComponent::component_t> stack;
   EXPECT_TRUE(node.Process(stack));
 
   // processing stack containing another struct
-  stack.push(std::unique_ptr<StartStructComposerComponent>(
-      new StartStructComposerComponent(std::string())));
+  stack.push(std::unique_ptr<StartStructValueComposerComponent>(
+      new StartStructValueComposerComponent(std::string())));
   EXPECT_THROW(node.Process(stack), sup::dto::MessageException);
 
   // processing stack containing a field
   stack.push(
-      std::unique_ptr<StartFieldComposerComponent>(new StartFieldComposerComponent("field_name")));
+      std::unique_ptr<StartFieldValueComposerComponent>(new StartFieldValueComposerComponent("field_name")));
   EXPECT_TRUE(node.Process(stack));
 
   // expected value
@@ -84,7 +84,7 @@ TEST_F(AnyValueComposerComponentsTests, StartStructComposerComponentProcess)
 
 TEST_F(AnyValueComposerComponentsTests, StartStructBuildNodeProcessAddMember)
 {
-  StartStructComposerComponent node("struct_name");
+  StartStructValueComposerComponent node("struct_name");
 
   // adding a field to struct
   EXPECT_NO_THROW(
@@ -99,17 +99,17 @@ TEST_F(AnyValueComposerComponentsTests, StartStructBuildNodeProcessAddMember)
 
 TEST_F(AnyValueComposerComponentsTests, StartFieldComposerComponentProcess)
 {
-  StartFieldComposerComponent node("field_name");
+  StartFieldValueComposerComponent node("field_name");
   EXPECT_EQ(node.GetFieldName(), std::string("field_name"));
-  EXPECT_EQ(node.GetComponentType(), AbstractComposerComponent::Type::kStartField);
+  EXPECT_EQ(node.GetComponentType(), AbstractValueComposerComponent::Type::kStartField);
 
   // processing of empty stack is not allowed
-  std::stack<AbstractComposerComponent::component_t> stack;
+  std::stack<AbstractValueComposerComponent::component_t> stack;
   EXPECT_THROW(node.Process(stack), sup::dto::MessageException);
 
   // stack is possible to process if it contains StartStructBuildNode
-  stack.push(std::unique_ptr<StartStructComposerComponent>(
-      new StartStructComposerComponent(std::string())));
+  stack.push(std::unique_ptr<StartStructValueComposerComponent>(
+      new StartStructValueComposerComponent(std::string())));
   EXPECT_TRUE(node.Process(stack));
 
   // field name should be set
@@ -119,21 +119,21 @@ TEST_F(AnyValueComposerComponentsTests, StartFieldComposerComponentProcess)
 
 TEST_F(AnyValueComposerComponentsTests, EndFieldComposerComponentProcess)
 {
-  EndFieldComposerComponent node;
-  EXPECT_EQ(node.GetComponentType(), AbstractComposerComponent::Type::kEndField);
+  EndFieldValueComposerComponent node;
+  EXPECT_EQ(node.GetComponentType(), AbstractValueComposerComponent::Type::kEndField);
 
   {
     // processing of empty stack is not allowed
-    std::stack<AbstractComposerComponent::component_t> stack;
+    std::stack<AbstractValueComposerComponent::component_t> stack;
     EXPECT_THROW(node.Process(stack), sup::dto::MessageException);
   }
 
   {
-    std::stack<AbstractComposerComponent::component_t> stack;
-    stack.push(std::unique_ptr<StartStructComposerComponent>(
-        new StartStructComposerComponent("struct_name")));
-    stack.push(std::unique_ptr<StartFieldComposerComponent>(
-        new StartFieldComposerComponent("field_name")));
+    std::stack<AbstractValueComposerComponent::component_t> stack;
+    stack.push(std::unique_ptr<StartStructValueComposerComponent>(
+        new StartStructValueComposerComponent("struct_name")));
+    stack.push(std::unique_ptr<StartFieldValueComposerComponent>(
+        new StartFieldValueComposerComponent("field_name")));
     stack.push(std::unique_ptr<ValueComposerComponent>(
         new ValueComposerComponent(sup::dto::AnyValue{sup::dto::SignedInteger32Type, 42})));
 
@@ -150,18 +150,18 @@ TEST_F(AnyValueComposerComponentsTests, EndFieldComposerComponentProcess)
 
 TEST_F(AnyValueComposerComponentsTests, EndStructComposerComponentProcess)
 {
-  EndStructComposerComponent node;
-  EXPECT_EQ(node.GetComponentType(), AbstractComposerComponent::Type::kEndStruct);
+  EndStructValueComposerComponent node;
+  EXPECT_EQ(node.GetComponentType(), AbstractValueComposerComponent::Type::kEndStruct);
 
   {  // processing of empty stack is not allowed
-    std::stack<AbstractComposerComponent::component_t> stack;
+    std::stack<AbstractValueComposerComponent::component_t> stack;
     EXPECT_THROW(node.Process(stack), sup::dto::MessageException);
   }
 
   {
-    std::stack<AbstractComposerComponent::component_t> stack;
-    stack.push(std::unique_ptr<StartStructComposerComponent>(
-        new StartStructComposerComponent("struct_name")));
+    std::stack<AbstractValueComposerComponent::component_t> stack;
+    stack.push(std::unique_ptr<StartStructValueComposerComponent>(
+        new StartStructValueComposerComponent("struct_name")));
 
     // as a result of stack processing, the StartStructBuildNode should be removed, it's value
     // consumed
@@ -177,21 +177,21 @@ TEST_F(AnyValueComposerComponentsTests, EndStructComposerComponentProcess)
 
 TEST_F(AnyValueComposerComponentsTests, StartArrayComposerComponentProcess)
 {
-  StartArrayComposerComponent node("array_name");
-  EXPECT_EQ(node.GetComponentType(), AbstractComposerComponent::Type::kStartArray);
+  StartArrayValueComposerComponent node("array_name");
+  EXPECT_EQ(node.GetComponentType(), AbstractValueComposerComponent::Type::kStartArray);
 
   // processing empty stack
-  std::stack<AbstractComposerComponent::component_t> stack;
+  std::stack<AbstractValueComposerComponent::component_t> stack;
   EXPECT_TRUE(node.Process(stack));
 
   // processing stack containing another struct is not possible
-  stack.push(std::unique_ptr<StartStructComposerComponent>(
-      new StartStructComposerComponent(std::string())));
+  stack.push(std::unique_ptr<StartStructValueComposerComponent>(
+      new StartStructValueComposerComponent(std::string())));
   EXPECT_THROW(node.Process(stack), sup::dto::MessageException);
 
   // processing stack containing a field
   stack.push(
-      std::unique_ptr<StartFieldComposerComponent>(new StartFieldComposerComponent("field_name")));
+      std::unique_ptr<StartFieldValueComposerComponent>(new StartFieldValueComposerComponent("field_name")));
   EXPECT_TRUE(node.Process(stack));
 
   // at the beginning, StartArrayBuildNode doesn't contain valid AnyValue since it waits the first
@@ -203,8 +203,8 @@ TEST_F(AnyValueComposerComponentsTests, StartArrayComposerComponentProcess)
 //! Testing StartArrayBuildNode::AddElement method.
 TEST_F(AnyValueComposerComponentsTests, StartArrayBuildNodeAddElement)
 {
-  StartArrayComposerComponent node("array_name");
-  EXPECT_EQ(node.GetComponentType(), AbstractComposerComponent::Type::kStartArray);
+  StartArrayValueComposerComponent node("array_name");
+  EXPECT_EQ(node.GetComponentType(), AbstractValueComposerComponent::Type::kStartArray);
 
   // adding an element to the array
   EXPECT_NO_THROW(node.AddElement(sup::dto::AnyValue{sup::dto::SignedInteger32Type, 42}));
@@ -218,39 +218,39 @@ TEST_F(AnyValueComposerComponentsTests, StartArrayBuildNodeAddElement)
 //! Testing StartArrayElementBuildNode and its Process method.
 TEST_F(AnyValueComposerComponentsTests, StartArrayElementComposerComponentProcess)
 {
-  StartArrayElementComposerComponent node;
-  EXPECT_EQ(node.GetComponentType(), AbstractComposerComponent::Type::kStartArrayElement);
+  StartArrayElementValueComposerComponent node;
+  EXPECT_EQ(node.GetComponentType(), AbstractValueComposerComponent::Type::kStartArrayElement);
 
   // processing of empty stack is not allowed
-  std::stack<AbstractComposerComponent::component_t> stack;
+  std::stack<AbstractValueComposerComponent::component_t> stack;
   EXPECT_THROW(node.Process(stack), sup::dto::MessageException);
 
   // stack is possible to process if it contains StartArrayBuildNode
   stack.push(
-      std::unique_ptr<StartArrayComposerComponent>(new StartArrayComposerComponent(std::string())));
+      std::unique_ptr<StartArrayValueComposerComponent>(new StartArrayValueComposerComponent(std::string())));
   EXPECT_TRUE(node.Process(stack));
 }
 
 //! Testing EndArrayElementBuildNode and its Process method.
 TEST_F(AnyValueComposerComponentsTests, EndArrayElementComposerComponentProcess)
 {
-  EndArrayElementComposerComponent node;
-  EXPECT_EQ(node.GetComponentType(), AbstractComposerComponent::Type::kEndArrayElement);
+  EndArrayElementValueComposerComponent node;
+  EXPECT_EQ(node.GetComponentType(), AbstractValueComposerComponent::Type::kEndArrayElement);
 
   // processing of empty stack is not allowed
   {
-    std::stack<AbstractComposerComponent::component_t> stack;
+    std::stack<AbstractValueComposerComponent::component_t> stack;
     EXPECT_THROW(node.Process(stack), sup::dto::MessageException);
   }
 
   // stack should contains proper nodes for processing
   {
-    std::stack<AbstractComposerComponent::component_t> stack;
+    std::stack<AbstractValueComposerComponent::component_t> stack;
 
-    stack.push(std::unique_ptr<StartArrayComposerComponent>(
-        new StartArrayComposerComponent("array_name")));
-    stack.push(std::unique_ptr<StartArrayElementComposerComponent>(
-        new StartArrayElementComposerComponent()));
+    stack.push(std::unique_ptr<StartArrayValueComposerComponent>(
+        new StartArrayValueComposerComponent("array_name")));
+    stack.push(std::unique_ptr<StartArrayElementValueComposerComponent>(
+        new StartArrayElementValueComposerComponent()));
     stack.push(std::unique_ptr<ValueComposerComponent>(
         new ValueComposerComponent(sup::dto::AnyValue{sup::dto::SignedInteger32Type, 42})));
 
@@ -269,18 +269,18 @@ TEST_F(AnyValueComposerComponentsTests, EndArrayElementComposerComponentProcess)
 
 TEST_F(AnyValueComposerComponentsTests, EndArrayComposerComponentProcess)
 {
-  EndArrayComposerComponent node;
-  EXPECT_EQ(node.GetComponentType(), AbstractComposerComponent::Type::kEndArray);
+  EndArrayValueComposerComponent node;
+  EXPECT_EQ(node.GetComponentType(), AbstractValueComposerComponent::Type::kEndArray);
 
   {  // processing of empty stack is not allowed
-    std::stack<AbstractComposerComponent::component_t> stack;
+    std::stack<AbstractValueComposerComponent::component_t> stack;
     EXPECT_THROW(node.Process(stack), sup::dto::MessageException);
   }
 
   {
-    std::stack<AbstractComposerComponent::component_t> stack;
-    stack.push(std::unique_ptr<StartArrayComposerComponent>(
-        new StartArrayComposerComponent("array_name")));
+    std::stack<AbstractValueComposerComponent::component_t> stack;
+    stack.push(std::unique_ptr<StartArrayValueComposerComponent>(
+        new StartArrayValueComposerComponent("array_name")));
 
     // as a result of stack processing, the StartStructBuildNode should be removed, it's value
     // consumed

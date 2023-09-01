@@ -25,7 +25,7 @@
 //! @file anyvalue_composer_components.h
 //! Collection of classes representing components for AnyValueComposer.
 
-#include <sup/dto/composer/abstract_composer_component.h>
+#include <sup/dto/composer/abstract_value_composer_component.h>
 
 #include <string>
 
@@ -37,7 +37,7 @@ namespace dto
 //! The component to build AnyValue. Used when a single scalar is necessary, or during adding the
 //! structure's field or the element of the array.
 
-class ValueComposerComponent : public AbstractComposerComponent
+class ValueComposerComponent : public AbstractValueComposerComponent
 {
 public:
   ValueComposerComponent(const sup::dto::AnyValue& value);
@@ -49,10 +49,10 @@ public:
 
 //! The component which is created at the start of the structure.
 
-class StartStructComposerComponent : public AbstractComposerComponent
+class StartStructValueComposerComponent : public AbstractValueComposerComponent
 {
 public:
-  StartStructComposerComponent(const std::string& struct_name);
+  StartStructValueComposerComponent(const std::string& struct_name);
 
   Type GetComponentType() const override;
 
@@ -63,7 +63,7 @@ public:
 
 //! The component which is created at the end of the structure.
 
-class EndStructComposerComponent : public AbstractComposerComponent
+class EndStructValueComposerComponent : public AbstractValueComposerComponent
 {
 public:
   Type GetComponentType() const override;
@@ -73,10 +73,10 @@ public:
 
 //! The component which is created at the beginning of the field creation.
 
-class StartFieldComposerComponent : public AbstractComposerComponent
+class StartFieldValueComposerComponent : public AbstractValueComposerComponent
 {
 public:
-  explicit StartFieldComposerComponent(const std::string& field_name);
+  explicit StartFieldValueComposerComponent(const std::string& field_name);
 
   Type GetComponentType() const override;
 
@@ -85,7 +85,7 @@ public:
 
 //! The component which is created at the end of the field creation.
 
-class EndFieldComposerComponent : public AbstractComposerComponent
+class EndFieldValueComposerComponent : public AbstractValueComposerComponent
 {
 public:
   Type GetComponentType() const override;
@@ -95,10 +95,10 @@ public:
 
 //! The component which is created at the start of the array.
 
-class StartArrayComposerComponent : public AbstractComposerComponent
+class StartArrayValueComposerComponent : public AbstractValueComposerComponent
 {
 public:
-  StartArrayComposerComponent(const std::string& array_name);
+  StartArrayValueComposerComponent(const std::string& array_name);
 
   Type GetComponentType() const override;
 
@@ -112,7 +112,7 @@ private:
 
 //! The component which is created at the end of the array.
 
-class EndArrayComposerComponent : public AbstractComposerComponent
+class EndArrayValueComposerComponent : public AbstractValueComposerComponent
 {
 public:
   Type GetComponentType() const override;
@@ -122,7 +122,7 @@ public:
 
 //! The component which is created at the start of the element in the array.
 
-class StartArrayElementComposerComponent : public AbstractComposerComponent
+class StartArrayElementValueComposerComponent : public AbstractValueComposerComponent
 {
 public:
   Type GetComponentType() const override;
@@ -132,7 +132,7 @@ public:
 
 //! The component which is created at the start of the element in the array.
 
-class EndArrayElementComposerComponent : public AbstractComposerComponent
+class EndArrayElementValueComposerComponent : public AbstractValueComposerComponent
 {
 public:
   Type GetComponentType() const override;

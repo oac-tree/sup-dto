@@ -23,9 +23,9 @@
 #define SUP_DTO_COMPOSER_ANYVALUE_COMPOSER_HELPER_H_
 
 //! @file anyvalue_composer_helper.h
-//! Collection of utility functions to support AbstractComposerComponent and derived.
+//! Collection of utility functions to support AbstractValueComposerComponent and derived.
 
-#include <sup/dto/composer/abstract_composer_component.h>
+#include <sup/dto/composer/abstract_value_composer_component.h>
 
 namespace sup
 {
@@ -35,19 +35,19 @@ namespace dto
 //! Returns true if it is possible to add value component. This will be the case in one of three
 //! cases: 1) the stack is empty 2) last component denotes the start of the structure's field 3)
 //! last component denotes denotes the start of the array's element.
-bool CanAddValueComponent(const std::stack<AbstractComposerComponent::component_t>& stack);
+bool CanAddValueComponent(const std::stack<AbstractValueComposerComponent::component_t>& stack);
 
 //! Validates if adding of value component is possible for this stack configuration, and throws if
 //! it is not.
-void ValidateAddValueComponent(const std::stack<AbstractComposerComponent::component_t>& stack);
+void ValidateAddValueComponent(const std::stack<AbstractValueComposerComponent::component_t>& stack);
 
 //! Validate if the last value in a stack has given type, will throw if not.
-void ValidateLastComponent(const std::stack<AbstractComposerComponent::component_t>& stack,
-                           AbstractComposerComponent::Type component_type);
+void ValidateLastComponent(const std::stack<AbstractValueComposerComponent::component_t>& stack,
+                           AbstractValueComposerComponent::Type component_type);
 
 //! Returns true if the last component corresponds to a completed value component.
 void ValidateIfValueComponentIsComplete(
-    const std::stack<AbstractComposerComponent::component_t>& stack);
+    const std::stack<AbstractValueComposerComponent::component_t>& stack);
 
 }  // namespace dto
 

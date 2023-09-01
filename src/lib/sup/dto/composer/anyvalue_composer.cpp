@@ -36,7 +36,7 @@ namespace dto
 
 struct AnyValueComposer::AnyValueComposerImpl
 {
-  std::stack<AbstractComposerComponent::component_t> m_stack;
+  std::stack<AbstractValueComposerComponent::component_t> m_stack;
 
   template <typename T, typename... Args>
   void ProcessComponent(Args &&...args)
@@ -156,22 +156,22 @@ void AnyValueComposer::AddValue(const sup::dto::AnyValue &anyvalue)
 
 void AnyValueComposer::StartStruct(const std::string &struct_name)
 {
-  p_impl->ProcessComponent<StartStructComposerComponent>(struct_name);
+  p_impl->ProcessComponent<StartStructValueComposerComponent>(struct_name);
 }
 
 void AnyValueComposer::EndStruct()
 {
-  p_impl->ProcessComponent<EndStructComposerComponent>();
+  p_impl->ProcessComponent<EndStructValueComposerComponent>();
 }
 
 void AnyValueComposer::StartField(const std::string &field_name)
 {
-  p_impl->ProcessComponent<StartFieldComposerComponent>(field_name);
+  p_impl->ProcessComponent<StartFieldValueComposerComponent>(field_name);
 }
 
 void AnyValueComposer::EndField()
 {
-  p_impl->ProcessComponent<EndFieldComposerComponent>();
+  p_impl->ProcessComponent<EndFieldValueComposerComponent>();
 }
 
 //! Adds member with given name to the structure.
@@ -187,17 +187,17 @@ void AnyValueComposer::AddMember(const std::string &name, sup::dto::AnyValue any
 
 void AnyValueComposer::StartArray(const std::string &array_name)
 {
-  p_impl->ProcessComponent<StartArrayComposerComponent>(array_name);
+  p_impl->ProcessComponent<StartArrayValueComposerComponent>(array_name);
 }
 
 void AnyValueComposer::StartArrayElement()
 {
-  p_impl->ProcessComponent<StartArrayElementComposerComponent>();
+  p_impl->ProcessComponent<StartArrayElementValueComposerComponent>();
 }
 
 void AnyValueComposer::EndArrayElement()
 {
-  p_impl->ProcessComponent<EndArrayElementComposerComponent>();
+  p_impl->ProcessComponent<EndArrayElementValueComposerComponent>();
 }
 
 //! Adds array element.
@@ -213,7 +213,7 @@ void AnyValueComposer::AddArrayElement(const sup::dto::AnyValue &anyvalue)
 
 void AnyValueComposer::EndArray()
 {
-  p_impl->ProcessComponent<EndArrayComposerComponent>();
+  p_impl->ProcessComponent<EndArrayValueComposerComponent>();
 }
 
 int AnyValueComposer::GetStackSize() const

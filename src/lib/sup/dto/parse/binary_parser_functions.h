@@ -50,6 +50,8 @@ T ParseBinaryScalarT(ByteIterator& it, const ByteIterator& end)
 
 std::string ParseBinaryString(ByteIterator& it, const ByteIterator& end);
 
+sup::dto::uint64 ParseSize(ByteIterator& it, const ByteIterator& end);
+
 }  // namespace dto
 
 }  // namespace sup

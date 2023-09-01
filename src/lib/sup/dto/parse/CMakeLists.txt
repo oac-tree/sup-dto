@@ -13,8 +13,8 @@ target_sources(sup-dto-obj
     anyvalue_value_builder.cpp
     arrayvalue_buildnode.cpp
     binary_parser_functions.cpp
-    binary_parser_helper.cpp
     binary_parser.cpp
+    binary_value_parser_helper.cpp
     byteparser.cpp
     i_any_buildnode.cpp
     json_type_parser.cpp

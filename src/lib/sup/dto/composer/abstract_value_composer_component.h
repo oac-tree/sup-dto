@@ -35,11 +35,11 @@ namespace dto
 
 //! The component for AnyValueComposer to build AnyValue.
 
-class AbstractComposerComponent
+class AbstractValueComposerComponent
 {
 public:
-  virtual ~AbstractComposerComponent() = default;
-  using component_t = std::unique_ptr<AbstractComposerComponent>;
+  virtual ~AbstractValueComposerComponent() = default;
+  using component_t = std::unique_ptr<AbstractValueComposerComponent>;
 
   enum class Type
   {
@@ -54,8 +54,8 @@ public:
     kEndArrayElement
   };
 
-  AbstractComposerComponent();
-  AbstractComposerComponent(const sup::dto::AnyValue& value);
+  AbstractValueComposerComponent();
+  AbstractValueComposerComponent(const sup::dto::AnyValue& value);
 
   virtual Type GetComponentType() const = 0;
 

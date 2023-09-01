@@ -53,6 +53,12 @@ std::string ParseBinaryString(ByteIterator& it, const ByteIterator& end)
   return result;
 }
 
+sup::dto::uint64 ParseSize(ByteIterator& it, const ByteIterator& end)
+{
+  return ParseBinaryScalarT<sup::dto::uint64>(it, end);
+}
+
+
 }  // namespace dto
 
 }  // namespace sup
@@ -73,6 +79,6 @@ std::size_t ParseBinaryStringSize(ByteIterator& it, const ByteIterator& end)
   }
   // No test is done to check that the current token is LONG_SIZE_TOKEN, since the
   // current value of the limit is 0xFF.
-  return ParseBinaryScalarT<std::size_t>(it, end);
+  return ParseSize(it, end);
 }
 }

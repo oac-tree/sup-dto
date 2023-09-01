@@ -20,53 +20,53 @@
  ******************************************************************************/
 
 #include <sup/dto/anyvalue_exceptions.h>
-#include <sup/dto/composer/abstract_composer_component.h>
+#include <sup/dto/composer/abstract_value_composer_component.h>
 
 namespace sup
 {
 namespace dto
 {
 
-AbstractComposerComponent::AbstractComposerComponent() : m_value(), m_field_name() {}
+AbstractValueComposerComponent::AbstractValueComposerComponent() : m_value(), m_field_name() {}
 
-AbstractComposerComponent::AbstractComposerComponent(const sup::dto::AnyValue &value)
+AbstractValueComposerComponent::AbstractValueComposerComponent(const sup::dto::AnyValue &value)
     : m_value(value), m_field_name()
 {
 }
 
-void AbstractComposerComponent::Consume(sup::dto::AnyValue &&value)
+void AbstractValueComposerComponent::Consume(sup::dto::AnyValue &&value)
 {
   m_value = std::move(value);
 }
 
-sup::dto::AnyValue AbstractComposerComponent::MoveAnyValue()
+sup::dto::AnyValue AbstractValueComposerComponent::MoveAnyValue()
 {
   return std::move(m_value);
 }
 
-std::string AbstractComposerComponent::GetFieldName() const
+std::string AbstractValueComposerComponent::GetFieldName() const
 {
   return m_field_name;
 }
 
-void AbstractComposerComponent::SetFieldName(const std::string &name)
+void AbstractValueComposerComponent::SetFieldName(const std::string &name)
 {
   m_field_name = name;
 }
 
-void AbstractComposerComponent::AddMember(const std::string &name, const sup::dto::AnyValue &value)
+void AbstractValueComposerComponent::AddMember(const std::string &name, const sup::dto::AnyValue &value)
 {
   (void)name;
   (void)value;
   throw sup::dto::ParseException(
-      "Error in AbstractComposerComponent::AddMember() : not implemented");
+      "Error in AbstractValueComposerComponent::AddMember() : not implemented");
 }
 
-void AbstractComposerComponent::AddElement(const sup::dto::AnyValue &value)
+void AbstractValueComposerComponent::AddElement(const sup::dto::AnyValue &value)
 {
   (void)value;
   throw sup::dto::ParseException(
-      "Error in AbstractComposerComponent::AddMember() : not implemented");
+      "Error in AbstractValueComposerComponent::AddMember() : not implemented");
 }
 
 }  // namespace dto

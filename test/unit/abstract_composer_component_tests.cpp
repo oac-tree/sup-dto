@@ -19,7 +19,7 @@
  * of the distribution package.
  ******************************************************************************/
 
-#include "sup/dto/composer/abstract_composer_component.h"
+#include "sup/dto/composer/abstract_value_composer_component.h"
 
 #include <gtest/gtest.h>
 #include <sup/dto/anytype.h>
@@ -34,11 +34,11 @@ using namespace sup::dto;
 class AbstractComposerComponentTests : public ::testing::Test
 {
 public:
-  class TestComponent : public AbstractComposerComponent
+  class TestComponent : public AbstractValueComposerComponent
   {
   public:
     TestComponent() = default;
-    TestComponent(sup::dto::AnyValue&& value) : AbstractComposerComponent(std::move(value)) {}
+    TestComponent(sup::dto::AnyValue&& value) : AbstractValueComposerComponent(std::move(value)) {}
 
     Type GetComponentType() const override { return Type::kValue; }
     bool Process(std::stack<component_t>&) override { return false; }
@@ -52,7 +52,7 @@ TEST_F(AbstractComposerComponentTests, InitialState)
   TestComponent node;
   EXPECT_TRUE(node.GetFieldName().empty());
 
-  std::stack<AbstractComposerComponent::component_t> stack;
+  std::stack<AbstractValueComposerComponent::component_t> stack;
   EXPECT_FALSE(node.Process(stack));
 
   EXPECT_THROW(node.AddMember("name", sup::dto::AnyValue()), sup::dto::MessageException);

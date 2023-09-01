@@ -19,7 +19,7 @@
  * of the distribution package.
  ******************************************************************************/
 
-#include "binary_parser_helper.h"
+#include "binary_value_parser_helper.h"
 
 #include <sup/dto/serialize/binary_tokens.h>
 
@@ -28,79 +28,79 @@ namespace sup
 namespace dto
 {
 
-BinaryParserHelper::BinaryParserHelper()
+BinaryValueParserHelper::BinaryValueParserHelper()
   : m_composer{}
   , m_parse_states{}
 {}
 
-bool BinaryParserHelper::HandleToken(ByteIterator& it, const ByteIterator& end)
+bool BinaryValueParserHelper::HandleToken(ByteIterator& it, const ByteIterator& end)
 {
   auto token = FetchToken(it);
   auto handler_func = GetHandlerMemberFunction(token);
   if (!handler_func)
   {
-    std::string error = "BinaryParserHelper::HandleToken(): encountered unknown token: " +
+    std::string error = "BinaryValueParserHelper::HandleToken(): encountered unknown token: " +
       std::to_string(token);
     throw ParseException(error);
   }
   return handler_func(*this, it, end);
 }
 
-AnyValue BinaryParserHelper::MoveAnyValue()
+AnyValue BinaryValueParserHelper::MoveAnyValue()
 {
   if (GetCurrentState() != ParseState::kNone)
   {
-    std::string error = "BinaryParserHelper::MoveAnyValue(): parsing was not complete";
+    std::string error = "BinaryValueParserHelper::MoveAnyValue(): parsing was not complete";
     throw ParseException(error);
   }
   return m_composer.MoveAnyValue();
 }
 
-std::array<BinaryParserHelper::HandlerMemberFunction, 0x100>
-BinaryParserHelper::CreateHandlerMemberFunctionArray()
+std::array<BinaryValueParserHelper::HandlerMemberFunction, 0x100>
+BinaryValueParserHelper::CreateHandlerMemberFunctionArray()
 {
-  std::array<BinaryParserHelper::HandlerMemberFunction, 0x100> result;
-  result[EMPTY_TOKEN] = &BinaryParserHelper::HandleEmpty;
+  std::array<BinaryValueParserHelper::HandlerMemberFunction, 0x100> result;
+  result[EMPTY_TOKEN] = &BinaryValueParserHelper::HandleEmpty;
   result[BOOL_TOKEN] =
-    &BinaryParserHelper::HandleScalar<sup::dto::boolean, &AnyValueComposer::Bool>;
+    &BinaryValueParserHelper::HandleScalar<sup::dto::boolean, &AnyValueComposer::Bool>;
   result[CHAR8_TOKEN] =
-    &BinaryParserHelper::HandleScalar<sup::dto::char8, &AnyValueComposer::Char8>;
+    &BinaryValueParserHelper::HandleScalar<sup::dto::char8, &AnyValueComposer::Char8>;
   result[INT8_TOKEN] =
-    &BinaryParserHelper::HandleScalar<sup::dto::int8, &AnyValueComposer::Int8>;
+    &BinaryValueParserHelper::HandleScalar<sup::dto::int8, &AnyValueComposer::Int8>;
   result[UINT8_TOKEN] =
-    &BinaryParserHelper::HandleScalar<sup::dto::uint8, &AnyValueComposer::UInt8>;
+    &BinaryValueParserHelper::HandleScalar<sup::dto::uint8, &AnyValueComposer::UInt8>;
   result[INT16_TOKEN] =
-    &BinaryParserHelper::HandleScalar<sup::dto::int16, &AnyValueComposer::Int16>;
+    &BinaryValueParserHelper::HandleScalar<sup::dto::int16, &AnyValueComposer::Int16>;
   result[UINT16_TOKEN] =
-    &BinaryParserHelper::HandleScalar<sup::dto::uint16, &AnyValueComposer::UInt16>;
+    &BinaryValueParserHelper::HandleScalar<sup::dto::uint16, &AnyValueComposer::UInt16>;
   result[INT32_TOKEN] =
-    &BinaryParserHelper::HandleScalar<sup::dto::int32, &AnyValueComposer::Int32>;
+    &BinaryValueParserHelper::HandleScalar<sup::dto::int32, &AnyValueComposer::Int32>;
   result[UINT32_TOKEN] =
-    &BinaryParserHelper::HandleScalar<sup::dto::uint32, &AnyValueComposer::UInt32>;
+    &BinaryValueParserHelper::HandleScalar<sup::dto::uint32, &AnyValueComposer::UInt32>;
   result[INT64_TOKEN] =
-    &BinaryParserHelper::HandleScalar<sup::dto::int64, &AnyValueComposer::Int64>;
+    &BinaryValueParserHelper::HandleScalar<sup::dto::int64, &AnyValueComposer::Int64>;
   result[UINT64_TOKEN] =
-    &BinaryParserHelper::HandleScalar<sup::dto::uint64, &AnyValueComposer::UInt64>;
+    &BinaryValueParserHelper::HandleScalar<sup::dto::uint64, &AnyValueComposer::UInt64>;
   result[FLOAT32_TOKEN] =
-    &BinaryParserHelper::HandleScalar<sup::dto::float32, &AnyValueComposer::Float32>;
+    &BinaryValueParserHelper::HandleScalar<sup::dto::float32, &AnyValueComposer::Float32>;
   result[FLOAT64_TOKEN] =
-    &BinaryParserHelper::HandleScalar<sup::dto::float64, &AnyValueComposer::Float64>;
-  result[STRING_TOKEN] = &BinaryParserHelper::HandleString;
-  result[START_STRUCT_TOKEN] = &BinaryParserHelper::HandleStartStruct;
-  result[END_STRUCT_TOKEN] = &BinaryParserHelper::HandleEndStruct;
-  result[START_ARRAY_TOKEN] = &BinaryParserHelper::HandleStartArray;
-  result[END_ARRAY_TOKEN] = &BinaryParserHelper::HandleEndArray;
+    &BinaryValueParserHelper::HandleScalar<sup::dto::float64, &AnyValueComposer::Float64>;
+  result[STRING_TOKEN] = &BinaryValueParserHelper::HandleString;
+  result[START_STRUCT_TOKEN] = &BinaryValueParserHelper::HandleStartStruct;
+  result[END_STRUCT_TOKEN] = &BinaryValueParserHelper::HandleEndStruct;
+  result[START_ARRAY_TOKEN] = &BinaryValueParserHelper::HandleStartArray;
+  result[END_ARRAY_TOKEN] = &BinaryValueParserHelper::HandleEndArray;
   return result;
 }
 
-BinaryParserHelper::HandlerMemberFunction
-BinaryParserHelper::GetHandlerMemberFunction(sup::dto::uint8 token)
+BinaryValueParserHelper::HandlerMemberFunction
+BinaryValueParserHelper::GetHandlerMemberFunction(sup::dto::uint8 token)
 {
   static auto functions = CreateHandlerMemberFunctionArray();
   return functions[token];
 }
 
-ParseState BinaryParserHelper::GetCurrentState() const
+ParseState BinaryValueParserHelper::GetCurrentState() const
 {
   if (m_parse_states.empty())
   {
@@ -109,7 +109,7 @@ ParseState BinaryParserHelper::GetCurrentState() const
   return m_parse_states.top();
 }
 
-void BinaryParserHelper::PushState()
+void BinaryValueParserHelper::PushState()
 {
   auto current_state = GetCurrentState();
   // Only arrays need to be handled here, structures do this during the field name parsing.
@@ -120,7 +120,7 @@ void BinaryParserHelper::PushState()
   }
 }
 
-bool BinaryParserHelper::PopState()
+bool BinaryValueParserHelper::PopState()
 {
   auto current_state = GetCurrentState();
   if (current_state == ParseState::kNone)
@@ -142,7 +142,7 @@ bool BinaryParserHelper::PopState()
   return false;
 }
 
-bool BinaryParserHelper::HandleEmpty(ByteIterator& it, const ByteIterator& end)
+bool BinaryValueParserHelper::HandleEmpty(ByteIterator& it, const ByteIterator& end)
 {
   (void)it;
   (void)end;
@@ -152,7 +152,7 @@ bool BinaryParserHelper::HandleEmpty(ByteIterator& it, const ByteIterator& end)
 }
 
 // HandleString is not intented to be called during parsing of struct/array typenames
-bool BinaryParserHelper::HandleString(ByteIterator& it, const ByteIterator& end)
+bool BinaryValueParserHelper::HandleString(ByteIterator& it, const ByteIterator& end)
 {
   auto str = ParseBinaryString(it, end);
   auto current_state = GetCurrentState();
@@ -167,7 +167,7 @@ bool BinaryParserHelper::HandleString(ByteIterator& it, const ByteIterator& end)
   return PopState();
 }
 
-bool BinaryParserHelper::HandleStartStruct(ByteIterator& it, const ByteIterator& end)
+bool BinaryValueParserHelper::HandleStartStruct(ByteIterator& it, const ByteIterator& end)
 {
   if (it == end || FetchToken(it) != STRING_TOKEN)
   {
@@ -180,7 +180,7 @@ bool BinaryParserHelper::HandleStartStruct(ByteIterator& it, const ByteIterator&
   return true;
 }
 
-bool BinaryParserHelper::HandleEndStruct(ByteIterator& it, const ByteIterator& end)
+bool BinaryValueParserHelper::HandleEndStruct(ByteIterator& it, const ByteIterator& end)
 {
   (void)it;
   (void)end;
@@ -193,7 +193,7 @@ bool BinaryParserHelper::HandleEndStruct(ByteIterator& it, const ByteIterator& e
   return PopState();
 }
 
-bool BinaryParserHelper::HandleStartArray(ByteIterator& it, const ByteIterator& end)
+bool BinaryValueParserHelper::HandleStartArray(ByteIterator& it, const ByteIterator& end)
 {
   if (it == end || FetchToken(it) != STRING_TOKEN)
   {
@@ -206,7 +206,7 @@ bool BinaryParserHelper::HandleStartArray(ByteIterator& it, const ByteIterator& 
   return true;
 }
 
-bool BinaryParserHelper::HandleEndArray(ByteIterator& it, const ByteIterator& end)
+bool BinaryValueParserHelper::HandleEndArray(ByteIterator& it, const ByteIterator& end)
 {
   (void)it;
   (void)end;

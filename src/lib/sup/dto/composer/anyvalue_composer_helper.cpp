@@ -32,14 +32,14 @@ namespace sup
 namespace dto
 {
 
-bool CanAddValueComponent(const std::stack<AbstractComposerComponent::component_t> &stack)
+bool CanAddValueComponent(const std::stack<AbstractValueComposerComponent::component_t> &stack)
 {
   if (stack.empty())
   {
     return true;
   }
 
-  using Type = AbstractComposerComponent::Type;
+  using Type = AbstractValueComposerComponent::Type;
   static const std::vector<Type> expected_types{Type::kStartArrayElement, Type::kStartField};
 
   auto it =
@@ -47,7 +47,7 @@ bool CanAddValueComponent(const std::stack<AbstractComposerComponent::component_
   return it != expected_types.end();
 }
 
-void ValidateAddValueComponent(const std::stack<AbstractComposerComponent::component_t> &stack)
+void ValidateAddValueComponent(const std::stack<AbstractValueComposerComponent::component_t> &stack)
 {
   if (!CanAddValueComponent(stack))
   {
@@ -66,8 +66,8 @@ void ValidateAddValueComponent(const std::stack<AbstractComposerComponent::compo
   }
 }
 
-void ValidateLastComponent(const std::stack<AbstractComposerComponent::component_t> &stack,
-                           AbstractComposerComponent::Type component_type)
+void ValidateLastComponent(const std::stack<AbstractValueComposerComponent::component_t> &stack,
+                           AbstractValueComposerComponent::Type component_type)
 {
   if (stack.empty() || stack.top()->GetComponentType() != component_type)
   {
@@ -77,7 +77,7 @@ void ValidateLastComponent(const std::stack<AbstractComposerComponent::component
 }
 
 void ValidateIfValueComponentIsComplete(
-    const std::stack<AbstractComposerComponent::component_t> &stack)
+    const std::stack<AbstractValueComposerComponent::component_t> &stack)
 {
   if (stack.empty())
   {
@@ -85,7 +85,7 @@ void ValidateIfValueComponentIsComplete(
         "Error in ValidateIfValueComponentIsComplete(): stack is empty");
   }
 
-  using Type = AbstractComposerComponent::Type;
+  using Type = AbstractValueComposerComponent::Type;
   static const std::vector<Type> expected_types{Type::kValue, Type::kEndStruct, Type::kEndArray};
 
   auto it =

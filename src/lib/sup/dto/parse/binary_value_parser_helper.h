@@ -44,11 +44,11 @@ enum class ParseState
   kInArrayElement
 };
 
-class BinaryParserHelper
+class BinaryValueParserHelper
 {
 public:
-  BinaryParserHelper();
-  ~BinaryParserHelper() = default;
+  BinaryValueParserHelper();
+  ~BinaryValueParserHelper() = default;
 
   bool HandleToken(ByteIterator& it, const ByteIterator& end);
 
@@ -56,7 +56,7 @@ public:
 
 private:
   using HandlerMemberFunction =
-    std::function<bool(BinaryParserHelper&, ByteIterator&, const ByteIterator&)>;
+    std::function<bool(BinaryValueParserHelper&, ByteIterator&, const ByteIterator&)>;
   static std::array<HandlerMemberFunction, 0x100> CreateHandlerMemberFunctionArray();
   static HandlerMemberFunction GetHandlerMemberFunction(sup::dto::uint8 token);
 
@@ -83,7 +83,7 @@ private:
 sup::dto::uint8 FetchToken(ByteIterator& it);
 
 template <typename T, void (AnyValueComposer::*mem_fun)(T) >
-bool BinaryParserHelper::HandleScalar(ByteIterator& it, const ByteIterator& end)
+bool BinaryValueParserHelper::HandleScalar(ByteIterator& it, const ByteIterator& end)
 {
   auto val = ParseBinaryScalarT<T>(it, end);
   PushState();
