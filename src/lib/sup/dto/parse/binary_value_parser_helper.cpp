@@ -219,11 +219,6 @@ bool BinaryValueParserHelper::HandleEndArray(ByteIterator& it, const ByteIterato
   return PopState();
 }
 
-sup::dto::uint8 FetchToken(ByteIterator& it)
-{
-  return *it++;
-}
-
 }  // namespace dto
 
 }  // namespace sup

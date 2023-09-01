@@ -71,8 +71,6 @@ private:
   bool HandleEndArray(ByteIterator& it, const ByteIterator& end);
 };
 
-sup::dto::uint8 FetchToken(ByteIterator& it);
-
 template <typename T, void (AnyValueComposer::*mem_fun)(T) >
 bool BinaryValueParserHelper::HandleScalar(ByteIterator& it, const ByteIterator& end)
 {

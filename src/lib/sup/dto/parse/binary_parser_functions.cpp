@@ -34,6 +34,11 @@ namespace sup
 namespace dto
 {
 
+sup::dto::uint8 FetchToken(ByteIterator& it)
+{
+  return *it++;
+}
+
 std::string ParseBinaryString(ByteIterator& it, const ByteIterator& end)
 {
   auto str_size = ParseBinaryStringSize(it, end);

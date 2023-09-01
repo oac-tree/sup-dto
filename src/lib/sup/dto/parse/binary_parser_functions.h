@@ -29,6 +29,9 @@ namespace sup
 {
 namespace dto
 {
+
+sup::dto::uint8 FetchToken(ByteIterator& it);
+
 template <typename T>
 T ParseBinaryScalarT(ByteIterator& it, const ByteIterator& end)
 {
