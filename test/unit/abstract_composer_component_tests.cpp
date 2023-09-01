@@ -55,8 +55,8 @@ TEST_F(AbstractComposerComponentTests, InitialState)
   std::stack<AbstractValueComposerComponent::component_t> stack;
   EXPECT_FALSE(node.Process(stack));
 
-  EXPECT_THROW(node.AddMember("name", sup::dto::AnyValue()), sup::dto::MessageException);
-  EXPECT_THROW(node.AddElement(sup::dto::AnyValue()), sup::dto::MessageException);
+  EXPECT_THROW(node.AddMember("name", sup::dto::AnyValue()), sup::dto::ParseException);
+  EXPECT_THROW(node.AddElement(sup::dto::AnyValue()), sup::dto::ParseException);
 }
 
 TEST_F(AbstractComposerComponentTests, MoveAnyValue)

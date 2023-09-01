@@ -85,7 +85,7 @@ TEST_F(AnyValueComposerHelperTests, ValidateAddValueComponent)
     std::stack<AbstractValueComposerComponent::component_t> stack;
     stack.push(
         std::unique_ptr<StartStructValueComposerComponent>(new StartStructValueComposerComponent("name")));
-    EXPECT_THROW(ValidateAddValueComponent(stack), sup::dto::MessageException);
+    EXPECT_THROW(ValidateAddValueComponent(stack), sup::dto::ParseException);
   }
 
   // More tests above in CanAddValueComponent::CanAddValueComponent.
@@ -97,13 +97,13 @@ TEST_F(AnyValueComposerHelperTests, ValidateLastComponent)
 {
   std::stack<AbstractValueComposerComponent::component_t> stack;
   EXPECT_THROW(ValidateLastComponent(stack, AbstractValueComposerComponent::Type::kStartArray),
-               sup::dto::MessageException);
+               sup::dto::ParseException);
 
   stack.push(
       std::unique_ptr<StartStructValueComposerComponent>(new StartStructValueComposerComponent("name")));
   EXPECT_NO_THROW(ValidateLastComponent(stack, AbstractValueComposerComponent::Type::kStartStruct));
   EXPECT_THROW(ValidateLastComponent(stack, AbstractValueComposerComponent::Type::kStartArray),
-               sup::dto::MessageException);
+               sup::dto::ParseException);
 }
 
 //! Unit tests for ValidateIfValueComponentIsComplete utility function.
@@ -111,7 +111,7 @@ TEST_F(AnyValueComposerHelperTests, ValidateLastComponent)
 TEST_F(AnyValueComposerHelperTests, ValidateIfValueComponentIsComplete)
 {
   std::stack<AbstractValueComposerComponent::component_t> stack;
-  EXPECT_THROW(ValidateIfValueComponentIsComplete(stack), sup::dto::MessageException);
+  EXPECT_THROW(ValidateIfValueComponentIsComplete(stack), sup::dto::ParseException);
 
   EXPECT_NO_THROW(CheckAddValueComponent<EndStructValueComposerComponent>());
   EXPECT_NO_THROW(CheckAddValueComponent<EndArrayValueComposerComponent>());

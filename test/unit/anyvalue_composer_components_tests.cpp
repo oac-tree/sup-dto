@@ -44,7 +44,7 @@ TEST_F(AnyValueComposerComponentsTests, ValueComposerComponentProcess)
   // processing stack containing another value
   stack.push(std::unique_ptr<ValueComposerComponent>(
       new ValueComposerComponent(sup::dto::AnyValue{sup::dto::SignedInteger32Type, 42})));
-  EXPECT_THROW(node.Process(stack), sup::dto::MessageException);
+  EXPECT_THROW(node.Process(stack), sup::dto::ParseException);
 
   // processing stack containing a field
   stack.push(
@@ -69,7 +69,7 @@ TEST_F(AnyValueComposerComponentsTests, StartStructComposerComponentProcess)
   // processing stack containing another struct
   stack.push(std::unique_ptr<StartStructValueComposerComponent>(
       new StartStructValueComposerComponent(std::string())));
-  EXPECT_THROW(node.Process(stack), sup::dto::MessageException);
+  EXPECT_THROW(node.Process(stack), sup::dto::ParseException);
 
   // processing stack containing a field
   stack.push(
@@ -105,7 +105,7 @@ TEST_F(AnyValueComposerComponentsTests, StartFieldComposerComponentProcess)
 
   // processing of empty stack is not allowed
   std::stack<AbstractValueComposerComponent::component_t> stack;
-  EXPECT_THROW(node.Process(stack), sup::dto::MessageException);
+  EXPECT_THROW(node.Process(stack), sup::dto::ParseException);
 
   // stack is possible to process if it contains StartStructBuildNode
   stack.push(std::unique_ptr<StartStructValueComposerComponent>(
@@ -114,7 +114,7 @@ TEST_F(AnyValueComposerComponentsTests, StartFieldComposerComponentProcess)
 
   // field name should be set
   node.SetFieldName("");
-  EXPECT_THROW(node.Process(stack), sup::dto::MessageException);
+  EXPECT_THROW(node.Process(stack), sup::dto::ParseException);
 }
 
 TEST_F(AnyValueComposerComponentsTests, EndFieldComposerComponentProcess)
@@ -125,7 +125,7 @@ TEST_F(AnyValueComposerComponentsTests, EndFieldComposerComponentProcess)
   {
     // processing of empty stack is not allowed
     std::stack<AbstractValueComposerComponent::component_t> stack;
-    EXPECT_THROW(node.Process(stack), sup::dto::MessageException);
+    EXPECT_THROW(node.Process(stack), sup::dto::ParseException);
   }
 
   {
@@ -155,7 +155,7 @@ TEST_F(AnyValueComposerComponentsTests, EndStructComposerComponentProcess)
 
   {  // processing of empty stack is not allowed
     std::stack<AbstractValueComposerComponent::component_t> stack;
-    EXPECT_THROW(node.Process(stack), sup::dto::MessageException);
+    EXPECT_THROW(node.Process(stack), sup::dto::ParseException);
   }
 
   {
@@ -187,7 +187,7 @@ TEST_F(AnyValueComposerComponentsTests, StartArrayComposerComponentProcess)
   // processing stack containing another struct is not possible
   stack.push(std::unique_ptr<StartStructValueComposerComponent>(
       new StartStructValueComposerComponent(std::string())));
-  EXPECT_THROW(node.Process(stack), sup::dto::MessageException);
+  EXPECT_THROW(node.Process(stack), sup::dto::ParseException);
 
   // processing stack containing a field
   stack.push(
@@ -223,7 +223,7 @@ TEST_F(AnyValueComposerComponentsTests, StartArrayElementComposerComponentProces
 
   // processing of empty stack is not allowed
   std::stack<AbstractValueComposerComponent::component_t> stack;
-  EXPECT_THROW(node.Process(stack), sup::dto::MessageException);
+  EXPECT_THROW(node.Process(stack), sup::dto::ParseException);
 
   // stack is possible to process if it contains StartArrayBuildNode
   stack.push(
@@ -240,7 +240,7 @@ TEST_F(AnyValueComposerComponentsTests, EndArrayElementComposerComponentProcess)
   // processing of empty stack is not allowed
   {
     std::stack<AbstractValueComposerComponent::component_t> stack;
-    EXPECT_THROW(node.Process(stack), sup::dto::MessageException);
+    EXPECT_THROW(node.Process(stack), sup::dto::ParseException);
   }
 
   // stack should contains proper nodes for processing
@@ -274,7 +274,7 @@ TEST_F(AnyValueComposerComponentsTests, EndArrayComposerComponentProcess)
 
   {  // processing of empty stack is not allowed
     std::stack<AbstractValueComposerComponent::component_t> stack;
-    EXPECT_THROW(node.Process(stack), sup::dto::MessageException);
+    EXPECT_THROW(node.Process(stack), sup::dto::ParseException);
   }
 
   {
