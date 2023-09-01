@@ -43,7 +43,7 @@ public:
 
   bool HandleToken(ByteIterator& it, const ByteIterator& end);
 
-  AnyValue MoveAnyValue();
+  AnyType MoveAnyType();
 
 private:
   using HandlerMemberFunction =
@@ -59,9 +59,7 @@ private:
   void PushState();
   bool PopState();
 
-  bool HandleEmpty(ByteIterator& it, const ByteIterator& end);
-
-  template <typename T, void (AnyTypeComposer::*mem_fun)(T) >
+  template <void (AnyTypeComposer::*mem_fun)() >
   bool HandleScalar(ByteIterator& it, const ByteIterator& end);
 
   bool HandleString(ByteIterator& it, const ByteIterator& end);
@@ -71,14 +69,13 @@ private:
   bool HandleEndArray(ByteIterator& it, const ByteIterator& end);
 };
 
-sup::dto::uint8 FetchToken(ByteIterator& it);
-
-template <typename T, void (AnyTypeComposer::*mem_fun)(T) >
+template <void (AnyTypeComposer::*mem_fun)() >
 bool BinaryTypeParserHelper::HandleScalar(ByteIterator& it, const ByteIterator& end)
 {
-  auto val = ParseBinaryScalarT<T>(it, end);
+  (void)it;
+  (void)end;
   PushState();
-  (m_composer.*mem_fun)(val);
+  (m_composer.*mem_fun)();
   return PopState();
 }
 
