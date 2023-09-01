@@ -6,7 +6,7 @@
  *
  * Description   : Unit test code
  *
- * Author        : Gennady Pospelov (IO)
+ * Author        : Walter Van Herck (IO)
  *
  * Copyright (c) : 2010-2023 ITER Organization,
  *                 CS 90 046

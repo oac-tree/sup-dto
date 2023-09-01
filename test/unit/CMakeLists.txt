@@ -11,6 +11,7 @@ target_sources(unit-tests
     anytype_builder_tests.cpp
     anytype_composer_components_tests.cpp
     anytype_composer_helper_tests.cpp
+    anytype_composer_tests.cpp
     anytype_field_tests.cpp
     anytype_json_serialize_tests.cpp
     anytype_registry_tests.cpp
