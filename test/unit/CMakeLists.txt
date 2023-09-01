@@ -7,8 +7,9 @@ configure_file(${CMAKE_CURRENT_LIST_DIR}/test_config.h.in ${SUP_DTO_AUTOGEN_DIR}
 target_sources(unit-tests
   PRIVATE
     abstract_composer_component_tests.cpp
-    anytype_field_tests.cpp
     anytype_builder_tests.cpp
+    anytype_composer_components_tests.cpp
+    anytype_field_tests.cpp
     anytype_json_serialize_tests.cpp
     anytype_registry_tests.cpp
     anytype_serialize_tests.cpp

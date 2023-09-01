@@ -47,7 +47,7 @@ public:
 
   enum class Type
   {
-    kScalarType,
+    kLeafType,
     kStartStruct,
     kEndStruct,
     kStartField,
@@ -73,7 +73,7 @@ public:
 
   virtual void AddMember(const std::string& name, const sup::dto::AnyType& anytype);
 
-  virtual void AddElement(sup::dto::AnyType& anytype);
+  virtual void AddElement(const sup::dto::AnyType& anytype);
 
 protected:
   sup::dto::AnyType m_type;

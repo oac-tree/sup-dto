@@ -68,7 +68,7 @@ void AbstractTypeComposerComponent::AddMember(const std::string &name,
       "Error in AbstractTypeComposerComponent::AddMember() : not implemented");
 }
 
-void AbstractTypeComposerComponent::AddElement(sup::dto::AnyType& anytype)
+void AbstractTypeComposerComponent::AddElement(const sup::dto::AnyType& anytype)
 {
   (void)anytype;
   throw sup::dto::ParseException(

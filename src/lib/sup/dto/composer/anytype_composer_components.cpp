@@ -48,7 +48,7 @@ LeafTypeComposerComponent::LeafTypeComposerComponent(const sup::dto::AnyType& an
 
 AbstractTypeComposerComponent::Type LeafTypeComposerComponent::GetComponentType() const
 {
-  return Type::kScalarType;
+  return Type::kLeafType;
 }
 
 bool LeafTypeComposerComponent::Process(std::stack<component_t>& stack)
@@ -179,7 +179,7 @@ bool StartArrayTypeComposerComponent::Process(std::stack<component_t>& stack)
 
 //! Adds element to the array. If array doesn't exist, it will be initialised using the type of the
 //! given value.
-void StartArrayTypeComposerComponent::AddElement(sup::dto::AnyType& anytype)
+void StartArrayTypeComposerComponent::AddElement(const sup::dto::AnyType& anytype)
 {
   if (m_type != sup::dto::EmptyType)
   {
@@ -204,7 +204,13 @@ bool EndArrayTypeComposerComponent::Process(std::stack<component_t>& stack)
   ValidateLastTypeComponent(stack, Type::kStartArray);
 
   // replacing StartArrayTypeComposerComponent with EndArrayTypeComposerComponent
-  Consume(stack.top()->MoveAnyType());
+  auto anytype = stack.top()->MoveAnyType();
+  if (sup::dto::IsEmptyType(anytype))
+  {
+    std::string error = "EndArrayTypeComposerComponent::Process: no element type defined";
+    throw ParseException(error);
+  }
+  Consume(std::move(anytype));
   stack.pop();
 
   return kKeepInStackRequest;

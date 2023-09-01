@@ -96,7 +96,7 @@ public:
 
   bool Process(std::stack<component_t>& stack) override;
 
-  void AddElement(sup::dto::AnyType& anytype) override;
+  void AddElement(const sup::dto::AnyType& anytype) override;
 
 private:
   std::string m_array_name;

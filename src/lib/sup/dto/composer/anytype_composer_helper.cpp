@@ -76,7 +76,7 @@ void ValidateIfTypeComponentIsComplete(
     throw sup::dto::ParseException(error);
   }
   using Type = AbstractTypeComposerComponent::Type;
-  static const std::vector<Type> expected_types{Type::kScalarType, Type::kEndStruct,
+  static const std::vector<Type> expected_types{Type::kLeafType, Type::kEndStruct,
                                                 Type::kEndArray};
 
   auto it =
