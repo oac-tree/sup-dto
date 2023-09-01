@@ -42,7 +42,7 @@ public:
   AnyValueComposer();
   ~AnyValueComposer();
 
-  sup::dto::AnyValue MoveAnyValue() const;
+  sup::dto::AnyValue MoveAnyValue();
 
   void Empty();
   void Bool(::sup::dto::boolean value);

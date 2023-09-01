@@ -58,7 +58,7 @@ struct AnyValueComposer::AnyValueComposerImpl
 
 AnyValueComposer::AnyValueComposer() : p_impl(new AnyValueComposerImpl) {}
 
-sup::dto::AnyValue AnyValueComposer::MoveAnyValue() const
+sup::dto::AnyValue AnyValueComposer::MoveAnyValue()
 {
   return p_impl->m_stack.empty() ? sup::dto::AnyValue() : p_impl->m_stack.top()->MoveAnyValue();
 }
