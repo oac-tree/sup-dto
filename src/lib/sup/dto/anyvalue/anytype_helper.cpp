@@ -24,6 +24,7 @@
 #include <sup/dto/anytype_registry.h>
 #include <sup/dto/json/json_reader.h>
 #include <sup/dto/json/json_writer.h>
+#include <sup/dto/parse/binary_parser.h>
 #include <sup/dto/serialize/binary_serializer.h>
 #include <sup/dto/serialize/binary_tokens.h>
 #include <sup/dto/visit/visit_t.h>
@@ -67,6 +68,17 @@ std::vector<uint8> AnyTypeToBinary(const AnyType& anytype)
   BinaryTypeSerializer serializer{result};
   SerializeAnyType(anytype, serializer);
   return result;
+}
+
+AnyType AnyTypeFromBinary(const std::vector<uint8>& representation)
+{
+  if (representation.empty() || representation[0] != ANYTYPE_TOKEN)
+  {
+    throw ParseException(
+      "AnyTypeFromBinary(): representation does not start with correct AnyType token");
+  }
+  auto it = representation.cbegin() + 1;
+  return ParseAnyType(it, representation.cend());
 }
 
 }  // namespace dto

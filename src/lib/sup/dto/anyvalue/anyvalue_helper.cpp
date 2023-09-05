@@ -131,7 +131,6 @@ AnyValue AnyValueFromBinary(const std::vector<uint8>& representation)
       "AnyValueFromBinary(): representation does not start with correct AnyValue token");
   }
   auto it = representation.cbegin() + 1;
-  AnyValue result;
   return ParseAnyValue(it, representation.cend());
 }
 
