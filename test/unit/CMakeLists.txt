@@ -36,10 +36,11 @@ target_sources(unit-tests
     arraytype_tests.cpp
     arrayvalue_invariant_tests.cpp
     arrayvalue_tests.cpp
-    binary_encoding_tests.cpp
     binary_parser_functions_tests.cpp
     binary_serialization_functions_tests.cpp
+    binary_type_encoding_tests.cpp
     binary_type_serialization_tests.cpp
+    binary_value_encoding_tests.cpp
     integertype_tests.cpp
     integervalue_tests.cpp
     json_file_tests.cpp

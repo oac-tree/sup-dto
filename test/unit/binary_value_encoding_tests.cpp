@@ -28,19 +28,19 @@
 
 using namespace sup::dto;
 
-class BinaryEncodingTests : public ::testing::Test
+class BinaryValueEncodingTests : public ::testing::Test
 {
 };
 
 //! Empty buffer parsing throws.
-TEST_F(BinaryEncodingTests, EmptyBuffer)
+TEST_F(BinaryValueEncodingTests, EmptyBuffer)
 {
   std::vector<sup::dto::uint8> buffer;
   EXPECT_THROW(AnyValueFromBinary(buffer), ParseException);
 }
 
 //! Incomplete buffer parsing throws.
-TEST_F(BinaryEncodingTests, IncompleteBuffer)
+TEST_F(BinaryValueEncodingTests, IncompleteBuffer)
 {
   {
     // Scalar representation missing last byte
@@ -61,7 +61,7 @@ TEST_F(BinaryEncodingTests, IncompleteBuffer)
 }
 
 //! Structure with unnamed field throws.
-TEST_F(BinaryEncodingTests, StructWithUnnamedField)
+TEST_F(BinaryValueEncodingTests, StructWithUnnamedField)
 {
   AnyValue val = {{"a", {sup::dto::SignedInteger32Type, 42}}};
   auto representation = AnyValueToBinary(val);
@@ -73,7 +73,7 @@ TEST_F(BinaryEncodingTests, StructWithUnnamedField)
 }
 
 //! Encode/decode empty value.
-TEST_F(BinaryEncodingTests, EmptyValue)
+TEST_F(BinaryValueEncodingTests, EmptyValue)
 {
   AnyValue val;
   auto representation = AnyValueToBinary(val);
@@ -83,7 +83,7 @@ TEST_F(BinaryEncodingTests, EmptyValue)
 }
 
 //! Encode/decode single scalars.
-TEST_F(BinaryEncodingTests, Scalars)
+TEST_F(BinaryValueEncodingTests, Scalars)
 {
   {
     // boolean
@@ -201,7 +201,7 @@ TEST_F(BinaryEncodingTests, Scalars)
 }
 
 //! Empty structure.
-TEST_F(BinaryEncodingTests, EmptyStruct)
+TEST_F(BinaryValueEncodingTests, EmptyStruct)
 {
   AnyValue val = sup::dto::EmptyStruct("struct_name");
   auto representation = AnyValueToBinary(val);
@@ -211,7 +211,7 @@ TEST_F(BinaryEncodingTests, EmptyStruct)
 }
 
 //! Structure with a single field.
-TEST_F(BinaryEncodingTests, StructWithSingleField)
+TEST_F(BinaryValueEncodingTests, StructWithSingleField)
 {
   AnyValue val = {{"signed", {sup::dto::SignedInteger32Type, 42}}};
   auto representation = AnyValueToBinary(val);
@@ -221,7 +221,7 @@ TEST_F(BinaryEncodingTests, StructWithSingleField)
 }
 
 //! Structure with two fields.
-TEST_F(BinaryEncodingTests, StructWithTwoFields)
+TEST_F(BinaryValueEncodingTests, StructWithTwoFields)
 {
   AnyValue val = {
     {"signed", {sup::dto::SignedInteger32Type, 42}},
@@ -234,7 +234,7 @@ TEST_F(BinaryEncodingTests, StructWithTwoFields)
 }
 
 //! Structure with another struct in it.
-TEST_F(BinaryEncodingTests, StructWithNestedStructWithField)
+TEST_F(BinaryValueEncodingTests, StructWithNestedStructWithField)
 {
   AnyValue two_scalars = {
     {"signed", {sup::dto::SignedInteger32Type, 42}},
@@ -248,7 +248,7 @@ TEST_F(BinaryEncodingTests, StructWithNestedStructWithField)
 }
 
 //! Structure containing two structures.
-TEST_F(BinaryEncodingTests, StructWithTwoNestedStructs)
+TEST_F(BinaryValueEncodingTests, StructWithTwoNestedStructs)
 {
   AnyValue two_scalars = {{
     {"signed", {sup::dto::SignedInteger32Type, 42}},
@@ -269,7 +269,7 @@ TEST_F(BinaryEncodingTests, StructWithTwoNestedStructs)
 }
 
 //! Empty array
-TEST_F(BinaryEncodingTests, DISABLED_EmptyArray)
+TEST_F(BinaryValueEncodingTests, DISABLED_EmptyArray)
 {
   AnyValue val{0, sup::dto::Float64Type, "empty_array"};
   auto representation = AnyValueToBinary(val);
@@ -280,7 +280,7 @@ TEST_F(BinaryEncodingTests, DISABLED_EmptyArray)
 }
 
 //! Scalar array with a name and two elements.
-TEST_F(BinaryEncodingTests, ScalarArray)
+TEST_F(BinaryValueEncodingTests, ScalarArray)
 {
   AnyValue val = sup::dto::ArrayValue({{sup::dto::SignedInteger32Type, 42}, 43}, "array_name");
   auto representation = AnyValueToBinary(val);
@@ -291,7 +291,7 @@ TEST_F(BinaryEncodingTests, ScalarArray)
 }
 
 //! Structure with scalar array as a single field.
-TEST_F(BinaryEncodingTests, StructWithScalarArrayAsField)
+TEST_F(BinaryValueEncodingTests, StructWithScalarArrayAsField)
 {
   auto array_value = sup::dto::ArrayValue({{sup::dto::SignedInteger32Type, 42}, 43}, "array_name");
   AnyValue val = {{{"array_field", array_value}}, "struct_name"};
@@ -302,7 +302,7 @@ TEST_F(BinaryEncodingTests, StructWithScalarArrayAsField)
 }
 
 //! Structure with two scalar arrays as fields.
-TEST_F(BinaryEncodingTests, StructWithTwoScalarArrayAsField)
+TEST_F(BinaryValueEncodingTests, StructWithTwoScalarArrayAsField)
 {
   auto array1 = sup::dto::ArrayValue({{sup::dto::SignedInteger32Type, 42}, 43}, "array_name1");
   auto array2 = sup::dto::ArrayValue({{sup::dto::SignedInteger32Type, 44}, 45, 46}, "array_name2");
@@ -314,7 +314,7 @@ TEST_F(BinaryEncodingTests, StructWithTwoScalarArrayAsField)
 }
 
 //! Array with two structure elements.
-TEST_F(BinaryEncodingTests, ArrayWithTwoStructureElements)
+TEST_F(BinaryValueEncodingTests, ArrayWithTwoStructureElements)
 {
   sup::dto::AnyValue struct1 = {{{"first", {sup::dto::SignedInteger8Type, -43}},
                                  {"second", {sup::dto::UnsignedInteger8Type, 44}}},
@@ -330,7 +330,7 @@ TEST_F(BinaryEncodingTests, ArrayWithTwoStructureElements)
 }
 
 //! Structure with array with two structures.
-TEST_F(BinaryEncodingTests, StructureWithArrayWithStructure)
+TEST_F(BinaryValueEncodingTests, StructureWithArrayWithStructure)
 {
   sup::dto::AnyValue struct1 = {{{"first", {sup::dto::SignedInteger8Type, -43}},
                                  {"second", {sup::dto::UnsignedInteger8Type, 44}}},
