@@ -60,13 +60,7 @@ AnyValueComposer::AnyValueComposer() : p_impl(new AnyValueComposerImpl) {}
 
 sup::dto::AnyValue AnyValueComposer::MoveAnyValue()
 {
-  if (p_impl->m_stack.size() != 1)
-  {
-    std::string error = "AnyValueComposer::MoveAnyValue: stack size not equal to one, AnyValue "
-                        " construction was not correctly finished";
-    throw ParseException(error);
-  }
-  return p_impl->m_stack.top()->MoveAnyValue();
+  return p_impl->m_stack.empty() ? sup::dto::AnyValue() : p_impl->m_stack.top()->MoveAnyValue();
 }
 
 AnyValueComposer::~AnyValueComposer() = default;
