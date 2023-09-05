@@ -42,6 +42,8 @@ void AppendBinaryScalar(std::vector<sup::dto::uint8>& representation, const AnyV
 
 void AppendBinaryString(std::vector<sup::dto::uint8>& representation, const std::string& str);
 
+void AppendBinaryStringValue(std::vector<sup::dto::uint8>& representation, const std::string& str);
+
 }  // namespace dto
 
 }  // namespace sup

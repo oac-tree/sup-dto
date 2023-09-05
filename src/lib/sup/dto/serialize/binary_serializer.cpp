@@ -95,48 +95,34 @@ BinaryValueSerializer::BinaryValueSerializer(std::vector<uint8>& representation)
 BinaryValueSerializer::~BinaryValueSerializer() = default;
 
 void BinaryValueSerializer::EmptyProlog(const AnyValue*)
-{
-  m_representation.push_back(EMPTY_TOKEN);
-}
+{}
 
 void BinaryValueSerializer::EmptyEpilog(const AnyValue*)
 {}
 
-void BinaryValueSerializer::StructProlog(const AnyValue* value)
-{
-  m_representation.push_back(START_STRUCT_TOKEN);
-  AppendBinaryString(m_representation, value->GetTypeName());
-}
+void BinaryValueSerializer::StructProlog(const AnyValue*)
+{}
 
 void BinaryValueSerializer::StructMemberSeparator()
 {}
 
 void BinaryValueSerializer::StructEpilog(const AnyValue*)
-{
-  m_representation.push_back(END_STRUCT_TOKEN);
-}
+{}
 
-void BinaryValueSerializer::MemberProlog(const AnyValue*, const std::string& member_name)
-{
-  AppendBinaryString(m_representation, member_name);
-}
+void BinaryValueSerializer::MemberProlog(const AnyValue*, const std::string&)
+{}
 
 void BinaryValueSerializer::MemberEpilog(const AnyValue*, const std::string&)
 {}
 
-void BinaryValueSerializer::ArrayProlog(const AnyValue* value)
-{
-  m_representation.push_back(START_ARRAY_TOKEN);
-  AppendBinaryString(m_representation, value->GetTypeName());
-}
+void BinaryValueSerializer::ArrayProlog(const AnyValue*)
+{}
 
 void BinaryValueSerializer::ArrayElementSeparator()
 {}
 
 void BinaryValueSerializer::ArrayEpilog(const AnyValue*)
-{
-  m_representation.push_back(END_ARRAY_TOKEN);
-}
+{}
 
 void BinaryValueSerializer::ScalarProlog(const AnyValue* anyvalue)
 {

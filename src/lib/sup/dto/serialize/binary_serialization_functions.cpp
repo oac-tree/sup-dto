@@ -33,18 +33,17 @@ namespace sup
 namespace dto
 {
 
-template <typename T, uint8 token>
+template <typename T>
 void AppendScalarAnyValueT(std::vector<uint8>& representation, const AnyValue& anyvalue)
 {
-  representation.push_back(token);
   T val = anyvalue.As<T>();
   AppendScalarT(representation, val);
 }
 
-void AppendBinaryStringValue(std::vector<uint8>& representation, const AnyValue& anyvalue)
+void AppendBinaryStringAnyValue(std::vector<uint8>& representation, const AnyValue& anyvalue)
 {
   std::string str = anyvalue.As<std::string>();
-  AppendBinaryString(representation, str);
+  AppendBinaryStringValue(representation, str);
 }
 
 void AppendScalarToken(std::vector<uint8>& representation, const TypeCode& type_code)
@@ -90,19 +89,19 @@ void AppendBinaryScalar(std::vector<uint8>& representation, const AnyValue& anyv
 {
   using AppendFunction = std::function<void(std::vector<uint8>&, const AnyValue&)>;
   static std::map<TypeCode, AppendFunction> function_map {
-    {TypeCode::Bool, AppendScalarAnyValueT<boolean, BOOL_TOKEN> },
-    {TypeCode::Char8, AppendScalarAnyValueT<char8, CHAR8_TOKEN> },
-    {TypeCode::Int8, AppendScalarAnyValueT<int8, INT8_TOKEN> },
-    {TypeCode::UInt8, AppendScalarAnyValueT<uint8, UINT8_TOKEN> },
-    {TypeCode::Int16, AppendScalarAnyValueT<int16, INT16_TOKEN> },
-    {TypeCode::UInt16, AppendScalarAnyValueT<uint16, UINT16_TOKEN> },
-    {TypeCode::Int32, AppendScalarAnyValueT<int32, INT32_TOKEN> },
-    {TypeCode::UInt32, AppendScalarAnyValueT<uint32, UINT32_TOKEN> },
-    {TypeCode::Int64, AppendScalarAnyValueT<int64, INT64_TOKEN> },
-    {TypeCode::UInt64, AppendScalarAnyValueT<uint64, UINT64_TOKEN> },
-    {TypeCode::Float32, AppendScalarAnyValueT<float32, FLOAT32_TOKEN> },
-    {TypeCode::Float64, AppendScalarAnyValueT<float64, FLOAT64_TOKEN> },
-    {TypeCode::String, AppendBinaryStringValue }
+    {TypeCode::Bool, AppendScalarAnyValueT<boolean> },
+    {TypeCode::Char8, AppendScalarAnyValueT<char8> },
+    {TypeCode::Int8, AppendScalarAnyValueT<int8> },
+    {TypeCode::UInt8, AppendScalarAnyValueT<uint8> },
+    {TypeCode::Int16, AppendScalarAnyValueT<int16> },
+    {TypeCode::UInt16, AppendScalarAnyValueT<uint16> },
+    {TypeCode::Int32, AppendScalarAnyValueT<int32> },
+    {TypeCode::UInt32, AppendScalarAnyValueT<uint32> },
+    {TypeCode::Int64, AppendScalarAnyValueT<int64> },
+    {TypeCode::UInt64, AppendScalarAnyValueT<uint64> },
+    {TypeCode::Float32, AppendScalarAnyValueT<float32> },
+    {TypeCode::Float64, AppendScalarAnyValueT<float64> },
+    {TypeCode::String, AppendBinaryStringAnyValue }
   };
   auto it = function_map.find(anyvalue.GetTypeCode());
   if (it == function_map.end())
@@ -115,6 +114,11 @@ void AppendBinaryScalar(std::vector<uint8>& representation, const AnyValue& anyv
 void AppendBinaryString(std::vector<uint8>& representation, const std::string& str)
 {
   representation.push_back(STRING_TOKEN);
+  AppendBinaryStringValue(representation, str);
+}
+
+void AppendBinaryStringValue(std::vector<uint8>& representation, const std::string& str)
+{
   auto str_size = str.size();
   AppendSize(representation, str_size);
   representation.insert(representation.end(), std::begin(str), std::end(str));

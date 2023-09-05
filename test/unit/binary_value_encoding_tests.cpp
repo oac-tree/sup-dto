@@ -65,7 +65,7 @@ TEST_F(BinaryValueEncodingTests, StructWithUnnamedField)
 {
   AnyValue val = {{"a", {sup::dto::SignedInteger32Type, 42}}};
   auto representation = AnyValueToBinary(val);
-  ASSERT_EQ(representation.size(), 13);
+  ASSERT_EQ(representation.size(), 14);
   auto fieldname_start = representation.begin() + 4;
   auto fieldname_end = representation.begin() + 7;
   representation.erase(fieldname_start, fieldname_end);
@@ -269,7 +269,7 @@ TEST_F(BinaryValueEncodingTests, StructWithTwoNestedStructs)
 }
 
 //! Empty array
-TEST_F(BinaryValueEncodingTests, DISABLED_EmptyArray)
+TEST_F(BinaryValueEncodingTests, EmptyArray)
 {
   AnyValue val{0, sup::dto::Float64Type, "empty_array"};
   auto representation = AnyValueToBinary(val);

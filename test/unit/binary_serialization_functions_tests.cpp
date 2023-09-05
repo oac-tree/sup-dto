@@ -41,20 +41,16 @@ TEST_F(BinarySerializationFunctionsTest, Booleans)
     AnyValue val = false;
     std::vector<uint8> representation;
     EXPECT_NO_THROW(AppendBinaryScalar(representation, val));
-    // token byte makes the total size larger by 1
-    ASSERT_EQ(representation.size(), 2);
-    EXPECT_EQ(representation[0], BOOL_TOKEN);
-    EXPECT_EQ(representation[1], 0);
+    ASSERT_EQ(representation.size(), 1);
+    EXPECT_EQ(representation[0], 0);
   }
   {
     // false
     AnyValue val = true;
     std::vector<uint8> representation;
     EXPECT_NO_THROW(AppendBinaryScalar(representation, val));
-    // token byte makes the total size larger by 1
-    ASSERT_EQ(representation.size(), 2);
-    EXPECT_EQ(representation[0], BOOL_TOKEN);
-    EXPECT_EQ(representation[1], 1);
+    ASSERT_EQ(representation.size(), 1);
+    EXPECT_EQ(representation[0], 1);
   }
 }
 
@@ -65,11 +61,9 @@ TEST_F(BinarySerializationFunctionsTest, Integers)
     AnyValue val{SignedInteger8Type, -1};
     std::vector<uint8> representation;
     EXPECT_NO_THROW(AppendBinaryScalar(representation, val));
-    // token byte makes the total size larger by 1
-    ASSERT_EQ(representation.size(), 2);
-    EXPECT_EQ(representation[0], INT8_TOKEN);
+    ASSERT_EQ(representation.size(), 1);
     auto byte_val = static_cast<uint8>(val.As<int8>());
-    EXPECT_EQ(representation[1], byte_val);
+    EXPECT_EQ(representation[0], byte_val);
   }
   {
     // UInt16
@@ -77,14 +71,12 @@ TEST_F(BinarySerializationFunctionsTest, Integers)
     AnyValue val = int_value;
     std::vector<uint8> representation;
     EXPECT_NO_THROW(AppendBinaryScalar(representation, val));
-    // token byte makes the total size larger by 1
-    ASSERT_EQ(representation.size(), 3);
-    EXPECT_EQ(representation[0], UINT16_TOKEN);
+    ASSERT_EQ(representation.size(), 2);
     uint16 readback_val;
-    std::memcpy(&readback_val, representation.data() + 1, 2);
+    std::memcpy(&readback_val, representation.data(), 2);
     EXPECT_EQ(int_value, readback_val);
     // little endian tested, as current implementation depends on it
-    EXPECT_EQ(representation[1], val.As<uint8>());
+    EXPECT_EQ(representation[0], val.As<uint8>());
   }
   {
     // Int32
@@ -92,15 +84,13 @@ TEST_F(BinarySerializationFunctionsTest, Integers)
     AnyValue val = int_value;
     std::vector<uint8> representation;
     EXPECT_NO_THROW(AppendBinaryScalar(representation, val));
-    // token byte makes the total size larger by 1
-    ASSERT_EQ(representation.size(), 5);
-    EXPECT_EQ(representation[0], INT32_TOKEN);
+    ASSERT_EQ(representation.size(), 4);
     int32 readback_val;
-    std::memcpy(&readback_val, representation.data() + 1, 4);
+    std::memcpy(&readback_val, representation.data(), 4);
     EXPECT_EQ(int_value, readback_val);
     // little endian tested, as current implementation depends on it
     auto byte_val = static_cast<uint8>(val.As<int8>());
-    EXPECT_EQ(representation[1], byte_val);
+    EXPECT_EQ(representation[0], byte_val);
   }
   {
     // UInt64
@@ -108,14 +98,12 @@ TEST_F(BinarySerializationFunctionsTest, Integers)
     AnyValue val = int_value;
     std::vector<uint8> representation;
     EXPECT_NO_THROW(AppendBinaryScalar(representation, val));
-    // token byte makes the total size larger by 1
-    ASSERT_EQ(representation.size(), 9);
-    EXPECT_EQ(representation[0], UINT64_TOKEN);
+    ASSERT_EQ(representation.size(), 8);
     uint64 readback_val;
-    std::memcpy(&readback_val, representation.data() + 1, 8);
+    std::memcpy(&readback_val, representation.data(), 8);
     EXPECT_EQ(int_value, readback_val);
     // little endian tested, as current implementation depends on it
-    EXPECT_EQ(representation[1], val.As<uint8>());
+    EXPECT_EQ(representation[0], val.As<uint8>());
   }
 }
 
@@ -127,11 +115,9 @@ TEST_F(BinarySerializationFunctionsTest, Floats)
     AnyValue val{Float32Type, float_val};
     std::vector<uint8> representation;
     EXPECT_NO_THROW(AppendBinaryScalar(representation, val));
-    // token byte makes the total size larger by 1
-    ASSERT_EQ(representation.size(), 5);
-    EXPECT_EQ(representation[0], FLOAT32_TOKEN);
+    ASSERT_EQ(representation.size(), 4);
     float32 readback_val;
-    std::memcpy(&readback_val, representation.data() + 1, 4);
+    std::memcpy(&readback_val, representation.data(), 4);
     EXPECT_EQ(float_val, readback_val);
   }
   {
@@ -140,11 +126,9 @@ TEST_F(BinarySerializationFunctionsTest, Floats)
     AnyValue val{Float64Type, float_val};
     std::vector<uint8> representation;
     EXPECT_NO_THROW(AppendBinaryScalar(representation, val));
-    // token byte makes the total size larger by 1
-    ASSERT_EQ(representation.size(), 9);
-    EXPECT_EQ(representation[0], FLOAT64_TOKEN);
+    ASSERT_EQ(representation.size(), 8);
     float64 readback_val;
-    std::memcpy(&readback_val, representation.data() + 1, 8);
+    std::memcpy(&readback_val, representation.data(), 8);
     EXPECT_EQ(float_val, readback_val);
   }
 }
@@ -157,10 +141,9 @@ TEST_F(BinarySerializationFunctionsTest, Strings)
     AnyValue val = str;
     std::vector<uint8> representation;
     EXPECT_NO_THROW(AppendBinaryScalar(representation, val));
-    // string token and size byte make the total size larger by 2
-    ASSERT_EQ(representation.size(), str.size() + 2);
-    EXPECT_EQ(representation[0], STRING_TOKEN);
-    EXPECT_EQ(representation[1], str.size());
+    // string size byte makes the total size larger by 1
+    ASSERT_EQ(representation.size(), str.size() + 1);
+    EXPECT_EQ(representation[0], str.size());
   }
   {
     // empty string anyvalue
@@ -168,10 +151,9 @@ TEST_F(BinarySerializationFunctionsTest, Strings)
     AnyValue val = str;
     std::vector<uint8> representation;
     EXPECT_NO_THROW(AppendBinaryScalar(representation, val));
-    // string token and size byte make the total size larger by 2
-    ASSERT_EQ(representation.size(), 2);
-    EXPECT_EQ(representation[0], STRING_TOKEN);
-    EXPECT_EQ(representation[1], str.size());
+    // string size byte make thes total size larger by 1
+    ASSERT_EQ(representation.size(), 1);
+    EXPECT_EQ(representation[0], str.size());
   }
   {
     // non empty string

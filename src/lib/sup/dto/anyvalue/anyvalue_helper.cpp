@@ -21,9 +21,12 @@
 
 #include <sup/dto/anyvalue_helper.h>
 
+#include <sup/dto/anytype_helper.h>
+
 #include <sup/dto/json/json_reader.h>
 #include <sup/dto/json/json_writer.h>
 #include <sup/dto/parse/binary_parser.h>
+#include <sup/dto/parse/binary_value_parser.h>
 #include <sup/dto/serialize/binary_serializer.h>
 #include <sup/dto/serialize/binary_tokens.h>
 #include <sup/dto/visit/visit_t.h>
@@ -117,21 +120,38 @@ void AnyValueToJSONFile(const AnyValue& anyvalue, const std::string& filename, b
 std::vector<uint8> AnyValueToBinary(const AnyValue& anyvalue)
 {
   std::vector<uint8> result;
+  result.push_back(ANYTYPE_TOKEN);
+  BinaryTypeSerializer type_serializer{result};
+  SerializeAnyType(anyvalue.GetType(), type_serializer);
   result.push_back(ANYVALUE_TOKEN);
-  BinaryValueSerializer serializer{result};
-  SerializeAnyValue(anyvalue, serializer);
+  BinaryValueSerializer value_serializer{result};
+  SerializeAnyValue(anyvalue, value_serializer);
   return result;
 }
 
 AnyValue AnyValueFromBinary(const std::vector<uint8>& representation)
 {
-  if (representation.empty() || representation[0] != ANYVALUE_TOKEN)
+  if (representation.empty() || representation[0] != ANYTYPE_TOKEN)
   {
     throw ParseException(
-      "AnyValueFromBinary(): representation does not start with correct AnyValue token");
+      "AnyValueFromBinary(): type representation does not start with correct token");
   }
   auto it = representation.cbegin() + 1;
-  return ParseAnyValue(it, representation.cend());
+  auto end_it = representation.cend();
+  auto anytype = ParseAnyType(it, end_it);
+  AnyValue result{anytype};
+  if (it == end_it || *it++ != ANYVALUE_TOKEN)
+  {
+    throw ParseException(
+      "AnyValueFromBinary(): value representation does not start with correct token");
+  }
+  BinaryValueParser parser{it, end_it};
+  Visit(result, parser);
+  if (!parser.IsFinished())
+  {
+    throw ParseException("AnyValueFromBinary(): ended before parsing all input bytes");
+  }
+  return result;
 }
 
 }  // namespace dto

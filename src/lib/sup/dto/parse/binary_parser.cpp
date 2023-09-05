@@ -22,26 +22,11 @@
 #include "binary_parser.h"
 
 #include <sup/dto/parse/binary_type_parser_helper.h>
-#include <sup/dto/parse/binary_value_parser_helper.h>
 
 namespace sup
 {
 namespace dto
 {
-
-AnyValue ParseAnyValue(ByteIterator& it, const ByteIterator& end)
-{
-  BinaryValueParserHelper helper;
-  while (it != end)
-  {
-    if (!helper.HandleToken(it, end))
-    {
-      break;
-    }
-  }
-  // Make sure the helper has correctly finished (e.g. stack empty)
-  return helper.MoveAnyValue();
-}
 
 AnyType ParseAnyType(ByteIterator& it, const ByteIterator& end)
 {
