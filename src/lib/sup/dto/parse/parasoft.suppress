@@ -1,0 +1,7 @@
+suppression-begin
+file: ctype_parser.cpp
+rule-id: HICPP-4_2_2-f
+reason: Approved
+author: Walter Van Herck
+date: 2023-09-08
+suppression-end

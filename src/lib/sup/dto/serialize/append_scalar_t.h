@@ -62,25 +62,35 @@ struct UnsignedRepresentation<8u>
 template <unsigned long Size>
 using UnsignedRepresentationType = typename UnsignedRepresentation<Size>::type;
 
+// Specialization for integers with sizeof(T) > 1
 // The passed value is converted to an unsigned integral type and then serialized in little
 // endian format (regardless of system endianness)
 // The choice for little endian encoding is motivated by the fact that most common systems use this
 // format, which would allow a more performant implementation (if required) on these systems.
-template <typename T, typename std::enable_if<std::is_integral<T>::value, bool>::type = true>
+template <typename T,
+          typename std::enable_if<std::is_integral<T>::value && (sizeof(T) > 1), bool>::type = true>
 void AppendScalarT(std::vector<uint8>& representation, const T& val)
 {
   auto u_val = static_cast<UnsignedRepresentationType<sizeof(T)>>(val);
   uint8 buffer[sizeof(T)];
-  unsigned i;
-  for (i = 0; i + 1 < sizeof(T); ++i)
+  for (unsigned i = 0; i < sizeof(T); ++i)
   {
     buffer[i] = u_val & 0xFF;
     u_val >>= 8;
   }
-  buffer[i] = u_val & 0xFF;  // no need to right shift the last time
   representation.insert(representation.end(), buffer, buffer + sizeof(T));
 }
 
+// Specialization for integers with sizeof(T) == 1
+template <typename T,
+          typename std::enable_if<std::is_integral<T>::value && (sizeof(T) == 1), bool>::type = true>
+void AppendScalarT(std::vector<uint8> &representation, const T &val)
+{
+  auto u_val = static_cast<UnsignedRepresentationType<sizeof(T)>>(val);
+  representation.push_back(u_val);
+}
+
+// Specialization for floating points
 // This implementation assumes that the same endianness is used for floating point values as
 // for integral values.
 template <typename T, typename std::enable_if<std::is_floating_point<T>::value, bool>::type = true>
@@ -89,13 +99,11 @@ void AppendScalarT(std::vector<uint8>& representation, const T& val)
   UnsignedRepresentationType<sizeof(T)> u_val;
   std::memcpy(&u_val, std::addressof(val), sizeof(T));
   uint8 buffer[sizeof(T)];
-  unsigned i;
-  for (i = 0; i + 1 < sizeof(T); ++i)
+  for (unsigned i = 0; i < sizeof(T); ++i)
   {
     buffer[i] = u_val & 0xFF;
     u_val >>= 8;
   }
-  buffer[i] = u_val & 0xFF;
   representation.insert(representation.end(), buffer, buffer + sizeof(T));
 }
 
