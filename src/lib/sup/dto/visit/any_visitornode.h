@@ -41,7 +41,7 @@ template <typename T>
 class IAnyVisitorNode
 {
 public:
-  IAnyVisitorNode(T* val);
+  explicit IAnyVisitorNode(T* val);
   virtual ~IAnyVisitorNode() = default;
 
   IAnyVisitorNode(const IAnyVisitorNode& other) = delete;
@@ -68,7 +68,7 @@ template <typename T>
 class AnyVisitorNode
 {
 public:
-  AnyVisitorNode(std::unique_ptr<IAnyVisitorNode<T>> node);
+  explicit AnyVisitorNode(std::unique_ptr<IAnyVisitorNode<T>> node);
   ~AnyVisitorNode();
 
   AnyVisitorNode(AnyVisitorNode&& other);
@@ -126,7 +126,7 @@ AnyVisitorNode<T>& AnyVisitorNode<T>::operator=(AnyVisitorNode<T>&& other)
 template <typename T>
 AnyVisitorNode<T> AnyVisitorNode<T>::NextChild()
 {
-  return node->NextChild();
+  return AnyVisitorNode{node->NextChild()};
 }
 
 template <typename T>

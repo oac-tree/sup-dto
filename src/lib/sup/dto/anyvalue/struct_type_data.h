@@ -34,7 +34,7 @@ namespace dto
 class StructTypeData : public ITypeData
 {
 public:
-  StructTypeData(const std::string& name);
+  explicit StructTypeData(const std::string& name);
   ~StructTypeData() override;
 
   StructTypeData* Clone() const override;

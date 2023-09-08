@@ -40,7 +40,7 @@ template <typename WriterImpl>
 class JSONStringWriterT : public IWriter
 {
 public:
-  JSONStringWriterT(std::ostream& out_stream);
+  explicit JSONStringWriterT(std::ostream& out_stream);
   ~JSONStringWriterT();
 
   bool Null() override;

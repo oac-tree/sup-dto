@@ -40,7 +40,7 @@ namespace dto
 class ValueComposerComponent : public AbstractValueComposerComponent
 {
 public:
-  ValueComposerComponent(const sup::dto::AnyValue& value);
+  explicit ValueComposerComponent(const sup::dto::AnyValue& value);
 
   Type GetComponentType() const override;
 
@@ -52,7 +52,7 @@ public:
 class StartStructValueComposerComponent : public AbstractValueComposerComponent
 {
 public:
-  StartStructValueComposerComponent(const std::string& struct_name);
+  explicit StartStructValueComposerComponent(const std::string& struct_name);
 
   Type GetComponentType() const override;
 
@@ -98,7 +98,7 @@ public:
 class StartArrayValueComposerComponent : public AbstractValueComposerComponent
 {
 public:
-  StartArrayValueComposerComponent(const std::string& array_name);
+  explicit StartArrayValueComposerComponent(const std::string& array_name);
 
   Type GetComponentType() const override;
 

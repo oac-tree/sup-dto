@@ -31,7 +31,7 @@ namespace dto
 class ScalarTypeData : public ITypeData
 {
 public:
-  ScalarTypeData(TypeCode type_code);
+  explicit ScalarTypeData(TypeCode type_code);
   ~ScalarTypeData() override;
 
   ScalarTypeData* Clone() const override;

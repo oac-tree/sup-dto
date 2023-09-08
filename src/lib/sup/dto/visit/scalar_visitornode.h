@@ -35,7 +35,7 @@ template <typename T>
 class ScalarVisitorNode : public IAnyVisitorNode<T>
 {
 public:
-  ScalarVisitorNode(T* any);
+  explicit ScalarVisitorNode(T* any);
   ~ScalarVisitorNode() override;
 
   std::unique_ptr<IAnyVisitorNode<T>> NextChild() override;

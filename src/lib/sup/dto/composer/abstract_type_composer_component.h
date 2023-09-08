@@ -41,7 +41,7 @@ public:
   using component_t = std::unique_ptr<AbstractTypeComposerComponent>;
 
   AbstractTypeComposerComponent();
-  AbstractTypeComposerComponent(const sup::dto::AnyType& anytype);
+  explicit AbstractTypeComposerComponent(const sup::dto::AnyType& anytype);
 
   virtual ~AbstractTypeComposerComponent();
 

@@ -37,7 +37,7 @@ template <typename T>
 class EmptyVisitorNode : public IAnyVisitorNode<T>
 {
 public:
-  EmptyVisitorNode(T* any);
+  explicit EmptyVisitorNode(T* any);
   ~EmptyVisitorNode() override;
 
   std::unique_ptr<IAnyVisitorNode<T>> NextChild() override;

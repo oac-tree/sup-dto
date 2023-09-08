@@ -37,7 +37,7 @@ class AnyValue;
 class BinaryTypeSerializer : public IAnyVisitor<const AnyType>
 {
 public:
-  BinaryTypeSerializer(std::vector<uint8>& representation);
+  explicit BinaryTypeSerializer(std::vector<uint8>& representation);
   ~BinaryTypeSerializer() override;
 
   void EmptyProlog(const AnyType* anytype) override;
@@ -64,7 +64,7 @@ private:
 class BinaryValueSerializer : public IAnyVisitor<const AnyValue>
 {
 public:
-  BinaryValueSerializer(std::vector<uint8>& representation);
+  explicit BinaryValueSerializer(std::vector<uint8>& representation);
   ~BinaryValueSerializer() override;
 
   void EmptyProlog(const AnyValue* anyvalue) override;

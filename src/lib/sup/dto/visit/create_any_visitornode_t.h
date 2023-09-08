@@ -65,9 +65,8 @@ std::unique_ptr<IAnyVisitorNode<T>> CreateVisitorNodeT(T* any)
 template <typename T>
 AnyVisitorNode<T> CreateRootNodeT(T* any)
 {
-    return CreateVisitorNodeT<T>(any);
+    return AnyVisitorNode<T>{CreateVisitorNodeT<T>(any)};
 }
-
 
 }  // namespace dto
 

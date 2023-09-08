@@ -55,7 +55,7 @@ public:
   };
 
   AbstractValueComposerComponent();
-  AbstractValueComposerComponent(const sup::dto::AnyValue& value);
+  explicit AbstractValueComposerComponent(const sup::dto::AnyValue& value);
 
   virtual Type GetComponentType() const = 0;
 

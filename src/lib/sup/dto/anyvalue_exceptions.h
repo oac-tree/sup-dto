@@ -35,7 +35,7 @@ namespace dto
 class MessageException : public std::exception
 {
 public:
-  MessageException(std::string message);
+  explicit MessageException(std::string message);
   const char* what() const noexcept override;
 private:
   std::string message;
@@ -47,7 +47,7 @@ private:
 class InvalidConversionException : public MessageException
 {
 public:
-  InvalidConversionException(const std::string& message);
+  explicit InvalidConversionException(const std::string& message);
 };
 
 /**
@@ -56,7 +56,7 @@ public:
 class InvalidOperationException : public MessageException
 {
 public:
-  InvalidOperationException(const std::string& message);
+  explicit InvalidOperationException(const std::string& message);
 };
 
 /**
@@ -65,7 +65,7 @@ public:
 class SerializeException : public MessageException
 {
 public:
-  SerializeException(const std::string& message);
+  explicit SerializeException(const std::string& message);
 };
 
 /**
@@ -74,7 +74,7 @@ public:
 class ParseException : public MessageException
 {
 public:
-  ParseException(const std::string& message);
+  explicit ParseException(const std::string& message);
 };
 
 }  // namespace dto

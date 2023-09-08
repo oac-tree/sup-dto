@@ -112,7 +112,7 @@ public:
    * of a structured value (e.g. empty value as member).
    */
   AnyValue(std::initializer_list<std::pair<std::string, AnyValue>> members,
-          const std::string& type_name = {});
+           const std::string& type_name = {});
 
   /**
    * @brief Constructor for arrays.

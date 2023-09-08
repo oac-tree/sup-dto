@@ -42,7 +42,7 @@ template <typename T>
 class StructDataT
 {
 public:
-  StructDataT(const std::string& name);
+  explicit StructDataT(const std::string& name);
   ~StructDataT() = default;
 
   TypeCode GetTypeCode() const;

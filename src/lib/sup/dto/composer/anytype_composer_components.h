@@ -37,7 +37,7 @@ namespace dto
 class LeafTypeComposerComponent : public AbstractTypeComposerComponent
 {
 public:
-  LeafTypeComposerComponent(const sup::dto::AnyType& anytype);
+  explicit LeafTypeComposerComponent(const sup::dto::AnyType& anytype);
 
   Type GetComponentType() const override;
 
@@ -48,7 +48,7 @@ public:
 class StartStructTypeComposerComponent : public AbstractTypeComposerComponent
 {
 public:
-  StartStructTypeComposerComponent(const std::string& struct_name);
+  explicit StartStructTypeComposerComponent(const std::string& struct_name);
 
   Type GetComponentType() const override;
 

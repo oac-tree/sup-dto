@@ -38,7 +38,7 @@ class IAnyBuildNode;
 class AnyTypeBuilder
 {
 public:
-  AnyTypeBuilder(const AnyTypeRegistry* anytype_registry);
+  explicit AnyTypeBuilder(const AnyTypeRegistry* anytype_registry);
   ~AnyTypeBuilder();
 
   AnyTypeBuilder(const AnyTypeBuilder& other) = delete;

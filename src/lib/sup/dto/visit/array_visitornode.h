@@ -36,7 +36,7 @@ template <typename T>
 class ArrayVisitorNode : public IAnyVisitorNode<T>
 {
 public:
-  ArrayVisitorNode(T* any);
+  explicit ArrayVisitorNode(T* any);
   ~ArrayVisitorNode() override;
 
   std::unique_ptr<IAnyVisitorNode<T>> NextChild() override;

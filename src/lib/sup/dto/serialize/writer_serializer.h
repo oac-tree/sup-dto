@@ -42,7 +42,7 @@ class JSONRepresentation;
 class WriterTypeSerializer : public IAnyVisitor<const AnyType>
 {
 public:
-  WriterTypeSerializer(IWriter* writer);
+  explicit WriterTypeSerializer(IWriter* writer);
   ~WriterTypeSerializer() override;
 
   WriterTypeSerializer(const WriterTypeSerializer& other) = delete;
@@ -78,7 +78,7 @@ private:
 class WriterValueSerializer : public IAnyVisitor<const AnyValue>
 {
 public:
-  WriterValueSerializer(IWriter* writer);
+  explicit WriterValueSerializer(IWriter* writer);
   ~WriterValueSerializer() override;
 
   WriterValueSerializer(const WriterValueSerializer& other) = delete;

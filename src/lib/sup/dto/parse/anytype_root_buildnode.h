@@ -37,8 +37,8 @@ class AnyTypeBuildNode;
 class AnyTypeRootBuildNode : public IAnyBuildNode
 {
 public:
-  AnyTypeRootBuildNode(const AnyTypeRegistry* anytype_registry,
-                       IAnyBuildNode* parent = nullptr);
+  explicit AnyTypeRootBuildNode(const AnyTypeRegistry* anytype_registry,
+                                IAnyBuildNode* parent = nullptr);
   ~AnyTypeRootBuildNode();
 
   IAnyBuildNode* GetStructureNode() override;
