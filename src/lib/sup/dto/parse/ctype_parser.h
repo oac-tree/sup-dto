@@ -62,9 +62,9 @@ public:
   void ScalarEpilog(AnyValue* anyvalue) override;
 
 private:
-  const uint8* bytes;
-  std::size_t total_size;
-  std::size_t current_position;
+  const uint8* m_bytes;
+  std::size_t m_total_size;
+  std::size_t m_current_position;
 };
 
 }  // namespace dto

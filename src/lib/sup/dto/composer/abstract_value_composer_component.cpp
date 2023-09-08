@@ -69,5 +69,16 @@ void AbstractValueComposerComponent::AddElement(const sup::dto::AnyValue &value)
       "Error in AbstractValueComposerComponent::AddMember() : not implemented");
 }
 
+sup::dto::AnyValue& AbstractValueComposerComponent::GetValue()
+{
+  return m_value;
+}
+
+void AbstractValueComposerComponent::SetValue(const sup::dto::AnyValue& value)
+{
+  m_value = value;
+}
+
 }  // namespace dto
+
 }  // namespace sup

@@ -33,17 +33,17 @@ namespace sup
 namespace dto
 {
 
-CTypeParser::CTypeParser(const uint8* bytes_, std::size_t total_size_)
-  : bytes{bytes_}
-  , total_size{total_size_}
-  , current_position{0}
+CTypeParser::CTypeParser(const uint8* bytes, std::size_t total_size)
+  : m_bytes{bytes}
+  , m_total_size{total_size}
+  , m_current_position{0}
 {}
 
 CTypeParser::~CTypeParser() = default;
 
 bool CTypeParser::IsFinished() const
 {
-  return current_position == total_size;
+  return m_current_position == m_total_size;
 }
 
 void CTypeParser::EmptyProlog(AnyValue*)
@@ -99,7 +99,7 @@ void CTypeParser::ScalarProlog(AnyValue* anyvalue)
   {
     throw ParseException("CTypeParser: unknown scalar type code");
   }
-  current_position = it->second(*anyvalue, bytes, total_size, current_position);
+  m_current_position = it->second(*anyvalue, m_bytes, m_total_size, m_current_position);
 }
 
 void CTypeParser::ScalarEpilog(AnyValue*)

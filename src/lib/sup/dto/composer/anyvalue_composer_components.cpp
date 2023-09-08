@@ -81,7 +81,7 @@ bool StartStructValueComposerComponent::Process(std::stack<component_t> &stack)
 void StartStructValueComposerComponent::AddMember(const std::string &name,
                                              const sup::dto::AnyValue &value)
 {
-  m_value.AddMember(name, value);
+  GetValue().AddMember(name, value);
 }
 
 // ----------------------------------------------------------------------------
@@ -190,14 +190,15 @@ bool StartArrayValueComposerComponent::Process(std::stack<component_t> &stack)
 //! given value.
 void StartArrayValueComposerComponent::AddElement(const sup::dto::AnyValue &value)
 {
-  if (sup::dto::IsEmptyValue(m_value))
+  if (sup::dto::IsEmptyValue(GetValue()))
   {
-    m_value = sup::dto::AnyValue(0, value.GetType(), m_array_name);
-    m_value.AddElement(value);
+    auto array_val = sup::dto::AnyValue(0, value.GetType(), m_array_name);
+    array_val.AddElement(value);
+    SetValue(array_val);
   }
   else
   {
-    m_value.AddElement(value);
+    GetValue().AddElement(value);
   }
 }
 

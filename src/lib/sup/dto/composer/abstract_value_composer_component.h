@@ -75,6 +75,10 @@ public:
   virtual void AddElement(const sup::dto::AnyValue& value);
 
 protected:
+  sup::dto::AnyValue& GetValue();
+  void SetValue(const sup::dto::AnyValue& value);
+
+private:
   sup::dto::AnyValue m_value;
   std::string m_field_name;
 };

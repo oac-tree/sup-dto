@@ -131,7 +131,7 @@ TEST(AnyValueCTypeTest, FromEmpty)
 {
   // Empty AnyValue has empty byte array representation
   AnyValue empty{};
-  uint8 a;
+  uint8 a = 0;
   EXPECT_NO_THROW(FromBytes(empty, &a, 0));
   EXPECT_THROW(FromBytes(empty, &a, 1), ParseException);
 }

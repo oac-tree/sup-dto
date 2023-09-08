@@ -79,7 +79,7 @@ bool StartStructTypeComposerComponent::Process(std::stack<component_t>& stack)
 void StartStructTypeComposerComponent::AddMember(const std::string& name,
                                                  const sup::dto::AnyType& anytype)
 {
-  m_type.AddMember(name, anytype);
+  GetType().AddMember(name, anytype);
 }
 
 // ----------------------------------------------------------------------------
@@ -181,13 +181,13 @@ bool StartArrayTypeComposerComponent::Process(std::stack<component_t>& stack)
 //! given value.
 void StartArrayTypeComposerComponent::AddElement(const sup::dto::AnyType& anytype)
 {
-  if (m_type != sup::dto::EmptyType)
+  if (GetType() != sup::dto::EmptyType)
   {
     std::string error = "StartArrayTypeComposerComponent::AddElement: can only be called once on "
                         "given object";
     throw ParseException(error);
   }
-  m_type = sup::dto::AnyType(m_array_size, anytype, m_array_name);
+  SetType(sup::dto::AnyType(m_array_size, anytype, m_array_name));
 }
 
 // ----------------------------------------------------------------------------
