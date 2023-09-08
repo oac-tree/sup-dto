@@ -1,0 +1,7 @@
+suppression-begin
+file: anyvalue.h
+rule-id: HICPP-12_1_1-a
+reason: Approved
+author: Walter Van Herck
+date: 2023-09-08
+suppression-end

@@ -67,7 +67,6 @@ public:
    *
    * @note These constructors must be implicit for other constructors to work as expected.
    */
-// parasoft-begin-suppress HICPP-12_1_1-a "Deliberately not explicit"
   AnyValue(boolean val);
   AnyValue(char8 val);
   AnyValue(int8 val);
@@ -82,7 +81,6 @@ public:
   AnyValue(float64 val);
   AnyValue(const std::string& val);
   AnyValue(const char* val);
-// parasoft-end-suppress HICPP-12_1_1-a "Deliberately not explicit"
 
   /**
    * Delete constructors to prevent implicit conversion from pointers to boolean, or nullptr to
