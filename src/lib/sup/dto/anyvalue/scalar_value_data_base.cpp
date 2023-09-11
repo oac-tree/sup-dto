@@ -85,7 +85,7 @@ ScalarValueDataBase* CreateScalarValueData(TypeCode type_code, value_flags::Cons
     {TypeCode::Float64, ScalarValueConstructor<float64> },
     {TypeCode::String, ScalarValueConstructor<std::string> }
   };
-  auto it = constructor_map.find(type_code);
+  const auto it = constructor_map.find(type_code);
   if (it == constructor_map.end())
   {
     throw InvalidOperationException("Not a known scalar type code");

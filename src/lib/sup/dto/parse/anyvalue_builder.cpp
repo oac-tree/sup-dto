@@ -90,7 +90,7 @@ bool AnyValueBuilder::RawNumber(const char*, std::size_t, bool)
 bool AnyValueBuilder::String(const char* str, std::size_t length, bool copy)
 {
   (void)copy;
-  std::string arg(str, length);
+  const std::string arg(str, length);
   return current->String(arg);
 }
 
@@ -103,7 +103,7 @@ bool AnyValueBuilder::StartObject()
 bool AnyValueBuilder::Key(const char* str, std::size_t length, bool copy)
 {
   (void)copy;
-  std::string arg(str, length);
+  const std::string arg(str, length);
   return current->Member(arg);
 }
 

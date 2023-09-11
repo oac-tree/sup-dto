@@ -40,7 +40,7 @@ bool CanAddTypeComponent(const std::stack<AbstractTypeComposerComponent::compone
   }
   using Type = AbstractTypeComposerComponent::Type;
   static const std::vector<Type> expected_types{Type::kStartArrayElement, Type::kStartField};
-  auto it =
+  const auto it =
       std::find(expected_types.begin(), expected_types.end(), stack.top()->GetComponentType());
   return it != expected_types.end();
 }
@@ -49,7 +49,7 @@ void ValidateAddTypeComponent(const std::stack<AbstractTypeComposerComponent::co
 {
   if (!CanAddTypeComponent(stack))
   {
-    std::string error = "ValidateAddTypeComponent(): component can not be added, last type: "
+    const std::string error = "ValidateAddTypeComponent(): component can not be added, last type: "
                         + std::to_string(static_cast<int>(stack.top()->GetComponentType()));
     throw sup::dto::ParseException(error);
   }
@@ -60,7 +60,7 @@ void ValidateLastTypeComponent(const std::stack<AbstractTypeComposerComponent::c
 {
   if (stack.empty() || stack.top()->GetComponentType() != component_type)
   {
-    std::string error =
+    const std::string error =
       "ValidateLastTypeComponent(): last component does not have the required type: "
        + std::to_string(static_cast<int>(component_type));
     throw sup::dto::ParseException(error);
@@ -72,19 +72,19 @@ void ValidateIfTypeComponentIsComplete(
 {
   if (stack.empty())
   {
-    std::string error = "ValidateIfTypeComponentIsComplete(): stack is empty";
+    const std::string error = "ValidateIfTypeComponentIsComplete(): stack is empty";
     throw sup::dto::ParseException(error);
   }
   using Type = AbstractTypeComposerComponent::Type;
   static const std::vector<Type> expected_types{Type::kLeafType, Type::kEndStruct,
                                                 Type::kEndArray};
 
-  auto it =
+  const auto it =
       std::find(expected_types.begin(), expected_types.end(), stack.top()->GetComponentType());
 
   if (it == expected_types.end())
   {
-    std::string error = "ValidateIfTypeComponentIsComplete(): wrong component type";
+    const std::string error = "ValidateIfTypeComponentIsComplete(): wrong component type";
     throw sup::dto::ParseException(error);
   }
 }

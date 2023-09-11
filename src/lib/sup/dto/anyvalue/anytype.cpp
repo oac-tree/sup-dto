@@ -166,7 +166,7 @@ bool IsArrayTypeCode(TypeCode type_code)
 
 bool IsScalarTypeCode(TypeCode type_code)
 {
-  static auto scalar_types = ScalarTypes();
+  static const auto scalar_types = ScalarTypes();
   return scalar_types.count(type_code) == 1;
 }
 

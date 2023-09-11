@@ -45,7 +45,7 @@ void AnyTypeRegistry::RegisterType(const std::string& name, AnyType anytype)
   {
     throw InvalidOperationException("AnyTypeRegistry::RegisterType(): empty name not allowed");
   }
-  auto it = anytypes.find(name);
+  const auto it = anytypes.find(name);
   if (it != anytypes.end() && it->second != anytype)
   {
     throw InvalidOperationException("AnyTypeRegistry::RegisterType(): name already in use "
@@ -74,7 +74,7 @@ std::vector<std::string> AnyTypeRegistry::RegisteredAnyTypeNames() const
 
 AnyType AnyTypeRegistry::GetType(const std::string& name) const
 {
-  auto it = anytypes.find(name);
+  const auto it = anytypes.find(name);
   if (it == anytypes.end())
   {
     throw InvalidOperationException("AnyTypeRegistry::GetType(): name not found");

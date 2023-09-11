@@ -37,11 +37,11 @@ namespace dto
 {
 CompareResult Compare(const AnyValue& lhs, const AnyValue& rhs)
 {
-  auto t_1 = lhs.GetTypeCode();
-  auto t_2 = rhs.GetTypeCode();
-  auto p_1 = utils::PromoteIntegralCode(t_1);
-  auto p_2 = utils::PromoteIntegralCode(t_2);
-  auto common_type = utils::CommonTypeCode(p_1, p_2);
+  const auto t_1 = lhs.GetTypeCode();
+  const auto t_2 = rhs.GetTypeCode();
+  const auto p_1 = utils::PromoteIntegralCode(t_1);
+  const auto p_2 = utils::PromoteIntegralCode(t_2);
+  const auto common_type = utils::CommonTypeCode(p_1, p_2);
   return utils::GetCompareFunction(common_type)(lhs, rhs);
 }
 

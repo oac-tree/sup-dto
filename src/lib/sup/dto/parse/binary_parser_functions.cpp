@@ -35,7 +35,7 @@ sup::dto::uint8 FetchToken(ByteIterator& it)
 
 std::string ParseBinaryString(ByteIterator& it, const ByteIterator& end)
 {
-  auto str_size = ParseSize(it, end);
+  const auto str_size = ParseSize(it, end);
   if (static_cast<std::size_t>(std::distance(it, end)) < str_size)
   {
     throw ParseException("End of byte stream encountered during string value parsing");
@@ -44,7 +44,7 @@ std::string ParseBinaryString(ByteIterator& it, const ByteIterator& end)
   result.reserve(str_size);
   for (unsigned i = 0; i < str_size; ++i)
   {
-    auto u = *it++;
+    const auto u = *it++;
     char c;
     std::memcpy(&c, &u, 1);
     result.push_back(c);
@@ -58,7 +58,7 @@ sup::dto::uint64 ParseSize(ByteIterator& it, const ByteIterator& end)
   {
     throw ParseException("End of byte stream encountered during size parsing");
   }
-  auto token = *it++;
+  const auto token = *it++;
   if (token < SHORT_SIZE_LIMIT)
   {
     return token;

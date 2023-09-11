@@ -141,13 +141,13 @@ bool EndFieldTypeComposerComponent::Process(std::stack<component_t>& stack)
   ValidateIfTypeComponentIsComplete(stack);
 
   // removing type component (scalar, struct or array) and storing the type
-  auto field_type = stack.top()->MoveAnyType();
+  const auto field_type = stack.top()->MoveAnyType();
   stack.pop();
 
   ValidateLastTypeComponent(stack, Type::kStartField);
 
   // removing StartFieldTypeComposerComponent and storing the name
-  auto field_name = stack.top()->GetFieldName();
+  const auto field_name = stack.top()->GetFieldName();
   stack.pop();
 
   // adding a new member to StartStructComposerComponent
@@ -183,8 +183,8 @@ void StartArrayTypeComposerComponent::AddElement(const sup::dto::AnyType& anytyp
 {
   if (GetType() != sup::dto::EmptyType)
   {
-    std::string error = "StartArrayTypeComposerComponent::AddElement: can only be called once on "
-                        "given object";
+    const std::string error =
+      "StartArrayTypeComposerComponent::AddElement: can only be called once on given object";
     throw ParseException(error);
   }
   SetType(sup::dto::AnyType(m_array_size, anytype, m_array_name));
@@ -207,7 +207,7 @@ bool EndArrayTypeComposerComponent::Process(std::stack<component_t>& stack)
   auto anytype = stack.top()->MoveAnyType();
   if (sup::dto::IsEmptyType(anytype))
   {
-    std::string error = "EndArrayTypeComposerComponent::Process: no element type defined";
+    const std::string error = "EndArrayTypeComposerComponent::Process: no element type defined";
     throw ParseException(error);
   }
   Consume(std::move(anytype));
@@ -250,7 +250,7 @@ bool EndArrayElementTypeComposerComponent::Process(std::stack<component_t>& stac
   ValidateIfTypeComponentIsComplete(stack);
 
   // removing type component (scalar, struct or array) and storing the type
-  auto anytype = stack.top()->MoveAnyType();
+  const auto anytype = stack.top()->MoveAnyType();
   stack.pop();
 
   ValidateLastTypeComponent(stack, Type::kStartArrayElement);

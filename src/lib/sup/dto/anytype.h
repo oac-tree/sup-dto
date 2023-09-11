@@ -22,6 +22,8 @@
 #ifndef SUP_DTO_ANYTYPE_H_
 #define SUP_DTO_ANYTYPE_H_
 
+#include <sup/dto/basic_scalar_types.h>
+
 #include <functional>
 #include <initializer_list>
 #include <memory>
@@ -33,9 +35,9 @@ namespace sup
 {
 namespace dto
 {
-enum class TypeCode
+enum class TypeCode : sup::dto::uint32
 {
-  Empty,
+  Empty = 0,
   Bool,
   Char8,
   Int8,

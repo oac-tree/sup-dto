@@ -44,8 +44,8 @@ bool JSONAnyTypeParser::ParseString(const std::string& json_str,
                                     const AnyTypeRegistry* type_registry)
 {
   std::istringstream iss(json_str);
-  AnyTypeRegistry empty_registry;
-  auto registry = type_registry == nullptr ? &empty_registry : type_registry;
+  const AnyTypeRegistry empty_registry;
+  const auto registry = type_registry == nullptr ? &empty_registry : type_registry;
   try
   {
     auto parsed_type = JSONParseAnyType(registry, iss);
@@ -66,8 +66,8 @@ bool JSONAnyTypeParser::ParseFile(const std::string& filename,
   {
     return false;
   }
-  AnyTypeRegistry empty_registry;
-  auto registry = type_registry == nullptr ? &empty_registry : type_registry;
+  const AnyTypeRegistry empty_registry;
+  const auto registry = type_registry == nullptr ? &empty_registry : type_registry;
   try
   {
     auto parsed_type = JSONParseAnyType(registry, ifs);

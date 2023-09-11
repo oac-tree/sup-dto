@@ -73,7 +73,7 @@ std::vector<uint8> ScalarToBytes(const AnyValue& anyvalue)
     {TypeCode::Float64, ScalarToBytesT<float64> },
     {TypeCode::String, ScalarToBytesT<std::string> }
   };
-  auto it = conversion_map.find(anyvalue.GetTypeCode());
+  const auto it = conversion_map.find(anyvalue.GetTypeCode());
   if (it == conversion_map.end())
   {
     throw SerializeException("Not a known scalar type code");

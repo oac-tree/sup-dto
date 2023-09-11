@@ -62,8 +62,9 @@ sup::dto::AnyType AnyTypeComposer::MoveAnyType()
 {
   if (p_impl->m_stack.size() != 1)
   {
-    std::string error = "AnyTypeComposer::MoveAnyType: stack size not equal to one, AnyType "
-                        " construction was not correctly finished";
+    const std::string error =
+      "AnyTypeComposer::MoveAnyType: stack size not equal to one, AnyType "
+      " construction was not correctly finished";
     throw ParseException(error);
   }
   return p_impl->m_stack.top()->MoveAnyType();

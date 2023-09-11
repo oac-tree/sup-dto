@@ -82,7 +82,7 @@ bool ArrayTypeData::HasField(const std::string& fieldname) const
 
 AnyType& ArrayTypeData::operator[](const std::string& fieldname)
 {
-  auto remainder = StripTypeIndex(fieldname);
+  const auto remainder = StripTypeIndex(fieldname);
   if (remainder.empty())
   {
     return elem_type;

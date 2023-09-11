@@ -109,7 +109,7 @@ void BinaryValueParser::ScalarProlog(AnyValue* anyvalue)
     {TypeCode::Float64, AssignBinaryScalarT<float64> },
     {TypeCode::String, AssignBinaryString }
   };
-  auto it = assign_map.find(anyvalue->GetTypeCode());
+  const auto it = assign_map.find(anyvalue->GetTypeCode());
   if (it == assign_map.end())
   {
     throw ParseException("BinaryValueParser: unknown scalar type code");

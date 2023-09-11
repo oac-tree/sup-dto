@@ -1,6 +1,6 @@
 suppression-begin
 file: ctype_parser.cpp
-rule-id: HICPP-4_2_2-f
+rule-id: HICPP-8_4_1-a
 reason: Approved
 author: Walter Van Herck
 date: 2023-09-08

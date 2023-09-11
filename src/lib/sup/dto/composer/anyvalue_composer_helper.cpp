@@ -42,7 +42,7 @@ bool CanAddValueComponent(const std::stack<AbstractValueComposerComponent::compo
   using Type = AbstractValueComposerComponent::Type;
   static const std::vector<Type> expected_types{Type::kStartArrayElement, Type::kStartField};
 
-  auto it =
+  const auto it =
       std::find(expected_types.begin(), expected_types.end(), stack.top()->GetComponentType());
   return it != expected_types.end();
 }
@@ -88,7 +88,7 @@ void ValidateIfValueComponentIsComplete(
   using Type = AbstractValueComposerComponent::Type;
   static const std::vector<Type> expected_types{Type::kValue, Type::kEndStruct, Type::kEndArray};
 
-  auto it =
+  const auto it =
       std::find(expected_types.begin(), expected_types.end(), stack.top()->GetComponentType());
 
   if (it == expected_types.end())

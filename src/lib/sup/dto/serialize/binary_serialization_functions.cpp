@@ -42,7 +42,7 @@ void AppendScalarAnyValueT(std::vector<uint8>& representation, const AnyValue& a
 
 void AppendBinaryStringAnyValue(std::vector<uint8>& representation, const AnyValue& anyvalue)
 {
-  std::string str = anyvalue.As<std::string>();
+  const std::string str = anyvalue.As<std::string>();
   AppendBinaryStringValue(representation, str);
 }
 
@@ -63,7 +63,7 @@ void AppendScalarToken(std::vector<uint8>& representation, const TypeCode& type_
     {TypeCode::Float64, FLOAT64_TOKEN },
     {TypeCode::String, STRING_TOKEN }
   };
-  auto it = token_map.find(type_code);
+  const auto it = token_map.find(type_code);
   if (it == token_map.end())
   {
     throw SerializeException("Not a known scalar type code");
@@ -75,7 +75,7 @@ void AppendSize(std::vector<sup::dto::uint8>& representation, sup::dto::uint64 s
 {
   if (size < SHORT_SIZE_LIMIT)
   {
-    auto size_byte = static_cast<sup::dto::uint8>(size);
+    const auto size_byte = static_cast<sup::dto::uint8>(size);
     representation.push_back(size_byte);
   }
   else
@@ -103,7 +103,7 @@ void AppendBinaryScalar(std::vector<uint8>& representation, const AnyValue& anyv
     {TypeCode::Float64, AppendScalarAnyValueT<float64> },
     {TypeCode::String, AppendBinaryStringAnyValue }
   };
-  auto it = function_map.find(anyvalue.GetTypeCode());
+  const auto it = function_map.find(anyvalue.GetTypeCode());
   if (it == function_map.end())
   {
     throw SerializeException("Not a known scalar type code");
@@ -119,7 +119,7 @@ void AppendBinaryString(std::vector<uint8>& representation, const std::string& s
 
 void AppendBinaryStringValue(std::vector<uint8>& representation, const std::string& str)
 {
-  auto str_size = str.size();
+  const auto str_size = str.size();
   AppendSize(representation, str_size);
   representation.insert(representation.end(), std::begin(str), std::end(str));
 }

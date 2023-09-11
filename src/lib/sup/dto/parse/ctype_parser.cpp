@@ -94,7 +94,7 @@ void CTypeParser::ScalarProlog(AnyValue* anyvalue)
     {TypeCode::Float64, AssignBytes<float64> },
     {TypeCode::String, AssignBytes<std::string> }
   };
-  auto it = assign_map.find(anyvalue->GetTypeCode());
+  const auto it = assign_map.find(anyvalue->GetTypeCode());
   if (it == assign_map.end())
   {
     throw ParseException("CTypeParser: unknown scalar type code");

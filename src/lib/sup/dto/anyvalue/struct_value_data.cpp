@@ -39,7 +39,7 @@ StructValueData::StructValueData(const AnyType& anytype, value_flags::Constraint
   : m_member_data{anytype.GetTypeName()}
   , m_constraints{constraints}
 {
-  for (auto& member_name : anytype.MemberNames())
+  for (const auto& member_name : anytype.MemberNames())
   {
     const auto& member_type = anytype[member_name];
     std::unique_ptr<IValueData> data{CreateValueData(member_type, constraints)};

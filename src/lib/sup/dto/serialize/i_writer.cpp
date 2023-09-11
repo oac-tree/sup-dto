@@ -59,7 +59,7 @@ bool WriteScalarValue(const AnyValue& anyvalue, IWriter* writer)
     {TypeCode::Float64, WriteScalarValueT<float64, &IWriter::Double> },
     {TypeCode::String, WriteScalarString }
   };
-  auto it = conversion_map.find(anyvalue.GetTypeCode());
+  const auto it = conversion_map.find(anyvalue.GetTypeCode());
   if (it == conversion_map.end())
   {
     throw SerializeException("Not a known scalar type code");
@@ -69,7 +69,7 @@ bool WriteScalarValue(const AnyValue& anyvalue, IWriter* writer)
 
 bool WriteScalarString(const AnyValue& anyvalue, IWriter* writer)
 {
-  std::string str = anyvalue.As<std::string>();
+  const std::string str = anyvalue.As<std::string>();
   return writer->String(str);
 }
 

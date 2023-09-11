@@ -36,11 +36,11 @@ BinaryTypeParserHelper::BinaryTypeParserHelper()
 bool BinaryTypeParserHelper::HandleToken(ByteIterator& it, const ByteIterator& end)
 {
   auto token = FetchToken(it);
-  auto handler_func = GetHandlerMemberFunction(token);
+  const auto handler_func = GetHandlerMemberFunction(token);
   if (!handler_func)
   {
-    std::string error = "BinaryTypeParserHelper::HandleToken(): encountered unknown token: " +
-      std::to_string(token);
+    const std::string error =
+      "BinaryTypeParserHelper::HandleToken(): encountered unknown token: " + std::to_string(token);
     throw ParseException(error);
   }
   return handler_func(*this, it, end);
@@ -50,7 +50,7 @@ AnyType BinaryTypeParserHelper::MoveAnyType()
 {
   if (GetCurrentState() != ParseState::kNone)
   {
-    std::string error = "BinaryTypeParserHelper::MoveAnyType(): parsing was not complete";
+    const std::string error = "BinaryTypeParserHelper::MoveAnyType(): parsing was not complete";
     throw ParseException(error);
   }
   return m_composer.MoveAnyType();
@@ -112,7 +112,7 @@ ParseState BinaryTypeParserHelper::GetCurrentState() const
 
 void BinaryTypeParserHelper::PushState()
 {
-  auto current_state = GetCurrentState();
+  const auto current_state = GetCurrentState();
   // Only arrays need to be handled here, structures do this during the field name parsing.
   if (current_state == ParseState::kInArray)
   {
@@ -123,7 +123,7 @@ void BinaryTypeParserHelper::PushState()
 
 bool BinaryTypeParserHelper::PopState()
 {
-  auto current_state = GetCurrentState();
+  const auto current_state = GetCurrentState();
   if (current_state == ParseState::kNone)
   {
     return false;
@@ -146,10 +146,10 @@ bool BinaryTypeParserHelper::PopState()
 // HandleString is not intented to be called during parsing of struct/array typenames
 bool BinaryTypeParserHelper::HandleString(ByteIterator& it, const ByteIterator& end)
 {
-  auto current_state = GetCurrentState();
+  const auto current_state = GetCurrentState();
   if (current_state == ParseState::kInStruct)
   {
-    auto str = ParseBinaryString(it, end);
+    const auto str = ParseBinaryString(it, end);
     m_composer.StartField(str);
     m_parse_states.push(ParseState::kInStructElement);
     return true;
@@ -165,7 +165,7 @@ bool BinaryTypeParserHelper::HandleStartStruct(ByteIterator& it, const ByteItera
   {
     return false;
   }
-  auto str = ParseBinaryString(it, end);
+  const auto str = ParseBinaryString(it, end);
   PushState();
   m_composer.StartStruct(str);
   m_parse_states.push(ParseState::kInStruct);
@@ -191,8 +191,8 @@ bool BinaryTypeParserHelper::HandleStartArray(ByteIterator& it, const ByteIterat
   {
     return false;
   }
-  auto str = ParseBinaryString(it, end);
-  auto size = ParseSize(it, end);
+  const auto str = ParseBinaryString(it, end);
+  const auto size = ParseSize(it, end);
   PushState();
   m_composer.StartArray(str, size);
   m_parse_states.push(ParseState::kInArray);

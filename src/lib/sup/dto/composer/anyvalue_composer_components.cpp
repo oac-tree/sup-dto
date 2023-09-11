@@ -149,13 +149,13 @@ bool EndFieldValueComposerComponent::Process(std::stack<component_t> &stack)
   ValidateIfValueComponentIsComplete(stack);
 
   // removing value component (scalar, struct or array), keeping the value for later reuse
-  auto value = stack.top()->MoveAnyValue();
+  const auto value = stack.top()->MoveAnyValue();
   stack.pop();
 
   ValidateLastComponent(stack, Type::kStartField);
 
   // removing StartFieldValueComposerComponent, keeping the name for later reuse
-  auto field_name = stack.top()->GetFieldName();
+  const auto field_name = stack.top()->GetFieldName();
   stack.pop();
 
   ValidateLastComponent(stack, Type::kStartStruct);
@@ -256,7 +256,7 @@ bool EndArrayElementValueComposerComponent::Process(std::stack<component_t> &sta
   ValidateIfValueComponentIsComplete(stack);
 
   // removing value component (scalar, struct or array), keeping the value for later reuse
-  auto value = stack.top()->MoveAnyValue();
+  const auto value = stack.top()->MoveAnyValue();
   stack.pop();
 
   ValidateLastComponent(stack, Type::kStartArrayElement);

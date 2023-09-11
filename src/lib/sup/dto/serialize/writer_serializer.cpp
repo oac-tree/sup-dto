@@ -39,7 +39,7 @@ void WriterTypeSerializer::EmptyProlog(const AnyType* anytype)
 {
   writer->StartStructure();
   writer->Member(serialization::TYPE_KEY);
-  auto type_name = anytype->GetTypeName();
+  const auto type_name = anytype->GetTypeName();
   writer->String(type_name);
 }
 
@@ -52,7 +52,7 @@ void WriterTypeSerializer::StructProlog(const AnyType* anytype)
 {
   writer->StartStructure();
   writer->Member(serialization::TYPE_KEY);
-  auto type_name = anytype->GetTypeName();
+  const auto type_name = anytype->GetTypeName();
   writer->String(type_name);
   writer->Member(serialization::ATTRIBUTES_KEY);
   writer->StartArray();
@@ -83,7 +83,7 @@ void WriterTypeSerializer::ArrayProlog(const AnyType* anytype)
 {
   writer->StartStructure();
   writer->Member(serialization::TYPE_KEY);
-  auto type_name = anytype->GetTypeName();
+  const auto type_name = anytype->GetTypeName();
   writer->String(type_name);
   if (anytype->NumberOfElements() > 0)
   {
@@ -105,7 +105,7 @@ void WriterTypeSerializer::ScalarProlog(const AnyType* anytype)
 {
   writer->StartStructure();
   writer->Member(serialization::TYPE_KEY);
-  auto type_name = anytype->GetTypeName();
+  const auto type_name = anytype->GetTypeName();
   writer->String(type_name);
 }
 

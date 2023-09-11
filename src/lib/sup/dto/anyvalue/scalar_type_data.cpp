@@ -87,7 +87,7 @@ std::map<TypeCode, std::string> ScalarTypeCodeToStringMap()
 std::string ScalarTypeCodeToString(TypeCode type_code)
 {
   static const std::map<TypeCode, std::string> type_map = ScalarTypeCodeToStringMap();
-  auto it = type_map.find(type_code);
+  const auto it = type_map.find(type_code);
   return it->second;
 }
 }  // unnamed namespace
