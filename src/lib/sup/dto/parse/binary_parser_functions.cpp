@@ -42,11 +42,11 @@ std::string ParseBinaryString(ByteIterator& it, const ByteIterator& end)
   }
   std::string result;
   result.reserve(str_size);
-  for (unsigned i = 0; i < str_size; ++i)
+  for (unsigned i = 0u; i < str_size; ++i)
   {
     const auto u = *it++;
     char c;
-    std::memcpy(&c, &u, 1);
+    std::memcpy(&c, &u, 1u);
     result.push_back(c);
   }
   return result;

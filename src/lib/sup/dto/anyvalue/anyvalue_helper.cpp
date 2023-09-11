@@ -131,7 +131,7 @@ std::vector<uint8> AnyValueToBinary(const AnyValue& anyvalue)
 
 AnyValue AnyValueFromBinary(const std::vector<uint8>& representation)
 {
-  if (representation.empty() || representation[0] != ANYTYPE_TOKEN)
+  if (representation.empty() || representation[0u] != ANYTYPE_TOKEN)
   {
     throw ParseException(
       "AnyValueFromBinary(): type representation does not start with correct token");

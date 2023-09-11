@@ -192,7 +192,7 @@ void StartArrayValueComposerComponent::AddElement(const sup::dto::AnyValue &valu
 {
   if (sup::dto::IsEmptyValue(GetValue()))
   {
-    auto array_val = sup::dto::AnyValue(0, value.GetType(), m_array_name);
+    auto array_val = sup::dto::AnyValue(0u, value.GetType(), m_array_name);
     array_val.AddElement(value);
     SetValue(array_val);
   }

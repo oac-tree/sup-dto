@@ -48,12 +48,12 @@ std::pair<std::string, std::string> StripFirstFieldName(const std::string& field
   {
     return { fieldname, ""};
   }
-  auto first = fieldname.substr(0, pos);
+  auto first = fieldname.substr(0u, pos);
   auto rest = fieldname.substr(pos);
-  if (rest[0] == '.')
+  if (rest[0u] == '.')
   {
     // Only strip dots
-    rest = rest.substr(1);
+    rest = rest.substr(1u);
   }
   return { first, rest };
 }

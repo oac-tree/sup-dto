@@ -31,15 +31,15 @@ namespace dto
 namespace serialization
 {
 
-static const std::string ENCODING_KEY = "encoding";
-static const std::string JSON_ENCODING_1_0 = "sup-dto/v1.0/JSON";
-static const std::string DATATYPE_KEY = "datatype";
-static const std::string INSTANCE_KEY = "instance";
+const std::string ENCODING_KEY = "encoding";
+const std::string JSON_ENCODING_1_0 = "sup-dto/v1.0/JSON";
+const std::string DATATYPE_KEY = "datatype";
+const std::string INSTANCE_KEY = "instance";
 
-static const std::string TYPE_KEY = "type";
-static const std::string MULTIPLICITY_KEY = "multiplicity";
-static const std::string ELEMENT_KEY = "element";
-static const std::string ATTRIBUTES_KEY = "attributes";
+const std::string TYPE_KEY = "type";
+const std::string MULTIPLICITY_KEY = "multiplicity";
+const std::string ELEMENT_KEY = "element";
+const std::string ATTRIBUTES_KEY = "attributes";
 
 }  // namespace serialization
 

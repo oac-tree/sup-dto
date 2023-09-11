@@ -42,7 +42,7 @@ std::vector<std::string> ITypeData::MemberNames() const
 
 std::size_t ITypeData::NumberOfMembers() const
 {
-  return 0;
+  return 0u;
 }
 
 AnyType ITypeData::ElementType() const
@@ -52,7 +52,7 @@ AnyType ITypeData::ElementType() const
 
 std::size_t ITypeData::NumberOfElements() const
 {
-  return 0;
+  return 0u;
 }
 
 bool ITypeData::HasField(const std::string&) const

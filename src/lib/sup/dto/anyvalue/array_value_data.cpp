@@ -42,7 +42,7 @@ ArrayValueData::ArrayValueData(std::size_t size, const AnyType& elem_type,
   {
     throw InvalidOperationException("Empty type is not allowed as element type");
   }
-  for (std::size_t i = 0; i < size; ++i)
+  for (std::size_t i = 0u; i < size; ++i)
   {
     std::unique_ptr<IValueData> data{CreateValueData(m_elem_type, value_flags::kLockedType)};
     m_elements.push_back(MakeAnyValue(std::move(data)));
@@ -55,7 +55,7 @@ ArrayValueData* ArrayValueData::Clone(value_flags::Constraints constraints) cons
 {
   auto result = std::unique_ptr<ArrayValueData>(
       new ArrayValueData(NumberOfElements(), m_elem_type, m_name, constraints));
-  for (std::size_t i = 0; i < NumberOfElements(); ++i)
+  for (std::size_t i = 0u; i < NumberOfElements(); ++i)
   {
     result->operator[](i) = *m_elements[i];
   }
@@ -109,7 +109,7 @@ void ArrayValueData::ConvertFrom(const AnyValue& value)
     throw InvalidConversionException("Can't convert between array values with different length "
                                      "unless target has zero size");
   }
-  for (std::size_t idx = 0; idx < NumberOfElements(); ++idx)
+  for (std::size_t idx = 0u; idx < NumberOfElements(); ++idx)
   {
     UnsafeConversion(*m_elements[idx], value[idx]);
   }
@@ -171,7 +171,7 @@ bool ArrayValueData::Equals(const AnyValue& other) const
   {
     return false;
   }
-  for (std::size_t idx = 0; idx < NumberOfElements(); ++idx)
+  for (std::size_t idx = 0u; idx < NumberOfElements(); ++idx)
   {
     if (other[idx] != *m_elements[idx])
     {
@@ -183,12 +183,12 @@ bool ArrayValueData::Equals(const AnyValue& other) const
 
 std::pair<std::size_t, std::string> StripValueIndex(const std::string& fieldname)
 {
-  if (fieldname.empty() || fieldname.substr(0, 1) != "[")
+  if (fieldname.empty() || fieldname.substr(0u, 1u) != "[")
   {
     throw InvalidOperationException("Index operator argument for array value should start with [");
   }
-  auto remainder = fieldname.substr(1);
-  std::size_t idx = 0;
+  auto remainder = fieldname.substr(1u);
+  std::size_t idx = 0u;
   std::size_t pos;
   try
   {
@@ -203,15 +203,15 @@ std::pair<std::size_t, std::string> StripValueIndex(const std::string& fieldname
     throw InvalidOperationException("Index operator argument cannot be parsed to an unsigned integer");
   }
   remainder = remainder.substr(pos);
-  if (remainder.empty() || remainder.substr(0, 1) != "]")
+  if (remainder.empty() || remainder.substr(0u, 1u) != "]")
   {
     throw InvalidOperationException("Index operator argument for array value should be integer in "
                                  "square brackets");
   }
-  remainder = remainder.substr(1);
-  if (!remainder.empty() && remainder.substr(0, 1) == ".")
+  remainder = remainder.substr(1u);
+  if (!remainder.empty() && remainder.substr(0u, 1u) == ".")
   {
-    return { idx, remainder.substr(1) };
+    return { idx, remainder.substr(1u) };
   }
   return { idx, remainder };
 }

@@ -58,7 +58,7 @@ std::vector<std::string> IValueData::MemberNames() const
 
 std::size_t IValueData::NumberOfMembers() const
 {
-  return 0;
+  return 0u;
 }
 
 void IValueData::AddElement(const AnyValue& value)
@@ -69,7 +69,7 @@ void IValueData::AddElement(const AnyValue& value)
 
 std::size_t IValueData::NumberOfElements() const
 {
-  return 0;
+  return 0u;
 }
 
 void IValueData::ConvertFrom(const AnyValue& value)

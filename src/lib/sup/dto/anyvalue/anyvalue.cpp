@@ -366,7 +366,7 @@ AnyValue ArrayValue(std::initializer_list<AnyValue> elements, const std::string&
   }
   auto it = elements.begin();
   AnyValue result(elements.size(), it->GetType(), type_name);
-  std::size_t idx = 0;
+  std::size_t idx = 0u;
   for (; it != elements.end(); ++it, ++idx)
   {
     result[idx] = *it;

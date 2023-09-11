@@ -8,7 +8,7 @@ suppression-end
 
 suppression-begin
 file: anytype.h
-line: 103
+line: 105
 rule-id: HICPP-12_1_1-a
 reason: Approved
 author: Walter Van Herck
