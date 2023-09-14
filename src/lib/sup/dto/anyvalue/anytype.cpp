@@ -58,6 +58,10 @@ AnyType::AnyType(std::initializer_list<std::pair<std::string, AnyType>> members,
   m_data = std::move(struct_data);
 }
 
+AnyType::AnyType(std::initializer_list<std::pair<std::string, AnyType>> members)
+  : AnyType{members, {}}
+{}
+
 AnyType::AnyType(std::size_t size, const AnyType& elem_type, const std::string& name)
   : m_data{new EmptyTypeData()}
 {
@@ -65,17 +69,28 @@ AnyType::AnyType(std::size_t size, const AnyType& elem_type, const std::string& 
   std::swap(m_data, array_data);
 }
 
+AnyType::AnyType(std::size_t size, const AnyType& elem_type)
+  : AnyType{size, elem_type, {}}
+{}
+
 AnyType::AnyType(const AnyType& other)
   : m_data{other.m_data->Clone()}
 {}
 
-AnyType::AnyType(AnyType&& other)
+AnyType::AnyType(AnyType&& other) noexcept
   : m_data{new EmptyTypeData()}
 {
   std::swap(m_data, other.m_data);
 }
 
-AnyType& AnyType::operator=(AnyType other)
+AnyType& AnyType::operator=(const AnyType& other) &
+{
+  AnyType copy(other);
+  std::swap(m_data, copy.m_data);
+  return *this;
+}
+
+AnyType& AnyType::operator=(AnyType&& other) &
 {
   std::swap(m_data, other.m_data);
   return *this;
@@ -147,6 +162,11 @@ bool AnyType::operator!=(const AnyType& other) const
 AnyType EmptyStructType(const std::string& name)
 {
   return AnyType(std::initializer_list<std::pair<std::string, AnyType>>{}, name);
+}
+
+AnyType EmptyStructType()
+{
+  return EmptyStructType({});
 }
 
 bool IsEmptyTypeCode(TypeCode type_code)

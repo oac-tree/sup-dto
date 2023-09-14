@@ -34,10 +34,10 @@ namespace dto
 AnyValueValueBuilder::AnyValueValueBuilder(const AnyType& anytype)
   : m_value{anytype}
   , m_registry{}
-  , root{new AnyValueValueElementBuildNode{&m_registry, nullptr, m_value}}
-  , current{root.get()}
+  , m_root{new AnyValueValueElementBuildNode{&m_registry, nullptr, m_value}}
+  , m_current{m_root.get()}
 {
-  current->Member(serialization::INSTANCE_KEY);
+  m_current->Member(serialization::INSTANCE_KEY);
 }
 
 AnyValueValueBuilder::~AnyValueValueBuilder() = default;
@@ -45,7 +45,7 @@ AnyValueValueBuilder::~AnyValueValueBuilder() = default;
 AnyValue AnyValueValueBuilder::MoveAnyValue()
 {
   // Ensure all nodes were popped
-  if (current != root.get())
+  if (m_current != m_root.get())
   {
     throw ParseException("AnyValueValueBuilder::MoveAnyValue called before parsing was finished");
   }
@@ -54,37 +54,37 @@ AnyValue AnyValueValueBuilder::MoveAnyValue()
 
 bool AnyValueValueBuilder::Null()
 {
-  return current->Null();
+  return m_current->Null();
 }
 
 bool AnyValueValueBuilder::Bool(boolean b)
 {
-  return current->Bool(b);
+  return m_current->Bool(b);
 }
 
 bool AnyValueValueBuilder::Int(int32 i)
 {
-  return current->Int32(i);
+  return m_current->Int32(i);
 }
 
 bool AnyValueValueBuilder::Uint(uint32 u)
 {
-  return current->Uint32(u);
+  return m_current->Uint32(u);
 }
 
 bool AnyValueValueBuilder::Int64(int64 i)
 {
-  return current->Int64(i);
+  return m_current->Int64(i);
 }
 
 bool AnyValueValueBuilder::Uint64(uint64 u)
 {
-  return current->Uint64(u);
+  return m_current->Uint64(u);
 }
 
 bool AnyValueValueBuilder::Double(float64 d)
 {
-  return current->Double(d);
+  return m_current->Double(d);
 }
 
 bool AnyValueValueBuilder::RawNumber(const char*, std::size_t, bool)
@@ -96,12 +96,12 @@ bool AnyValueValueBuilder::String(const char* str, std::size_t length, bool copy
 {
   (void)copy;
   const std::string arg(str, length);
-  return current->String(arg);
+  return m_current->String(arg);
 }
 
 bool AnyValueValueBuilder::StartObject()
 {
-  current = current->GetStructureNode();
+  m_current = m_current->GetStructureNode();
   return true;
 }
 
@@ -109,35 +109,35 @@ bool AnyValueValueBuilder::Key(const char* str, std::size_t length, bool copy)
 {
   (void)copy;
   const std::string arg(str, length);
-  return current->Member(arg);
+  return m_current->Member(arg);
 }
 
 bool AnyValueValueBuilder::EndObject(std::size_t)
 {
-  if (!current->Parent())
+  if (!m_current->Parent())
   {
     throw ParseException("AnyValueValueBuilder::EndObject current node is null");
   }
-  current = current->Parent();
-  current->PopStructureNode();
+  m_current = m_current->Parent();
+  m_current->PopStructureNode();
   return true;
 }
 
 bool AnyValueValueBuilder::StartArray()
 {
-  current = current->GetArrayNode();
+  m_current = m_current->GetArrayNode();
   return true;
 }
 
 bool AnyValueValueBuilder::EndArray(std::size_t elementCount)
 {
   (void)elementCount;
-  if (!current->Parent())
+  if (!m_current->Parent())
   {
     throw ParseException("AnyValueValueBuilder::EndArray current node is null");
   }
-  current = current->Parent();
-  current->PopArrayNode();
+  m_current = m_current->Parent();
+  m_current->PopArrayNode();
   return true;
 }
 

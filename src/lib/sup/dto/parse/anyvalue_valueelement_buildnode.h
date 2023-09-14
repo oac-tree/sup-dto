@@ -57,10 +57,10 @@ public:
   bool PopArrayNode() override;
 
 private:
-  std::unique_ptr<AnyValueBuildNode> value_node;
-  std::unique_ptr<IAnyBuildNode> array_node;
-  std::string member_name;
-  AnyValue& anyvalue;
+  std::unique_ptr<AnyValueBuildNode> m_value_node;
+  std::unique_ptr<IAnyBuildNode> m_array_node;
+  std::string m_member_name;
+  AnyValue& m_anyvalue;
 };
 
 }  // namespace dto

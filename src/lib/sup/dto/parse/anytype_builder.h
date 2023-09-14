@@ -64,8 +64,8 @@ public:
   bool EndArray(std::size_t elementCount);
 
 private:
-  std::unique_ptr<AnyTypeRootBuildNode> root;
-  IAnyBuildNode* current;
+  std::unique_ptr<AnyTypeRootBuildNode> m_root;
+  IAnyBuildNode* m_current;
 };
 
 }  // namespace dto

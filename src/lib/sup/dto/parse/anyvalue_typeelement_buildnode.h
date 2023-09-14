@@ -48,9 +48,9 @@ public:
   AnyType MoveAnyType() const;
 
 private:
-  std::unique_ptr<AnyTypeBuildNode> type_node;
-  std::string member_name;
-  AnyType anytype;
+  std::unique_ptr<AnyTypeBuildNode> m_type_node;
+  std::string m_member_name;
+  AnyType m_anytype;
 };
 
 }  // namespace dto

@@ -31,8 +31,8 @@ namespace dto
 {
 
 AnyValueBuilder::AnyValueBuilder(const AnyTypeRegistry* anytype_registry)
-  : root{new AnyValueRootBuildNode{anytype_registry}}
-  , current{root.get()}
+  : m_root{new AnyValueRootBuildNode{anytype_registry}}
+  , m_current{m_root.get()}
 {}
 
 AnyValueBuilder::~AnyValueBuilder() = default;
@@ -40,46 +40,46 @@ AnyValueBuilder::~AnyValueBuilder() = default;
 AnyValue AnyValueBuilder::MoveAnyValue()
 {
   // Ensure all nodes were popped
-  if (current != root.get())
+  if (m_current != m_root.get())
   {
     throw ParseException("AnyValueBuilder::MoveAnyValue called before parsing was finished");
   }
-  return root->MoveAnyValue();
+  return m_root->MoveAnyValue();
 }
 
 bool AnyValueBuilder::Null()
 {
-  return current->Null();
+  return m_current->Null();
 }
 
 bool AnyValueBuilder::Bool(boolean b)
 {
-  return current->Bool(b);
+  return m_current->Bool(b);
 }
 
 bool AnyValueBuilder::Int(int32 i)
 {
-  return current->Int32(i);
+  return m_current->Int32(i);
 }
 
 bool AnyValueBuilder::Uint(uint32 u)
 {
-  return current->Uint32(u);
+  return m_current->Uint32(u);
 }
 
 bool AnyValueBuilder::Int64(int64 i)
 {
-  return current->Int64(i);
+  return m_current->Int64(i);
 }
 
 bool AnyValueBuilder::Uint64(uint64 u)
 {
-  return current->Uint64(u);
+  return m_current->Uint64(u);
 }
 
 bool AnyValueBuilder::Double(float64 d)
 {
-  return current->Double(d);
+  return m_current->Double(d);
 }
 
 bool AnyValueBuilder::RawNumber(const char*, std::size_t, bool)
@@ -91,12 +91,12 @@ bool AnyValueBuilder::String(const char* str, std::size_t length, bool copy)
 {
   (void)copy;
   const std::string arg(str, length);
-  return current->String(arg);
+  return m_current->String(arg);
 }
 
 bool AnyValueBuilder::StartObject()
 {
-  current = current->GetStructureNode();
+  m_current = m_current->GetStructureNode();
   return true;
 }
 
@@ -104,35 +104,35 @@ bool AnyValueBuilder::Key(const char* str, std::size_t length, bool copy)
 {
   (void)copy;
   const std::string arg(str, length);
-  return current->Member(arg);
+  return m_current->Member(arg);
 }
 
 bool AnyValueBuilder::EndObject(std::size_t)
 {
-  if (!current->Parent())
+  if (!m_current->Parent())
   {
     throw ParseException("AnyValueBuilder::EndObject current node is null");
   }
-  current = current->Parent();
-  current->PopStructureNode();
+  m_current = m_current->Parent();
+  m_current->PopStructureNode();
   return true;
 }
 
 bool AnyValueBuilder::StartArray()
 {
-  current = current->GetArrayNode();
+  m_current = m_current->GetArrayNode();
   return true;
 }
 
 bool AnyValueBuilder::EndArray(std::size_t elementCount)
 {
   (void)elementCount;
-  if (!current->Parent())
+  if (!m_current->Parent())
   {
     throw ParseException("AnyValueBuilder::EndArray current node is null");
   }
-  current = current->Parent();
-  current->PopArrayNode();
+  m_current = m_current->Parent();
+  m_current->PopArrayNode();
   return true;
 }
 

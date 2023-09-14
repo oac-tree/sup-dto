@@ -66,8 +66,8 @@ public:
 private:
   AnyValue m_value;
   AnyTypeRegistry m_registry;
-  std::unique_ptr<AnyValueValueElementBuildNode> root;
-  IAnyBuildNode* current;
+  std::unique_ptr<AnyValueValueElementBuildNode> m_root;
+  IAnyBuildNode* m_current;
 };
 
 }  // namespace dto

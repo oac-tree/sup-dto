@@ -49,9 +49,9 @@ public:
   std::pair<std::string, AnyType> MoveMemberType();
 
 private:
-  std::unique_ptr<AnyTypeBuildNode> type_node;
-  std::string member_name;
-  std::pair<std::string, AnyType> member_type;
+  std::unique_ptr<AnyTypeBuildNode> m_type_node;
+  std::string m_member_name;
+  std::pair<std::string, AnyType> m_member_type;
 };
 
 }  // namespace dto

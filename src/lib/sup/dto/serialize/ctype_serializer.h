@@ -59,7 +59,7 @@ public:
   void ScalarEpilog(const AnyValue* anyvalue) override;
 
 private:
-  std::vector<uint8> representation;
+  std::vector<uint8> m_representation;
 };
 
 }  // namespace dto

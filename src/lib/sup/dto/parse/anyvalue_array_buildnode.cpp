@@ -35,34 +35,34 @@ namespace dto
 AnyValueArrayBuildNode::AnyValueArrayBuildNode(const AnyTypeRegistry* anytype_registry,
                                                IAnyBuildNode* parent)
   : IAnyBuildNode(anytype_registry, parent)
-  , encoding_node{}
-  , type_node{}
-  , value_node{}
-  , processed_nodes{}
-  , anyvalue{}
+  , m_encoding_node{}
+  , m_type_node{}
+  , m_value_node{}
+  , m_processed_nodes{}
+  , m_anyvalue{}
 {}
 
 AnyValueArrayBuildNode::~AnyValueArrayBuildNode() = default;
 
 IAnyBuildNode* AnyValueArrayBuildNode::GetStructureNode()
 {
-  if (encoding_node || type_node || value_node)
+  if (m_encoding_node || m_type_node || m_value_node)
   {
     throw ParseException(
       "AnyValueArrayBuildNode::GetStructureNode cannot be called when a node is still active "
       "(not popped with PopStructureNode)");
   }
-  switch (processed_nodes)
+  switch (m_processed_nodes)
   {
   case 0:
-    encoding_node.reset(new AnyValueEncodingElementBuildNode(GetTypeRegistry(), this));
-    return encoding_node.get();
+    m_encoding_node.reset(new AnyValueEncodingElementBuildNode(GetTypeRegistry(), this));
+    return m_encoding_node.get();
   case 1:
-    type_node.reset(new AnyValueTypeElementBuildNode(GetTypeRegistry(), this));
-    return type_node.get();
+    m_type_node.reset(new AnyValueTypeElementBuildNode(GetTypeRegistry(), this));
+    return m_type_node.get();
   case 2:
-    value_node.reset(new AnyValueValueElementBuildNode(GetTypeRegistry(), this, anyvalue));
-    return value_node.get();
+    m_value_node.reset(new AnyValueValueElementBuildNode(GetTypeRegistry(), this, m_anyvalue));
+    return m_value_node.get();
   default:
     throw ParseException(
       "AnyValueArrayBuildNode::GetStructureNode cannot be called more than 3 times");
@@ -72,46 +72,46 @@ IAnyBuildNode* AnyValueArrayBuildNode::GetStructureNode()
 bool AnyValueArrayBuildNode::PopStructureNode()
 {
   AnyType anytype;
-  switch (processed_nodes)
+  switch (m_processed_nodes)
   {
   case 0:
-    if (!encoding_node || !encoding_node->EncodingOK())
+    if (!m_encoding_node || !m_encoding_node->EncodingOK())
     {
       throw ParseException(
           "AnyValueArrayBuildNode::PopStructureNode called first time with empty encoding node "
           " or invalid encoding");
     }
-    encoding_node.reset();
+    m_encoding_node.reset();
     break;
   case 1:
-    if (!type_node)
+    if (!m_type_node)
     {
       throw ParseException(
           "AnyValueArrayBuildNode::PopStructureNode called second time with empty type node");
     }
-    anytype = type_node->MoveAnyType();
-    anyvalue = AnyValue(anytype);
-    type_node.reset();
+    anytype = m_type_node->MoveAnyType();
+    m_anyvalue = AnyValue(anytype);
+    m_type_node.reset();
     break;
   case 2:
-    if (!value_node)
+    if (!m_value_node)
     {
       throw ParseException(
           "AnyValueArrayBuildNode::PopStructureNode called third time with empty value node");
     }
-    value_node.reset();
+    m_value_node.reset();
     break;
   default:
     throw ParseException(
       "AnyValueArrayBuildNode::PopStructureNode cannot be called more than 3 times");
   }
-  ++processed_nodes;
+  ++m_processed_nodes;
   return true;
 }
 
 AnyValue AnyValueArrayBuildNode::MoveAnyValue() const
 {
-  return std::move(anyvalue);
+  return std::move(m_anyvalue);
 }
 
 }  // namespace dto

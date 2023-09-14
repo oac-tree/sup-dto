@@ -48,11 +48,11 @@ public:
   AnyValue MoveAnyValue() const;
 
 private:
-  std::unique_ptr<AnyValueEncodingElementBuildNode> encoding_node;
-  std::unique_ptr<AnyValueTypeElementBuildNode> type_node;
-  std::unique_ptr<AnyValueValueElementBuildNode> value_node;
-  unsigned processed_nodes;
-  AnyValue anyvalue;
+  std::unique_ptr<AnyValueEncodingElementBuildNode> m_encoding_node;
+  std::unique_ptr<AnyValueTypeElementBuildNode> m_type_node;
+  std::unique_ptr<AnyValueValueElementBuildNode> m_value_node;
+  unsigned m_processed_nodes;
+  AnyValue m_anyvalue;
 };
 
 }  // namespace dto

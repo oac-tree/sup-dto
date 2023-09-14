@@ -32,38 +32,38 @@ namespace dto
 MemberTypeArrayBuildNode::MemberTypeArrayBuildNode(
   const AnyTypeRegistry* anytype_registry, IAnyBuildNode* parent)
   : IAnyBuildNode(anytype_registry, parent)
-  , member_node{}
-  , member_types{}
+  , m_member_node{}
+  , m_member_types{}
 {}
 
 MemberTypeArrayBuildNode::~MemberTypeArrayBuildNode() = default;
 
 IAnyBuildNode* MemberTypeArrayBuildNode::GetStructureNode()
 {
-  if (member_node)
+  if (m_member_node)
   {
     throw ParseException(
         "MemberTypeArrayBuildNode::GetStructureNode must be called with an empty member node");
   }
-  member_node.reset(new MemberTypeBuildNode(GetTypeRegistry(), this));
-  return member_node.get();
+  m_member_node.reset(new MemberTypeBuildNode(GetTypeRegistry(), this));
+  return m_member_node.get();
 }
 
 bool MemberTypeArrayBuildNode::PopStructureNode()
 {
-  if (!member_node)
+  if (!m_member_node)
   {
     throw ParseException(
         "MemberTypeArrayBuildNode::GetStructureNode must be called with a non-empty member node");
   }
-  member_types.push_back(member_node->MoveMemberType());
-  member_node.reset();
+  m_member_types.push_back(m_member_node->MoveMemberType());
+  m_member_node.reset();
   return true;
 }
 
 std::vector<std::pair<std::string, AnyType>> MemberTypeArrayBuildNode::MoveMemberTypes()
 {
-  return std::move(member_types);
+  return std::move(m_member_types);
 }
 
 }  // namespace dto

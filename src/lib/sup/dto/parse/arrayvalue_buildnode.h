@@ -58,12 +58,12 @@ public:
 
 private:
   template <typename T> bool TryAssign(T val);
-  std::unique_ptr<AnyValueBuildNode> value_node;
-  std::unique_ptr<IAnyBuildNode> array_node;
-  std::size_t current_index;
-  std::size_t size;
-  AnyValue& anyvalue;
-  AnyType element_type;
+  std::unique_ptr<AnyValueBuildNode> m_value_node;
+  std::unique_ptr<IAnyBuildNode> m_array_node;
+  std::size_t m_current_index;
+  std::size_t m_size;
+  AnyValue& m_anyvalue;
+  AnyType m_element_type;
 };
 
 std::unique_ptr<IAnyBuildNode> CreateArrayBuildNode(

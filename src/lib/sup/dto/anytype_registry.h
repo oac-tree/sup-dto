@@ -101,7 +101,7 @@ public:
   AnyType GetType(const std::string& name) const;
 
 private:
-  std::map<std::string, AnyType> anytypes;
+  std::map<std::string, AnyType> m_anytypes;
 };
 
 std::map<std::string, AnyType> NameToAnyTypeLeafMap();

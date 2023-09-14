@@ -46,8 +46,8 @@ public:
   AnyValue MoveAnyValue() const;
 
 private:
-  std::unique_ptr<AnyValueArrayBuildNode> array_node;
-  AnyValue anyvalue;
+  std::unique_ptr<AnyValueArrayBuildNode> m_array_node;
+  AnyValue m_anyvalue;
 };
 
 }  // namespace dto

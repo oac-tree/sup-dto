@@ -33,38 +33,38 @@ namespace dto
 AnyTypeRootBuildNode::AnyTypeRootBuildNode(const AnyTypeRegistry* anytype_registry,
                                            IAnyBuildNode* parent)
   : IAnyBuildNode(anytype_registry, parent)
-  , type_node{}
-  , anytype{}
+  , m_type_node{}
+  , m_anytype{}
 {}
 
 AnyTypeRootBuildNode::~AnyTypeRootBuildNode() = default;
 
 IAnyBuildNode* AnyTypeRootBuildNode::GetStructureNode()
 {
-  if (type_node)
+  if (m_type_node)
   {
     throw ParseException(
         "AnyTypeRootBuildNode::GetStructureNode must be called with empty child node");
   }
-  type_node.reset(new AnyTypeBuildNode(GetTypeRegistry(), this));
-  return type_node.get();
+  m_type_node.reset(new AnyTypeBuildNode(GetTypeRegistry(), this));
+  return m_type_node.get();
 }
 
 bool AnyTypeRootBuildNode::PopStructureNode()
 {
-  if (!type_node)
+  if (!m_type_node)
   {
     throw ParseException(
         "AnyTypeRootBuildNode::PopStructureNode must be called with a non-empty child node");
   }
-  anytype = type_node->MoveAnyType();
-  type_node.reset();
+  m_anytype = m_type_node->MoveAnyType();
+  m_type_node.reset();
   return true;
 }
 
 AnyType AnyTypeRootBuildNode::MoveAnyType() const
 {
-  return std::move(anytype);
+  return std::move(m_anytype);
 }
 
 }  // namespace dto

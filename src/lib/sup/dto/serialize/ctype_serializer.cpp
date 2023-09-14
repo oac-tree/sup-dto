@@ -31,13 +31,13 @@ namespace dto
 {
 
 CTypeSerializer::CTypeSerializer()
-  : representation{}
+  : m_representation{}
 {}
 CTypeSerializer::~CTypeSerializer() = default;
 
 std::vector<uint8> CTypeSerializer::GetRepresentation() const
 {
-  return representation;
+  return m_representation;
 }
 
 void CTypeSerializer::EmptyProlog(const AnyValue*)
@@ -73,7 +73,7 @@ void CTypeSerializer::ArrayEpilog(const AnyValue*)
 void CTypeSerializer::ScalarProlog(const AnyValue* anyvalue)
 {
   auto byte_val = ScalarToBytes(*anyvalue);
-  representation.insert(representation.end(), byte_val.begin(), byte_val.end());
+  m_representation.insert(m_representation.end(), byte_val.begin(), byte_val.end());
 }
 
 void CTypeSerializer::ScalarEpilog(const AnyValue*)

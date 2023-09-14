@@ -29,11 +29,11 @@ namespace dto
 template <>
 std::unique_ptr<IAnyVisitorNode<AnyType>> ArrayVisitorNode<AnyType>::NextChild()
 {
-  if (next_index)
+  if (m_next_index)
   {
     return {};
   }
-  ++next_index;
+  ++m_next_index;
   AnyType *element_type = &this->GetValue()->operator[]("[]");
   return CreateVisitorNode(element_type);
 }
@@ -41,11 +41,11 @@ std::unique_ptr<IAnyVisitorNode<AnyType>> ArrayVisitorNode<AnyType>::NextChild()
 template <>
 std::unique_ptr<IAnyVisitorNode<const AnyType>> ArrayVisitorNode<const AnyType>::NextChild()
 {
-  if (next_index)
+  if (m_next_index)
   {
     return {};
   }
-  ++next_index;
+  ++m_next_index;
   const AnyType *element_type = &this->GetValue()->operator[]("[]");
   return CreateVisitorNode(element_type);
 }

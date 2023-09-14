@@ -29,7 +29,7 @@ namespace dto
 {
 
 AnyTypeRegistry::AnyTypeRegistry()
-  : anytypes{NameToAnyTypeLeafMap()}
+  : m_anytypes{NameToAnyTypeLeafMap()}
 {}
 
 AnyTypeRegistry::~AnyTypeRegistry() = default;
@@ -45,27 +45,27 @@ void AnyTypeRegistry::RegisterType(const std::string& name, AnyType anytype)
   {
     throw InvalidOperationException("AnyTypeRegistry::RegisterType(): empty name not allowed");
   }
-  const auto it = anytypes.find(name);
-  if (it != anytypes.end() && it->second != anytype)
+  const auto it = m_anytypes.find(name);
+  if (it != m_anytypes.end() && it->second != anytype)
   {
     throw InvalidOperationException("AnyTypeRegistry::RegisterType(): name already in use "
                                     "for different AnyType instance");
   }
-  if (it == anytypes.end())
+  if (it == m_anytypes.end())
   {
-    anytypes[name] = anytype;
+    m_anytypes[name] = anytype;
   }
 }
 
 bool AnyTypeRegistry::HasType(const std::string& name) const
 {
-  return anytypes.find(name) != anytypes.end();
+  return m_anytypes.find(name) != m_anytypes.end();
 }
 
 std::vector<std::string> AnyTypeRegistry::RegisteredAnyTypeNames() const
 {
   std::vector<std::string> result;
-  for (const auto& name_anytype_pair : anytypes)
+  for (const auto& name_anytype_pair : m_anytypes)
   {
     result.push_back(name_anytype_pair.first);
   }
@@ -74,8 +74,8 @@ std::vector<std::string> AnyTypeRegistry::RegisteredAnyTypeNames() const
 
 AnyType AnyTypeRegistry::GetType(const std::string& name) const
 {
-  const auto it = anytypes.find(name);
-  if (it == anytypes.end())
+  const auto it = m_anytypes.find(name);
+  if (it == m_anytypes.end())
   {
     throw InvalidOperationException("AnyTypeRegistry::GetType(): name not found");
   }

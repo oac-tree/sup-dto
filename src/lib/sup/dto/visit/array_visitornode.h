@@ -46,13 +46,13 @@ public:
   void AddEpilog(IAnyVisitor<T>& visitor) const override;
 
 private:
-  std::size_t next_index;
+  std::size_t m_next_index;
 };
 
 template <typename T>
 ArrayVisitorNode<T>::ArrayVisitorNode(T* any)
   : IAnyVisitorNode<T>{any}
-  , next_index{0}
+  , m_next_index{0}
 {}
 
 template <typename T>
@@ -61,12 +61,12 @@ ArrayVisitorNode<T>::~ArrayVisitorNode() = default;
 template <typename T>
 std::unique_ptr<IAnyVisitorNode<T>> ArrayVisitorNode<T>::NextChild()
 {
-  if (next_index >= this->GetValue()->NumberOfElements())
+  if (m_next_index >= this->GetValue()->NumberOfElements())
   {
     return {};
   }
-  T *element = &this->GetValue()->operator[](next_index);
-  ++next_index;
+  T *element = &this->GetValue()->operator[](m_next_index);
+  ++m_next_index;
   return CreateVisitorNode(element);
 }
 

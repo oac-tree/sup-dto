@@ -61,16 +61,16 @@ private:
   AnyType MoveStructuredType() const;
   AnyType MoveArrayType() const;
   AnyType MoveTypeFromRegistry() const;
-  std::unique_ptr<AnyTypeBuildNode> element_node;
-  std::unique_ptr<MemberTypeArrayBuildNode> member_array_node;
-  std::string current_member_name;
-  bool struct_type;  // true if structure
-  bool array_type;  // true if array
-  std::string type_name;
-  std::size_t number_elements;
-  bool array_bound_specified;
-  std::vector<std::pair<std::string, AnyType>> member_types;
-  AnyType element_type;
+  std::unique_ptr<AnyTypeBuildNode> m_element_node;
+  std::unique_ptr<MemberTypeArrayBuildNode> m_member_array_node;
+  std::string m_current_member_name;
+  bool m_struct_type;  // true if structure
+  bool m_array_type;  // true if array
+  std::string m_type_name;
+  std::size_t m_number_elements;
+  bool m_array_bound_specified;
+  std::vector<std::pair<std::string, AnyType>> m_member_types;
+  AnyType m_element_type;
 };
 
 }  // namespace dto

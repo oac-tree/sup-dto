@@ -37,16 +37,16 @@ namespace dto
 AnyTypeBuildNode::AnyTypeBuildNode(const AnyTypeRegistry* anytype_registry,
                                    IAnyBuildNode* parent)
   : IAnyBuildNode(anytype_registry, parent)
-  , element_node{}
-  , member_array_node{}
-  , current_member_name{}
-  , struct_type{false}
-  , array_type{false}
-  , type_name{}
-  , number_elements{}
-  , array_bound_specified{false}
-  , member_types{}
-  , element_type{}
+  , m_element_node{}
+  , m_member_array_node{}
+  , m_current_member_name{}
+  , m_struct_type{false}
+  , m_array_type{false}
+  , m_type_name{}
+  , m_number_elements{}
+  , m_array_bound_specified{false}
+  , m_member_types{}
+  , m_element_type{}
 {}
 
 AnyTypeBuildNode::~AnyTypeBuildNode() = default;
@@ -73,84 +73,84 @@ bool AnyTypeBuildNode::Int64(int64 i)
 
 bool AnyTypeBuildNode::Uint64(uint64 u)
 {
-  if (current_member_name != serialization::MULTIPLICITY_KEY)
+  if (m_current_member_name != serialization::MULTIPLICITY_KEY)
   {
     throw ParseException(
         "AnyTypeBuildNode::Uint64 must be called after \"multiplicity\" key");
   }
-  current_member_name.clear();
-  number_elements = u;
-  array_bound_specified = true;
+  m_current_member_name.clear();
+  m_number_elements = u;
+  m_array_bound_specified = true;
   return true;
 }
 
 bool AnyTypeBuildNode::String(const std::string& str)
 {
-  if (current_member_name != serialization::TYPE_KEY)
+  if (m_current_member_name != serialization::TYPE_KEY)
   {
     throw ParseException(
         "AnyTypeBuildNode::String must be called after \"type\" key");
   }
-  current_member_name.clear();
-  type_name = str;
+  m_current_member_name.clear();
+  m_type_name = str;
   return true;
 }
 
 bool AnyTypeBuildNode::Member(const std::string& str)
 {
-  current_member_name = str;
+  m_current_member_name = str;
   return true;
 }
 
 IAnyBuildNode* AnyTypeBuildNode::GetStructureNode()
 {
-  if (IsComplexType() || current_member_name != serialization::ELEMENT_KEY)
+  if (IsComplexType() || m_current_member_name != serialization::ELEMENT_KEY)
   {
     throw ParseException(
         "AnyTypeBuildNode::GetStructureNode must be called after \"element\" key and with "
         "empty child nodes");
   }
-  array_type = true;
-  element_node.reset(new AnyTypeBuildNode(GetTypeRegistry(), this));
-  return element_node.get();
+  m_array_type = true;
+  m_element_node.reset(new AnyTypeBuildNode(GetTypeRegistry(), this));
+  return m_element_node.get();
 }
 
 IAnyBuildNode* AnyTypeBuildNode::GetArrayNode()
 {
-  if (IsComplexType() || current_member_name != serialization::ATTRIBUTES_KEY)
+  if (IsComplexType() || m_current_member_name != serialization::ATTRIBUTES_KEY)
   {
     throw ParseException(
         "AnyTypeBuildNode::GetArrayNode must be called after \"attributes\" key and with "
         "empty child nodes");
   }
-  struct_type = true;
-  member_array_node.reset(new MemberTypeArrayBuildNode(GetTypeRegistry(), this));
-  return member_array_node.get();
+  m_struct_type = true;
+  m_member_array_node.reset(new MemberTypeArrayBuildNode(GetTypeRegistry(), this));
+  return m_member_array_node.get();
 }
 
 bool AnyTypeBuildNode::PopStructureNode()
 {
-  current_member_name.clear();
-  element_type = element_node->MoveAnyType();
-  element_node.reset();
+  m_current_member_name.clear();
+  m_element_type = m_element_node->MoveAnyType();
+  m_element_node.reset();
   return true;
 }
 
 bool AnyTypeBuildNode::PopArrayNode()
 {
-  current_member_name.clear();
-  member_types = member_array_node->MoveMemberTypes();
-  member_array_node.reset();
+  m_current_member_name.clear();
+  m_member_types = m_member_array_node->MoveMemberTypes();
+  m_member_array_node.reset();
   return true;
 }
 
 AnyType AnyTypeBuildNode::MoveAnyType() const
 {
-  if (struct_type)
+  if (m_struct_type)
   {
     return MoveStructuredType();
   }
-  if (array_type)
+  if (m_array_type)
   {
     return MoveArrayType();
   }
@@ -159,13 +159,13 @@ AnyType AnyTypeBuildNode::MoveAnyType() const
 
 bool AnyTypeBuildNode::IsComplexType() const
 {
-  return struct_type || array_type;
+  return m_struct_type || m_array_type;
 }
 
 AnyType AnyTypeBuildNode::MoveStructuredType() const
 {
-  auto result = EmptyStructType(type_name);
-  for (auto& member : member_types)
+  auto result = EmptyStructType(m_type_name);
+  for (auto& member : m_member_types)
   {
     result.AddMember(member.first, member.second);
   }
@@ -174,14 +174,14 @@ AnyType AnyTypeBuildNode::MoveStructuredType() const
 
 AnyType AnyTypeBuildNode::MoveArrayType() const
 {
-  return AnyType(number_elements, element_type, type_name);
+  return AnyType(m_number_elements, m_element_type, m_type_name);
 }
 
 AnyType AnyTypeBuildNode::MoveTypeFromRegistry() const
 {
   try
   {
-    return GetTypeRegistry()->GetType(type_name);
+    return GetTypeRegistry()->GetType(m_type_name);
   }
   catch(const InvalidOperationException& e)
   {

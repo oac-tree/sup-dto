@@ -36,25 +36,25 @@ std::map<TypeCode, std::string> ScalarTypeCodeToStringMap();
 std::string ScalarTypeCodeToString(TypeCode type_code);
 }  // unnamed namespace
 
-ScalarTypeData::ScalarTypeData(TypeCode type_code_)
-  : type_code{type_code_}
+ScalarTypeData::ScalarTypeData(TypeCode type_code)
+  : m_type_code{type_code}
 {}
 
 ScalarTypeData::~ScalarTypeData() = default;
 
 ScalarTypeData* ScalarTypeData::Clone() const
 {
-  return new ScalarTypeData(type_code);
+  return new ScalarTypeData(m_type_code);
 }
 
 TypeCode ScalarTypeData::GetTypeCode() const
 {
-  return type_code;
+  return m_type_code;
 }
 
 std::string ScalarTypeData::GetTypeName() const
 {
-  return ScalarTypeCodeToString(type_code);
+  return ScalarTypeCodeToString(m_type_code);
 }
 
 bool ScalarTypeData::Equals(const AnyType& other) const

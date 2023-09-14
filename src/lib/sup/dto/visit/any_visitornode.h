@@ -58,7 +58,7 @@ public:
   virtual void AddEpilog(IAnyVisitor<T>& visitor) const = 0;
 
 private:
-  T* val;
+  T* m_any;
 };
 
 /**
@@ -85,23 +85,23 @@ public:
   void AddEpilog(IAnyVisitor<T>& visitor) const;
 
 private:
-  std::unique_ptr<IAnyVisitorNode<T>> node;
+  std::unique_ptr<IAnyVisitorNode<T>> m_node;
 };
 
 template <typename T>
-IAnyVisitorNode<T>::IAnyVisitorNode(T* val_)
-  : val{val_}
+IAnyVisitorNode<T>::IAnyVisitorNode(T* val)
+  : m_any{val}
 {}
 
 template <typename T>
 T* IAnyVisitorNode<T>::GetValue() const
 {
-  return val;
+  return m_any;
 }
 
 template <typename T>
-AnyVisitorNode<T>::AnyVisitorNode(std::unique_ptr<IAnyVisitorNode<T>> node_)
-  : node{std::move(node_)}
+AnyVisitorNode<T>::AnyVisitorNode(std::unique_ptr<IAnyVisitorNode<T>> node)
+  : m_node{std::move(node)}
 {}
 
 template <typename T>
@@ -109,7 +109,7 @@ AnyVisitorNode<T>::~AnyVisitorNode() = default;
 
 template <typename T>
 AnyVisitorNode<T>::AnyVisitorNode(AnyVisitorNode<T>&& other)
-  : node{std::move(other.node)}
+  : m_node{std::move(other.m_node)}
 {}
 
 template <typename T>
@@ -118,7 +118,7 @@ AnyVisitorNode<T>& AnyVisitorNode<T>::operator=(AnyVisitorNode<T>&& other)
   if (this != &other)
   {
     AnyVisitorNode moved{std::move(other)};
-    std::swap(this->node, moved.node);
+    std::swap(this->m_node, moved.m_node);
   }
   return *this;
 }
@@ -126,31 +126,31 @@ AnyVisitorNode<T>& AnyVisitorNode<T>::operator=(AnyVisitorNode<T>&& other)
 template <typename T>
 AnyVisitorNode<T> AnyVisitorNode<T>::NextChild()
 {
-  return AnyVisitorNode{node->NextChild()};
+  return AnyVisitorNode{m_node->NextChild()};
 }
 
 template <typename T>
 bool AnyVisitorNode<T>::IsValid() const
 {
-  return static_cast<bool>(node);
+  return static_cast<bool>(m_node);
 }
 
 template <typename T>
 void AnyVisitorNode<T>::AddProlog(IAnyVisitor<T>& visitor) const
 {
-  return node->AddProlog(visitor);
+  return m_node->AddProlog(visitor);
 }
 
 template <typename T>
 void AnyVisitorNode<T>::AddSeparator(IAnyVisitor<T>& visitor) const
 {
-  return node->AddSeparator(visitor);
+  return m_node->AddSeparator(visitor);
 }
 
 template <typename T>
 void AnyVisitorNode<T>::AddEpilog(IAnyVisitor<T>& visitor) const
 {
-  return node->AddEpilog(visitor);
+  return m_node->AddEpilog(visitor);
 }
 
 }  // namespace dto

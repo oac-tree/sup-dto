@@ -47,9 +47,9 @@ public:
   bool Equals(const AnyType& other) const override;
 
 private:
-  std::size_t size;
-  AnyType elem_type;
-  std::string name;
+  std::size_t m_size;
+  AnyType m_elem_type;
+  std::string m_name;
 };
 
 /**

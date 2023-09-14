@@ -51,46 +51,46 @@ public:
   void Pop(IAnyVisitor<T>& visitor);
 
 private:
-  std::stack<AnyVisitorNode<T>> node_stack;
-  bool add_separator;
+  std::stack<AnyVisitorNode<T>> m_node_stack;
+  bool m_add_separator;
 };
 
 template <typename T>
 AnyVisitorStack<T>::AnyVisitorStack()
-  : node_stack{}
-  , add_separator{false}
+  : m_node_stack{}
+  , m_add_separator{false}
 {}
 
 template <typename T>
 bool AnyVisitorStack<T>::empty() const
 {
-  return node_stack.empty();
+  return m_node_stack.empty();
 }
 
 template <typename T>
 AnyVisitorNode<T>& AnyVisitorStack<T>::Top()
 {
-  return node_stack.top();
+  return m_node_stack.top();
 }
 
 template <typename T>
 void AnyVisitorStack<T>::Push(AnyVisitorNode<T>&& node, IAnyVisitor<T>& visitor)
 {
-  if (add_separator)
+  if (m_add_separator)
   {
     Top().AddSeparator(visitor);
-    add_separator = false;
+    m_add_separator = false;
   }
   node.AddProlog(visitor);
-  node_stack.push(std::move(node));
+  m_node_stack.push(std::move(node));
 }
 
 template <typename T>
 void AnyVisitorStack<T>::Pop(IAnyVisitor<T>& visitor)
 {
   Top().AddEpilog(visitor);
-  node_stack.pop();
-  add_separator = true;
+  m_node_stack.pop();
+  m_add_separator = true;
 }
 
 }  // namespace dto

@@ -48,8 +48,8 @@ public:
   bool EncodingOK() const;
 
 private:
-  std::string member_name;
-  bool encoding_ok;
+  std::string m_member_name;
+  bool m_encoding_ok;
 };
 
 }  // namespace dto

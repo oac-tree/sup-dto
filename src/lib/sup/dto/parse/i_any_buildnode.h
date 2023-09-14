@@ -62,8 +62,8 @@ public:
   virtual bool PopArrayNode();
 
 private:
-  const AnyTypeRegistry* anytype_registry;
-  IAnyBuildNode* parent;
+  const AnyTypeRegistry* m_anytype_registry;
+  IAnyBuildNode* m_parent;
 };
 
 }  // namespace dto

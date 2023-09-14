@@ -68,7 +68,7 @@ public:
   void ScalarEpilog(const AnyType* anytype) override;
 
 private:
-  IWriter* writer;
+  IWriter* m_writer;
 };
 
 
@@ -104,7 +104,7 @@ public:
   void ScalarEpilog(const AnyValue* anyvalue) override;
 
 private:
-  IWriter* writer;
+  IWriter* m_writer;
 };
 
 }  // namespace dto

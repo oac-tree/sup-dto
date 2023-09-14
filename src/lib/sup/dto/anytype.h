@@ -94,7 +94,7 @@ public:
   explicit AnyType(TypeCode type_code);
 
   /**
-   * @brief Constructor for structures.
+   * @brief Constructor for structure types.
    *
    * @param members list of member names and types.
    * @param name Optional name for the type.
@@ -102,17 +102,35 @@ public:
    * @throws InvalidOperationException Thrown when the given arguments do not allow the construction
    * of a valid structure type (e.g. duplicate or invalid member names).
    */
-  AnyType(std::initializer_list<std::pair<std::string, AnyType>> members,
-          const std::string& name = {});
+  AnyType(std::initializer_list<std::pair<std::string, AnyType>> members, const std::string& name);
 
   /**
-   * @brief Constructor for arrays.
+   * @brief Constructor for structure types with empty name.
+   *
+   * @param members list of member names and types.
+   *
+   * @throws InvalidOperationException Thrown when the given arguments do not allow the construction
+   * of a valid structure type (e.g. duplicate or invalid member names).
+   */
+  AnyType(std::initializer_list<std::pair<std::string, AnyType>> members);
+
+  /**
+   * @brief Constructor for array types.
    *
    * @param size number of elements in the array.
    * @param elem_type type of the elements in the array.
    * @param name Optional name for the type.
    */
-  AnyType(std::size_t size, const AnyType& elem_type, const std::string& name = {});
+  AnyType(std::size_t size, const AnyType& elem_type, const std::string& name);
+
+  /**
+   * @brief Constructor for array types with empty name.
+   *
+   * @param size number of elements in the array.
+   * @param elem_type type of the elements in the array.
+   * @param name Optional name for the type.
+   */
+  AnyType(std::size_t size, const AnyType& elem_type);
 
   /**
    * @brief Copy constructor.
@@ -126,7 +144,7 @@ public:
    *
    * @param other Source AnyType for move construction.
    */
-  AnyType(AnyType&& other);
+  AnyType(AnyType&& other) noexcept;
 
   /**
    * @brief Copy assignment.
@@ -137,7 +155,18 @@ public:
    *
    * @note Always succeeds and overwrites the currently held type.
    */
-  AnyType& operator=(AnyType other);
+  AnyType& operator=(const AnyType& other) &;
+
+  /**
+   * @brief Move assignment.
+   *
+   * @param other Source AnyType for move assignment.
+   *
+   * @return Reference to this.
+   *
+   * @note Always succeeds and overwrites the currently held type.
+   */
+  AnyType& operator=(AnyType&& other) &;
 
   /**
    * @brief Destructor.
@@ -253,11 +282,18 @@ private:
 /**
  * @brief Constructs an empty structured type.
  *
- * @param type_name Optional name for the underlying structured type.
+ * @param type_name Name for the underlying structured type.
  *
  * @return AnyType with structure type.
  */
-AnyType EmptyStructType(const std::string& name = {});
+AnyType EmptyStructType(const std::string& name);
+
+/**
+ * @brief Constructs an empty structured type with empty name.
+ *
+ * @return AnyType with structure type.
+ */
+AnyType EmptyStructType();
 
 bool IsEmptyTypeCode(TypeCode type_code);
 bool IsStructTypeCode(TypeCode type_code);
@@ -299,7 +335,7 @@ template <> struct hash<::sup::dto::TypeCode>
 {
   size_t operator()(const ::sup::dto::TypeCode& val) const
   {
-    return std::hash<int>{}(static_cast<int>(val));
+    return std::hash<::sup::dto::uint32>{}(static_cast<::sup::dto::uint32>(val));
   }
 };
 }

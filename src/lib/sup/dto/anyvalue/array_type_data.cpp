@@ -28,17 +28,17 @@ namespace sup
 namespace dto
 {
 
-ArrayTypeData::ArrayTypeData(std::size_t size_, const AnyType& elem_type_, const std::string& name_)
-  : size{size_}
-  , elem_type{elem_type_}
-  , name{name_}
+ArrayTypeData::ArrayTypeData(std::size_t size, const AnyType& elem_type, const std::string& name)
+  : m_size{size}
+  , m_elem_type{elem_type}
+  , m_name{name}
 {}
 
 ArrayTypeData::~ArrayTypeData() = default;
 
 ArrayTypeData* ArrayTypeData::Clone() const
 {
-  auto result = std::unique_ptr<ArrayTypeData>(new ArrayTypeData(size, elem_type, name));
+  auto result = std::unique_ptr<ArrayTypeData>(new ArrayTypeData(m_size, m_elem_type, m_name));
   return result.release();
 }
 
@@ -49,17 +49,17 @@ TypeCode ArrayTypeData::GetTypeCode() const
 
 std::string ArrayTypeData::GetTypeName() const
 {
-  return name;
+  return m_name;
 }
 
 AnyType ArrayTypeData::ElementType() const
 {
-  return elem_type;
+  return m_elem_type;
 }
 
 std::size_t ArrayTypeData::NumberOfElements() const
 {
-  return size;
+  return m_size;
 }
 
 bool ArrayTypeData::HasField(const std::string& fieldname) const
@@ -77,7 +77,7 @@ bool ArrayTypeData::HasField(const std::string& fieldname) const
   {
     return true;
   }
-  return elem_type.HasField(remainder);
+  return m_elem_type.HasField(remainder);
 }
 
 AnyType& ArrayTypeData::operator[](const std::string& fieldname)
@@ -85,9 +85,9 @@ AnyType& ArrayTypeData::operator[](const std::string& fieldname)
   const auto remainder = StripTypeIndex(fieldname);
   if (remainder.empty())
   {
-    return elem_type;
+    return m_elem_type;
   }
-  return elem_type[remainder];
+  return m_elem_type[remainder];
 }
 
 bool ArrayTypeData::Equals(const AnyType& other) const

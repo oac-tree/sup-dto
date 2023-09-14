@@ -26,13 +26,13 @@ namespace sup
 namespace dto
 {
 
-MessageException::MessageException(std::string message_)
-  : message{std::move(message_)}
+MessageException::MessageException(std::string message)
+  : m_message{std::move(message)}
 {}
 
 const char* MessageException::what() const noexcept
 {
-  return message.c_str();
+  return m_message.c_str();
 }
 
 InvalidConversionException::InvalidConversionException(const std::string& message)

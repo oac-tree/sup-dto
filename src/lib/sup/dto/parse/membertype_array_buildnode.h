@@ -47,8 +47,8 @@ public:
   std::vector<std::pair<std::string, AnyType>> MoveMemberTypes();
 
 private:
-  std::unique_ptr<MemberTypeBuildNode> member_node;
-  std::vector<std::pair<std::string, AnyType>> member_types;
+  std::unique_ptr<MemberTypeBuildNode> m_member_node;
+  std::vector<std::pair<std::string, AnyType>> m_member_types;
 };
 
 }  // namespace dto

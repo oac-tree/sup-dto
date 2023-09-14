@@ -32,40 +32,40 @@ namespace dto
 
 template <typename T> bool ArrayValueBuildNode::TryAssign(T val)
 {
-  if (size == 0 && current_index == anyvalue.NumberOfElements())
+  if (m_size == 0 && m_current_index == m_anyvalue.NumberOfElements())
   {
-    anyvalue.AddElement(AnyValue{element_type});
+    m_anyvalue.AddElement(AnyValue{m_element_type});
   }
-  if (current_index >= anyvalue.NumberOfElements())
+  if (m_current_index >= m_anyvalue.NumberOfElements())
   {
     throw ParseException(
         "ArrayValueBuildNode: trying to add more elements than allowed");
   }
   try
   {
-    anyvalue[current_index] = val;
+    m_anyvalue[m_current_index] = val;
   }
   catch(const InvalidConversionException& e)
   {
     throw ParseException(e.what());
   }
-  ++current_index;
+  ++m_current_index;
   return true;
 }
 
 ArrayValueBuildNode::ArrayValueBuildNode(
-  const AnyTypeRegistry* anytype_registry, IAnyBuildNode* parent, AnyValue& anyvalue_)
+  const AnyTypeRegistry* anytype_registry, IAnyBuildNode* parent, AnyValue& anyvalue)
   : IAnyBuildNode(anytype_registry, parent)
-  , value_node{}
-  , array_node{}
-  , current_index{}
-  , size{anyvalue_.NumberOfElements()}
-  , anyvalue{anyvalue_}
-  , element_type{}
+  , m_value_node{}
+  , m_array_node{}
+  , m_current_index{}
+  , m_size{anyvalue.NumberOfElements()}
+  , m_anyvalue{anyvalue}
+  , m_element_type{}
 {
   try
   {
-    element_type = anyvalue.GetType().ElementType();
+    m_element_type = m_anyvalue.GetType().ElementType();
   }
   catch(const InvalidOperationException& e)
   {
@@ -112,66 +112,66 @@ bool ArrayValueBuildNode::String(const std::string& str)
 
 IAnyBuildNode* ArrayValueBuildNode::GetStructureNode()
 {
-  if (value_node || !IsStructType(element_type))
+  if (m_value_node || !IsStructType(m_element_type))
   {
     throw ParseException(
         "ArrayValueBuildNode::GetStructureNode must be called with empty child node "
         "and with structured element type");
   }
-  if (size == 0 && current_index == anyvalue.NumberOfElements())
+  if (m_size == 0 && m_current_index == m_anyvalue.NumberOfElements())
   {
-    anyvalue.AddElement(AnyValue{element_type});
+    m_anyvalue.AddElement(AnyValue{m_element_type});
   }
-  if (current_index >= anyvalue.NumberOfElements())
+  if (m_current_index >= m_anyvalue.NumberOfElements())
   {
     throw ParseException(
         "ArrayValueBuildNode::GetStructureNode called while exceeding array size");
   }
-  value_node.reset(new AnyValueBuildNode(GetTypeRegistry(), this, anyvalue[current_index++]));
-  return value_node.get();
+  m_value_node.reset(new AnyValueBuildNode(GetTypeRegistry(), this, m_anyvalue[m_current_index++]));
+  return m_value_node.get();
 }
 
 IAnyBuildNode* ArrayValueBuildNode::GetArrayNode()
 {
-  if (array_node || !IsArrayType(element_type))
+  if (m_array_node || !IsArrayType(m_element_type))
   {
     throw ParseException(
         "ArrayValueBuildNode::GetArrayNode must be called with empty child node "
         "and with array element type");
   }
-  if (size == 0 && current_index == anyvalue.NumberOfElements())
+  if (m_size == 0 && m_current_index == m_anyvalue.NumberOfElements())
   {
-    anyvalue.AddElement(AnyValue{element_type});
+    m_anyvalue.AddElement(AnyValue{m_element_type});
   }
-  if (current_index >= anyvalue.NumberOfElements())
+  if (m_current_index >= m_anyvalue.NumberOfElements())
   {
     throw ParseException(
         "ArrayValueBuildNode::GetArrayNode called while exceeding array size");
   }
-  AnyValue& element_value = anyvalue[current_index++];
-  array_node = CreateArrayBuildNode(GetTypeRegistry(), this, element_value);
-  return array_node.get();
+  AnyValue& element_value = m_anyvalue[m_current_index++];
+  m_array_node = CreateArrayBuildNode(GetTypeRegistry(), this, element_value);
+  return m_array_node.get();
 }
 
 bool ArrayValueBuildNode::PopStructureNode()
 {
-  if (!value_node)
+  if (!m_value_node)
   {
     throw ParseException(
         "ArrayValueBuildNode::PopStructureNode must be called with a non-empty child node");
   }
-  value_node.reset();
+  m_value_node.reset();
   return true;
 }
 
 bool ArrayValueBuildNode::PopArrayNode()
 {
-  if (!array_node)
+  if (!m_array_node)
   {
     throw ParseException(
         "ArrayValueBuildNode::PopArrayNode must be called with a non-empty child node");
   }
-  array_node.reset();
+  m_array_node.reset();
   return true;
 }
 

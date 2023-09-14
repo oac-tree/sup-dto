@@ -34,53 +34,53 @@ namespace dto
 AnyValueTypeElementBuildNode::AnyValueTypeElementBuildNode(
   const AnyTypeRegistry* anytype_registry, IAnyBuildNode* parent)
   : IAnyBuildNode(anytype_registry, parent)
-  , type_node{}
-  , member_name{}
-  , anytype{}
+  , m_type_node{}
+  , m_member_name{}
+  , m_anytype{}
 {}
 
 AnyValueTypeElementBuildNode::~AnyValueTypeElementBuildNode() = default;
 
 bool AnyValueTypeElementBuildNode::Member(const std::string& str)
 {
-  if (!member_name.empty() || str != serialization::DATATYPE_KEY)
+  if (!m_member_name.empty() || str != serialization::DATATYPE_KEY)
   {
     throw ParseException(
       "AnyValueTypeElementBuildNode::Member must be called once with \"datatype\" key");
   }
-  member_name = str;
+  m_member_name = str;
   return true;
 }
 
 IAnyBuildNode* AnyValueTypeElementBuildNode::GetStructureNode()
 {
-  if (type_node || member_name != serialization::DATATYPE_KEY)
+  if (m_type_node || m_member_name != serialization::DATATYPE_KEY)
   {
     throw ParseException(
       "AnyValueTypeElementBuildNode::GetStructureNode must be called after \"datatype\" key "
       "and with empty child node");
 
   }
-  type_node.reset(new AnyTypeBuildNode(GetTypeRegistry(), this));
-  return type_node.get();
+  m_type_node.reset(new AnyTypeBuildNode(GetTypeRegistry(), this));
+  return m_type_node.get();
 }
 
 bool AnyValueTypeElementBuildNode::PopStructureNode()
 {
-  if (!type_node)
+  if (!m_type_node)
   {
     throw ParseException(
       "AnyValueTypeElementBuildNode::PopStructureNode must be called with non-empty child node");
   }
-  anytype = type_node->MoveAnyType();
-  member_name.clear();
-  type_node.reset();
+  m_anytype = m_type_node->MoveAnyType();
+  m_member_name.clear();
+  m_type_node.reset();
   return true;
 }
 
 AnyType AnyValueTypeElementBuildNode::MoveAnyType() const
 {
-  return std::move(anytype);
+  return std::move(m_anytype);
 }
 
 }  // namespace dto

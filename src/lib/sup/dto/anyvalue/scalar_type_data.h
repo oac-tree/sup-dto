@@ -41,7 +41,7 @@ public:
   bool Equals(const AnyType& other) const override;
 
 private:
-  TypeCode type_code;
+  TypeCode m_type_code;
 };
 
 ScalarTypeData* CreateScalarData(TypeCode type_code);

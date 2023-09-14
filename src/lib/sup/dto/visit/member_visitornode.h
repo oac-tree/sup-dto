@@ -48,15 +48,15 @@ public:
   void AddEpilog(IAnyVisitor<T>& visitor) const override;
 
 private:
-  std::string member_name;
-  bool child_returned;
+  std::string m_member_name;
+  bool m_child_returned;
 };
 
 template <typename T>
-MemberVisitorNode<T>::MemberVisitorNode(T* any, const std::string& member_name_)
+MemberVisitorNode<T>::MemberVisitorNode(T* any, const std::string& member_name)
   : IAnyVisitorNode<T>{any}
-  , member_name{member_name_}
-  , child_returned{false}
+  , m_member_name{member_name}
+  , m_child_returned{false}
 {}
 
 template <typename T>
@@ -65,18 +65,18 @@ MemberVisitorNode<T>::~MemberVisitorNode() = default;
 template <typename T>
 std::unique_ptr<IAnyVisitorNode<T>> MemberVisitorNode<T>::NextChild()
 {
-  if (child_returned)
+  if (m_child_returned)
   {
     return {};
   }
-  child_returned = true;
+  m_child_returned = true;
   return CreateVisitorNode(this->GetValue());
 }
 
 template <typename T>
 void MemberVisitorNode<T>::AddProlog(IAnyVisitor<T>& visitor) const
 {
-  visitor.MemberProlog(this->GetValue(), member_name);
+  visitor.MemberProlog(this->GetValue(), m_member_name);
 }
 
 template <typename T>
@@ -86,7 +86,7 @@ void MemberVisitorNode<T>::AddSeparator(IAnyVisitor<T>&) const
 template <typename T>
 void MemberVisitorNode<T>::AddEpilog(IAnyVisitor<T>& visitor) const
 {
-  visitor.MemberEpilog(this->GetValue(), member_name);
+  visitor.MemberEpilog(this->GetValue(), m_member_name);
 }
 
 }  // namespace dto

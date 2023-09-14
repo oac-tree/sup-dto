@@ -33,56 +33,56 @@ namespace dto
 MemberTypeBuildNode::MemberTypeBuildNode(
   const AnyTypeRegistry* anytype_registry, IAnyBuildNode* parent)
   : IAnyBuildNode(anytype_registry, parent)
-  , type_node{}
-  , member_name{}
-  , member_type{}
+  , m_type_node{}
+  , m_member_name{}
+  , m_member_type{}
 {}
 
 MemberTypeBuildNode::~MemberTypeBuildNode() = default;
 
 bool MemberTypeBuildNode::Member(const std::string& str)
 {
-  if (!member_name.empty())
+  if (!m_member_name.empty())
   {
     throw ParseException(
         "MemberTypeBuildNode::Member called when previous member not finished");
   }
-  member_name = str;
+  m_member_name = str;
   return true;
 }
 
 IAnyBuildNode* MemberTypeBuildNode::GetStructureNode()
 {
-  if (type_node || member_name.empty())
+  if (m_type_node || m_member_name.empty())
   {
     throw ParseException(
         "MemberTypeBuildNode::GetStructureNode must be called after member name and with "
         "empty child node");
   }
-  type_node.reset(new AnyTypeBuildNode(GetTypeRegistry(), this));
-  return type_node.get();
+  m_type_node.reset(new AnyTypeBuildNode(GetTypeRegistry(), this));
+  return m_type_node.get();
 }
 
 bool MemberTypeBuildNode::PopStructureNode()
 {
-  if (!type_node || member_name.empty())
+  if (!m_type_node || m_member_name.empty())
   {
     throw ParseException(
         "MemberTypeBuildNode::GetStructureNode must be called after member name and with "
         "non-empty child node");
   }
-  member_type = { member_name, type_node->MoveAnyType() };
-  member_name.clear();
+  m_member_type = { m_member_name, m_type_node->MoveAnyType() };
+  m_member_name.clear();
   return true;
 }
 
 std::pair<std::string, AnyType> MemberTypeBuildNode::MoveMemberType()
 {
-  if (member_type.first.empty())
+  if (m_member_type.first.empty())
   {
     throw ParseException("MemberTypeBuildNode::MoveMemberType called with empty member");
   }
-  return std::move(member_type);
+  return std::move(m_member_type);
 }
 
 }  // namespace dto
