@@ -29,12 +29,11 @@ namespace dto
 
 AbstractValueComposerComponent::AbstractValueComposerComponent() : m_value(), m_field_name() {}
 
-AbstractValueComposerComponent::AbstractValueComposerComponent(const sup::dto::AnyValue &value)
+AbstractValueComposerComponent::AbstractValueComposerComponent(const sup::dto::AnyValue& value)
     : m_value(value), m_field_name()
-{
-}
+{}
 
-void AbstractValueComposerComponent::Consume(sup::dto::AnyValue &&value)
+void AbstractValueComposerComponent::Consume(sup::dto::AnyValue&& value)
 {
   m_value = std::move(value);
 }
@@ -49,22 +48,19 @@ std::string AbstractValueComposerComponent::GetFieldName() const
   return m_field_name;
 }
 
-void AbstractValueComposerComponent::SetFieldName(const std::string &name)
+void AbstractValueComposerComponent::SetFieldName(const std::string& name)
 {
   m_field_name = name;
 }
 
-void AbstractValueComposerComponent::AddMember(const std::string &name, const sup::dto::AnyValue &value)
+void AbstractValueComposerComponent::AddMember(const std::string&, const sup::dto::AnyValue&)
 {
-  (void)name;
-  (void)value;
   throw sup::dto::ParseException(
       "Error in AbstractValueComposerComponent::AddMember() : not implemented");
 }
 
-void AbstractValueComposerComponent::AddElement(const sup::dto::AnyValue &value)
+void AbstractValueComposerComponent::AddElement(const sup::dto::AnyValue&)
 {
-  (void)value;
   throw sup::dto::ParseException(
       "Error in AbstractValueComposerComponent::AddMember() : not implemented");
 }

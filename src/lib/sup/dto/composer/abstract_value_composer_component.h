@@ -70,9 +70,9 @@ public:
   std::string GetFieldName() const;
   void SetFieldName(const std::string& name);
 
-  virtual void AddMember(const std::string& name, const sup::dto::AnyValue& value);
+  virtual void AddMember(const std::string&, const sup::dto::AnyValue&);
 
-  virtual void AddElement(const sup::dto::AnyValue& value);
+  virtual void AddElement(const sup::dto::AnyValue&);
 
 protected:
   sup::dto::AnyValue& GetValue();
