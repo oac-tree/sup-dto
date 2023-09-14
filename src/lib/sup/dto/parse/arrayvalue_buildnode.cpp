@@ -45,7 +45,7 @@ template <typename T> bool ArrayValueBuildNode::TryAssign(T val)
   {
     m_anyvalue[m_current_index] = val;
   }
-  catch(const InvalidConversionException& e)
+  catch(const MessageException& e)
   {
     throw ParseException(e.what());
   }
@@ -67,7 +67,7 @@ ArrayValueBuildNode::ArrayValueBuildNode(
   {
     m_element_type = m_anyvalue.GetType().ElementType();
   }
-  catch(const InvalidOperationException& e)
+  catch(const MessageException& e)
   {
     throw ParseException(e.what());
   }

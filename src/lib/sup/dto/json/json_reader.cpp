@@ -46,7 +46,7 @@ AnyType JSONParseAnyType(const AnyTypeRegistry* anytype_registry, std::istream& 
   {
     reader.Parse(istream, builder);
   }
-  catch(const InvalidConversionException&)
+  catch(const MessageException&)
   {
     throw ParseException("Parsing AnyType from JSON failed");
   }
@@ -67,7 +67,7 @@ AnyValue JSONParseAnyValue(const AnyTypeRegistry* anytype_registry, std::istream
   {
     reader.Parse(istream, builder);
   }
-  catch(const InvalidConversionException&)
+  catch(const MessageException&)
   {
     throw ParseException("Parsing AnyValue from JSON failed");
   }
@@ -88,7 +88,7 @@ AnyValue JSONParseTypedAnyValue(const AnyType& anytype, std::istream& json_strea
   {
     reader.Parse(istream, builder);
   }
-  catch(const InvalidConversionException&)
+  catch(const MessageException&)
   {
     throw ParseException("Parsing typed AnyValue from JSON failed");
   }

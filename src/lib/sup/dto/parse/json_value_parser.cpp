@@ -51,7 +51,7 @@ bool JSONAnyValueParser::ParseString(const std::string& json_str,
     auto parsed_value = JSONParseAnyValue(registry, iss);
     m_anyvalue.reset(new AnyValue(std::move(parsed_value)));
   }
-  catch(const ParseException&)
+  catch(const MessageException&)
   {
     return false;
   }
@@ -73,7 +73,7 @@ bool JSONAnyValueParser::ParseFile(const std::string& filename,
     auto parsed_value = JSONParseAnyValue(registry, ifs);
     m_anyvalue.reset(new AnyValue(std::move(parsed_value)));
   }
-  catch(const ParseException&)
+  catch(const MessageException&)
   {
     return false;
   }
@@ -88,7 +88,7 @@ bool JSONAnyValueParser::TypedParseString(const AnyType& anytype, const std::str
     auto parsed_value = JSONParseTypedAnyValue(anytype, iss);
     m_anyvalue.reset(new AnyValue(std::move(parsed_value)));
   }
-  catch(const ParseException&)
+  catch(const MessageException&)
   {
     return false;
   }
@@ -107,7 +107,7 @@ bool JSONAnyValueParser::TypedParseFile(const AnyType& anytype, const std::strin
     auto parsed_value = JSONParseTypedAnyValue(anytype, ifs);
     m_anyvalue.reset(new AnyValue(std::move(parsed_value)));
   }
-  catch(const ParseException&)
+  catch(const MessageException&)
   {
     return false;
   }

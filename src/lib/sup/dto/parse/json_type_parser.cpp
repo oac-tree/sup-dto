@@ -51,7 +51,7 @@ bool JSONAnyTypeParser::ParseString(const std::string& json_str,
     auto parsed_type = JSONParseAnyType(registry, iss);
     m_anytype.reset(new AnyType(std::move(parsed_type)));
   }
-  catch(const ParseException&)
+  catch(const MessageException&)
   {
     return false;
   }
@@ -73,7 +73,7 @@ bool JSONAnyTypeParser::ParseFile(const std::string& filename,
     auto parsed_type = JSONParseAnyType(registry, ifs);
     m_anytype.reset(new AnyType(std::move(parsed_type)));
   }
-  catch(const ParseException&)
+  catch(const MessageException&)
   {
     return false;
   }

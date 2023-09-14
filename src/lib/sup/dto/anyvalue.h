@@ -455,11 +455,7 @@ bool AnyValue::As(T& value) const
     value = As<T>();
     return true;
   }
-  catch(const InvalidConversionException&)
-  {
-    return false;
-  }
-  catch(const SerializeException&)
+  catch(const MessageException&)
   {
     return false;
   }
@@ -499,7 +495,7 @@ bool SafeAssignFromCType(AnyValue& anyvalue, const T& object)
     AssignFromCType(anyvalue, object);
     return true;
   }
-  catch(const ParseException&)
+  catch(const MessageException&)
   {
     return false;
   }

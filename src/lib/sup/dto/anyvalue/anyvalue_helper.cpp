@@ -47,7 +47,7 @@ bool TryConvert(AnyValue& dest, const AnyValue& src)
   {
     dest.ConvertFrom(src);
   }
-  catch(const InvalidConversionException&)
+  catch(const MessageException&)
   {
     return false;
   }
@@ -60,7 +60,7 @@ bool TryAssign(AnyValue& dest, const AnyValue& src)
   {
     dest = src;
   }
-  catch(const InvalidConversionException&)
+  catch(const MessageException&)
   {
     return false;
   }
@@ -80,7 +80,7 @@ bool TryAssignIfEmptyOrConvert(AnyValue& dest, const AnyValue& src)
       dest.ConvertFrom(src);
     }
   }
-  catch(const InvalidConversionException&)
+  catch(const MessageException&)
   {
     return false;
   }

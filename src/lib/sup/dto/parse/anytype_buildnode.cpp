@@ -183,7 +183,7 @@ AnyType AnyTypeBuildNode::MoveTypeFromRegistry() const
   {
     return GetTypeRegistry()->GetType(m_type_name);
   }
-  catch(const InvalidOperationException& e)
+  catch(const MessageException& e)
   {
     throw ParseException(
       "AnyTypeBuildNode::MoveTypeFromRegistry called with unknown type name");

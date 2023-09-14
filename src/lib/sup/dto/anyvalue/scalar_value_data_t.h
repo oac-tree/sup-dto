@@ -252,7 +252,7 @@ bool ScalarValueDataT<T>::Equals(const AnyValue& other) const
       return true;
     }
   }
-  catch(const InvalidConversionException&)
+  catch(const MessageException&)
   {
     return false;
   }
