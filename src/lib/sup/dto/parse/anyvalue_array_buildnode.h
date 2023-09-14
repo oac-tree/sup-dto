@@ -51,7 +51,7 @@ private:
   std::unique_ptr<AnyValueEncodingElementBuildNode> m_encoding_node;
   std::unique_ptr<AnyValueTypeElementBuildNode> m_type_node;
   std::unique_ptr<AnyValueValueElementBuildNode> m_value_node;
-  unsigned m_processed_nodes;
+  sup::dto::uint64 m_processed_nodes;
   AnyValue m_anyvalue;
 };
 

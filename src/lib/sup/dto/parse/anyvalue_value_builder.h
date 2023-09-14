@@ -55,13 +55,13 @@ public:
   bool Int64(int64 i);
   bool Uint64(uint64 u);
   bool Double(float64 d);
-  bool RawNumber(const char* str, std::size_t length, bool copy);
-  bool String(const char* str, std::size_t length, bool copy);
+  bool RawNumber(const char* str, std::size_t length, bool);
+  bool String(const char* str, std::size_t length, bool);
   bool StartObject();
-  bool Key(const char* str, std::size_t length, bool copy);
+  bool Key(const char* str, std::size_t length, bool);
   bool EndObject(std::size_t memberCount);
   bool StartArray();
-  bool EndArray(std::size_t elementCount);
+  bool EndArray(std::size_t);
 
 private:
   AnyValue m_value;

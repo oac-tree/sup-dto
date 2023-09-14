@@ -31,7 +31,7 @@ namespace sup
 {
 namespace dto
 {
-template <unsigned long Size>
+template <sup::dto::uint64 Size>
 struct UnsignedRepresentation
 {};
 
@@ -59,7 +59,7 @@ struct UnsignedRepresentation<8u>
   using type = sup::dto::uint64;
 };
 
-template <unsigned long Size>
+template <sup::dto::uint64 Size>
 using UnsignedRepresentationType = typename UnsignedRepresentation<Size>::type;
 
 // Specialization for integers with sizeof(T) > 1
@@ -73,7 +73,7 @@ void AppendScalarT(std::vector<uint8>& representation, const T& val)
 {
   auto u_val = static_cast<UnsignedRepresentationType<sizeof(T)>>(val);
   uint8 buffer[sizeof(T)];
-  for (unsigned i = 0; i < sizeof(T); ++i)
+  for (sup::dto::uint8 i = 0; i < sizeof(T); ++i)
   {
     buffer[i] = u_val & 0xFF;
     u_val >>= 8;
@@ -99,7 +99,7 @@ void AppendScalarT(std::vector<uint8>& representation, const T& val)
   UnsignedRepresentationType<sizeof(T)> u_val;
   std::memcpy(&u_val, std::addressof(val), sizeof(T));
   uint8 buffer[sizeof(T)];
-  for (unsigned i = 0; i < sizeof(T); ++i)
+  for (sup::dto::uint8 i = 0; i < sizeof(T); ++i)
   {
     buffer[i] = u_val & 0xFF;
     u_val >>= 8;

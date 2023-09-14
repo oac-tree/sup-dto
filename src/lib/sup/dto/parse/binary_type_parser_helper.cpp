@@ -172,10 +172,8 @@ bool BinaryTypeParserHelper::HandleStartStruct(ByteIterator& it, const ByteItera
   return true;
 }
 
-bool BinaryTypeParserHelper::HandleEndStruct(ByteIterator& it, const ByteIterator& end)
+bool BinaryTypeParserHelper::HandleEndStruct(ByteIterator&, const ByteIterator&)
 {
-  (void)it;
-  (void)end;
   if (GetCurrentState() != ParseState::kInStruct)
   {
     return false;
@@ -199,10 +197,8 @@ bool BinaryTypeParserHelper::HandleStartArray(ByteIterator& it, const ByteIterat
   return true;
 }
 
-bool BinaryTypeParserHelper::HandleEndArray(ByteIterator& it, const ByteIterator& end)
+bool BinaryTypeParserHelper::HandleEndArray(ByteIterator&, const ByteIterator&)
 {
-  (void)it;
-  (void)end;
   if (GetCurrentState() != ParseState::kInArray)
   {
     return false;

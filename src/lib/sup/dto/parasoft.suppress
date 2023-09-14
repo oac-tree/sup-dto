@@ -8,9 +8,16 @@ suppression-end
 
 suppression-begin
 file: anytype.h
-line: 105
 rule-id: HICPP-12_1_1-a
 reason: Approved
 author: Walter Van Herck
 date: 2023-09-08
+suppression-end
+
+suppression-begin
+file: basic_scalar_types.h
+rule-id: HICPP-3_5_1-b
+reason: Approved
+author: Walter Van Herck
+date: 2023-09-14
 suppression-end

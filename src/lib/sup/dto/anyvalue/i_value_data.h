@@ -52,13 +52,13 @@ public:
   // Return the constraints on the current value node.
   virtual value_flags::Constraints GetConstraints() const = 0;
 
-  virtual void AddMember(const std::string& name, const AnyValue& type);
+  virtual void AddMember(const std::string&, const AnyValue&);
   virtual std::vector<std::string> MemberNames() const;
   virtual std::size_t NumberOfMembers() const;
-  virtual void AddElement(const AnyValue& value);
+  virtual void AddElement(const AnyValue&);
   virtual std::size_t NumberOfElements() const;
 
-  virtual void ConvertFrom(const AnyValue& value);
+  virtual void ConvertFrom(const AnyValue&);
 
   virtual boolean AsBoolean() const;
   virtual char8 AsCharacter8() const;
@@ -74,9 +74,9 @@ public:
   virtual float64 AsFloat64() const;
   virtual std::string AsString() const;
 
-  virtual bool HasField(const std::string& fieldname) const;
-  virtual AnyValue& operator[](const std::string& fieldname);
-  virtual AnyValue& operator[](std::size_t idx);
+  virtual bool HasField(const std::string&) const;
+  virtual AnyValue& operator[](const std::string&);
+  virtual AnyValue& operator[](std::size_t);
 
   virtual bool Equals(const AnyValue& other) const = 0;
 protected:

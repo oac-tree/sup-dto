@@ -59,18 +59,14 @@ void AbstractTypeComposerComponent::SetFieldName(const std::string &name)
   m_field_name = name;
 }
 
-void AbstractTypeComposerComponent::AddMember(const std::string &name,
-                                              const sup::dto::AnyType& anytype)
+void AbstractTypeComposerComponent::AddMember(const std::string&, const sup::dto::AnyType&)
 {
-  (void)name;
-  (void)anytype;
   throw sup::dto::ParseException(
       "Error in AbstractTypeComposerComponent::AddMember() : not implemented");
 }
 
-void AbstractTypeComposerComponent::AddElement(const sup::dto::AnyType& anytype)
+void AbstractTypeComposerComponent::AddElement(const sup::dto::AnyType&)
 {
-  (void)anytype;
   throw sup::dto::ParseException(
       "Error in AbstractTypeComposerComponent::AddElement() : not implemented");
 }

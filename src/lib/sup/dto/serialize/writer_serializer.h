@@ -51,21 +51,21 @@ public:
   WriterTypeSerializer& operator=(WriterTypeSerializer&& other) = delete;
 
   void EmptyProlog(const AnyType* anytype) override;
-  void EmptyEpilog(const AnyType* anytype) override;
+  void EmptyEpilog(const AnyType*) override;
 
   void StructProlog(const AnyType* anytype) override;
   void StructMemberSeparator() override;
-  void StructEpilog(const AnyType* anytype) override;
+  void StructEpilog(const AnyType*) override;
 
-  void MemberProlog(const AnyType* anytype, const std::string& member_name) override;
-  void MemberEpilog(const AnyType* anytype, const std::string& member_name) override;
+  void MemberProlog(const AnyType*, const std::string& member_name) override;
+  void MemberEpilog(const AnyType*, const std::string&) override;
 
   void ArrayProlog(const AnyType* anytype) override;
   void ArrayElementSeparator() override;
-  void ArrayEpilog(const AnyType* anytype) override;
+  void ArrayEpilog(const AnyType*) override;
 
   void ScalarProlog(const AnyType* anytype) override;
-  void ScalarEpilog(const AnyType* anytype) override;
+  void ScalarEpilog(const AnyType*) override;
 
 private:
   IWriter* m_writer;
@@ -86,22 +86,22 @@ public:
   WriterValueSerializer& operator=(const WriterValueSerializer& other) = delete;
   WriterValueSerializer& operator=(WriterValueSerializer&& other) = delete;
 
-  void EmptyProlog(const AnyValue* anyvalue) override;
-  void EmptyEpilog(const AnyValue* anyvalue) override;
+  void EmptyProlog(const AnyValue*) override;
+  void EmptyEpilog(const AnyValue*) override;
 
-  void StructProlog(const AnyValue* anyvalue) override;
+  void StructProlog(const AnyValue*) override;
   void StructMemberSeparator() override;
-  void StructEpilog(const AnyValue* anyvalue) override;
+  void StructEpilog(const AnyValue*) override;
 
-  void MemberProlog(const AnyValue* anyvalue, const std::string& member_name) override;
-  void MemberEpilog(const AnyValue* anyvalue, const std::string& member_name) override;
+  void MemberProlog(const AnyValue*, const std::string& member_name) override;
+  void MemberEpilog(const AnyValue*, const std::string&) override;
 
-  void ArrayProlog(const AnyValue* anyvalue) override;
+  void ArrayProlog(const AnyValue*) override;
   void ArrayElementSeparator() override;
-  void ArrayEpilog(const AnyValue* anyvalue) override;
+  void ArrayEpilog(const AnyValue*) override;
 
   void ScalarProlog(const AnyValue* anyvalue) override;
-  void ScalarEpilog(const AnyValue* anyvalue) override;
+  void ScalarEpilog(const AnyValue*) override;
 
 private:
   IWriter* m_writer;

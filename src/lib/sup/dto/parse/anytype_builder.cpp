@@ -87,9 +87,8 @@ bool AnyTypeBuilder::RawNumber(const char*, std::size_t, bool)
   throw ParseException("AnyTypeBuilder::RawNumber not supported");
 }
 
-bool AnyTypeBuilder::String(const char* str, std::size_t length, bool copy)
+bool AnyTypeBuilder::String(const char* str, std::size_t length, bool)
 {
-  (void)copy;
   const std::string arg(str, length);
   return m_current->String(arg);
 }
@@ -100,9 +99,8 @@ bool AnyTypeBuilder::StartObject()
   return true;
 }
 
-bool AnyTypeBuilder::Key(const char* str, std::size_t length, bool copy)
+bool AnyTypeBuilder::Key(const char* str, std::size_t length, bool)
 {
-  (void)copy;
   const std::string arg(str, length);
   return m_current->Member(arg);
 }

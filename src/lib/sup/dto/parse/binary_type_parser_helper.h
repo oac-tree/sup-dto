@@ -60,20 +60,18 @@ private:
   bool PopState();
 
   template <void (AnyTypeComposer::*mem_fun)() >
-  bool HandleScalar(ByteIterator& it, const ByteIterator& end);
+  bool HandleScalar(ByteIterator&, const ByteIterator&);
 
   bool HandleString(ByteIterator& it, const ByteIterator& end);
   bool HandleStartStruct(ByteIterator& it, const ByteIterator& end);
-  bool HandleEndStruct(ByteIterator& it, const ByteIterator& end);
+  bool HandleEndStruct(ByteIterator&, const ByteIterator&);
   bool HandleStartArray(ByteIterator& it, const ByteIterator& end);
-  bool HandleEndArray(ByteIterator& it, const ByteIterator& end);
+  bool HandleEndArray(ByteIterator&, const ByteIterator&);
 };
 
 template <void (AnyTypeComposer::*mem_fun)() >
-bool BinaryTypeParserHelper::HandleScalar(ByteIterator& it, const ByteIterator& end)
+bool BinaryTypeParserHelper::HandleScalar(ByteIterator&, const ByteIterator&)
 {
-  (void)it;
-  (void)end;
   PushState();
   (m_composer.*mem_fun)();
   return PopState();

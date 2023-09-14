@@ -210,9 +210,9 @@ void AnyValueComposer::EndArray()
   p_impl->ProcessComponent<EndArrayValueComposerComponent>();
 }
 
-int AnyValueComposer::GetStackSize() const
+sup::dto::uint64 AnyValueComposer::GetStackSize() const
 {
-  return static_cast<int>(p_impl->m_stack.size());
+  return p_impl->m_stack.size();
 }
 
 }  // namespace dto

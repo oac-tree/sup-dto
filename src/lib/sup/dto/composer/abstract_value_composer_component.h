@@ -41,7 +41,7 @@ public:
   virtual ~AbstractValueComposerComponent() = default;
   using component_t = std::unique_ptr<AbstractValueComposerComponent>;
 
-  enum class Type
+  enum class Type : sup::dto::uint32
   {
     kValue,
     kStartStruct,

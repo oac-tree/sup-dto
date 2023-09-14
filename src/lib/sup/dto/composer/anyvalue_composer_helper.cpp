@@ -59,7 +59,8 @@ void ValidateAddValueComponent(const std::stack<AbstractValueComposerComponent::
     }
     else
     {
-      ostr << "last Type=" << static_cast<int>(stack.top()->GetComponentType()) << ".\n";
+      ostr << "last Type=" << static_cast<sup::dto::uint32>(stack.top()->GetComponentType())
+           << ".\n";
     }
 
     throw sup::dto::ParseException(ostr.str());

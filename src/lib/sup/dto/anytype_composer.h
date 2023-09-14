@@ -75,7 +75,7 @@ public:
 
   void EndArrayElement();
 
-  int GetStackSize() const;
+  sup::dto::uint64 GetStackSize() const;
 
 private:
   struct AnyTypeComposerImpl;

@@ -92,9 +92,8 @@ bool AnyValueValueBuilder::RawNumber(const char*, std::size_t, bool)
   throw ParseException("AnyValueValueBuilder::RawNumber not supported");
 }
 
-bool AnyValueValueBuilder::String(const char* str, std::size_t length, bool copy)
+bool AnyValueValueBuilder::String(const char* str, std::size_t length, bool)
 {
-  (void)copy;
   const std::string arg(str, length);
   return m_current->String(arg);
 }
@@ -105,9 +104,8 @@ bool AnyValueValueBuilder::StartObject()
   return true;
 }
 
-bool AnyValueValueBuilder::Key(const char* str, std::size_t length, bool copy)
+bool AnyValueValueBuilder::Key(const char* str, std::size_t length, bool)
 {
-  (void)copy;
   const std::string arg(str, length);
   return m_current->Member(arg);
 }
@@ -129,9 +127,8 @@ bool AnyValueValueBuilder::StartArray()
   return true;
 }
 
-bool AnyValueValueBuilder::EndArray(std::size_t elementCount)
+bool AnyValueValueBuilder::EndArray(std::size_t)
 {
-  (void)elementCount;
   if (!m_current->Parent())
   {
     throw ParseException("AnyValueValueBuilder::EndArray current node is null");

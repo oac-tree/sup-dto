@@ -169,9 +169,8 @@ To ConvertScalar(const From& value)
 template <typename To, typename From,
   typename std::enable_if<std::is_same<typename std::remove_cv<To>::type, std::string>::value &&
     std::is_arithmetic<From>::value, bool>::type = true>
-To ConvertScalar(const From& value)
+To ConvertScalar(const From&)
 {
-  (void)value;
   throw InvalidConversionException("Cannot convert arithmetic types to string");
 }
 
@@ -179,9 +178,8 @@ To ConvertScalar(const From& value)
 template <typename To, typename From,
   typename std::enable_if<std::is_arithmetic<To>::value &&
     std::is_same<typename std::remove_cv<From>::type, std::string>::value, bool>::type = true>
-To ConvertScalar(const From& value)
+To ConvertScalar(const From&)
 {
-  (void)value;
   throw InvalidConversionException("Cannot convert string to arithmetic types");
 }
 

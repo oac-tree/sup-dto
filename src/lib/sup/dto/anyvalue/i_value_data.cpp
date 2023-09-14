@@ -61,9 +61,8 @@ std::size_t IValueData::NumberOfMembers() const
   return 0u;
 }
 
-void IValueData::AddElement(const AnyValue& value)
+void IValueData::AddElement(const AnyValue&)
 {
-  (void)value;
   throw InvalidOperationException("Add element only supported for array types");
 }
 
@@ -72,9 +71,8 @@ std::size_t IValueData::NumberOfElements() const
   return 0u;
 }
 
-void IValueData::ConvertFrom(const AnyValue& value)
+void IValueData::ConvertFrom(const AnyValue&)
 {
-  (void)value;
   throw InvalidConversionException("Cannot convert from incompatible AnyValue");
 }
 
@@ -148,15 +146,13 @@ bool IValueData::HasField(const std::string&) const
   return false;
 }
 
-AnyValue& IValueData::operator[](const std::string& fieldname)
+AnyValue& IValueData::operator[](const std::string&)
 {
-  (void)fieldname;
   throw InvalidOperationException("Index operator with field name not supported for this type");
 }
 
-AnyValue& IValueData::operator[](std::size_t idx)
+AnyValue& IValueData::operator[](std::size_t )
 {
-  (void)idx;
   throw InvalidOperationException("Member access operator with unsigned index not supported");
 }
 

@@ -91,10 +91,8 @@ CompareResult CompareT(const AnyValue& lhs, const AnyValue& rhs)
   return CompareResult::Equivalent;
 }
 
-CompareResult UnsupportedCompare(const AnyValue& lhs, const AnyValue& rhs)
+CompareResult UnsupportedCompare(const AnyValue&, const AnyValue&)
 {
-  (void)lhs;
-  (void)rhs;
   return CompareResult::Unordered;
 }
 
@@ -123,9 +121,8 @@ bool IncrementT(AnyValue& value)
   return true;
 }
 
-bool UnsupportedIncrement(AnyValue& value)
+bool UnsupportedIncrement(AnyValue&)
 {
-  (void)value;
   return false;
 }
 
@@ -164,9 +161,8 @@ bool DecrementT(AnyValue& value)
   return true;
 }
 
-bool UnsupportedDecrement(AnyValue& value)
+bool UnsupportedDecrement(AnyValue&)
 {
-  (void)value;
   return false;
 }
 

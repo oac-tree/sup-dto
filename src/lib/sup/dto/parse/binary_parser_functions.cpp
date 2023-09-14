@@ -42,7 +42,7 @@ std::string ParseBinaryString(ByteIterator& it, const ByteIterator& end)
   }
   std::string result;
   result.reserve(str_size);
-  for (unsigned i = 0u; i < str_size; ++i)
+  for (sup::dto::uint64 i = 0u; i < str_size; ++i)
   {
     const auto u = *it++;
     char c;

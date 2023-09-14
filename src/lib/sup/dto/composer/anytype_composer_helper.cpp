@@ -49,8 +49,9 @@ void ValidateAddTypeComponent(const std::stack<AbstractTypeComposerComponent::co
 {
   if (!CanAddTypeComponent(stack))
   {
-    const std::string error = "ValidateAddTypeComponent(): component can not be added, last type: "
-                        + std::to_string(static_cast<int>(stack.top()->GetComponentType()));
+    const std::string error =
+      "ValidateAddTypeComponent(): component can not be added, last type: "
+      + std::to_string(static_cast<sup::dto::uint32>(stack.top()->GetComponentType()));
     throw sup::dto::ParseException(error);
   }
 }
@@ -62,7 +63,7 @@ void ValidateLastTypeComponent(const std::stack<AbstractTypeComposerComponent::c
   {
     const std::string error =
       "ValidateLastTypeComponent(): last component does not have the required type: "
-       + std::to_string(static_cast<int>(component_type));
+       + std::to_string(static_cast<sup::dto::uint32>(component_type));
     throw sup::dto::ParseException(error);
   }
 }

@@ -45,7 +45,7 @@ public:
 
   virtual ~AbstractTypeComposerComponent();
 
-  enum class Type
+  enum class Type : sup::dto::uint32
   {
     kLeafType,
     kStartStruct,
@@ -71,9 +71,9 @@ public:
   std::string GetFieldName() const;
   void SetFieldName(const std::string& name);
 
-  virtual void AddMember(const std::string& name, const sup::dto::AnyType& anytype);
+  virtual void AddMember(const std::string&, const sup::dto::AnyType&);
 
-  virtual void AddElement(const sup::dto::AnyType& anytype);
+  virtual void AddElement(const sup::dto::AnyType&);
 
 protected:
   sup::dto::AnyType& GetType();
