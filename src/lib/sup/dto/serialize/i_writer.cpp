@@ -44,7 +44,7 @@ bool WriteScalarString(const AnyValue& anyvalue, IWriter* writer);
 
 bool WriteScalarValue(const AnyValue& anyvalue, IWriter* writer)
 {
-  static std::map<TypeCode, std::function<bool(const AnyValue&, IWriter*)>> conversion_map {
+  static const std::map<TypeCode, std::function<bool(const AnyValue&, IWriter*)>> conversion_map {
     {TypeCode::Bool, WriteScalarValueT<boolean, &IWriter::Bool> },
     {TypeCode::Char8, WriteScalarValueT<char8, &IWriter::Char> },
     {TypeCode::Int8, WriteScalarValueT<int8, &IWriter::Int8> },

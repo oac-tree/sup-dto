@@ -35,7 +35,7 @@ template <typename T>
 std::size_t AssignBytes(AnyValue& anyvalue, const uint8* bytes, std::size_t size,
                         std::size_t position)
 {
-  if (position + sizeof(T) > size)
+  if ((position + sizeof(T)) > size)
   {
     throw ParseException("Trying to parse beyond size of byte array");
   }

@@ -48,7 +48,7 @@ void AppendBinaryStringAnyValue(std::vector<uint8>& representation, const AnyVal
 
 void AppendScalarToken(std::vector<uint8>& representation, const TypeCode& type_code)
 {
-  static std::map<TypeCode, sup::dto::uint8> token_map {
+  static const std::map<TypeCode, sup::dto::uint8> token_map {
     {TypeCode::Bool, BOOL_TOKEN },
     {TypeCode::Char8, CHAR8_TOKEN },
     {TypeCode::Int8, INT8_TOKEN },
@@ -75,8 +75,7 @@ void AppendSize(std::vector<sup::dto::uint8>& representation, sup::dto::uint64 s
 {
   if (size < SHORT_SIZE_LIMIT)
   {
-    const auto size_byte = static_cast<sup::dto::uint8>(size);
-    representation.push_back(size_byte);
+    representation.push_back(size);
   }
   else
   {
@@ -88,7 +87,7 @@ void AppendSize(std::vector<sup::dto::uint8>& representation, sup::dto::uint64 s
 void AppendBinaryScalar(std::vector<uint8>& representation, const AnyValue& anyvalue)
 {
   using AppendFunction = std::function<void(std::vector<uint8>&, const AnyValue&)>;
-  static std::map<TypeCode, AppendFunction> function_map {
+  static const std::map<TypeCode, AppendFunction> function_map {
     {TypeCode::Bool, AppendScalarAnyValueT<boolean> },
     {TypeCode::Char8, AppendScalarAnyValueT<char8> },
     {TypeCode::Int8, AppendScalarAnyValueT<int8> },

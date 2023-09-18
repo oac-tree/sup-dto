@@ -72,7 +72,7 @@ public:
   ~AnyVisitorNode();
 
   AnyVisitorNode(AnyVisitorNode&& other) = default;
-  AnyVisitorNode& operator=(AnyVisitorNode&& other);
+  AnyVisitorNode& operator=(AnyVisitorNode&& other) &;
 
   AnyVisitorNode(const AnyVisitorNode&) = delete;
   AnyVisitorNode& operator=(const AnyVisitorNode& other) = delete;
@@ -108,7 +108,7 @@ template <typename T>
 AnyVisitorNode<T>::~AnyVisitorNode() = default;
 
 template <typename T>
-AnyVisitorNode<T>& AnyVisitorNode<T>::operator=(AnyVisitorNode<T>&& other)
+AnyVisitorNode<T>& AnyVisitorNode<T>::operator=(AnyVisitorNode<T>&& other) &
 {
   if (this != &other)
   {

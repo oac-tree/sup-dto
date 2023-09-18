@@ -97,7 +97,7 @@ BinaryTypeParserHelper::CreateHandlerMemberFunctionArray()
 BinaryTypeParserHelper::HandlerMemberFunction
 BinaryTypeParserHelper::GetHandlerMemberFunction(sup::dto::uint8 token)
 {
-  static auto functions = CreateHandlerMemberFunctionArray();
+  static const auto functions = CreateHandlerMemberFunctionArray();
   return functions[token];
 }
 

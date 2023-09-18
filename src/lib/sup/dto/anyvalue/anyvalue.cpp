@@ -138,7 +138,7 @@ AnyValue::AnyValue(AnyValue&& other)
   : m_data{StealOrClone(std::move(other.m_data))}
 {}
 
-AnyValue& AnyValue::operator=(const AnyValue& other)
+AnyValue& AnyValue::operator=(const AnyValue& other) &
 {
   if (IsLockedTypeConstraint(m_data->GetConstraints()))
   {
@@ -150,7 +150,7 @@ AnyValue& AnyValue::operator=(const AnyValue& other)
   return *this;
 }
 
-AnyValue& AnyValue::operator=(AnyValue&& other)
+AnyValue& AnyValue::operator=(AnyValue&& other) &
 {
   if (IsLockedTypeConstraint(m_data->GetConstraints()))
   {

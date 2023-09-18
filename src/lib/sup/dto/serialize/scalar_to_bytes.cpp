@@ -47,7 +47,7 @@ std::vector<uint8> ScalarToBytesT<std::string>(const AnyValue& anyvalue)
 {
   auto str = anyvalue.As<std::string>();
   auto size = str.size();
-  if (size + 1 > kStringMaxLength)
+  if ((size + 1) > kStringMaxLength)
   {
     throw SerializeException("Strings should not exceed max length for C-type casting");
   }
@@ -58,7 +58,7 @@ std::vector<uint8> ScalarToBytesT<std::string>(const AnyValue& anyvalue)
 
 std::vector<uint8> ScalarToBytes(const AnyValue& anyvalue)
 {
-  static std::map<TypeCode, std::function<std::vector<uint8>(const AnyValue&)>> conversion_map {
+  static const std::map<TypeCode, std::function<std::vector<uint8>(const AnyValue&)>> conversion_map {
     {TypeCode::Bool, ScalarToBytesT<boolean> },
     {TypeCode::Char8, ScalarToBytesT<char8> },
     {TypeCode::Int8, ScalarToBytesT<int8> },

@@ -78,8 +78,8 @@ void CTypeParser::ArrayEpilog(AnyValue*)
 
 void CTypeParser::ScalarProlog(AnyValue* anyvalue)
 {
-  static std::map<TypeCode, std::function<std::size_t(AnyValue&, const uint8*, std::size_t,
-                                                      std::size_t)>> assign_map {
+  static const std::map<TypeCode, std::function<std::size_t(AnyValue&, const uint8*, std::size_t,
+                                                            std::size_t)>> assign_map {
     {TypeCode::Bool, AssignBytes<boolean> },
     {TypeCode::Char8, AssignBytes<char8> },
     {TypeCode::Int8, AssignBytes<int8> },

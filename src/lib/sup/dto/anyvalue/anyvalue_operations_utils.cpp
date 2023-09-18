@@ -68,7 +68,7 @@ TypeCode CommonTypeCode(TypeCode t_1, TypeCode t_2)
   {
     return TypeCode::Float32;
   }
-  return t_1 == t_2 ? t_1 : TypeCode::Empty;
+  return (t_1 == t_2) ? t_1 : TypeCode::Empty;
 }
 
 /**
@@ -117,7 +117,8 @@ template <typename S, typename U>
 bool IncrementT(AnyValue& value)
 {
   auto temp = static_cast<U>(value.As<S>());
-  value = static_cast<S>(++temp);
+  ++temp;
+  value = static_cast<S>(temp);
   return true;
 }
 
@@ -157,7 +158,8 @@ template <typename S, typename U>
 bool DecrementT(AnyValue& value)
 {
   auto temp = static_cast<U>(value.As<S>());
-  value = static_cast<S>(--temp);
+  --temp;
+  value = static_cast<S>(temp);
   return true;
 }
 

@@ -96,7 +96,7 @@ void BinaryValueParser::ArrayEpilog(AnyValue*)
 void BinaryValueParser::ScalarProlog(AnyValue* anyvalue)
 {
   using ScalarParserFunction = std::function<void(AnyValue&, ByteIterator&, const ByteIterator&)>;
-  static std::map<TypeCode, ScalarParserFunction> assign_map {
+  static const std::map<TypeCode, ScalarParserFunction> assign_map {
     {TypeCode::Bool, AssignBinaryScalarT<boolean> },
     {TypeCode::Char8, AssignBinaryScalarT<char8> },
     {TypeCode::Int8, AssignBinaryScalarT<int8> },

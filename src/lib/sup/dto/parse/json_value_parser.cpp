@@ -43,11 +43,11 @@ JSONAnyValueParser::~JSONAnyValueParser() = default;
 bool JSONAnyValueParser::ParseString(const std::string& json_str,
                                      const AnyTypeRegistry* type_registry)
 {
-  std::istringstream iss(json_str);
-  const AnyTypeRegistry empty_registry;
-  const auto registry = type_registry == nullptr ? &empty_registry : type_registry;
   try
   {
+    std::istringstream iss(json_str);
+    const AnyTypeRegistry empty_registry;
+    const auto registry = (type_registry == nullptr) ? &empty_registry : type_registry;
     auto parsed_value = JSONParseAnyValue(registry, iss);
     m_anyvalue.reset(new AnyValue(std::move(parsed_value)));
   }
@@ -66,10 +66,10 @@ bool JSONAnyValueParser::ParseFile(const std::string& filename,
   {
     return false;
   }
-  const AnyTypeRegistry empty_registry;
-  const auto registry = type_registry == nullptr ? &empty_registry : type_registry;
   try
   {
+    const AnyTypeRegistry empty_registry;
+    const auto registry = (type_registry == nullptr) ? &empty_registry : type_registry;
     auto parsed_value = JSONParseAnyValue(registry, ifs);
     m_anyvalue.reset(new AnyValue(std::move(parsed_value)));
   }

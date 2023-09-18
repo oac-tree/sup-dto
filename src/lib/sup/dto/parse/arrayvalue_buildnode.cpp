@@ -127,7 +127,8 @@ IAnyBuildNode* ArrayValueBuildNode::GetStructureNode()
     throw ParseException(
         "ArrayValueBuildNode::GetStructureNode called while exceeding array size");
   }
-  m_value_node.reset(new AnyValueBuildNode(GetTypeRegistry(), this, m_anyvalue[m_current_index++]));
+  m_value_node.reset(new AnyValueBuildNode(GetTypeRegistry(), this, m_anyvalue[m_current_index]));
+  ++m_current_index;
   return m_value_node.get();
 }
 
@@ -148,7 +149,8 @@ IAnyBuildNode* ArrayValueBuildNode::GetArrayNode()
     throw ParseException(
         "ArrayValueBuildNode::GetArrayNode called while exceeding array size");
   }
-  AnyValue& element_value = m_anyvalue[m_current_index++];
+  AnyValue& element_value = m_anyvalue[m_current_index];
+  ++m_current_index;
   m_array_node = CreateArrayBuildNode(GetTypeRegistry(), this, element_value);
   return m_array_node.get();
 }

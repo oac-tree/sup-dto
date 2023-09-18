@@ -150,7 +150,7 @@ public:
    * @throws InvalidConversionException Thrown when the given AnyValue cannot be properly converted
    * to this AnyValue.
    */
-  AnyValue& operator=(const AnyValue& other);
+  AnyValue& operator=(const AnyValue& other) &;
 
   /**
    * @brief Move assignment.
@@ -163,7 +163,7 @@ public:
    * to this AnyValue (only possible when conversions are required, meaning the types are not
    * exactly equal).
    */
-  AnyValue& operator=(AnyValue&& other);
+  AnyValue& operator=(AnyValue&& other) &;
 
   /**
    * @brief Try to convert from other AnyValue without changing the underlying type.
