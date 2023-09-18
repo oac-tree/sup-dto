@@ -149,7 +149,7 @@ IAnyBuildNode* ArrayValueBuildNode::GetArrayNode()
     throw ParseException(
         "ArrayValueBuildNode::GetArrayNode called while exceeding array size");
   }
-  AnyValue& element_value = m_anyvalue[m_current_index];
+  auto& element_value = m_anyvalue[m_current_index];
   ++m_current_index;
   m_array_node = CreateArrayBuildNode(GetTypeRegistry(), this, element_value);
   return m_array_node.get();
