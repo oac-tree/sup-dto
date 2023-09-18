@@ -45,7 +45,7 @@ public:
   IAnyBuildNode* GetStructureNode() override;
   bool PopStructureNode() override;
 
-  AnyValue MoveAnyValue() const;
+  AnyValue MoveAnyValue();
 
 private:
   std::unique_ptr<AnyValueEncodingElementBuildNode> m_encoding_node;

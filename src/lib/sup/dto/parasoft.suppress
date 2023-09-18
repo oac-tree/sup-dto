@@ -21,3 +21,11 @@ reason: Approved
 author: Walter Van Herck
 date: 2023-09-14
 suppression-end
+
+suppression-begin
+file: basic_scalar_types.h
+rule-id: HICPP-7_1_6-b
+reason: Approved
+author: Walter Van Herck
+date: 2023-09-18
+suppression-end

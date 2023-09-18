@@ -21,7 +21,10 @@
 
 #include "scalar_value_data_t.h"
 
-using namespace sup::dto;
+namespace sup
+{
+namespace dto
+{
 
 //! @cond HIDDEN_FROM_DOXYGEN
 constexpr TypeCode TypeToCode<boolean>::code;
@@ -38,3 +41,7 @@ constexpr TypeCode TypeToCode<float32>::code;
 constexpr TypeCode TypeToCode<float64>::code;
 constexpr TypeCode TypeToCode<std::string>::code;
 //! @endcond
+
+}  // namespace dto
+
+}  // namespace sup

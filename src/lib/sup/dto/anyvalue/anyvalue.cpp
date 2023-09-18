@@ -364,12 +364,13 @@ AnyValue ArrayValue(std::initializer_list<AnyValue> elements, const std::string&
   {
     throw InvalidOperationException("Cannot construct an array value from a list with length zero");
   }
-  auto it = elements.begin();
-  AnyValue result(elements.size(), it->GetType(), type_name);
+  auto iter = elements.begin();
+  AnyValue result(elements.size(), iter->GetType(), type_name);
   std::size_t idx = 0u;
-  for (; it != elements.end(); ++it, ++idx)
+  for (; iter != elements.end(); ++iter)
   {
-    result[idx] = *it;
+    result[idx] = *iter;
+    ++idx;
   }
   return result;
 }

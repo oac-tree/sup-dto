@@ -78,7 +78,7 @@ bool AnyValueTypeElementBuildNode::PopStructureNode()
   return true;
 }
 
-AnyType AnyValueTypeElementBuildNode::MoveAnyType() const
+AnyType AnyValueTypeElementBuildNode::MoveAnyType()
 {
   return std::move(m_anytype);
 }

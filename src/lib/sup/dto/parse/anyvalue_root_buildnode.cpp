@@ -62,7 +62,7 @@ bool AnyValueRootBuildNode::PopArrayNode()
   return true;
 }
 
-AnyValue AnyValueRootBuildNode::MoveAnyValue() const
+AnyValue AnyValueRootBuildNode::MoveAnyValue()
 {
   return std::move(m_anyvalue);
 }

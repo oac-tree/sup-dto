@@ -45,7 +45,7 @@ public:
   IAnyBuildNode* GetStructureNode() override;
   bool PopStructureNode() override;
 
-  AnyType MoveAnyType() const;
+  AnyType MoveAnyType();
 
 private:
   std::unique_ptr<AnyTypeBuildNode> m_type_node;

@@ -28,12 +28,12 @@ namespace sup
 namespace dto
 {
 
-AnyType ParseAnyType(ByteIterator& it, const ByteIterator& end)
+AnyType ParseAnyType(ByteIterator& iter, const ByteIterator& end)
 {
   BinaryTypeParserHelper helper;
-  while (it != end)
+  while (iter != end)
   {
-    if (!helper.HandleToken(it, end))
+    if (!helper.HandleToken(iter, end))
     {
       break;
     }

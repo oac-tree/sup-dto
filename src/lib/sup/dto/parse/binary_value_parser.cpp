@@ -31,16 +31,18 @@
 
 namespace
 {
-using namespace sup::dto;
+using sup::dto::AnyValue;
+using sup::dto::ByteIterator;
+
 template <typename T>
 void AssignBinaryScalarT(AnyValue& anyvalue, ByteIterator& it, const ByteIterator& end)
 {
-  anyvalue = ParseBinaryScalarT<T>(it, end);
+  anyvalue = sup::dto::ParseBinaryScalarT<T>(it, end);
 }
 
 void AssignBinaryString(AnyValue& anyvalue, ByteIterator& it, const ByteIterator& end)
 {
-  anyvalue = ParseBinaryString(it, end);
+  anyvalue = sup::dto::ParseBinaryString(it, end);
 }
 }  // unnamed namespace
 

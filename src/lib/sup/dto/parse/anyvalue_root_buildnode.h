@@ -43,7 +43,7 @@ public:
   IAnyBuildNode* GetArrayNode() override;
   bool PopArrayNode() override;
 
-  AnyValue MoveAnyValue() const;
+  AnyValue MoveAnyValue();
 
 private:
   std::unique_ptr<AnyValueArrayBuildNode> m_array_node;

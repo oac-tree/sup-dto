@@ -121,7 +121,7 @@ void AppendBinaryStringValue(std::vector<uint8>& representation, const std::stri
 {
   const auto str_size = str.size();
   AppendSize(representation, str_size);
-  representation.insert(representation.end(), std::begin(str), std::end(str));
+  representation.insert(representation.cend(), std::begin(str), std::end(str));
 }
 
 }  // namespace dto

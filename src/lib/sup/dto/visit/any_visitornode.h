@@ -71,7 +71,7 @@ public:
   explicit AnyVisitorNode(std::unique_ptr<IAnyVisitorNode<T>> node);
   ~AnyVisitorNode();
 
-  AnyVisitorNode(AnyVisitorNode&& other);
+  AnyVisitorNode(AnyVisitorNode&& other) = default;
   AnyVisitorNode& operator=(AnyVisitorNode&& other);
 
   AnyVisitorNode(const AnyVisitorNode&) = delete;
@@ -106,11 +106,6 @@ AnyVisitorNode<T>::AnyVisitorNode(std::unique_ptr<IAnyVisitorNode<T>> node)
 
 template <typename T>
 AnyVisitorNode<T>::~AnyVisitorNode() = default;
-
-template <typename T>
-AnyVisitorNode<T>::AnyVisitorNode(AnyVisitorNode<T>&& other)
-  : m_node{std::move(other.m_node)}
-{}
 
 template <typename T>
 AnyVisitorNode<T>& AnyVisitorNode<T>::operator=(AnyVisitorNode<T>&& other)

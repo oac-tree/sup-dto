@@ -136,16 +136,17 @@ AnyValue AnyValueFromBinary(const std::vector<uint8>& representation)
     throw ParseException(
       "AnyValueFromBinary(): type representation does not start with correct token");
   }
-  auto it = representation.cbegin() + 1;
-  auto end_it = representation.cend();
-  auto anytype = ParseAnyType(it, end_it);
-  AnyValue result{anytype};
-  if (it == end_it || *it++ != ANYVALUE_TOKEN)
+  auto iter = representation.cbegin() + 1;
+  auto end_iter = representation.cend();
+  auto anytype = ParseAnyType(iter, end_iter);
+  if (iter == end_iter || *iter != ANYVALUE_TOKEN)
   {
     throw ParseException(
       "AnyValueFromBinary(): value representation does not start with correct token");
   }
-  BinaryValueParser parser{it, end_it};
+  iter++;
+  BinaryValueParser parser{iter, end_iter};
+  AnyValue result{anytype};
   Visit(result, parser);
   if (!parser.IsFinished())
   {

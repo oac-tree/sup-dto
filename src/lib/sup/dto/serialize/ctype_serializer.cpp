@@ -73,7 +73,7 @@ void CTypeSerializer::ArrayEpilog(const AnyValue*)
 void CTypeSerializer::ScalarProlog(const AnyValue* anyvalue)
 {
   auto byte_val = ScalarToBytes(*anyvalue);
-  m_representation.insert(m_representation.end(), byte_val.begin(), byte_val.end());
+  m_representation.insert(m_representation.cend(), byte_val.begin(), byte_val.end());
 }
 
 void CTypeSerializer::ScalarEpilog(const AnyValue*)

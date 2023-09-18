@@ -116,7 +116,7 @@ std::string StripTypeIndex(const std::string& fieldname)
   std::string result = fieldname.substr(2u);
   if (result.size() > 0u && result[0u] == '.')
   {
-    result = result.substr(1);
+    result = result.substr(1u);
   }
   return result;
 }

@@ -29,7 +29,7 @@ namespace sup
 namespace dto
 {
 
-enum class CompareResult
+enum class CompareResult : sup::dto::uint32
 {
   Less,
   Greater,

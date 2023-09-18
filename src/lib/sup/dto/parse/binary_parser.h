@@ -31,7 +31,7 @@ namespace sup
 namespace dto
 {
 
-enum class ParseState
+enum class ParseState : sup::dto::uint32
 {
   kNone = 0,
   kInStruct,
@@ -42,7 +42,7 @@ enum class ParseState
 
 using ByteIterator = typename std::vector<sup::dto::uint8>::const_iterator;
 
-AnyType ParseAnyType(ByteIterator& begin, const ByteIterator& end);
+AnyType ParseAnyType(ByteIterator& iter, const ByteIterator& end);
 
 }  // namespace dto
 

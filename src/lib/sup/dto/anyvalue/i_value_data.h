@@ -30,7 +30,7 @@ namespace dto
 {
 namespace value_flags
 {
-enum Constraints
+enum Constraints : sup::dto::uint32
 {
   kNone       = 0x00,
   kLockedType = 0x01  // Indicates this value node cannot change type (e.g. array element)

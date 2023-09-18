@@ -62,7 +62,7 @@ bool AnyTypeRootBuildNode::PopStructureNode()
   return true;
 }
 
-AnyType AnyTypeRootBuildNode::MoveAnyType() const
+AnyType AnyTypeRootBuildNode::MoveAnyType()
 {
   return std::move(m_anytype);
 }
