@@ -90,7 +90,7 @@ AnyType& AnyType::operator=(const AnyType& other) &
   return *this;
 }
 
-AnyType& AnyType::operator=(AnyType&& other) &
+AnyType& AnyType::operator=(AnyType&& other) & noexcept
 {
   std::swap(m_data, other.m_data);
   return *this;

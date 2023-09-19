@@ -166,7 +166,7 @@ public:
    *
    * @note Always succeeds and overwrites the currently held type.
    */
-  AnyType& operator=(AnyType&& other) &;
+  AnyType& operator=(AnyType&& other) & noexcept;
 
   /**
    * @brief Destructor.

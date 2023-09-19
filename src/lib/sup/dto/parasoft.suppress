@@ -29,3 +29,11 @@ reason: Approved
 author: Walter Van Herck
 date: 2023-09-18
 suppression-end
+
+suppression-begin
+file: anyvalue.h
+rule-id: HICPP-12_5_4-a
+reason: Approved
+author: Walter Van Herck
+date: 2023-09-19
+suppression-end
