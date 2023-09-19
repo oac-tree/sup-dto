@@ -33,7 +33,7 @@ sup::dto::uint8 FetchToken(ByteIterator& it)
   return *it++;
 }
 
-std::string ParseBinaryString(ByteIterator& it, const ByteIterator& end)
+std::string ParseBinaryString(ByteIterator& it, ByteIterator end)
 {
   const auto str_size = ParseSize(it, end);
   if (static_cast<std::size_t>(std::distance(it, end)) < str_size)
@@ -52,7 +52,7 @@ std::string ParseBinaryString(ByteIterator& it, const ByteIterator& end)
   return result;
 }
 
-sup::dto::uint64 ParseSize(ByteIterator& it, const ByteIterator& end)
+sup::dto::uint64 ParseSize(ByteIterator& it, ByteIterator end)
 {
   if (it == end)
   {

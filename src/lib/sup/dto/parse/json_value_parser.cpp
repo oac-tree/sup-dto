@@ -48,8 +48,7 @@ bool JSONAnyValueParser::ParseString(const std::string& json_str,
     std::istringstream iss(json_str);
     const AnyTypeRegistry empty_registry;
     const auto registry = (type_registry == nullptr) ? &empty_registry : type_registry;
-    auto parsed_value = JSONParseAnyValue(registry, iss);
-    m_anyvalue.reset(new AnyValue(std::move(parsed_value)));
+    m_anyvalue = JSONParseAnyValue(registry, iss);
   }
   catch(const MessageException&)
   {
@@ -70,8 +69,7 @@ bool JSONAnyValueParser::ParseFile(const std::string& filename,
   {
     const AnyTypeRegistry empty_registry;
     const auto registry = (type_registry == nullptr) ? &empty_registry : type_registry;
-    auto parsed_value = JSONParseAnyValue(registry, ifs);
-    m_anyvalue.reset(new AnyValue(std::move(parsed_value)));
+    m_anyvalue = JSONParseAnyValue(registry, ifs);
   }
   catch(const MessageException&)
   {
@@ -85,8 +83,7 @@ bool JSONAnyValueParser::TypedParseString(const AnyType& anytype, const std::str
   std::istringstream iss(json_str);
   try
   {
-    auto parsed_value = JSONParseTypedAnyValue(anytype, iss);
-    m_anyvalue.reset(new AnyValue(std::move(parsed_value)));
+    m_anyvalue = JSONParseTypedAnyValue(anytype, iss);
   }
   catch(const MessageException&)
   {
@@ -104,8 +101,7 @@ bool JSONAnyValueParser::TypedParseFile(const AnyType& anytype, const std::strin
   }
   try
   {
-    auto parsed_value = JSONParseTypedAnyValue(anytype, ifs);
-    m_anyvalue.reset(new AnyValue(std::move(parsed_value)));
+    m_anyvalue = JSONParseTypedAnyValue(anytype, ifs);
   }
   catch(const MessageException&)
   {
@@ -116,11 +112,7 @@ bool JSONAnyValueParser::TypedParseFile(const AnyType& anytype, const std::strin
 
 AnyValue JSONAnyValueParser::MoveAnyValue()
 {
-  if (!m_anyvalue)
-  {
-    return {};
-  }
-  return std::move(*m_anyvalue);
+  return std::move(m_anyvalue);
 }
 
 }  // namespace dto

@@ -45,7 +45,7 @@ public:
   explicit StructDataT(const std::string& name);
   ~StructDataT() = default;
 
-  TypeCode GetTypeCode() const;
+  static TypeCode GetTypeCode();
   std::string GetTypeName() const;
 
   void AddMember(const std::string& name, std::unique_ptr<T>&& val);
@@ -70,7 +70,7 @@ StructDataT<T>::StructDataT(const std::string& name)
 {}
 
 template <typename T>
-TypeCode StructDataT<T>::GetTypeCode() const
+TypeCode StructDataT<T>::GetTypeCode()
 {
   return TypeCode::Struct;
 }

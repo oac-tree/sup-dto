@@ -36,7 +36,7 @@ class AnyValue;
 class BinaryValueParser : public IAnyVisitor<AnyValue>
 {
 public:
-  BinaryValueParser(ByteIterator& it, const ByteIterator& end);
+  BinaryValueParser(ByteIterator& it, ByteIterator end);
   ~BinaryValueParser();
 
   BinaryValueParser(const BinaryValueParser& other) = delete;
@@ -66,7 +66,7 @@ public:
 
 private:
   ByteIterator& m_it;
-  const ByteIterator& m_end;
+  ByteIterator m_end;
 };
 
 }  // namespace dto

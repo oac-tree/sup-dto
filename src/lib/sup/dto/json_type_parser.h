@@ -22,13 +22,14 @@
 #ifndef SUP_DTO_JSON_TYPE_PARSER_H_
 #define SUP_DTO_JSON_TYPE_PARSER_H_
 
+#include <sup/dto/anytype.h>
+
 #include <memory>
 
 namespace sup
 {
 namespace dto
 {
-class AnyType;
 class AnyTypeRegistry;
 
 class JSONAnyTypeParser
@@ -65,7 +66,7 @@ public:
   AnyType MoveAnyType();
 
 private:
-  std::unique_ptr<AnyType> m_anytype;
+  AnyType m_anytype;
 };
 
 }  // namespace dto

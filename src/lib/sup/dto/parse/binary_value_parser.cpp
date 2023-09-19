@@ -35,12 +35,12 @@ using sup::dto::AnyValue;
 using sup::dto::ByteIterator;
 
 template <typename T>
-void AssignBinaryScalarT(AnyValue& anyvalue, ByteIterator& it, const ByteIterator& end)
+void AssignBinaryScalarT(AnyValue& anyvalue, ByteIterator& it, ByteIterator end)
 {
   anyvalue = sup::dto::ParseBinaryScalarT<T>(it, end);
 }
 
-void AssignBinaryString(AnyValue& anyvalue, ByteIterator& it, const ByteIterator& end)
+void AssignBinaryString(AnyValue& anyvalue, ByteIterator& it, ByteIterator end)
 {
   anyvalue = sup::dto::ParseBinaryString(it, end);
 }
@@ -51,7 +51,7 @@ namespace sup
 namespace dto
 {
 
-BinaryValueParser::BinaryValueParser(ByteIterator& it, const ByteIterator& end)
+BinaryValueParser::BinaryValueParser(ByteIterator& it, ByteIterator end)
   : m_it{it}
   , m_end{end}
 {}
@@ -95,7 +95,7 @@ void BinaryValueParser::ArrayEpilog(AnyValue*)
 
 void BinaryValueParser::ScalarProlog(AnyValue* anyvalue)
 {
-  using ScalarParserFunction = std::function<void(AnyValue&, ByteIterator&, const ByteIterator&)>;
+  using ScalarParserFunction = std::function<void(AnyValue&, ByteIterator&, ByteIterator)>;
   static const std::map<TypeCode, ScalarParserFunction> assign_map {
     {TypeCode::Bool, AssignBinaryScalarT<boolean> },
     {TypeCode::Char8, AssignBinaryScalarT<char8> },

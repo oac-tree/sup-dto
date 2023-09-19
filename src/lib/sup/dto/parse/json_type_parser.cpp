@@ -48,8 +48,7 @@ bool JSONAnyTypeParser::ParseString(const std::string& json_str,
     std::istringstream iss(json_str);
     const AnyTypeRegistry empty_registry;
     const auto registry = (type_registry == nullptr) ? &empty_registry : type_registry;
-    auto parsed_type = JSONParseAnyType(registry, iss);
-    m_anytype.reset(new AnyType(std::move(parsed_type)));
+    m_anytype = JSONParseAnyType(registry, iss);
   }
   catch(const MessageException&)
   {
@@ -70,8 +69,7 @@ bool JSONAnyTypeParser::ParseFile(const std::string& filename,
   {
     const AnyTypeRegistry empty_registry;
     const auto registry = (type_registry == nullptr) ? &empty_registry : type_registry;
-    auto parsed_type = JSONParseAnyType(registry, ifs);
-    m_anytype.reset(new AnyType(std::move(parsed_type)));
+    m_anytype = JSONParseAnyType(registry, ifs);
   }
   catch(const MessageException&)
   {
@@ -82,11 +80,7 @@ bool JSONAnyTypeParser::ParseFile(const std::string& filename,
 
 AnyType JSONAnyTypeParser::MoveAnyType()
 {
-  if (!m_anytype)
-  {
-    return {};
-  }
-  return std::move(*m_anytype);
+  return std::move(m_anytype);
 }
 
 }  // namespace dto

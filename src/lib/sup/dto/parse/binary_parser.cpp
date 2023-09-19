@@ -28,7 +28,7 @@ namespace sup
 namespace dto
 {
 
-AnyType ParseAnyType(ByteIterator& iter, const ByteIterator& end)
+AnyType ParseAnyType(ByteIterator& iter, ByteIterator end)
 {
   BinaryTypeParserHelper helper;
   while (iter != end)

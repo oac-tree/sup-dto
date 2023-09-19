@@ -194,7 +194,7 @@ TEST_F(JSONTypeParserTest, ParseErrorsBuildNode)
   const std::string string_for_non_type_field = R"RAW({"type":"","multiplicity":"5"})RAW";
   EXPECT_FALSE(m_parser.ParseString(string_for_non_type_field));
   const std::string member_in_wrong_place = R"RAW({"type","multiplicity":"5"})RAW";
-  EXPECT_FALSE(m_parser.ParseString(string_for_non_type_field));
+  EXPECT_FALSE(m_parser.ParseString(member_in_wrong_place));
   const std::string structure_in_wrong_place = R"RAW({"type":{"id":5}})RAW";
   EXPECT_FALSE(m_parser.ParseString(structure_in_wrong_place));
   const std::string array_in_wrong_place = R"RAW({"type":["id"]})RAW";

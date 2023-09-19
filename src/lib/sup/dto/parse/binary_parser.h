@@ -42,7 +42,7 @@ enum class ParseState : sup::dto::uint32
 
 using ByteIterator = typename std::vector<sup::dto::uint8>::const_iterator;
 
-AnyType ParseAnyType(ByteIterator& iter, const ByteIterator& end);
+AnyType ParseAnyType(ByteIterator& iter, ByteIterator end);
 
 }  // namespace dto
 

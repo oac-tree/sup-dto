@@ -33,7 +33,7 @@ BinaryTypeParserHelper::BinaryTypeParserHelper()
   , m_parse_states{}
 {}
 
-bool BinaryTypeParserHelper::HandleToken(ByteIterator& it, const ByteIterator& end)
+bool BinaryTypeParserHelper::HandleToken(ByteIterator& it, ByteIterator end)
 {
   auto token = FetchToken(it);
   const auto handler_func = GetHandlerMemberFunction(token);
@@ -144,7 +144,7 @@ bool BinaryTypeParserHelper::PopState()
 }
 
 // HandleString is not intented to be called during parsing of struct/array typenames
-bool BinaryTypeParserHelper::HandleString(ByteIterator& it, const ByteIterator& end)
+bool BinaryTypeParserHelper::HandleString(ByteIterator& it, ByteIterator end)
 {
   const auto current_state = GetCurrentState();
   if (current_state == ParseState::kInStruct)
@@ -159,7 +159,7 @@ bool BinaryTypeParserHelper::HandleString(ByteIterator& it, const ByteIterator& 
   return PopState();
 }
 
-bool BinaryTypeParserHelper::HandleStartStruct(ByteIterator& it, const ByteIterator& end)
+bool BinaryTypeParserHelper::HandleStartStruct(ByteIterator& it, ByteIterator end)
 {
   if (it == end || FetchToken(it) != STRING_TOKEN)
   {
@@ -172,7 +172,7 @@ bool BinaryTypeParserHelper::HandleStartStruct(ByteIterator& it, const ByteItera
   return true;
 }
 
-bool BinaryTypeParserHelper::HandleEndStruct(ByteIterator&, const ByteIterator&)
+bool BinaryTypeParserHelper::HandleEndStruct(ByteIterator&, ByteIterator)
 {
   if (GetCurrentState() != ParseState::kInStruct)
   {
@@ -183,7 +183,7 @@ bool BinaryTypeParserHelper::HandleEndStruct(ByteIterator&, const ByteIterator&)
   return PopState();
 }
 
-bool BinaryTypeParserHelper::HandleStartArray(ByteIterator& it, const ByteIterator& end)
+bool BinaryTypeParserHelper::HandleStartArray(ByteIterator& it, ByteIterator end)
 {
   if (it == end || FetchToken(it) != STRING_TOKEN)
   {
@@ -197,7 +197,7 @@ bool BinaryTypeParserHelper::HandleStartArray(ByteIterator& it, const ByteIterat
   return true;
 }
 
-bool BinaryTypeParserHelper::HandleEndArray(ByteIterator&, const ByteIterator&)
+bool BinaryTypeParserHelper::HandleEndArray(ByteIterator&, ByteIterator)
 {
   if (GetCurrentState() != ParseState::kInArray)
   {

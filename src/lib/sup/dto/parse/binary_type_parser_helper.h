@@ -41,13 +41,13 @@ public:
   BinaryTypeParserHelper();
   ~BinaryTypeParserHelper() = default;
 
-  bool HandleToken(ByteIterator& it, const ByteIterator& end);
+  bool HandleToken(ByteIterator& it, ByteIterator end);
 
   AnyType MoveAnyType();
 
 private:
   using HandlerMemberFunction =
-    std::function<bool(BinaryTypeParserHelper&, ByteIterator&, const ByteIterator&)>;
+    std::function<bool(BinaryTypeParserHelper&, ByteIterator&, ByteIterator)>;
   static std::array<HandlerMemberFunction, 0x100> CreateHandlerMemberFunctionArray();
   static HandlerMemberFunction GetHandlerMemberFunction(sup::dto::uint8 token);
 
@@ -60,17 +60,17 @@ private:
   bool PopState();
 
   template <void (AnyTypeComposer::*mem_fun)() >
-  bool HandleScalar(ByteIterator&, const ByteIterator&);
+  bool HandleScalar(ByteIterator&, ByteIterator);
 
-  bool HandleString(ByteIterator& it, const ByteIterator& end);
-  bool HandleStartStruct(ByteIterator& it, const ByteIterator& end);
-  bool HandleEndStruct(ByteIterator&, const ByteIterator&);
-  bool HandleStartArray(ByteIterator& it, const ByteIterator& end);
-  bool HandleEndArray(ByteIterator&, const ByteIterator&);
+  bool HandleString(ByteIterator& it, ByteIterator end);
+  bool HandleStartStruct(ByteIterator& it, ByteIterator end);
+  bool HandleEndStruct(ByteIterator&, ByteIterator);
+  bool HandleStartArray(ByteIterator& it, ByteIterator end);
+  bool HandleEndArray(ByteIterator&, ByteIterator);
 };
 
 template <void (AnyTypeComposer::*mem_fun)() >
-bool BinaryTypeParserHelper::HandleScalar(ByteIterator&, const ByteIterator&)
+bool BinaryTypeParserHelper::HandleScalar(ByteIterator&, ByteIterator)
 {
   PushState();
   (m_composer.*mem_fun)();

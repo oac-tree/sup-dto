@@ -33,7 +33,7 @@ namespace dto
 sup::dto::uint8 FetchToken(ByteIterator& it);
 
 template <typename T>
-T ParseBinaryScalarT(ByteIterator& it, const ByteIterator& end)
+T ParseBinaryScalarT(ByteIterator& it, ByteIterator end)
 {
   if (static_cast<std::size_t>(std::distance(it, end)) < sizeof(T))
   {
@@ -51,9 +51,9 @@ T ParseBinaryScalarT(ByteIterator& it, const ByteIterator& end)
   return result;
 }
 
-std::string ParseBinaryString(ByteIterator& it, const ByteIterator& end);
+std::string ParseBinaryString(ByteIterator& it, ByteIterator end);
 
-sup::dto::uint64 ParseSize(ByteIterator& it, const ByteIterator& end);
+sup::dto::uint64 ParseSize(ByteIterator& it, ByteIterator end);
 
 }  // namespace dto
 

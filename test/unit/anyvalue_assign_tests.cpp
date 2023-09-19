@@ -56,7 +56,6 @@ TEST(AnyValueAssignTest, Structures)
 
 TEST(AnyValueAssignTest, Arrays)
 {
-  const std::string nested_name = "nested_struct";
   AnyValue two_scalars = {{
     {"signed", {SignedInteger8Type, 1}},
     {"unsigned", {UnsignedInteger8Type, 12}}
