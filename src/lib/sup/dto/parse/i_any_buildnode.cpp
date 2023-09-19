@@ -46,7 +46,7 @@ const AnyTypeRegistry* IAnyBuildNode::GetTypeRegistry() const
   return m_anytype_registry;
 }
 
-IAnyBuildNode* IAnyBuildNode::Parent() const
+IAnyBuildNode* IAnyBuildNode::GetParent() const
 {
   return m_parent;
 }

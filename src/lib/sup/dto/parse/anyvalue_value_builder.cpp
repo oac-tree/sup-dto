@@ -112,11 +112,11 @@ bool AnyValueValueBuilder::Key(const char* str, std::size_t length, bool)
 
 bool AnyValueValueBuilder::EndObject(std::size_t)
 {
-  if (!m_current->Parent())
+  if (!m_current->GetParent())
   {
     throw ParseException("AnyValueValueBuilder::EndObject current node is null");
   }
-  m_current = m_current->Parent();
+  m_current = m_current->GetParent();
   m_current->PopStructureNode();
   return true;
 }
@@ -129,11 +129,11 @@ bool AnyValueValueBuilder::StartArray()
 
 bool AnyValueValueBuilder::EndArray(std::size_t)
 {
-  if (!m_current->Parent())
+  if (!m_current->GetParent())
   {
     throw ParseException("AnyValueValueBuilder::EndArray current node is null");
   }
-  m_current = m_current->Parent();
+  m_current = m_current->GetParent();
   m_current->PopArrayNode();
   return true;
 }
