@@ -70,7 +70,7 @@ ScalarValueDataBase* ScalarValueConstructor(value_flags::Constraints constraints
 ScalarValueDataBase* CreateScalarValueData(TypeCode type_code, value_flags::Constraints constraints)
 {
   using ScalarValueDataConstructor = std::function<ScalarValueDataBase*(value_flags::Constraints)>;
-  static const std::map<TypeCode, ScalarValueDataConstructor> constructor_map{
+  static const std::map<TypeCode, ScalarValueDataConstructor> constructor_map {
     {TypeCode::Bool, ScalarValueConstructor<boolean> },
     {TypeCode::Char8, ScalarValueConstructor<char8> },
     {TypeCode::Int8, ScalarValueConstructor<int8> },

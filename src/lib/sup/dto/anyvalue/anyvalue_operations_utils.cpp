@@ -32,7 +32,7 @@ namespace utils
 
 TypeCode PromoteIntegralCode(TypeCode t)
 {
-  static const std::map<TypeCode, TypeCode> promotion_map = {
+  static const std::map<TypeCode, TypeCode> promotion_map {
     { TypeCode::Empty, TypeCode::Empty },
     { TypeCode::Bool, TypeCode::Empty },
     { TypeCode::Char8, TypeCode::Empty },

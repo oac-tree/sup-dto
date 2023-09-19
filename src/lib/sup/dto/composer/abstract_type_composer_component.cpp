@@ -28,8 +28,7 @@ namespace dto
 {
 
 AbstractTypeComposerComponent::AbstractTypeComposerComponent()
-  : m_type{}
-  , m_field_name{}
+  : AbstractTypeComposerComponent(EmptyType)
 {}
 
 AbstractTypeComposerComponent::AbstractTypeComposerComponent(const sup::dto::AnyType& anytype)

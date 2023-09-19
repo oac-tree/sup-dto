@@ -36,8 +36,7 @@ StructValueData::StructValueData(const std::string& type_name, value_flags::Cons
 {}
 
 StructValueData::StructValueData(const AnyType& anytype, value_flags::Constraints constraints)
-  : m_member_data{anytype.GetTypeName()}
-  , m_constraints{constraints}
+  : StructValueData(anytype.GetTypeName(), constraints)
 {
   for (const auto& member_name : anytype.MemberNames())
   {

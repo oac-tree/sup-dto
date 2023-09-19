@@ -118,7 +118,7 @@ std::string StripTypeIndex(const std::string& fieldname)
   {
     throw InvalidOperationException("Index operator argument for array type should start with []");
   }
-  std::string result = fieldname.substr(kBracketsSize);
+  auto result = fieldname.substr(kBracketsSize);
   if (result.size() > 0u && result[0u] == '.')
   {
     result = result.substr(1u);

@@ -40,78 +40,78 @@ IValueData* CreateUnconstrainedScalarData(const T& val)
 }
 
 AnyValue::AnyValue()
-  : m_data{CreateDefaultValueData()}
+  : AnyValue{CreateDefaultValueData()}
 {}
 
 AnyValue::AnyValue(const AnyType& anytype)
-  : m_data{CreateValueData(anytype, value_flags::kNone)}
+  : AnyValue{CreateValueData(anytype, value_flags::kNone)}
 {}
 
 AnyValue::AnyValue(boolean val)
-  : m_data{CreateUnconstrainedScalarData(val)}
+  : AnyValue{CreateUnconstrainedScalarData(val)}
 {}
 
 AnyValue::AnyValue(char8 val)
-  : m_data{CreateUnconstrainedScalarData(val)}
+  : AnyValue{CreateUnconstrainedScalarData(val)}
 {}
 
 AnyValue::AnyValue(int8 val)
-  : m_data{CreateUnconstrainedScalarData(val)}
+  : AnyValue{CreateUnconstrainedScalarData(val)}
 {}
 
 AnyValue::AnyValue(uint8 val)
-  : m_data{CreateUnconstrainedScalarData(val)}
+  : AnyValue{CreateUnconstrainedScalarData(val)}
 {}
 
 AnyValue::AnyValue(int16 val)
-  : m_data{CreateUnconstrainedScalarData(val)}
+  : AnyValue{CreateUnconstrainedScalarData(val)}
 {}
 
 AnyValue::AnyValue(uint16 val)
-  : m_data{CreateUnconstrainedScalarData(val)}
+  : AnyValue{CreateUnconstrainedScalarData(val)}
 {}
 
 AnyValue::AnyValue(int32 val)
-  : m_data{CreateUnconstrainedScalarData(val)}
+  : AnyValue{CreateUnconstrainedScalarData(val)}
 {}
 
 AnyValue::AnyValue(uint32 val)
-  : m_data{CreateUnconstrainedScalarData(val)}
+  : AnyValue{CreateUnconstrainedScalarData(val)}
 {}
 
 AnyValue::AnyValue(int64 val)
-  : m_data{CreateUnconstrainedScalarData(val)}
+  : AnyValue{CreateUnconstrainedScalarData(val)}
 {}
 
 AnyValue::AnyValue(uint64 val)
-  : m_data{CreateUnconstrainedScalarData(val)}
+  : AnyValue{CreateUnconstrainedScalarData(val)}
 {}
 
 AnyValue::AnyValue(float32 val)
-  : m_data{CreateUnconstrainedScalarData(val)}
+  : AnyValue{CreateUnconstrainedScalarData(val)}
 {}
 
 AnyValue::AnyValue(float64 val)
-  : m_data{CreateUnconstrainedScalarData(val)}
+  : AnyValue{CreateUnconstrainedScalarData(val)}
 {}
 
 AnyValue::AnyValue(const std::string& val)
-  : m_data{CreateUnconstrainedScalarData(val)}
+  : AnyValue{CreateUnconstrainedScalarData(val)}
 {}
 
 AnyValue::AnyValue(const char* val)
-  : m_data{CreateUnconstrainedScalarData<std::string>(val)}
+  : AnyValue{CreateUnconstrainedScalarData<std::string>(val)}
 {}
 
 AnyValue::AnyValue(const AnyType& anytype, const AnyValue& anyvalue)
-  : m_data{CreateValueData(anytype, value_flags::kNone)}
+  : AnyValue{CreateValueData(anytype, value_flags::kNone)}
 {
   m_data->ConvertFrom(anyvalue);
 }
 
 AnyValue::AnyValue(std::initializer_list<std::pair<std::string, AnyValue>> members,
                    const std::string& type_name)
-  : m_data{CreateDefaultValueData()}
+  : AnyValue{}
 {
   auto struct_data =
     std::unique_ptr<StructValueData>(new StructValueData(type_name, value_flags::kNone));
@@ -123,7 +123,7 @@ AnyValue::AnyValue(std::initializer_list<std::pair<std::string, AnyValue>> membe
 }
 
 AnyValue::AnyValue(std::size_t size, const AnyType& elem_type, const std::string& name)
-  : m_data{CreateDefaultValueData()}
+  : AnyValue{}
 {
   auto array_data =
     std::unique_ptr<IValueData>(new ArrayValueData(size, elem_type, name, value_flags::kNone));
@@ -131,11 +131,11 @@ AnyValue::AnyValue(std::size_t size, const AnyType& elem_type, const std::string
 }
 
 AnyValue::AnyValue(const AnyValue& other)
-  : m_data{other.m_data->Clone(value_flags::kNone)}
+  : AnyValue{other.m_data->Clone(value_flags::kNone)}
 {}
 
 AnyValue::AnyValue(AnyValue&& other)
-  : m_data{StealOrClone(std::move(other.m_data))}
+  : AnyValue{StealOrClone(std::move(other.m_data))}
 {}
 
 AnyValue& AnyValue::operator=(const AnyValue& other) &
@@ -345,7 +345,11 @@ bool AnyValue::operator!=(const AnyValue& other) const
 }
 
 AnyValue::AnyValue(std::unique_ptr<IValueData>&& data)
-  : m_data{std::move(data)}
+  : AnyValue{data.release()}
+{}
+
+AnyValue::AnyValue(IValueData* data)
+  : m_data{data}
 {}
 
 void AnyValue::UnsafeConvertFrom(const AnyValue& other)

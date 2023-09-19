@@ -39,16 +39,16 @@ std::unordered_set<TypeCode> ScalarTypes();
 }  // unnamed namespace
 
 AnyType::AnyType()
-  : m_data{new EmptyTypeData()}
+  : AnyType{new EmptyTypeData()}
 {}
 
 AnyType::AnyType(TypeCode type_code)
-  : m_data{CreateScalarData(type_code)}
+  : AnyType{CreateScalarData(type_code)}
 {}
 
 AnyType::AnyType(std::initializer_list<std::pair<std::string, AnyType>> members,
                  const std::string& name)
-  : m_data{new EmptyTypeData()}
+  : AnyType{}
 {
   auto struct_data = std::unique_ptr<StructTypeData>(new StructTypeData(name));
   for (auto& member : members)
@@ -63,7 +63,7 @@ AnyType::AnyType(std::initializer_list<std::pair<std::string, AnyType>> members)
 {}
 
 AnyType::AnyType(std::size_t size, const AnyType& elem_type, const std::string& name)
-  : m_data{new EmptyTypeData()}
+  : AnyType{}
 {
   auto array_data = std::unique_ptr<ITypeData>(new ArrayTypeData(size, elem_type, name));
   std::swap(m_data, array_data);
@@ -74,11 +74,11 @@ AnyType::AnyType(std::size_t size, const AnyType& elem_type)
 {}
 
 AnyType::AnyType(const AnyType& other)
-  : m_data{other.m_data->Clone()}
+  : AnyType{other.m_data->Clone()}
 {}
 
 AnyType::AnyType(AnyType&& other) noexcept
-  : m_data{new EmptyTypeData()}
+  : AnyType{}
 {
   std::swap(m_data, other.m_data);
 }
@@ -158,6 +158,10 @@ bool AnyType::operator!=(const AnyType& other) const
 {
   return !(this->operator==(other));
 }
+
+AnyType::AnyType(ITypeData* data)
+  : m_data{data}
+{}
 
 AnyType EmptyStructType(const std::string& name)
 {
