@@ -57,7 +57,7 @@ bool AnyTypeRootBuildNode::PopStructureNode()
     throw ParseException(
         "AnyTypeRootBuildNode::PopStructureNode must be called with a non-empty child node");
   }
-  m_anytype = m_type_node->MoveAnyType();
+  m_anytype = m_type_node->GetAnyType();
   m_type_node.reset();
   return true;
 }

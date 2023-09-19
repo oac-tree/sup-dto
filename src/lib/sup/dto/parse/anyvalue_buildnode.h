@@ -32,8 +32,6 @@ namespace sup
 {
 namespace dto
 {
-class ArrayValueBuildNode;
-
 class AnyValueBuildNode : public IAnyBuildNode
 {
 public:

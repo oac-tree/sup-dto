@@ -71,7 +71,7 @@ bool MemberTypeBuildNode::PopStructureNode()
         "MemberTypeBuildNode::GetStructureNode must be called after member name and with "
         "non-empty child node");
   }
-  m_member_type = { m_member_name, m_type_node->MoveAnyType() };
+  m_member_type = { m_member_name, m_type_node->GetAnyType() };
   m_member_name.clear();
   return true;
 }

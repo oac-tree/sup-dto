@@ -131,7 +131,7 @@ IAnyBuildNode* AnyTypeBuildNode::GetArrayNode()
 bool AnyTypeBuildNode::PopStructureNode()
 {
   m_current_member_name.clear();
-  m_element_type = m_element_node->MoveAnyType();
+  m_element_type = m_element_node->GetAnyType();
   m_element_node.reset();
   return true;
 }
@@ -144,17 +144,17 @@ bool AnyTypeBuildNode::PopArrayNode()
   return true;
 }
 
-AnyType AnyTypeBuildNode::MoveAnyType() const
+AnyType AnyTypeBuildNode::GetAnyType() const
 {
   if (m_struct_type)
   {
-    return MoveStructuredType();
+    return GetStructuredType();
   }
   if (m_array_type)
   {
-    return MoveArrayType();
+    return GetArrayType();
   }
-  return MoveTypeFromRegistry();
+  return GetTypeFromRegistry();
 }
 
 bool AnyTypeBuildNode::IsComplexType() const
@@ -162,7 +162,7 @@ bool AnyTypeBuildNode::IsComplexType() const
   return m_struct_type || m_array_type;
 }
 
-AnyType AnyTypeBuildNode::MoveStructuredType() const
+AnyType AnyTypeBuildNode::GetStructuredType() const
 {
   auto result = EmptyStructType(m_type_name);
   for (auto& member : m_member_types)
@@ -172,12 +172,12 @@ AnyType AnyTypeBuildNode::MoveStructuredType() const
   return result;
 }
 
-AnyType AnyTypeBuildNode::MoveArrayType() const
+AnyType AnyTypeBuildNode::GetArrayType() const
 {
   return AnyType(m_number_elements, m_element_type, m_type_name);
 }
 
-AnyType AnyTypeBuildNode::MoveTypeFromRegistry() const
+AnyType AnyTypeBuildNode::GetTypeFromRegistry() const
 {
   try
   {
@@ -186,7 +186,7 @@ AnyType AnyTypeBuildNode::MoveTypeFromRegistry() const
   catch(const MessageException& e)
   {
     throw ParseException(
-      "AnyTypeBuildNode::MoveTypeFromRegistry called with unknown type name");
+      "AnyTypeBuildNode::GetTypeFromRegistry called with unknown type name");
   }
 }
 

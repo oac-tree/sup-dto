@@ -72,7 +72,7 @@ bool AnyValueTypeElementBuildNode::PopStructureNode()
     throw ParseException(
       "AnyValueTypeElementBuildNode::PopStructureNode must be called with non-empty child node");
   }
-  m_anytype = m_type_node->MoveAnyType();
+  m_anytype = m_type_node->GetAnyType();
   m_member_name.clear();
   m_type_node.reset();
   return true;

@@ -54,8 +54,6 @@ public:
   bool PopStructureNode() override;
   bool PopArrayNode() override;
 
-  AnyValue MoveAnyValue() const;
-
 private:
   template <typename T> bool TryAssign(T val);
   std::unique_ptr<AnyValueBuildNode> m_value_node;
