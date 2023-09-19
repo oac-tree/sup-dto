@@ -43,7 +43,7 @@ T ParseBinaryScalarT(ByteIterator& it, ByteIterator end)
   for (sup::dto::uint8 i = 0; i < sizeof(T); ++i)
   {
     UnsignedRepresentationType<sizeof(T)> u_tmp = *it++;
-    u_tmp <<= (8*i);
+    u_tmp <<= (kBitsPerByte*i);
     u_val += u_tmp;
   }
   T result;

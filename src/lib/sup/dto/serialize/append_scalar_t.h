@@ -27,6 +27,12 @@
 #include <cstring>
 #include <vector>
 
+namespace
+{
+const sup::dto::uint32 kLSBMask = 0xFFu;
+const sup::dto::uint32 kBitsPerByte = 8u;
+}
+
 namespace sup
 {
 namespace dto
@@ -75,8 +81,8 @@ void AppendScalarT(std::vector<uint8>& representation, const T& val)
   uint8 buffer[sizeof(T)];
   for (sup::dto::uint8 i = 0; i < sizeof(T); ++i)
   {
-    buffer[i] = u_val & 0xFFu;
-    u_val >>= 8u;
+    buffer[i] = u_val & kLSBMask;
+    u_val >>= kBitsPerByte;
   }
   representation.insert(representation.cend(), buffer, buffer + sizeof(T));
 }
@@ -101,8 +107,8 @@ void AppendScalarT(std::vector<uint8>& representation, const T& val)
   uint8 buffer[sizeof(T)];
   for (sup::dto::uint8 i = 0; i < sizeof(T); ++i)
   {
-    buffer[i] = u_val & 0xFFu;
-    u_val >>= 8u;
+    buffer[i] = u_val & kLSBMask;
+    u_val >>= kBitsPerByte;
   }
   representation.insert(representation.cend(), buffer, buffer + sizeof(T));
 }

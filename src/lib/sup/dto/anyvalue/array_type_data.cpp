@@ -23,6 +23,11 @@
 
 #include <sup/dto/anyvalue_exceptions.h>
 
+namespace
+{
+const sup::dto::uint32 kBracketsSize = 2u;
+}
+
 namespace sup
 {
 namespace dto
@@ -109,11 +114,11 @@ bool ArrayTypeData::Equals(const AnyType& other) const
 
 std::string StripTypeIndex(const std::string& fieldname)
 {
-  if (fieldname.size() < 2u || fieldname.substr(0u, 2u) != "[]")
+  if (fieldname.size() < kBracketsSize || fieldname.substr(0u, kBracketsSize) != "[]")
   {
     throw InvalidOperationException("Index operator argument for array type should start with []");
   }
-  std::string result = fieldname.substr(2u);
+  std::string result = fieldname.substr(kBracketsSize);
   if (result.size() > 0u && result[0u] == '.')
   {
     result = result.substr(1u);

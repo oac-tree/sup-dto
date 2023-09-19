@@ -1,0 +1,7 @@
+suppression-begin
+file: basic_scalar_types.cpp
+rule-id: HICPP-5_1_1-a
+reason: Approved
+author: Walter Van Herck
+date: 2023-09-19
+suppression-end

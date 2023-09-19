@@ -461,32 +461,38 @@ bool AnyValue::As(T& value) const
   }
 }
 
-  /**
-   * @brief Assigns to an AnyValue using a plain C type.
-   *
-   * @param anyvalue AnyValue to assign to.
-   * @param object C type source object.
-   *
-   * @throws ParseException Thrown when the source object cannot be correctly parsed into the
-   * existing structure of the AnyValue.
-   *
-   * @note The source object needs be a packed structure of values that correspond to the structure
-   * of the AnyValue object.
-   */
+/**
+ * @brief Assigns to an AnyValue using a plain C type.
+ *
+ * @param anyvalue AnyValue to assign to.
+ * @param object C type source object.
+ *
+ * @throws ParseException Thrown when the source object cannot be correctly parsed into the
+ * existing structure of the AnyValue.
+ *
+ * @note The source object needs be a packed structure of values that correspond to the structure
+ * of the AnyValue object.
+ */
 template <typename T>
 void AssignFromCType(AnyValue& anyvalue, const T& object)
 {
   FromBytes(anyvalue, reinterpret_cast<const uint8*>(&object), sizeof(T));
 }
 
-  /**
-   * @brief Non-throwing version of AssignFromCType.
-   *
-   * @param anyvalue AnyValue to assign to.
-   * @param object C type source object.
-   *
-   * @return true on success, false otherwise.
-   */
+/**
+ * @brief Deleted overload for rvalues.
+*/
+template <typename T>
+void AssignFromCType(AnyValue& anyvalue, const T&& object) = delete;
+
+/**
+ * @brief Non-throwing version of AssignFromCType.
+ *
+ * @param anyvalue AnyValue to assign to.
+ * @param object C type source object.
+ *
+ * @return true on success, false otherwise.
+ */
 template <typename T>
 bool SafeAssignFromCType(AnyValue& anyvalue, const T& object)
 {
@@ -500,6 +506,12 @@ bool SafeAssignFromCType(AnyValue& anyvalue, const T& object)
     return false;
   }
 }
+
+/**
+ * @brief Deleted overload for rvalues.
+*/
+template <typename T>
+void SafeAssignFromCType(AnyValue& anyvalue, const T&& object) = delete;
 
 }  // namespace dto
 
