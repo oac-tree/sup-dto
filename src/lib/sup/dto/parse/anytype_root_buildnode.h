@@ -41,6 +41,12 @@ public:
                                 IAnyBuildNode* parent = nullptr);
   ~AnyTypeRootBuildNode();
 
+  AnyTypeRootBuildNode(const AnyTypeRootBuildNode& other) = delete;
+  AnyTypeRootBuildNode(AnyTypeRootBuildNode&& other) = delete;
+  AnyTypeRootBuildNode& operator=(const AnyTypeRootBuildNode& other) = delete;
+  AnyTypeRootBuildNode& operator=(AnyTypeRootBuildNode&& other) = delete;
+
+
   IAnyBuildNode* GetStructureNode() override;
   bool PopStructureNode() override;
 

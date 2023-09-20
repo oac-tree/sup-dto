@@ -41,6 +41,11 @@ public:
   MemberTypeBuildNode(const AnyTypeRegistry* anytype_registry, IAnyBuildNode* parent);
   ~MemberTypeBuildNode();
 
+  MemberTypeBuildNode(const MemberTypeBuildNode& other) = delete;
+  MemberTypeBuildNode(MemberTypeBuildNode&& other) = delete;
+  MemberTypeBuildNode& operator=(const MemberTypeBuildNode& other) = delete;
+  MemberTypeBuildNode& operator=(MemberTypeBuildNode&& other) = delete;
+
   bool Member(const std::string& str) override;
 
   IAnyBuildNode* GetStructureNode() override;

@@ -38,6 +38,12 @@ public:
   JSONAnyTypeParser();
   ~JSONAnyTypeParser();
 
+  JSONAnyTypeParser(const JSONAnyTypeParser& other) = delete;
+  JSONAnyTypeParser(JSONAnyTypeParser&& other) = delete;
+  JSONAnyTypeParser& operator=(const JSONAnyTypeParser& other) = delete;
+  JSONAnyTypeParser& operator=(JSONAnyTypeParser&& other) = delete;
+
+
   /**
    * @brief Parse an AnyType from a JSON string.
    *

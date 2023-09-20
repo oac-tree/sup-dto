@@ -41,6 +41,11 @@ public:
   MemberVisitorNode(T* any, const std::string& member_name);
   ~MemberVisitorNode() override;
 
+  MemberVisitorNode(const MemberVisitorNode& other) = delete;
+  MemberVisitorNode(MemberVisitorNode&& other) = delete;
+  MemberVisitorNode& operator=(const MemberVisitorNode& other) = delete;
+  MemberVisitorNode& operator=(MemberVisitorNode&& other) = delete;
+
   std::unique_ptr<IAnyVisitorNode<T>> NextChild() override;
 
   void AddProlog(IAnyVisitor<T>& visitor) const override;

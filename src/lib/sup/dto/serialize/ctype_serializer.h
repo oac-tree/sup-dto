@@ -39,6 +39,11 @@ public:
   CTypeSerializer();
   ~CTypeSerializer() override;
 
+  CTypeSerializer(const CTypeSerializer& other) = delete;
+  CTypeSerializer(CTypeSerializer&& other) = delete;
+  CTypeSerializer& operator=(const CTypeSerializer& other) = delete;
+  CTypeSerializer& operator=(CTypeSerializer&& other) = delete;
+
   std::vector<uint8> GetRepresentation() const;
 
   void EmptyProlog(const AnyValue* anyvalue) override;

@@ -34,6 +34,11 @@ public:
   explicit ScalarTypeData(TypeCode type_code);
   ~ScalarTypeData() override;
 
+  ScalarTypeData(const ScalarTypeData& other) = delete;
+  ScalarTypeData(ScalarTypeData&& other) = delete;
+  ScalarTypeData& operator=(const ScalarTypeData& other) = delete;
+  ScalarTypeData& operator=(ScalarTypeData&& other) = delete;
+
   ScalarTypeData* Clone() const override;
   TypeCode GetTypeCode() const override;
   std::string GetTypeName() const override;

@@ -38,6 +38,11 @@ public:
   JSONAnyValueParser();
   ~JSONAnyValueParser();
 
+  JSONAnyValueParser(const JSONAnyValueParser& other) = delete;
+  JSONAnyValueParser(JSONAnyValueParser&& other) = delete;
+  JSONAnyValueParser& operator=(const JSONAnyValueParser& other) = delete;
+  JSONAnyValueParser& operator=(JSONAnyValueParser&& other) = delete;
+
   /**
    * @brief Parse an AnyValue from a JSON string.
    *

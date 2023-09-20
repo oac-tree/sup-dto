@@ -42,6 +42,12 @@ public:
   AnyValueArrayBuildNode(const AnyTypeRegistry* anytype_registry, IAnyBuildNode* parent);
   ~AnyValueArrayBuildNode();
 
+  AnyValueArrayBuildNode(const AnyValueArrayBuildNode& other) = delete;
+  AnyValueArrayBuildNode(AnyValueArrayBuildNode&& other) = delete;
+  AnyValueArrayBuildNode& operator=(const AnyValueArrayBuildNode& other) = delete;
+  AnyValueArrayBuildNode& operator=(AnyValueArrayBuildNode&& other) = delete;
+
+
   IAnyBuildNode* GetStructureNode() override;
   bool PopStructureNode() override;
 

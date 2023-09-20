@@ -40,6 +40,12 @@ public:
                                  IAnyBuildNode* parent = nullptr);
   ~AnyValueRootBuildNode();
 
+  AnyValueRootBuildNode(const AnyValueRootBuildNode& other) = delete;
+  AnyValueRootBuildNode(AnyValueRootBuildNode&& other) = delete;
+  AnyValueRootBuildNode& operator=(const AnyValueRootBuildNode& other) = delete;
+  AnyValueRootBuildNode& operator=(AnyValueRootBuildNode&& other) = delete;
+
+
   IAnyBuildNode* GetArrayNode() override;
   bool PopArrayNode() override;
 

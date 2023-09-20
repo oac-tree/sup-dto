@@ -42,6 +42,12 @@ public:
                                    IAnyBuildNode* parent);
   ~AnyValueEncodingElementBuildNode();
 
+  AnyValueEncodingElementBuildNode(const AnyValueEncodingElementBuildNode& other) = delete;
+  AnyValueEncodingElementBuildNode(AnyValueEncodingElementBuildNode&& other) = delete;
+  AnyValueEncodingElementBuildNode& operator=(const AnyValueEncodingElementBuildNode& other) = delete;
+  AnyValueEncodingElementBuildNode& operator=(AnyValueEncodingElementBuildNode&& other) = delete;
+
+
   bool String(const std::string& str) override;
   bool Member(const std::string& str) override;
 

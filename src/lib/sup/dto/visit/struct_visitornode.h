@@ -39,6 +39,11 @@ public:
   explicit StructVisitorNode(T* any);
   ~StructVisitorNode() override;
 
+  StructVisitorNode(const StructVisitorNode& other) = delete;
+  StructVisitorNode(StructVisitorNode&& other) = delete;
+  StructVisitorNode& operator=(const StructVisitorNode& other) = delete;
+  StructVisitorNode& operator=(StructVisitorNode&& other) = delete;
+
   std::unique_ptr<IAnyVisitorNode<T>> NextChild() override;
 
   void AddProlog(IAnyVisitor<T>& visitor) const override;

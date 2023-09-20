@@ -41,6 +41,12 @@ class ValueComposerComponent : public AbstractValueComposerComponent
 {
 public:
   explicit ValueComposerComponent(const sup::dto::AnyValue& value);
+  ~ValueComposerComponent() = default;
+  ValueComposerComponent(const ValueComposerComponent& other) = delete;
+  ValueComposerComponent(ValueComposerComponent&& other) = delete;
+  ValueComposerComponent& operator=(const ValueComposerComponent& other) = delete;
+  ValueComposerComponent& operator=(ValueComposerComponent&& other) = delete;
+
 
   Type GetComponentType() const override;
 
@@ -53,6 +59,12 @@ class StartStructValueComposerComponent : public AbstractValueComposerComponent
 {
 public:
   explicit StartStructValueComposerComponent(const std::string& struct_name);
+  ~StartStructValueComposerComponent() = default;
+  StartStructValueComposerComponent(const StartStructValueComposerComponent& other) = delete;
+  StartStructValueComposerComponent(StartStructValueComposerComponent&& other) = delete;
+  StartStructValueComposerComponent& operator=(const StartStructValueComposerComponent& other) = delete;
+  StartStructValueComposerComponent& operator=(StartStructValueComposerComponent&& other) = delete;
+
 
   Type GetComponentType() const override;
 
@@ -66,6 +78,13 @@ public:
 class EndStructValueComposerComponent : public AbstractValueComposerComponent
 {
 public:
+  EndStructValueComposerComponent() = default;
+  ~EndStructValueComposerComponent() = default;
+  EndStructValueComposerComponent(const EndStructValueComposerComponent& other) = delete;
+  EndStructValueComposerComponent(EndStructValueComposerComponent&& other) = delete;
+  EndStructValueComposerComponent& operator=(const EndStructValueComposerComponent& other) = delete;
+  EndStructValueComposerComponent& operator=(EndStructValueComposerComponent&& other) = delete;
+
   Type GetComponentType() const override;
 
   bool Process(std::stack<component_t>& stack) override;
@@ -77,6 +96,11 @@ class StartFieldValueComposerComponent : public AbstractValueComposerComponent
 {
 public:
   explicit StartFieldValueComposerComponent(const std::string& field_name);
+  ~StartFieldValueComposerComponent() = default;
+  StartFieldValueComposerComponent(const StartFieldValueComposerComponent& other) = delete;
+  StartFieldValueComposerComponent(StartFieldValueComposerComponent&& other) = delete;
+  StartFieldValueComposerComponent& operator=(const StartFieldValueComposerComponent& other) = delete;
+  StartFieldValueComposerComponent& operator=(StartFieldValueComposerComponent&& other) = delete;
 
   Type GetComponentType() const override;
 
@@ -88,6 +112,13 @@ public:
 class EndFieldValueComposerComponent : public AbstractValueComposerComponent
 {
 public:
+  EndFieldValueComposerComponent() = default;
+  ~EndFieldValueComposerComponent() = default;
+  EndFieldValueComposerComponent(const EndFieldValueComposerComponent& other) = delete;
+  EndFieldValueComposerComponent(EndFieldValueComposerComponent&& other) = delete;
+  EndFieldValueComposerComponent& operator=(const EndFieldValueComposerComponent& other) = delete;
+  EndFieldValueComposerComponent& operator=(EndFieldValueComposerComponent&& other) = delete;
+
   Type GetComponentType() const override;
 
   bool Process(std::stack<component_t>& stack) override;
@@ -99,6 +130,12 @@ class StartArrayValueComposerComponent : public AbstractValueComposerComponent
 {
 public:
   explicit StartArrayValueComposerComponent(const std::string& array_name);
+  ~StartArrayValueComposerComponent() = default;
+  StartArrayValueComposerComponent(const StartArrayValueComposerComponent& other) = delete;
+  StartArrayValueComposerComponent(StartArrayValueComposerComponent&& other) = delete;
+  StartArrayValueComposerComponent& operator=(const StartArrayValueComposerComponent& other) = delete;
+  StartArrayValueComposerComponent& operator=(StartArrayValueComposerComponent&& other) = delete;
+
 
   Type GetComponentType() const override;
 
@@ -115,6 +152,13 @@ private:
 class EndArrayValueComposerComponent : public AbstractValueComposerComponent
 {
 public:
+  EndArrayValueComposerComponent() = default;
+  ~EndArrayValueComposerComponent() = default;
+  EndArrayValueComposerComponent(const EndArrayValueComposerComponent& other) = delete;
+  EndArrayValueComposerComponent(EndArrayValueComposerComponent&& other) = delete;
+  EndArrayValueComposerComponent& operator=(const EndArrayValueComposerComponent& other) = delete;
+  EndArrayValueComposerComponent& operator=(EndArrayValueComposerComponent&& other) = delete;
+
   Type GetComponentType() const override;
 
   bool Process(std::stack<component_t>& stack) override;
@@ -125,6 +169,13 @@ public:
 class StartArrayElementValueComposerComponent : public AbstractValueComposerComponent
 {
 public:
+  StartArrayElementValueComposerComponent() = default;
+  ~StartArrayElementValueComposerComponent() = default;
+  StartArrayElementValueComposerComponent(const StartArrayElementValueComposerComponent& other) = delete;
+  StartArrayElementValueComposerComponent(StartArrayElementValueComposerComponent&& other) = delete;
+  StartArrayElementValueComposerComponent& operator=(const StartArrayElementValueComposerComponent& other) = delete;
+  StartArrayElementValueComposerComponent& operator=(StartArrayElementValueComposerComponent&& other) = delete;
+
   Type GetComponentType() const override;
 
   bool Process(std::stack<component_t>& stack) override;
@@ -135,6 +186,13 @@ public:
 class EndArrayElementValueComposerComponent : public AbstractValueComposerComponent
 {
 public:
+  EndArrayElementValueComposerComponent() = default;
+  ~EndArrayElementValueComposerComponent() = default;
+  EndArrayElementValueComposerComponent(const EndArrayElementValueComposerComponent& other) = delete;
+  EndArrayElementValueComposerComponent(EndArrayElementValueComposerComponent&& other) = delete;
+  EndArrayElementValueComposerComponent& operator=(const EndArrayElementValueComposerComponent& other) = delete;
+  EndArrayElementValueComposerComponent& operator=(EndArrayElementValueComposerComponent&& other) = delete;
+
   Type GetComponentType() const override;
 
   bool Process(std::stack<component_t>& stack) override;

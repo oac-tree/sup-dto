@@ -42,6 +42,11 @@ public:
   AnyTypeComposer();
   ~AnyTypeComposer();
 
+  AnyTypeComposer(const AnyTypeComposer& other) = delete;
+  AnyTypeComposer(AnyTypeComposer&& other) = delete;
+  AnyTypeComposer& operator=(const AnyTypeComposer& other) = delete;
+  AnyTypeComposer& operator=(AnyTypeComposer&& other) = delete;
+
   sup::dto::AnyType MoveAnyType();
 
   void Empty();

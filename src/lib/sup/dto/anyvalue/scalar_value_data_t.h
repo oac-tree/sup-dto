@@ -118,6 +118,11 @@ public:
   ScalarValueDataT(T value, value_flags::Constraints constraints);
   ~ScalarValueDataT() override = default;
 
+  ScalarValueDataT(const ScalarValueDataT& other) = delete;
+  ScalarValueDataT(ScalarValueDataT&& other) = delete;
+  ScalarValueDataT& operator=(const ScalarValueDataT& other) = delete;
+  ScalarValueDataT& operator=(ScalarValueDataT&& other) = delete;
+
   ScalarValueDataT<T>* Clone(value_flags::Constraints constraints) const override;
 
   void ConvertFrom(const AnyValue& value) override;

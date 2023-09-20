@@ -39,6 +39,11 @@ public:
   StructValueData(const AnyType& anytype, value_flags::Constraints constraints);
   ~StructValueData() override;
 
+  StructValueData(const StructValueData& other) = delete;
+  StructValueData(StructValueData&& other) = delete;
+  StructValueData& operator=(const StructValueData& other) = delete;
+  StructValueData& operator=(StructValueData&& other) = delete;
+
   StructValueData* Clone(value_flags::Constraints constraints) const override;
   TypeCode GetTypeCode() const override;
   std::string GetTypeName() const override;

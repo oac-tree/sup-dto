@@ -39,6 +39,12 @@ class LeafTypeComposerComponent : public AbstractTypeComposerComponent
 public:
   explicit LeafTypeComposerComponent(const sup::dto::AnyType& anytype);
 
+  ~LeafTypeComposerComponent() = default;
+  LeafTypeComposerComponent(const LeafTypeComposerComponent& other) = delete;
+  LeafTypeComposerComponent(LeafTypeComposerComponent&& other) = delete;
+  LeafTypeComposerComponent& operator=(const LeafTypeComposerComponent& other) = delete;
+  LeafTypeComposerComponent& operator=(LeafTypeComposerComponent&& other) = delete;
+
   Type GetComponentType() const override;
 
   bool Process(std::stack<component_t>& stack) override;
@@ -49,6 +55,12 @@ class StartStructTypeComposerComponent : public AbstractTypeComposerComponent
 {
 public:
   explicit StartStructTypeComposerComponent(const std::string& struct_name);
+
+  ~StartStructTypeComposerComponent() = default;
+  StartStructTypeComposerComponent(const StartStructTypeComposerComponent& other) = delete;
+  StartStructTypeComposerComponent(StartStructTypeComposerComponent&& other) = delete;
+  StartStructTypeComposerComponent& operator=(const StartStructTypeComposerComponent& other) = delete;
+  StartStructTypeComposerComponent& operator=(StartStructTypeComposerComponent&& other) = delete;
 
   Type GetComponentType() const override;
 
@@ -61,6 +73,13 @@ public:
 class EndStructTypeComposerComponent : public AbstractTypeComposerComponent
 {
 public:
+  EndStructTypeComposerComponent() = default;
+  ~EndStructTypeComposerComponent() = default;
+  EndStructTypeComposerComponent(const EndStructTypeComposerComponent& other) = delete;
+  EndStructTypeComposerComponent(EndStructTypeComposerComponent&& other) = delete;
+  EndStructTypeComposerComponent& operator=(const EndStructTypeComposerComponent& other) = delete;
+  EndStructTypeComposerComponent& operator=(EndStructTypeComposerComponent&& other) = delete;
+
   Type GetComponentType() const override;
 
   bool Process(std::stack<component_t>& stack) override;
@@ -72,6 +91,12 @@ class StartFieldTypeComposerComponent : public AbstractTypeComposerComponent
 public:
   explicit StartFieldTypeComposerComponent(const std::string& field_name);
 
+  ~StartFieldTypeComposerComponent() = default;
+  StartFieldTypeComposerComponent(const StartFieldTypeComposerComponent& other) = delete;
+  StartFieldTypeComposerComponent(StartFieldTypeComposerComponent&& other) = delete;
+  StartFieldTypeComposerComponent& operator=(const StartFieldTypeComposerComponent& other) = delete;
+  StartFieldTypeComposerComponent& operator=(StartFieldTypeComposerComponent&& other) = delete;
+
   Type GetComponentType() const override;
 
   bool Process(std::stack<component_t>& stack) override;
@@ -81,6 +106,13 @@ public:
 class EndFieldTypeComposerComponent : public AbstractTypeComposerComponent
 {
 public:
+  EndFieldTypeComposerComponent() = default;
+  ~EndFieldTypeComposerComponent() = default;
+  EndFieldTypeComposerComponent(const EndFieldTypeComposerComponent& other) = delete;
+  EndFieldTypeComposerComponent(EndFieldTypeComposerComponent&& other) = delete;
+  EndFieldTypeComposerComponent& operator=(const EndFieldTypeComposerComponent& other) = delete;
+  EndFieldTypeComposerComponent& operator=(EndFieldTypeComposerComponent&& other) = delete;
+
   Type GetComponentType() const override;
 
   bool Process(std::stack<component_t>& stack) override;
@@ -91,6 +123,12 @@ class StartArrayTypeComposerComponent : public AbstractTypeComposerComponent
 {
 public:
   StartArrayTypeComposerComponent(const std::string& array_name, sup::dto::uint64 array_size);
+
+  ~StartArrayTypeComposerComponent() = default;
+  StartArrayTypeComposerComponent(const StartArrayTypeComposerComponent& other) = delete;
+  StartArrayTypeComposerComponent(StartArrayTypeComposerComponent&& other) = delete;
+  StartArrayTypeComposerComponent& operator=(const StartArrayTypeComposerComponent& other) = delete;
+  StartArrayTypeComposerComponent& operator=(StartArrayTypeComposerComponent&& other) = delete;
 
   Type GetComponentType() const override;
 
@@ -107,6 +145,13 @@ private:
 class EndArrayTypeComposerComponent : public AbstractTypeComposerComponent
 {
 public:
+  EndArrayTypeComposerComponent() = default;
+  ~EndArrayTypeComposerComponent() = default;
+  EndArrayTypeComposerComponent(const EndArrayTypeComposerComponent& other) = delete;
+  EndArrayTypeComposerComponent(EndArrayTypeComposerComponent&& other) = delete;
+  EndArrayTypeComposerComponent& operator=(const EndArrayTypeComposerComponent& other) = delete;
+  EndArrayTypeComposerComponent& operator=(EndArrayTypeComposerComponent&& other) = delete;
+
   Type GetComponentType() const override;
 
   bool Process(std::stack<component_t>& stack) override;
@@ -116,6 +161,13 @@ public:
 class StartArrayElementTypeComposerComponent : public AbstractTypeComposerComponent
 {
 public:
+  StartArrayElementTypeComposerComponent() = default;
+  ~StartArrayElementTypeComposerComponent() = default;
+  StartArrayElementTypeComposerComponent(const StartArrayElementTypeComposerComponent& other) = delete;
+  StartArrayElementTypeComposerComponent(StartArrayElementTypeComposerComponent&& other) = delete;
+  StartArrayElementTypeComposerComponent& operator=(const StartArrayElementTypeComposerComponent& other) = delete;
+  StartArrayElementTypeComposerComponent& operator=(StartArrayElementTypeComposerComponent&& other) = delete;
+
   Type GetComponentType() const override;
 
   bool Process(std::stack<component_t>& stack) override;
@@ -125,6 +177,13 @@ public:
 class EndArrayElementTypeComposerComponent : public AbstractTypeComposerComponent
 {
 public:
+  EndArrayElementTypeComposerComponent() = default;
+  ~EndArrayElementTypeComposerComponent() = default;
+  EndArrayElementTypeComposerComponent(const EndArrayElementTypeComposerComponent& other) = delete;
+  EndArrayElementTypeComposerComponent(EndArrayElementTypeComposerComponent&& other) = delete;
+  EndArrayElementTypeComposerComponent& operator=(const EndArrayElementTypeComposerComponent& other) = delete;
+  EndArrayElementTypeComposerComponent& operator=(EndArrayElementTypeComposerComponent&& other) = delete;
+
   Type GetComponentType() const override;
 
   bool Process(std::stack<component_t>& stack) override;

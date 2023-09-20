@@ -45,6 +45,11 @@ public:
   explicit StructDataT(const std::string& name);
   ~StructDataT() = default;
 
+  StructDataT(const StructDataT& other) = delete;
+  StructDataT(StructDataT&& other) = delete;
+  StructDataT& operator=(const StructDataT& other) = delete;
+  StructDataT& operator=(StructDataT&& other) = delete;
+
   static TypeCode GetTypeCode();
   std::string GetTypeName() const;
 

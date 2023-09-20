@@ -369,7 +369,7 @@ AnyValue ArrayValue(std::initializer_list<AnyValue> elements, const std::string&
     throw InvalidOperationException("Cannot construct an array value from a list with length zero");
   }
   auto iter = elements.begin();
-  AnyValue result(elements.size(), iter->GetType(), type_name);
+  auto result = AnyValue(elements.size(), iter->GetType(), type_name);
   std::size_t idx = 0u;
   for (; iter != elements.end(); ++iter)
   {

@@ -40,6 +40,12 @@ public:
   AnyValueTypeElementBuildNode(const AnyTypeRegistry* anytype_registry, IAnyBuildNode* parent);
   ~AnyValueTypeElementBuildNode();
 
+  AnyValueTypeElementBuildNode(const AnyValueTypeElementBuildNode& other) = delete;
+  AnyValueTypeElementBuildNode(AnyValueTypeElementBuildNode&& other) = delete;
+  AnyValueTypeElementBuildNode& operator=(const AnyValueTypeElementBuildNode& other) = delete;
+  AnyValueTypeElementBuildNode& operator=(AnyValueTypeElementBuildNode&& other) = delete;
+
+
   bool Member(const std::string& str) override;
 
   IAnyBuildNode* GetStructureNode() override;

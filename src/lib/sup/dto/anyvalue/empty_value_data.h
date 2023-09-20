@@ -34,6 +34,11 @@ public:
   explicit EmptyValueData(value_flags::Constraints constraints);
   ~EmptyValueData() override;
 
+  EmptyValueData(const EmptyValueData& other) = delete;
+  EmptyValueData(EmptyValueData&& other) = delete;
+  EmptyValueData& operator=(const EmptyValueData& other) = delete;
+  EmptyValueData& operator=(EmptyValueData&& other) = delete;
+
   EmptyValueData* Clone(value_flags::Constraints constraints) const override;
   TypeCode GetTypeCode() const override;
   AnyType GetType() const override;

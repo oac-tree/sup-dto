@@ -42,6 +42,11 @@ public:
   AnyValueComposer();
   ~AnyValueComposer();
 
+  AnyValueComposer(const AnyValueComposer& other) = delete;
+  AnyValueComposer(AnyValueComposer&& other) = delete;
+  AnyValueComposer& operator=(const AnyValueComposer& other) = delete;
+  AnyValueComposer& operator=(AnyValueComposer&& other) = delete;
+
   sup::dto::AnyValue MoveAnyValue();
 
   void Empty();

@@ -41,6 +41,11 @@ public:
   MemberTypeArrayBuildNode(const AnyTypeRegistry* anytype_registry, IAnyBuildNode* parent);
   ~MemberTypeArrayBuildNode();
 
+  MemberTypeArrayBuildNode(const MemberTypeArrayBuildNode& other) = delete;
+  MemberTypeArrayBuildNode(MemberTypeArrayBuildNode&& other) = delete;
+  MemberTypeArrayBuildNode& operator=(const MemberTypeArrayBuildNode& other) = delete;
+  MemberTypeArrayBuildNode& operator=(MemberTypeArrayBuildNode&& other) = delete;
+
   IAnyBuildNode* GetStructureNode() override;
   bool PopStructureNode() override;
 

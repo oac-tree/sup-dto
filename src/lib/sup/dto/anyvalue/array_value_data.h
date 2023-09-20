@@ -37,6 +37,11 @@ public:
                  value_flags::Constraints constraints);
   ~ArrayValueData() override;
 
+  ArrayValueData(const ArrayValueData& other) = delete;
+  ArrayValueData(ArrayValueData&& other) = delete;
+  ArrayValueData& operator=(const ArrayValueData& other) = delete;
+  ArrayValueData& operator=(ArrayValueData&& other) = delete;
+
   ArrayValueData* Clone(value_flags::Constraints constraints) const override;
   TypeCode GetTypeCode() const override;
   std::string GetTypeName() const override;

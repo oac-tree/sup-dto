@@ -38,6 +38,11 @@ public:
   explicit ScalarVisitorNode(T* any);
   ~ScalarVisitorNode() override;
 
+  ScalarVisitorNode(const ScalarVisitorNode& other) = delete;
+  ScalarVisitorNode(ScalarVisitorNode&& other) = delete;
+  ScalarVisitorNode& operator=(const ScalarVisitorNode& other) = delete;
+  ScalarVisitorNode& operator=(ScalarVisitorNode&& other) = delete;
+
   std::unique_ptr<IAnyVisitorNode<T>> NextChild() override;
 
   void AddProlog(IAnyVisitor<T>& visitor) const override;

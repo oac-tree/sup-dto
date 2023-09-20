@@ -43,6 +43,11 @@ public:
   AnyVisitorStack();
   ~AnyVisitorStack() = default;
 
+  AnyVisitorStack(const AnyVisitorStack& other) = delete;
+  AnyVisitorStack(AnyVisitorStack&& other) = delete;
+  AnyVisitorStack& operator=(const AnyVisitorStack& other) = delete;
+  AnyVisitorStack& operator=(AnyVisitorStack&& other) = delete;
+
   bool empty() const;
 
   AnyVisitorNode<T>& Top();

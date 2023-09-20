@@ -48,6 +48,12 @@ public:
   explicit JSONStringWriterT(std::ostream& out_stream);
   ~JSONStringWriterT();
 
+  JSONStringWriterT(const JSONStringWriterT& other) = delete;
+  JSONStringWriterT(JSONStringWriterT&& other) = delete;
+  JSONStringWriterT& operator=(const JSONStringWriterT& other) = delete;
+  JSONStringWriterT& operator=(JSONStringWriterT&& other) = delete;
+
+
   bool Null() override;
   bool Bool(boolean b) override;
   bool Char(char8 c) override;

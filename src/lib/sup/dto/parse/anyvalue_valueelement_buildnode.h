@@ -41,6 +41,11 @@ public:
                                 AnyValue& anyvalue);
   ~AnyValueValueElementBuildNode();
 
+  AnyValueValueElementBuildNode(const AnyValueValueElementBuildNode& other) = delete;
+  AnyValueValueElementBuildNode(AnyValueValueElementBuildNode&& other) = delete;
+  AnyValueValueElementBuildNode& operator=(const AnyValueValueElementBuildNode& other) = delete;
+  AnyValueValueElementBuildNode& operator=(AnyValueValueElementBuildNode&& other) = delete;
+
   bool Null() override;
   bool Bool(boolean b) override;
   bool Int32(int32 i) override;

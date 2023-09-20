@@ -39,6 +39,11 @@ public:
   explicit ArrayVisitorNode(T* any);
   ~ArrayVisitorNode() override;
 
+  ArrayVisitorNode(const ArrayVisitorNode& other) = delete;
+  ArrayVisitorNode(ArrayVisitorNode&& other) = delete;
+  ArrayVisitorNode& operator=(const ArrayVisitorNode& other) = delete;
+  ArrayVisitorNode& operator=(ArrayVisitorNode&& other) = delete;
+
   std::unique_ptr<IAnyVisitorNode<T>> NextChild() override;
 
   void AddProlog(IAnyVisitor<T>& visitor) const override;

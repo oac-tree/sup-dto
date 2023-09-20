@@ -40,6 +40,11 @@ public:
   explicit EmptyVisitorNode(T* any);
   ~EmptyVisitorNode() override;
 
+  EmptyVisitorNode(const EmptyVisitorNode& other) = delete;
+  EmptyVisitorNode(EmptyVisitorNode&& other) = delete;
+  EmptyVisitorNode& operator=(const EmptyVisitorNode& other) = delete;
+  EmptyVisitorNode& operator=(EmptyVisitorNode&& other) = delete;
+
   std::unique_ptr<IAnyVisitorNode<T>> NextChild() override;
 
   void AddProlog(IAnyVisitor<T>& visitor) const override;

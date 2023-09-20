@@ -40,6 +40,11 @@ public:
   explicit BinaryTypeSerializer(std::vector<uint8>& representation);
   ~BinaryTypeSerializer() override;
 
+  BinaryTypeSerializer(const BinaryTypeSerializer& other) = delete;
+  BinaryTypeSerializer(BinaryTypeSerializer&& other) = delete;
+  BinaryTypeSerializer& operator=(const BinaryTypeSerializer& other) = delete;
+  BinaryTypeSerializer& operator=(BinaryTypeSerializer&& other) = delete;
+
   void EmptyProlog(const AnyType* anytype) override;
   void EmptyEpilog(const AnyType* anytype) override;
 
@@ -66,6 +71,11 @@ class BinaryValueSerializer : public IAnyVisitor<const AnyValue>
 public:
   explicit BinaryValueSerializer(std::vector<uint8>& representation);
   ~BinaryValueSerializer() override;
+
+  BinaryValueSerializer(const BinaryValueSerializer& other) = delete;
+  BinaryValueSerializer(BinaryValueSerializer&& other) = delete;
+  BinaryValueSerializer& operator=(const BinaryValueSerializer& other) = delete;
+  BinaryValueSerializer& operator=(BinaryValueSerializer&& other) = delete;
 
   void EmptyProlog(const AnyValue* anyvalue) override;
   void EmptyEpilog(const AnyValue* anyvalue) override;

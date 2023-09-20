@@ -34,6 +34,11 @@ public:
   ArrayTypeData(std::size_t size, const AnyType& elem_type, const std::string& name);
   ~ArrayTypeData() override;
 
+  ArrayTypeData(const ArrayTypeData& other) = delete;
+  ArrayTypeData(ArrayTypeData&& other) = delete;
+  ArrayTypeData& operator=(const ArrayTypeData& other) = delete;
+  ArrayTypeData& operator=(ArrayTypeData&& other) = delete;
+
   ArrayTypeData* Clone() const override;
   TypeCode GetTypeCode() const override;
   std::string GetTypeName() const override;

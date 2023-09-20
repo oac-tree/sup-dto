@@ -34,6 +34,11 @@ public:
   EmptyTypeData();
   ~EmptyTypeData() override;
 
+  EmptyTypeData(const EmptyTypeData& other) = delete;
+  EmptyTypeData(EmptyTypeData&& other) = delete;
+  EmptyTypeData& operator=(const EmptyTypeData& other) = delete;
+  EmptyTypeData& operator=(EmptyTypeData&& other) = delete;
+
   EmptyTypeData* Clone() const override;
   TypeCode GetTypeCode() const override;
   std::string GetTypeName() const override;

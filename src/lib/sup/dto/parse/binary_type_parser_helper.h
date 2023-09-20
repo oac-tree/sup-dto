@@ -41,6 +41,11 @@ public:
   BinaryTypeParserHelper();
   ~BinaryTypeParserHelper() = default;
 
+  BinaryTypeParserHelper(const BinaryTypeParserHelper& other) = delete;
+  BinaryTypeParserHelper(BinaryTypeParserHelper&& other) = delete;
+  BinaryTypeParserHelper& operator=(const BinaryTypeParserHelper& other) = delete;
+  BinaryTypeParserHelper& operator=(BinaryTypeParserHelper&& other) = delete;
+
   bool HandleToken(ByteIterator& it, ByteIterator end);
 
   AnyType MoveAnyType();

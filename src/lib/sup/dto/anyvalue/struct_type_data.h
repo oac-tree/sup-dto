@@ -37,6 +37,11 @@ public:
   explicit StructTypeData(const std::string& name);
   ~StructTypeData() override;
 
+  StructTypeData(const StructTypeData& other) = delete;
+  StructTypeData(StructTypeData&& other) = delete;
+  StructTypeData& operator=(const StructTypeData& other) = delete;
+  StructTypeData& operator=(StructTypeData&& other) = delete;
+
   StructTypeData* Clone() const override;
   TypeCode GetTypeCode() const override;
   std::string GetTypeName() const override;

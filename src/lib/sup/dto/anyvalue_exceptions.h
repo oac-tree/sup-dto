@@ -36,6 +36,12 @@ class MessageException : public std::exception
 {
 public:
   explicit MessageException(std::string message);
+  ~MessageException() = default;
+  MessageException(const MessageException& other) = default;
+  MessageException(MessageException&& other) = default;
+  MessageException& operator=(const MessageException& other) = default;
+  MessageException& operator=(MessageException&& other) = default;
+
   const char* what() const noexcept override;
 private:
   std::string m_message;
@@ -48,6 +54,11 @@ class InvalidConversionException : public MessageException
 {
 public:
   explicit InvalidConversionException(const std::string& message);
+  ~InvalidConversionException() = default;
+  InvalidConversionException(const InvalidConversionException& other) = default;
+  InvalidConversionException(InvalidConversionException&& other) = default;
+  InvalidConversionException& operator=(const InvalidConversionException& other) = default;
+  InvalidConversionException& operator=(InvalidConversionException&& other) = default;
 };
 
 /**
@@ -57,6 +68,11 @@ class InvalidOperationException : public MessageException
 {
 public:
   explicit InvalidOperationException(const std::string& message);
+  ~InvalidOperationException() = default;
+  InvalidOperationException(const InvalidOperationException& other) = default;
+  InvalidOperationException(InvalidOperationException&& other) = default;
+  InvalidOperationException& operator=(const InvalidOperationException& other) = default;
+  InvalidOperationException& operator=(InvalidOperationException&& other) = default;
 };
 
 /**
@@ -66,6 +82,11 @@ class SerializeException : public MessageException
 {
 public:
   explicit SerializeException(const std::string& message);
+  ~SerializeException() = default;
+  SerializeException(const SerializeException& other) = default;
+  SerializeException(SerializeException&& other) = default;
+  SerializeException& operator=(const SerializeException& other) = default;
+  SerializeException& operator=(SerializeException&& other) = default;
 };
 
 /**
@@ -75,6 +96,11 @@ class ParseException : public MessageException
 {
 public:
   explicit ParseException(const std::string& message);
+  ~ParseException() = default;
+  ParseException(const ParseException& other) = default;
+  ParseException(ParseException&& other) = default;
+  ParseException& operator=(const ParseException& other) = default;
+  ParseException& operator=(ParseException&& other) = default;
 };
 
 }  // namespace dto

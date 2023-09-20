@@ -42,6 +42,12 @@ public:
   AnyTypeBuildNode(const AnyTypeRegistry* anytype_registry, IAnyBuildNode* parent);
   ~AnyTypeBuildNode();
 
+  AnyTypeBuildNode(const AnyTypeBuildNode& other) = delete;
+  AnyTypeBuildNode(AnyTypeBuildNode&& other) = delete;
+  AnyTypeBuildNode& operator=(const AnyTypeBuildNode& other) = delete;
+  AnyTypeBuildNode& operator=(AnyTypeBuildNode&& other) = delete;
+
+
   bool Int32(int32 i) override;
   bool Uint32(uint32 u) override;
   bool Int64(int64 i) override;

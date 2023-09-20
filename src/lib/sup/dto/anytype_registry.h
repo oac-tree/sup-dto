@@ -49,6 +49,11 @@ public:
    */
   ~AnyTypeRegistry();
 
+  AnyTypeRegistry(const AnyTypeRegistry& other) = default;
+  AnyTypeRegistry(AnyTypeRegistry&& other) = default;
+  AnyTypeRegistry& operator=(const AnyTypeRegistry& other) = default;
+  AnyTypeRegistry& operator=(AnyTypeRegistry&& other) = default;
+
   /**
    * @brief Register an AnyType instance under its own name.
    *
