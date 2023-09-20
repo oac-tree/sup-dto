@@ -328,14 +328,15 @@ public:
   bool operator==(const AnyValue& other) const;
   bool operator!=(const AnyValue& other) const;
 
-private:
-  explicit AnyValue(std::unique_ptr<IValueData>&& data);
-  explicit AnyValue(IValueData* data);
   /**
    * @brief Conversion that could leave this AnyValue in a partially changed state if the execution
    * throws.
    */
   void UnsafeConvertFrom(const AnyValue& other);
+
+private:
+  explicit AnyValue(std::unique_ptr<IValueData>&& data);
+  explicit AnyValue(IValueData* data);
   friend class IValueData;
   std::unique_ptr<IValueData> m_data;
 };

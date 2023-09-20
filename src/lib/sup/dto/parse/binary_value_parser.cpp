@@ -25,25 +25,31 @@
 
 #include <sup/dto/anyvalue.h>
 #include <sup/dto/anyvalue_helper.h>
+#include <sup/dto/anyvalue_exceptions.h>
 
+#include <array>
 #include <functional>
-#include <map>
 
 namespace
 {
 using sup::dto::AnyValue;
 using sup::dto::ByteIterator;
+using sup::dto::TypeCode;
 
 template <typename T>
 void AssignBinaryScalarT(AnyValue& anyvalue, ByteIterator& it, ByteIterator end)
 {
-  anyvalue = sup::dto::ParseBinaryScalarT<T>(it, end);
+  anyvalue.UnsafeConvertFrom(sup::dto::ParseBinaryScalarT<T>(it, end));
 }
 
 void AssignBinaryString(AnyValue& anyvalue, ByteIterator& it, ByteIterator end)
 {
-  anyvalue = sup::dto::ParseBinaryString(it, end);
+  anyvalue.UnsafeConvertFrom(sup::dto::ParseBinaryString(it, end));
 }
+
+using ScalarParserFunction = std::function<void(AnyValue&, ByteIterator&, ByteIterator)>;
+const sup::dto::uint32 kMaxScalarCode = 13u;
+std::array<ScalarParserFunction, kMaxScalarCode + 1> CreateScalarParserFunctionArray();
 }  // unnamed namespace
 
 namespace sup
@@ -95,28 +101,9 @@ void BinaryValueParser::ArrayEpilog(AnyValue*)
 
 void BinaryValueParser::ScalarProlog(AnyValue* anyvalue)
 {
-  using ScalarParserFunction = std::function<void(AnyValue&, ByteIterator&, ByteIterator)>;
-  static const std::map<TypeCode, ScalarParserFunction> assign_map {
-    {TypeCode::Bool, AssignBinaryScalarT<boolean> },
-    {TypeCode::Char8, AssignBinaryScalarT<char8> },
-    {TypeCode::Int8, AssignBinaryScalarT<int8> },
-    {TypeCode::UInt8, AssignBinaryScalarT<uint8> },
-    {TypeCode::Int16, AssignBinaryScalarT<int16> },
-    {TypeCode::UInt16, AssignBinaryScalarT<uint16> },
-    {TypeCode::Int32, AssignBinaryScalarT<int32> },
-    {TypeCode::UInt32, AssignBinaryScalarT<uint32> },
-    {TypeCode::Int64, AssignBinaryScalarT<int64> },
-    {TypeCode::UInt64, AssignBinaryScalarT<uint64> },
-    {TypeCode::Float32, AssignBinaryScalarT<float32> },
-    {TypeCode::Float64, AssignBinaryScalarT<float64> },
-    {TypeCode::String, AssignBinaryString }
-  };
-  const auto it = assign_map.find(anyvalue->GetTypeCode());
-  if (it == assign_map.end())
-  {
-    throw ParseException("BinaryValueParser: unknown scalar type code");
-  }
-  it->second(*anyvalue, m_it, m_end);
+  static const auto parser_functions = CreateScalarParserFunctionArray();
+  auto& parse_func = parser_functions[static_cast<sup::dto::uint32>(anyvalue->GetTypeCode())];
+  parse_func(*anyvalue, m_it, m_end);
 }
 
 void BinaryValueParser::ScalarEpilog(AnyValue*)
@@ -125,3 +112,37 @@ void BinaryValueParser::ScalarEpilog(AnyValue*)
 }  // namespace dto
 
 }  // namespace sup
+
+namespace
+{
+using sup::dto::AnyValue;
+using sup::dto::ByteIterator;
+using sup::dto::TypeCode;
+using sup::dto::uint32;
+
+void InvalidAssignFunction(AnyValue&, ByteIterator&, ByteIterator)
+{
+  const std::string error = "BinaryValueParser::ScalarProlog() called on an empty AnyValue";
+  throw sup::dto::ParseException(error);
+}
+
+std::array<ScalarParserFunction, kMaxScalarCode + 1> CreateScalarParserFunctionArray()
+{
+  std::array<ScalarParserFunction, kMaxScalarCode + 1> result;
+  result.at(static_cast<uint32>(TypeCode::Empty)) = InvalidAssignFunction;
+  result.at(static_cast<uint32>(TypeCode::Bool)) = AssignBinaryScalarT<sup::dto::boolean>;
+  result.at(static_cast<uint32>(TypeCode::Char8)) = AssignBinaryScalarT<sup::dto::char8>;
+  result.at(static_cast<uint32>(TypeCode::Int8)) = AssignBinaryScalarT<sup::dto::int8>;
+  result.at(static_cast<uint32>(TypeCode::UInt8)) = AssignBinaryScalarT<sup::dto::uint8>;
+  result.at(static_cast<uint32>(TypeCode::Int16)) = AssignBinaryScalarT<sup::dto::int16>;
+  result.at(static_cast<uint32>(TypeCode::UInt16)) = AssignBinaryScalarT<sup::dto::uint16>;
+  result.at(static_cast<uint32>(TypeCode::Int32)) = AssignBinaryScalarT<sup::dto::int32>;
+  result.at(static_cast<uint32>(TypeCode::UInt32)) = AssignBinaryScalarT<sup::dto::uint32>;
+  result.at(static_cast<uint32>(TypeCode::Int64)) = AssignBinaryScalarT<sup::dto::int64>;
+  result.at(static_cast<uint32>(TypeCode::UInt64)) = AssignBinaryScalarT<sup::dto::uint64>;
+  result.at(static_cast<uint32>(TypeCode::Float32)) = AssignBinaryScalarT<sup::dto::float32>;
+  result.at(static_cast<uint32>(TypeCode::Float64)) = AssignBinaryScalarT<sup::dto::float64>;
+  result.at(static_cast<uint32>(TypeCode::String)) = AssignBinaryString;
+  return result;
+}
+}  // unnamed namespace

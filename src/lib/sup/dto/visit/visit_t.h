@@ -32,6 +32,14 @@ namespace sup
 namespace dto
 {
 
+/**
+ * @brief The Visit function will visit each node of an AnyType/AnyValue and call the appropriate
+ * visitor methods while passing the node's value.
+ *
+ * @note Although this function is designed to change the underlying AnyType/AnyValue, it's
+ * implementation expects that the structure is not changed. This means that only changes in leaf
+ * values are allowed, i.e. scalar values for AnyValue, and scalar types for AnyType.
+*/
 template <typename T>
 void Visit(T& any, IAnyVisitor<T>& visitor)
 {

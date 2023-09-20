@@ -344,6 +344,11 @@ bool AnyValue::operator!=(const AnyValue& other) const
   return !(this->operator==(other));
 }
 
+void AnyValue::UnsafeConvertFrom(const AnyValue& other)
+{
+  m_data->ConvertFrom(other);
+}
+
 AnyValue::AnyValue(std::unique_ptr<IValueData>&& data)
   : AnyValue{data.release()}
 {}
@@ -351,11 +356,6 @@ AnyValue::AnyValue(std::unique_ptr<IValueData>&& data)
 AnyValue::AnyValue(IValueData* data)
   : m_data{data}
 {}
-
-void AnyValue::UnsafeConvertFrom(const AnyValue& other)
-{
-  m_data->ConvertFrom(other);
-}
 
 AnyValue EmptyStruct(const std::string& type_name)
 {

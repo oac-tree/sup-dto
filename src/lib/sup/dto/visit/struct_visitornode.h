@@ -47,12 +47,14 @@ public:
 
 private:
   std::size_t m_next_index;
+  std::vector<std::string> m_member_names;
 };
 
 template <typename T>
 StructVisitorNode<T>::StructVisitorNode(T* any)
   : IAnyVisitorNode<T>{any}
   , m_next_index{0}
+  , m_member_names{any->MemberNames()}
 {}
 
 template <typename T>
@@ -61,12 +63,11 @@ StructVisitorNode<T>::~StructVisitorNode() = default;
 template <typename T>
 std::unique_ptr<IAnyVisitorNode<T>> StructVisitorNode<T>::NextChild()
 {
-  auto member_names = this->GetValue()->MemberNames();
-  if (m_next_index >= member_names.size())
+  if (m_next_index >= m_member_names.size())
   {
     return {};
   }
-  auto member_name = member_names[m_next_index];
+  auto member_name = m_member_names[m_next_index];
   ++m_next_index;
   T *member_type = &this->GetValue()->operator[](member_name);
   std::unique_ptr<IAnyVisitorNode<T>> result{
