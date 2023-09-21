@@ -370,6 +370,11 @@ AnyValue EmptyStruct(const std::string& type_name)
   return AnyValue(EmptyStructType(type_name));
 }
 
+AnyValue EmptyStruct()
+{
+  return EmptyStruct({});
+}
+
 AnyValue ArrayValue(std::initializer_list<AnyValue> elements, const std::string& type_name)
 {
   if (elements.size() == 0)
@@ -385,6 +390,11 @@ AnyValue ArrayValue(std::initializer_list<AnyValue> elements, const std::string&
     ++idx;
   }
   return result;
+}
+
+AnyValue ArrayValue(std::initializer_list<AnyValue> elements)
+{
+  return ArrayValue(elements, {});
 }
 
 bool IsEmptyValue(const AnyValue& anyvalue)

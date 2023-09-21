@@ -106,7 +106,7 @@ public:
    * @brief Constructor for structures.
    *
    * @param members list of member names and values.
-   * @param type_name Optional name for the underlying structured type.
+   * @param type_name Name for the underlying structured type.
    *
    * @throws InvalidOperationException Thrown when the given arguments do not allow the construction
    * of a structured value (e.g. empty value as member).
@@ -129,7 +129,7 @@ public:
    *
    * @param size number of elements in the array.
    * @param elem_type type of the elements in the array.
-   * @param name Optional name for the type.
+   * @param name Name for the type.
    *
    * @throws InvalidOperationException Thrown when the given arguments do not allow the construction
    * of an array value (e.g. empty type as element type).
@@ -365,24 +365,43 @@ private:
   /**
    * @brief Constructs an empty structure.
    *
-   * @param type_name Optional name for the underlying structured type.
+   * @param type_name Name for the underlying structured type.
    *
    * @return AnyValue with empty structure type.
    */
-AnyValue EmptyStruct(const std::string& type_name = {});
+AnyValue EmptyStruct(const std::string& type_name);
+
+  /**
+   * @brief Constructs an empty structure with empty type name.
+   *
+   * @return AnyValue with empty structure type.
+   */
+AnyValue EmptyStruct();
 
   /**
    * @brief Constructs a bounded array value.
    *
    * @param elements list of element values.
-   * @param type_name Optional name for the underlying structured type.
+   * @param type_name Name for the underlying structured type.
    *
    * @return Constructed array value.
    *
    * @note The type of the first element in the list determines the element type of
    * the array.
    */
-AnyValue ArrayValue(std::initializer_list<AnyValue> elements, const std::string& type_name = {});
+AnyValue ArrayValue(std::initializer_list<AnyValue> elements, const std::string& type_name);
+
+  /**
+   * @brief Constructs a bounded array value with empty type name.
+   *
+   * @param elements list of element values.
+   *
+   * @return Constructed array value.
+   *
+   * @note The type of the first element in the list determines the element type of
+   * the array.
+   */
+AnyValue ArrayValue(std::initializer_list<AnyValue> elements);
 
 bool IsEmptyValue(const AnyValue& anyvalue);
 bool IsStructValue(const AnyValue& anyvalue);
@@ -503,12 +522,6 @@ void AssignFromCType(AnyValue& anyvalue, const T& object)
 }
 
 /**
- * @brief Deleted overload for rvalues.
-*/
-template <typename T>
-void AssignFromCType(AnyValue& anyvalue, const T&& object) = delete;
-
-/**
  * @brief Non-throwing version of AssignFromCType.
  *
  * @param anyvalue AnyValue to assign to.
@@ -529,12 +542,6 @@ bool SafeAssignFromCType(AnyValue& anyvalue, const T& object)
     return false;
   }
 }
-
-/**
- * @brief Deleted overload for rvalues.
-*/
-template <typename T>
-void SafeAssignFromCType(AnyValue& anyvalue, const T&& object) = delete;
 
 }  // namespace dto
 
