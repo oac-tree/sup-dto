@@ -58,9 +58,6 @@ public:
   virtual void ScalarEpilog(T* val) = 0;
 };
 
-// template <typename T>
-// IAnyVisitor<T>::~IAnyVisitor() = default;
-
 }  // namespace dto
 
 }  // namespace sup

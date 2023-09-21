@@ -56,15 +56,15 @@ TypeCode PromoteIntegralCode(TypeCode t)
 // Not a very performant implementation. Will be refactored when this poses an issue.
 TypeCode CommonTypeCode(TypeCode t_1, TypeCode t_2)
 {
-  if (t_1 == TypeCode::Empty || t_2 == TypeCode::Empty)
+  if ((t_1 == TypeCode::Empty) || (t_2 == TypeCode::Empty))
   {
     return TypeCode::Empty;
   }
-  if (t_1 == TypeCode::Float64 || t_2 == TypeCode::Float64)
+  if ((t_1 == TypeCode::Float64) || (t_2 == TypeCode::Float64))
   {
     return TypeCode::Float64;
   }
-  if (t_1 == TypeCode::Float32 || t_2 == TypeCode::Float32)
+  if ((t_1 == TypeCode::Float32) || (t_2 == TypeCode::Float32))
   {
     return TypeCode::Float32;
   }

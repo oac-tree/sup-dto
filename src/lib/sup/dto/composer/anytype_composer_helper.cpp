@@ -59,7 +59,7 @@ void ValidateAddTypeComponent(const std::stack<AbstractTypeComposerComponent::co
 void ValidateLastTypeComponent(const std::stack<AbstractTypeComposerComponent::component_t>& stack,
                                AbstractTypeComposerComponent::Type component_type)
 {
-  if (stack.empty() || stack.top()->GetComponentType() != component_type)
+  if ((stack.empty()) || (stack.top()->GetComponentType() != component_type))
   {
     const std::string error =
       "ValidateLastTypeComponent(): last component does not have the required type: "

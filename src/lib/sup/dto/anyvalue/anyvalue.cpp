@@ -342,7 +342,7 @@ bool AnyValue::operator==(const AnyValue& other) const
   if (m_data->IsScalar())
   {
     // Enforce symmetry of scalar comparison when conversions are involved
-    return m_data->Equals(other) && other.m_data->Equals(*this);
+    return (m_data->Equals(other)) && (other.m_data->Equals(*this));
   }
   return m_data->Equals(other);
 }

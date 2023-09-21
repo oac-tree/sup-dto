@@ -70,7 +70,7 @@ void ValidateAddValueComponent(const std::stack<AbstractValueComposerComponent::
 void ValidateLastComponent(const std::stack<AbstractValueComposerComponent::component_t> &stack,
                            AbstractValueComposerComponent::Type component_type)
 {
-  if (stack.empty() || stack.top()->GetComponentType() != component_type)
+  if ((stack.empty()) || (stack.top()->GetComponentType() != component_type))
   {
     throw sup::dto::ParseException(
         "Error in ValidateLastComponent(): wrong type of the last component");

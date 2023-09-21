@@ -242,6 +242,9 @@ TEST(AnyValueCTypeTest, RoundTrip)
   complex_struct_val["validated"] = true;
   AnyValue parsed_val(complex_struct_type);
   auto complex_struct_c = complex_struct_val.As<ComplexStructType>();
+  EXPECT_EQ(std::string(complex_struct_c.simple_array[1].id), "second_id");
+  EXPECT_EQ(complex_struct_c.simple_array[0].number, 23);
+  EXPECT_EQ(complex_struct_c.validated, true);
   EXPECT_NO_THROW(AssignFromCType(parsed_val, complex_struct_c));
   EXPECT_EQ(parsed_val["array[1].id"], "second_id");
   EXPECT_EQ(parsed_val["array[0].number"], 23);

@@ -46,7 +46,7 @@ void AnyTypeRegistry::RegisterType(const std::string& name, AnyType anytype)
     throw InvalidOperationException("AnyTypeRegistry::RegisterType(): empty name not allowed");
   }
   const auto it = m_anytypes.find(name);
-  if (it != m_anytypes.end() && it->second != anytype)
+  if ((it != m_anytypes.end()) && (it->second != anytype))
   {
     throw InvalidOperationException("AnyTypeRegistry::RegisterType(): name already in use "
                                     "for different AnyType instance");

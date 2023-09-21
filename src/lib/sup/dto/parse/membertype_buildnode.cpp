@@ -53,7 +53,7 @@ bool MemberTypeBuildNode::Member(const std::string& str)
 
 IAnyBuildNode* MemberTypeBuildNode::GetStructureNode()
 {
-  if (m_type_node || m_member_name.empty())
+  if ((m_type_node) || (m_member_name.empty()))
   {
     throw ParseException(
         "MemberTypeBuildNode::GetStructureNode must be called after member name and with "
@@ -65,7 +65,7 @@ IAnyBuildNode* MemberTypeBuildNode::GetStructureNode()
 
 bool MemberTypeBuildNode::PopStructureNode()
 {
-  if (!m_type_node || m_member_name.empty())
+  if ((!m_type_node) || (m_member_name.empty()))
   {
     throw ParseException(
         "MemberTypeBuildNode::GetStructureNode must be called after member name and with "

@@ -43,7 +43,7 @@ AnyValueTypeElementBuildNode::~AnyValueTypeElementBuildNode() = default;
 
 bool AnyValueTypeElementBuildNode::Member(const std::string& str)
 {
-  if (!m_member_name.empty() || str != serialization::DATATYPE_KEY)
+  if ((!m_member_name.empty()) || (str != serialization::DATATYPE_KEY))
   {
     throw ParseException(
       "AnyValueTypeElementBuildNode::Member must be called once with \"datatype\" key");
@@ -54,7 +54,7 @@ bool AnyValueTypeElementBuildNode::Member(const std::string& str)
 
 IAnyBuildNode* AnyValueTypeElementBuildNode::GetStructureNode()
 {
-  if (m_type_node || m_member_name != serialization::DATATYPE_KEY)
+  if ((m_type_node) || (m_member_name != serialization::DATATYPE_KEY))
   {
     throw ParseException(
       "AnyValueTypeElementBuildNode::GetStructureNode must be called after \"datatype\" key "

@@ -43,7 +43,7 @@ AnyValueBuildNode::~AnyValueBuildNode() = default;
 
 bool AnyValueBuildNode::Bool(boolean b)
 {
-  if (m_member_name.empty() || !m_anyvalue.HasField(m_member_name))
+  if ((m_member_name.empty()) || (!m_anyvalue.HasField(m_member_name)))
   {
     throw ParseException(
         "AnyValueBuildNode::Bool must be called after member name");
@@ -55,7 +55,7 @@ bool AnyValueBuildNode::Bool(boolean b)
 
 bool AnyValueBuildNode::Int32(int32 i)
 {
-  if (m_member_name.empty() || !m_anyvalue.HasField(m_member_name))
+  if ((m_member_name.empty()) || (!m_anyvalue.HasField(m_member_name)))
   {
     throw ParseException(
         "AnyValueBuildNode::Int32 must be called after member name");
@@ -67,7 +67,7 @@ bool AnyValueBuildNode::Int32(int32 i)
 
 bool AnyValueBuildNode::Uint32(uint32 u)
 {
-  if (m_member_name.empty() || !m_anyvalue.HasField(m_member_name))
+  if ((m_member_name.empty()) || (!m_anyvalue.HasField(m_member_name)))
   {
     throw ParseException(
         "AnyValueBuildNode::Uint32 must be called after member name");
@@ -79,7 +79,7 @@ bool AnyValueBuildNode::Uint32(uint32 u)
 
 bool AnyValueBuildNode::Int64(int64 i)
 {
-  if (m_member_name.empty() || !m_anyvalue.HasField(m_member_name))
+  if ((m_member_name.empty()) || (!m_anyvalue.HasField(m_member_name)))
   {
     throw ParseException(
         "AnyValueBuildNode::Int64 must be called after member name");
@@ -91,7 +91,7 @@ bool AnyValueBuildNode::Int64(int64 i)
 
 bool AnyValueBuildNode::Uint64(uint64 u)
 {
-  if (m_member_name.empty() || !m_anyvalue.HasField(m_member_name))
+  if ((m_member_name.empty()) || (!m_anyvalue.HasField(m_member_name)))
   {
     throw ParseException(
         "AnyValueBuildNode::Uint64 must be called after member name");
@@ -103,7 +103,7 @@ bool AnyValueBuildNode::Uint64(uint64 u)
 
 bool AnyValueBuildNode::Double(float64 d)
 {
-  if (m_member_name.empty() || !m_anyvalue.HasField(m_member_name))
+  if ((m_member_name.empty()) || (!m_anyvalue.HasField(m_member_name)))
   {
     throw ParseException(
         "AnyValueBuildNode::Double must be called after member name");
@@ -115,7 +115,7 @@ bool AnyValueBuildNode::Double(float64 d)
 
 bool AnyValueBuildNode::String(const std::string& str)
 {
-  if (m_member_name.empty() || !m_anyvalue.HasField(m_member_name))
+  if ((m_member_name.empty()) || (!m_anyvalue.HasField(m_member_name)))
   {
     throw ParseException(
         "AnyValueBuildNode::String must be called after member name");
@@ -127,7 +127,7 @@ bool AnyValueBuildNode::String(const std::string& str)
 
 bool AnyValueBuildNode::Member(const std::string& str)
 {
-  if (!m_member_name.empty() || str.empty())
+  if ((!m_member_name.empty()) || (str.empty()))
   {
     throw ParseException(
         "AnyValueBuildNode::Member must be called when previous key was resolved and "
@@ -139,7 +139,7 @@ bool AnyValueBuildNode::Member(const std::string& str)
 
 IAnyBuildNode* AnyValueBuildNode::GetStructureNode()
 {
-  if (m_value_node || m_member_name.empty() || !m_anyvalue.HasField(m_member_name))
+  if ((m_value_node) || (m_member_name.empty()) || (!m_anyvalue.HasField(m_member_name)))
   {
     throw ParseException(
         "AnyValueBuildNode::GetStructureNode must be called with non-empty member name "
@@ -151,7 +151,7 @@ IAnyBuildNode* AnyValueBuildNode::GetStructureNode()
 
 IAnyBuildNode* AnyValueBuildNode::GetArrayNode()
 {
-  if (m_array_node || m_member_name.empty() || !m_anyvalue.HasField(m_member_name))
+  if ((m_array_node) || (m_member_name.empty()) || (!m_anyvalue.HasField(m_member_name)))
   {
     throw ParseException(
         "AnyValueBuildNode::GetArrayNode must be called with non-empty member name "
@@ -164,7 +164,7 @@ IAnyBuildNode* AnyValueBuildNode::GetArrayNode()
 
 bool AnyValueBuildNode::PopStructureNode()
 {
-  if (!m_value_node || m_member_name.empty())
+  if ((!m_value_node) || (m_member_name.empty()))
   {
     throw ParseException(
         "AnyValueBuildNode::PopStructureNode must be called with non-empty member name "
@@ -177,7 +177,7 @@ bool AnyValueBuildNode::PopStructureNode()
 
 bool AnyValueBuildNode::PopArrayNode()
 {
-  if (!m_array_node || m_member_name.empty())
+  if ((!m_array_node) || (m_member_name.empty()))
   {
     throw ParseException(
         "AnyValueBuildNode::PopArrayNode must be called with non-empty member name "

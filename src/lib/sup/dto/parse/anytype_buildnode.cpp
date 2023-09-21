@@ -104,7 +104,7 @@ bool AnyTypeBuildNode::Member(const std::string& str)
 
 IAnyBuildNode* AnyTypeBuildNode::GetStructureNode()
 {
-  if (IsComplexType() || m_current_member_name != serialization::ELEMENT_KEY)
+  if ((IsComplexType()) || (m_current_member_name != serialization::ELEMENT_KEY))
   {
     throw ParseException(
         "AnyTypeBuildNode::GetStructureNode must be called after \"element\" key and with "
@@ -117,7 +117,7 @@ IAnyBuildNode* AnyTypeBuildNode::GetStructureNode()
 
 IAnyBuildNode* AnyTypeBuildNode::GetArrayNode()
 {
-  if (IsComplexType() || m_current_member_name != serialization::ATTRIBUTES_KEY)
+  if ((IsComplexType()) || (m_current_member_name != serialization::ATTRIBUTES_KEY))
   {
     throw ParseException(
         "AnyTypeBuildNode::GetArrayNode must be called after \"attributes\" key and with "

@@ -114,12 +114,12 @@ bool ArrayTypeData::Equals(const AnyType& other) const
 
 std::string StripTypeIndex(const std::string& fieldname)
 {
-  if (fieldname.size() < kBracketsSize || fieldname.substr(0u, kBracketsSize) != "[]")
+  if ((fieldname.size() < kBracketsSize) || (fieldname.substr(0u, kBracketsSize) != "[]"))
   {
     throw InvalidOperationException("Index operator argument for array type should start with []");
   }
   auto result = fieldname.substr(kBracketsSize);
-  if (result.size() > 0u && result[0u] == '.')
+  if ((result.size() > 0u) && (result[0u] == '.'))
   {
     result = result.substr(1u);
   }

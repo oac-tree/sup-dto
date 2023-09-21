@@ -74,3 +74,30 @@ TEST(AnyValueHelperTest, TryConvertEmpty)
     EXPECT_EQ(empty_value["value"], 1.5);
   }
 }
+
+TEST(AnyValueHelperTest, TryAssignIfEmptyOrConvert)
+{
+  {
+    AnyValue empty_value{};
+    EXPECT_TRUE(IsEmptyValue(empty_value));
+    EXPECT_TRUE(TryAssignIfEmptyOrConvert(empty_value, 42));
+    EXPECT_TRUE(IsScalarValue(empty_value));
+  }
+  {
+    AnyValue value{UnsignedInteger16Type, 3};
+    EXPECT_TRUE(IsScalarValue(value));
+    EXPECT_TRUE(TryAssignIfEmptyOrConvert(value, 42));
+    EXPECT_TRUE(IsScalarValue(value));
+    EXPECT_EQ(value.GetType(), UnsignedInteger16Type);
+    EXPECT_EQ(value.As<uint16>(), 42u);
+  }
+  {
+    AnyValue value{{
+      {"a", true},
+      {"b", 42}
+    }};
+    EXPECT_TRUE(IsStructValue(value));
+    EXPECT_FALSE(TryAssignIfEmptyOrConvert(value, 42));
+    EXPECT_TRUE(IsStructValue(value));
+  }
+}

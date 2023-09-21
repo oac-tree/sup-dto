@@ -46,7 +46,7 @@ AnyValueArrayBuildNode::~AnyValueArrayBuildNode() = default;
 
 IAnyBuildNode* AnyValueArrayBuildNode::GetStructureNode()
 {
-  if (m_encoding_node || m_type_node || m_value_node)
+  if ((m_encoding_node) || (m_type_node) || (m_value_node))
   {
     throw ParseException(
       "AnyValueArrayBuildNode::GetStructureNode cannot be called when a node is still active "
@@ -74,7 +74,7 @@ bool AnyValueArrayBuildNode::PopStructureNode()
   switch (m_processed_nodes)
   {
   case 0:
-    if (!m_encoding_node || !m_encoding_node->EncodingOK())
+    if ((!m_encoding_node) || (!m_encoding_node->EncodingOK()))
     {
       throw ParseException(
           "AnyValueArrayBuildNode::PopStructureNode called first time with empty encoding node "

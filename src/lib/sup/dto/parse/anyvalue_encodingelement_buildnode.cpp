@@ -43,7 +43,7 @@ AnyValueEncodingElementBuildNode::~AnyValueEncodingElementBuildNode() = default;
 
 bool AnyValueEncodingElementBuildNode::String(const std::string& str)
 {
-  if (m_member_name.empty() || str != serialization::JSON_ENCODING_1_0)
+  if ((m_member_name.empty()) || (str != serialization::JSON_ENCODING_1_0))
   {
     throw ParseException(
         std::string("AnyValueEncodingElementBuildNode::String encoding must be: ")
@@ -56,7 +56,7 @@ bool AnyValueEncodingElementBuildNode::String(const std::string& str)
 
 bool AnyValueEncodingElementBuildNode::Member(const std::string& str)
 {
-  if (str != serialization::ENCODING_KEY || !m_member_name.empty() || m_encoding_ok)
+  if ((str != serialization::ENCODING_KEY) || (!m_member_name.empty() || m_encoding_ok))
   {
     throw ParseException(
         "AnyValueEncodingElementBuildNode::Member must be called only once for setting "

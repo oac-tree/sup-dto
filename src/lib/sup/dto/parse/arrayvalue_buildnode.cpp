@@ -32,7 +32,7 @@ namespace dto
 
 template <typename T> bool ArrayValueBuildNode::TryAssign(T val)
 {
-  if (m_size == 0 && m_current_index == m_anyvalue.NumberOfElements())
+  if ((m_size == 0) && (m_current_index == m_anyvalue.NumberOfElements()))
   {
     m_anyvalue.AddElement(AnyValue{m_element_type});
   }
@@ -112,13 +112,13 @@ bool ArrayValueBuildNode::String(const std::string& str)
 
 IAnyBuildNode* ArrayValueBuildNode::GetStructureNode()
 {
-  if (m_value_node || !IsStructType(m_element_type))
+  if ((m_value_node) || (!IsStructType(m_element_type)))
   {
     throw ParseException(
         "ArrayValueBuildNode::GetStructureNode must be called with empty child node "
         "and with structured element type");
   }
-  if (m_size == 0 && m_current_index == m_anyvalue.NumberOfElements())
+  if ((m_size == 0) && (m_current_index == m_anyvalue.NumberOfElements()))
   {
     m_anyvalue.AddElement(AnyValue{m_element_type});
   }
@@ -134,7 +134,7 @@ IAnyBuildNode* ArrayValueBuildNode::GetStructureNode()
 
 IAnyBuildNode* ArrayValueBuildNode::GetArrayNode()
 {
-  if (m_array_node || !IsArrayType(m_element_type))
+  if ((m_array_node) || (!IsArrayType(m_element_type)))
   {
     throw ParseException(
         "ArrayValueBuildNode::GetArrayNode must be called with empty child node "

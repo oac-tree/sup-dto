@@ -183,7 +183,7 @@ bool ArrayValueData::Equals(const AnyValue& other) const
 
 std::pair<std::size_t, std::string> StripValueIndex(const std::string& fieldname)
 {
-  if (fieldname.empty() || fieldname.substr(0u, 1u) != "[")
+  if ((fieldname.empty()) || (fieldname.substr(0u, 1u) != "["))
   {
     throw InvalidOperationException("Index operator argument for array value should start with [");
   }
@@ -203,13 +203,13 @@ std::pair<std::size_t, std::string> StripValueIndex(const std::string& fieldname
     throw InvalidOperationException("Index operator argument cannot be parsed to an unsigned integer");
   }
   remainder = remainder.substr(pos);
-  if (remainder.empty() || remainder.substr(0u, 1u) != "]")
+  if ((remainder.empty()) || (remainder.substr(0u, 1u) != "]"))
   {
     throw InvalidOperationException("Index operator argument for array value should be integer in "
                                  "square brackets");
   }
   remainder = remainder.substr(1u);
-  if (!remainder.empty() && remainder.substr(0u, 1u) == ".")
+  if ((!remainder.empty()) && (remainder.substr(0u, 1u) == "."))
   {
     return { idx, remainder.substr(1u) };
   }

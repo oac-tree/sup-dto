@@ -161,7 +161,7 @@ bool BinaryTypeParserHelper::HandleString(ByteIterator& it, ByteIterator end)
 
 bool BinaryTypeParserHelper::HandleStartStruct(ByteIterator& it, ByteIterator end)
 {
-  if (it == end || FetchToken(it) != STRING_TOKEN)
+  if ((it == end) || (FetchToken(it) != STRING_TOKEN))
   {
     return false;
   }
@@ -185,7 +185,7 @@ bool BinaryTypeParserHelper::HandleEndStruct(ByteIterator&, ByteIterator)
 
 bool BinaryTypeParserHelper::HandleStartArray(ByteIterator& it, ByteIterator end)
 {
-  if (it == end || FetchToken(it) != STRING_TOKEN)
+  if ((it == end) || (FetchToken(it) != STRING_TOKEN))
   {
     return false;
   }
