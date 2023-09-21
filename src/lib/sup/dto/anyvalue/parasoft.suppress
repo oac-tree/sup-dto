@@ -13,3 +13,27 @@ reason: Approved
 author: Walter Van Herck
 date: 2023-09-19
 suppression-end
+
+suppression-begin
+file: scalar_value_data_t.h
+rule-id: HICPP-5_7_1-a
+reason: Approved
+author: Walter Van Herck
+date: 2023-09-21
+suppression-end
+
+suppression-begin
+file: struct_data_t.h
+rule-id: HICPP-6_4_1-b
+reason: False positive
+author: Walter Van Herck
+date: 2023-09-21
+suppression-end
+
+suppression-begin
+file: struct_data_t.h
+rule-id: HICPP-5_4_1-c
+reason: Approved
+author: Walter Van Herck
+date: 2023-09-21
+suppression-end

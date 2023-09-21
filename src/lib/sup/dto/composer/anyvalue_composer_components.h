@@ -144,7 +144,7 @@ public:
   void AddElement(const sup::dto::AnyValue& value) override;
 
 private:
-  std::string m_array_name{};
+  std::string m_array_name;
 };
 
 //! The component which is created at the end of the array.

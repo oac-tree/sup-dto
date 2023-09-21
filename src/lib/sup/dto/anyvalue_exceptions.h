@@ -39,8 +39,8 @@ public:
   ~MessageException() = default;
   MessageException(const MessageException& other) = default;
   MessageException(MessageException&& other) = default;
-  MessageException& operator=(const MessageException& other) = default;
-  MessageException& operator=(MessageException&& other) = default;
+  MessageException& operator=(const MessageException& other) & = default;
+  MessageException& operator=(MessageException&& other) & = default;
 
   const char* what() const noexcept override;
 private:
@@ -57,8 +57,8 @@ public:
   ~InvalidConversionException() = default;
   InvalidConversionException(const InvalidConversionException& other) = default;
   InvalidConversionException(InvalidConversionException&& other) = default;
-  InvalidConversionException& operator=(const InvalidConversionException& other) = default;
-  InvalidConversionException& operator=(InvalidConversionException&& other) = default;
+  InvalidConversionException& operator=(const InvalidConversionException& other) & = default;
+  InvalidConversionException& operator=(InvalidConversionException&& other) & = default;
 };
 
 /**
@@ -71,8 +71,8 @@ public:
   ~InvalidOperationException() = default;
   InvalidOperationException(const InvalidOperationException& other) = default;
   InvalidOperationException(InvalidOperationException&& other) = default;
-  InvalidOperationException& operator=(const InvalidOperationException& other) = default;
-  InvalidOperationException& operator=(InvalidOperationException&& other) = default;
+  InvalidOperationException& operator=(const InvalidOperationException& other) & = default;
+  InvalidOperationException& operator=(InvalidOperationException&& other) & = default;
 };
 
 /**
@@ -85,8 +85,8 @@ public:
   ~SerializeException() = default;
   SerializeException(const SerializeException& other) = default;
   SerializeException(SerializeException&& other) = default;
-  SerializeException& operator=(const SerializeException& other) = default;
-  SerializeException& operator=(SerializeException&& other) = default;
+  SerializeException& operator=(const SerializeException& other) & = default;
+  SerializeException& operator=(SerializeException&& other) & = default;
 };
 
 /**
@@ -99,8 +99,8 @@ public:
   ~ParseException() = default;
   ParseException(const ParseException& other) = default;
   ParseException(ParseException&& other) = default;
-  ParseException& operator=(const ParseException& other) = default;
-  ParseException& operator=(ParseException&& other) = default;
+  ParseException& operator=(const ParseException& other) & = default;
+  ParseException& operator=(ParseException&& other) & = default;
 };
 
 }  // namespace dto

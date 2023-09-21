@@ -5,3 +5,43 @@ reason: Approved
 author: Walter Van Herck
 date: 2023-09-08
 suppression-end
+
+suppression-begin
+file: anytype_buildnode.h
+rule-id: HICPP-3_1_1-d
+reason: False positive
+author: Walter Van Herck
+date: 2023-09-21
+suppression-end
+
+suppression-begin
+file: anyvalue_buildnode.h
+rule-id: HICPP-3_1_1-d
+reason: False positive
+author: Walter Van Herck
+date: 2023-09-21
+suppression-end
+
+suppression-begin
+file: anyvalue_encodingelement_buildnode.h
+rule-id: HICPP-3_1_1-d
+reason: False positive
+author: Walter Van Herck
+date: 2023-09-21
+suppression-end
+
+suppression-begin
+file: anyvalue_valueelement_buildnode.h
+rule-id: HICPP-3_1_1-d
+reason: False positive
+author: Walter Van Herck
+date: 2023-09-21
+suppression-end
+
+suppression-begin
+file: arrayvalue_buildnode.h
+rule-id: HICPP-3_1_1-d
+reason: False positive
+author: Walter Van Herck
+date: 2023-09-21
+suppression-end
