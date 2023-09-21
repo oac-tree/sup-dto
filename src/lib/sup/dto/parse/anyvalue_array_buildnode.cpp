@@ -89,7 +89,7 @@ bool AnyValueArrayBuildNode::PopStructureNode()
           "AnyValueArrayBuildNode::PopStructureNode called second time with empty type node");
     }
     {
-      AnyType anytype = m_type_node->MoveAnyType();
+      const auto anytype = m_type_node->MoveAnyType();
       m_anyvalue = AnyValue(anytype);
     }
     m_type_node.reset();
