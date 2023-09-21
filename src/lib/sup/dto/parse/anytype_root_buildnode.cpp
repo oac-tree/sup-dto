@@ -37,6 +37,10 @@ AnyTypeRootBuildNode::AnyTypeRootBuildNode(const AnyTypeRegistry* anytype_regist
   , m_anytype{}
 {}
 
+AnyTypeRootBuildNode::AnyTypeRootBuildNode(const AnyTypeRegistry* anytype_registry)
+  : AnyTypeRootBuildNode{anytype_registry, nullptr}
+{}
+
 AnyTypeRootBuildNode::~AnyTypeRootBuildNode() = default;
 
 IAnyBuildNode* AnyTypeRootBuildNode::GetStructureNode()

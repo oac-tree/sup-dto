@@ -50,7 +50,16 @@ void SerializeAnyType(const AnyType& anytype, IAnyVisitor<const AnyType>& serial
  *
  * @return JSON string if successfull, empty otherwise.
  */
-std::string AnyTypeToJSONString(const AnyType& anytype, bool pretty=false);
+std::string AnyTypeToJSONString(const AnyType& anytype, bool pretty);
+
+/**
+ * @brief Serialize an AnyType to a JSON string (default without pretty printing).
+ *
+ * @param anytype AnyType object to serialize.
+ *
+ * @return JSON string if successfull, empty otherwise.
+ */
+std::string AnyTypeToJSONString(const AnyType& anytype);
 
 /**
  * @brief Serialize an AnyType to a JSON file.
@@ -62,7 +71,18 @@ std::string AnyTypeToJSONString(const AnyType& anytype, bool pretty=false);
  * @throws SerializeException Thrown when the JSON representation of the AnyType could not be
  * written to the file with given filename.
  */
-void AnyTypeToJSONFile(const AnyType& anytype, const std::string& filename, bool pretty=false);
+void AnyTypeToJSONFile(const AnyType& anytype, const std::string& filename, bool pretty);
+
+/**
+ * @brief Serialize an AnyType to a JSON file (default without pretty printing).
+ *
+ * @param anytype AnyType object to serialize.
+ * @param filename Filename to use.
+ *
+ * @throws SerializeException Thrown when the JSON representation of the AnyType could not be
+ * written to the file with given filename.
+ */
+void AnyTypeToJSONFile(const AnyType& anytype, const std::string& filename);
 
 /**
  * @brief Serialize an AnyType to a binary representation.

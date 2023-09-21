@@ -31,13 +31,14 @@ namespace dto
 class AnyType;
 class AnyValue;
 
-void JSONSerializeAnyType(std::ostream& json_stream, const AnyType& anytype, bool pretty = false);
+void JSONSerializeAnyType(std::ostream& json_stream, const AnyType& anytype, bool pretty);
+void JSONSerializeAnyType(std::ostream& json_stream, const AnyType& anytype);
 
-void JSONSerializeAnyValue(std::ostream& json_stream, const AnyValue& anyvalue,
-                           bool pretty = false);
+void JSONSerializeAnyValue(std::ostream& json_stream, const AnyValue& anyvalue, bool pretty);
+void JSONSerializeAnyValue(std::ostream& json_stream, const AnyValue& anyvalue);
 
-void JSONSerializeAnyValueValues(std::ostream& json_stream, const AnyValue& anyvalue,
-                                 bool pretty = false);
+void JSONSerializeAnyValueValues(std::ostream& json_stream, const AnyValue& anyvalue, bool pretty);
+void JSONSerializeAnyValueValues(std::ostream& json_stream, const AnyValue& anyvalue);
 
 }  // namespace dto
 

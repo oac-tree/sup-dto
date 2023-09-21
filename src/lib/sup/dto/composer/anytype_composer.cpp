@@ -147,6 +147,11 @@ void AnyTypeComposer::StartStruct(const std::string &struct_name)
   p_impl->ProcessComponent<StartStructTypeComposerComponent>(struct_name);
 }
 
+void AnyTypeComposer::StartStruct()
+{
+  StartStruct({});
+}
+
 void AnyTypeComposer::EndStruct()
 {
   p_impl->ProcessComponent<EndStructTypeComposerComponent>();

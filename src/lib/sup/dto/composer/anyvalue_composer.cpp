@@ -153,6 +153,11 @@ void AnyValueComposer::StartStruct(const std::string &struct_name)
   p_impl->ProcessComponent<StartStructValueComposerComponent>(struct_name);
 }
 
+void AnyValueComposer::StartStruct()
+{
+  return StartStruct({});
+}
+
 void AnyValueComposer::EndStruct()
 {
   p_impl->ProcessComponent<EndStructValueComposerComponent>();
@@ -182,6 +187,11 @@ void AnyValueComposer::AddMember(const std::string &name, sup::dto::AnyValue any
 void AnyValueComposer::StartArray(const std::string &array_name)
 {
   p_impl->ProcessComponent<StartArrayValueComposerComponent>(array_name);
+}
+
+void AnyValueComposer::StartArray()
+{
+  return StartArray({});
 }
 
 void AnyValueComposer::StartArrayElement()

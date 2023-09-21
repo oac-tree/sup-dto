@@ -57,6 +57,11 @@ bool JSONAnyValueParser::ParseString(const std::string& json_str,
   return true;
 }
 
+bool JSONAnyValueParser::ParseString(const std::string& json_str)
+{
+  return ParseString(json_str, nullptr);
+}
+
 bool JSONAnyValueParser::ParseFile(const std::string& filename,
                                    const AnyTypeRegistry* type_registry)
 {
@@ -76,6 +81,11 @@ bool JSONAnyValueParser::ParseFile(const std::string& filename,
     return false;
   }
   return true;
+}
+
+bool JSONAnyValueParser::ParseFile(const std::string& filename)
+{
+  return ParseFile(filename, nullptr);
 }
 
 bool JSONAnyValueParser::TypedParseString(const AnyType& anytype, const std::string& json_str)

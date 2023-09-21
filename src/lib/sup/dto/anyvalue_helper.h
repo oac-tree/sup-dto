@@ -85,7 +85,20 @@ void SerializeAnyValue(const AnyValue& anyvalue, IAnyVisitor<const AnyValue>& se
  * @note This serialization only contains a map of the values and is insufficient to reconstruct the
  * exact AnyValue back. Reversible serialization also requires the type (see ToJSONString function).
  */
-std::string ValuesToJSONString(const AnyValue& anyvalue, bool pretty=false);
+std::string ValuesToJSONString(const AnyValue& anyvalue, bool pretty);
+
+/**
+ * @brief Serialize the values of an AnyValue using a JSON serializer (default without pretty
+ * printing).
+ *
+ * @param anyvalue AnyValue object to serialize.
+ *
+ * @return JSON string if successfull, empty otherwise.
+ *
+ * @note This serialization only contains a map of the values and is insufficient to reconstruct the
+ * exact AnyValue back. Reversible serialization also requires the type (see ToJSONString function).
+ */
+std::string ValuesToJSONString(const AnyValue& anyvalue);
 
 /**
  * @brief Serialize an AnyValue to a JSON string.
@@ -98,7 +111,19 @@ std::string ValuesToJSONString(const AnyValue& anyvalue, bool pretty=false);
  * @note This serialization is meant to be reversible. The JSON string will contain both type
  * information as specific values of leaf nodes.
  */
-std::string AnyValueToJSONString(const AnyValue& anyvalue, bool pretty=false);
+std::string AnyValueToJSONString(const AnyValue& anyvalue, bool pretty);
+
+/**
+ * @brief Serialize an AnyValue to a JSON string (default without pretty printing).
+ *
+ * @param anyvalue AnyValue object to serialize.
+ *
+ * @return JSON string if successfull, empty otherwise.
+ *
+ * @note This serialization is meant to be reversible. The JSON string will contain both type
+ * information as specific values of leaf nodes.
+ */
+std::string AnyValueToJSONString(const AnyValue& anyvalue);
 
 /**
  * @brief Serialize an AnyValue to a JSON file.
@@ -113,7 +138,21 @@ std::string AnyValueToJSONString(const AnyValue& anyvalue, bool pretty=false);
  * @note This serialization is meant to be reversible. The JSON file will contain both type
  * information as specific values of leaf nodes.
  */
-void AnyValueToJSONFile(const AnyValue& anyvalue, const std::string& filename, bool pretty=false);
+void AnyValueToJSONFile(const AnyValue& anyvalue, const std::string& filename, bool pretty);
+
+/**
+ * @brief Serialize an AnyValue to a JSON file (default without pretty printing).
+ *
+ * @param anyvalue AnyValue object to serialize.
+ * @param filename Filename to use.
+ *
+ * @throws SerializeException Thrown when the JSON representation of the AnyValue could not be
+ * written to the file with given filename.
+ *
+ * @note This serialization is meant to be reversible. The JSON file will contain both type
+ * information as specific values of leaf nodes.
+ */
+void AnyValueToJSONFile(const AnyValue& anyvalue, const std::string& filename);
 
 /**
  * @brief Serialize an AnyValue to a binary representation.

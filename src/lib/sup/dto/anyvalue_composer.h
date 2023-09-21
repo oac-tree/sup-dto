@@ -66,7 +66,8 @@ public:
 
   void AddValue(const sup::dto::AnyValue& anyvalue);
 
-  void StartStruct(const std::string& struct_name = {});
+  void StartStruct(const std::string& struct_name);
+  void StartStruct();
 
   void EndStruct();
 
@@ -76,7 +77,8 @@ public:
 
   void AddMember(const std::string& name, sup::dto::AnyValue anyvalue);
 
-  void StartArray(const std::string& array_name = {});
+  void StartArray(const std::string& array_name);
+  void StartArray();
 
   void StartArrayElement();
 

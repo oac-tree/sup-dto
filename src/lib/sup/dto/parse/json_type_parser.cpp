@@ -57,6 +57,11 @@ bool JSONAnyTypeParser::ParseString(const std::string& json_str,
   return true;
 }
 
+bool JSONAnyTypeParser::ParseString(const std::string& json_str)
+{
+  return ParseString(json_str, nullptr);
+}
+
 bool JSONAnyTypeParser::ParseFile(const std::string& filename,
                                   const AnyTypeRegistry* type_registry)
 {
@@ -76,6 +81,11 @@ bool JSONAnyTypeParser::ParseFile(const std::string& filename,
     return false;
   }
   return true;
+}
+
+bool JSONAnyTypeParser::ParseFile(const std::string& filename)
+{
+  return ParseFile(filename, nullptr);
 }
 
 AnyType JSONAnyTypeParser::MoveAnyType()

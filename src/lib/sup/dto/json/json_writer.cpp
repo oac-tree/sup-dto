@@ -56,11 +56,21 @@ void JSONSerializeAnyType(std::ostream& json_stream, const AnyType& anytype, boo
   Visit(anytype, serializer);
 }
 
+void JSONSerializeAnyType(std::ostream& json_stream, const AnyType& anytype)
+{
+  return JSONSerializeAnyType(json_stream, anytype, false);
+}
+
 void JSONSerializeAnyValue(std::ostream& json_stream, const AnyValue& anyvalue, bool pretty)
 {
   auto writer = pretty ? CreatePrettyJSONWriter(json_stream)
                        : CreateJSONWriter(json_stream);
   ToJSONWriter(*writer, anyvalue);
+}
+
+void JSONSerializeAnyValue(std::ostream& json_stream, const AnyValue& anyvalue)
+{
+  return JSONSerializeAnyValue(json_stream, anyvalue, false);
 }
 
 void JSONSerializeAnyValueValues(std::ostream& json_stream, const AnyValue& anyvalue, bool pretty)
@@ -69,6 +79,11 @@ void JSONSerializeAnyValueValues(std::ostream& json_stream, const AnyValue& anyv
                        : CreateJSONWriter(json_stream);
   WriterValueSerializer serializer(writer.get());
   Visit(anyvalue, serializer);
+}
+
+void JSONSerializeAnyValueValues(std::ostream& json_stream, const AnyValue& anyvalue)
+{
+  return JSONSerializeAnyValueValues(json_stream, anyvalue, false);
 }
 
 namespace

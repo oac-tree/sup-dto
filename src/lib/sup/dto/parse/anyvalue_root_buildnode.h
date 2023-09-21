@@ -36,8 +36,9 @@ class AnyValueArrayBuildNode;
 class AnyValueRootBuildNode : public IAnyBuildNode
 {
 public:
-  explicit AnyValueRootBuildNode(const AnyTypeRegistry* anytype_registry,
-                                 IAnyBuildNode* parent = nullptr);
+  AnyValueRootBuildNode(const AnyTypeRegistry* anytype_registry, IAnyBuildNode* parent);
+  explicit AnyValueRootBuildNode(const AnyTypeRegistry* anytype_registry);
+
   ~AnyValueRootBuildNode();
 
   AnyValueRootBuildNode(const AnyValueRootBuildNode& other) = delete;

@@ -37,8 +37,9 @@ class AnyTypeBuildNode;
 class AnyTypeRootBuildNode : public IAnyBuildNode
 {
 public:
-  explicit AnyTypeRootBuildNode(const AnyTypeRegistry* anytype_registry,
-                                IAnyBuildNode* parent = nullptr);
+  AnyTypeRootBuildNode(const AnyTypeRegistry* anytype_registry, IAnyBuildNode* parent);
+  explicit AnyTypeRootBuildNode(const AnyTypeRegistry* anytype_registry);
+
   ~AnyTypeRootBuildNode();
 
   AnyTypeRootBuildNode(const AnyTypeRootBuildNode& other) = delete;

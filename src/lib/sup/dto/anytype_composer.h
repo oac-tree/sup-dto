@@ -64,7 +64,8 @@ public:
   void Float64();
   void String();
 
-  void StartStruct(const std::string& struct_name = {});
+  void StartStruct(const std::string& struct_name);
+  void StartStruct();
 
   void EndStruct();
 

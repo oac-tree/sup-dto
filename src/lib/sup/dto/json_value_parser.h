@@ -47,21 +47,39 @@ public:
    * @brief Parse an AnyValue from a JSON string.
    *
    * @param json_str JSON string.
-   * @param anytype_registry AnyType registry to use during parsing (default: nullptr).
+   * @param anytype_registry AnyType registry to use during parsing.
    *
    * @return true on successful parsing, false otherwise.
    */
-  bool ParseString(const std::string& json_str, const AnyTypeRegistry* type_registry = nullptr);
+  bool ParseString(const std::string& json_str, const AnyTypeRegistry* type_registry);
+
+  /**
+   * @brief Parse an AnyValue from a JSON string without use of type registry.
+   *
+   * @param json_str JSON string.
+   *
+   * @return true on successful parsing, false otherwise.
+   */
+  bool ParseString(const std::string& json_str);
 
   /**
    * @brief Parse an AnyValue from a JSON file.
    *
    * @param filename name of the file containing the JSON representation.
-   * @param anytype_registry AnyType registry to use during parsing (default: nullptr).
+   * @param anytype_registry AnyType registry to use during parsing.
    *
    * @return true on successful parsing, false otherwise.
    */
-  bool ParseFile(const std::string& filename, const AnyTypeRegistry* type_registry = nullptr);
+  bool ParseFile(const std::string& filename, const AnyTypeRegistry* type_registry);
+
+  /**
+   * @brief Parse an AnyValue from a JSON file without use of type registry.
+   *
+   * @param filename name of the file containing the JSON representation.
+   *
+   * @return true on successful parsing, false otherwise.
+   */
+  bool ParseFile(const std::string& filename);
 
   /**
    * @brief Parse an AnyValue with given type from a JSON string.

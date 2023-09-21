@@ -50,6 +50,11 @@ std::string AnyTypeToJSONString(const AnyType& anytype, bool pretty)
   return oss.str();
 }
 
+std::string AnyTypeToJSONString(const AnyType& anytype)
+{
+  return AnyTypeToJSONString(anytype, false);
+}
+
 void AnyTypeToJSONFile(const AnyType& anytype, const std::string& filename, bool pretty)
 {
   std::ofstream ofs(filename);
@@ -59,6 +64,11 @@ void AnyTypeToJSONFile(const AnyType& anytype, const std::string& filename, bool
   }
   JSONSerializeAnyType(ofs, anytype, pretty);
   return;
+}
+
+void AnyTypeToJSONFile(const AnyType& anytype, const std::string& filename)
+{
+  return AnyTypeToJSONFile(anytype, filename, false);
 }
 
 std::vector<uint8> AnyTypeToBinary(const AnyType& anytype)

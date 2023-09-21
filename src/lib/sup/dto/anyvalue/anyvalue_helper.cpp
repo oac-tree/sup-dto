@@ -99,11 +99,21 @@ std::string ValuesToJSONString(const AnyValue& anyvalue, bool pretty)
   return oss.str();
 }
 
+std::string ValuesToJSONString(const AnyValue& anyvalue)
+{
+  return ValuesToJSONString(anyvalue, false);
+}
+
 std::string AnyValueToJSONString(const AnyValue& anyvalue, bool pretty)
 {
   std::ostringstream oss;
   JSONSerializeAnyValue(oss, anyvalue, pretty);
   return oss.str();
+}
+
+std::string AnyValueToJSONString(const AnyValue& anyvalue)
+{
+  return AnyValueToJSONString(anyvalue, false);
 }
 
 void AnyValueToJSONFile(const AnyValue& anyvalue, const std::string& filename, bool pretty)
@@ -115,6 +125,11 @@ void AnyValueToJSONFile(const AnyValue& anyvalue, const std::string& filename, b
   }
   JSONSerializeAnyValue(ofs, anyvalue, pretty);
   return;
+}
+
+void AnyValueToJSONFile(const AnyValue& anyvalue, const std::string& filename)
+{
+  return AnyValueToJSONFile(anyvalue, filename, false);
 }
 
 std::vector<uint8> AnyValueToBinary(const AnyValue& anyvalue)
