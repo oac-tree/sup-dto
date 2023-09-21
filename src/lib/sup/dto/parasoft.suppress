@@ -53,11 +53,3 @@ reason: Approved
 author: Walter Van Herck
 date: 2023-09-21
 suppression-end
-
-suppression-begin
-file: anyvalue.h
-rule-id: HICPP-8_3_3-a
-reason: Approved
-author: Walter Van Herck
-date: 2023-09-21
-suppression-end

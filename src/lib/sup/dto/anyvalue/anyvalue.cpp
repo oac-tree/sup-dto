@@ -122,6 +122,10 @@ AnyValue::AnyValue(std::initializer_list<std::pair<std::string, AnyValue>> membe
   m_data = std::move(struct_data);
 }
 
+AnyValue::AnyValue(std::initializer_list<std::pair<std::string, AnyValue>> members)
+  : AnyValue{members, {}}
+{}
+
 AnyValue::AnyValue(std::size_t size, const AnyType& elem_type, const std::string& name)
   : AnyValue{}
 {
@@ -129,6 +133,10 @@ AnyValue::AnyValue(std::size_t size, const AnyType& elem_type, const std::string
     std::unique_ptr<IValueData>(new ArrayValueData(size, elem_type, name, value_flags::kNone));
   m_data = std::move(array_data);
 }
+
+AnyValue::AnyValue(std::size_t size, const AnyType& elem_type)
+  : AnyValue{size, elem_type, {}}
+{}
 
 AnyValue::AnyValue(const AnyValue& other)
   : AnyValue{other.m_data->Clone(value_flags::kNone)}
