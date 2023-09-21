@@ -71,7 +71,6 @@ IAnyBuildNode* AnyValueArrayBuildNode::GetStructureNode()
 
 bool AnyValueArrayBuildNode::PopStructureNode()
 {
-  AnyType anytype;
   switch (m_processed_nodes)
   {
   case 0:
@@ -89,8 +88,10 @@ bool AnyValueArrayBuildNode::PopStructureNode()
       throw ParseException(
           "AnyValueArrayBuildNode::PopStructureNode called second time with empty type node");
     }
-    anytype = m_type_node->MoveAnyType();
-    m_anyvalue = AnyValue(anytype);
+    {
+      AnyType anytype = m_type_node->MoveAnyType();
+      m_anyvalue = AnyValue(anytype);
+    }
     m_type_node.reset();
     break;
   case 2:
