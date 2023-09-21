@@ -45,3 +45,27 @@ reason: False positive
 author: Walter Van Herck
 date: 2023-09-21
 suppression-end
+
+suppression-begin
+file: binary_parser_functions.cpp
+rule-id: HICPP-4_2_2-b
+reason: Approved
+author: Walter Van Herck
+date: 2023-09-21
+suppression-end
+
+suppression-begin
+file: binary_value_parser.cpp
+rule-id: HICPP-4_2_2-b
+reason: Approved
+author: Walter Van Herck
+date: 2023-09-21
+suppression-end
+
+suppression-begin
+file: scalar_from_bytes.h
+rule-id: HICPP-4_2_2-b
+reason: Approved
+author: Walter Van Herck
+date: 2023-09-21
+suppression-end

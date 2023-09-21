@@ -1,0 +1,15 @@
+suppression-begin
+file: anytype_composer_helper.cpp
+rule-id: HICPP-4_2_2-b
+reason: Approved
+author: Walter Van Herck
+date: 2023-09-21
+suppression-end
+
+suppression-begin
+file: anyvalue_composer_helper.cpp
+rule-id: HICPP-4_2_2-b
+reason: Approved
+author: Walter Van Herck
+date: 2023-09-21
+suppression-end
