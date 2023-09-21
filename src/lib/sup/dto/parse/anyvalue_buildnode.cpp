@@ -139,7 +139,7 @@ bool AnyValueBuildNode::Member(const std::string& str)
 
 IAnyBuildNode* AnyValueBuildNode::GetStructureNode()
 {
-  if ((m_value_node) || (m_member_name.empty()) || (!m_anyvalue.HasField(m_member_name)))
+  if ((m_value_node || (m_member_name.empty())) || (!m_anyvalue.HasField(m_member_name)))
   {
     throw ParseException(
         "AnyValueBuildNode::GetStructureNode must be called with non-empty member name "
@@ -151,7 +151,7 @@ IAnyBuildNode* AnyValueBuildNode::GetStructureNode()
 
 IAnyBuildNode* AnyValueBuildNode::GetArrayNode()
 {
-  if ((m_array_node) || (m_member_name.empty()) || (!m_anyvalue.HasField(m_member_name)))
+  if ((m_array_node || (m_member_name.empty())) || (!m_anyvalue.HasField(m_member_name)))
   {
     throw ParseException(
         "AnyValueBuildNode::GetArrayNode must be called with non-empty member name "

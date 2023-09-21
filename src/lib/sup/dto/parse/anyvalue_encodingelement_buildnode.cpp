@@ -56,7 +56,7 @@ bool AnyValueEncodingElementBuildNode::String(const std::string& str)
 
 bool AnyValueEncodingElementBuildNode::Member(const std::string& str)
 {
-  if ((str != serialization::ENCODING_KEY) || (!m_member_name.empty() || m_encoding_ok))
+  if (((str != serialization::ENCODING_KEY) || (!m_member_name.empty())) || m_encoding_ok)
   {
     throw ParseException(
         "AnyValueEncodingElementBuildNode::Member must be called only once for setting "

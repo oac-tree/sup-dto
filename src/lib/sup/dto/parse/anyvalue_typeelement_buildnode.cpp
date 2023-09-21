@@ -54,7 +54,7 @@ bool AnyValueTypeElementBuildNode::Member(const std::string& str)
 
 IAnyBuildNode* AnyValueTypeElementBuildNode::GetStructureNode()
 {
-  if ((m_type_node) || (m_member_name != serialization::DATATYPE_KEY))
+  if (m_type_node || (m_member_name != serialization::DATATYPE_KEY))
   {
     throw ParseException(
       "AnyValueTypeElementBuildNode::GetStructureNode must be called after \"datatype\" key "

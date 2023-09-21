@@ -152,7 +152,7 @@ bool AnyValueValueElementBuildNode::Member(const std::string& str)
 
 IAnyBuildNode* AnyValueValueElementBuildNode::GetStructureNode()
 {
-  if ((m_value_node) || (m_member_name != serialization::INSTANCE_KEY))
+  if (m_value_node || (m_member_name != serialization::INSTANCE_KEY))
   {
     throw ParseException(
       "AnyValueValueElementBuildNode::GetStructureNode must be called after \"instance\" key "
@@ -165,7 +165,7 @@ IAnyBuildNode* AnyValueValueElementBuildNode::GetStructureNode()
 
 IAnyBuildNode* AnyValueValueElementBuildNode::GetArrayNode()
 {
-  if ((m_array_node) || (m_member_name != serialization::INSTANCE_KEY))
+  if (m_array_node || (m_member_name != serialization::INSTANCE_KEY))
   {
     throw ParseException(
         "AnyValueValueElementBuildNode::GetArrayNode must be called after \"instance\" key "
