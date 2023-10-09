@@ -295,6 +295,29 @@ public:
   bool As(T& value) const;
 
   /**
+   * @brief Cast to given Ctype structure.
+   *
+   * @return This value as a T value when successful.
+   *
+   * @throws InvalidConversionException Thrown when this value could not be converted to T.
+   * @throws SerializeException Thrown when this value could not be serialized to T.
+   */
+  template <typename T>
+  T ToCType() const;
+
+  /**
+   * @brief Cast to given Ctype structure.
+   *
+   * @param value Reference to value to copy this value into.
+   *
+   * @return true on success.
+   *
+   * @note Does not throw on invalid conversions.
+   */
+  template <typename T>
+  bool ToCType(T& value) const;
+
+  /**
    * @brief Checks if this value has a (nested) subvalue with the given field name.
    *
    * @param fieldname Field name of the subvalue to check.
@@ -435,7 +458,7 @@ std::vector<uint8> ToBytes(const AnyValue& anyvalue);
 void FromBytes(AnyValue& anyvalue, const uint8* bytes, std::size_t total_size);
 
 template <typename T>
-T AnyValue::As() const
+T AnyValue::ToCType() const
 {
   auto byte_array = ToBytes(*this);
   if (byte_array.size() != sizeof(T))
@@ -495,6 +518,20 @@ bool AnyValue::As(T& value) const
   try
   {
     value = As<T>();
+    return true;
+  }
+  catch(const MessageException&)
+  {
+    return false;
+  }
+}
+
+template <typename T>
+bool AnyValue::ToCType(T& value) const
+{
+  try
+  {
+    value = ToCType<T>();
     return true;
   }
   catch(const MessageException&)

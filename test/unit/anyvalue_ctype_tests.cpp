@@ -66,17 +66,17 @@ TEST(AnyValueCTypeTest, ToStringFields)
     {"street", {StringType, "Main street"}},
     {"number", {UnsignedInteger16Type, 1033}}
   }};
-  auto address_c = address.As<AddressType>();
+  auto address_c = address.ToCType<AddressType>();
   EXPECT_STREQ(address_c.street, "Main street");
   EXPECT_EQ(address_c.number, 1033);
 
   // Non-matching size
-  EXPECT_THROW(address.As<TwoScalarsType>(), SerializeException);
+  EXPECT_THROW(address.ToCType<TwoScalarsType>(), SerializeException);
 
   // String length too long
   address["street"] =
       "This streetname is too long to be used for conversion to C-types (75 chars)";
-  EXPECT_FALSE(address.As(address_c));
+  EXPECT_FALSE(address.ToCType(address_c));
   // Fields are unchanged
   EXPECT_STREQ(address_c.street, "Main street");
   EXPECT_EQ(address_c.number, 1033);
@@ -142,7 +142,7 @@ TEST(AnyValueCTypeTest, ToStruct)
     {"signed", {SignedInteger8Type, 1}},
     {"unsigned", {UnsignedInteger8Type, 12}}
   }};
-  auto two_scalars_c = two_scalars.As<TwoScalarsType>();
+  auto two_scalars_c = two_scalars.ToCType<TwoScalarsType>();
   EXPECT_EQ(two_scalars_c.signed_scalar, 1);
   EXPECT_EQ(two_scalars_c.unsigned_scalar, 12);
 }
@@ -175,7 +175,7 @@ TEST(AnyValueCTypeTest, ToArray)
   {
     my_array[i] = 10 * i;
   }
-  auto my_array_c = my_array.As<ArrayType>();
+  auto my_array_c = my_array.ToCType<ArrayType>();
   for (unsigned i=0; i<5; ++i)
   {
     EXPECT_EQ(my_array_c.elements[i], 10 * i);
@@ -201,7 +201,7 @@ TEST(AnyValueCTypeTest, ToDynamicArray)
   {
     dynamic_array.AddElement(10 * i);
   }
-  auto my_array_c = dynamic_array.As<ArrayType>();
+  auto my_array_c = dynamic_array.ToCType<ArrayType>();
   for (unsigned i=0; i<5; ++i)
   {
     EXPECT_EQ(my_array_c.elements[i], 10 * i);
@@ -241,7 +241,7 @@ TEST(AnyValueCTypeTest, RoundTrip)
   complex_struct_val["array[0].number"] = 23;
   complex_struct_val["validated"] = true;
   AnyValue parsed_val(complex_struct_type);
-  auto complex_struct_c = complex_struct_val.As<ComplexStructType>();
+  auto complex_struct_c = complex_struct_val.ToCType<ComplexStructType>();
   EXPECT_EQ(std::string(complex_struct_c.simple_array[1].id), "second_id");
   EXPECT_EQ(complex_struct_c.simple_array[0].number, 23);
   EXPECT_EQ(complex_struct_c.validated, true);
