@@ -22,6 +22,7 @@
 #include <gtest/gtest.h>
 
 #include <sup/dto/anytype.h>
+#include <sup/dto/anytype_helper.h>
 #include <sup/dto/anytype_registry.h>
 #include <sup/dto/json_type_parser.h>
 
@@ -232,6 +233,36 @@ TEST_F(JSONTypeParserTest, ParseFromRegistry)
   AnyTypeRegistry default_registry;
   EXPECT_FALSE(m_parser.ParseString(json_alias_type, &default_registry));
   EXPECT_FALSE(m_parser.ParseString(json_registered_subtypes, &default_registry));
+}
+
+TEST_F(JSONTypeParserTest, ParseDuplicateTypename)
+{
+  {
+    // Use typename from EmptyType
+    AnyType anytype{{
+      {"x", Float32Type},
+      {"y", Float32Type},
+      {"z", Float32Type}
+    }, kEmptyTypeName};
+    auto json_str = AnyTypeToJSONString(anytype);
+    ASSERT_FALSE(json_str.empty());
+    ASSERT_TRUE(m_parser.ParseString(json_str));
+    auto readback = m_parser.MoveAnyType();
+    EXPECT_EQ(anytype, readback);
+  }
+  {
+    // Use typename from BooleanType
+    AnyType anytype{{
+      {"x", Float32Type},
+      {"y", Float32Type},
+      {"z", Float32Type}
+    }, kBooleanTypeName};
+    auto json_str = AnyTypeToJSONString(anytype);
+    ASSERT_FALSE(json_str.empty());
+    ASSERT_TRUE(m_parser.ParseString(json_str));
+    auto readback = m_parser.MoveAnyType();
+    EXPECT_EQ(anytype, readback);
+  }
 }
 
 JSONTypeParserTest::JSONTypeParserTest() = default;

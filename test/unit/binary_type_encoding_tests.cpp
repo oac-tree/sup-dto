@@ -334,3 +334,32 @@ TEST_F(BinaryTypeEncodingTests, StructureWithArrayWithStructure)
   auto read_back = AnyTypeFromBinary(representation);
   EXPECT_EQ(read_back, anytype);
 }
+
+//! Check if duplucate typenames for arrays/structs do not cause conflicts
+TEST_F(BinaryTypeEncodingTests, ParseDuplicateTypename)
+{
+  {
+    // Use typename from EmptyType
+    AnyType anytype{{
+      {"x", Float32Type},
+      {"y", Float32Type},
+      {"z", Float32Type}
+    }, kEmptyTypeName};
+    auto bin_type = AnyTypeToBinary(anytype);
+    ASSERT_FALSE(bin_type.empty());
+    auto readback = AnyTypeFromBinary(bin_type);
+    EXPECT_EQ(anytype, readback);
+  }
+  {
+    // Use typename from BooleanType
+    AnyType anytype{{
+      {"x", Float32Type},
+      {"y", Float32Type},
+      {"z", Float32Type}
+    }, kBooleanTypeName};
+    auto bin_type = AnyTypeToBinary(anytype);
+    ASSERT_FALSE(bin_type.empty());
+    auto readback = AnyTypeFromBinary(bin_type);
+    EXPECT_EQ(anytype, readback);
+  }
+}
