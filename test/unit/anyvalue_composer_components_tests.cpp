@@ -277,19 +277,11 @@ TEST_F(AnyValueComposerComponentsTests, EndArrayComposerComponentProcess)
     EXPECT_THROW(node.Process(stack), sup::dto::ParseException);
   }
 
-  {
+  { // EndArray can't process StartArray record if no elements have been created
     std::stack<AbstractValueComposerComponent::component_t> stack;
     stack.push(std::unique_ptr<StartArrayValueComposerComponent>(
         new StartArrayValueComposerComponent("array_name")));
 
-    // as a result of stack processing, the StartStructBuildNode should be removed, it's value
-    // consumed
-    EXPECT_TRUE(node.Process(stack));
-    EXPECT_EQ(stack.size(), 0);
-
-    // as a result we should give empty AnyValues, since array is defined only after the first added
-    // element
-    auto result = node.MoveAnyValue();
-    EXPECT_TRUE(sup::dto::IsEmptyValue(result));
+    EXPECT_THROW(node.Process(stack), sup::dto::ParseException);
   }
 }

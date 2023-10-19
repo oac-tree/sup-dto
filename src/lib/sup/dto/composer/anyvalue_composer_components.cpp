@@ -216,7 +216,15 @@ bool EndArrayValueComposerComponent::Process(std::stack<component_t> &stack)
   ValidateLastComponent(stack, Type::kStartArray);
 
   // replacing StartArrayValueComposerComponent with EndArrayValueComposerComponent
-  Consume(stack.top()->MoveAnyValue());
+
+  // empty anyvalue means an attempt to create an array without elements
+  auto anyvalue = stack.top()->MoveAnyValue();
+  if (IsEmptyValue(anyvalue))
+  {
+    throw sup::dto::ParseException("Attempt to create an array without defining an element type");
+  }
+
+  Consume(std::move(anyvalue));
   stack.pop();
 
   return kKeepInStackRequest;
