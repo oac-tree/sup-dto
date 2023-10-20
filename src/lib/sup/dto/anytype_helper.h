@@ -43,6 +43,15 @@ class AnyTypeRegistry;
 void SerializeAnyType(const AnyType& anytype, IAnyVisitor<const AnyType>& serializer);
 
 /**
+ * @brief Serialize an AnyType to a string for printing.
+ *
+ * @param anytype AnyType object to serialize.
+ *
+ * @return String representation of AnyType for printing.
+ */
+std::string PrintAnyType(const AnyType& anytype);
+
+/**
  * @brief Serialize an AnyType to a JSON string.
  *
  * @param anytype AnyType object to serialize.

@@ -38,7 +38,7 @@ static const std::string json_dynamic_array =
     R"RAW({"type":"","element":{"type":"uint16"}})RAW";
 
 static const std::string json_complex_type =
-    R"RAW({"type":"","attributes":[{"array":{"type":"","multiplicity":4,"element":{"type":"","attributes":[{"id":{"type":"string"}},{"number":{"type":"uint64"}}]}}},{"nested":{"type":"","attributes":[{"id":{"type":"string"}},{"number":{"type":"uint64"}}]}},{"validated":{"type":"bool"}}]})RAW";
+    R"RAW({"type":"complex","attributes":[{"array":{"type":"","multiplicity":4,"element":{"type":"","attributes":[{"id":{"type":"string"}},{"number":{"type":"uint64"}}]}}},{"nested":{"type":"","attributes":[{"id":{"type":"string"}},{"number":{"type":"uint64"}}]}},{"validated":{"type":"bool"}}]})RAW";
 
 static const std::string pretty_json_complex_type =
 R"RAW({
@@ -147,7 +147,7 @@ TEST_F(AnyTypeJSONSerializeTest, ComplexStructType)
     {"array", array_of_struct_type},
     {"nested", simple_struct_type},
     {"validated", BooleanType}
-  });
+  }, "complex");
   auto json_string = AnyTypeToJSONString(complex_struct_type);
   EXPECT_EQ(json_string, json_complex_type);
 }

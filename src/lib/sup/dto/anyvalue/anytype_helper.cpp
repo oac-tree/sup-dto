@@ -33,6 +33,14 @@
 #include <fstream>
 #include <sstream>
 
+namespace
+{
+using sup::dto::AnyType;
+void PrintAnyTypeToStream(std::ostream& os, const AnyType& anytype, const std::string& indent);
+void PrintStructTypeToStream(std::ostream& os, const AnyType& anytype, const std::string& indent);
+void PrintArrayTypeToStream(std::ostream& os, const AnyType& anytype, const std::string& indent);
+}  // unnamed namespace
+
 namespace sup
 {
 namespace dto
@@ -41,6 +49,13 @@ namespace dto
 void SerializeAnyType(const AnyType& anytype, IAnyVisitor<const AnyType>& serializer)
 {
   return Visit(anytype, serializer);
+}
+
+std::string PrintAnyType(const AnyType& anytype)
+{
+  std::ostringstream oss;
+  PrintAnyTypeToStream(oss, anytype, "");
+  return oss.str();
 }
 
 std::string AnyTypeToJSONString(const AnyType& anytype, bool pretty)
@@ -94,3 +109,47 @@ AnyType AnyTypeFromBinary(const std::vector<uint8>& representation)
 }  // namespace dto
 
 }  // namespace sup
+
+namespace
+{
+using sup::dto::TypeCode;
+
+const std::string kBasicPrintIndent = "    ";
+
+void PrintAnyTypeToStream(std::ostream& os, const AnyType& anytype, const std::string& indent)
+{
+  switch (anytype.GetTypeCode())
+  {
+  case TypeCode::Struct :
+    PrintStructTypeToStream(os, anytype, indent);
+    break;
+  case TypeCode::Array :
+    PrintArrayTypeToStream(os, anytype, indent);
+    break;
+  default:
+    os << anytype.GetTypeName() << "\n";
+    break;
+  }
+}
+
+void PrintStructTypeToStream(std::ostream& os, const AnyType& anytype, const std::string& indent)
+{
+  os << "struct " << anytype.GetTypeName() << "\n";
+  for (const auto& member_name : anytype.MemberNames())
+  {
+    const std::string new_indent = indent + kBasicPrintIndent;
+    os << new_indent << member_name << ": ";
+    PrintAnyTypeToStream(os, anytype[member_name], new_indent);
+  }
+}
+
+void PrintArrayTypeToStream(std::ostream& os, const AnyType& anytype, const std::string& indent)
+{
+  os << "array " << anytype.GetTypeName() << "\n";
+  const std::string new_indent = indent + kBasicPrintIndent;
+  os << new_indent << "size: " << std::to_string(anytype.NumberOfElements()) << "\n";
+  os << new_indent << "element: ";
+  PrintAnyTypeToStream(os, anytype.ElementType(), new_indent);
+}
+
+}  // unnamed namespace

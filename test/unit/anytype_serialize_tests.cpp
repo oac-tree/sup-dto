@@ -25,6 +25,18 @@
 #include <sup/dto/anytype.h>
 #include "test_serializers.h"
 
+const std::string kPrintedIdCollectionType = R"RAW(struct IdCollection_t
+    array: array IdArray_t
+        size: 4
+        element: struct Id_t
+            id: string
+            number: uint64
+    nested: struct Id_t
+        id: string
+        number: uint64
+    validated: bool
+)RAW";
+
 using namespace sup::dto;
 
 class AnyTypeSerializeTest : public ::testing::Test
@@ -93,6 +105,22 @@ TEST_F(AnyTypeSerializeTest, ComplexStructType)
                        + "M(nested:" + simple_expected + ")M,"
                        + "M(validated:" + kBooleanTypeName + ")M}S";
   EXPECT_EQ(serializer.GetRepresentation(), expected);
+}
+
+TEST_F(AnyTypeSerializeTest, PrintComplexStructType)
+{
+  AnyType simple_struct_type({
+    {"id", StringType},
+    {"number", UnsignedInteger64Type}
+  }, "Id_t");
+  AnyType array_of_struct_type(4, simple_struct_type, "IdArray_t");
+  AnyType complex_struct_type({
+    {"array", array_of_struct_type},
+    {"nested", simple_struct_type},
+    {"validated", BooleanType}
+  }, "IdCollection_t");
+  auto printed = PrintAnyType(complex_struct_type);
+  EXPECT_EQ(printed, kPrintedIdCollectionType);
 }
 
 AnyTypeSerializeTest::AnyTypeSerializeTest()
