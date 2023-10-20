@@ -75,6 +75,15 @@ bool TryAssignIfEmptyOrConvert(AnyValue& dest, const AnyValue& src);
 void SerializeAnyValue(const AnyValue& anyvalue, IAnyVisitor<const AnyValue>& serializer);
 
 /**
+ * @brief Serialize an AnyValue to a string for printing.
+ *
+ * @param anyvalue AnyValue object to serialize.
+ *
+ * @return String representation of AnyValue for printing.
+ */
+std::string PrintAnyValue(const AnyValue& anyvalue);
+
+/**
  * @brief Serialize the values of an AnyValue using a JSON serializer.
  *
  * @param anyvalue AnyValue object to serialize.

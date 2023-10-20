@@ -26,6 +26,26 @@
 #include <sup/dto/anyvalue.h>
 #include <sup/dto/anyvalue_helper.h>
 
+const std::string kPrintedIdCollectionValue = R"RAW(struct IdCollection_t
+    array: array IdArray_t
+        0: struct Id_t
+            id: string "zero"
+            number: uint64 0
+        1: struct Id_t
+            id: string "one"
+            number: uint64 1
+        2: struct Id_t
+            id: string "unknown"
+            number: uint64 42
+        3: struct Id_t
+            id: string "unknown"
+            number: uint64 43
+    nested: struct Id_t
+        id: string "This is nested"
+        number: uint64 1023
+    validated: bool true
+)RAW";
+
 using namespace sup::dto;
 
 class AnyValueSerializeTest : public ::testing::Test
@@ -97,6 +117,34 @@ TEST_F(AnyValueSerializeTest, ComplexStructValue)
                        + "M(nested:" + simple_expected + ")M,"
                        + "M(validated:" + kBooleanTypeName + ")M}S";
   EXPECT_EQ(serializer.GetRepresentation(), expected);
+}
+
+TEST_F(AnyValueSerializeTest, PrintComplexStructType)
+{
+  AnyType simple_struct_type({
+    {"id", StringType},
+    {"number", UnsignedInteger64Type}
+  }, "Id_t");
+  AnyType array_of_struct_type(4, simple_struct_type, "IdArray_t");
+  AnyType complex_struct_type({
+    {"array", array_of_struct_type},
+    {"nested", simple_struct_type},
+    {"validated", BooleanType}
+  }, "IdCollection_t");
+  AnyValue value{complex_struct_type};
+  value["array"][0]["id"] = "zero";
+  value["array"][1]["id"] = "one";
+  value["array"][2]["id"] = "unknown";
+  value["array"][3]["id"] = "unknown";
+  value["array"][0]["number"] = 0;
+  value["array"][1]["number"] = 1;
+  value["array"][2]["number"] = 42;
+  value["array"][3]["number"] = 43;
+  value["nested.id"] = "This is nested";
+  value["nested.number"].ConvertFrom(1023);
+  value["validated"] = true;
+  auto printed = PrintAnyValue(value);
+  EXPECT_EQ(printed, kPrintedIdCollectionValue);
 }
 
 AnyValueSerializeTest::AnyValueSerializeTest()
