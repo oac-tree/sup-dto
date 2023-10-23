@@ -40,9 +40,10 @@
         <makefile.args>install</makefile.args>
         <coverage>false</coverage>
         <!-- -->
+        <sonar.language>cpp</sonar.language>
         <sonar.sources.cpp>src</sonar.sources.cpp>
         <sonar.tests.cpp>test</sonar.tests.cpp>
-        <sonar.exclusions>src/lib/sup/dto/rapidjson/**, test/**</sonar.exclusions>
+        <sonar.exclusions>src/lib/sup/dto/rapidjson/**</sonar.exclusions>
     </properties>
 
     <!-- Parent pom.xml -->
