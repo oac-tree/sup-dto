@@ -1,13 +1,18 @@
-# Settings of CMake project
+# -----------------------------------------------------------------------------
+# Modules
+# -----------------------------------------------------------------------------
 
 include(GNUInstallDirs)
 include(CTest)
 
-# Detecting CODAC environment
+# -----------------------------------------------------------------------------
+# CODAC enviorenment
+# -----------------------------------------------------------------------------
 if(NOT COA_NO_CODAC)
   find_package(CODAC OPTIONAL_COMPONENTS site-packages Python MODULE)
 endif()
-if (CODAC_FOUND)
+
+if(CODAC_FOUND)
   # Append CODAC_CMAKE_PREFIXES to cmake seard directories, this helps cmake find packages installed in the CODAC enviorenment
   list(APPEND CMAKE_PREFIX_PATH ${CODAC_CMAKE_PREFIXES})
 
@@ -34,20 +39,24 @@ else()
   message(STATUS "Compiling without CODAC")
 endif()
 
-# Build settings
+# -----------------------------------------------------------------------------
+# Variables
+# -----------------------------------------------------------------------------
 if(COA_COVERAGE)
   # On coverage builds always build tests
   set(COA_BUILD_TESTS ON)
 endif()
 
-if (NOT CMAKE_BUILD_TYPE)
+if(NOT CMAKE_BUILD_TYPE)
   set(CMAKE_BUILD_TYPE "RelWithDebInfo")
 endif()
 
 set(LIBVERSION ${CMAKE_PROJECT_VERSION})
 set(LIBSOVERSION ${CMAKE_PROJECT_VERSION_MAJOR}.${CMAKE_PROJECT_VERSION_MINOR})
 
+# -----------------------------------------------------------------------------
 # Directories
+# -----------------------------------------------------------------------------
 if (NOT DEFINED TEST_OUTPUT_DIRECTORY)
   set(TEST_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/test_bin)
 endif()
