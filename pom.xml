@@ -36,7 +36,7 @@
         <unit.type>module</unit.type>
         <integrity.level>1</integrity.level>
         <!-- -->
-        <buildpath>build</buildpath>
+        <buildpath>BUILD</buildpath>
         <makefile.args>install</makefile.args>
         <coverage>false</coverage>
         <!-- -->
@@ -88,11 +88,11 @@
                 <configuration>
                     <init>
                         <!-- Copy source over, needed for proper coverage report building -->
-                        <copy source="src" target="src" />
-                        <copy source="test" target="test" />
-                        <copy source="doc" target="doc" />
-                        <copy source="cmake" target="cmake" />
-                        <copy source="CMakeLists.txt" target="CMakeLists.txt" />
+                        <copy source="src" target="SOURCE/src" />
+                        <copy source="test" target="SOURCE/test" />
+                        <copy source="doc" target="SOURCE/doc" />
+                        <copy source="cmake" target="SOURCE/cmake" />
+                        <copy source="CMakeLists.txt" target="SOURCE/CMakeLists.txt" />
                     </init>
                     <!-- Configure packaging and dependencies -->
                     <packaging>
@@ -156,7 +156,7 @@
                                 <argument>-DCMAKE_INSTALL_DOCDIR=doc/${project.artifactId}</argument>
                                 <argument>-DTEST_OUTPUT_DIRECTORY=${project.build.directory}/test</argument>
                                 <argument>-DCOA_COVERAGE=${coverage}</argument>
-                                <argument>${project.build.directory}</argument>
+                                <argument>${project.build.directory}/SOURCE</argument>
                             </arguments>
                         </configuration>
                     </execution>
