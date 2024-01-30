@@ -595,6 +595,18 @@ TEST_F(JSONValueParserTest, EmptyDynamicArrayOfArrayValue)
   EXPECT_EQ(empty_array_of_array_val, parsed_from_type);
 }
 
+TEST_F(JSONValueParserTest, EmptyMember)
+{
+  // See COA-741
+  sup::dto::AnyValue anyvalue{{
+    {"a", {} }
+  }};
+  const auto json = sup::dto::AnyValueToJSONString(anyvalue);
+  std::cout << "json: " << json << std::endl;
+  sup::dto::JSONAnyValueParser parser;
+  EXPECT_TRUE(parser.ParseString(json));
+}
+
 JSONValueParserTest::JSONValueParserTest() = default;
 
 JSONValueParserTest::~JSONValueParserTest() = default;
