@@ -220,6 +220,17 @@ TEST_F(BinaryValueEncodingTests, StructWithSingleField)
   EXPECT_EQ(read_back, val);
 }
 
+//! Structure with a single field.
+TEST_F(BinaryValueEncodingTests, StructWithEmptyField)
+{
+  AnyValue val = EmptyStruct();
+  val.AddMember("a", {});
+  auto representation = AnyValueToBinary(val);
+  EXPECT_TRUE(representation.size() > 1);
+  auto read_back = AnyValueFromBinary(representation);
+  EXPECT_EQ(read_back, val);
+}
+
 //! Structure with two fields.
 TEST_F(BinaryValueEncodingTests, StructWithTwoFields)
 {
