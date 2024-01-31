@@ -157,7 +157,6 @@ IAnyBuildNode* AnyValueValueElementBuildNode::GetStructureNode()
     throw ParseException(
       "AnyValueValueElementBuildNode::GetStructureNode must be called after \"instance\" key "
       "and with empty child node");
-
   }
   m_value_node.reset(new AnyValueBuildNode(GetTypeRegistry(), this, m_anyvalue));
   return m_value_node.get();
@@ -168,7 +167,7 @@ IAnyBuildNode* AnyValueValueElementBuildNode::GetArrayNode()
   if (m_array_node || (m_member_name != serialization::INSTANCE_KEY))
   {
     throw ParseException(
-        "AnyValueValueElementBuildNode::GetArrayNode must be called after \"instance\" key "
+      "AnyValueValueElementBuildNode::GetArrayNode must be called after \"instance\" key "
       "and with empty child node");
   }
   m_array_node = CreateArrayBuildNode(GetTypeRegistry(), this, m_anyvalue);

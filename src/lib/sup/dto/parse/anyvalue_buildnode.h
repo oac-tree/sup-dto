@@ -44,7 +44,7 @@ public:
   AnyValueBuildNode& operator=(const AnyValueBuildNode& other) = delete;
   AnyValueBuildNode& operator=(AnyValueBuildNode&& other) = delete;
 
-
+  bool Null() override;
   bool Bool(boolean b) override;
   bool Int32(int32 i) override;
   bool Uint32(uint32 u) override;

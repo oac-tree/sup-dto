@@ -41,6 +41,18 @@ AnyValueBuildNode::AnyValueBuildNode(const AnyTypeRegistry* anytype_registry,
 
 AnyValueBuildNode::~AnyValueBuildNode() = default;
 
+bool AnyValueBuildNode::Null()
+{
+  if ((m_member_name.empty()) || (!m_anyvalue.HasField(m_member_name)))
+  {
+    throw ParseException(
+        "AnyValueBuildNode::Null must be called after member name");
+  }
+  m_anyvalue[m_member_name].ConvertFrom({});
+  m_member_name.clear();
+  return true;
+}
+
 bool AnyValueBuildNode::Bool(boolean b)
 {
   if ((m_member_name.empty()) || (!m_anyvalue.HasField(m_member_name)))

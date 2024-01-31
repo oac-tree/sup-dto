@@ -265,6 +265,31 @@ TEST_F(JSONTypeParserTest, ParseDuplicateTypename)
   }
 }
 
+TEST_F(JSONTypeParserTest, EmptyMember)
+{
+  {
+    // Use typename from EmptyType
+    AnyType anytype{{
+      {"a", EmptyType}
+    }};
+    const auto json_str = AnyTypeToJSONString(anytype);
+    ASSERT_FALSE(json_str.empty());
+    ASSERT_TRUE(m_parser.ParseString(json_str));
+    auto readback = m_parser.MoveAnyType();
+    EXPECT_EQ(anytype, readback);
+  }
+  {
+    // Adding empty member
+    AnyType anytype = EmptyStructType();
+    anytype.AddMember("a", {});
+    const auto json_str = AnyTypeToJSONString(anytype);
+    ASSERT_FALSE(json_str.empty());
+    ASSERT_TRUE(m_parser.ParseString(json_str));
+    auto readback = m_parser.MoveAnyType();
+    EXPECT_EQ(anytype, readback);
+  }
+}
+
 JSONTypeParserTest::JSONTypeParserTest() = default;
 
 JSONTypeParserTest::~JSONTypeParserTest() = default;

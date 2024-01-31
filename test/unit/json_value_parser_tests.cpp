@@ -604,18 +604,24 @@ TEST_F(JSONValueParserTest, EmptyMember)
       {"a", {} }
     }};
     const auto json = AnyValueToJSONString(anyvalue);
+    ASSERT_FALSE(json.empty());
     std::cout << "json: " << json << std::endl;
     JSONAnyValueParser parser;
-    EXPECT_TRUE(parser.ParseString(json));
+    ASSERT_TRUE(parser.ParseString(json));
+    auto readback = m_parser.MoveAnyValue();
+    std::cout << "readback: " << AnyValueToJSONString(readback) << std::endl;
+    EXPECT_EQ(anyvalue, readback);
   }
   {
     // Using added empty member
     AnyValue anyvalue = EmptyStruct();
     anyvalue.AddMember("a", {});
     const auto json = AnyValueToJSONString(anyvalue);
-    std::cout << "json: " << json << std::endl;
+    ASSERT_FALSE(json.empty());
     JSONAnyValueParser parser;
-    EXPECT_TRUE(parser.ParseString(json));
+    ASSERT_TRUE(parser.ParseString(json));
+    auto readback = m_parser.MoveAnyValue();
+    EXPECT_EQ(anyvalue, readback);
   }
 }
 
