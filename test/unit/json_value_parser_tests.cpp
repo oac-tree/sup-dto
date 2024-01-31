@@ -608,7 +608,7 @@ TEST_F(JSONValueParserTest, EmptyMember)
     std::cout << "json: " << json << std::endl;
     JSONAnyValueParser parser;
     ASSERT_TRUE(parser.ParseString(json));
-    auto readback = m_parser.MoveAnyValue();
+    auto readback = parser.MoveAnyValue();
     std::cout << "readback: " << AnyValueToJSONString(readback) << std::endl;
     EXPECT_EQ(anyvalue, readback);
   }
@@ -620,7 +620,7 @@ TEST_F(JSONValueParserTest, EmptyMember)
     ASSERT_FALSE(json.empty());
     JSONAnyValueParser parser;
     ASSERT_TRUE(parser.ParseString(json));
-    auto readback = m_parser.MoveAnyValue();
+    auto readback = parser.MoveAnyValue();
     EXPECT_EQ(anyvalue, readback);
   }
 }
