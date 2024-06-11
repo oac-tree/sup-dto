@@ -273,22 +273,61 @@ TEST_F(AnyValueComparisonTests, UnsignedIntegerTypes)
 
 TEST_F(AnyValueComparisonTests, MixedSignIntegerTypes)
 {
-  EXPECT_EQ(Compare(AnyValue{SignedInteger8Type, 120},
-                    AnyValue{UnsignedInteger8Type, 121}), CompareResult::Unordered);
-  EXPECT_EQ(Compare(AnyValue{SignedInteger16Type, 120},
-                    AnyValue{UnsignedInteger8Type, 121}), CompareResult::Unordered);
-  EXPECT_EQ(Compare(AnyValue{SignedInteger32Type, -120},
-                    AnyValue{UnsignedInteger64Type, 121}), CompareResult::Unordered);
-  EXPECT_EQ(Compare(AnyValue{SignedInteger64Type, -120},
-                    AnyValue{UnsignedInteger16Type, 121}), CompareResult::Unordered);
-  EXPECT_EQ(Compare(AnyValue{UnsignedInteger8Type, 120},
-                    AnyValue{SignedInteger8Type, 121}), CompareResult::Unordered);
-  EXPECT_EQ(Compare(AnyValue{UnsignedInteger16Type, 120},
-                    AnyValue{SignedInteger8Type, 121}), CompareResult::Unordered);
-  EXPECT_EQ(Compare(AnyValue{UnsignedInteger32Type, 120},
-                    AnyValue{SignedInteger64Type, -121}), CompareResult::Unordered);
-  EXPECT_EQ(Compare(AnyValue{UnsignedInteger64Type, 120},
-                    AnyValue{SignedInteger16Type, -121}), CompareResult::Unordered);
+  // mixed int8 and uint8
+  EXPECT_EQ(Compare(AnyValue{SignedInteger8Type, -1},
+                    AnyValue{UnsignedInteger8Type, 0}), CompareResult::Less);
+  EXPECT_EQ(Compare(AnyValue{SignedInteger8Type, std::numeric_limits<sup::dto::int8>::min()},
+                    AnyValue{UnsignedInteger8Type, 4}), CompareResult::Less);
+  EXPECT_EQ(Compare(AnyValue{SignedInteger8Type, std::numeric_limits<sup::dto::int8>::max()},
+                    AnyValue{UnsignedInteger8Type, std::numeric_limits<sup::dto::uint8>::min()}),
+                    CompareResult::Greater);
+  EXPECT_EQ(Compare(AnyValue{SignedInteger8Type, std::numeric_limits<sup::dto::int8>::max()},
+                    AnyValue{UnsignedInteger8Type, std::numeric_limits<sup::dto::uint8>::max()}),
+                    CompareResult::Less);
+  // mixed int16 and uint32
+  EXPECT_EQ(Compare(AnyValue{SignedInteger16Type, -1},
+                    AnyValue{UnsignedInteger32Type, 0}), CompareResult::Less);
+  EXPECT_EQ(Compare(AnyValue{SignedInteger16Type, std::numeric_limits<sup::dto::int16>::min()},
+                    AnyValue{UnsignedInteger32Type, 4}), CompareResult::Less);
+  EXPECT_EQ(Compare(AnyValue{SignedInteger16Type, std::numeric_limits<sup::dto::int16>::max()},
+                    AnyValue{UnsignedInteger32Type, std::numeric_limits<sup::dto::uint32>::min()}),
+                    CompareResult::Greater);
+  EXPECT_EQ(Compare(AnyValue{SignedInteger16Type, std::numeric_limits<sup::dto::int16>::max()},
+                    AnyValue{UnsignedInteger32Type, std::numeric_limits<sup::dto::uint32>::max()}),
+                    CompareResult::Less);
+  // mixed int64 and uint32
+  EXPECT_EQ(Compare(AnyValue{SignedInteger64Type, -1},
+                    AnyValue{UnsignedInteger32Type, 0}), CompareResult::Less);
+  EXPECT_EQ(Compare(AnyValue{SignedInteger64Type, std::numeric_limits<sup::dto::int64>::min()},
+                    AnyValue{UnsignedInteger32Type, 4}), CompareResult::Less);
+  EXPECT_EQ(Compare(AnyValue{SignedInteger64Type, std::numeric_limits<sup::dto::int64>::max()},
+                    AnyValue{UnsignedInteger32Type, std::numeric_limits<sup::dto::uint32>::min()}),
+                    CompareResult::Greater);
+  EXPECT_EQ(Compare(AnyValue{SignedInteger64Type, std::numeric_limits<sup::dto::int64>::max()},
+                    AnyValue{UnsignedInteger32Type, std::numeric_limits<sup::dto::uint32>::max()}),
+                    CompareResult::Greater);
+  // mixed uint64 and int32
+  EXPECT_EQ(Compare(AnyValue{UnsignedInteger64Type, 0},
+                    AnyValue{SignedInteger32Type, -1}), CompareResult::Greater);
+  EXPECT_EQ(Compare(AnyValue{UnsignedInteger64Type, std::numeric_limits<sup::dto::uint64>::min()},
+                    AnyValue{SignedInteger32Type, 4}), CompareResult::Less);
+  EXPECT_EQ(Compare(AnyValue{UnsignedInteger64Type, std::numeric_limits<sup::dto::uint64>::max()},
+                    AnyValue{SignedInteger32Type, std::numeric_limits<sup::dto::int32>::min()}),
+                    CompareResult::Greater);
+  EXPECT_EQ(Compare(AnyValue{UnsignedInteger64Type, std::numeric_limits<sup::dto::uint64>::max()},
+                    AnyValue{SignedInteger32Type, std::numeric_limits<sup::dto::int32>::max()}),
+                    CompareResult::Greater);
+  // mixed uint16 and int32
+  EXPECT_EQ(Compare(AnyValue{UnsignedInteger16Type, 0},
+                    AnyValue{SignedInteger32Type, -1}), CompareResult::Greater);
+  EXPECT_EQ(Compare(AnyValue{UnsignedInteger16Type, std::numeric_limits<sup::dto::uint16>::min()},
+                    AnyValue{SignedInteger32Type, 4}), CompareResult::Less);
+  EXPECT_EQ(Compare(AnyValue{UnsignedInteger16Type, std::numeric_limits<sup::dto::uint16>::max()},
+                    AnyValue{SignedInteger32Type, std::numeric_limits<sup::dto::int32>::min()}),
+                    CompareResult::Greater);
+  EXPECT_EQ(Compare(AnyValue{UnsignedInteger16Type, std::numeric_limits<sup::dto::uint16>::max()},
+                    AnyValue{SignedInteger32Type, std::numeric_limits<sup::dto::int32>::max()}),
+                    CompareResult::Less);
 }
 
 AnyValueComparisonTests::AnyValueComparisonTests() = default;

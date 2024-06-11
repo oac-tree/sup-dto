@@ -23,6 +23,12 @@
 
 #include <map>
 
+namespace
+{
+using namespace sup::dto;
+CompareResult Invert(CompareResult result);
+}  // unnamed namespace
+
 namespace sup
 {
 namespace dto
@@ -108,6 +114,25 @@ CompareFunction GetCompareFunction(TypeCode type_code)
   return compare_map.at(type_code);
 }
 
+bool AreMixedIntegerTypes(TypeCode p_1, TypeCode p_2)
+{
+  return ((p_1 == TypeCode::Int64 && p_2 == TypeCode::UInt64) ||
+          (p_1 == TypeCode::UInt64 && p_2 == TypeCode::Int64));
+}
+
+CompareResult CompareMixedIntegers(const AnyValue& lhs, const AnyValue& rhs, bool left_is_signed)
+{
+  if (!left_is_signed)
+  {
+    return Invert(CompareMixedIntegers(rhs, lhs, true));
+  }
+  auto left = lhs.As<int64>();
+  if (left < 0)
+  {
+    return CompareResult::Less;
+  }
+  return CompareT<uint64>(lhs, rhs);
+}
 
 /**
  * Templated increment will be instantiated only for the supported types: 'uint64', 'float64'
@@ -196,3 +221,21 @@ UnaryOperatorFunction GetDecrementFunction(TypeCode type_code)
 }  // namespace dto
 
 }  // namespace sup
+
+namespace
+{
+CompareResult Invert(CompareResult result)
+{
+  switch (result)
+  {
+  case CompareResult::Less:
+    return CompareResult::Greater;
+  case CompareResult::Greater:
+    return CompareResult::Less;
+  default:
+    break;
+  }
+  return result;
+}
+}  // unnamed namespace
+

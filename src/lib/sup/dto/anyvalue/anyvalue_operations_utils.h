@@ -55,6 +55,10 @@ using CompareFunction = CompareResult(*)(const AnyValue&, const AnyValue&);
 
 CompareFunction GetCompareFunction(TypeCode type_code);
 
+bool AreMixedIntegerTypes(TypeCode p_1, TypeCode p_2);
+
+CompareResult CompareMixedIntegers(const AnyValue& lhs, const AnyValue& rhs, bool left_is_signed);
+
 using UnaryOperatorFunction = bool(*)(AnyValue&);
 
 UnaryOperatorFunction GetIncrementFunction(TypeCode type_code);

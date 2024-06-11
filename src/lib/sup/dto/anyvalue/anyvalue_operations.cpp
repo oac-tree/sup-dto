@@ -41,6 +41,10 @@ CompareResult Compare(const AnyValue& lhs, const AnyValue& rhs)
   const auto t_2 = rhs.GetTypeCode();
   const auto p_1 = utils::PromoteIntegralCode(t_1);
   const auto p_2 = utils::PromoteIntegralCode(t_2);
+  if (utils::AreMixedIntegerTypes(p_1, p_2))
+  {
+    return utils::CompareMixedIntegers(lhs, rhs, p_1 == TypeCode::Int64);
+  }
   const auto common_type = utils::CommonTypeCode(p_1, p_2);
   return utils::GetCompareFunction(common_type)(lhs, rhs);
 }
