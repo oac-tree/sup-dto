@@ -36,7 +36,7 @@ namespace dto
 template <typename T>
 IValueData* CreateUnconstrainedScalarData(const T& val)
 {
-  return new ScalarValueDataT<T>(val, value_flags::kNone);
+  return new ScalarValueDataT<T>(val, value_flags::Constraints::kNone);
 }
 
 AnyValue::AnyValue()
@@ -44,7 +44,7 @@ AnyValue::AnyValue()
 {}
 
 AnyValue::AnyValue(const AnyType& anytype)
-  : AnyValue{CreateValueData(anytype, value_flags::kNone)}
+  : AnyValue{CreateValueData(anytype, value_flags::Constraints::kNone)}
 {}
 
 AnyValue::AnyValue(boolean val)
@@ -104,7 +104,7 @@ AnyValue::AnyValue(const char* val)
 {}
 
 AnyValue::AnyValue(const AnyType& anytype, const AnyValue& anyvalue)
-  : AnyValue{CreateValueData(anytype, value_flags::kNone)}
+  : AnyValue{CreateValueData(anytype, value_flags::Constraints::kNone)}
 {
   m_data->ConvertFrom(anyvalue);
 }
@@ -114,7 +114,7 @@ AnyValue::AnyValue(std::initializer_list<std::pair<std::string, AnyValue>> membe
   : AnyValue{}
 {
   auto struct_data =
-    std::unique_ptr<StructValueData>(new StructValueData(type_name, value_flags::kNone));
+    std::unique_ptr<StructValueData>(new StructValueData(type_name, value_flags::Constraints::kNone));
   for (const std::pair<std::string, AnyValue>& member : members)
   {
     struct_data->AddMember(member.first, member.second);
@@ -130,7 +130,7 @@ AnyValue::AnyValue(std::size_t size, const AnyType& elem_type, const std::string
   : AnyValue{}
 {
   auto array_data =
-    std::unique_ptr<IValueData>(new ArrayValueData(size, elem_type, name, value_flags::kNone));
+    std::unique_ptr<IValueData>(new ArrayValueData(size, elem_type, name, value_flags::Constraints::kNone));
   m_data = std::move(array_data);
 }
 
@@ -139,7 +139,7 @@ AnyValue::AnyValue(std::size_t size, const AnyType& elem_type)
 {}
 
 AnyValue::AnyValue(const AnyValue& other)
-  : AnyValue{other.m_data->Clone(value_flags::kNone)}
+  : AnyValue{other.m_data->Clone(value_flags::Constraints::kNone)}
 {}
 
 AnyValue::AnyValue(AnyValue&& other)
@@ -153,7 +153,7 @@ AnyValue& AnyValue::operator=(const AnyValue& other) &
     ConvertFrom(other);
     return *this;
   }
-  std::unique_ptr<IValueData> tmp{other.m_data->Clone(value_flags::kNone)};
+  std::unique_ptr<IValueData> tmp{other.m_data->Clone(value_flags::Constraints::kNone)};
   std::swap(m_data, tmp);
   return *this;
 }
@@ -167,7 +167,7 @@ AnyValue& AnyValue::operator=(AnyValue&& other) &
   }
   if (IsLockedTypeConstraint(other.m_data->GetConstraints()))
   {
-    std::unique_ptr<IValueData> tmp{other.m_data->Clone(value_flags::kNone)};
+    std::unique_ptr<IValueData> tmp{other.m_data->Clone(value_flags::Constraints::kNone)};
     std::swap(m_data, tmp);
   }
   else

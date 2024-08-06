@@ -168,14 +168,14 @@ void IValueData::UnsafeConversion(AnyValue& dest, const AnyValue& src)
 
 bool IsLockedTypeConstraint(value_flags::Constraints constraints)
 {
-  return constraints == value_flags::kLockedType;
+  return constraints == value_flags::Constraints::kLockedType;
 }
 
 std::unique_ptr<IValueData> StealOrClone(std::unique_ptr<IValueData>&& data)
 {
   if (IsLockedTypeConstraint(data->GetConstraints()))
   {
-    return std::unique_ptr<IValueData>{data->Clone(value_flags::kNone)};
+    return std::unique_ptr<IValueData>{data->Clone(value_flags::Constraints::kNone)};
   }
   std::unique_ptr<IValueData> tmp{CreateDefaultValueData()};
   std::swap(tmp, data);

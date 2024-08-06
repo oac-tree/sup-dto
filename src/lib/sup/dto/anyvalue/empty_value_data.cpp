@@ -20,6 +20,7 @@
  ******************************************************************************/
 
 #include "empty_value_data.h"
+#include "i_value_data.h"
 
 #include <sup/dto/anyvalue/empty_type_data.h>
 
@@ -71,7 +72,7 @@ bool EmptyValueData::Equals(const AnyValue& other) const
 
 IValueData* CreateDefaultValueData()
 {
-  return new EmptyValueData{value_flags::kNone};
+  return new EmptyValueData{value_flags::Constraints::kNone};
 }
 
 }  // namespace dto
