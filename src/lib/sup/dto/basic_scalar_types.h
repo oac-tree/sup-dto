@@ -19,8 +19,8 @@
  * of the distribution package.
  ******************************************************************************/
 
-#ifndef _SUP_DTO_BASIC_SCALAR_TYPES_H_
-#define _SUP_DTO_BASIC_SCALAR_TYPES_H_
+#ifndef SUP_DTO_BASIC_SCALAR_TYPES_H_
+#define SUP_DTO_BASIC_SCALAR_TYPES_H_
 
 namespace sup
 {
@@ -47,4 +47,4 @@ const uint32 kStringMaxLength = 64u;
 
 }  // namespace sup
 
-#endif  // _SUP_DTO_BASIC_SCALAR_TYPES_H_
+#endif  // SUP_DTO_BASIC_SCALAR_TYPES_H_

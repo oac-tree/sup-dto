@@ -19,8 +19,8 @@
  * of the distribution package.
  ******************************************************************************/
 
-#ifndef _SUP_TestSerializers_h_
-#define _SUP_TestSerializers_h_
+#ifndef SUP_TestSerializers_h_
+#define SUP_TestSerializers_h_
 
 #include <sup/dto/i_any_visitor.h>
 
@@ -96,4 +96,4 @@ private:
 
 }  // namespace sup
 
-#endif  // _SUP_TestSerializers_h_
+#endif  // SUP_TestSerializers_h_

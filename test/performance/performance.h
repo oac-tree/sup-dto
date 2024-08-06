@@ -19,8 +19,8 @@
  * of the distribution package.
  ******************************************************************************/
 
-#ifndef _SUP_DTO_Performance_h_
-#define _SUP_DTO_Performance_h_
+#ifndef SUP_DTO_Performance_h_
+#define SUP_DTO_Performance_h_
 
 #include <sup/dto/anyvalue.h>
 #include <sup/dto/basic_scalar_types.h>
@@ -150,4 +150,4 @@ void MeasureEncoder()
 
 }  // namespace sup
 
-#endif  // _SUP_DTO_Performance_h_
+#endif  // SUP_DTO_Performance_h_

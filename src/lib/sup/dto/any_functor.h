@@ -19,8 +19,8 @@
  * of the distribution package.
  ******************************************************************************/
 
-#ifndef _SUP_DTO_ANY_FUNCTOR_H_
-#define _SUP_DTO_ANY_FUNCTOR_H_
+#ifndef SUP_DTO_ANY_FUNCTOR_H_
+#define SUP_DTO_ANY_FUNCTOR_H_
 
 namespace sup
 {
@@ -49,4 +49,4 @@ public:
 
 }  // namespace sup
 
-#endif  // _SUP_DTO_ANY_FUNCTOR_H_
+#endif  // SUP_DTO_ANY_FUNCTOR_H_
