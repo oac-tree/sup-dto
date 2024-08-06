@@ -45,7 +45,7 @@ std::string ParseBinaryString(ByteIterator& it, ByteIterator end)
   for (sup::dto::uint64 i = 0u; i < str_size; ++i)
   {
     const auto u = *it++;
-    char c;
+    char c = '\0';
     std::memcpy(&c, &u, 1u);
     result.push_back(c);
   }

@@ -46,7 +46,7 @@ T ParseBinaryScalarT(ByteIterator& it, ByteIterator end)
     u_tmp <<= (kBitsPerByte*i);
     u_val += u_tmp;
   }
-  T result;
+  T result = T{};
   std::memcpy(std::addressof(result), &u_val, sizeof(T));
   return result;
 }

@@ -20,6 +20,7 @@
  ******************************************************************************/
 
 #include "anytype_buildnode.h"
+#include "sup/dto/anytype.h"
 
 #include <sup/dto/parse/membertype_array_buildnode.h>
 #include <sup/dto/parse/serialization_constants.h>
@@ -165,7 +166,7 @@ bool AnyTypeBuildNode::IsComplexType() const
 AnyType AnyTypeBuildNode::GetStructuredType() const
 {
   auto result = EmptyStructType(m_type_name);
-  for (auto& member : m_member_types)
+  for (const std::pair<std::string, AnyType>& member : m_member_types)
   {
     result.AddMember(member.first, member.second);
   }

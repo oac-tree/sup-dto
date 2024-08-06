@@ -38,7 +38,7 @@ StructValueData::StructValueData(const std::string& type_name, value_flags::Cons
 StructValueData::StructValueData(const AnyType& anytype, value_flags::Constraints constraints)
   : StructValueData(anytype.GetTypeName(), constraints)
 {
-  for (const auto& member_name : anytype.MemberNames())
+  for (const std::string& member_name : anytype.MemberNames())
   {
     const auto& member_type = anytype[member_name];
     std::unique_ptr<IValueData> data{CreateValueData(member_type, constraints)};
@@ -51,7 +51,7 @@ StructValueData::~StructValueData() = default;
 StructValueData* StructValueData::Clone(value_flags::Constraints constraints) const
 {
   auto result = std::unique_ptr<StructValueData>(new StructValueData(GetTypeName(), constraints));
-  for (const auto& member_name : MemberNames())
+  for (const std::string& member_name : MemberNames())
   {
     const auto& member_val = m_member_data[member_name];
     std::unique_ptr<IValueData> data{CreateValueData(member_val.GetType(), constraints)};
@@ -74,7 +74,7 @@ std::string StructValueData::GetTypeName() const
 AnyType StructValueData::GetType() const
 {
   auto result = EmptyStructType(GetTypeName());
-  for (const auto& member_name : MemberNames())
+  for (const std::string& member_name : MemberNames())
   {
     result.AddMember(member_name, m_member_data[member_name].GetType());
   }
@@ -117,7 +117,7 @@ void StructValueData::ConvertFrom(const AnyValue& value)
   {
     throw InvalidConversionException("Can't convert AnyValues with different list of fields");
   }
-  for (const auto& member_name : MemberNames())
+  for (const std::string& member_name : MemberNames())
   {
     UnsafeConversion(m_member_data[member_name], value[member_name]);
   }

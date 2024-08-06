@@ -51,7 +51,7 @@ AnyType::AnyType(std::initializer_list<std::pair<std::string, AnyType>> members,
   : AnyType{}
 {
   auto struct_data = std::unique_ptr<StructTypeData>(new StructTypeData(name));
-  for (auto& member : members)
+  for (const std::pair<std::basic_string<char>, AnyType>& member : members)
   {
     struct_data->AddMember(member.first, member.second);
   }
@@ -254,7 +254,7 @@ namespace
 std::unordered_set<TypeCode> ScalarTypes()
 {
   std::unordered_set<TypeCode> result;
-  for (const auto& entry : ScalarTypeDefinitions())
+  for (const std::pair<TypeCode, std::string>& entry : ScalarTypeDefinitions())
   {
     result.insert(entry.first);
   }

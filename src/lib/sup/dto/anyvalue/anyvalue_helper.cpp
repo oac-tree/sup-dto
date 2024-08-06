@@ -215,7 +215,7 @@ void PrintAnyValueToStream(std::ostream& os, const AnyValue& anyvalue, const std
 void PrintStructValueToStream(std::ostream& os, const AnyValue& anyvalue, const std::string& indent)
 {
   os << "struct " << anyvalue.GetTypeName() << "\n";
-  for (const auto& member_name : anyvalue.MemberNames())
+  for (const std::string& member_name : anyvalue.MemberNames())
   {
     const std::string new_indent = indent + kBasicPrintIndent;
     os << new_indent << member_name << ": ";

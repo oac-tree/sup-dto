@@ -20,6 +20,7 @@
  ******************************************************************************/
 
 #include "scalar_type_data.h"
+#include "sup/dto/anytype.h"
 
 #include <sup/dto/anyvalue_exceptions.h>
 
@@ -77,7 +78,7 @@ std::map<TypeCode, std::string> ScalarTypeCodeToStringMap()
 {
   std::map<TypeCode, std::string> result;
   const auto& scalar_type_definitions = ScalarTypeDefinitions();
-  for (const auto& entry : scalar_type_definitions)
+  for (const std::pair<TypeCode, std::string>& entry : scalar_type_definitions)
   {
     result[entry.first] = entry.second;
   }

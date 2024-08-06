@@ -189,7 +189,7 @@ std::pair<std::size_t, std::string> StripValueIndex(const std::string& fieldname
   }
   auto remainder = fieldname.substr(1u);
   std::size_t idx = 0u;
-  std::size_t pos;
+  std::size_t pos = 0u;
   try
   {
     idx = std::stoul(remainder, &pos);

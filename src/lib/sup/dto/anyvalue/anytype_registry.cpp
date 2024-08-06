@@ -19,6 +19,7 @@
  * of the distribution package.
  ******************************************************************************/
 
+#include "sup/dto/anytype.h"
 #include <sup/dto/anytype_registry.h>
 
 #include <sup/dto/anyvalue_exceptions.h>
@@ -65,7 +66,7 @@ bool AnyTypeRegistry::HasType(const std::string& name) const
 std::vector<std::string> AnyTypeRegistry::RegisteredAnyTypeNames() const
 {
   std::vector<std::string> result;
-  for (const auto& name_anytype_pair : m_anytypes)
+  for (const std::pair<const std::string, AnyType>& name_anytype_pair : m_anytypes)
   {
     result.push_back(name_anytype_pair.first);
   }
@@ -87,7 +88,7 @@ std::map<std::string, AnyType> NameToAnyTypeLeafMap()
   std::map<std::string, AnyType> result;
   result[kEmptyTypeName] = EmptyType;
   const auto& scalar_type_definitions = ScalarTypeDefinitions();
-  for (const auto& entry : scalar_type_definitions)
+  for (const std::pair<TypeCode, std::string>& entry : scalar_type_definitions)
   {
     result[entry.second] = AnyType(entry.first);
   }

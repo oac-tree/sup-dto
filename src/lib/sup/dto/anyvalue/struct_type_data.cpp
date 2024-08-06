@@ -35,7 +35,7 @@ StructTypeData::~StructTypeData() = default;
 StructTypeData* StructTypeData::Clone() const
 {
   auto result = std::unique_ptr<StructTypeData>(new StructTypeData(GetTypeName()));
-  for (const auto& member_name : MemberNames())
+  for (const std::string& member_name : MemberNames())
   {
     std::unique_ptr<AnyType> copy{new AnyType{m_member_data[member_name]}};
     result->m_member_data.AddMember(member_name, std::move(copy));

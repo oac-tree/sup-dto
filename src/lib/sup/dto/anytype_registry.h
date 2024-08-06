@@ -24,7 +24,6 @@
 
 #include <sup/dto/anytype.h>
 
-#include <initializer_list>
 #include <map>
 #include <string>
 #include <vector>
