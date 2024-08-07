@@ -27,7 +27,6 @@
 #include <sup/dto/composer/anyvalue_composer_components.h>
 
 #include <stack>
-#include <stdexcept>
 
 namespace sup
 {
@@ -41,7 +40,7 @@ struct AnyValueComposer::AnyValueComposerImpl
   template <typename T, typename... Args>
   void ProcessComponent(Args &&...args)
   {
-    auto component = std::unique_ptr<T>(new T((args)...));
+    auto component = std::unique_ptr<T>(new T(std::forward<Args>(args)...));
     if (component->Process(m_stack))
     {
       m_stack.push(std::move(component));
