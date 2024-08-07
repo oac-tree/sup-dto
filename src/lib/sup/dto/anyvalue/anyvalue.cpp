@@ -142,7 +142,7 @@ AnyValue::AnyValue(const AnyValue& other)
   : AnyValue{other.m_data->Clone(value_flags::Constraints::kNone)}
 {}
 
-AnyValue::AnyValue(AnyValue&& other)
+AnyValue::AnyValue(AnyValue&& other) noexcept
   : AnyValue{StealOrClone(std::move(other.m_data))}
 {}
 

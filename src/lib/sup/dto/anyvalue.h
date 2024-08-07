@@ -159,7 +159,7 @@ public:
    *
    * @param other Source AnyValue for move construction.
    */
-  AnyValue(AnyValue&& other);
+  AnyValue(AnyValue&& other) noexcept;
 
   /**
    * @brief Copy assignment.
