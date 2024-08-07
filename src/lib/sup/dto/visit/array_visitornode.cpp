@@ -29,7 +29,7 @@ namespace dto
 template <>
 std::unique_ptr<IAnyVisitorNode<AnyType>> ArrayVisitorNode<AnyType>::NextChild()
 {
-  if (m_next_index)
+  if (m_next_index > 0)
   {
     return {};
   }
@@ -41,7 +41,7 @@ std::unique_ptr<IAnyVisitorNode<AnyType>> ArrayVisitorNode<AnyType>::NextChild()
 template <>
 std::unique_ptr<IAnyVisitorNode<const AnyType>> ArrayVisitorNode<const AnyType>::NextChild()
 {
-  if (m_next_index)
+  if (m_next_index > 0)
   {
     return {};
   }

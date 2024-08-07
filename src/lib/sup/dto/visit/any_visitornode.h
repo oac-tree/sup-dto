@@ -127,7 +127,7 @@ AnyVisitorNode<T> AnyVisitorNode<T>::NextChild()
 template <typename T>
 bool AnyVisitorNode<T>::IsValid() const
 {
-  return static_cast<bool>(m_node);
+  return m_node != nullptr;
 }
 
 template <typename T>
