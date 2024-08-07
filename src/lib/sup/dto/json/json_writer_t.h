@@ -177,7 +177,7 @@ bool JSONStringWriterT<WriterImpl>::Double(float64 d)
 template <typename WriterImpl>
 bool JSONStringWriterT<WriterImpl>::String(const std::string& str)
 {
-  return m_json_writer.String(str.c_str(), str.size());
+  return m_json_writer.String(str.c_str(), static_cast<unsigned int>(str.size()));
 }
 
 template <typename WriterImpl>
@@ -189,7 +189,7 @@ bool JSONStringWriterT<WriterImpl>::StartStructure()
 template <typename WriterImpl>
 bool JSONStringWriterT<WriterImpl>::Member(const std::string& str)
 {
-  return m_json_writer.Key(str.c_str(), str.size());
+  return m_json_writer.Key(str.c_str(), static_cast<unsigned int>(str.size()));
 }
 
 template <typename WriterImpl>

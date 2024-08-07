@@ -102,7 +102,7 @@ void BinaryValueParser::ArrayEpilog(AnyValue*)
 void BinaryValueParser::ScalarProlog(AnyValue* anyvalue)
 {
   static const auto parser_functions = CreateScalarParserFunctionArray();
-  auto& parse_func = parser_functions[static_cast<sup::dto::uint32>(anyvalue->GetTypeCode())];
+  auto& parse_func = parser_functions[static_cast<size_t>(anyvalue->GetTypeCode())];
   parse_func(*anyvalue, m_it, m_end);
 }
 

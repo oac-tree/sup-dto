@@ -21,6 +21,7 @@
 
 #include "anytype_buildnode.h"
 #include "sup/dto/anytype.h"
+#include "sup/dto/basic_scalar_types.h"
 
 #include <sup/dto/parse/membertype_array_buildnode.h>
 #include <sup/dto/parse/serialization_constants.h>
@@ -69,7 +70,7 @@ bool AnyTypeBuildNode::Int64(int64 i)
     throw ParseException(
         "AnyTypeBuildNode::Intxx called with negative value");
   }
-  return Uint64(i);
+  return Uint64(static_cast<uint64>(i));
 }
 
 bool AnyTypeBuildNode::Uint64(uint64 u)

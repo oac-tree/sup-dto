@@ -35,7 +35,7 @@ BinaryTypeParserHelper::BinaryTypeParserHelper()
 
 bool BinaryTypeParserHelper::HandleToken(ByteIterator& it, ByteIterator end)
 {
-  auto token = FetchToken(it);
+  auto token = static_cast<int>(FetchToken(it));
   const auto handler_func = GetHandlerMemberFunction(token);
   if (!handler_func)
   {
