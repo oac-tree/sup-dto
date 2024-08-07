@@ -169,7 +169,7 @@ AnyType AnyTypeBuildNode::GetStructuredType() const
   auto result = EmptyStructType(m_type_name);
   for (const std::pair<std::string, AnyType>& member : m_member_types)
   {
-    result.AddMember(member.first, member.second);
+    (void)result.AddMember(member.first, member.second);
   }
   return result;
 }

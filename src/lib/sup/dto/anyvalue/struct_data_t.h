@@ -121,10 +121,9 @@ template <typename T>
 std::vector<std::string> StructDataT<T>::MemberNames() const
 {
   std::vector<std::string> result;
-  std::transform(m_members.begin(), m_members.end(), std::back_inserter(result),
-                 [](typename decltype(m_members)::const_reference member){
-                   return member.first;
-                 });
+  (void)std::transform(m_members.begin(), m_members.end(), std::back_inserter(result),
+                       [](typename decltype(m_members)::const_reference member)
+                       { return member.first; });
   return result;
 }
 

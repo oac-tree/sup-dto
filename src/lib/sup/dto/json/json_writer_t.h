@@ -90,7 +90,7 @@ JSONStringWriterT<RapidJSONPrettyWriter>::JSONStringWriterT(std::ostream& out_st
   : m_out_stream{out_stream}
   , m_json_writer{m_out_stream}
 {
-  m_json_writer.SetIndent(' ', kIndentSize);
+  (void)m_json_writer.SetIndent(' ', kIndentSize);
 }
 
 template <typename WriterImpl>

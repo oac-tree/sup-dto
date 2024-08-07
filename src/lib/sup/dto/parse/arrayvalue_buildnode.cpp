@@ -34,7 +34,7 @@ template <typename T> bool ArrayValueBuildNode::TryAssign(T val)
 {
   if ((m_size == 0) && (m_current_index == m_anyvalue.NumberOfElements()))
   {
-    m_anyvalue.AddElement(AnyValue{m_element_type});
+    (void)m_anyvalue.AddElement(AnyValue{m_element_type});
   }
   if (m_current_index >= m_anyvalue.NumberOfElements())
   {
@@ -120,7 +120,7 @@ IAnyBuildNode* ArrayValueBuildNode::GetStructureNode()
   }
   if ((m_size == 0) && (m_current_index == m_anyvalue.NumberOfElements()))
   {
-    m_anyvalue.AddElement(AnyValue{m_element_type});
+    (void)m_anyvalue.AddElement(AnyValue{m_element_type});
   }
   if (m_current_index >= m_anyvalue.NumberOfElements())
   {
@@ -142,7 +142,7 @@ IAnyBuildNode* ArrayValueBuildNode::GetArrayNode()
   }
   if ((m_size == 0) && (m_current_index == m_anyvalue.NumberOfElements()))
   {
-    m_anyvalue.AddElement(AnyValue{m_element_type});
+    (void)m_anyvalue.AddElement(AnyValue{m_element_type});
   }
   if (m_current_index >= m_anyvalue.NumberOfElements())
   {

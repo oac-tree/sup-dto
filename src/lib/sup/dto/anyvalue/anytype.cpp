@@ -256,7 +256,7 @@ std::unordered_set<TypeCode> ScalarTypes()
   std::unordered_set<TypeCode> result;
   for (const std::pair<TypeCode, std::string>& entry : ScalarTypeDefinitions())
   {
-    result.insert(entry.first);
+    (void)result.insert(entry.first);
   }
   return result;
 }

@@ -38,7 +38,7 @@ std::vector<uint8> ScalarToBytesT(const AnyValue& anyvalue)
   T val = anyvalue.As<T>();
   auto size = sizeof(T);
   std::vector<uint8> result(size);
-  std::memcpy(result.data(), &val, size);
+  (void)std::memcpy(result.data(), &val, size);
   return result;
 }
 
@@ -52,7 +52,7 @@ std::vector<uint8> ScalarToBytesT<std::string>(const AnyValue& anyvalue)
     throw SerializeException("Strings should not exceed max length for C-type casting");
   }
   std::vector<uint8> result(kStringMaxLength, 0);
-  std::memcpy(result.data(), str.data(), size);
+  (void)std::memcpy(result.data(), str.data(), size);
   return result;
 }
 

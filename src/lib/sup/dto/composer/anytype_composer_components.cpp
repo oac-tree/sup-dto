@@ -79,7 +79,7 @@ bool StartStructTypeComposerComponent::Process(std::stack<component_t>& stack)
 void StartStructTypeComposerComponent::AddMember(const std::string& name,
                                                  const sup::dto::AnyType& anytype)
 {
-  GetType().AddMember(name, anytype);
+  (void)GetType().AddMember(name, anytype);
 }
 
 // ----------------------------------------------------------------------------

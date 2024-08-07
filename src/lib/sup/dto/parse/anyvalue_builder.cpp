@@ -112,8 +112,7 @@ bool AnyValueBuilder::EndObject(std::size_t)
     throw ParseException("AnyValueBuilder::EndObject current node is null");
   }
   m_current = m_current->GetParent();
-  m_current->PopStructureNode();
-  return true;
+  return m_current->PopStructureNode();
 }
 
 bool AnyValueBuilder::StartArray()
@@ -129,8 +128,7 @@ bool AnyValueBuilder::EndArray(std::size_t)
     throw ParseException("AnyValueBuilder::EndArray current node is null");
   }
   m_current = m_current->GetParent();
-  m_current->PopArrayNode();
-  return true;
+  return m_current->PopArrayNode();
 }
 
 }  // namespace dto

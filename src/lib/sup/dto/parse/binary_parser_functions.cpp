@@ -46,7 +46,7 @@ std::string ParseBinaryString(ByteIterator& it, ByteIterator end)
   {
     const auto u = *it++;
     char c = '\0';
-    std::memcpy(&c, &u, 1u);
+    (void)std::memcpy(&c, &u, 1u);
     result.push_back(c);
   }
   return result;

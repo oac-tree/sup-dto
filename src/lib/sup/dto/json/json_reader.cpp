@@ -44,7 +44,7 @@ AnyType JSONParseAnyType(const AnyTypeRegistry* anytype_registry, std::istream& 
 
   try
   {
-    reader.Parse(istream, builder);
+    (void)reader.Parse(istream, builder);
   }
   catch(const MessageException&)
   {
@@ -65,7 +65,7 @@ AnyValue JSONParseAnyValue(const AnyTypeRegistry* anytype_registry, std::istream
 
   try
   {
-    reader.Parse(istream, builder);
+    (void)reader.Parse(istream, builder);
   }
   catch(const MessageException&)
   {
@@ -86,7 +86,7 @@ AnyValue JSONParseTypedAnyValue(const AnyType& anytype, std::istream& json_strea
 
   try
   {
-    reader.Parse(istream, builder);
+    (void)reader.Parse(istream, builder);
   }
   catch(const MessageException&)
   {

@@ -84,7 +84,7 @@ void AppendScalarT(std::vector<uint8>& representation, const T& val)
     buffer[i] = u_val & kLSBMask;
     u_val >>= kBitsPerByte;
   }
-  representation.insert(representation.cend(), buffer, buffer + sizeof(T));
+  (void)representation.insert(representation.cend(), buffer, buffer + sizeof(T));
 }
 
 // Specialization for integers with sizeof(T) == 1
@@ -103,14 +103,14 @@ template <typename T, typename std::enable_if<std::is_floating_point<T>::value, 
 void AppendScalarT(std::vector<uint8>& representation, const T& val)
 {
   UnsignedRepresentationType<sizeof(T)> u_val = T{};
-  std::memcpy(&u_val, std::addressof(val), sizeof(T));
+  (void)std::memcpy(&u_val, std::addressof(val), sizeof(T));
   uint8 buffer[sizeof(T)]{};
   for (sup::dto::uint8 i = 0; i < sizeof(T); ++i)
   {
     buffer[i] = u_val & kLSBMask;
     u_val >>= kBitsPerByte;
   }
-  representation.insert(representation.cend(), buffer, buffer + sizeof(T));
+  (void)representation.insert(representation.cend(), buffer, buffer + sizeof(T));
 }
 
 }  // namespace dto

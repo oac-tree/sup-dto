@@ -100,37 +100,37 @@ std::unique_ptr<IWriter> CreatePrettyJSONWriter(std::ostream& out_stream)
 
 void ToJSONWriter(IWriter& writer, const AnyValue& anyvalue)
 {
-  writer.StartArray();
+  (void)writer.StartArray();
   AddEncodingInformation(writer);
   AddDatatypeStart(writer);
   WriterTypeSerializer type_serializer(&writer);
   Visit<const AnyType>(anyvalue.GetType(), type_serializer);
-  writer.EndStructure();
+  (void)writer.EndStructure();
   AddValueStart(writer);
   WriterValueSerializer value_serializer(&writer);
   Visit<const AnyValue>(anyvalue, value_serializer);
-  writer.EndStructure();
-  writer.EndArray();
+  (void)writer.EndStructure();
+  (void)writer.EndArray();
 }
 
 void AddEncodingInformation(IWriter& writer)
 {
-  writer.StartStructure();
-  writer.Member(serialization::ENCODING_KEY);
-  writer.String(serialization::JSON_ENCODING_1_0);
-  writer.EndStructure();
+  (void)writer.StartStructure();
+  (void)writer.Member(serialization::ENCODING_KEY);
+  (void)writer.String(serialization::JSON_ENCODING_1_0);
+  (void)writer.EndStructure();
 }
 
 void AddDatatypeStart(IWriter& writer)
 {
-  writer.StartStructure();
-  writer.Member(serialization::DATATYPE_KEY);
+  (void)writer.StartStructure();
+  (void)writer.Member(serialization::DATATYPE_KEY);
 }
 
 void AddValueStart(IWriter& writer)
 {
-  writer.StartStructure();
-  writer.Member(serialization::INSTANCE_KEY);
+  (void)writer.StartStructure();
+  (void)writer.Member(serialization::INSTANCE_KEY);
 }
 }  // unnamed namespace
 

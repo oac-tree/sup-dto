@@ -76,7 +76,7 @@ AnyType StructValueData::GetType() const
   auto result = EmptyStructType(GetTypeName());
   for (const std::string& member_name : MemberNames())
   {
-    result.AddMember(member_name, m_member_data[member_name].GetType());
+    (void)result.AddMember(member_name, m_member_data[member_name].GetType());
   }
   return result;
 }
