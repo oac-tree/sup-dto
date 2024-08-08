@@ -40,7 +40,7 @@ T ParseBinaryScalarT(ByteIterator& it, ByteIterator end)
     throw ParseException("End of byte stream encountered during scalar value parsing");
   }
   UnsignedRepresentationType<sizeof(T)> u_val = 0;
-  for (sup::dto::uint8 i = 0; i < sizeof(T); ++i)
+  for (std::size_t i = 0; i < sizeof(T); ++i)
   {
     UnsignedRepresentationType<sizeof(T)> u_tmp = *it++;
     u_tmp <<= (BitConstants::kBitsPerByte*i);

@@ -227,7 +227,7 @@ void PrintArrayValueToStream(std::ostream& os, const AnyValue& anyvalue, const s
 {
   os << "array " << anyvalue.GetTypeName() << "\n";
   const std::string new_indent = indent + kBasicPrintIndent;
-  for (std::size_t i = 0; i < anyvalue.NumberOfElements(); ++i)
+  for (std::size_t i = 0u; i < anyvalue.NumberOfElements(); ++i)
   {
     os << new_indent << std::to_string(i) << ": ";
     PrintAnyValueToStream(os, anyvalue[i], new_indent);
