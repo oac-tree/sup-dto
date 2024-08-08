@@ -37,7 +37,7 @@ class BinaryValueParser : public IAnyVisitor<AnyValue>
 {
 public:
   BinaryValueParser(ByteIterator& it, ByteIterator end);
-  ~BinaryValueParser();
+  ~BinaryValueParser() override;
 
   BinaryValueParser(const BinaryValueParser& other) = delete;
   BinaryValueParser(BinaryValueParser&& other) = delete;

@@ -46,7 +46,7 @@ class JSONStringWriterT : public IWriter
 {
 public:
   explicit JSONStringWriterT(std::ostream& out_stream);
-  ~JSONStringWriterT();
+  ~JSONStringWriterT() override;
 
   JSONStringWriterT(const JSONStringWriterT& other) = delete;
   JSONStringWriterT(JSONStringWriterT&& other) = delete;

@@ -39,7 +39,7 @@ class ArrayValueBuildNode : public IAnyBuildNode
 public:
   ArrayValueBuildNode(const AnyTypeRegistry* anytype_registry, IAnyBuildNode* parent,
                       AnyValue& anyvalue);
-  ~ArrayValueBuildNode();
+  ~ArrayValueBuildNode() override;
 
   ArrayValueBuildNode(const ArrayValueBuildNode& other) = delete;
   ArrayValueBuildNode(ArrayValueBuildNode&& other) = delete;

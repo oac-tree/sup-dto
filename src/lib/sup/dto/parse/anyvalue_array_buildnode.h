@@ -40,7 +40,7 @@ class AnyValueArrayBuildNode : public IAnyBuildNode
 {
 public:
   AnyValueArrayBuildNode(const AnyTypeRegistry* anytype_registry, IAnyBuildNode* parent);
-  ~AnyValueArrayBuildNode();
+  ~AnyValueArrayBuildNode() override;
 
   AnyValueArrayBuildNode(const AnyValueArrayBuildNode& other) = delete;
   AnyValueArrayBuildNode(AnyValueArrayBuildNode&& other) = delete;

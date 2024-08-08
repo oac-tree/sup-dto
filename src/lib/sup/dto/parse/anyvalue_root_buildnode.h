@@ -39,7 +39,7 @@ public:
   AnyValueRootBuildNode(const AnyTypeRegistry* anytype_registry, IAnyBuildNode* parent);
   explicit AnyValueRootBuildNode(const AnyTypeRegistry* anytype_registry);
 
-  ~AnyValueRootBuildNode();
+  ~AnyValueRootBuildNode() override;
 
   AnyValueRootBuildNode(const AnyValueRootBuildNode& other) = delete;
   AnyValueRootBuildNode(AnyValueRootBuildNode&& other) = delete;

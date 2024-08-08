@@ -40,7 +40,7 @@ public:
   AnyTypeRootBuildNode(const AnyTypeRegistry* anytype_registry, IAnyBuildNode* parent);
   explicit AnyTypeRootBuildNode(const AnyTypeRegistry* anytype_registry);
 
-  ~AnyTypeRootBuildNode();
+  ~AnyTypeRootBuildNode() override;
 
   AnyTypeRootBuildNode(const AnyTypeRootBuildNode& other) = delete;
   AnyTypeRootBuildNode(AnyTypeRootBuildNode&& other) = delete;

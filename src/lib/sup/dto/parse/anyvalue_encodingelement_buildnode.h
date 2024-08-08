@@ -40,7 +40,7 @@ class AnyValueEncodingElementBuildNode : public IAnyBuildNode
 public:
   AnyValueEncodingElementBuildNode(const AnyTypeRegistry* anytype_registry,
                                    IAnyBuildNode* parent);
-  ~AnyValueEncodingElementBuildNode();
+  ~AnyValueEncodingElementBuildNode() override;
 
   AnyValueEncodingElementBuildNode(const AnyValueEncodingElementBuildNode& other) = delete;
   AnyValueEncodingElementBuildNode(AnyValueEncodingElementBuildNode&& other) = delete;

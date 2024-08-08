@@ -39,7 +39,7 @@ class MemberTypeArrayBuildNode : public IAnyBuildNode
 {
 public:
   MemberTypeArrayBuildNode(const AnyTypeRegistry* anytype_registry, IAnyBuildNode* parent);
-  ~MemberTypeArrayBuildNode();
+  ~MemberTypeArrayBuildNode() override;
 
   MemberTypeArrayBuildNode(const MemberTypeArrayBuildNode& other) = delete;
   MemberTypeArrayBuildNode(MemberTypeArrayBuildNode&& other) = delete;
