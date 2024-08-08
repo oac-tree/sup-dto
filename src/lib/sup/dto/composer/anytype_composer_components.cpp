@@ -25,8 +25,6 @@
 
 #include <sup/dto/anyvalue_exceptions.h>
 
-#include <iostream>
-
 namespace
 {
 const bool kKeepInStackRequest{true};
@@ -162,7 +160,8 @@ bool EndFieldTypeComposerComponent::Process(std::stack<component_t>& stack)
 
 StartArrayTypeComposerComponent::StartArrayTypeComposerComponent(const std::string& array_name,
                                                                  sup::dto::uint64 array_size)
-  : m_array_name{array_name}
+  : AbstractTypeComposerComponent()
+  , m_array_name{array_name}
   , m_array_size{array_size}
 {}
 

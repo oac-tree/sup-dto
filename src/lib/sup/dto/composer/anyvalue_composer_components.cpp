@@ -171,7 +171,8 @@ bool EndFieldValueComposerComponent::Process(std::stack<component_t> &stack)
 // ----------------------------------------------------------------------------
 
 StartArrayValueComposerComponent::StartArrayValueComposerComponent(const std::string &array_name)
-    : m_array_name(array_name)
+  : AbstractValueComposerComponent()
+  , m_array_name(array_name)
 {
 }
 
