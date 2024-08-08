@@ -29,7 +29,7 @@
 
 #include <ostream>
 
-namespace
+namespace FormatConstants
 {
 const sup::dto::uint32 kIndentSize = 2u;
 }
@@ -90,7 +90,7 @@ JSONStringWriterT<RapidJSONPrettyWriter>::JSONStringWriterT(std::ostream& out_st
   : m_out_stream{out_stream}
   , m_json_writer{m_out_stream}
 {
-  (void)m_json_writer.SetIndent(' ', kIndentSize);
+  (void)m_json_writer.SetIndent(' ', FormatConstants::kIndentSize);
 }
 
 template <typename WriterImpl>

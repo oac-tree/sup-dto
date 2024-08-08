@@ -27,7 +27,7 @@
 #include <cstring>
 #include <vector>
 
-namespace
+namespace BitConstants
 {
 const sup::dto::uint32 kLSBMask = 0xFFu;
 const sup::dto::uint32 kBitsPerByte = 8u;
@@ -81,8 +81,8 @@ void AppendScalarT(std::vector<uint8>& representation, const T& val)
   uint8 buffer[sizeof(T)]{};
   for (sup::dto::uint8 i = 0; i < sizeof(T); ++i)
   {
-    buffer[i] = u_val & kLSBMask;
-    u_val >>= kBitsPerByte;
+    buffer[i] = u_val & BitConstants::kLSBMask;
+    u_val >>= BitConstants::kBitsPerByte;
   }
   (void)representation.insert(representation.cend(), buffer, buffer + sizeof(T));
 }
@@ -107,8 +107,8 @@ void AppendScalarT(std::vector<uint8>& representation, const T& val)
   uint8 buffer[sizeof(T)]{};
   for (sup::dto::uint8 i = 0; i < sizeof(T); ++i)
   {
-    buffer[i] = u_val & kLSBMask;
-    u_val >>= kBitsPerByte;
+    buffer[i] = u_val & BitConstants::kLSBMask;
+    u_val >>= BitConstants::kBitsPerByte;
   }
   (void)representation.insert(representation.cend(), buffer, buffer + sizeof(T));
 }
