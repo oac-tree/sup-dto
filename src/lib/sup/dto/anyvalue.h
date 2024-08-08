@@ -234,7 +234,20 @@ public:
    * @throws InvalidOperationException Thrown when this value does not support adding members or
    * when the given arguments are not allowed (e.g. empty member name).
    */
-  AnyValue& AddMember(const std::string& name, const AnyValue& value);
+  AnyValue& AddMember(const std::string& name, const AnyValue& value) &;
+
+  /**
+   * @brief Add member value.
+   *
+   * @param name Name to use for registering the member value.
+   * @param value AnyValue to register as a member value.
+   *
+   * @return Constant reference to this.
+   *
+   * @throws InvalidOperationException Thrown when this value does not support adding members or
+   * when the given arguments are not allowed (e.g. empty member name).
+   */
+  const AnyValue& AddMember(const std::string& name, const AnyValue& value) const &;
 
   /**
    * @brief Get list of member names.
@@ -262,7 +275,7 @@ public:
    * @throws InvalidOperationException Thrown when this value does not support adding elements or
    * when the given value is not allowed (e.g. wrong type).
    */
-  AnyValue& AddElement(const AnyValue& value);
+  AnyValue& AddElement(const AnyValue& value) &;
 
   /**
    * @brief Return number of elements in the array type.

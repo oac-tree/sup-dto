@@ -45,7 +45,7 @@ public:
   virtual std::size_t NumberOfElements() const;
 
   virtual bool HasField(const std::string&) const;
-  virtual AnyType& operator[](const std::string&);
+  virtual AnyType& operator[](const std::string&) &;
 
   virtual bool Equals(const AnyType& other) const = 0;
 };

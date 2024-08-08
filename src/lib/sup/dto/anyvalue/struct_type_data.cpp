@@ -74,7 +74,7 @@ bool StructTypeData::HasField(const std::string& fieldname) const
   return m_member_data.HasField(fieldname);
 }
 
-AnyType& StructTypeData::operator[](const std::string& fieldname)
+AnyType& StructTypeData::operator[](const std::string& fieldname) &
 {
   return m_member_data[fieldname];
 }

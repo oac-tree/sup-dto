@@ -43,8 +43,8 @@ public:
   IAnyBuildNode& operator=(const IAnyBuildNode& other) = delete;
   IAnyBuildNode& operator=(IAnyBuildNode&& other) = delete;
 
-  const AnyTypeRegistry* GetTypeRegistry() const;
-  IAnyBuildNode* GetParent() const;
+  const AnyTypeRegistry* GetTypeRegistry() const &;
+  IAnyBuildNode* GetParent() const &;
 
   virtual bool Null();
   virtual bool Bool(boolean b);

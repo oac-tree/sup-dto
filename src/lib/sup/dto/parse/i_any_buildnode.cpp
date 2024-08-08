@@ -41,12 +41,12 @@ IAnyBuildNode::IAnyBuildNode(const AnyTypeRegistry* anytype_registry, IAnyBuildN
 
 IAnyBuildNode::~IAnyBuildNode() = default;
 
-const AnyTypeRegistry* IAnyBuildNode::GetTypeRegistry() const
+const AnyTypeRegistry* IAnyBuildNode::GetTypeRegistry() const &
 {
   return m_anytype_registry;
 }
 
-IAnyBuildNode* IAnyBuildNode::GetParent() const
+IAnyBuildNode* IAnyBuildNode::GetParent() const &
 {
   return m_parent;
 }

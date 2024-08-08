@@ -75,7 +75,7 @@ public:
   virtual void AddElement(const sup::dto::AnyValue&);
 
 protected:
-  sup::dto::AnyValue& GetValue();
+  sup::dto::AnyValue& GetValue() &;
   void SetValue(const sup::dto::AnyValue& value);
 
 private:

@@ -85,7 +85,7 @@ bool ArrayTypeData::HasField(const std::string& fieldname) const
   return m_elem_type.HasField(remainder);
 }
 
-AnyType& ArrayTypeData::operator[](const std::string& fieldname)
+AnyType& ArrayTypeData::operator[](const std::string& fieldname) &
 {
   const auto remainder = StripTypeIndex(fieldname);
   if (remainder.empty())

@@ -76,7 +76,7 @@ public:
   virtual void AddElement(const sup::dto::AnyType&);
 
 protected:
-  sup::dto::AnyType& GetType();
+  sup::dto::AnyType& GetType() &;
   void SetType(const sup::dto::AnyType& anytype);
 
 private:

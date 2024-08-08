@@ -108,7 +108,13 @@ std::string AnyType::GetTypeName() const
   return m_data->GetTypeName();
 }
 
-AnyType& AnyType::AddMember(const std::string& name, const AnyType& type)
+AnyType& AnyType::AddMember(const std::string& name, const AnyType& type) &
+{
+  m_data->AddMember(name, type);
+  return *this;
+}
+
+const AnyType& AnyType::AddMember(const std::string& name, const AnyType& type) const &
 {
   m_data->AddMember(name, type);
   return *this;

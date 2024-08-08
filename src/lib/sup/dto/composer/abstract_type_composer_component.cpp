@@ -70,7 +70,7 @@ void AbstractTypeComposerComponent::AddElement(const sup::dto::AnyType&)
       "Error in AbstractTypeComposerComponent::AddElement() : not implemented");
 }
 
-sup::dto::AnyType& AbstractTypeComposerComponent::GetType()
+sup::dto::AnyType& AbstractTypeComposerComponent::GetType() &
 {
   return m_type;
 }

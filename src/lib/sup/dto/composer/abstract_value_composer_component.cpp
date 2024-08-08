@@ -67,7 +67,7 @@ void AbstractValueComposerComponent::AddElement(const sup::dto::AnyValue&)
       "Error in AbstractValueComposerComponent::AddMember() : not implemented");
 }
 
-sup::dto::AnyValue& AbstractValueComposerComponent::GetValue()
+sup::dto::AnyValue& AbstractValueComposerComponent::GetValue() &
 {
   return m_value;
 }

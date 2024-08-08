@@ -60,7 +60,7 @@ bool ITypeData::HasField(const std::string&) const
   return false;
 }
 
-AnyType& ITypeData::operator[](const std::string&)
+AnyType& ITypeData::operator[](const std::string&) &
 {
   throw InvalidOperationException("Index operator not supported for this type");
 }

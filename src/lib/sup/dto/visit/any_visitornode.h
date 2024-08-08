@@ -49,7 +49,7 @@ public:
   IAnyVisitorNode& operator=(const IAnyVisitorNode& other) = delete;
   IAnyVisitorNode& operator=(IAnyVisitorNode&& other) = delete;
 
-  T* GetValue() const;
+  T* GetValue() const &;
 
   virtual std::unique_ptr<IAnyVisitorNode<T>> NextChild() = 0;
 
@@ -94,7 +94,7 @@ IAnyVisitorNode<T>::IAnyVisitorNode(T* val)
 {}
 
 template <typename T>
-T* IAnyVisitorNode<T>::GetValue() const
+T* IAnyVisitorNode<T>::GetValue() const &
 {
   return m_any;
 }

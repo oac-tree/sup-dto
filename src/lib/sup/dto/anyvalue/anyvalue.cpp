@@ -201,7 +201,13 @@ std::string AnyValue::GetTypeName() const
   return m_data->GetTypeName();
 }
 
-AnyValue& AnyValue::AddMember(const std::string& name, const AnyValue& value)
+AnyValue& AnyValue::AddMember(const std::string& name, const AnyValue& value) &
+{
+  m_data->AddMember(name, value);
+  return *this;
+}
+
+const AnyValue& AnyValue::AddMember(const std::string& name, const AnyValue& value) const &
 {
   m_data->AddMember(name, value);
   return *this;
@@ -217,7 +223,7 @@ std::size_t AnyValue::NumberOfMembers() const
   return m_data->NumberOfMembers();
 }
 
-AnyValue& AnyValue::AddElement(const AnyValue& value)
+AnyValue& AnyValue::AddElement(const AnyValue& value) &
 {
   m_data->AddElement(value);
   return *this;
