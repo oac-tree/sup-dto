@@ -57,6 +57,8 @@ public:
   AbstractValueComposerComponent();
   explicit AbstractValueComposerComponent(const sup::dto::AnyValue& value);
 
+  AbstractValueComposerComponent(AbstractValueComposerComponent&& other) = delete;
+
   virtual Type GetComponentType() const = 0;
 
   //! Performs manipulations with the stack, if necessary.

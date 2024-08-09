@@ -38,6 +38,11 @@ class AnyValue;
 class IWriter
 {
 public:
+
+  IWriter() = default;
+  IWriter(const IWriter&) = default;
+  IWriter& operator=(const IWriter&) = default;
+  IWriter(IWriter&&) = delete;
   virtual ~IWriter();
 
   virtual bool Null() = 0;

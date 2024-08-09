@@ -46,12 +46,12 @@ public:
   /**
    * @brief Destructor.
    */
-  ~AnyTypeRegistry();
+  ~AnyTypeRegistry() = default;
 
   AnyTypeRegistry(const AnyTypeRegistry& other) = default;
-  AnyTypeRegistry(AnyTypeRegistry&& other) = default;
+  AnyTypeRegistry(AnyTypeRegistry&& other) noexcept = default;
   AnyTypeRegistry& operator=(const AnyTypeRegistry& other) & = default;
-  AnyTypeRegistry& operator=(AnyTypeRegistry&& other) & = default;
+  AnyTypeRegistry& operator=(AnyTypeRegistry&& other) & noexcept = default;
 
   /**
    * @brief Register an AnyType instance under its own name.

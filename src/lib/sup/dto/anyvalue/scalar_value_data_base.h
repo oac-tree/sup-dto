@@ -31,6 +31,9 @@ namespace dto
 class ScalarValueDataBase : public IValueData
 {
 public:
+  ScalarValueDataBase(const ScalarValueDataBase& other) = default;
+  ScalarValueDataBase& operator=(const ScalarValueDataBase&) = default;
+  ScalarValueDataBase(ScalarValueDataBase&& other) = delete;
   ~ScalarValueDataBase() override;
 
   TypeCode GetTypeCode() const override;

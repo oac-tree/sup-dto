@@ -33,8 +33,6 @@ AnyTypeRegistry::AnyTypeRegistry()
   : m_anytypes{NameToAnyTypeLeafMap()}
 {}
 
-AnyTypeRegistry::~AnyTypeRegistry() = default;
-
 void AnyTypeRegistry::RegisterType(AnyType anytype)
 {
   RegisterType(anytype.GetTypeName(), anytype);

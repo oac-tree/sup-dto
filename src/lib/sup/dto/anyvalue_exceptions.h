@@ -36,11 +36,10 @@ class MessageException : public std::exception
 {
 public:
   explicit MessageException(std::string message);
-  ~MessageException() override = default;
   MessageException(const MessageException& other) = default;
-  MessageException(MessageException&& other) = default;
+  MessageException(MessageException&& other) = delete;
   MessageException& operator=(const MessageException& other) & = default;
-  MessageException& operator=(MessageException&& other) & = default;
+  MessageException& operator=(MessageException&& other) & = delete;
 
   const char* what() const noexcept override;
 private:
@@ -56,9 +55,9 @@ public:
   explicit InvalidConversionException(const std::string& message);
   ~InvalidConversionException() override = default;
   InvalidConversionException(const InvalidConversionException& other) = default;
-  InvalidConversionException(InvalidConversionException&& other) = default;
+  InvalidConversionException(InvalidConversionException&& other) = delete;
   InvalidConversionException& operator=(const InvalidConversionException& other) & = default;
-  InvalidConversionException& operator=(InvalidConversionException&& other) & = default;
+  InvalidConversionException& operator=(InvalidConversionException&& other) & = delete;
 };
 
 /**
@@ -70,9 +69,9 @@ public:
   explicit InvalidOperationException(const std::string& message);
   ~InvalidOperationException() override = default;
   InvalidOperationException(const InvalidOperationException& other) = default;
-  InvalidOperationException(InvalidOperationException&& other) = default;
+  InvalidOperationException(InvalidOperationException&& other) = delete;
   InvalidOperationException& operator=(const InvalidOperationException& other) & = default;
-  InvalidOperationException& operator=(InvalidOperationException&& other) & = default;
+  InvalidOperationException& operator=(InvalidOperationException&& other) & = delete;
 };
 
 /**
@@ -84,9 +83,9 @@ public:
   explicit SerializeException(const std::string& message);
   ~SerializeException() override = default;
   SerializeException(const SerializeException& other) = default;
-  SerializeException(SerializeException&& other) = default;
+  SerializeException(SerializeException&& other) = delete;
   SerializeException& operator=(const SerializeException& other) & = default;
-  SerializeException& operator=(SerializeException&& other) & = default;
+  SerializeException& operator=(SerializeException&& other) & = delete;
 };
 
 /**
@@ -98,9 +97,9 @@ public:
   explicit ParseException(const std::string& message);
   ~ParseException() override = default;
   ParseException(const ParseException& other) = default;
-  ParseException(ParseException&& other) = default;
+  ParseException(ParseException&& other) = delete;
   ParseException& operator=(const ParseException& other) & = default;
-  ParseException& operator=(ParseException&& other) & = default;
+  ParseException& operator=(ParseException&& other) & = delete;
 };
 
 }  // namespace dto

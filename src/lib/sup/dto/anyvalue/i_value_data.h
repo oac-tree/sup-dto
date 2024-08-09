@@ -39,6 +39,10 @@ enum class Constraints : sup::dto::uint32
 class IValueData
 {
 public:
+  IValueData() = default;
+  IValueData(const IValueData&) = default;
+  IValueData& operator=(const IValueData&) = default;
+  IValueData(IValueData&&) = delete;
   virtual ~IValueData();
 
   virtual IValueData* Clone(value_flags::Constraints constraints) const = 0;
