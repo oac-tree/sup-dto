@@ -77,7 +77,7 @@ template <typename To, typename From,
                           IsSignedInteger<From>::value, bool>::type = true>
 To ConvertScalar(const From& value)
 {
-  if (value < std::numeric_limits<To>::min() || value > std::numeric_limits<To>::max())
+  if ((value < std::numeric_limits<To>::min()) || (value > std::numeric_limits<To>::max()))
   {
     throw InvalidConversionException("Source value doesn't fit in destination type");
   }
@@ -103,8 +103,8 @@ template <typename To, typename From,
                           IsSignedInteger<From>::value, bool>::type = true>
 To ConvertScalar(const From& value)
 {
-  if (value < 0 ||
-    static_cast<typename std::make_unsigned<From>::type>(value) > std::numeric_limits<To>::max())
+  if ((value < 0) ||
+      (static_cast<typename std::make_unsigned<From>::type>(value) > std::numeric_limits<To>::max()))
   {
     throw InvalidConversionException("Source value doesn't fit in destination type");
   }
@@ -157,8 +157,8 @@ template <typename To, typename From,
     std::is_floating_point<From>::value, bool>::type = true>
 To ConvertScalar(const From& value)
 {
-  if (value < static_cast<To>(std::numeric_limits<To>::lowest()) ||
-      value > static_cast<To>(std::numeric_limits<To>::max()))
+  if ((value < static_cast<To>(std::numeric_limits<To>::lowest())) ||
+      (value > static_cast<To>(std::numeric_limits<To>::max())))
   {
     throw InvalidConversionException("Source value doesn't fit in destination type");
   }

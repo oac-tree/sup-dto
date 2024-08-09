@@ -116,8 +116,8 @@ CompareFunction GetCompareFunction(TypeCode type_code)
 
 bool AreMixedIntegerTypes(TypeCode p_1, TypeCode p_2)
 {
-  return ((p_1 == TypeCode::Int64 && p_2 == TypeCode::UInt64) ||
-          (p_1 == TypeCode::UInt64 && p_2 == TypeCode::Int64));
+  return (((p_1 == TypeCode::Int64) && (p_2 == TypeCode::UInt64)) ||
+          ((p_1 == TypeCode::UInt64) && (p_2 == TypeCode::Int64)));
 }
 
 CompareResult CompareMixedIntegers(const AnyValue& lhs, const AnyValue& rhs, bool left_is_signed)
