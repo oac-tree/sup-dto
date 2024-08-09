@@ -148,13 +148,16 @@ AnyValue::AnyValue(AnyValue&& other) noexcept
 
 AnyValue& AnyValue::operator=(const AnyValue& other) &
 {
-  if (IsLockedTypeConstraint(m_data->GetConstraints()))
+  if (other.m_data != this->m_data)
   {
-    ConvertFrom(other);
-    return *this;
+    if (IsLockedTypeConstraint(m_data->GetConstraints()))
+    {
+      ConvertFrom(other);
+      return *this;
+    }
+    std::unique_ptr<IValueData> tmp{other.m_data->Clone(value_flags::Constraints::kNone)};
+    std::swap(m_data, tmp);
   }
-  std::unique_ptr<IValueData> tmp{other.m_data->Clone(value_flags::Constraints::kNone)};
-  std::swap(m_data, tmp);
   return *this;
 }
 
