@@ -26,6 +26,7 @@
 
 #include <cstring>
 #include <vector>
+#include <array>
 
 namespace BitConstants
 {
@@ -78,13 +79,13 @@ template <typename T,
 void AppendScalarT(std::vector<uint8>& representation, const T& val)
 {
   auto u_val = static_cast<UnsignedRepresentationType<sizeof(T)>>(val);
-  uint8 buffer[sizeof(T)]{};
+  std::array<uint8, sizeof(T)> buffer = { 0 };
   for (std::size_t i = 0; i < sizeof(T); ++i)
   {
     buffer[i] = u_val & BitConstants::kLSBMask;
     u_val >>= BitConstants::kBitsPerByte;
   }
-  (void)representation.insert(representation.cend(), buffer, buffer + sizeof(T));
+  (void)representation.insert(representation.cend(), buffer.cbegin(), buffer.cend());
 }
 
 // Specialization for integers with sizeof(T) == 1
@@ -104,13 +105,13 @@ void AppendScalarT(std::vector<uint8>& representation, const T& val)
 {
   UnsignedRepresentationType<sizeof(T)> u_val = T{};
   (void)std::memcpy(&u_val, std::addressof(val), sizeof(T));
-  uint8 buffer[sizeof(T)]{};
+  std::array<uint8, sizeof(T)> buffer = { 0 };
   for (std::size_t i = 0; i < sizeof(T); ++i)
   {
     buffer[i] = u_val & BitConstants::kLSBMask;
     u_val >>= BitConstants::kBitsPerByte;
   }
-  (void)representation.insert(representation.cend(), buffer, buffer + sizeof(T));
+  (void)representation.insert(representation.cend(), buffer.cbegin(), buffer.cend());
 }
 
 }  // namespace dto
