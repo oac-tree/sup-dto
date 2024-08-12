@@ -27,7 +27,16 @@
 
 #include <functional>
 #include <map>
-#include <type_traits>
+
+namespace
+{
+using namespace sup::dto;
+template <typename T>
+ScalarValueDataBase* ScalarValueConstructor(value_flags::Constraints constraints)
+{
+  return new ScalarValueDataT<T>{T{}, constraints};
+}
+}  // namespace
 
 namespace sup
 {
@@ -59,12 +68,6 @@ bool ScalarValueDataBase::IsScalar() const
 value_flags::Constraints ScalarValueDataBase::GetConstraints() const
 {
   return m_constraints;
-}
-
-template <typename T>
-ScalarValueDataBase* ScalarValueConstructor(value_flags::Constraints constraints)
-{
-    return new ScalarValueDataT<T>{T{}, constraints};
 }
 
 ScalarValueDataBase* CreateScalarValueData(TypeCode type_code, value_flags::Constraints constraints)

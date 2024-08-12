@@ -27,11 +27,9 @@
 #include <functional>
 #include <map>
 
-namespace sup
+namespace
 {
-namespace dto
-{
-
+using namespace sup::dto;
 template <typename T>
 std::vector<uint8> ScalarToBytesT(const AnyValue& anyvalue)
 {
@@ -55,6 +53,12 @@ std::vector<uint8> ScalarToBytesT<std::string>(const AnyValue& anyvalue)
   (void)std::memcpy(result.data(), str.data(), size);
   return result;
 }
+}  // namespace
+
+namespace sup
+{
+namespace dto
+{
 
 std::vector<uint8> ScalarToBytes(const AnyValue& anyvalue)
 {

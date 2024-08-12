@@ -26,21 +26,29 @@
 #include <functional>
 #include <map>
 
-namespace sup
+namespace
 {
-namespace dto
-{
-
-IWriter::~IWriter() = default;
-
-template <typename T, bool (IWriter::* member_func)(T)>
+using namespace sup::dto;
+template <typename T, bool (IWriter::*member_func)(T)>
 bool WriteScalarValueT(const AnyValue& anyvalue, IWriter* writer)
 {
   T val = anyvalue.As<T>();
   return (writer->*member_func)(val);
 }
 
-bool WriteScalarString(const AnyValue& anyvalue, IWriter* writer);
+bool WriteScalarString(const AnyValue& anyvalue, IWriter* writer)
+{
+  const std::string str = anyvalue.As<std::string>();
+  return writer->String(str);
+}
+}  // namespace
+
+namespace sup
+{
+namespace dto
+{
+
+IWriter::~IWriter() = default;
 
 bool WriteScalarValue(const AnyValue& anyvalue, IWriter* writer)
 {
@@ -65,12 +73,6 @@ bool WriteScalarValue(const AnyValue& anyvalue, IWriter* writer)
     throw SerializeException("Not a known scalar type code");
   }
   return it->second(anyvalue, writer);
-}
-
-bool WriteScalarString(const AnyValue& anyvalue, IWriter* writer)
-{
-  const std::string str = anyvalue.As<std::string>();
-  return writer->String(str);
 }
 
 }  // namespace dto

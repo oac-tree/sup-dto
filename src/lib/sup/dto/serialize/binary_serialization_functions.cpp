@@ -28,11 +28,9 @@
 
 #include <map>
 
-namespace sup
+namespace
 {
-namespace dto
-{
-
+using namespace sup::dto;
 template <typename T>
 void AppendScalarAnyValueT(std::vector<uint8>& representation, const AnyValue& anyvalue)
 {
@@ -45,6 +43,12 @@ void AppendBinaryStringAnyValue(std::vector<uint8>& representation, const AnyVal
   const std::string str = anyvalue.As<std::string>();
   AppendBinaryStringValue(representation, str);
 }
+}  // namespace
+
+namespace sup
+{
+namespace dto
+{
 
 void AppendScalarToken(std::vector<uint8>& representation, const TypeCode& type_code)
 {

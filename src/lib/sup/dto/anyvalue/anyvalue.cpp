@@ -29,16 +29,20 @@
 #include <sup/dto/serialize/ctype_serializer.h>
 #include <sup/dto/visit/visit_t.h>
 
-namespace sup
+namespace
 {
-namespace dto
-{
+using namespace sup::dto;
 template <typename T>
 IValueData* CreateUnconstrainedScalarData(const T& val)
 {
   return new ScalarValueDataT<T>(val, value_flags::Constraints::kNone);
 }
+}  // namespace
 
+namespace sup
+{
+namespace dto
+{
 AnyValue::AnyValue()
   : AnyValue{CreateDefaultValueData()}
 {}

@@ -27,6 +27,68 @@ namespace
 {
 using namespace sup::dto;
 CompareResult Invert(CompareResult result);
+
+/**
+ * Templated comparison assumes both AnyValues can be cast to T and that there is a total order
+ * for values of type T. Unsupported types will use the function UnsupportedCompare below.
+*/
+template <typename T>
+CompareResult CompareT(const AnyValue& lhs, const AnyValue& rhs)
+{
+  auto left = lhs.As<T>();
+  auto right = rhs.As<T>();
+  if (left < right)
+  {
+    return CompareResult::Less;
+  }
+  if (left > right)
+  {
+    return CompareResult::Greater;
+  }
+  return CompareResult::Equivalent;
+}
+
+CompareResult UnsupportedCompare(const AnyValue&, const AnyValue&)
+{
+  return CompareResult::Unordered;
+}
+
+/**
+ * Templated increment will be instantiated only for the supported types: 'uint64', 'float64'
+ * and 'float32'. Unsupported types will use the function UnsupportedIncrement below.
+*/
+template <typename S, typename U>
+bool IncrementT(AnyValue& value)
+{
+  auto temp = static_cast<U>(value.As<S>());
+  ++temp;
+  value = static_cast<S>(temp);
+  return true;
+}
+
+bool UnsupportedIncrement(AnyValue&)
+{
+  return false;
+}
+
+/**
+ * Templated decrement will be instantiated only for the supported promotion types U: 'uint64',
+ * 'float64' and 'float32'. Unsupported types will use the function UnsupportedDecrement below.
+*/
+template <typename S, typename U>
+bool DecrementT(AnyValue& value)
+{
+  auto temp = static_cast<U>(value.As<S>());
+  --temp;
+  value = static_cast<S>(temp);
+  return true;
+}
+
+bool UnsupportedDecrement(AnyValue&)
+{
+  return false;
+}
+
 }  // unnamed namespace
 
 namespace sup
@@ -77,39 +139,14 @@ TypeCode CommonTypeCode(TypeCode t_1, TypeCode t_2)
   return (t_1 == t_2) ? t_1 : TypeCode::Empty;
 }
 
-/**
- * Templated comparison assumes both AnyValues can be cast to T and that there is a total order
- * for values of type T. Unsupported types will use the function UnsupportedCompare below.
-*/
-template <typename T>
-CompareResult CompareT(const AnyValue& lhs, const AnyValue& rhs)
-{
-  auto left = lhs.As<T>();
-  auto right = rhs.As<T>();
-  if (left < right)
-  {
-    return CompareResult::Less;
-  }
-  if (left > right)
-  {
-    return CompareResult::Greater;
-  }
-  return CompareResult::Equivalent;
-}
-
-CompareResult UnsupportedCompare(const AnyValue&, const AnyValue&)
-{
-  return CompareResult::Unordered;
-}
-
 CompareFunction GetCompareFunction(TypeCode type_code)
 {
   const std::map<TypeCode, CompareFunction> compare_map = {
-    { TypeCode::Empty, UnsupportedCompare },
-    { TypeCode::Int64, CompareT<int64> },
-    { TypeCode::UInt64, CompareT<uint64> },
-    { TypeCode::Float32, CompareT<float32> },
-    { TypeCode::Float64, CompareT<float64> }
+    { TypeCode::Empty, &UnsupportedCompare },
+    { TypeCode::Int64, &CompareT<int64> },
+    { TypeCode::UInt64, &CompareT<uint64> },
+    { TypeCode::Float32, &CompareT<float32> },
+    { TypeCode::Float64, &CompareT<float64> }
   };
   return compare_map.at(type_code);
 }
@@ -134,84 +171,48 @@ CompareResult CompareMixedIntegers(const AnyValue& lhs, const AnyValue& rhs, boo
   return CompareT<uint64>(lhs, rhs);
 }
 
-/**
- * Templated increment will be instantiated only for the supported types: 'uint64', 'float64'
- * and 'float32'. Unsupported types will use the function UnsupportedIncrement below.
-*/
-template <typename S, typename U>
-bool IncrementT(AnyValue& value)
-{
-  auto temp = static_cast<U>(value.As<S>());
-  ++temp;
-  value = static_cast<S>(temp);
-  return true;
-}
-
-bool UnsupportedIncrement(AnyValue&)
-{
-  return false;
-}
-
 UnaryOperatorFunction GetIncrementFunction(TypeCode type_code)
 {
   const std::map<TypeCode, UnaryOperatorFunction> increment_map = {
-    { TypeCode::Empty, UnsupportedIncrement },
-    { TypeCode::Bool, UnsupportedIncrement },
-    { TypeCode::Char8, UnsupportedIncrement },
-    { TypeCode::Int8, IncrementT<int8, uint64> },
-    { TypeCode::UInt8, IncrementT<uint8, uint64> },
-    { TypeCode::Int16, IncrementT<int16, uint64> },
-    { TypeCode::UInt16, IncrementT<uint16, uint64> },
-    { TypeCode::Int32, IncrementT<int32, uint64> },
-    { TypeCode::UInt32, IncrementT<uint32, uint64> },
-    { TypeCode::Int64, IncrementT<int64, uint64> },
-    { TypeCode::UInt64, IncrementT<uint64, uint64> },
-    { TypeCode::Float32, IncrementT<float32, float32> },
-    { TypeCode::Float64, IncrementT<float64, float64> },
-    { TypeCode::String, UnsupportedIncrement },
-    { TypeCode::Struct, UnsupportedIncrement },
-    { TypeCode::Array, UnsupportedIncrement }
+    { TypeCode::Empty, &UnsupportedIncrement },
+    { TypeCode::Bool, &UnsupportedIncrement },
+    { TypeCode::Char8, &UnsupportedIncrement },
+    { TypeCode::Int8, &IncrementT<int8, uint64> },
+    { TypeCode::UInt8, &IncrementT<uint8, uint64> },
+    { TypeCode::Int16, &IncrementT<int16, uint64> },
+    { TypeCode::UInt16, &IncrementT<uint16, uint64> },
+    { TypeCode::Int32, &IncrementT<int32, uint64> },
+    { TypeCode::UInt32, &IncrementT<uint32, uint64> },
+    { TypeCode::Int64, &IncrementT<int64, uint64> },
+    { TypeCode::UInt64, &IncrementT<uint64, uint64> },
+    { TypeCode::Float32, &IncrementT<float32, float32> },
+    { TypeCode::Float64, &IncrementT<float64, float64> },
+    { TypeCode::String, &UnsupportedIncrement },
+    { TypeCode::Struct, &UnsupportedIncrement },
+    { TypeCode::Array, &UnsupportedIncrement }
   };
   return increment_map.at(type_code);
-}
-
-/**
- * Templated decrement will be instantiated only for the supported promotion types U: 'uint64',
- * 'float64' and 'float32'. Unsupported types will use the function UnsupportedDecrement below.
-*/
-template <typename S, typename U>
-bool DecrementT(AnyValue& value)
-{
-  auto temp = static_cast<U>(value.As<S>());
-  --temp;
-  value = static_cast<S>(temp);
-  return true;
-}
-
-bool UnsupportedDecrement(AnyValue&)
-{
-  return false;
 }
 
 UnaryOperatorFunction GetDecrementFunction(TypeCode type_code)
 {
   const std::map<TypeCode, UnaryOperatorFunction> decrement_map = {
-    { TypeCode::Empty, UnsupportedDecrement },
-    { TypeCode::Bool, UnsupportedDecrement },
-    { TypeCode::Char8, UnsupportedDecrement },
-    { TypeCode::Int8, DecrementT<int8, uint64> },
-    { TypeCode::UInt8, DecrementT<uint8, uint64> },
-    { TypeCode::Int16, DecrementT<int16, uint64> },
-    { TypeCode::UInt16, DecrementT<uint16, uint64> },
-    { TypeCode::Int32, DecrementT<int32, uint64> },
-    { TypeCode::UInt32, DecrementT<uint32, uint64> },
-    { TypeCode::Int64, DecrementT<int64, uint64> },
-    { TypeCode::UInt64, DecrementT<uint64, uint64> },
-    { TypeCode::Float32, DecrementT<float32, float32> },
-    { TypeCode::Float64, DecrementT<float64, float64> },
-    { TypeCode::String, UnsupportedDecrement },
-    { TypeCode::Struct, UnsupportedDecrement },
-    { TypeCode::Array, UnsupportedDecrement }
+    { TypeCode::Empty, &UnsupportedDecrement },
+    { TypeCode::Bool, &UnsupportedDecrement },
+    { TypeCode::Char8, &UnsupportedDecrement },
+    { TypeCode::Int8, &DecrementT<int8, uint64> },
+    { TypeCode::UInt8, &DecrementT<uint8, uint64> },
+    { TypeCode::Int16, &DecrementT<int16, uint64> },
+    { TypeCode::UInt16, &DecrementT<uint16, uint64> },
+    { TypeCode::Int32, &DecrementT<int32, uint64> },
+    { TypeCode::UInt32, &DecrementT<uint32, uint64> },
+    { TypeCode::Int64, &DecrementT<int64, uint64> },
+    { TypeCode::UInt64, &DecrementT<uint64, uint64> },
+    { TypeCode::Float32, &DecrementT<float32, float32> },
+    { TypeCode::Float64, &DecrementT<float64, float64> },
+    { TypeCode::String, &UnsupportedDecrement },
+    { TypeCode::Struct, &UnsupportedDecrement },
+    { TypeCode::Array, &UnsupportedDecrement }
   };
   return decrement_map.at(type_code);
 }
