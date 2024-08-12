@@ -51,7 +51,7 @@ AnyType::AnyType(std::initializer_list<std::pair<std::string, AnyType>> members,
   : AnyType{}
 {
   auto struct_data = std::unique_ptr<StructTypeData>(new StructTypeData(name));
-  for (const std::pair<std::basic_string<char>, AnyType>& member : members)
+  for (const std::pair<std::string, AnyType>& member : members)
   {
     struct_data->AddMember(member.first, member.second);
   }
@@ -85,7 +85,7 @@ AnyType::AnyType(AnyType&& other) noexcept
 
 AnyType& AnyType::operator=(const AnyType& other) &
 {
-  if (other.m_data != this->m_data)
+  if (this != &other)
   {
     auto copy = AnyType(other);
     std::swap(m_data, copy.m_data);

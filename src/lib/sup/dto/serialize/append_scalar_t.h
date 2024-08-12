@@ -103,7 +103,7 @@ void AppendScalarT(std::vector<uint8> &representation, const T &val)
 template <typename T, typename std::enable_if<std::is_floating_point<T>::value, bool>::type = true>
 void AppendScalarT(std::vector<uint8>& representation, const T& val)
 {
-  UnsignedRepresentationType<sizeof(T)> u_val = T{};
+  UnsignedRepresentationType<sizeof(T)> u_val{};
   (void)std::memcpy(&u_val, std::addressof(val), sizeof(T));
   std::array<uint8, sizeof(T)> buffer = { 0 };
   for (std::size_t i = 0; i < sizeof(T); ++i)

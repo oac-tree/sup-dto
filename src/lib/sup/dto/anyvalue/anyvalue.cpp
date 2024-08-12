@@ -148,7 +148,7 @@ AnyValue::AnyValue(AnyValue&& other) noexcept
 
 AnyValue& AnyValue::operator=(const AnyValue& other) &
 {
-  if (other.m_data != this->m_data)
+  if (this != &other)
   {
     if (IsLockedTypeConstraint(m_data->GetConstraints()))
     {

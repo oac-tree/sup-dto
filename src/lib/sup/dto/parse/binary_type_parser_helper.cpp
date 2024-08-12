@@ -35,12 +35,12 @@ BinaryTypeParserHelper::BinaryTypeParserHelper()
 
 bool BinaryTypeParserHelper::HandleToken(ByteIterator& it, ByteIterator end)
 {
-  auto token = static_cast<int>(FetchToken(it));
+  const auto token = FetchToken(it);
   const auto handler_func = GetHandlerMemberFunction(token);
   if (!handler_func)
   {
-    const std::string error =
-      "BinaryTypeParserHelper::HandleToken(): encountered unknown token: " + std::to_string(token);
+    const std::string error = "BinaryTypeParserHelper::HandleToken(): encountered unknown token: "
+                              + std::to_string(static_cast<int>(token));
     throw ParseException(error);
   }
   return handler_func(*this, it, end);

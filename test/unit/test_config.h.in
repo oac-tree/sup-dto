@@ -19,8 +19,8 @@
  * of the distribution package.
  ******************************************************************************/
 
-#ifndef SUP_TestConfig_h_
-#define SUP_TestConfig_h_
+#ifndef SUP_TESTCONFIG_H_
+#define SUP_TESTCONFIG_H_
 
 #include <string>
 
@@ -42,4 +42,4 @@ inline std::string CMakeBinaryDir() { return "@CMAKE_BINARY_DIR@"; }
 
 }  // namespace sup
 
-#endif  // SUP_TestConfig_h_
+#endif  // SUP_TESTCONFIG_H_
