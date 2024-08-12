@@ -19,7 +19,6 @@ target_sources(sup-dto-obj
     i_value_data.cpp
     scalar_type_data.cpp
     scalar_value_data_base.cpp
-    scalar_value_data_t.cpp
     struct_type_data.cpp
     struct_value_data.cpp
 )
