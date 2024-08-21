@@ -45,6 +45,7 @@ public:
   AbstractTypeComposerComponent(const AbstractTypeComposerComponent&) = default;
   AbstractTypeComposerComponent& operator=(const AbstractTypeComposerComponent&) = default;
   AbstractTypeComposerComponent(AbstractTypeComposerComponent&&) = delete;
+  AbstractTypeComposerComponent& operator=(AbstractTypeComposerComponent&&) = delete;
 
   virtual ~AbstractTypeComposerComponent();
 

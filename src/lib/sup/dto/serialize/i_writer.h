@@ -43,6 +43,7 @@ public:
   IWriter(const IWriter&) = default;
   IWriter& operator=(const IWriter&) = default;
   IWriter(IWriter&&) = delete;
+  IWriter& operator=(IWriter&&) = delete;
   virtual ~IWriter();
 
   virtual bool Null() = 0;

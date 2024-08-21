@@ -43,6 +43,7 @@ public:
   IValueData(const IValueData&) = default;
   IValueData& operator=(const IValueData&) = default;
   IValueData(IValueData&&) = delete;
+  IValueData& operator=(IValueData&&) = delete;
   virtual ~IValueData();
 
   virtual IValueData* Clone(value_flags::Constraints constraints) const = 0;

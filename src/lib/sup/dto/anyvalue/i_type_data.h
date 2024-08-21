@@ -35,6 +35,7 @@ public:
   ITypeData(const ITypeData&) = default;
   ITypeData& operator=(const ITypeData&) = default;
   ITypeData(ITypeData&&) = delete;
+  ITypeData& operator=(ITypeData&&) = delete;
   virtual ~ITypeData();
 
   virtual ITypeData* Clone() const = 0;
