@@ -81,7 +81,7 @@ public:
   /**
    * @brief Default constructor creates empty type.
    */
-  AnyType() noexcept;
+  AnyType();
 
   /**
    * @brief Constructor with typecode. Only for scalar types.
@@ -206,12 +206,12 @@ public:
    * @param name Name to use for registering the member type.
    * @param type AnyType to register as a member type.
    *
-   * @return Constant reference to this.
+   * @return rvalue of this.
    *
    * @throws InvalidOperationException Thrown when this type does not support adding members or when
    * the given arguments are not allowed (e.g. empty member name).
    */
-  const AnyType& AddMember(const std::string& name, const AnyType& type) const &;
+  AnyType&& AddMember(const std::string& name, const AnyType& type) &&;
 
   /**
    * @brief Get list of member names.

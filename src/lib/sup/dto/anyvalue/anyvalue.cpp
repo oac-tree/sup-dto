@@ -146,7 +146,7 @@ AnyValue::AnyValue(const AnyValue& other)
   : AnyValue{other.m_data->Clone(Constraints::kNone)}
 {}
 
-AnyValue::AnyValue(AnyValue&& other) noexcept
+AnyValue::AnyValue(AnyValue&& other)
   : AnyValue{StealOrClone(std::move(other.m_data))}
 {}
 
@@ -214,10 +214,10 @@ AnyValue& AnyValue::AddMember(const std::string& name, const AnyValue& value) &
   return *this;
 }
 
-const AnyValue& AnyValue::AddMember(const std::string& name, const AnyValue& value) const &
+AnyValue&& AnyValue::AddMember(const std::string& name, const AnyValue& value) &&
 {
   m_data->AddMember(name, value);
-  return *this;
+  return std::move(*this);
 }
 
 std::vector<std::string> AnyValue::MemberNames() const

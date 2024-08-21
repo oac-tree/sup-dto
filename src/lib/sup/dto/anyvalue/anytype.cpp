@@ -38,7 +38,7 @@ namespace
 std::unordered_set<TypeCode> ScalarTypes();
 }  // unnamed namespace
 
-AnyType::AnyType() noexcept
+AnyType::AnyType()
   : AnyType{new EmptyTypeData()}
 {}
 
@@ -117,10 +117,10 @@ AnyType& AnyType::AddMember(const std::string& name, const AnyType& type) &
   return *this;
 }
 
-const AnyType& AnyType::AddMember(const std::string& name, const AnyType& type) const &
+AnyType&& AnyType::AddMember(const std::string& name, const AnyType& type) &&
 {
   m_data->AddMember(name, type);
-  return *this;
+  return std::move(*this);
 }
 
 std::vector<std::string> AnyType::MemberNames() const

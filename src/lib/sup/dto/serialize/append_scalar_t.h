@@ -79,7 +79,7 @@ template <typename T,
 void AppendScalarT(std::vector<uint8>& representation, const T& val)
 {
   auto u_val = static_cast<UnsignedRepresentationType<sizeof(T)>>(val);
-  std::array<uint8, sizeof(T)> buffer = { 0 };
+  std::array<uint8, sizeof(T)> buffer{};
   for (std::size_t i = 0; i < sizeof(T); ++i)
   {
     buffer[i] = u_val & BitConstants::kLSBMask;
@@ -105,7 +105,7 @@ void AppendScalarT(std::vector<uint8>& representation, const T& val)
 {
   UnsignedRepresentationType<sizeof(T)> u_val{};
   (void)std::memcpy(&u_val, std::addressof(val), sizeof(T));
-  std::array<uint8, sizeof(T)> buffer = { 0 };
+  std::array<uint8, sizeof(T)> buffer{};
   for (std::size_t i = 0; i < sizeof(T); ++i)
   {
     buffer[i] = u_val & BitConstants::kLSBMask;

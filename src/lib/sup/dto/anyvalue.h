@@ -159,7 +159,7 @@ public:
    *
    * @param other Source AnyValue for move construction.
    */
-  AnyValue(AnyValue&& other) noexcept;
+  AnyValue(AnyValue&& other);
 
   /**
    * @brief Copy assignment.
@@ -242,12 +242,12 @@ public:
    * @param name Name to use for registering the member value.
    * @param value AnyValue to register as a member value.
    *
-   * @return Constant reference to this.
+   * @return Rvalue of this.
    *
    * @throws InvalidOperationException Thrown when this value does not support adding members or
    * when the given arguments are not allowed (e.g. empty member name).
    */
-  const AnyValue& AddMember(const std::string& name, const AnyValue& value) const &;
+  AnyValue&& AddMember(const std::string& name, const AnyValue& value) &&;
 
   /**
    * @brief Get list of member names.
