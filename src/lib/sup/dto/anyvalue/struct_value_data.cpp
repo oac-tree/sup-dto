@@ -30,12 +30,12 @@ namespace sup
 namespace dto
 {
 
-StructValueData::StructValueData(const std::string& type_name, value_flags::Constraints constraints)
+StructValueData::StructValueData(const std::string& type_name, Constraints constraints)
   : m_member_data{type_name}
   , m_constraints{constraints}
 {}
 
-StructValueData::StructValueData(const AnyType& anytype, value_flags::Constraints constraints)
+StructValueData::StructValueData(const AnyType& anytype, Constraints constraints)
   : StructValueData(anytype.GetTypeName(), constraints)
 {
   for (const auto& member_name : anytype.MemberNames())
@@ -48,7 +48,7 @@ StructValueData::StructValueData(const AnyType& anytype, value_flags::Constraint
 
 StructValueData::~StructValueData() = default;
 
-StructValueData* StructValueData::Clone(value_flags::Constraints constraints) const
+StructValueData* StructValueData::Clone(Constraints constraints) const
 {
   auto result = std::unique_ptr<StructValueData>(new StructValueData(GetTypeName(), constraints));
   for (const auto& member_name : MemberNames())
@@ -81,7 +81,7 @@ AnyType StructValueData::GetType() const
   return result;
 }
 
-value_flags::Constraints StructValueData::GetConstraints() const
+Constraints StructValueData::GetConstraints() const
 {
   return m_constraints;
 }
@@ -138,7 +138,7 @@ bool StructValueData::Equals(const AnyValue& other) const
   return m_member_data.Equals(other);
 }
 
-StructValueData* CreateStructValueData(const AnyType& anytype, value_flags::Constraints constraints)
+StructValueData* CreateStructValueData(const AnyType& anytype, Constraints constraints)
 {
   auto result = std::unique_ptr<StructValueData>(new StructValueData(anytype, constraints));
   return result.release();

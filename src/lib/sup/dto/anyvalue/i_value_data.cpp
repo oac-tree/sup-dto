@@ -166,23 +166,23 @@ void IValueData::UnsafeConversion(AnyValue& dest, const AnyValue& src)
   dest.UnsafeConvertFrom(src);
 }
 
-bool IsLockedTypeConstraint(value_flags::Constraints constraints)
+bool IsLockedTypeConstraint(Constraints constraints)
 {
-  return constraints == value_flags::Constraints::kLockedType;
+  return constraints == Constraints::kLockedType;
 }
 
 std::unique_ptr<IValueData> StealOrClone(std::unique_ptr<IValueData>&& data)
 {
   if (IsLockedTypeConstraint(data->GetConstraints()))
   {
-    return std::unique_ptr<IValueData>{data->Clone(value_flags::Constraints::kNone)};
+    return std::unique_ptr<IValueData>{data->Clone(Constraints::kNone)};
   }
   std::unique_ptr<IValueData> tmp{CreateDefaultValueData()};
   std::swap(tmp, data);
   return tmp;
 }
 
-IValueData* CreateValueData(const AnyType& anytype, value_flags::Constraints constraints)
+IValueData* CreateValueData(const AnyType& anytype, Constraints constraints)
 {
   if (IsScalarType(anytype))
   {

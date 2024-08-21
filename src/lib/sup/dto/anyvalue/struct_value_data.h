@@ -35,8 +35,8 @@ namespace dto
 class StructValueData : public IValueData
 {
 public:
-  StructValueData(const std::string& type_name, value_flags::Constraints constraints);
-  StructValueData(const AnyType& anytype, value_flags::Constraints constraints);
+  StructValueData(const std::string& type_name, Constraints constraints);
+  StructValueData(const AnyType& anytype, Constraints constraints);
   ~StructValueData() override;
 
   StructValueData(const StructValueData& other) = delete;
@@ -44,12 +44,12 @@ public:
   StructValueData& operator=(const StructValueData& other) = delete;
   StructValueData& operator=(StructValueData&& other) = delete;
 
-  StructValueData* Clone(value_flags::Constraints constraints) const override;
+  StructValueData* Clone(Constraints constraints) const override;
   TypeCode GetTypeCode() const override;
   std::string GetTypeName() const override;
   AnyType GetType() const override;
 
-  value_flags::Constraints GetConstraints() const override;
+  Constraints GetConstraints() const override;
 
   void AddMember(const std::string& name, const AnyValue& value) override;
   std::vector<std::string> MemberNames() const override;
@@ -64,11 +64,11 @@ public:
 
 private:
   StructDataT<AnyValue> m_member_data;
-  value_flags::Constraints m_constraints;
+  Constraints m_constraints;
 };
 
 StructValueData* CreateStructValueData(const AnyType& anytype,
-                                       value_flags::Constraints constraints);
+                                       Constraints constraints);
 
 }  // namespace dto
 

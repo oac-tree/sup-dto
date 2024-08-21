@@ -28,14 +28,12 @@ namespace sup
 {
 namespace dto
 {
-namespace value_flags
-{
 enum class Constraints : sup::dto::uint32
 {
   kNone       = 0x00,
   kLockedType = 0x01  // Indicates this value node cannot change type (e.g. array element)
 };
-}
+
 class IValueData
 {
 public:
@@ -46,7 +44,7 @@ public:
   IValueData& operator=(IValueData&&) = delete;
   virtual ~IValueData();
 
-  virtual IValueData* Clone(value_flags::Constraints constraints) const = 0;
+  virtual IValueData* Clone(Constraints constraints) const = 0;
   virtual TypeCode GetTypeCode() const = 0;
   virtual std::string GetTypeName() const;
   virtual AnyType GetType() const = 0;
@@ -55,7 +53,7 @@ public:
   virtual bool IsScalar() const;
 
   // Return the constraints on the current value node.
-  virtual value_flags::Constraints GetConstraints() const = 0;
+  virtual Constraints GetConstraints() const = 0;
 
   virtual void AddMember(const std::string&, const AnyValue&);
   virtual std::vector<std::string> MemberNames() const;
@@ -89,11 +87,11 @@ protected:
   static void UnsafeConversion(AnyValue& dest, const AnyValue& src);
 };
 
-bool IsLockedTypeConstraint(value_flags::Constraints constraints);
+bool IsLockedTypeConstraint(Constraints constraints);
 
 std::unique_ptr<IValueData> StealOrClone(std::unique_ptr<IValueData>&& data);
 
-IValueData* CreateValueData(const AnyType& anytype, value_flags::Constraints constraints);
+IValueData* CreateValueData(const AnyType& anytype, Constraints constraints);
 
 }  // namespace dto
 

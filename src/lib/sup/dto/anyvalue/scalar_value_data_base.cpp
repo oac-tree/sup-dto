@@ -32,7 +32,7 @@ namespace
 {
 using namespace sup::dto;
 template <typename T>
-ScalarValueDataBase* ScalarValueConstructor(value_flags::Constraints constraints)
+ScalarValueDataBase* ScalarValueConstructor(Constraints constraints)
 {
   return new ScalarValueDataT<T>{T{}, constraints};
 }
@@ -43,7 +43,7 @@ namespace sup
 namespace dto
 {
 
-ScalarValueDataBase::ScalarValueDataBase(TypeCode type_code, value_flags::Constraints constraints)
+ScalarValueDataBase::ScalarValueDataBase(TypeCode type_code, Constraints constraints)
   : m_type_code{type_code}
   , m_constraints{constraints}
 {}
@@ -65,14 +65,14 @@ bool ScalarValueDataBase::IsScalar() const
   return true;
 }
 
-value_flags::Constraints ScalarValueDataBase::GetConstraints() const
+Constraints ScalarValueDataBase::GetConstraints() const
 {
   return m_constraints;
 }
 
-ScalarValueDataBase* CreateScalarValueData(TypeCode type_code, value_flags::Constraints constraints)
+ScalarValueDataBase* CreateScalarValueData(TypeCode type_code, Constraints constraints)
 {
-  using ScalarValueDataConstructor = std::function<ScalarValueDataBase*(value_flags::Constraints)>;
+  using ScalarValueDataConstructor = std::function<ScalarValueDataBase*(Constraints)>;
   static const std::map<TypeCode, ScalarValueDataConstructor> constructor_map {
     {TypeCode::Bool, ScalarValueConstructor<boolean> },
     {TypeCode::Char8, ScalarValueConstructor<char8> },

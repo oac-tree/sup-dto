@@ -31,13 +31,13 @@ namespace sup
 namespace dto
 {
 
-EmptyValueData::EmptyValueData(value_flags::Constraints constraints)
+EmptyValueData::EmptyValueData(Constraints constraints)
   : m_constraints{constraints}
 {}
 
 EmptyValueData::~EmptyValueData() = default;
 
-EmptyValueData* EmptyValueData::Clone(value_flags::Constraints constraints) const
+EmptyValueData* EmptyValueData::Clone(Constraints constraints) const
 {
   return new EmptyValueData(constraints);
 }
@@ -52,7 +52,7 @@ AnyType EmptyValueData::GetType() const
   return AnyType{};
 }
 
-value_flags::Constraints EmptyValueData::GetConstraints() const
+Constraints EmptyValueData::GetConstraints() const
 {
   return m_constraints;
 }
@@ -72,7 +72,7 @@ bool EmptyValueData::Equals(const AnyValue& other) const
 
 IValueData* CreateDefaultValueData()
 {
-  return new EmptyValueData{value_flags::Constraints::kNone};
+  return new EmptyValueData{Constraints::kNone};
 }
 
 }  // namespace dto

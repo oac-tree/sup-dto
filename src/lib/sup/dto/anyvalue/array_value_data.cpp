@@ -33,7 +33,7 @@ namespace dto
 {
 
 ArrayValueData::ArrayValueData(std::size_t size, const AnyType& elem_type,
-                               const std::string& name, value_flags::Constraints constraints)
+                               const std::string& name, Constraints constraints)
   : m_elem_type{elem_type}
   , m_name{name}
   , m_elements{}
@@ -45,14 +45,14 @@ ArrayValueData::ArrayValueData(std::size_t size, const AnyType& elem_type,
   }
   for (std::size_t i = 0u; i < size; ++i)
   {
-    std::unique_ptr<IValueData> data{CreateValueData(m_elem_type, value_flags::Constraints::kLockedType)};
+    std::unique_ptr<IValueData> data{CreateValueData(m_elem_type, Constraints::kLockedType)};
     m_elements.push_back(MakeAnyValue(std::move(data)));
   }
 }
 
 ArrayValueData::~ArrayValueData() = default;
 
-ArrayValueData* ArrayValueData::Clone(value_flags::Constraints constraints) const
+ArrayValueData* ArrayValueData::Clone(Constraints constraints) const
 {
   auto result = std::unique_ptr<ArrayValueData>(
       new ArrayValueData(NumberOfElements(), m_elem_type, m_name, constraints));
@@ -78,7 +78,7 @@ AnyType ArrayValueData::GetType() const
   return AnyType(NumberOfElements(), m_elem_type, m_name);
 }
 
-value_flags::Constraints ArrayValueData::GetConstraints() const
+Constraints ArrayValueData::GetConstraints() const
 {
   return m_constraints;
 }
@@ -89,7 +89,7 @@ void ArrayValueData::AddElement(const AnyValue& value)
   {
     throw InvalidOperationException("Cannot add element to array whose type is locked");
   }
-  std::unique_ptr<IValueData> data{CreateValueData(m_elem_type, value_flags::Constraints::kLockedType)};
+  std::unique_ptr<IValueData> data{CreateValueData(m_elem_type, Constraints::kLockedType)};
   data->ConvertFrom(value);
   m_elements.push_back(MakeAnyValue(std::move(data)));
 }
@@ -217,7 +217,7 @@ std::pair<std::size_t, std::string> StripValueIndex(const std::string& fieldname
   return { idx, remainder };
 }
 
-ArrayValueData* CreateArrayValueData(const AnyType& anytype, value_flags::Constraints constraints)
+ArrayValueData* CreateArrayValueData(const AnyType& anytype, Constraints constraints)
 {
   auto result = std::unique_ptr<ArrayValueData>(
     new ArrayValueData(anytype.NumberOfElements(), anytype.ElementType(), anytype.GetTypeName(),

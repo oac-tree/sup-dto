@@ -34,7 +34,7 @@ class ArrayValueData : public IValueData
 {
 public:
   ArrayValueData(std::size_t size, const AnyType& elem_type, const std::string& name,
-                 value_flags::Constraints constraints);
+                 Constraints constraints);
   ~ArrayValueData() override;
 
   ArrayValueData(const ArrayValueData& other) = delete;
@@ -42,12 +42,12 @@ public:
   ArrayValueData& operator=(const ArrayValueData& other) = delete;
   ArrayValueData& operator=(ArrayValueData&& other) = delete;
 
-  ArrayValueData* Clone(value_flags::Constraints constraints) const override;
+  ArrayValueData* Clone(Constraints constraints) const override;
   TypeCode GetTypeCode() const override;
   std::string GetTypeName() const override;
   AnyType GetType() const override;
 
-  value_flags::Constraints GetConstraints() const override;
+  Constraints GetConstraints() const override;
 
   void AddElement(const AnyValue& value) override;
   std::size_t NumberOfElements() const override;
@@ -64,11 +64,11 @@ private:
   AnyType m_elem_type;
   std::string m_name;
   std::vector<std::unique_ptr<AnyValue>> m_elements;
-  value_flags::Constraints m_constraints;
+  Constraints m_constraints;
 };
 
 ArrayValueData* CreateArrayValueData(const AnyType& anytype,
-                                     value_flags::Constraints constraints);
+                                     Constraints constraints);
 
 /**
  * @brief Strips the index from the fieldname.

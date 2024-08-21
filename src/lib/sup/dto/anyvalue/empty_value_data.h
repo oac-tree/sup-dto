@@ -31,7 +31,7 @@ namespace dto
 class EmptyValueData : public IValueData
 {
 public:
-  explicit EmptyValueData(value_flags::Constraints constraints);
+  explicit EmptyValueData(Constraints constraints);
   ~EmptyValueData() override;
 
   EmptyValueData(const EmptyValueData& other) = delete;
@@ -39,17 +39,17 @@ public:
   EmptyValueData& operator=(const EmptyValueData& other) = delete;
   EmptyValueData& operator=(EmptyValueData&& other) = delete;
 
-  EmptyValueData* Clone(value_flags::Constraints constraints) const override;
+  EmptyValueData* Clone(Constraints constraints) const override;
   TypeCode GetTypeCode() const override;
   AnyType GetType() const override;
 
-  value_flags::Constraints GetConstraints() const override;
+  Constraints GetConstraints() const override;
 
   void ConvertFrom(const AnyValue& value) override;
 
   bool Equals(const AnyValue& other) const override;
 private:
-  value_flags::Constraints m_constraints;
+  Constraints m_constraints;
 };
 
 IValueData* CreateDefaultValueData();

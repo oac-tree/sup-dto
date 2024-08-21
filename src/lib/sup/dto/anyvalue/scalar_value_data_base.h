@@ -43,18 +43,18 @@ public:
 
   bool IsScalar() const override;
 
-  value_flags::Constraints GetConstraints() const override;
+  Constraints GetConstraints() const override;
 
 protected:
-  ScalarValueDataBase(TypeCode type_code, value_flags::Constraints constraints);
+  ScalarValueDataBase(TypeCode type_code, Constraints constraints);
 
 private:
   TypeCode m_type_code;
-  value_flags::Constraints m_constraints;
+  Constraints m_constraints;
 };
 
 ScalarValueDataBase* CreateScalarValueData(TypeCode type_code,
-                                           value_flags::Constraints constraints);
+                                           Constraints constraints);
 
 }  // namespace dto
 
