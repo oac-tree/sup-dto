@@ -29,8 +29,6 @@
 #include <sup/dto/anytype_registry.h>
 #include <sup/dto/anyvalue_exceptions.h>
 
-#include <map>
-
 namespace sup
 {
 namespace dto
@@ -167,7 +165,7 @@ bool AnyTypeBuildNode::IsComplexType() const
 AnyType AnyTypeBuildNode::GetStructuredType() const
 {
   auto result = EmptyStructType(m_type_name);
-  for (const std::pair<std::string, AnyType>& member : m_member_types)
+  for (auto& member : m_member_types)
   {
     (void)result.AddMember(member.first, member.second);
   }

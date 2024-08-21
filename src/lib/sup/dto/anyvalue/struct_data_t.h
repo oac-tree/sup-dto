@@ -179,7 +179,7 @@ bool StructDataT<T>::Equals(const T& other) const
   {
     return false;
   }
-  for (const std::pair<std::string, std::unique_ptr<T>>& member : m_members)
+  for (auto& member : m_members)
   {
     auto& other_member_field = other[member.first];
     if (other_member_field != *member.second)

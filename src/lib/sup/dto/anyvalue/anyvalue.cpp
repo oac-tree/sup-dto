@@ -119,7 +119,7 @@ AnyValue::AnyValue(std::initializer_list<std::pair<std::string, AnyValue>> membe
 {
   auto struct_data =
     std::unique_ptr<StructValueData>(new StructValueData(type_name, value_flags::Constraints::kNone));
-  for (const std::pair<std::string, AnyValue>& member : members)
+  for (auto& member : members)
   {
     struct_data->AddMember(member.first, member.second);
   }

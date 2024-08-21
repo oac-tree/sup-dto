@@ -78,7 +78,7 @@ std::map<TypeCode, std::string> ScalarTypeCodeToStringMap()
 {
   std::map<TypeCode, std::string> result;
   const auto& scalar_type_definitions = ScalarTypeDefinitions();
-  for (const std::pair<TypeCode, std::string>& entry : scalar_type_definitions)
+  for (auto& entry : scalar_type_definitions)
   {
     result[entry.first] = entry.second;
   }
