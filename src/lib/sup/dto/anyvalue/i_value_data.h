@@ -44,7 +44,7 @@ public:
   IValueData& operator=(IValueData&&) = delete;
   virtual ~IValueData();
 
-  virtual IValueData* Clone(Constraints constraints) const = 0;
+  virtual std::unique_ptr<IValueData> Clone(Constraints constraints) const = 0;
   virtual TypeCode GetTypeCode() const = 0;
   virtual std::string GetTypeName() const;
   virtual AnyType GetType() const = 0;

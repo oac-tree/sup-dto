@@ -175,7 +175,7 @@ std::unique_ptr<IValueData> StealOrClone(std::unique_ptr<IValueData>&& data)
 {
   if (IsLockedTypeConstraint(data->GetConstraints()))
   {
-    return std::unique_ptr<IValueData>{data->Clone(Constraints::kNone)};
+    return data->Clone(Constraints::kNone);
   }
   auto tmp = CreateDefaultValueData();
   std::swap(tmp, data);

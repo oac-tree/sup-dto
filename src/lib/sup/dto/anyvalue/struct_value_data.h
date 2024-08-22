@@ -44,7 +44,7 @@ public:
   StructValueData& operator=(const StructValueData& other) = delete;
   StructValueData& operator=(StructValueData&& other) = delete;
 
-  StructValueData* Clone(Constraints constraints) const override;
+  std::unique_ptr<IValueData> Clone(Constraints constraints) const override;
   TypeCode GetTypeCode() const override;
   std::string GetTypeName() const override;
   AnyType GetType() const override;

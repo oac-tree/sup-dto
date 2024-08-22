@@ -1,4 +1,4 @@
 # To-do list
 
 * Complete documentation (mostly serialize/parse)
-* IValueData.Clone: return UP
+* ITypeData.Clone: return UP

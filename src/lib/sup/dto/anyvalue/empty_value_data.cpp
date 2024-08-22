@@ -37,9 +37,9 @@ EmptyValueData::EmptyValueData(Constraints constraints)
 
 EmptyValueData::~EmptyValueData() = default;
 
-EmptyValueData* EmptyValueData::Clone(Constraints constraints) const
+std::unique_ptr<IValueData> EmptyValueData::Clone(Constraints constraints) const
 {
-  return new EmptyValueData(constraints);
+  return std::unique_ptr<IValueData>{new EmptyValueData(constraints)};
 }
 
 TypeCode EmptyValueData::GetTypeCode() const

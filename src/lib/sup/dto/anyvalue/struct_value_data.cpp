@@ -48,7 +48,7 @@ StructValueData::StructValueData(const AnyType& anytype, Constraints constraints
 
 StructValueData::~StructValueData() = default;
 
-StructValueData* StructValueData::Clone(Constraints constraints) const
+std::unique_ptr<IValueData> StructValueData::Clone(Constraints constraints) const
 {
   auto result = std::unique_ptr<StructValueData>(new StructValueData(GetTypeName(), constraints));
   for (const auto& member_name : MemberNames())
@@ -58,7 +58,7 @@ StructValueData* StructValueData::Clone(Constraints constraints) const
     data->ConvertFrom(member_val);
     result->m_member_data.AddMember(member_name, MakeAnyValue(std::move(data)));
   }
-  return result.release();
+  return std::unique_ptr<IValueData>{result.release()};
 }
 
 TypeCode StructValueData::GetTypeCode() const

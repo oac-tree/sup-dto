@@ -157,7 +157,7 @@ AnyValue& AnyValue::operator=(const AnyValue& other) &
     ConvertFrom(other);
     return *this;
   }
-  std::unique_ptr<IValueData> tmp{other.m_data->Clone(Constraints::kNone)};
+  auto tmp = other.m_data->Clone(Constraints::kNone);
   std::swap(m_data, tmp);
   return *this;
 }
@@ -171,7 +171,7 @@ AnyValue& AnyValue::operator=(AnyValue&& other) &
   }
   if (IsLockedTypeConstraint(other.m_data->GetConstraints()))
   {
-    std::unique_ptr<IValueData> tmp{other.m_data->Clone(Constraints::kNone)};
+    auto tmp = other.m_data->Clone(Constraints::kNone);
     std::swap(m_data, tmp);
   }
   else

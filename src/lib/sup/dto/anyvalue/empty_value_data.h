@@ -39,7 +39,7 @@ public:
   EmptyValueData& operator=(const EmptyValueData& other) = delete;
   EmptyValueData& operator=(EmptyValueData&& other) = delete;
 
-  EmptyValueData* Clone(Constraints constraints) const override;
+  std::unique_ptr<IValueData> Clone(Constraints constraints) const override;
   TypeCode GetTypeCode() const override;
   AnyType GetType() const override;
 
