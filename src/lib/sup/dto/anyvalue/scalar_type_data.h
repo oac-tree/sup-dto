@@ -39,7 +39,7 @@ public:
   ScalarTypeData& operator=(const ScalarTypeData& other) = delete;
   ScalarTypeData& operator=(ScalarTypeData&& other) = delete;
 
-  ScalarTypeData* Clone() const override;
+  std::unique_ptr<ITypeData> Clone() const override;
   TypeCode GetTypeCode() const override;
   std::string GetTypeName() const override;
 
@@ -49,7 +49,7 @@ private:
   TypeCode m_type_code;
 };
 
-ScalarTypeData* CreateScalarData(TypeCode type_code);
+std::unique_ptr<ITypeData> CreateScalarData(TypeCode type_code);
 
 }  // namespace dto
 

@@ -39,7 +39,7 @@ public:
   ArrayTypeData& operator=(const ArrayTypeData& other) = delete;
   ArrayTypeData& operator=(ArrayTypeData&& other) = delete;
 
-  ArrayTypeData* Clone() const override;
+  std::unique_ptr<ITypeData> Clone() const override;
   TypeCode GetTypeCode() const override;
   std::string GetTypeName() const override;
 

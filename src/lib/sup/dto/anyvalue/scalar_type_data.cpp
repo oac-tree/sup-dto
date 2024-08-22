@@ -43,9 +43,9 @@ ScalarTypeData::ScalarTypeData(TypeCode type_code)
 
 ScalarTypeData::~ScalarTypeData() = default;
 
-ScalarTypeData* ScalarTypeData::Clone() const
+std::unique_ptr<ITypeData> ScalarTypeData::Clone() const
 {
-  return new ScalarTypeData(m_type_code);
+  return std::unique_ptr<ITypeData>{new ScalarTypeData(m_type_code)};
 }
 
 TypeCode ScalarTypeData::GetTypeCode() const
@@ -63,13 +63,13 @@ bool ScalarTypeData::Equals(const AnyType& other) const
   return other.GetTypeCode() == GetTypeCode();
 }
 
-ScalarTypeData* CreateScalarData(TypeCode type_code)
+std::unique_ptr<ITypeData> CreateScalarData(TypeCode type_code)
 {
   if (!IsScalarTypeCode(type_code))
   {
     throw InvalidOperationException("Not a known scalar type code");
   }
-  return new ScalarTypeData(type_code);
+  return std::unique_ptr<ITypeData>{new ScalarTypeData(type_code)};
 }
 
 namespace

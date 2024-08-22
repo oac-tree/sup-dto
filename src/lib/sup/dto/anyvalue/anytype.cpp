@@ -39,7 +39,7 @@ std::unordered_set<TypeCode> ScalarTypes();
 }  // unnamed namespace
 
 AnyType::AnyType()
-  : AnyType{new EmptyTypeData()}
+  : AnyType{CreateDefaultTypeData()}
 {}
 
 AnyType::AnyType(TypeCode type_code)
@@ -165,8 +165,8 @@ bool AnyType::operator!=(const AnyType& other) const
   return !(this->operator==(other));
 }
 
-AnyType::AnyType(ITypeData* data)
-  : m_data{data}
+AnyType::AnyType(std::unique_ptr<ITypeData>&& data)
+  : m_data{std::move(data)}
 {}
 
 AnyType EmptyStructType(const std::string& name)

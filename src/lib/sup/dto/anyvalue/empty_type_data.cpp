@@ -32,9 +32,9 @@ EmptyTypeData::EmptyTypeData() = default;
 
 EmptyTypeData::~EmptyTypeData() = default;
 
-EmptyTypeData* EmptyTypeData::Clone() const
+std::unique_ptr<ITypeData> EmptyTypeData::Clone() const
 {
-  return new EmptyTypeData();
+  return std::unique_ptr<ITypeData>{new EmptyTypeData()};
 }
 
 TypeCode EmptyTypeData::GetTypeCode() const
@@ -50,6 +50,11 @@ std::string EmptyTypeData::GetTypeName() const
 bool EmptyTypeData::Equals(const AnyType& other) const
 {
   return other.GetTypeCode() == TypeCode::Empty;
+}
+
+std::unique_ptr<ITypeData> CreateDefaultTypeData()
+{
+  return std::unique_ptr<ITypeData>{new EmptyTypeData()};
 }
 
 }  // namespace dto

@@ -289,7 +289,7 @@ public:
   bool operator!=(const AnyType& other) const;
 
 private:
-  explicit AnyType(ITypeData* data);
+  explicit AnyType(std::unique_ptr<ITypeData>&& data);
   std::unique_ptr<ITypeData> m_data;
 };
 

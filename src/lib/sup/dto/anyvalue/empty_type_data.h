@@ -39,12 +39,14 @@ public:
   EmptyTypeData& operator=(const EmptyTypeData& other) = delete;
   EmptyTypeData& operator=(EmptyTypeData&& other) = delete;
 
-  EmptyTypeData* Clone() const override;
+  std::unique_ptr<ITypeData> Clone() const override;
   TypeCode GetTypeCode() const override;
   std::string GetTypeName() const override;
 
   bool Equals(const AnyType& other) const override;
 };
+
+std::unique_ptr<ITypeData> CreateDefaultTypeData();
 
 }  // namespace dto
 
