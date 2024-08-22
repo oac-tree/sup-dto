@@ -85,11 +85,8 @@ AnyType::AnyType(AnyType&& other) noexcept
 
 AnyType& AnyType::operator=(const AnyType& other) &
 {
-  if (this != &other)
-  {
-    auto copy = AnyType(other);
-    std::swap(m_data, copy.m_data);
-  }
+  auto copy = AnyType(other);
+  std::swap(m_data, copy.m_data);
   return *this;
 }
 
