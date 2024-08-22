@@ -41,7 +41,7 @@ StructValueData::StructValueData(const AnyType& anytype, Constraints constraints
   for (const auto& member_name : anytype.MemberNames())
   {
     const auto& member_type = anytype[member_name];
-    std::unique_ptr<IValueData> data{CreateValueData(member_type, constraints)};
+    auto data = CreateValueData(member_type, constraints);
     m_member_data.AddMember(member_name, MakeAnyValue(std::move(data)));
   }
 }
@@ -54,7 +54,7 @@ StructValueData* StructValueData::Clone(Constraints constraints) const
   for (const auto& member_name : MemberNames())
   {
     const auto& member_val = m_member_data[member_name];
-    std::unique_ptr<IValueData> data{CreateValueData(member_val.GetType(), constraints)};
+    auto data = CreateValueData(member_val.GetType(), constraints);
     data->ConvertFrom(member_val);
     result->m_member_data.AddMember(member_name, MakeAnyValue(std::move(data)));
   }
@@ -92,7 +92,7 @@ void StructValueData::AddMember(const std::string& name, const AnyValue& value)
   {
     throw InvalidOperationException("Cannot add member to struct whose type is locked");
   }
-  std::unique_ptr<IValueData> data{CreateValueData(value.GetType(), m_constraints)};
+  auto data = CreateValueData(value.GetType(), m_constraints);
   data->ConvertFrom(value);
   m_member_data.AddMember(name, MakeAnyValue(std::move(data)));
 }
@@ -138,10 +138,9 @@ bool StructValueData::Equals(const AnyValue& other) const
   return m_member_data.Equals(other);
 }
 
-StructValueData* CreateStructValueData(const AnyType& anytype, Constraints constraints)
+std::unique_ptr<IValueData> CreateStructValueData(const AnyType& anytype, Constraints constraints)
 {
-  auto result = std::unique_ptr<StructValueData>(new StructValueData(anytype, constraints));
-  return result.release();
+  return std::unique_ptr<IValueData>(new StructValueData(anytype, constraints));
 }
 
 }  // namespace dto

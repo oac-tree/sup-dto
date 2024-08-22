@@ -52,7 +52,7 @@ private:
   Constraints m_constraints;
 };
 
-IValueData* CreateDefaultValueData();
+std::unique_ptr<IValueData> CreateDefaultValueData();
 
 }  // namespace dto
 

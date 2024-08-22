@@ -33,9 +33,9 @@ namespace
 {
 using namespace sup::dto;
 template <typename T>
-IValueData* CreateUnconstrainedScalarData(const T& val)
+std::unique_ptr<IValueData> CreateUnconstrainedScalarData(const T& val)
 {
-  return new ScalarValueDataT<T>(val, Constraints::kNone);
+  return std::unique_ptr<IValueData>{new ScalarValueDataT<T>(val, Constraints::kNone)};
 }
 }  // namespace
 
@@ -183,7 +183,7 @@ AnyValue& AnyValue::operator=(AnyValue&& other) &
 
 void AnyValue::ConvertFrom(const AnyValue& other)
 {
-  std::unique_ptr<IValueData> tmp{CreateValueData(GetType(), m_data->GetConstraints())};
+  auto tmp = CreateValueData(GetType(), m_data->GetConstraints());
   tmp->ConvertFrom(other);
   std::swap(m_data, tmp);
 }
@@ -368,11 +368,7 @@ void AnyValue::UnsafeConvertFrom(const AnyValue& other)
 }
 
 AnyValue::AnyValue(std::unique_ptr<IValueData>&& data)
-  : AnyValue{data.release()}
-{}
-
-AnyValue::AnyValue(IValueData* data)
-  : m_data{data}
+  : m_data{std::move(data)}
 {}
 
 AnyValue EmptyStruct(const std::string& type_name)

@@ -177,12 +177,12 @@ std::unique_ptr<IValueData> StealOrClone(std::unique_ptr<IValueData>&& data)
   {
     return std::unique_ptr<IValueData>{data->Clone(Constraints::kNone)};
   }
-  std::unique_ptr<IValueData> tmp{CreateDefaultValueData()};
+  auto tmp = CreateDefaultValueData();
   std::swap(tmp, data);
   return tmp;
 }
 
-IValueData* CreateValueData(const AnyType& anytype, Constraints constraints)
+std::unique_ptr<IValueData> CreateValueData(const AnyType& anytype, Constraints constraints)
 {
   if (IsScalarType(anytype))
   {
@@ -196,7 +196,7 @@ IValueData* CreateValueData(const AnyType& anytype, Constraints constraints)
   {
     return CreateArrayValueData(anytype, constraints);
   }
-  return new EmptyValueData{constraints};
+  return std::unique_ptr<IValueData>{new EmptyValueData{constraints}};
 }
 
 }  // namespace dto

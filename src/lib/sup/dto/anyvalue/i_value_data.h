@@ -91,7 +91,7 @@ bool IsLockedTypeConstraint(Constraints constraints);
 
 std::unique_ptr<IValueData> StealOrClone(std::unique_ptr<IValueData>&& data);
 
-IValueData* CreateValueData(const AnyType& anytype, Constraints constraints);
+std::unique_ptr<IValueData> CreateValueData(const AnyType& anytype, Constraints constraints);
 
 }  // namespace dto
 

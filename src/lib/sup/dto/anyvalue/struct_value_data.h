@@ -67,8 +67,7 @@ private:
   Constraints m_constraints;
 };
 
-StructValueData* CreateStructValueData(const AnyType& anytype,
-                                       Constraints constraints);
+std::unique_ptr<IValueData> CreateStructValueData(const AnyType& anytype, Constraints constraints);
 
 }  // namespace dto
 

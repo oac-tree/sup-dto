@@ -393,7 +393,6 @@ public:
 
 private:
   explicit AnyValue(std::unique_ptr<IValueData>&& data);
-  explicit AnyValue(IValueData* data);
   friend class IValueData;
   std::unique_ptr<IValueData> m_data;
 };

@@ -67,8 +67,7 @@ private:
   Constraints m_constraints;
 };
 
-ArrayValueData* CreateArrayValueData(const AnyType& anytype,
-                                     Constraints constraints);
+std::unique_ptr<IValueData> CreateArrayValueData(const AnyType& anytype, Constraints constraints);
 
 /**
  * @brief Strips the index from the fieldname.

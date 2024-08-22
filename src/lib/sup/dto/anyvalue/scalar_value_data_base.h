@@ -53,8 +53,7 @@ private:
   Constraints m_constraints;
 };
 
-ScalarValueDataBase* CreateScalarValueData(TypeCode type_code,
-                                           Constraints constraints);
+std::unique_ptr<IValueData> CreateScalarValueData(TypeCode type_code, Constraints constraints);
 
 }  // namespace dto
 

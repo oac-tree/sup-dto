@@ -70,9 +70,9 @@ bool EmptyValueData::Equals(const AnyValue& other) const
   return other.GetTypeCode() == TypeCode::Empty;
 }
 
-IValueData* CreateDefaultValueData()
+std::unique_ptr<IValueData> CreateDefaultValueData()
 {
-  return new EmptyValueData{Constraints::kNone};
+  return std::unique_ptr<IValueData>{new EmptyValueData{Constraints::kNone}};
 }
 
 }  // namespace dto

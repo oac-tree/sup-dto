@@ -45,7 +45,7 @@ ArrayValueData::ArrayValueData(std::size_t size, const AnyType& elem_type,
   }
   for (std::size_t i = 0u; i < size; ++i)
   {
-    std::unique_ptr<IValueData> data{CreateValueData(m_elem_type, Constraints::kLockedType)};
+    auto data = CreateValueData(m_elem_type, Constraints::kLockedType);
     m_elements.push_back(MakeAnyValue(std::move(data)));
   }
 }
@@ -89,7 +89,7 @@ void ArrayValueData::AddElement(const AnyValue& value)
   {
     throw InvalidOperationException("Cannot add element to array whose type is locked");
   }
-  std::unique_ptr<IValueData> data{CreateValueData(m_elem_type, Constraints::kLockedType)};
+  auto data = CreateValueData(m_elem_type, Constraints::kLockedType);
   data->ConvertFrom(value);
   m_elements.push_back(MakeAnyValue(std::move(data)));
 }
@@ -217,12 +217,12 @@ std::pair<std::size_t, std::string> StripValueIndex(const std::string& fieldname
   return { idx, remainder };
 }
 
-ArrayValueData* CreateArrayValueData(const AnyType& anytype, Constraints constraints)
+std::unique_ptr<IValueData> CreateArrayValueData(const AnyType& anytype,
+                                                 Constraints constraints)
 {
-  auto result = std::unique_ptr<ArrayValueData>(
+  return std::unique_ptr<IValueData>(
     new ArrayValueData(anytype.NumberOfElements(), anytype.ElementType(), anytype.GetTypeName(),
                        constraints));
-  return result.release();
 }
 
 }  // namespace dto

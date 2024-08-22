@@ -70,9 +70,15 @@ Constraints ScalarValueDataBase::GetConstraints() const
   return m_constraints;
 }
 
-ScalarValueDataBase* CreateScalarValueData(TypeCode type_code, Constraints constraints)
+template <typename T>
+std::unique_ptr<IValueData> ScalarValueConstructor(Constraints constraints)
 {
-  using ScalarValueDataConstructor = std::function<ScalarValueDataBase*(Constraints)>;
+    return std::unique_ptr<IValueData>{new ScalarValueDataT<T>{T{}, constraints}};
+}
+
+std::unique_ptr<IValueData> CreateScalarValueData(TypeCode type_code, Constraints constraints)
+{
+  using ScalarValueDataConstructor = std::function<std::unique_ptr<IValueData>(Constraints)>;
   static const std::map<TypeCode, ScalarValueDataConstructor> constructor_map {
     {TypeCode::Bool, ScalarValueConstructor<boolean> },
     {TypeCode::Char8, ScalarValueConstructor<char8> },
