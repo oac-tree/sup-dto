@@ -1,6 +1,7 @@
 Changes for 1.4.0:
 
 - Support added for comparison of scalar integral type with different signedness
+- Improve code quality
 
 Changes for 1.3.0:
 
