@@ -1,7 +1,5 @@
 add_executable(performance-tests)
 
-target_compile_features(performance-tests PRIVATE cxx_std_11)
-
 target_sources(performance-tests
   PRIVATE
     main.cpp

@@ -1,7 +1,5 @@
 add_executable(unit-tests)
 
-target_compile_features(unit-tests PRIVATE cxx_std_11)
-
 configure_file(${CMAKE_CURRENT_LIST_DIR}/test_config.h.in ${SUP_DTO_AUTOGEN_DIR}/test_config.h @ONLY)
 
 target_sources(unit-tests

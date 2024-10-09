@@ -1,8 +1,6 @@
 add_library(sup-dto-obj OBJECT)
 set_property(TARGET sup-dto-obj PROPERTY POSITION_INDEPENDENT_CODE 1)
 
-target_compile_features(sup-dto-obj PRIVATE cxx_std_11)
-
 add_library(sup-dto-shared SHARED)
 add_library(sup-dto-static STATIC)
 
