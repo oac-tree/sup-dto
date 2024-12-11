@@ -28,6 +28,9 @@ namespace
 using namespace sup::dto;
 CompareResult Invert(CompareResult result);
 
+CompareResult CompareSignedUnsignedIntegers(const AnyValue& signed_val,
+                                            const AnyValue& unsigned_val);
+
 /**
  * Templated comparison assumes both AnyValues can be cast to T and that there is a total order
  * for values of type T. Unsupported types will use the function UnsupportedCompare below.
@@ -161,14 +164,9 @@ CompareResult CompareMixedIntegers(const AnyValue& lhs, const AnyValue& rhs, boo
 {
   if (!left_is_signed)
   {
-    return Invert(CompareMixedIntegers(rhs, lhs, true));
+    return Invert(CompareSignedUnsignedIntegers(rhs, lhs));
   }
-  auto left = lhs.As<int64>();
-  if (left < 0)
-  {
-    return CompareResult::Less;
-  }
-  return CompareT<uint64>(lhs, rhs);
+  return CompareSignedUnsignedIntegers(lhs, rhs);
 }
 
 UnaryOperatorFunction GetIncrementFunction(TypeCode type_code)
@@ -238,5 +236,16 @@ CompareResult Invert(CompareResult result)
   }
   return result;
 }
-}  // unnamed namespace
 
+CompareResult CompareSignedUnsignedIntegers(const AnyValue& signed_val,
+                                            const AnyValue& unsigned_val)
+{
+  auto left = signed_val.As<int64>();
+  if (left < 0)
+  {
+    return CompareResult::Less;
+  }
+  return CompareT<sup::dto::uint64>(signed_val, unsigned_val);
+}
+
+}  // unnamed namespace
