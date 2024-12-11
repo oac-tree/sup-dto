@@ -32,11 +32,12 @@ class ITypeData
 {
 public:
   ITypeData() = default;
-  ITypeData(const ITypeData&) = default;
-  ITypeData& operator=(const ITypeData&) = default;
+  virtual ~ITypeData();
+
+  ITypeData(const ITypeData&) = delete;
+  ITypeData& operator=(const ITypeData&) = delete;
   ITypeData(ITypeData&&) = delete;
   ITypeData& operator=(ITypeData&&) = delete;
-  virtual ~ITypeData();
 
   virtual std::unique_ptr<ITypeData> Clone() const = 0;
   virtual TypeCode GetTypeCode() const = 0;

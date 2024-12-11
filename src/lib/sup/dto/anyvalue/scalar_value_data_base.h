@@ -31,11 +31,12 @@ namespace dto
 class ScalarValueDataBase : public IValueData
 {
 public:
-  ScalarValueDataBase(const ScalarValueDataBase& other) = default;
-  ScalarValueDataBase& operator=(const ScalarValueDataBase&) = default;
+  virtual ~ScalarValueDataBase();
+
+  ScalarValueDataBase(const ScalarValueDataBase& other) = delete;
+  ScalarValueDataBase& operator=(const ScalarValueDataBase&) = delete;
   ScalarValueDataBase(ScalarValueDataBase&& other) = delete;
   ScalarValueDataBase& operator=(ScalarValueDataBase&&) = delete;
-  ~ScalarValueDataBase() override;
 
   TypeCode GetTypeCode() const override;
 

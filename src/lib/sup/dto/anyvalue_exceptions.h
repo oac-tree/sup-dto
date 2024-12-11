@@ -38,6 +38,8 @@ public:
   explicit MessageException(std::string message);
   MessageException(const MessageException& other) = default;
   MessageException& operator=(const MessageException& other) & = default;
+  MessageException(MessageException&&) = default;
+  MessageException& operator=(MessageException&&) = default;
 
   const char* what() const noexcept override;
 private:

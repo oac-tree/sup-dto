@@ -38,7 +38,13 @@ template <typename T>
 class IAnyVisitor
 {
 public:
+  IAnyVisitor() = default;
   virtual ~IAnyVisitor() = default;
+
+  IAnyVisitor(const IAnyVisitor&) = delete;
+  IAnyVisitor& operator=(const IAnyVisitor&) = delete;
+  IAnyVisitor(IAnyVisitor&&) = delete;
+  IAnyVisitor& operator=(IAnyVisitor&&) = delete;
 
   virtual void EmptyProlog(T* val) = 0;
   virtual void EmptyEpilog(T* val) = 0;

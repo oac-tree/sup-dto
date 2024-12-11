@@ -38,11 +38,12 @@ class IValueData
 {
 public:
   IValueData() = default;
-  IValueData(const IValueData&) = default;
-  IValueData& operator=(const IValueData&) = default;
+  virtual ~IValueData();
+
+  IValueData(const IValueData&) = delete;
+  IValueData& operator=(const IValueData&) = delete;
   IValueData(IValueData&&) = delete;
   IValueData& operator=(IValueData&&) = delete;
-  virtual ~IValueData();
 
   virtual std::unique_ptr<IValueData> Clone(Constraints constraints) const = 0;
   virtual TypeCode GetTypeCode() const = 0;

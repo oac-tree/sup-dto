@@ -40,11 +40,12 @@ class IWriter
 public:
 
   IWriter() = default;
-  IWriter(const IWriter&) = default;
-  IWriter& operator=(const IWriter&) = default;
+  virtual ~IWriter();
+
+  IWriter(const IWriter&) = delete;
+  IWriter& operator=(const IWriter&) = delete;
   IWriter(IWriter&&) = delete;
   IWriter& operator=(IWriter&&) = delete;
-  virtual ~IWriter();
 
   virtual bool Null() = 0;
   virtual bool Bool(boolean b) = 0;
