@@ -38,7 +38,7 @@ namespace
 std::unordered_set<TypeCode> ScalarTypes();
 }  // unnamed namespace
 
-AnyType::AnyType()
+AnyType::AnyType() noexcept
   : AnyType{CreateDefaultTypeData()}
 {}
 

@@ -49,7 +49,7 @@ public:
   /**
    * @brief Default constructor creates empty value.
    */
-  AnyValue();
+  AnyValue() noexcept;
 
   /**
    * @brief Constructor with type specification.
@@ -159,7 +159,7 @@ public:
    *
    * @param other Source AnyValue for move construction.
    */
-  AnyValue(AnyValue&& other);
+  AnyValue(AnyValue&& other) noexcept;
 
   /**
    * @brief Copy assignment.

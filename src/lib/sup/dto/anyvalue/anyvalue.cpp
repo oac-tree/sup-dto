@@ -43,7 +43,7 @@ namespace sup
 {
 namespace dto
 {
-AnyValue::AnyValue()
+AnyValue::AnyValue() noexcept
   : AnyValue{CreateDefaultValueData()}
 {}
 
@@ -146,19 +146,24 @@ AnyValue::AnyValue(const AnyValue& other)
   : AnyValue{other.m_data->Clone(Constraints::kNone)}
 {}
 
-AnyValue::AnyValue(AnyValue&& other)
+AnyValue::AnyValue(AnyValue&& other) noexcept
   : AnyValue{StealOrClone(std::move(other.m_data))}
 {}
 
 AnyValue& AnyValue::operator=(const AnyValue& other) &
 {
-  if (IsLockedTypeConstraint(m_data->GetConstraints()))
+  if (this != std::addressof(other))
   {
-    ConvertFrom(other);
-    return *this;
+    if (IsLockedTypeConstraint(m_data->GetConstraints()))
+    {
+      ConvertFrom(other);
+    }
+    else
+    {
+      auto tmp = other.m_data->Clone(Constraints::kNone);
+      std::swap(m_data, tmp);
+    }
   }
-  auto tmp = other.m_data->Clone(Constraints::kNone);
-  std::swap(m_data, tmp);
   return *this;
 }
 

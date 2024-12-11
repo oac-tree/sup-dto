@@ -81,7 +81,7 @@ public:
   /**
    * @brief Default constructor creates empty type.
    */
-  AnyType();
+  AnyType() noexcept;
 
   /**
    * @brief Constructor with typecode. Only for scalar types.
