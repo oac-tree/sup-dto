@@ -82,7 +82,7 @@ void AppendScalarT(std::vector<uint8>& representation, const T& val)
   std::array<uint8, sizeof(T)> buffer{};
   for (std::size_t i = 0; i < sizeof(T); ++i)
   {
-    buffer[i] = u_val & BitConstants::kLSBMask;
+    buffer[i] = static_cast<uint8>(u_val & BitConstants::kLSBMask);
     u_val >>= BitConstants::kBitsPerByte;
   }
   (void)representation.insert(representation.cend(), buffer.cbegin(), buffer.cend());
