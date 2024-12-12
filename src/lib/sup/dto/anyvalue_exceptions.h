@@ -36,12 +36,14 @@ class MessageException : public std::exception
 {
 public:
   explicit MessageException(std::string message);
+  ~MessageException() override = default;
+
+  const char* what() const noexcept override;
+protected:
   MessageException(const MessageException& other) = default;
   MessageException& operator=(const MessageException& other) & = default;
   MessageException(MessageException&&) = default;
   MessageException& operator=(MessageException&&) = default;
-
-  const char* what() const noexcept override;
 private:
   std::string m_message;
 };
@@ -56,6 +58,8 @@ public:
   ~InvalidConversionException() override = default;
   InvalidConversionException(const InvalidConversionException& other) = default;
   InvalidConversionException& operator=(const InvalidConversionException& other) & = default;
+  InvalidConversionException(InvalidConversionException&&) = default;
+  InvalidConversionException& operator=(InvalidConversionException&&) = default;
 };
 
 /**
@@ -68,6 +72,8 @@ public:
   ~InvalidOperationException() override = default;
   InvalidOperationException(const InvalidOperationException& other) = default;
   InvalidOperationException& operator=(const InvalidOperationException& other) & = default;
+  InvalidOperationException(InvalidOperationException&&) = default;
+  InvalidOperationException& operator=(InvalidOperationException&&) = default;
 };
 
 /**
@@ -80,6 +86,8 @@ public:
   ~SerializeException() override = default;
   SerializeException(const SerializeException& other) = default;
   SerializeException& operator=(const SerializeException& other) & = default;
+  SerializeException(SerializeException&&) = default;
+  SerializeException& operator=(SerializeException&&) = default;
 };
 
 /**
@@ -92,6 +100,8 @@ public:
   ~ParseException() override = default;
   ParseException(const ParseException& other) = default;
   ParseException& operator=(const ParseException& other) & = default;
+  ParseException(ParseException&&) = default;
+  ParseException& operator=(ParseException&&) = default;
 };
 
 }  // namespace dto
