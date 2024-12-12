@@ -42,8 +42,8 @@ public:
 
   AbstractTypeComposerComponent();
   explicit AbstractTypeComposerComponent(const sup::dto::AnyType& anytype);
-  AbstractTypeComposerComponent(const AbstractTypeComposerComponent&) = default;
-  AbstractTypeComposerComponent& operator=(const AbstractTypeComposerComponent&) = default;
+  AbstractTypeComposerComponent(const AbstractTypeComposerComponent&) = delete;
+  AbstractTypeComposerComponent& operator=(const AbstractTypeComposerComponent&) = delete;
   AbstractTypeComposerComponent(AbstractTypeComposerComponent&&) = delete;
   AbstractTypeComposerComponent& operator=(AbstractTypeComposerComponent&&) = delete;
 
