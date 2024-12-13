@@ -20,6 +20,7 @@
  ******************************************************************************/
 
 #include "scalar_to_bytes.h"
+#include "arithmetic_to_bytes_t.h"
 
 #include <sup/dto/anyvalue.h>
 
@@ -34,10 +35,7 @@ template <typename T>
 std::vector<uint8> ScalarToBytesT(const AnyValue& anyvalue)
 {
   T val = anyvalue.As<T>();
-  auto size = sizeof(T);
-  std::vector<uint8> result(size);
-  (void)std::memcpy(result.data(), &val, size);
-  return result;
+  return ArithmeticToBytesT(val);
 }
 
 template <>

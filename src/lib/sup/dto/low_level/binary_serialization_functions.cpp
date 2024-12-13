@@ -20,7 +20,7 @@
  ******************************************************************************/
 
 #include "binary_serialization_functions.h"
-#include "append_scalar_t.h"
+#include "arithmetic_to_bytes_t.h"
 
 #include <sup/dto/serialize/binary_tokens.h>
 
@@ -35,7 +35,7 @@ template <typename T>
 void AppendScalarAnyValueT(std::vector<uint8>& representation, const AnyValue& anyvalue)
 {
   T val = anyvalue.As<T>();
-  AppendScalarT(representation, val);
+  AppendScalarBytesT(representation, val);
 }
 
 void AppendBinaryStringAnyValue(std::vector<uint8>& representation, const AnyValue& anyvalue)
@@ -84,7 +84,7 @@ void AppendSize(std::vector<sup::dto::uint8>& representation, sup::dto::uint64 s
   else
   {
     representation.push_back(LONG_SIZE_TOKEN);
-    AppendScalarT(representation, size);
+    AppendScalarBytesT(representation, size);
   }
 }
 

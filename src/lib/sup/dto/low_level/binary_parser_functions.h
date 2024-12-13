@@ -22,7 +22,7 @@
 #ifndef SUP_DTO_BINARY_PARSER_FUNCTIONS_H_
 #define SUP_DTO_BINARY_PARSER_FUNCTIONS_H_
 
-#include "append_scalar_t.h"
+#include "arithmetic_to_bytes_t.h"
 
 #include <sup/dto/parse/binary_parser.h>
 

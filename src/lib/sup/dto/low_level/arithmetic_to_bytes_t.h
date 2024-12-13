@@ -19,8 +19,8 @@
  * of the distribution package.
  ******************************************************************************/
 
-#ifndef SUP_DTO_APPEND_SCALAR_T_H_
-#define SUP_DTO_APPEND_SCALAR_T_H_
+#ifndef SUP_DTO_ARITHMETIC_TO_BYTES_T_H_
+#define SUP_DTO_ARITHMETIC_TO_BYTES_T_H_
 
 #include <sup/dto/basic_scalar_types.h>
 
@@ -76,46 +76,56 @@ using UnsignedRepresentationType = typename UnsignedRepresentation<Size>::type;
 // format, which would allow a more performant implementation (if required) on these systems.
 template <typename T,
           typename std::enable_if<std::is_integral<T>::value && (sizeof(T) > 1), bool>::type = true>
-void AppendScalarT(std::vector<uint8>& representation, const T& val)
+std::vector<uint8> ArithmeticToBytesT(const T& val)
 {
   auto u_val = static_cast<UnsignedRepresentationType<sizeof(T)>>(val);
-  std::array<uint8, sizeof(T)> buffer{};
+  std::vector<uint8> result(sizeof(T), 0);
   for (std::size_t i = 0; i < sizeof(T); ++i)
   {
-    buffer[i] = static_cast<uint8>(u_val & BitConstants::kLSBMask);
+    result[i] = static_cast<uint8>(u_val & BitConstants::kLSBMask);
     u_val >>= BitConstants::kBitsPerByte;
   }
-  (void)representation.insert(representation.cend(), buffer.cbegin(), buffer.cend());
+  return result;
 }
 
 // Specialization for integers with sizeof(T) == 1
 template <typename T,
           typename std::enable_if<std::is_integral<T>::value && (sizeof(T) == 1), bool>::type = true>
-void AppendScalarT(std::vector<uint8> &representation, const T &val)
+std::vector<uint8> ArithmeticToBytesT(const T &val)
 {
   auto u_val = static_cast<UnsignedRepresentationType<sizeof(T)>>(val);
-  representation.push_back(u_val);
+  std::vector<uint8> result{};
+  result.push_back(u_val);
+  return result;
 }
 
 // Specialization for floating points
 // This implementation assumes that the same endianness is used for floating point values as
 // for integral values.
 template <typename T, typename std::enable_if<std::is_floating_point<T>::value, bool>::type = true>
-void AppendScalarT(std::vector<uint8>& representation, const T& val)
+std::vector<uint8> ArithmeticToBytesT(const T& val)
 {
   UnsignedRepresentationType<sizeof(T)> u_val{};
   (void)std::memcpy(&u_val, std::addressof(val), sizeof(T));
-  std::array<uint8, sizeof(T)> buffer{};
+  std::vector<uint8> result(sizeof(T), 0);
   for (std::size_t i = 0; i < sizeof(T); ++i)
   {
-    buffer[i] = static_cast<uint8>(u_val & BitConstants::kLSBMask);
+    result[i] = static_cast<uint8>(u_val & BitConstants::kLSBMask);
     u_val >>= BitConstants::kBitsPerByte;
   }
-  (void)representation.insert(representation.cend(), buffer.cbegin(), buffer.cend());
+  return result;
+}
+
+// Append the binary representation of an arithmetic value to the provided byte stream.
+template <typename T>
+void AppendScalarBytesT(std::vector<uint8>& representation, const T& val)
+{
+  auto val_rep = ArithmeticToBytesT(val);
+  (void)representation.insert(representation.cend(), val_rep.cbegin(), val_rep.cend());
 }
 
 }  // namespace dto
 
 }  // namespace sup
 
-#endif  // SUP_DTO_APPEND_SCALAR_T_H_
+#endif  // SUP_DTO_ARITHMETIC_TO_BYTES_T_H_
