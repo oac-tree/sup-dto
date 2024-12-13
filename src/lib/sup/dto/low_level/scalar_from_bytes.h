@@ -22,6 +22,8 @@
 #ifndef SUP_DTO_SCALAR_FROM_BYTES_H_
 #define SUP_DTO_SCALAR_FROM_BYTES_H_
 
+#include "binary_parser_functions.h"
+
 #include <sup/dto/anyvalue.h>
 
 #include <algorithm>
@@ -39,8 +41,10 @@ std::size_t AssignBytes(AnyValue& anyvalue, const uint8* bytes, std::size_t size
   {
     throw ParseException("Trying to parse beyond size of byte array");
   }
-  const T* p_val = reinterpret_cast<const T*>(&bytes[position]);
-  anyvalue = *p_val;
+  std::vector<uint8> byte_vector(bytes + position, bytes + position + sizeof(T));
+  auto begin_it = byte_vector.cbegin();
+  auto val = ParseBinaryScalarT<T>(begin_it, byte_vector.cend());
+  anyvalue = val;
   return position + sizeof(T);
 }
 

@@ -445,18 +445,20 @@ bool IsScalarValue(const AnyValue& anyvalue);
 
 /**
  * @brief Serialize an AnyValue to an array of bytes.
+ * @deprecated Use `AnyValueToBinary` instead.
  *
  * @param anyvalue AnyValue object to serialize.
  *
  * @throws SerializeException Thrown when the AnyValue cannot be correctly serialized into a byte
  * array (e.g. string field too long or unknown scalar type).
  *
- * @note This serialization is used to cast to C-type structures.
+ * @note This serialization was used to cast to C-type structures.
  */
 std::vector<uint8> ToBytes(const AnyValue& anyvalue);
 
 /**
  * @brief Parse AnyValue content from an array of bytes.
+ * @deprecated Use `AnyValueFromBinary` instead.
  *
  * @param anyvalue AnyValue object to assign to.
  * @param bytes Array of bytes.
@@ -465,7 +467,7 @@ std::vector<uint8> ToBytes(const AnyValue& anyvalue);
  * @throws ParseException Thrown when the byte array cannot be correctly parsed (e.g. sizes
  * don't match, absence of null terminator in C-style string or unknown scalar type).
  *
- * @note This method is used to cast from C-type structures.
+ * @note This method was used to cast from C-type structures.
  */
 void FromBytes(AnyValue& anyvalue, const uint8* bytes, std::size_t total_size);
 
