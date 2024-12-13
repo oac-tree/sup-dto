@@ -1,3 +1,7 @@
+Changes for 1.5.0:
+
+- SW QA: unit now passing Sonar report
+
 Changes for 1.4.0:
 
 - Support added for comparison of scalar integral type with different signedness
