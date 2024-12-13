@@ -22,7 +22,7 @@
 #ifndef SUP_DTO_SCALAR_VALUE_DATA_H_
 #define SUP_DTO_SCALAR_VALUE_DATA_H_
 
-#include <sup/dto/anyvalue/scalar_conversion.h>
+#include <sup/dto/low_level/scalar_conversion.h>
 #include <sup/dto/anyvalue/scalar_value_data_base.h>
 
 namespace sup

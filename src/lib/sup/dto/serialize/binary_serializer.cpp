@@ -21,8 +21,7 @@
 
 #include "binary_serializer.h"
 
-#include <sup/dto/serialize/append_scalar_t.h>
-#include <sup/dto/serialize/binary_serialization_functions.h>
+#include <sup/dto/low_level/binary_serialization_functions.h>
 #include <sup/dto/serialize/binary_tokens.h>
 
 #include <sup/dto/anyvalue.h>

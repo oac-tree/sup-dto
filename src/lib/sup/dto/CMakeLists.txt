@@ -43,6 +43,7 @@ target_include_directories(sup-dto-static PUBLIC
 add_subdirectory(anyvalue)
 add_subdirectory(composer)
 add_subdirectory(json)
+add_subdirectory(low_level)
 add_subdirectory(parse)
 add_subdirectory(serialize)
 add_subdirectory(visit)

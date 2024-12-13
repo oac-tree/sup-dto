@@ -42,7 +42,7 @@
         <!-- -->
         <sonar.language>cpp</sonar.language>
         <sonar.sources.cpp>src</sonar.sources.cpp>
-        <sonar.exclusions>src/lib/sup/dto/rapidjson/**, src/lib/sup/dto/anyvalue/scalar_conversion.h</sonar.exclusions>
+        <sonar.exclusions>src/lib/sup/dto/rapidjson/**, src/lib/sup/dto/low_level/**</sonar.exclusions>
     </properties>
 
     <!-- Parent pom.xml -->

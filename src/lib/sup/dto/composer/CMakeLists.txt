@@ -1,5 +1,3 @@
-# Files to build AnyValue in stepwise manner
-
 target_sources(sup-dto-obj
   PRIVATE
     abstract_type_composer_component.cpp

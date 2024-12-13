@@ -20,8 +20,8 @@
  ******************************************************************************/
 
 #include "binary_serialization_functions.h"
+#include "append_scalar_t.h"
 
-#include <sup/dto/serialize/append_scalar_t.h>
 #include <sup/dto/serialize/binary_tokens.h>
 
 #include <sup/dto/anyvalue.h>

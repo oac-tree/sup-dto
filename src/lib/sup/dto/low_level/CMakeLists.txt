@@ -1,12 +1,11 @@
 target_sources(sup-dto-obj
   PRIVATE
-    binary_serializer.cpp
-    ctype_serializer.cpp
-    i_writer.cpp
-    writer_serializer.cpp
+    binary_parser_functions.cpp
+    binary_serialization_functions.cpp
+    scalar_to_bytes.cpp
 )
 
 target_include_directories(sup-dto-obj
-  PRIVATE
+    PRIVATE
     ${CMAKE_CURRENT_LIST_DIR}
 )

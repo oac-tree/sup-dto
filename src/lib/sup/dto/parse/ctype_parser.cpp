@@ -21,7 +21,7 @@
 
 #include "ctype_parser.h"
 
-#include <sup/dto/parse/scalar_from_bytes.h>
+#include <sup/dto/low_level/scalar_from_bytes.h>
 
 #include <sup/dto/anyvalue.h>
 

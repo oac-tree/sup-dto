@@ -23,7 +23,7 @@
 #define SUP_DTO_BINARY_TYPE_PARSER_HELPER_H_
 
 #include <sup/dto/parse/binary_parser.h>
-#include <sup/dto/parse/binary_parser_functions.h>
+#include <sup/dto/low_level/binary_parser_functions.h>
 
 #include <sup/dto/anytype_composer.h>
 

@@ -12,7 +12,6 @@ target_sources(sup-dto-obj
     anyvalue_valueelement_buildnode.cpp
     anyvalue_value_builder.cpp
     arrayvalue_buildnode.cpp
-    binary_parser_functions.cpp
     binary_parser.cpp
     binary_type_parser_helper.cpp
     binary_value_parser.cpp

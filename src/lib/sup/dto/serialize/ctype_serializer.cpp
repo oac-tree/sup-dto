@@ -21,7 +21,7 @@
 
 #include "ctype_serializer.h"
 
-#include <sup/dto/serialize/scalar_to_bytes.h>
+#include <sup/dto/low_level/scalar_to_bytes.h>
 
 #include <sup/dto/anyvalue.h>
 
