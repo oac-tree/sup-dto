@@ -88,17 +88,39 @@ TEST_F(JSONFileTest, AnyValueToFromFile)
   complex_struct_val["validated"] = false;
 
   JSONAnyValueParser parser;
+  // Full value parsing
   auto filename = GetLocalFilename("complex_struct_value.json");
   EXPECT_NO_THROW(AnyValueToJSONFile(complex_struct_val, filename));
   EXPECT_TRUE(parser.ParseFile(filename));
   auto parsed_value = parser.MoveAnyValue();
   EXPECT_EQ(parsed_value, complex_struct_val);
+  // Typed value parsing success
+  auto filename_value_only = GetLocalFilename("complex_struct_value_only.json");
+  EXPECT_NO_THROW(ValuesToJSONFile(complex_struct_val, filename_value_only));
+  EXPECT_TRUE(parser.TypedParseFile(complex_struct_type, filename_value_only));
+  parsed_value = parser.MoveAnyValue();
+  EXPECT_EQ(parsed_value, complex_struct_val);
+  // Typed value parsing failure because of wrong type
+  EXPECT_FALSE(parser.TypedParseFile(simple_struct_type, filename_value_only));
+  parsed_value = parser.MoveAnyValue();
+  EXPECT_TRUE(IsEmptyValue(parsed_value));
 
+  // Full value parsing (pretty json)
   auto filename_pretty = GetLocalFilename("complex_struct_value_pretty.json");
   EXPECT_NO_THROW(AnyValueToJSONFile(complex_struct_val, filename_pretty, true));
   EXPECT_TRUE(parser.ParseFile(filename_pretty));
   auto parsed_value_pretty = parser.MoveAnyValue();
   EXPECT_EQ(parsed_value_pretty, complex_struct_val);
+  // Typed value parsing success
+  auto filename_value_only_pretty = GetLocalFilename("complex_struct_value_only_pretty.json");
+  EXPECT_NO_THROW(ValuesToJSONFile(complex_struct_val, filename_value_only_pretty, true));
+  EXPECT_TRUE(parser.TypedParseFile(complex_struct_type, filename_value_only_pretty));
+  parsed_value = parser.MoveAnyValue();
+  EXPECT_EQ(parsed_value, complex_struct_val);
+  // Typed value parsing failure because of wrong type
+  EXPECT_FALSE(parser.TypedParseFile(simple_struct_type, filename_value_only_pretty));
+  parsed_value = parser.MoveAnyValue();
+  EXPECT_TRUE(IsEmptyValue(parsed_value));
 }
 
 TEST_F(JSONFileTest, FailureToOpenFile)

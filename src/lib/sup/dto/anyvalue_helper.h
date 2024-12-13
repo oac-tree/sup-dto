@@ -135,6 +135,35 @@ std::string AnyValueToJSONString(const AnyValue& anyvalue, bool pretty);
 std::string AnyValueToJSONString(const AnyValue& anyvalue);
 
 /**
+ * @brief Serialize the values of an AnyValue to a JSON file.
+ *
+ * @param anyvalue AnyValue object to serialize.
+ * @param filename Filename to use.
+ * @param pretty Use pretty printing.
+ *
+ * @throws SerializeException Thrown when the JSON representation of the AnyValue could not be
+ * written to the file with given filename.
+ *
+ * @note This serialization is meant to be reversible. The JSON file will contain only the values of
+ * the leaf nodes without any type information.
+ */
+void ValuesToJSONFile(const AnyValue& anyvalue, const std::string& filename, bool pretty);
+
+/**
+ * @brief Serialize the values of an AnyValue to a JSON file (default without pretty printing).
+ *
+ * @param anyvalue AnyValue object to serialize.
+ * @param filename Filename to use.
+ *
+ * @throws SerializeException Thrown when the JSON representation of the AnyValue could not be
+ * written to the file with given filename.
+ *
+ * @note This serialization is meant to be reversible. The JSON file will contain only the values of
+ * the leaf nodes without any type information.
+ */
+void ValuesToJSONFile(const AnyValue& anyvalue, const std::string& filename);
+
+/**
  * @brief Serialize an AnyValue to a JSON file.
  *
  * @param anyvalue AnyValue object to serialize.

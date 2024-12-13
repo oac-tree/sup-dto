@@ -131,6 +131,21 @@ std::string AnyValueToJSONString(const AnyValue& anyvalue)
   return AnyValueToJSONString(anyvalue, false);
 }
 
+void ValuesToJSONFile(const AnyValue& anyvalue, const std::string& filename, bool pretty)
+{
+  std::ofstream ofs(filename);
+  if (!ofs.is_open())
+  {
+    throw SerializeException("ValuesToJSONFile could not open the file for writing");
+  }
+  JSONSerializeAnyValueValues(ofs, anyvalue, pretty);
+}
+
+void ValuesToJSONFile(const AnyValue& anyvalue, const std::string& filename)
+{
+  return ValuesToJSONFile(anyvalue, filename, false);
+}
+
 void AnyValueToJSONFile(const AnyValue& anyvalue, const std::string& filename, bool pretty)
 {
   std::ofstream ofs(filename);
