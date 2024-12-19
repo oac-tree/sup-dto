@@ -37,7 +37,7 @@ public:
   bool CheckAddTypeComponent(Args&&... args)
   {
     std::stack<AbstractTypeComposerComponent::component_t> stack;
-    stack.push(std::unique_ptr<T>(new T((args)...)));
+    stack.push(std::make_unique<T>((args)...));
     return CanAddTypeComponent(stack);
   }
 
@@ -45,7 +45,7 @@ public:
   void ValidateCompletedTypeComponent(Args&&... args)
   {
     std::stack<AbstractTypeComposerComponent::component_t> stack;
-    stack.push(std::unique_ptr<T>(new T((args)...)));
+    stack.push(std::make_unique<T>((args)...));
     ValidateIfTypeComponentIsComplete(stack);
   }
 };
@@ -81,8 +81,7 @@ TEST_F(AnyTypeComposerHelperTests, ValidateAddTypeComponent)
 
   {  // it is not possible to add value node if stack contains StartStructTypeComposerComponent
     std::stack<AbstractTypeComposerComponent::component_t> stack;
-    stack.push(std::unique_ptr<StartStructTypeComposerComponent>(
-      new StartStructTypeComposerComponent("name")));
+    stack.push(std::make_unique<StartStructTypeComposerComponent>("name"));
     EXPECT_THROW(ValidateAddTypeComponent(stack), sup::dto::ParseException);
   }
   // More tests above in CanAddTypeComponent.
@@ -95,8 +94,7 @@ TEST_F(AnyTypeComposerHelperTests, ValidateLastTypeComponent)
   EXPECT_THROW(ValidateLastTypeComponent(stack, AbstractTypeComposerComponent::Type::kStartArray),
                sup::dto::ParseException);
 
-  stack.push(std::unique_ptr<StartStructTypeComposerComponent>(
-    new StartStructTypeComposerComponent("name")));
+  stack.push(std::make_unique<StartStructTypeComposerComponent>("name"));
   EXPECT_NO_THROW(ValidateLastTypeComponent(
     stack, AbstractTypeComposerComponent::Type::kStartStruct));
   EXPECT_THROW(ValidateLastTypeComponent(stack, AbstractTypeComposerComponent::Type::kStartArray),
@@ -109,10 +107,8 @@ TEST_F(AnyTypeComposerHelperTests, ValidateIfTypeComponentIsComplete)
   std::stack<AbstractTypeComposerComponent::component_t> stack;
   EXPECT_THROW(ValidateIfTypeComponentIsComplete(stack), sup::dto::ParseException);
 
-  stack.push(std::unique_ptr<StartStructTypeComposerComponent>(
-    new StartStructTypeComposerComponent("name")));
+  stack.push(std::make_unique<StartStructTypeComposerComponent>("name"));
   EXPECT_THROW(ValidateIfTypeComponentIsComplete(stack), sup::dto::ParseException);
-  stack.push(std::unique_ptr<EndStructTypeComposerComponent>(
-    new EndStructTypeComposerComponent()));
+  stack.push(std::make_unique<EndStructTypeComposerComponent>());
   EXPECT_NO_THROW(ValidateIfTypeComponentIsComplete(stack));
 }

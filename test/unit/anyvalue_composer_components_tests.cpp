@@ -42,13 +42,12 @@ TEST_F(AnyValueComposerComponentsTests, ValueComposerComponentProcess)
   EXPECT_TRUE(node.Process(stack));
 
   // processing stack containing another value
-  stack.push(std::unique_ptr<ValueComposerComponent>(
-      new ValueComposerComponent(sup::dto::AnyValue{sup::dto::SignedInteger32Type, 42})));
+  stack.push(std::make_unique<ValueComposerComponent>(
+      sup::dto::AnyValue{sup::dto::SignedInteger32Type, 42}));
   EXPECT_THROW(node.Process(stack), sup::dto::ParseException);
 
   // processing stack containing a field
-  stack.push(
-      std::unique_ptr<StartFieldValueComposerComponent>(new StartFieldValueComposerComponent("field_name")));
+  stack.push(std::make_unique<StartFieldValueComposerComponent>("field_name"));
   EXPECT_TRUE(node.Process(stack));
 
   // expected value
@@ -67,13 +66,11 @@ TEST_F(AnyValueComposerComponentsTests, StartStructComposerComponentProcess)
   EXPECT_TRUE(node.Process(stack));
 
   // processing stack containing another struct
-  stack.push(std::unique_ptr<StartStructValueComposerComponent>(
-      new StartStructValueComposerComponent(std::string())));
+  stack.push(std::make_unique<StartStructValueComposerComponent>(std::string()));
   EXPECT_THROW(node.Process(stack), sup::dto::ParseException);
 
   // processing stack containing a field
-  stack.push(
-      std::unique_ptr<StartFieldValueComposerComponent>(new StartFieldValueComposerComponent("field_name")));
+  stack.push(std::make_unique<StartFieldValueComposerComponent>("field_name"));
   EXPECT_TRUE(node.Process(stack));
 
   // expected value
@@ -108,8 +105,7 @@ TEST_F(AnyValueComposerComponentsTests, StartFieldComposerComponentProcess)
   EXPECT_THROW(node.Process(stack), sup::dto::ParseException);
 
   // stack is possible to process if it contains StartStructBuildNode
-  stack.push(std::unique_ptr<StartStructValueComposerComponent>(
-      new StartStructValueComposerComponent(std::string())));
+  stack.push(std::make_unique<StartStructValueComposerComponent>(std::string()));
   EXPECT_TRUE(node.Process(stack));
 
   // field name should be set
@@ -130,12 +126,10 @@ TEST_F(AnyValueComposerComponentsTests, EndFieldComposerComponentProcess)
 
   {
     std::stack<AbstractValueComposerComponent::component_t> stack;
-    stack.push(std::unique_ptr<StartStructValueComposerComponent>(
-        new StartStructValueComposerComponent("struct_name")));
-    stack.push(std::unique_ptr<StartFieldValueComposerComponent>(
-        new StartFieldValueComposerComponent("field_name")));
-    stack.push(std::unique_ptr<ValueComposerComponent>(
-        new ValueComposerComponent(sup::dto::AnyValue{sup::dto::SignedInteger32Type, 42})));
+    stack.push(std::make_unique<StartStructValueComposerComponent>("struct_name"));
+    stack.push(std::make_unique<StartFieldValueComposerComponent>("field_name"));
+    stack.push(std::make_unique<ValueComposerComponent>(
+        sup::dto::AnyValue{sup::dto::SignedInteger32Type, 42}));
 
     EXPECT_FALSE(node.Process(stack));
 
@@ -160,8 +154,7 @@ TEST_F(AnyValueComposerComponentsTests, EndStructComposerComponentProcess)
 
   {
     std::stack<AbstractValueComposerComponent::component_t> stack;
-    stack.push(std::unique_ptr<StartStructValueComposerComponent>(
-        new StartStructValueComposerComponent("struct_name")));
+    stack.push(std::make_unique<StartStructValueComposerComponent>("struct_name"));
 
     // as a result of stack processing, the StartStructBuildNode should be removed, it's value
     // consumed
@@ -185,13 +178,11 @@ TEST_F(AnyValueComposerComponentsTests, StartArrayComposerComponentProcess)
   EXPECT_TRUE(node.Process(stack));
 
   // processing stack containing another struct is not possible
-  stack.push(std::unique_ptr<StartStructValueComposerComponent>(
-      new StartStructValueComposerComponent(std::string())));
+  stack.push(std::make_unique<StartStructValueComposerComponent>(std::string()));
   EXPECT_THROW(node.Process(stack), sup::dto::ParseException);
 
   // processing stack containing a field
-  stack.push(
-      std::unique_ptr<StartFieldValueComposerComponent>(new StartFieldValueComposerComponent("field_name")));
+  stack.push(std::make_unique<StartFieldValueComposerComponent>("field_name"));
   EXPECT_TRUE(node.Process(stack));
 
   // at the beginning, StartArrayBuildNode doesn't contain valid AnyValue since it waits the first
@@ -226,8 +217,7 @@ TEST_F(AnyValueComposerComponentsTests, StartArrayElementComposerComponentProces
   EXPECT_THROW(node.Process(stack), sup::dto::ParseException);
 
   // stack is possible to process if it contains StartArrayBuildNode
-  stack.push(
-      std::unique_ptr<StartArrayValueComposerComponent>(new StartArrayValueComposerComponent(std::string())));
+  stack.push(std::make_unique<StartArrayValueComposerComponent>(std::string()));
   EXPECT_TRUE(node.Process(stack));
 }
 
@@ -247,12 +237,9 @@ TEST_F(AnyValueComposerComponentsTests, EndArrayElementComposerComponentProcess)
   {
     std::stack<AbstractValueComposerComponent::component_t> stack;
 
-    stack.push(std::unique_ptr<StartArrayValueComposerComponent>(
-        new StartArrayValueComposerComponent("array_name")));
-    stack.push(std::unique_ptr<StartArrayElementValueComposerComponent>(
-        new StartArrayElementValueComposerComponent()));
-    stack.push(std::unique_ptr<ValueComposerComponent>(
-        new ValueComposerComponent(sup::dto::AnyValue{sup::dto::SignedInteger32Type, 42})));
+    stack.push(std::make_unique<StartArrayValueComposerComponent>("array_name"));
+    stack.push(std::make_unique<StartArrayElementValueComposerComponent>());
+    stack.push(std::make_unique<ValueComposerComponent>(sup::dto::AnyValue{sup::dto::SignedInteger32Type, 42}));
 
     // processing should return false since EndArrayElementBuildNode doesn't want to be in the stack
     EXPECT_FALSE(node.Process(stack));
@@ -279,8 +266,7 @@ TEST_F(AnyValueComposerComponentsTests, EndArrayComposerComponentProcess)
 
   { // EndArray can't process StartArray record if no elements have been created
     std::stack<AbstractValueComposerComponent::component_t> stack;
-    stack.push(std::unique_ptr<StartArrayValueComposerComponent>(
-        new StartArrayValueComposerComponent("array_name")));
+    stack.push(std::make_unique<StartArrayValueComposerComponent>("array_name"));
 
     EXPECT_THROW(node.Process(stack), sup::dto::ParseException);
   }

@@ -37,7 +37,7 @@ public:
   bool CheckAddValueComponent(Args&&... args)
   {
     std::stack<AbstractValueComposerComponent::component_t> stack;
-    stack.push(std::unique_ptr<T>(new T((args)...)));
+    stack.push(std::make_unique<T>((args)...));
     return CanAddValueComponent(stack);
   }
 
@@ -45,7 +45,7 @@ public:
   void ValidateCompletedValueComponent(Args&&... args)
   {
     std::stack<AbstractValueComposerComponent::component_t> stack;
-    stack.push(std::unique_ptr<T>(new T((args)...)));
+    stack.push(std::make_unique<T>((args)...));
     ValidateIfValueComponentIsComplete(stack);
   }
 };
@@ -83,8 +83,7 @@ TEST_F(AnyValueComposerHelperTests, ValidateAddValueComponent)
 
   {  // it is not possible to add value node if stack contains StartStructValueComposerComponent
     std::stack<AbstractValueComposerComponent::component_t> stack;
-    stack.push(
-        std::unique_ptr<StartStructValueComposerComponent>(new StartStructValueComposerComponent("name")));
+    stack.push(std::make_unique<StartStructValueComposerComponent>("name"));
     EXPECT_THROW(ValidateAddValueComponent(stack), sup::dto::ParseException);
   }
 
@@ -99,8 +98,7 @@ TEST_F(AnyValueComposerHelperTests, ValidateLastComponent)
   EXPECT_THROW(ValidateLastComponent(stack, AbstractValueComposerComponent::Type::kStartArray),
                sup::dto::ParseException);
 
-  stack.push(
-      std::unique_ptr<StartStructValueComposerComponent>(new StartStructValueComposerComponent("name")));
+  stack.push(std::make_unique<StartStructValueComposerComponent>("name"));
   EXPECT_NO_THROW(ValidateLastComponent(stack, AbstractValueComposerComponent::Type::kStartStruct));
   EXPECT_THROW(ValidateLastComponent(stack, AbstractValueComposerComponent::Type::kStartArray),
                sup::dto::ParseException);

@@ -39,13 +39,11 @@ TEST_F(AnyTypeComposerComponentsTests, LeafTypeComposerComponent_Process)
   EXPECT_TRUE(node.Process(stack));
 
   // processing stack containing another value
-  stack.push(std::unique_ptr<LeafTypeComposerComponent>(
-      new LeafTypeComposerComponent(sup::dto::SignedInteger32Type)));
+  stack.push(std::make_unique<LeafTypeComposerComponent>(sup::dto::SignedInteger32Type));
   EXPECT_THROW(node.Process(stack), sup::dto::ParseException);
 
   // processing stack containing a field
-  stack.push(std::unique_ptr<StartFieldTypeComposerComponent>(
-               new StartFieldTypeComposerComponent("field_name")));
+  stack.push(std::make_unique<StartFieldTypeComposerComponent>("field_name"));
   EXPECT_TRUE(node.Process(stack));
 
   // expected type
@@ -64,13 +62,11 @@ TEST_F(AnyTypeComposerComponentsTests, StartStructTypeComposerComponent_Process)
   EXPECT_TRUE(node.Process(stack));
 
   // processing stack containing another struct
-  stack.push(std::unique_ptr<StartStructTypeComposerComponent>(
-      new StartStructTypeComposerComponent(std::string())));
+  stack.push(std::make_unique<StartStructTypeComposerComponent>(std::string()));
   EXPECT_THROW(node.Process(stack), sup::dto::ParseException);
 
   // processing stack containing a field
-  stack.push(std::unique_ptr<StartFieldTypeComposerComponent>(
-                new StartFieldTypeComposerComponent("field_name")));
+  stack.push(std::make_unique<StartFieldTypeComposerComponent>("field_name"));
   EXPECT_TRUE(node.Process(stack));
 
   // expected type
@@ -105,8 +101,7 @@ TEST_F(AnyTypeComposerComponentsTests, StartFieldTypeComposerComponent_Process)
   EXPECT_THROW(node.Process(stack), sup::dto::ParseException);
 
   // stack is possible to process if it contains StartStructTypeComposerComponent
-  stack.push(std::unique_ptr<StartStructTypeComposerComponent>(
-      new StartStructTypeComposerComponent(std::string())));
+  stack.push(std::make_unique<StartStructTypeComposerComponent>(std::string()));
   EXPECT_TRUE(node.Process(stack));
 }
 
@@ -121,12 +116,9 @@ TEST_F(AnyTypeComposerComponentsTests, EndFieldTypeComposerComponent_Process)
   }
   {
     std::stack<AbstractTypeComposerComponent::component_t> stack;
-    stack.push(std::unique_ptr<StartStructTypeComposerComponent>(
-        new StartStructTypeComposerComponent("struct_name")));
-    stack.push(std::unique_ptr<StartFieldTypeComposerComponent>(
-        new StartFieldTypeComposerComponent("field_name")));
-    stack.push(std::unique_ptr<LeafTypeComposerComponent>(
-        new LeafTypeComposerComponent(sup::dto::EmptyType)));
+    stack.push(std::make_unique<StartStructTypeComposerComponent>("struct_name"));
+    stack.push(std::make_unique<StartFieldTypeComposerComponent>("field_name"));
+    stack.push(std::make_unique<LeafTypeComposerComponent>(sup::dto::EmptyType));
 
     EXPECT_FALSE(node.Process(stack));
 
@@ -150,8 +142,7 @@ TEST_F(AnyTypeComposerComponentsTests, EndStructTypeComposerComponent_Process)
   }
   {
     std::stack<AbstractTypeComposerComponent::component_t> stack;
-    stack.push(std::unique_ptr<StartStructTypeComposerComponent>(
-        new StartStructTypeComposerComponent("struct_name")));
+    stack.push(std::make_unique<StartStructTypeComposerComponent>("struct_name"));
 
     // as a result of stack processing, the StartStructTypeComposerComponent should be removed and
     // its type consumed
@@ -175,13 +166,11 @@ TEST_F(AnyTypeComposerComponentsTests, StartArrayTypeComposerComponent_Process)
   EXPECT_TRUE(node.Process(stack));
 
   // processing stack containing another struct is not possible
-  stack.push(std::unique_ptr<StartStructTypeComposerComponent>(
-      new StartStructTypeComposerComponent(std::string())));
+  stack.push(std::make_unique<StartStructTypeComposerComponent>(std::string()));
   EXPECT_THROW(node.Process(stack), sup::dto::ParseException);
 
   // processing stack containing a field
-  stack.push(std::unique_ptr<StartFieldTypeComposerComponent>(
-    new StartFieldTypeComposerComponent("field_name")));
+  stack.push(std::make_unique<StartFieldTypeComposerComponent>("field_name"));
   EXPECT_TRUE(node.Process(stack));
 
   // at the beginning, StartArrayTypeComposerComponent doesn't contain valid AnyType since it
@@ -216,8 +205,7 @@ TEST_F(AnyTypeComposerComponentsTests, StartArrayElementTypeComposerComponent_Pr
   EXPECT_THROW(node.Process(stack), sup::dto::ParseException);
 
   // stack is possible to process if it contains StartArrayBuildNode
-  stack.push(std::unique_ptr<StartArrayTypeComposerComponent>(
-    new StartArrayTypeComposerComponent(std::string(), 0)));
+  stack.push(std::make_unique<StartArrayTypeComposerComponent>(std::string(), 0));
   EXPECT_TRUE(node.Process(stack));
 }
 
@@ -236,12 +224,9 @@ TEST_F(AnyTypeComposerComponentsTests, EndArrayElementTypeComposerComponent_Proc
   {
     std::stack<AbstractTypeComposerComponent::component_t> stack;
 
-    stack.push(std::unique_ptr<StartArrayTypeComposerComponent>(
-        new StartArrayTypeComposerComponent("array_name", 0)));
-    stack.push(std::unique_ptr<StartArrayElementTypeComposerComponent>(
-        new StartArrayElementTypeComposerComponent()));
-    stack.push(std::unique_ptr<LeafTypeComposerComponent>(
-        new LeafTypeComposerComponent(sup::dto::SignedInteger32Type)));
+    stack.push(std::make_unique<StartArrayTypeComposerComponent>("array_name", 0));
+    stack.push(std::make_unique<StartArrayElementTypeComposerComponent>());
+    stack.push(std::make_unique<LeafTypeComposerComponent>(sup::dto::SignedInteger32Type));
 
     // processing should return false since EndArrayElementTypeComposerComponent doesn't want to be
     // in the stack
@@ -269,8 +254,7 @@ TEST_F(AnyTypeComposerComponentsTests, EndArrayTypeComposerComponent_Process)
   {
     // processing of array without element being defined
     std::stack<AbstractTypeComposerComponent::component_t> stack;
-    stack.push(std::unique_ptr<StartArrayTypeComposerComponent>(
-        new StartArrayTypeComposerComponent("array_name", 1)));
+    stack.push(std::make_unique<StartArrayTypeComposerComponent>("array_name", 1));
 
     // as a result of stack processing, the StartArrayTypeComposerComponent should be removed and
     // its value consumed
@@ -278,12 +262,9 @@ TEST_F(AnyTypeComposerComponentsTests, EndArrayTypeComposerComponent_Process)
   }
   {
     std::stack<AbstractTypeComposerComponent::component_t> stack;
-    stack.push(std::unique_ptr<StartArrayTypeComposerComponent>(
-        new StartArrayTypeComposerComponent("array_name", 1)));
-    stack.push(std::unique_ptr<StartArrayElementTypeComposerComponent>(
-        new StartArrayElementTypeComposerComponent()));
-    stack.push(std::unique_ptr<LeafTypeComposerComponent>(
-        new LeafTypeComposerComponent(sup::dto::SignedInteger32Type)));
+    stack.push(std::make_unique<StartArrayTypeComposerComponent>("array_name", 1));
+    stack.push(std::make_unique<StartArrayElementTypeComposerComponent>());
+    stack.push(std::make_unique<LeafTypeComposerComponent>(sup::dto::SignedInteger32Type));
     EndArrayElementTypeComposerComponent end_element_node;
     EXPECT_FALSE(end_element_node.Process(stack));
 
