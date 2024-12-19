@@ -50,7 +50,7 @@ StructValueData::~StructValueData() = default;
 
 std::unique_ptr<IValueData> StructValueData::Clone(Constraints constraints) const
 {
-  auto result = std::unique_ptr<StructValueData>(new StructValueData(GetTypeName(), constraints));
+  auto result = std::make_unique<StructValueData>(GetTypeName(), constraints);
   for (const auto& member_name : MemberNames())
   {
     const auto& member_val = m_member_data[member_name];
@@ -140,7 +140,7 @@ bool StructValueData::Equals(const AnyValue& other) const
 
 std::unique_ptr<IValueData> CreateStructValueData(const AnyType& anytype, Constraints constraints)
 {
-  return std::unique_ptr<IValueData>(new StructValueData(anytype, constraints));
+  return std::make_unique<StructValueData>(anytype, constraints);
 }
 
 }  // namespace dto

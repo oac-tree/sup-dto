@@ -40,7 +40,7 @@ struct AnyValueComposer::AnyValueComposerImpl
   template <typename T, typename... Args>
   void ProcessComponent(Args &&...args)
   {
-    auto component = std::unique_ptr<T>(new T(std::forward<Args>(args)...));
+    auto component = std::make_unique<T>(std::forward<Args>(args)...);
     if (component->Process(m_stack))
     {
       m_stack.push(std::move(component));
@@ -55,7 +55,7 @@ struct AnyValueComposer::AnyValueComposerImpl
   AnyValueComposerImpl() : m_stack() {}
 };
 
-AnyValueComposer::AnyValueComposer() : p_impl(new AnyValueComposerImpl) {}
+AnyValueComposer::AnyValueComposer() : p_impl(std::make_unique<AnyValueComposerImpl>()) {}
 
 sup::dto::AnyValue AnyValueComposer::MoveAnyValue()
 {

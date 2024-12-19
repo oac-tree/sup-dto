@@ -50,7 +50,7 @@ AnyType::AnyType(std::initializer_list<std::pair<std::string, AnyType>> members,
                  const std::string& name)
   : AnyType{}
 {
-  auto struct_data = std::unique_ptr<StructTypeData>(new StructTypeData(name));
+  auto struct_data = std::make_unique<StructTypeData>(name);
   for (auto& member : members)
   {
     struct_data->AddMember(member.first, member.second);
@@ -65,7 +65,7 @@ AnyType::AnyType(std::initializer_list<std::pair<std::string, AnyType>> members)
 AnyType::AnyType(std::size_t size, const AnyType& elem_type, const std::string& name)
   : AnyType{}
 {
-  auto array_data = std::unique_ptr<ITypeData>(new ArrayTypeData(size, elem_type, name));
+  std::unique_ptr<ITypeData> array_data = std::make_unique<ArrayTypeData>(size, elem_type, name);
   std::swap(m_data, array_data);
 }
 

@@ -41,7 +41,7 @@ struct AnyTypeComposer::AnyTypeComposerImpl
   template <typename T, typename... Args>
   void ProcessComponent(Args &&...args)
   {
-    auto component = std::unique_ptr<T>(new T(std::forward<Args>(args)...));
+    auto component = std::make_unique<T>(std::forward<Args>(args)...);
     if (component->Process(m_stack))
     {
       m_stack.push(std::move(component));
@@ -56,7 +56,7 @@ struct AnyTypeComposer::AnyTypeComposerImpl
   AnyTypeComposerImpl() : m_stack() {}
 };
 
-AnyTypeComposer::AnyTypeComposer() : p_impl(new AnyTypeComposerImpl) {}
+AnyTypeComposer::AnyTypeComposer() : p_impl(std::make_unique<AnyTypeComposerImpl>()) {}
 
 sup::dto::AnyType AnyTypeComposer::MoveAnyType()
 {

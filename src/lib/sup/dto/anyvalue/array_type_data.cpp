@@ -43,7 +43,7 @@ ArrayTypeData::~ArrayTypeData() = default;
 
 std::unique_ptr<ITypeData> ArrayTypeData::Clone() const
 {
-  return std::unique_ptr<ITypeData>(new ArrayTypeData(m_size, m_elem_type, m_name));
+  return std::make_unique<ArrayTypeData>(m_size, m_elem_type, m_name);
 }
 
 TypeCode ArrayTypeData::GetTypeCode() const

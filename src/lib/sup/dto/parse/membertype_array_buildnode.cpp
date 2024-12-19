@@ -45,7 +45,7 @@ IAnyBuildNode* MemberTypeArrayBuildNode::GetStructureNode()
     throw ParseException(
         "MemberTypeArrayBuildNode::GetStructureNode must be called with an empty member node");
   }
-  m_member_node.reset(new MemberTypeBuildNode(GetTypeRegistry(), this));
+  m_member_node = std::make_unique<MemberTypeBuildNode>(GetTypeRegistry(), this);
   return m_member_node.get();
 }
 

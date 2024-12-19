@@ -90,12 +90,12 @@ namespace
 {
 std::unique_ptr<IWriter> CreateJSONWriter(std::ostream& out_stream)
 {
-  return std::unique_ptr<IWriter>(new JSONStringWriter(out_stream));
+  return std::make_unique<JSONStringWriter>(out_stream);
 }
 
 std::unique_ptr<IWriter> CreatePrettyJSONWriter(std::ostream& out_stream)
 {
-  return std::unique_ptr<IWriter>(new PrettyJSONStringWriter(out_stream));
+  return std::make_unique<PrettyJSONStringWriter>(out_stream);
 }
 
 void ToJSONWriter(IWriter& writer, const AnyValue& anyvalue)

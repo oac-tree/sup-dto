@@ -73,7 +73,7 @@ Constraints ScalarValueDataBase::GetConstraints() const
 template <typename T>
 std::unique_ptr<IValueData> ScalarValueConstructor(Constraints constraints)
 {
-    return std::unique_ptr<IValueData>{new ScalarValueDataT<T>{T{}, constraints}};
+  return std::make_unique<ScalarValueDataT<T>>(T{}, constraints);
 }
 
 std::unique_ptr<IValueData> CreateScalarValueData(TypeCode type_code, Constraints constraints)

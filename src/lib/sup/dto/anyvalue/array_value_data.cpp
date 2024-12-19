@@ -54,8 +54,7 @@ ArrayValueData::~ArrayValueData() = default;
 
 std::unique_ptr<IValueData> ArrayValueData::Clone(Constraints constraints) const
 {
-  auto result = std::unique_ptr<IValueData>(
-      new ArrayValueData(NumberOfElements(), m_elem_type, m_name, constraints));
+  auto result = std::make_unique<ArrayValueData>(NumberOfElements(), m_elem_type, m_name, constraints);
   for (std::size_t i = 0u; i < NumberOfElements(); ++i)
   {
     result->operator[](i) = *m_elements[i];
@@ -220,9 +219,8 @@ std::pair<std::size_t, std::string> StripValueIndex(const std::string& fieldname
 std::unique_ptr<IValueData> CreateArrayValueData(const AnyType& anytype,
                                                  Constraints constraints)
 {
-  return std::unique_ptr<IValueData>(
-    new ArrayValueData(anytype.NumberOfElements(), anytype.ElementType(), anytype.GetTypeName(),
-                       constraints));
+  return std::make_unique<ArrayValueData>(anytype.NumberOfElements(), anytype.ElementType(),
+                                          anytype.GetTypeName(), constraints);
 }
 
 }  // namespace dto

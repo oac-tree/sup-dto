@@ -35,7 +35,7 @@ using namespace sup::dto;
 template <typename T>
 std::unique_ptr<IValueData> CreateUnconstrainedScalarData(const T& val)
 {
-  return std::unique_ptr<IValueData>{new ScalarValueDataT<T>(val, Constraints::kNone)};
+  return std::make_unique<ScalarValueDataT<T>>(val, Constraints::kNone);
 }
 }  // namespace
 
@@ -117,8 +117,7 @@ AnyValue::AnyValue(std::initializer_list<std::pair<std::string, AnyValue>> membe
                    const std::string& type_name)
   : AnyValue{}
 {
-  auto struct_data =
-    std::unique_ptr<StructValueData>(new StructValueData(type_name, Constraints::kNone));
+  auto struct_data = std::make_unique<StructValueData>(type_name, Constraints::kNone);
   for (auto& member : members)
   {
     struct_data->AddMember(member.first, member.second);
@@ -133,8 +132,7 @@ AnyValue::AnyValue(std::initializer_list<std::pair<std::string, AnyValue>> membe
 AnyValue::AnyValue(std::size_t size, const AnyType& elem_type, const std::string& name)
   : AnyValue{}
 {
-  auto array_data =
-    std::unique_ptr<IValueData>(new ArrayValueData(size, elem_type, name, Constraints::kNone));
+  auto array_data = std::make_unique<ArrayValueData>(size, elem_type, name, Constraints::kNone);
   m_data = std::move(array_data);
 }
 

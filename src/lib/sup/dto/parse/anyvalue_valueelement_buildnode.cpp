@@ -158,7 +158,7 @@ IAnyBuildNode* AnyValueValueElementBuildNode::GetStructureNode()
       "AnyValueValueElementBuildNode::GetStructureNode must be called after \"instance\" key "
       "and with empty child node");
   }
-  m_value_node.reset(new AnyValueBuildNode(GetTypeRegistry(), this, m_anyvalue));
+  m_value_node = std::make_unique<AnyValueBuildNode>(GetTypeRegistry(), this, m_anyvalue);
   return m_value_node.get();
 }
 

@@ -127,7 +127,8 @@ IAnyBuildNode* ArrayValueBuildNode::GetStructureNode()
     throw ParseException(
         "ArrayValueBuildNode::GetStructureNode called while exceeding array size");
   }
-  m_value_node.reset(new AnyValueBuildNode(GetTypeRegistry(), this, m_anyvalue[m_current_index]));
+  m_value_node =
+      std::make_unique<AnyValueBuildNode>(GetTypeRegistry(), this, m_anyvalue[m_current_index]);
   ++m_current_index;
   return m_value_node.get();
 }
@@ -185,8 +186,7 @@ std::unique_ptr<IAnyBuildNode> CreateArrayBuildNode(
     throw ParseException(
         "CreateArrayBuildNode must be called with an array value");
   }
-  return std::unique_ptr<IAnyBuildNode>(
-      new ArrayValueBuildNode(anytype_registry, parent, anyvalue));
+  return std::make_unique<ArrayValueBuildNode>(anytype_registry, parent, anyvalue);
 }
 
 }  // namespace dto

@@ -157,7 +157,7 @@ IAnyBuildNode* AnyValueBuildNode::GetStructureNode()
         "AnyValueBuildNode::GetStructureNode must be called with non-empty member name "
         "and empty child node");
   }
-  m_value_node.reset(new AnyValueBuildNode(GetTypeRegistry(), this, m_anyvalue[m_member_name]));
+  m_value_node = std::make_unique<AnyValueBuildNode>(GetTypeRegistry(), this, m_anyvalue[m_member_name]);
   return m_value_node.get();
 }
 

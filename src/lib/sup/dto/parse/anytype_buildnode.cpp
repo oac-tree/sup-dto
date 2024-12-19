@@ -111,7 +111,7 @@ IAnyBuildNode* AnyTypeBuildNode::GetStructureNode()
         "empty child nodes");
   }
   m_array_type = true;
-  m_element_node.reset(new AnyTypeBuildNode(GetTypeRegistry(), this));
+  m_element_node = std::make_unique<AnyTypeBuildNode>(GetTypeRegistry(), this);
   return m_element_node.get();
 }
 
@@ -124,7 +124,7 @@ IAnyBuildNode* AnyTypeBuildNode::GetArrayNode()
         "empty child nodes");
   }
   m_struct_type = true;
-  m_member_array_node.reset(new MemberTypeArrayBuildNode(GetTypeRegistry(), this));
+  m_member_array_node = std::make_unique<MemberTypeArrayBuildNode>(GetTypeRegistry(), this);
   return m_member_array_node.get();
 }
 

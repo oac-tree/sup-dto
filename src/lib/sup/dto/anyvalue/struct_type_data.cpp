@@ -34,13 +34,15 @@ StructTypeData::~StructTypeData() = default;
 
 std::unique_ptr<ITypeData> StructTypeData::Clone() const
 {
-  auto result = std::unique_ptr<StructTypeData>(new StructTypeData(GetTypeName()));
+  auto result = std::make_unique<StructTypeData>(GetTypeName());
   for (const std::string& member_name : MemberNames())
   {
-    std::unique_ptr<AnyType> copy{new AnyType{m_member_data[member_name]}};
+    auto copy = std::make_unique<AnyType>(m_member_data[member_name]);
     result->m_member_data.AddMember(member_name, std::move(copy));
   }
-  return std::unique_ptr<ITypeData>{result.release()};
+  // FIXME check in sonar if there are changes because of this return
+  // return std::unique_ptr<ITypeData>{result.release()};
+  return result;
 }
 
 TypeCode StructTypeData::GetTypeCode() const
@@ -55,7 +57,7 @@ std::string StructTypeData::GetTypeName() const
 
 void StructTypeData::AddMember(const std::string& name, const AnyType& type)
 {
-  std::unique_ptr<AnyType> copy{new AnyType{type}};
+  auto copy = std::make_unique<AnyType>(type);
   m_member_data.AddMember(name, std::move(copy));
 }
 

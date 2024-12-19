@@ -34,7 +34,7 @@ namespace dto
 AnyValueValueBuilder::AnyValueValueBuilder(const AnyType& anytype)
   : m_value{anytype}
   , m_registry{}
-  , m_root{new AnyValueValueElementBuildNode{&m_registry, nullptr, m_value}}
+  , m_root{std::make_unique<AnyValueValueElementBuildNode>(&m_registry, nullptr, m_value)}
   , m_current{m_root.get()}
 {
   (void)m_current->Member(serialization::INSTANCE_KEY);

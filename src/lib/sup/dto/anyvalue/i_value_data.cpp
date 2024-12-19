@@ -158,6 +158,7 @@ AnyValue& IValueData::operator[](std::size_t )
 
 std::unique_ptr<AnyValue> IValueData::MakeAnyValue(std::unique_ptr<IValueData>&& data)
 {
+  // std::make_unique is not used here because the constructor is private
   return std::unique_ptr<AnyValue>{new AnyValue{std::move(data)}};
 }
 
@@ -196,7 +197,7 @@ std::unique_ptr<IValueData> CreateValueData(const AnyType& anytype, Constraints 
   {
     return CreateArrayValueData(anytype, constraints);
   }
-  return std::unique_ptr<IValueData>{new EmptyValueData{constraints}};
+  return std::make_unique<EmptyValueData>(constraints);
 }
 
 }  // namespace dto

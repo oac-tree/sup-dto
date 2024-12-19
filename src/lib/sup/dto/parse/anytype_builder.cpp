@@ -31,7 +31,7 @@ namespace dto
 {
 
 AnyTypeBuilder::AnyTypeBuilder(const AnyTypeRegistry* anytype_registry)
-  : m_root{new AnyTypeRootBuildNode{anytype_registry}}
+  : m_root{std::make_unique<AnyTypeRootBuildNode>(anytype_registry)}
   , m_current{m_root.get()}
 {}
 

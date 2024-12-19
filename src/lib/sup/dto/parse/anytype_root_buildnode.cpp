@@ -50,7 +50,7 @@ IAnyBuildNode* AnyTypeRootBuildNode::GetStructureNode()
     throw ParseException(
         "AnyTypeRootBuildNode::GetStructureNode must be called with empty child node");
   }
-  m_type_node.reset(new AnyTypeBuildNode(GetTypeRegistry(), this));
+  m_type_node = std::make_unique<AnyTypeBuildNode>(GetTypeRegistry(), this);
   return m_type_node.get();
 }
 

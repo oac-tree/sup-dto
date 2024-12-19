@@ -55,13 +55,13 @@ IAnyBuildNode* AnyValueArrayBuildNode::GetStructureNode()
   switch (m_processed_nodes)
   {
   case 0:
-    m_encoding_node.reset(new AnyValueEncodingElementBuildNode(GetTypeRegistry(), this));
+    m_encoding_node = std::make_unique<AnyValueEncodingElementBuildNode>(GetTypeRegistry(), this);
     return m_encoding_node.get();
   case 1:
-    m_type_node.reset(new AnyValueTypeElementBuildNode(GetTypeRegistry(), this));
+    m_type_node = std::make_unique<AnyValueTypeElementBuildNode>(GetTypeRegistry(), this);
     return m_type_node.get();
   case 2:
-    m_value_node.reset(new AnyValueValueElementBuildNode(GetTypeRegistry(), this, m_anyvalue));
+    m_value_node = std::make_unique<AnyValueValueElementBuildNode>(GetTypeRegistry(), this, m_anyvalue);
     return m_value_node.get();
   default:
     throw ParseException(

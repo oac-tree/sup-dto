@@ -39,7 +39,7 @@ EmptyValueData::~EmptyValueData() = default;
 
 std::unique_ptr<IValueData> EmptyValueData::Clone(Constraints constraints) const
 {
-  return std::unique_ptr<IValueData>{new EmptyValueData(constraints)};
+  return std::make_unique<EmptyValueData>(constraints);
 }
 
 TypeCode EmptyValueData::GetTypeCode() const
@@ -72,7 +72,7 @@ bool EmptyValueData::Equals(const AnyValue& other) const
 
 std::unique_ptr<IValueData> CreateDefaultValueData()
 {
-  return std::unique_ptr<IValueData>{new EmptyValueData{Constraints::kNone}};
+  return std::make_unique<EmptyValueData>(Constraints::kNone);
 }
 
 }  // namespace dto

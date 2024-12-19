@@ -59,7 +59,7 @@ IAnyBuildNode* MemberTypeBuildNode::GetStructureNode()
         "MemberTypeBuildNode::GetStructureNode must be called after member name and with "
         "empty child node");
   }
-  m_type_node.reset(new AnyTypeBuildNode(GetTypeRegistry(), this));
+  m_type_node = std::make_unique<AnyTypeBuildNode>(GetTypeRegistry(), this);
   return m_type_node.get();
 }
 

@@ -45,7 +45,7 @@ ScalarTypeData::~ScalarTypeData() = default;
 
 std::unique_ptr<ITypeData> ScalarTypeData::Clone() const
 {
-  return std::unique_ptr<ITypeData>{new ScalarTypeData(m_type_code)};
+  return std::make_unique<ScalarTypeData>(m_type_code);
 }
 
 TypeCode ScalarTypeData::GetTypeCode() const
@@ -69,7 +69,7 @@ std::unique_ptr<ITypeData> CreateScalarData(TypeCode type_code)
   {
     throw InvalidOperationException("Not a known scalar type code");
   }
-  return std::unique_ptr<ITypeData>{new ScalarTypeData(type_code)};
+  return std::make_unique<ScalarTypeData>(type_code);
 }
 
 namespace

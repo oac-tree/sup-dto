@@ -50,7 +50,7 @@ IAnyBuildNode* AnyValueRootBuildNode::GetArrayNode()
     throw ParseException(
       "AnyValueRootBuildNode::GetArrayNode must be called with empty child node");
   }
-  m_array_node.reset(new AnyValueArrayBuildNode(GetTypeRegistry(), this));
+  m_array_node = std::make_unique<AnyValueArrayBuildNode>(GetTypeRegistry(), this);
   return m_array_node.get();
 }
 
