@@ -165,9 +165,9 @@ bool AnyTypeBuildNode::IsComplexType() const
 AnyType AnyTypeBuildNode::GetStructuredType() const
 {
   auto result = EmptyStructType(m_type_name);
-  for (auto& member : m_member_types)
+  for (auto& [memberName, memberType] : m_member_types)
   {
-    (void)result.AddMember(member.first, member.second);
+    (void)result.AddMember(memberName, memberType);
   }
   return result;
 }

@@ -139,13 +139,13 @@ bool ArrayValueData::HasField(const std::string& fieldname) const
 
 AnyValue& ArrayValueData::operator[](const std::string& fieldname)
 {
-  auto idx_remainder = StripValueIndex(fieldname);
-  auto& element = this->operator[](idx_remainder.first);
-  if (idx_remainder.second.empty())
+  auto [idx, remainder] = StripValueIndex(fieldname);
+  auto& element = this->operator[](idx);
+  if (remainder.empty())
   {
     return element;
   }
-  return element[idx_remainder.second];
+  return element[remainder];
 }
 
 AnyValue& ArrayValueData::operator[](std::size_t idx)

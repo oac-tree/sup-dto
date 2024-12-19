@@ -100,21 +100,21 @@ void StructDataT<T>::AddMember(const std::string& name, std::unique_ptr<T>&& val
 template <typename T>
 bool StructDataT<T>::HasField(const std::string& fieldname) const
 {
-  auto fields = utils::StripFirstFieldName(fieldname);
+  auto [firstField, otherFields] = utils::StripFirstFieldName(fieldname);
   auto it = std::find_if(m_members.cbegin(), m_members.cend(),
-                         [&fields](typename decltype(m_members)::const_reference member){
-                           return member.first == fields.first;
+                         [&](typename decltype(m_members)::const_reference member){
+                           return member.first == firstField;
                          });
   if (it == m_members.cend())
   {
     return false;
   }
-  if (fields.second.empty())
+  if (otherFields.empty())
   {
     return true;
   }
   auto& member = it->second;
-  return member->HasField(fields.second);
+  return member->HasField(otherFields);
 }
 
 template <typename T>
@@ -147,21 +147,21 @@ const T& StructDataT<T>::operator[](const std::string& fieldname) const
   {
     throw InvalidOperationException("Trying to access a member with empty field name");
   }
-  auto fields = utils::StripFirstFieldName(fieldname);
+  auto [firstField, otherFields] = utils::StripFirstFieldName(fieldname);
   auto it = std::find_if(m_members.cbegin(), m_members.cend(),
-                      [&fields](cref_pair_type member){
-                        return member.first == fields.first;
+                      [&](cref_pair_type member){
+                        return member.first == firstField;
                       });
   if (it == m_members.cend())
   {
     throw InvalidOperationException("Trying to access a member with unknown field name");
   }
   auto& member = it->second;
-  if (fields.second.empty())
+  if (otherFields.empty())
   {
     return *member;
   }
-  return member->operator[](fields.second);
+  return member->operator[](otherFields);
 }
 
 template <typename T>
@@ -179,10 +179,10 @@ bool StructDataT<T>::Equals(const T& other) const
   {
     return false;
   }
-  for (auto& member : m_members)
+  for (auto& [memberName, memberType] : m_members)
   {
-    auto& other_member_field = other[member.first];
-    if (other_member_field != *member.second)
+    auto& other_member_field = other[memberName];
+    if (other_member_field != *memberType)
     {
       return false;
     }

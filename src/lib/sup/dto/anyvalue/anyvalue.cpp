@@ -118,9 +118,9 @@ AnyValue::AnyValue(std::initializer_list<std::pair<std::string, AnyValue>> membe
   : AnyValue{}
 {
   auto struct_data = std::make_unique<StructValueData>(type_name, Constraints::kNone);
-  for (auto& member : members)
+  for (auto& [memberName, memberValue] : members)
   {
-    struct_data->AddMember(member.first, member.second);
+    struct_data->AddMember(memberName, memberValue);
   }
   m_data = std::move(struct_data);
 }
