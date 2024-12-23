@@ -40,9 +40,7 @@ std::unique_ptr<ITypeData> StructTypeData::Clone() const
     auto copy = std::make_unique<AnyType>(m_member_data[member_name]);
     result->m_member_data.AddMember(member_name, std::move(copy));
   }
-  // FIXME check in sonar if there are changes because of this return
-  // return std::unique_ptr<ITypeData>{result.release()};
-  return result;
+  return std::unique_ptr<ITypeData>{result.release()};
 }
 
 TypeCode StructTypeData::GetTypeCode() const

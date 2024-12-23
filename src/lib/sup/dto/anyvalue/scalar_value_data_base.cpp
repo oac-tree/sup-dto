@@ -28,16 +28,6 @@
 #include <functional>
 #include <map>
 
-namespace
-{
-using namespace sup::dto;
-template <typename T>
-ScalarValueDataBase* ScalarValueConstructor(Constraints constraints)
-{
-  return new ScalarValueDataT<T>{T{}, constraints};
-}
-}  // namespace
-
 namespace sup
 {
 namespace dto
