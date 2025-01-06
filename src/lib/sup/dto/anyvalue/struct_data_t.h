@@ -94,7 +94,7 @@ void StructDataT<T>::AddMember(const std::string& name, std::unique_ptr<T>&& val
   {
     throw InvalidOperationException("Cannot add duplicate member keys");
   }
-  m_members.emplace_back(name, std::move(val));
+  (void)m_members.emplace_back(name, std::move(val));
 }
 
 template <typename T>
