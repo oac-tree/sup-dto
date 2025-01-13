@@ -64,15 +64,6 @@
                 <role>developer</role>
             </roles>
         </developer>
-        <developer>
-            <id>gracasr</id>
-            <name>Rafael Silva</name>
-            <organization>CSW</organization>
-            <email>rg-silva@criticalsoftware.com</email>
-            <roles>
-                <role>developer</role>
-            </roles>
-        </developer>
     </developers>
 
     <!-- Configure how the project is built -->
