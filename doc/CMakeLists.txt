@@ -8,6 +8,7 @@ set(DOXYGEN_GENERATE_XML YES)
 # don't care about undocumented symbols.
 set(DOXYGEN_QUIET YES)
 set(DOXYGEN_WARN_IF_UNDOCUMENTED NO)
+set(DOXYGEN_EXCLUDE_PATTERNS ${PROJECT_SOURCE_DIR}/src/lib/sup/dto/rapidjson/*)
 
 # Sphinx output directory
 set(SPHINX_BUILD_DIR ${CMAKE_CURRENT_BINARY_DIR}/sphinx_build)
