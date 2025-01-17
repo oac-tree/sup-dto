@@ -133,6 +133,8 @@ string.
 Array types with zero size are allowed, since elements can be added later. However, this implicitly
 changes the type, since its size if part of the type.
 
+.. _structured-types:
+
 Structured types
 ^^^^^^^^^^^^^^^^
 

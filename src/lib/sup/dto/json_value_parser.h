@@ -47,7 +47,7 @@ public:
    * @brief Parse an AnyValue from a JSON string.
    *
    * @param json_str JSON string.
-   * @param anytype_registry AnyType registry to use during parsing.
+   * @param type_registry AnyType registry to use during parsing.
    *
    * @return true on successful parsing, false otherwise.
    */
@@ -66,7 +66,7 @@ public:
    * @brief Parse an AnyValue from a JSON file.
    *
    * @param filename name of the file containing the JSON representation.
-   * @param anytype_registry AnyType registry to use during parsing.
+   * @param type_registry AnyType registry to use during parsing.
    *
    * @return true on successful parsing, false otherwise.
    */

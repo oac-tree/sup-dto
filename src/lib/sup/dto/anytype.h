@@ -35,6 +35,9 @@ namespace sup
 {
 namespace dto
 {
+/**
+ * @brief Enumeration indicating the different types of nodes for AnyType.
+ */
 enum class TypeCode : sup::dto::uint32
 {
   Empty = 0,
@@ -128,7 +131,6 @@ public:
    *
    * @param size number of elements in the array.
    * @param elem_type type of the elements in the array.
-   * @param name Optional name for the type.
    */
   AnyType(std::size_t size, const AnyType& elem_type);
 
@@ -296,7 +298,7 @@ private:
 /**
  * @brief Constructs an empty structured type.
  *
- * @param type_name Name for the underlying structured type.
+ * @param name Name for the underlying structured type.
  *
  * @return AnyType with structure type.
  */
