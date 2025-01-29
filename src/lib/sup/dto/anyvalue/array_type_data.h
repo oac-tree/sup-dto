@@ -61,12 +61,18 @@ private:
  * @brief Strips the prefix square brackets for the fieldname.
  *
  * @param fieldname Full fieldname.
- *
  * @return Remainder of the fieldname after stripping the square brackets.
+ *
+ * @throws InvalidOperationException Thrown when the fieldname does not start with '[]'.
  *
  * @note An optional dot '.' after the square brackets will be removed too.
  *
- * @throws InvalidOperationException Thrown when the fieldname does not start with '[]'.
+ * @code {.cpp}
+ * auto remainder_1 = StripTypeIndex("[]subfieldname");   // returns "subfieldname"
+ * auto remainder_2 = StripTypeIndex("[].subfieldname");  // idem
+ * auto remainder_3 = StripTypeIndex("[oops]");           // throws InvalidOperationException
+ * @endcode
+ *
  */
 std::string StripTypeIndex(const std::string& fieldname);
 
