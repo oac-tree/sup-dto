@@ -21,8 +21,6 @@
 
 #include "empty_type_data.h"
 
-#include <sup/dto/anyvalue_exceptions.h>
-
 namespace sup
 {
 namespace dto
@@ -49,7 +47,7 @@ std::string EmptyTypeData::GetTypeName() const
 
 bool EmptyTypeData::Equals(const AnyType& other) const
 {
-  return other.GetTypeCode() == TypeCode::Empty;
+  return IsEmptyType(other);
 }
 
 std::unique_ptr<ITypeData> CreateDefaultTypeData()

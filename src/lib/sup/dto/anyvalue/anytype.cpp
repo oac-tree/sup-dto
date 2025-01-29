@@ -66,7 +66,7 @@ AnyType::AnyType(std::size_t size, const AnyType& elem_type, const std::string& 
   : AnyType{}
 {
   std::unique_ptr<ITypeData> array_data = std::make_unique<ArrayTypeData>(size, elem_type, name);
-  std::swap(m_data, array_data);
+  m_data = std::move(array_data);
 }
 
 AnyType::AnyType(std::size_t size, const AnyType& elem_type)
@@ -92,7 +92,8 @@ AnyType& AnyType::operator=(const AnyType& other) &
 
 AnyType& AnyType::operator=(AnyType&& other) & noexcept
 {
-  std::swap(m_data, other.m_data);
+  auto moved = std::move(other);
+  std::swap(m_data, moved.m_data);
   return *this;
 }
 
@@ -260,9 +261,9 @@ namespace
 std::unordered_set<TypeCode> ScalarTypes()
 {
   std::unordered_set<TypeCode> result;
-  for (auto& [memberCode, memberName] : ScalarTypeDefinitions())
+  for (auto& [type_code, _] : ScalarTypeDefinitions())
   {
-    (void)result.insert(memberCode);
+    (void)result.insert(type_code);
   }
   return result;
 }
