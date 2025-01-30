@@ -43,6 +43,8 @@ public:
   TypeCode GetTypeCode() const override;
   std::string GetTypeName() const override;
 
+  std::unique_ptr<ITypeData> CloneFromChildren(std::vector<AnyType>&& children) const override;
+
   bool Equals(const AnyType& other) const override;
 };
 

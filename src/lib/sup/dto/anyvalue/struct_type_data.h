@@ -53,6 +53,7 @@ public:
   bool HasChild(const std::string& child_name) const override;
   std::vector<std::string> ChildNames() const override;
   AnyType* GetChildType(const std::string& child_name) override;
+  std::unique_ptr<ITypeData> CloneFromChildren(std::vector<AnyType>&& children) const override;
 
   bool Equals(const AnyType& other) const override;
 

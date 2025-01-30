@@ -297,6 +297,7 @@ private:
   std::vector<std::string> ChildNames() const;
   AnyType* GetChildType(const std::string& child_name);
   const AnyType* GetChildType(const std::string& child_name) const;
+  AnyType CloneFromChildren(std::vector<AnyType>&& children) const;
   std::unique_ptr<ITypeData> m_data;
 };
 

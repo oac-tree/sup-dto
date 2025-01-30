@@ -32,6 +32,7 @@ class ArrayTypeData : public ITypeData
 {
 public:
   ArrayTypeData(std::size_t size, const AnyType& elem_type, const std::string& name);
+  ArrayTypeData(std::size_t size, AnyType&& elem_type, const std::string& name);
   ~ArrayTypeData() override;
 
   ArrayTypeData(const ArrayTypeData& other) = delete;
@@ -49,6 +50,7 @@ public:
   bool HasChild(const std::string& child_name) const override;
   std::vector<std::string> ChildNames() const override;
   AnyType* GetChildType(const std::string& child_name) override;
+  std::unique_ptr<ITypeData> CloneFromChildren(std::vector<AnyType>&& children) const override;
 
   bool Equals(const AnyType& other) const override;
 

@@ -227,6 +227,12 @@ const AnyType* AnyType::GetChildType(const std::string& child_name) const
   return m_data->GetChildType(child_name);
 }
 
+AnyType AnyType::CloneFromChildren(std::vector<AnyType>&& children) const
+{
+  auto type_data = m_data->CloneFromChildren(std::move(children));
+  return AnyType{std::move(type_data)};
+}
+
 AnyType EmptyStructType(const std::string& name)
 {
   return AnyType(std::initializer_list<std::pair<std::string, AnyType>>{}, name);

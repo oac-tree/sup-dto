@@ -40,7 +40,7 @@ std::unique_ptr<ITypeData> StructTypeData::Clone() const
     auto copy = std::make_unique<AnyType>(m_member_data[member_name]);
     result->m_member_data.AddMember(member_name, std::move(copy));
   }
-  return std::unique_ptr<ITypeData>{result.release()};
+  return result;
 }
 
 TypeCode StructTypeData::GetTypeCode() const
@@ -82,6 +82,26 @@ std::vector<std::string> StructTypeData::ChildNames() const
 AnyType* StructTypeData::GetChildType(const std::string& child_name)
 {
   return m_member_data.GetChild(child_name);
+}
+
+std::unique_ptr<ITypeData> StructTypeData::CloneFromChildren(std::vector<AnyType>&& children) const
+{
+  auto n_members = m_member_data.NumberOfMembers();
+  if (children.size() != n_members)
+  {
+    const std::string error =
+      "StructTypeData::CloneFromChildren(): argument must contain same number of children as source"
+      " struct";
+    throw InvalidOperationException(error);
+  }
+  auto result = std::make_unique<StructTypeData>(GetTypeName());
+  auto member_names = m_member_data.MemberNames();
+  for (std::size_t idx=0; idx < n_members; ++idx)
+  {
+    auto member_ptr = std::make_unique<AnyType>(std::move(children[idx]));
+    result->m_member_data.AddMember(member_names[idx], std::move(member_ptr));
+  }
+  return result;
 }
 
 bool StructTypeData::Equals(const AnyType& other) const

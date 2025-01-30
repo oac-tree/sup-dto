@@ -58,6 +58,17 @@ std::string ScalarTypeData::GetTypeName() const
   return ScalarTypeCodeToString(m_type_code);
 }
 
+std::unique_ptr<ITypeData> ScalarTypeData::CloneFromChildren(std::vector<AnyType>&& children) const
+{
+  if (!children.empty())
+  {
+    const std::string error =
+      "ScalarTypeData::CloneFromChildren(): Trying to clone scalar type with child types";
+    throw InvalidOperationException(error);
+  }
+  return std::make_unique<ScalarTypeData>(m_type_code);
+}
+
 bool ScalarTypeData::Equals(const AnyType& other) const
 {
   return other.GetTypeCode() == GetTypeCode();

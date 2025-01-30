@@ -21,6 +21,8 @@
 
 #include "empty_type_data.h"
 
+#include <sup/dto/anyvalue_exceptions.h>
+
 namespace sup
 {
 namespace dto
@@ -43,6 +45,17 @@ TypeCode EmptyTypeData::GetTypeCode() const
 std::string EmptyTypeData::GetTypeName() const
 {
   return kEmptyTypeName;
+}
+
+std::unique_ptr<ITypeData> EmptyTypeData::CloneFromChildren(std::vector<AnyType>&& children) const
+{
+  if (!children.empty())
+  {
+    const std::string error =
+      "EmptyTypeData::CloneFromChildren(): Trying to clone empty type with child types";
+    throw InvalidOperationException(error);
+  }
+  return std::make_unique<EmptyTypeData>();
 }
 
 bool EmptyTypeData::Equals(const AnyType& other) const
