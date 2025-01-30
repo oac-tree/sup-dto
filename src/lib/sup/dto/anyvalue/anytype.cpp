@@ -39,6 +39,12 @@ std::unordered_set<TypeCode> ScalarTypes();
 
 std::pair<std::string, std::string> SplitFieldnameInHeadTail(const std::string& fieldname);
 
+std::pair<std::string, std::string> SplitFieldnameOnArrayCharacter(const std::string& fieldname,
+                                                                   std::size_t pos);
+
+std::pair<std::string, std::string> SplitFieldnameOnStructCharacter(const std::string& fieldname,
+                                                                   std::size_t pos);
+
 bool CheckComponentFieldname(const std::string& fieldname);
 }  // unnamed namespace
 
@@ -299,45 +305,68 @@ std::pair<std::string, std::string> SplitFieldnameInHeadTail(const std::string& 
   }
   const std::string error =
     "SplitFieldnameInHeadTail(): could not parse fieldname \"" + fieldname + "\"";
-  auto total_size = fieldname.size();
   auto pos = fieldname.find_first_of("].");
-  std::string head{};
-  std::string tail{};
   if (pos == std::string::npos)
   {
-    head = fieldname;
-  }
-  else if (fieldname[pos] == ']')
-  {
-    if (pos == 0 || fieldname[pos-1] != '[')
+    if (!CheckComponentFieldname(fieldname))
     {
       throw InvalidOperationException(error);
     }
-    if (pos == 1)  // fieldname starts with []
+    return { fieldname, "" };
+  }
+  if (fieldname[pos] == ']')
+  {
+    return SplitFieldnameOnArrayCharacter(fieldname, pos);
+  }
+  return SplitFieldnameOnStructCharacter(fieldname, pos);
+}
+
+std::pair<std::string, std::string> SplitFieldnameOnArrayCharacter(const std::string& fieldname,
+                                                                   std::size_t pos)
+{
+  const std::string error =
+    "SplitFieldnameInHeadTail(): could not parse fieldname \"" + fieldname + "\"";
+  auto total_size = fieldname.size();
+  std::string head{};
+  std::string tail{};
+  if (pos == 0 || fieldname[pos-1] != '[')
+  {
+    throw InvalidOperationException(error);
+  }
+  if (pos == 1)  // fieldname starts with []
+  {
+    auto pos_remainder = pos + 1;
+    if (pos_remainder < total_size && fieldname[pos_remainder] == '.')
     {
-      auto pos_remainder = pos + 1;
-      if (pos_remainder < total_size && fieldname[pos_remainder] == '.')
-      {
-        ++pos_remainder;
-      }
-      head = "[]";
-      tail = fieldname.substr(pos_remainder);
+      ++pos_remainder;
     }
-    else
-    {
-      head = fieldname.substr(0, pos - 1);
-      tail = fieldname.substr(pos - 1);
-    }
+    head = "[]";
+    tail = fieldname.substr(pos_remainder);
   }
   else
   {
-    if (pos == 0 || pos + 1 == total_size)  // fieldname starts or ends with '.'
-    {
-      throw InvalidOperationException(error);
-    }
-    head = fieldname.substr(0, pos);
-    tail = fieldname.substr(pos + 1);
+    head = fieldname.substr(0, pos - 1);
+    tail = fieldname.substr(pos - 1);
   }
+  if (!CheckComponentFieldname(head))
+  {
+    throw InvalidOperationException(error);
+  }
+  return { head, tail };
+}
+
+std::pair<std::string, std::string> SplitFieldnameOnStructCharacter(const std::string& fieldname,
+                                                                   std::size_t pos)
+{
+  const std::string error =
+    "SplitFieldnameInHeadTail(): could not parse fieldname \"" + fieldname + "\"";
+  auto total_size = fieldname.size();
+  if (pos == 0 || pos + 1 == total_size)  // fieldname starts or ends with '.'
+  {
+    throw InvalidOperationException(error);
+  }
+  auto head = fieldname.substr(0, pos);
+  auto tail = fieldname.substr(pos + 1);
   if (!CheckComponentFieldname(head))
   {
     throw InvalidOperationException(error);
