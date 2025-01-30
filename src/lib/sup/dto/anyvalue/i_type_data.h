@@ -39,7 +39,6 @@ public:
   ITypeData(ITypeData&&) = delete;
   ITypeData& operator=(ITypeData&&) = delete;
 
-  virtual std::unique_ptr<ITypeData> Clone() const = 0;
   virtual TypeCode GetTypeCode() const = 0;
   virtual std::string GetTypeName() const = 0;
 

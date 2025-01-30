@@ -32,11 +32,6 @@ EmptyTypeData::EmptyTypeData() = default;
 
 EmptyTypeData::~EmptyTypeData() = default;
 
-std::unique_ptr<ITypeData> EmptyTypeData::Clone() const
-{
-  return std::make_unique<EmptyTypeData>();
-}
-
 TypeCode EmptyTypeData::GetTypeCode() const
 {
   return TypeCode::Empty;

@@ -39,7 +39,6 @@ public:
   ScalarTypeData& operator=(const ScalarTypeData& other) = delete;
   ScalarTypeData& operator=(ScalarTypeData&& other) = delete;
 
-  std::unique_ptr<ITypeData> Clone() const override;
   TypeCode GetTypeCode() const override;
   std::string GetTypeName() const override;
 

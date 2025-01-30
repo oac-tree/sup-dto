@@ -42,7 +42,6 @@ public:
   StructTypeData& operator=(const StructTypeData& other) = delete;
   StructTypeData& operator=(StructTypeData&& other) = delete;
 
-  std::unique_ptr<ITypeData> Clone() const override;
   TypeCode GetTypeCode() const override;
   std::string GetTypeName() const override;
 

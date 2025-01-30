@@ -39,7 +39,6 @@ public:
   EmptyTypeData& operator=(const EmptyTypeData& other) = delete;
   EmptyTypeData& operator=(EmptyTypeData&& other) = delete;
 
-  std::unique_ptr<ITypeData> Clone() const override;
   TypeCode GetTypeCode() const override;
   std::string GetTypeName() const override;
 

@@ -43,11 +43,6 @@ ScalarTypeData::ScalarTypeData(TypeCode type_code)
 
 ScalarTypeData::~ScalarTypeData() = default;
 
-std::unique_ptr<ITypeData> ScalarTypeData::Clone() const
-{
-  return std::make_unique<ScalarTypeData>(m_type_code);
-}
-
 TypeCode ScalarTypeData::GetTypeCode() const
 {
   return m_type_code;
