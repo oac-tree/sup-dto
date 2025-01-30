@@ -58,6 +58,7 @@ public:
   std::size_t NumberOfMembers() const;
 
   bool HasField(const std::string& fieldname) const;
+  T* GetChild(const std::string& child_name);
   T& operator[](const std::string& fieldname);
   const T& operator[](const std::string& fieldname) const;
 
@@ -98,6 +99,22 @@ void StructDataT<T>::AddMember(const std::string& name, std::unique_ptr<T>&& val
 }
 
 template <typename T>
+std::vector<std::string> StructDataT<T>::MemberNames() const
+{
+  std::vector<std::string> result;
+  (void)std::transform(m_members.begin(), m_members.end(), std::back_inserter(result),
+                       [](typename decltype(m_members)::const_reference member)
+                       { return member.first; });
+  return result;
+}
+
+template <typename T>
+std::size_t StructDataT<T>::NumberOfMembers() const
+{
+  return m_members.size();
+}
+
+template <typename T>
 bool StructDataT<T>::HasField(const std::string& fieldname) const
 {
   auto [firstField, otherFields] = utils::StripFirstFieldName(fieldname);
@@ -118,19 +135,19 @@ bool StructDataT<T>::HasField(const std::string& fieldname) const
 }
 
 template <typename T>
-std::vector<std::string> StructDataT<T>::MemberNames() const
+T* StructDataT<T>::GetChild(const std::string& child_name)
 {
-  std::vector<std::string> result;
-  (void)std::transform(m_members.begin(), m_members.end(), std::back_inserter(result),
-                       [](typename decltype(m_members)::const_reference member)
-                       { return member.first; });
-  return result;
-}
-
-template <typename T>
-std::size_t StructDataT<T>::NumberOfMembers() const
-{
-  return m_members.size();
+  auto pred = [child_name](typename decltype(m_members)::reference member){
+    return member.first == child_name;
+  };
+  auto it = std::find_if(m_members.begin(), m_members.end(), pred);
+  if (it == m_members.end())
+  {
+    const std::string error =
+      "StructDataT::GetChild() called with unknown child name \"" + child_name + "\"";
+    throw InvalidOperationException(error);
+  }
+  return it->second.get();
 }
 
 template <typename T>

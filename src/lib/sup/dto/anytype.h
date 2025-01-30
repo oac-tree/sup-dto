@@ -292,6 +292,7 @@ public:
 
 private:
   explicit AnyType(std::unique_ptr<ITypeData>&& data);
+  const AnyType* GetChildType(const std::string& child_name) const;
   std::unique_ptr<ITypeData> m_data;
 };
 

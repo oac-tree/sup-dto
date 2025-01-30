@@ -26,6 +26,7 @@
 namespace
 {
 const sup::dto::uint32 kBracketsSize = 2u;
+const std::string kArrayTypeChildName = "[]";  // fieldname of the only child
 }
 
 namespace sup
@@ -82,6 +83,18 @@ bool ArrayTypeData::HasField(const std::string& fieldname) const
     return true;
   }
   return m_elem_type.HasField(remainder);
+}
+
+AnyType* ArrayTypeData::GetChildType(const std::string& child_name)
+{
+  if (child_name != kArrayTypeChildName)
+  {
+    const std::string error =
+      "ArrayTypeData::GetChildType() called with argument \"" + child_name +
+      "\", while it only supports \"" + kArrayTypeChildName + "\"";
+    throw InvalidOperationException(error);
+  }
+  return std::addressof(m_elem_type);
 }
 
 AnyType& ArrayTypeData::operator[](const std::string& fieldname) &

@@ -74,6 +74,11 @@ bool StructTypeData::HasField(const std::string& fieldname) const
   return m_member_data.HasField(fieldname);
 }
 
+AnyType* StructTypeData::GetChildType(const std::string& child_name)
+{
+  return m_member_data.GetChild(child_name);
+}
+
 AnyType& StructTypeData::operator[](const std::string& fieldname) &
 {
   return m_member_data[fieldname];

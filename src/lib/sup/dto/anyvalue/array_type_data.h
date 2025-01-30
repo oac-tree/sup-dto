@@ -47,6 +47,7 @@ public:
   std::size_t NumberOfElements() const override;
 
   bool HasField(const std::string& fieldname) const override;
+  AnyType* GetChildType(const std::string& child_name) override;
   AnyType& operator[](const std::string& fieldname) & override;
 
   bool Equals(const AnyType& other) const override;
