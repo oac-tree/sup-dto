@@ -50,7 +50,7 @@ public:
   std::vector<std::string> MemberNames() const override;
   std::size_t NumberOfMembers() const override;
 
-  bool HasField(const std::string& fieldname) const override;
+  bool HasChild(const std::string& child_name) const override;
   AnyType* GetChildType(const std::string& child_name) override;
 
   bool Equals(const AnyType& other) const override;

@@ -69,9 +69,9 @@ std::size_t StructTypeData::NumberOfMembers() const
   return m_member_data.NumberOfMembers();
 }
 
-bool StructTypeData::HasField(const std::string& fieldname) const
+bool StructTypeData::HasChild(const std::string& child_name) const
 {
-  return m_member_data.HasField(fieldname);
+  return m_member_data.HasChild(child_name);
 }
 
 AnyType* StructTypeData::GetChildType(const std::string& child_name)

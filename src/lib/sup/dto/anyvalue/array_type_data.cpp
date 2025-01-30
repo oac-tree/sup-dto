@@ -67,22 +67,9 @@ std::size_t ArrayTypeData::NumberOfElements() const
   return m_size;
 }
 
-bool ArrayTypeData::HasField(const std::string& fieldname) const
+bool ArrayTypeData::HasChild(const std::string& child_name) const
 {
-  std::string remainder;
-  try
-  {
-    remainder = StripTypeIndex(fieldname);
-  }
-  catch(const InvalidOperationException&)
-  {
-    return false;
-  }
-  if (remainder.empty())
-  {
-    return true;
-  }
-  return m_elem_type.HasField(remainder);
+  return child_name == kArrayTypeChildName;
 }
 
 AnyType* ArrayTypeData::GetChildType(const std::string& child_name)
@@ -112,20 +99,6 @@ bool ArrayTypeData::Equals(const AnyType& other) const
     return false;
   }
   return other.ElementType() == ElementType();
-}
-
-std::string StripTypeIndex(const std::string& fieldname)
-{
-  if ((fieldname.size() < kBracketsSize) || (fieldname.substr(0u, kBracketsSize) != "[]"))
-  {
-    throw InvalidOperationException("Index operator argument for array type should start with []");
-  }
-  auto result = fieldname.substr(kBracketsSize);
-  if (!result.empty() && (result[0u] == '.'))
-  {
-    result = result.substr(1u);
-  }
-  return result;
 }
 
 }  // namespace dto

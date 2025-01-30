@@ -55,7 +55,7 @@ std::size_t ITypeData::NumberOfElements() const
   return 0u;
 }
 
-bool ITypeData::HasField(const std::string&) const
+bool ITypeData::HasChild(const std::string&) const
 {
   return false;
 }

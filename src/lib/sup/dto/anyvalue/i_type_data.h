@@ -50,7 +50,7 @@ public:
   virtual AnyType ElementType() const;
   virtual std::size_t NumberOfElements() const;
 
-  virtual bool HasField(const std::string&) const;
+  virtual bool HasChild(const std::string& child_name) const;
   virtual AnyType* GetChildType(const std::string& child_name);
 
   virtual bool Equals(const AnyType& other) const = 0;

@@ -153,7 +153,27 @@ std::size_t AnyType::NumberOfElements() const
 
 bool AnyType::HasField(const std::string& fieldname) const
 {
-  return m_data->HasField(fieldname);
+  std::deque<std::string> field_names;
+  try
+  {
+    field_names = SplitAnyTypeFieldname(fieldname);
+  }
+  catch(const MessageException&)
+  {
+    return false;
+  }
+  const auto* node = this;
+  while (!field_names.empty())
+  {
+    auto child_name = field_names.front();
+    if (!node->HasChild(child_name))
+    {
+      return false;
+    }
+    node = node->GetChildType(child_name);
+    field_names.pop_front();
+  }
+  return true;
 }
 
 AnyType& AnyType::operator[](const std::string& fieldname)
@@ -186,6 +206,11 @@ bool AnyType::operator!=(const AnyType& other) const
 AnyType::AnyType(std::unique_ptr<ITypeData>&& data)
   : m_data{std::move(data)}
 {}
+
+bool AnyType::HasChild(const std::string& child_name) const
+{
+  return m_data->HasChild(child_name);
+}
 
 AnyType* AnyType::GetChildType(const std::string& child_name)
 {

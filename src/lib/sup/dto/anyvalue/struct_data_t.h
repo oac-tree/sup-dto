@@ -58,6 +58,7 @@ public:
   std::size_t NumberOfMembers() const;
 
   bool HasField(const std::string& fieldname) const;
+  bool HasChild(const std::string& child_name) const;
   T* GetChild(const std::string& child_name);
   T& operator[](const std::string& fieldname);
   const T& operator[](const std::string& fieldname) const;
@@ -103,7 +104,7 @@ std::vector<std::string> StructDataT<T>::MemberNames() const
 {
   std::vector<std::string> result;
   (void)std::transform(m_members.begin(), m_members.end(), std::back_inserter(result),
-                       [](typename decltype(m_members)::const_reference member)
+                       [](const auto& member)
                        { return member.first; });
   return result;
 }
@@ -119,7 +120,7 @@ bool StructDataT<T>::HasField(const std::string& fieldname) const
 {
   auto [firstField, otherFields] = utils::StripFirstFieldName(fieldname);
   auto it = std::find_if(m_members.cbegin(), m_members.cend(),
-                         [&](typename decltype(m_members)::const_reference member){
+                         [&](const auto& member){
                            return member.first == firstField;
                          });
   if (it == m_members.cend())
@@ -135,9 +136,19 @@ bool StructDataT<T>::HasField(const std::string& fieldname) const
 }
 
 template <typename T>
+bool StructDataT<T>::HasChild(const std::string& child_name) const
+{
+  auto pred = [child_name](const auto& member){
+    return member.first == child_name;
+  };
+  auto it = std::find_if(m_members.begin(), m_members.end(), pred);
+  return it != m_members.end();
+}
+
+template <typename T>
 T* StructDataT<T>::GetChild(const std::string& child_name)
 {
-  auto pred = [child_name](typename decltype(m_members)::reference member){
+  auto pred = [child_name](const auto& member){
     return member.first == child_name;
   };
   auto it = std::find_if(m_members.begin(), m_members.end(), pred);

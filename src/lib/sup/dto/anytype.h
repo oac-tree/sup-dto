@@ -293,6 +293,7 @@ public:
 
 private:
   explicit AnyType(std::unique_ptr<ITypeData>&& data);
+  bool HasChild(const std::string& child_name) const;
   AnyType* GetChildType(const std::string& child_name);
   const AnyType* GetChildType(const std::string& child_name) const;
   std::unique_ptr<ITypeData> m_data;
@@ -338,8 +339,8 @@ const std::vector<std::pair<TypeCode, std::string>>& ScalarTypeDefinitions();
  *
  * @code {.cpp}
  * auto names_1 = SplitAnyTypeFieldname("[]subfieldname");   // returns {"[]", "subfieldname"}
- * auto names_2 = StripTypeIndex("[].subfieldname");  // idem
- * auto names_3 = StripTypeIndex("[oops]");           // throws InvalidOperationException
+ * auto names_2 = SplitAnyTypeFieldname("[].subfieldname");  // idem
+ * auto names_3 = SplitAnyTypeFieldname("[oops]");           // throws InvalidOperationException
  * @endcode
  *
  */
