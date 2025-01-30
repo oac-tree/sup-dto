@@ -305,10 +305,6 @@ std::pair<std::string, std::string> SplitFieldnameInHeadTail(const std::string& 
   std::string tail{};
   if (pos == std::string::npos)
   {
-    if (!CheckComponentFieldname(fieldname))
-    {
-      throw InvalidOperationException(error);
-    }
     head = fieldname;
   }
   else if (fieldname[pos] == ']')
@@ -351,10 +347,17 @@ std::pair<std::string, std::string> SplitFieldnameInHeadTail(const std::string& 
 
 bool CheckComponentFieldname(const std::string& fieldname)
 {
-  // Check for characters that are not allowed in component fieldnames as they are used to separate
-  // different component names:
+  // A component fieldname is either "[]" or a non-empty string that doesn't contain any of "[]."
+  if (fieldname.empty())
+  {
+    return false;
+  }
+  if (fieldname == "[]")
+  {
+    return true;
+  }
   auto pos = fieldname.find_first_of("[].");
-  return (pos == std::string::npos) && (!fieldname.empty());
+  return (pos == std::string::npos);
 }
 
 }  // unnamed namespace

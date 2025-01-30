@@ -48,6 +48,7 @@ target_sources(unit-tests
     scalar_conversion_tests.cpp
     scalartype_tests.cpp
     scalarvalue_tests.cpp
+    split_anytype_fieldname_tests.cpp
     structuredtype_tests.cpp
     structuredvalue_tests.cpp
     test_serializers.cpp
