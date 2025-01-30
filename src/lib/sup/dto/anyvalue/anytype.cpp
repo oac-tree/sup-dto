@@ -36,6 +36,10 @@ namespace dto
 namespace
 {
 std::unordered_set<TypeCode> ScalarTypes();
+
+std::pair<std::string, std::string> SplitFieldnameInHeadTail(const std::string& fieldname);
+
+bool CheckComponentFieldname(const std::string& fieldname);
 }  // unnamed namespace
 
 AnyType::AnyType() noexcept
@@ -246,6 +250,20 @@ const std::vector<std::pair<TypeCode, std::string>>& ScalarTypeDefinitions()
   return scalar_type_definitions;
 }
 
+std::deque<std::string> SplitAnyTypeFieldname(const std::string& fieldname)
+{
+  std::deque<std::string> component_names;
+  auto [head, tail] = SplitFieldnameInHeadTail(fieldname);   // head is never empty
+  component_names.push_back(head);
+  while (!tail.empty())
+  {
+    auto [new_head, new_tail] = SplitFieldnameInHeadTail(tail);
+    component_names.push_back(new_head);
+    tail = new_tail;
+  }
+  return component_names;
+}
+
 const AnyType EmptyType{};
 const AnyType BooleanType{TypeCode::Bool};
 const AnyType Character8Type{TypeCode::Char8};
@@ -271,6 +289,72 @@ std::unordered_set<TypeCode> ScalarTypes()
     (void)result.insert(type_code);
   }
   return result;
+}
+
+std::pair<std::string, std::string> SplitFieldnameInHeadTail(const std::string& fieldname)
+{
+  if (fieldname.empty())
+  {
+    throw InvalidOperationException("SplitFieldnameInHeadTail() called with empty fieldname");
+  }
+  const std::string error =
+    "SplitFieldnameInHeadTail(): could not parse fieldname \"" + fieldname + "\"";
+  auto total_size = fieldname.size();
+  auto pos = fieldname.find_first_of("].");
+  std::string head{};
+  std::string tail{};
+  if (pos == std::string::npos)
+  {
+    if (!CheckComponentFieldname(fieldname))
+    {
+      throw InvalidOperationException(error);
+    }
+    head = fieldname;
+  }
+  else if (fieldname[pos] == ']')
+  {
+    if (pos == 0 || fieldname[pos-1] != '[')
+    {
+      throw InvalidOperationException(error);
+    }
+    if (pos == 1)  // fieldname starts with []
+    {
+      auto pos_remainder = pos + 1;
+      if (pos_remainder < total_size && fieldname[pos_remainder] == '.')
+      {
+        ++pos_remainder;
+      }
+      head = "[]";
+      tail = fieldname.substr(pos_remainder);
+    }
+    else
+    {
+      head = fieldname.substr(0, pos - 1);
+      tail = fieldname.substr(pos - 1);
+    }
+  }
+  else
+  {
+    if (pos == 0 || pos + 1 == total_size)  // fieldname starts or ends with '.'
+    {
+      throw InvalidOperationException(error);
+    }
+    head = fieldname.substr(0, pos);
+    tail = fieldname.substr(pos + 1);
+  }
+  if (!CheckComponentFieldname(head))
+  {
+    throw InvalidOperationException(error);
+  }
+  return { head, tail };
+}
+
+bool CheckComponentFieldname(const std::string& fieldname)
+{
+  // Check for characters that are not allowed in component fieldnames as they are used to separate
+  // different component names:
+  auto pos = fieldname.find_first_of("[].");
+  return (pos == std::string::npos) && (!fieldname.empty());
 }
 
 }  // unnamed namespace

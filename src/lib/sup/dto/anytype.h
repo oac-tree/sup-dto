@@ -24,6 +24,7 @@
 
 #include <sup/dto/basic_scalar_types.h>
 
+#include <deque>
 #include <functional>
 #include <initializer_list>
 #include <memory>
@@ -323,6 +324,25 @@ bool IsArrayType(const AnyType& anytype);
 bool IsScalarType(const AnyType& anytype);
 
 const std::vector<std::pair<TypeCode, std::string>>& ScalarTypeDefinitions();
+
+/**
+ * @brief Splits a possibly nested fieldname for an AnyType into its component names.
+ *
+ * @param fieldname Full fieldname.
+ * @return List of component names.
+ *
+ * @throws InvalidOperationException Thrown when the fieldname cannot be properly parsed.
+ *
+ * @note Optional dots '.' after the square brackets will be removed too.
+ *
+ * @code {.cpp}
+ * auto names_1 = SplitAnyTypeFieldname("[]subfieldname");   // returns {"[]", "subfieldname"}
+ * auto names_2 = StripTypeIndex("[].subfieldname");  // idem
+ * auto names_3 = StripTypeIndex("[oops]");           // throws InvalidOperationException
+ * @endcode
+ *
+ */
+std::deque<std::string> SplitAnyTypeFieldname(const std::string& fieldname);
 
 extern const AnyType EmptyType;
 extern const AnyType BooleanType;
