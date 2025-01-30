@@ -51,6 +51,7 @@ public:
   std::size_t NumberOfMembers() const override;
 
   bool HasChild(const std::string& child_name) const override;
+  std::vector<std::string> ChildNames() const override;
   AnyType* GetChildType(const std::string& child_name) override;
 
   bool Equals(const AnyType& other) const override;

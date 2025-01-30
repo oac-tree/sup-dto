@@ -294,6 +294,7 @@ public:
 private:
   explicit AnyType(std::unique_ptr<ITypeData>&& data);
   bool HasChild(const std::string& child_name) const;
+  std::vector<std::string> ChildNames() const;
   AnyType* GetChildType(const std::string& child_name);
   const AnyType* GetChildType(const std::string& child_name) const;
   std::unique_ptr<ITypeData> m_data;
