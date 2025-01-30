@@ -21,6 +21,7 @@
 
 #include <sup/dto/anytype.h>
 
+#include <sup/dto/anyvalue/anytype_copy_node.h>
 #include <sup/dto/anyvalue/array_type_data.h>
 #include <sup/dto/anyvalue/empty_type_data.h>
 #include <sup/dto/anyvalue/scalar_type_data.h>
@@ -84,8 +85,34 @@ AnyType::AnyType(std::size_t size, const AnyType& elem_type)
 {}
 
 AnyType::AnyType(const AnyType& other)
-  : AnyType{other.m_data->Clone()}
-{}
+  : AnyType{}
+{
+  std::deque<AnyTypeCopyNode> queue;
+  AnyTypeCopyNode root_node{std::addressof(other), other.ChildNames()};
+  queue.push_back(std::move(root_node));
+  while (true)
+  {
+    auto& last_node = queue.back();
+    auto next_child_name = last_node.NextChildName();
+    if (next_child_name.empty())
+    {
+      auto node_type = last_node.GetSource()->CloneFromChildren(last_node.MoveChildTypes());
+      queue.pop_back();
+      if (queue.empty())
+      {
+        std::swap(m_data, node_type.m_data);
+        break;
+      }
+      queue.back().AddChild(std::move(node_type));
+    }
+    else
+    {
+      auto next_child = last_node.GetSource()->GetChildType(next_child_name);
+      AnyTypeCopyNode child_node{next_child, next_child->ChildNames()};
+      queue.push_back(child_node);
+    }
+  }
+}
 
 AnyType::AnyType(AnyType&& other) noexcept
   : AnyType{}
