@@ -97,16 +97,6 @@ AnyType* ArrayTypeData::GetChildType(const std::string& child_name)
   return std::addressof(m_elem_type);
 }
 
-AnyType& ArrayTypeData::operator[](const std::string& fieldname) &
-{
-  const auto remainder = StripTypeIndex(fieldname);
-  if (remainder.empty())
-  {
-    return m_elem_type;
-  }
-  return m_elem_type[remainder];
-}
-
 bool ArrayTypeData::Equals(const AnyType& other) const
 {
   if (other.GetTypeCode() != TypeCode::Array)

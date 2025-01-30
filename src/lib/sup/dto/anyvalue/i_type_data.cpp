@@ -65,11 +65,6 @@ AnyType* ITypeData::GetChildType(const std::string&)
   throw InvalidOperationException("This type does not support members or elements");
 }
 
-AnyType& ITypeData::operator[](const std::string&) &
-{
-  throw InvalidOperationException("Index operator not supported for this type");
-}
-
 }  // namespace dto
 
 }  // namespace sup

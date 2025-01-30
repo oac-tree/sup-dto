@@ -158,12 +158,19 @@ bool AnyType::HasField(const std::string& fieldname) const
 
 AnyType& AnyType::operator[](const std::string& fieldname)
 {
-  return (*m_data)[fieldname];
+  return const_cast<AnyType&>(const_cast<const AnyType*>(this)->operator[](fieldname));
 }
 
 const AnyType& AnyType::operator[](const std::string& fieldname) const
 {
-  return (*m_data)[fieldname];
+  auto field_names = SplitAnyTypeFieldname(fieldname);
+  const auto* result = this;
+  while (!field_names.empty())
+  {
+    result = result->GetChildType(field_names.front());
+    field_names.pop_front();
+  }
+  return *result;
 }
 
 bool AnyType::operator==(const AnyType& other) const

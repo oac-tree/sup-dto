@@ -53,8 +53,6 @@ public:
   virtual bool HasField(const std::string&) const;
   virtual AnyType* GetChildType(const std::string& child_name);
 
-  virtual AnyType& operator[](const std::string&) &;
-
   virtual bool Equals(const AnyType& other) const = 0;
 };
 

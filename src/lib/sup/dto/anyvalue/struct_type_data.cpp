@@ -79,11 +79,6 @@ AnyType* StructTypeData::GetChildType(const std::string& child_name)
   return m_member_data.GetChild(child_name);
 }
 
-AnyType& StructTypeData::operator[](const std::string& fieldname) &
-{
-  return m_member_data[fieldname];
-}
-
 bool StructTypeData::Equals(const AnyType& other) const
 {
   return m_member_data.Equals(other);
