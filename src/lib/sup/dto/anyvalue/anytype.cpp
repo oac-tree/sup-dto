@@ -180,6 +180,11 @@ AnyType::AnyType(std::unique_ptr<ITypeData>&& data)
   : m_data{std::move(data)}
 {}
 
+AnyType* AnyType::GetChildType(const std::string& child_name)
+{
+  return const_cast<AnyType*>(const_cast<const AnyType*>(this)->GetChildType(child_name));
+}
+
 const AnyType* AnyType::GetChildType(const std::string& child_name) const
 {
   return m_data->GetChildType(child_name);
