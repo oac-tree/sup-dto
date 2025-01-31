@@ -55,8 +55,9 @@ public:
   void ConvertFrom(const AnyValue& value) override;
 
   bool HasField(const std::string& fieldname) const override;
-  AnyValue& operator[](const std::string& fieldname) override;
   AnyValue& operator[](std::size_t idx) override;
+
+  AnyValue* GetChildValue(const std::string& child_name) override;
 
   bool Equals(const AnyValue& other) const override;
 

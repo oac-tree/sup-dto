@@ -433,8 +433,8 @@ std::pair<std::string, std::string> SplitAnyTypeFieldnameInHeadTail(const std::s
   return SplitAnyTypeFieldnameOnStructCharacter(fieldname, pos);
 }
 
-std::pair<std::string, std::string> SplitAnyTypeFieldnameOnArrayCharacter(const std::string& fieldname,
-                                                                   std::size_t pos)
+std::pair<std::string, std::string> SplitAnyTypeFieldnameOnArrayCharacter(
+  const std::string& fieldname, std::size_t pos)
 {
   const std::string error =
     "SplitAnyTypeFieldnameInHeadTail(): could not parse fieldname \"" + fieldname + "\"";
@@ -467,8 +467,8 @@ std::pair<std::string, std::string> SplitAnyTypeFieldnameOnArrayCharacter(const 
   return { head, tail };
 }
 
-std::pair<std::string, std::string> SplitAnyTypeFieldnameOnStructCharacter(const std::string& fieldname,
-                                                                   std::size_t pos)
+std::pair<std::string, std::string> SplitAnyTypeFieldnameOnStructCharacter(
+  const std::string& fieldname, std::size_t pos)
 {
   const std::string error =
     "SplitAnyTypeFieldnameInHeadTail(): could not parse fieldname \"" + fieldname + "\"";

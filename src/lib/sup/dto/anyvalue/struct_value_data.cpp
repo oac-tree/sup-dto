@@ -53,7 +53,7 @@ std::unique_ptr<IValueData> StructValueData::Clone(Constraints constraints) cons
   auto result = std::make_unique<StructValueData>(GetTypeName(), constraints);
   for (const auto& member_name : MemberNames())
   {
-    const auto& member_val = m_member_data[member_name];
+    const auto& member_val = *m_member_data.GetChild(member_name);
     auto data = CreateValueData(member_val.GetType(), constraints);
     data->ConvertFrom(member_val);
     result->m_member_data.AddMember(member_name, MakeAnyValue(std::move(data)));
@@ -76,7 +76,7 @@ AnyType StructValueData::GetType() const
   auto result = EmptyStructType(GetTypeName());
   for (const auto& member_name : MemberNames())
   {
-    (void)result.AddMember(member_name, m_member_data[member_name].GetType());
+    (void)result.AddMember(member_name, m_member_data.GetChild(member_name)->GetType());
   }
   return result;
 }
@@ -119,7 +119,7 @@ void StructValueData::ConvertFrom(const AnyValue& value)
   }
   for (const auto& member_name : MemberNames())
   {
-    UnsafeConversion(m_member_data[member_name], value[member_name]);
+    UnsafeConversion(*m_member_data.GetChild(member_name), value[member_name]);
   }
 }
 
@@ -128,9 +128,9 @@ bool StructValueData::HasField(const std::string& fieldname) const
   return m_member_data.HasField(fieldname);
 }
 
-AnyValue& StructValueData::operator[](const std::string& fieldname)
+AnyValue* StructValueData::GetChildValue(const std::string& child_name)
 {
-  return m_member_data[fieldname];
+  return m_member_data.GetChild(child_name);
 }
 
 bool StructValueData::Equals(const AnyValue& other) const

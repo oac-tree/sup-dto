@@ -60,8 +60,7 @@ public:
   bool HasField(const std::string& fieldname) const;
   bool HasChild(const std::string& child_name) const;
   T* GetChild(const std::string& child_name);
-  T& operator[](const std::string& fieldname);
-  const T& operator[](const std::string& fieldname) const;
+  const T* GetChild(const std::string& child_name) const;
 
   bool ShallowEquals(const T& other) const;
   bool Equals(const T& other) const;
@@ -149,48 +148,23 @@ bool StructDataT<T>::HasChild(const std::string& child_name) const
 template <typename T>
 T* StructDataT<T>::GetChild(const std::string& child_name)
 {
+  return const_cast<T*>(const_cast<const StructDataT<T>*>(this)->GetChild(child_name));
+}
+
+template <typename T>
+const T* StructDataT<T>::GetChild(const std::string& child_name) const
+{
   auto pred = [child_name](const auto& member){
     return member.first == child_name;
   };
-  auto it = std::find_if(m_members.begin(), m_members.end(), pred);
-  if (it == m_members.end())
+  auto it = std::find_if(m_members.cbegin(), m_members.cend(), pred);
+  if (it == m_members.cend())
   {
     const std::string error =
       "StructDataT::GetChild() called with unknown child name \"" + child_name + "\"";
     throw InvalidOperationException(error);
   }
   return it->second.get();
-}
-
-template <typename T>
-T& StructDataT<T>::operator[](const std::string& fieldname)
-{
-  return const_cast<T&>(static_cast<const StructDataT<T>&>(*this)[fieldname]);
-}
-
-template <typename T>
-const T& StructDataT<T>::operator[](const std::string& fieldname) const
-{
-  using cref_pair_type = typename decltype(m_members)::const_reference;
-  if (fieldname.empty())
-  {
-    throw InvalidOperationException("Trying to access a member with empty field name");
-  }
-  auto [firstField, otherFields] = utils::StripFirstFieldName(fieldname);
-  auto it = std::find_if(m_members.cbegin(), m_members.cend(),
-                      [&](cref_pair_type member){
-                        return member.first == firstField;
-                      });
-  if (it == m_members.cend())
-  {
-    throw InvalidOperationException("Trying to access a member with unknown field name");
-  }
-  auto& member = it->second;
-  if (otherFields.empty())
-  {
-    return *member;
-  }
-  return member->operator[](otherFields);
 }
 
 template <typename T>

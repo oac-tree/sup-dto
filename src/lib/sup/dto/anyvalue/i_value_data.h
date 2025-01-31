@@ -79,8 +79,9 @@ public:
   virtual std::string AsString() const;
 
   virtual bool HasField(const std::string&) const;
-  virtual AnyValue& operator[](const std::string&);
   virtual AnyValue& operator[](std::size_t);
+
+  virtual AnyValue* GetChildValue(const std::string& child_name);
 
   virtual bool Equals(const AnyValue& other) const = 0;
 protected:

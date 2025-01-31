@@ -27,6 +27,11 @@
 #include <stdexcept>
 #include <utility>
 
+namespace
+{
+std::size_t ParseValueIndex(const std::string& fieldname);
+}  // unnamed namespace
+
 namespace sup
 {
 namespace dto
@@ -137,17 +142,6 @@ bool ArrayValueData::HasField(const std::string& fieldname) const
   return m_elements[idx_remainder.first]->HasField(idx_remainder.second);
 }
 
-AnyValue& ArrayValueData::operator[](const std::string& fieldname)
-{
-  auto [idx, remainder] = StripValueIndex(fieldname);
-  auto& element = this->operator[](idx);
-  if (remainder.empty())
-  {
-    return element;
-  }
-  return element[remainder];
-}
-
 AnyValue& ArrayValueData::operator[](std::size_t idx)
 {
   if (idx >= NumberOfElements())
@@ -155,6 +149,16 @@ AnyValue& ArrayValueData::operator[](std::size_t idx)
     throw InvalidOperationException("Index operator argument out of bounds");
   }
   return *m_elements[idx];
+}
+
+AnyValue* ArrayValueData::GetChildValue(const std::string& child_name)
+{
+  auto idx = ParseValueIndex(child_name);
+  if (idx >= NumberOfElements())
+  {
+    throw InvalidOperationException("Index operator argument out of bounds");
+  }
+  return m_elements[idx].get();
 }
 
 bool ArrayValueData::Equals(const AnyValue& other) const
@@ -226,3 +230,39 @@ std::unique_ptr<IValueData> CreateArrayValueData(const AnyType& anytype,
 }  // namespace dto
 
 }  // namespace sup
+
+namespace
+{
+using namespace sup::dto;
+std::size_t ParseValueIndex(const std::string& fieldname)
+{
+  const std::string error = "ParseValueIndex(): could not parse \"" + fieldname + "\"";
+  auto total_size = fieldname.size();
+  if (total_size < 2)
+  {
+    throw InvalidOperationException(error);
+  }
+  if (fieldname[0] != '[' || fieldname[total_size - 1] != ']')
+  {
+    throw InvalidOperationException(error);
+  }
+  auto index_str = fieldname.substr(1, total_size - 2);
+  std::size_t idx{0};
+  std::size_t pos{0};
+  try
+  {
+    idx = std::stoul(index_str, &pos);
+  }
+  catch(const std::logic_error&)
+  {
+    throw InvalidOperationException(error);
+  }
+  if (pos != index_str.size())
+  {
+    throw InvalidOperationException(error);
+  }
+  return idx;
+}
+
+}  // unnamed namespace
+

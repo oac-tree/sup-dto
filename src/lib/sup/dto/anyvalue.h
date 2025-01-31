@@ -393,6 +393,7 @@ public:
 
 private:
   explicit AnyValue(std::unique_ptr<IValueData>&& data);
+  const AnyValue* GetChildValue(const std::string& child_name) const;
   friend class IValueData;
   std::unique_ptr<IValueData> m_data;
 };

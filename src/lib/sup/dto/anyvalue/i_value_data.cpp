@@ -146,14 +146,14 @@ bool IValueData::HasField(const std::string&) const
   return false;
 }
 
-AnyValue& IValueData::operator[](const std::string&)
-{
-  throw InvalidOperationException("Index operator with field name not supported for this type");
-}
-
 AnyValue& IValueData::operator[](std::size_t )
 {
   throw InvalidOperationException("Member access operator with unsigned index not supported");
+}
+
+AnyValue* IValueData::GetChildValue(const std::string&)
+{
+  throw InvalidOperationException("This value does not support members or elements");
 }
 
 std::unique_ptr<AnyValue> IValueData::MakeAnyValue(std::unique_ptr<IValueData>&& data)

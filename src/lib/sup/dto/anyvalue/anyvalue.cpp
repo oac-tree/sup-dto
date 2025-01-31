@@ -345,17 +345,24 @@ bool AnyValue::HasField(const std::string& fieldname) const
 
 AnyValue& AnyValue::operator[](const std::string& fieldname)
 {
-  return (*m_data)[fieldname];
+  return const_cast<AnyValue&>(const_cast<const AnyValue*>(this)->operator[](fieldname));
 }
 
 const AnyValue& AnyValue::operator[](const std::string& fieldname) const
 {
-  return (*m_data)[fieldname];
+  auto field_names = SplitAnyValueFieldname(fieldname);
+  const auto* result = this;
+  while (!field_names.empty())
+  {
+    result = result->GetChildValue(field_names.front());
+    field_names.pop_front();
+  }
+  return *result;
 }
 
 AnyValue& AnyValue::operator[](std::size_t idx)
 {
-  return (*m_data)[idx];
+  return const_cast<AnyValue&>(const_cast<const AnyValue*>(this)->operator[](idx));
 }
 
 const AnyValue& AnyValue::operator[](std::size_t idx) const
@@ -386,6 +393,11 @@ void AnyValue::UnsafeConvertFrom(const AnyValue& other)
 AnyValue::AnyValue(std::unique_ptr<IValueData>&& data)
   : m_data{std::move(data)}
 {}
+
+const AnyValue* AnyValue::GetChildValue(const std::string& child_name) const
+{
+  return m_data->GetChildValue(child_name);
+}
 
 AnyValue EmptyStruct(const std::string& type_name)
 {
