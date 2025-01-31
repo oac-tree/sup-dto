@@ -39,6 +39,7 @@ namespace
 {
 std::unordered_set<TypeCode> ScalarTypes();
 
+// Split a possibly nested type path into the first component and the rest:
 std::pair<std::string, std::string> SplitFieldnameInHeadTail(const std::string& fieldname);
 
 std::pair<std::string, std::string> SplitFieldnameOnArrayCharacter(const std::string& fieldname,
