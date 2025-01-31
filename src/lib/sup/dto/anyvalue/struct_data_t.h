@@ -63,6 +63,7 @@ public:
   T& operator[](const std::string& fieldname);
   const T& operator[](const std::string& fieldname) const;
 
+  bool ShallowEquals(const T& other) const;
   bool Equals(const T& other) const;
 
 private:
@@ -190,6 +191,24 @@ const T& StructDataT<T>::operator[](const std::string& fieldname) const
     return *member;
   }
   return member->operator[](otherFields);
+}
+
+template <typename T>
+bool StructDataT<T>::ShallowEquals(const T& other) const
+{
+  if (other.GetTypeCode() != TypeCode::Struct)
+  {
+    return false;
+  }
+  if (other.GetTypeName() != GetTypeName())
+  {
+    return false;
+  }
+  if (other.MemberNames() != MemberNames())
+  {
+    return false;
+  }
+  return true;
 }
 
 template <typename T>

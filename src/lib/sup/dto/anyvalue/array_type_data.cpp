@@ -101,7 +101,7 @@ std::unique_ptr<ITypeData> ArrayTypeData::CloneFromChildren(std::vector<AnyType>
   return std::make_unique<ArrayTypeData>(m_size, std::move(children[0]), m_name);
 }
 
-bool ArrayTypeData::Equals(const AnyType& other) const
+bool ArrayTypeData::ShallowEquals(const AnyType& other) const
 {
   if (other.GetTypeCode() != TypeCode::Array)
   {
@@ -115,7 +115,7 @@ bool ArrayTypeData::Equals(const AnyType& other) const
   {
     return false;
   }
-  return other.ElementType() == ElementType();
+  return true;
 }
 
 }  // namespace dto

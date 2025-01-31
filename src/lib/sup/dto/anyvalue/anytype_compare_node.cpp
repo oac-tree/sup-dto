@@ -19,38 +19,23 @@
  * of the distribution package.
  ******************************************************************************/
 
-#ifndef SUP_DTO_EMPTY_TYPE_DATA_H_
-#define SUP_DTO_EMPTY_TYPE_DATA_H_
-
-#include <sup/dto/anyvalue/i_type_data.h>
+#include "anytype_compare_node.h"
 
 namespace sup
 {
 namespace dto
 {
-class EmptyTypeData : public ITypeData
-{
-public:
-  EmptyTypeData();
-  ~EmptyTypeData() override;
 
-  EmptyTypeData(const EmptyTypeData& other) = delete;
-  EmptyTypeData(EmptyTypeData&& other) = delete;
-  EmptyTypeData& operator=(const EmptyTypeData& other) = delete;
-  EmptyTypeData& operator=(EmptyTypeData&& other) = delete;
+AnyTypeCompareNode::AnyTypeCompareNode(const AnyType* left, const AnyType* right,
+                                       std::vector<std::string>&& child_names)
+  : m_left{left}
+  , m_right{right}
+  , m_index{0}
+  , m_child_names{std::move(child_names)}
+{}
 
-  TypeCode GetTypeCode() const override;
-  std::string GetTypeName() const override;
-
-  std::unique_ptr<ITypeData> CloneFromChildren(std::vector<AnyType>&& children) const override;
-
-  bool ShallowEquals(const AnyType& other) const override;
-};
-
-std::unique_ptr<ITypeData> CreateDefaultTypeData();
+AnyTypeCompareNode::~AnyTypeCompareNode() = default;
 
 }  // namespace dto
 
 }  // namespace sup
-
-#endif  // SUP_DTO_EMPTY_TYPE_DATA_H_

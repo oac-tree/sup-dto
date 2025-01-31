@@ -53,7 +53,7 @@ std::unique_ptr<ITypeData> EmptyTypeData::CloneFromChildren(std::vector<AnyType>
   return std::make_unique<EmptyTypeData>();
 }
 
-bool EmptyTypeData::Equals(const AnyType& other) const
+bool EmptyTypeData::ShallowEquals(const AnyType& other) const
 {
   return IsEmptyType(other);
 }

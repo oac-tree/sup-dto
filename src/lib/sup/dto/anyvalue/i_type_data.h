@@ -55,7 +55,7 @@ public:
   virtual AnyType* GetChildType(const std::string& child_name);
   virtual std::unique_ptr<ITypeData> CloneFromChildren(std::vector<AnyType>&& children) const = 0;
 
-  virtual bool Equals(const AnyType& other) const = 0;
+  virtual bool ShallowEquals(const AnyType& other) const = 0;
 };
 
 }  // namespace dto

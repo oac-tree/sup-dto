@@ -54,7 +54,7 @@ public:
   AnyType* GetChildType(const std::string& child_name) override;
   std::unique_ptr<ITypeData> CloneFromChildren(std::vector<AnyType>&& children) const override;
 
-  bool Equals(const AnyType& other) const override;
+  bool ShallowEquals(const AnyType& other) const override;
 
 private:
   StructDataT<AnyType> m_member_data;

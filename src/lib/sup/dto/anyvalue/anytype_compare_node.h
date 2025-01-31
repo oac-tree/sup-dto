@@ -19,38 +19,34 @@
  * of the distribution package.
  ******************************************************************************/
 
-#ifndef SUP_DTO_EMPTY_TYPE_DATA_H_
-#define SUP_DTO_EMPTY_TYPE_DATA_H_
+#ifndef SUP_DTO_ANYTYPE_COMPARE_NODE_H_
+#define SUP_DTO_ANYTYPE_COMPARE_NODE_H_
 
-#include <sup/dto/anyvalue/i_type_data.h>
+#include <sup/dto/anytype.h>
 
 namespace sup
 {
 namespace dto
 {
-class EmptyTypeData : public ITypeData
+struct AnyTypeCompareNode
 {
-public:
-  EmptyTypeData();
-  ~EmptyTypeData() override;
+  AnyTypeCompareNode(const AnyType* left, const AnyType* right,
+                     std::vector<std::string>&& child_names);
+  ~AnyTypeCompareNode();
 
-  EmptyTypeData(const EmptyTypeData& other) = delete;
-  EmptyTypeData(EmptyTypeData&& other) = delete;
-  EmptyTypeData& operator=(const EmptyTypeData& other) = delete;
-  EmptyTypeData& operator=(EmptyTypeData&& other) = delete;
+  AnyTypeCompareNode(const AnyTypeCompareNode&) = default;
+  AnyTypeCompareNode& operator=(const AnyTypeCompareNode&) = default;
+  AnyTypeCompareNode(AnyTypeCompareNode&&) = default;
+  AnyTypeCompareNode& operator=(AnyTypeCompareNode&&) = default;
 
-  TypeCode GetTypeCode() const override;
-  std::string GetTypeName() const override;
-
-  std::unique_ptr<ITypeData> CloneFromChildren(std::vector<AnyType>&& children) const override;
-
-  bool ShallowEquals(const AnyType& other) const override;
+  const AnyType* m_left;
+  const AnyType* m_right;
+  std::size_t m_index;
+  std::vector<std::string> m_child_names;
 };
-
-std::unique_ptr<ITypeData> CreateDefaultTypeData();
 
 }  // namespace dto
 
 }  // namespace sup
 
-#endif  // SUP_DTO_EMPTY_TYPE_DATA_H_
+#endif  // SUP_DTO_ANYTYPE_COMPARE_NODE_H_

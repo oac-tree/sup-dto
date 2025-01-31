@@ -304,6 +304,8 @@ private:
   AnyType* GetChildType(const std::string& child_name);
   const AnyType* GetChildType(const std::string& child_name) const;
   AnyType CloneFromChildren(std::vector<AnyType>&& children) const;
+  // Equality function that disregards child types (only name, typecode and child names)
+  bool ShallowEquals(const AnyType& other) const;
   std::unique_ptr<ITypeData> m_data;
 };
 

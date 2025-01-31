@@ -1,6 +1,7 @@
 target_sources(sup-dto-obj
     PRIVATE
     any_functor.cpp
+    anytype_compare_node.cpp
     anytype_copy_node.cpp
     anytype_helper.cpp
     anytype_registry.cpp

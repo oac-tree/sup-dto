@@ -64,7 +64,7 @@ std::unique_ptr<ITypeData> ScalarTypeData::CloneFromChildren(std::vector<AnyType
   return std::make_unique<ScalarTypeData>(m_type_code);
 }
 
-bool ScalarTypeData::Equals(const AnyType& other) const
+bool ScalarTypeData::ShallowEquals(const AnyType& other) const
 {
   return other.GetTypeCode() == GetTypeCode();
 }

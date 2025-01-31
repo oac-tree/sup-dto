@@ -21,6 +21,7 @@
 
 #include <sup/dto/anytype.h>
 
+#include <sup/dto/anyvalue/anytype_compare_node.h>
 #include <sup/dto/anyvalue/anytype_copy_node.h>
 #include <sup/dto/anyvalue/array_type_data.h>
 #include <sup/dto/anyvalue/empty_type_data.h>
@@ -223,7 +224,35 @@ const AnyType& AnyType::operator[](const std::string& fieldname) const
 
 bool AnyType::operator==(const AnyType& other) const
 {
-  return m_data->Equals(other);
+  // Only push nodes that already compare equal on a shallow level:
+  if (!ShallowEquals(other))
+  {
+    return false;
+  }
+  std::deque<AnyTypeCompareNode> queue;
+  AnyTypeCompareNode root_node{this, std::addressof(other), ChildNames()};
+  queue.push_back(root_node);
+  while (!queue.empty())
+  {
+    auto& last_node = queue.back();
+    if (last_node.m_index >= last_node.m_child_names.size())
+    {
+      queue.pop_back();
+    }
+    else
+    {
+      auto child_name = last_node.m_child_names[last_node.m_index++];
+      auto left_child = last_node.m_left->GetChildType(child_name);
+      auto right_child = last_node.m_right->GetChildType(child_name);
+      if (!left_child->ShallowEquals(*right_child))
+      {
+        return false;
+      }
+      AnyTypeCompareNode child_node{left_child, right_child, left_child->ChildNames()};
+      queue.push_back(child_node);
+    }
+  }
+  return true;
 }
 
 bool AnyType::operator!=(const AnyType& other) const
@@ -259,6 +288,11 @@ AnyType AnyType::CloneFromChildren(std::vector<AnyType>&& children) const
 {
   auto type_data = m_data->CloneFromChildren(std::move(children));
   return AnyType{std::move(type_data)};
+}
+
+bool AnyType::ShallowEquals(const AnyType& other) const
+{
+  return m_data->ShallowEquals(other);
 }
 
 AnyType EmptyStructType(const std::string& name)

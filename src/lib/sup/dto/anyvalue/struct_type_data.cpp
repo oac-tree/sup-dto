@@ -92,9 +92,9 @@ std::unique_ptr<ITypeData> StructTypeData::CloneFromChildren(std::vector<AnyType
   return result;
 }
 
-bool StructTypeData::Equals(const AnyType& other) const
+bool StructTypeData::ShallowEquals(const AnyType& other) const
 {
-  return m_member_data.Equals(other);
+  return m_member_data.ShallowEquals(other);
 }
 
 }  // namespace dto
