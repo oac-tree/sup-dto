@@ -303,7 +303,7 @@ private:
   std::vector<std::string> ChildNames() const;
   const AnyType* GetChildType(const std::string& child_name) const;
   AnyType CloneFromChildren(std::vector<AnyType>&& children) const;
-  // Equality function that disregards child types (only name, typecode and child names)
+  // Equality function that disregards child types
   bool ShallowEquals(const AnyType& other) const;
   std::unique_ptr<ITypeData> m_data;
 };
