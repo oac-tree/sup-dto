@@ -444,6 +444,24 @@ bool IsArrayValue(const AnyValue& anyvalue);
 bool IsScalarValue(const AnyValue& anyvalue);
 
 /**
+ * @brief Splits a possibly nested fieldname for an AnyValue into its component names.
+ *
+ * @param fieldname Full fieldname.
+ * @return List of component names.
+ *
+ * @throws InvalidOperationException Thrown when the fieldname cannot be properly parsed.
+ *
+ * @note Optional dots '.' after the square brackets will be removed too.
+ *
+ * @code {.cpp}
+ * auto names_1 = SplitAnyValueFieldname("[2]subfieldname");   // returns {"[2]", "subfieldname"}
+ * auto names_2 = SplitAnyValueFieldname("[2].subfieldname");  // idem
+ * auto names_3 = SplitAnyValueFieldname("[oops]");           // throws InvalidOperationException
+ * @endcode
+ */
+std::deque<std::string> SplitAnyValueFieldname(const std::string& fieldname);
+
+/**
  * @brief Serialize an AnyValue to an array of bytes.
  * @deprecated Use `AnyValueToBinary` instead.
  *

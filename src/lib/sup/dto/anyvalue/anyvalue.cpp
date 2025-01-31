@@ -37,6 +37,19 @@ std::unique_ptr<IValueData> CreateUnconstrainedScalarData(const T& val)
 {
   return std::make_unique<ScalarValueDataT<T>>(val, Constraints::kNone);
 }
+
+// Split a possibly nested type path into the first component and the rest:
+std::pair<std::string, std::string> SplitFieldnameInHeadTail(const std::string& fieldname);
+
+std::pair<std::string, std::string> SplitFieldnameOnArrayCharacter(const std::string& fieldname,
+                                                                   std::size_t pos);
+
+std::pair<std::string, std::string> SplitFieldnameOnStructCharacter(const std::string& fieldname,
+                                                                   std::size_t pos);
+
+bool CheckComponentFieldname(const std::string& fieldname);
+
+bool CheckIndexString(const std::string& index_string);
 }  // namespace
 
 namespace sup
@@ -425,6 +438,20 @@ bool IsScalarValue(const AnyValue& anyvalue)
   return IsScalarTypeCode(anyvalue.GetTypeCode());
 }
 
+std::deque<std::string> SplitAnyValueFieldname(const std::string& fieldname)
+{
+  std::deque<std::string> component_names;
+  auto [head, tail] = SplitFieldnameInHeadTail(fieldname);   // head is never empty
+  component_names.push_back(head);
+  while (!tail.empty())
+  {
+    auto [new_head, new_tail] = SplitFieldnameInHeadTail(tail);
+    component_names.push_back(new_head);
+    tail = new_tail;
+  }
+  return component_names;
+}
+
 std::vector<uint8> ToBytes(const AnyValue& anyvalue)
 {
   CTypeSerializer serializer;
@@ -445,3 +472,115 @@ void FromBytes(AnyValue& anyvalue, const uint8* bytes, std::size_t total_size)
 }  // namespace dto
 
 }  // namespace sup
+
+namespace
+{
+std::pair<std::string, std::string> SplitFieldnameInHeadTail(const std::string& fieldname)
+{
+  if (fieldname.empty())
+  {
+    throw InvalidOperationException("SplitFieldnameInHeadTail() called with empty fieldname");
+  }
+  const std::string error =
+    "SplitFieldnameInHeadTail(): could not parse fieldname \"" + fieldname + "\"";
+  auto pos = fieldname.find_first_of("[.");
+  if (pos == std::string::npos)
+  {
+    if (!CheckComponentFieldname(fieldname))
+    {
+      throw InvalidOperationException(error);
+    }
+    return { fieldname, "" };
+  }
+  if (fieldname[pos] == '[')
+  {
+    return SplitFieldnameOnArrayCharacter(fieldname, pos);
+  }
+  return SplitFieldnameOnStructCharacter(fieldname, pos);
+}
+
+std::pair<std::string, std::string> SplitFieldnameOnArrayCharacter(const std::string& fieldname,
+                                                                   std::size_t pos)
+{
+  const std::string error =
+    "SplitFieldnameInHeadTail(): could not parse fieldname \"" + fieldname + "\"";
+  std::string head{};
+  std::string tail{};
+  if (pos == 0)
+  {
+    auto pos_end = fieldname.find(']', pos);
+    if (pos_end == std::string::npos)
+    {
+      throw InvalidOperationException(error);
+    }
+    auto remainder_start = pos_end + 1;
+    if (remainder_start < fieldname.size() && fieldname[remainder_start] == '.')
+    {
+      ++remainder_start;
+    }
+    head = fieldname.substr(0, pos_end + 1);
+    tail = fieldname.substr(remainder_start);
+  }
+  else
+  {
+    head = fieldname.substr(0, pos);
+    tail = fieldname.substr(pos);
+  }
+  if (!CheckComponentFieldname(head))
+  {
+    throw InvalidOperationException(error);
+  }
+  return { head, tail };
+}
+
+std::pair<std::string, std::string> SplitFieldnameOnStructCharacter(const std::string& fieldname,
+                                                                   std::size_t pos)
+{
+  const std::string error =
+    "SplitFieldnameInHeadTail(): could not parse fieldname \"" + fieldname + "\"";
+  auto total_size = fieldname.size();
+  if (pos == 0 || pos + 1 == total_size)  // fieldname starts or ends with '.'
+  {
+    throw InvalidOperationException(error);
+  }
+  auto head = fieldname.substr(0, pos);
+  auto tail = fieldname.substr(pos + 1);
+  if (!CheckComponentFieldname(head))
+  {
+    throw InvalidOperationException(error);
+  }
+  return { head, tail };
+}
+
+bool CheckComponentFieldname(const std::string& fieldname)
+{
+  // A component fieldname is either "[x]" with x an integer or a non-empty string that doesn't
+  // contain any of "[]."
+  if (fieldname.empty())
+  {
+    return false;
+  }
+  auto total_size = fieldname.size();
+  if (fieldname[0] == '[' && fieldname[total_size - 1] == ']')
+  {
+    return CheckIndexString(fieldname.substr(1, total_size - 2));
+  }
+  auto pos = fieldname.find_first_of("[].");
+  return (pos == std::string::npos);
+}
+
+bool CheckIndexString(const std::string& index_string)
+{
+  std::size_t pos{0};
+  try
+  {
+    (void)std::stoul(index_string, &pos);
+  }
+  catch(const std::logic_error&)
+  {
+    return false;
+  }
+  return pos == index_string.size();
+}
+
+}  // namespace

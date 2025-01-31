@@ -351,7 +351,6 @@ const std::vector<std::pair<TypeCode, std::string>>& ScalarTypeDefinitions();
  * auto names_2 = SplitAnyTypeFieldname("[].subfieldname");  // idem
  * auto names_3 = SplitAnyTypeFieldname("[oops]");           // throws InvalidOperationException
  * @endcode
- *
  */
 std::deque<std::string> SplitAnyTypeFieldname(const std::string& fieldname);
 
