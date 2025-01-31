@@ -32,8 +32,6 @@ AnyTypeCopyNode::AnyTypeCopyNode(const AnyType* src, std::vector<std::string>&& 
   , m_children{}
 {}
 
-AnyTypeCopyNode::~AnyTypeCopyNode() = default;
-
 const AnyType* AnyTypeCopyNode::GetSource() const
 {
   return m_src;

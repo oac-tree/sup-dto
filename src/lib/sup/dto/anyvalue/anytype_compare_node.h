@@ -32,7 +32,7 @@ struct AnyTypeCompareNode
 {
   AnyTypeCompareNode(const AnyType* left, const AnyType* right,
                      std::vector<std::string>&& child_names);
-  ~AnyTypeCompareNode();
+  ~AnyTypeCompareNode() = default;
 
   AnyTypeCompareNode(const AnyTypeCompareNode&) = default;
   AnyTypeCompareNode& operator=(const AnyTypeCompareNode&) = default;

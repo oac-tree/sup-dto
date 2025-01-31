@@ -32,7 +32,7 @@ class AnyTypeCopyNode
 {
 public:
   AnyTypeCopyNode(const AnyType* src, std::vector<std::string>&& child_names);
-  ~AnyTypeCopyNode();
+  ~AnyTypeCopyNode() = default;
 
   AnyTypeCopyNode(const AnyTypeCopyNode&) = default;
   AnyTypeCopyNode& operator=(const AnyTypeCopyNode&) = default;

@@ -34,8 +34,6 @@ AnyTypeCompareNode::AnyTypeCompareNode(const AnyType* left, const AnyType* right
   , m_child_names{std::move(child_names)}
 {}
 
-AnyTypeCompareNode::~AnyTypeCompareNode() = default;
-
 }  // namespace dto
 
 }  // namespace sup
