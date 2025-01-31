@@ -30,7 +30,7 @@ namespace dto
 
 ITypeData::~ITypeData() = default;
 
-void ITypeData::AddMember(const std::string&, AnyType)
+void ITypeData::AddMember(const std::string&, AnyType&&)
 {
   throw InvalidOperationException("Add member only supported for structured types");
 }

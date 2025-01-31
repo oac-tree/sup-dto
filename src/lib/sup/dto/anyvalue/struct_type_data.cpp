@@ -42,7 +42,7 @@ std::string StructTypeData::GetTypeName() const
   return m_member_data.GetTypeName();
 }
 
-void StructTypeData::AddMember(const std::string& name, AnyType type)
+void StructTypeData::AddMember(const std::string& name, AnyType&& type)
 {
   auto moved = std::make_unique<AnyType>(std::move(type));
   m_member_data.AddMember(name, std::move(moved));
