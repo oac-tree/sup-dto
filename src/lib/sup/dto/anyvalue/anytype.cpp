@@ -146,15 +146,15 @@ std::string AnyType::GetTypeName() const
   return m_data->GetTypeName();
 }
 
-AnyType& AnyType::AddMember(const std::string& name, const AnyType& type) &
+AnyType& AnyType::AddMember(const std::string& name, AnyType type) &
 {
-  m_data->AddMember(name, type);
+  m_data->AddMember(name, std::move(type));
   return *this;
 }
 
-AnyType&& AnyType::AddMember(const std::string& name, const AnyType& type) &&
+AnyType&& AnyType::AddMember(const std::string& name, AnyType type) &&
 {
-  m_data->AddMember(name, type);
+  m_data->AddMember(name, std::move(type));
   return std::move(*this);
 }
 

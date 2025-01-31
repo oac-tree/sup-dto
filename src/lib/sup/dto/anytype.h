@@ -193,6 +193,9 @@ public:
   /**
    * @brief Add member type.
    *
+   * @note AnyType is passed by value (see Scott Meyers Effective Modern C++ Item 41: consider
+   * pass by value for copyable parameters that are cheap to move and always copied)
+   *
    * @param name Name to use for registering the member type.
    * @param type AnyType to register as a member type.
    *
@@ -201,10 +204,13 @@ public:
    * @throws InvalidOperationException Thrown when this type does not support adding members or when
    * the given arguments are not allowed (e.g. empty member name).
    */
-  AnyType& AddMember(const std::string& name, const AnyType& type) &;
+  AnyType& AddMember(const std::string& name, AnyType type) &;
 
   /**
    * @brief Add member type.
+   *
+   * @note AnyType is passed by value (see Scott Meyers Effective Modern C++ Item 41: consider
+   * pass by value for copyable parameters that are cheap to move and always copied)
    *
    * @param name Name to use for registering the member type.
    * @param type AnyType to register as a member type.
@@ -214,7 +220,7 @@ public:
    * @throws InvalidOperationException Thrown when this type does not support adding members or when
    * the given arguments are not allowed (e.g. empty member name).
    */
-  AnyType&& AddMember(const std::string& name, const AnyType& type) &&;
+  AnyType&& AddMember(const std::string& name, AnyType type) &&;
 
   /**
    * @brief Get list of member names.
