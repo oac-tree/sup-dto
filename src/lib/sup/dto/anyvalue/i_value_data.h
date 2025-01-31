@@ -81,9 +81,10 @@ public:
   virtual AnyValue& operator[](std::size_t);
 
   virtual bool HasChild(const std::string& child_name) const;
+  virtual std::vector<std::string> ChildNames() const;
   virtual AnyValue* GetChildValue(const std::string& child_name);
+  virtual bool ShallowEquals(const AnyValue& other) const = 0;
 
-  virtual bool Equals(const AnyValue& other) const = 0;
 protected:
   static std::unique_ptr<AnyValue> MakeAnyValue(std::unique_ptr<IValueData>&& data);
   static void UnsafeConversion(AnyValue& dest, const AnyValue& src);

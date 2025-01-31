@@ -57,9 +57,9 @@ public:
   AnyValue& operator[](std::size_t idx) override;
 
   bool HasChild(const std::string& child_name) const override;
+  std::vector<std::string> ChildNames() const override;
   AnyValue* GetChildValue(const std::string& child_name) override;
-
-  bool Equals(const AnyValue& other) const override;
+  bool ShallowEquals(const AnyValue& other) const override;
 
 private:
   AnyType m_elem_type;

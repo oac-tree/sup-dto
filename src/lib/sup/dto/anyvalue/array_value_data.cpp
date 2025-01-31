@@ -147,6 +147,17 @@ bool ArrayValueData::HasChild(const std::string& child_name) const
   return true;
 }
 
+std::vector<std::string> ArrayValueData::ChildNames() const
+{
+  std::vector<std::string> result;
+  for (std::size_t idx = 0; idx < NumberOfElements(); ++idx)
+  {
+    std::string idx_str = "[" + std::to_string(idx) + "]";
+    result.push_back(std::move(idx_str));
+  }
+  return result;
+}
+
 AnyValue* ArrayValueData::GetChildValue(const std::string& child_name)
 {
   auto idx = ParseValueIndex(child_name);
@@ -157,7 +168,7 @@ AnyValue* ArrayValueData::GetChildValue(const std::string& child_name)
   return m_elements[idx].get();
 }
 
-bool ArrayValueData::Equals(const AnyValue& other) const
+bool ArrayValueData::ShallowEquals(const AnyValue& other) const
 {
   if (!IsArrayValue(other))
   {
@@ -170,13 +181,6 @@ bool ArrayValueData::Equals(const AnyValue& other) const
   if (other.NumberOfElements() != NumberOfElements())
   {
     return false;
-  }
-  for (std::size_t idx = 0u; idx < NumberOfElements(); ++idx)
-  {
-    if (other[idx] != *m_elements[idx])
-    {
-      return false;
-    }
   }
   return true;
 }

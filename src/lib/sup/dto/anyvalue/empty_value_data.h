@@ -47,7 +47,8 @@ public:
 
   void ConvertFrom(const AnyValue& value) override;
 
-  bool Equals(const AnyValue& other) const override;
+  bool ShallowEquals(const AnyValue& other) const override;
+
 private:
   Constraints m_constraints;
 };

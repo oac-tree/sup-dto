@@ -21,6 +21,7 @@
 
 #include <sup/dto/anyvalue.h>
 
+#include <sup/dto/anyvalue/anyvalue_compare_node.h>
 #include <sup/dto/anyvalue/array_value_data.h>
 #include <sup/dto/anyvalue/empty_value_data.h>
 #include <sup/dto/anyvalue/scalar_value_data_t.h>
@@ -392,12 +393,35 @@ const AnyValue& AnyValue::operator[](std::size_t idx) const
 
 bool AnyValue::operator==(const AnyValue& other) const
 {
-  if (m_data->IsScalar())
+  // Only push nodes that already compare equal on a shallow level:
+  if (!ShallowEquals(other))
   {
-    // Enforce symmetry of scalar comparison when conversions are involved
-    return (m_data->Equals(other)) && (other.m_data->Equals(*this));
+    return false;
   }
-  return m_data->Equals(other);
+  std::deque<AnyValueCompareNode> queue;
+  AnyValueCompareNode root_node{this, std::addressof(other), ChildNames()};
+  queue.push_back(root_node);
+  while (!queue.empty())
+  {
+    auto& last_node = queue.back();
+    if (last_node.m_index >= last_node.m_child_names.size())
+    {
+      queue.pop_back();
+    }
+    else
+    {
+      auto child_name = last_node.m_child_names[last_node.m_index++];
+      auto left_child = last_node.m_left->GetChildValue(child_name);
+      auto right_child = last_node.m_right->GetChildValue(child_name);
+      if (!left_child->ShallowEquals(*right_child))
+      {
+        return false;
+      }
+      AnyValueCompareNode child_node{left_child, right_child, left_child->ChildNames()};
+      queue.push_back(child_node);
+    }
+  }
+  return true;
 }
 
 bool AnyValue::operator!=(const AnyValue& other) const
@@ -419,9 +443,24 @@ bool AnyValue::HasChild(const std::string& child_name) const
   return m_data->HasChild(child_name);
 }
 
+std::vector<std::string> AnyValue::ChildNames() const
+{
+  return m_data->ChildNames();
+}
+
 const AnyValue* AnyValue::GetChildValue(const std::string& child_name) const
 {
   return m_data->GetChildValue(child_name);
+}
+
+bool AnyValue::ShallowEquals(const AnyValue& other) const
+{
+  if (m_data->IsScalar())
+  {
+    // Enforce symmetry of scalar comparison when conversions are involved
+    return (m_data->ShallowEquals(other)) && (other.m_data->ShallowEquals(*this));
+  }
+  return m_data->ShallowEquals(other);
 }
 
 AnyValue EmptyStruct(const std::string& type_name)

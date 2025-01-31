@@ -394,7 +394,10 @@ public:
 private:
   explicit AnyValue(std::unique_ptr<IValueData>&& data);
   bool HasChild(const std::string& child_name) const;
+  std::vector<std::string> ChildNames() const;
   const AnyValue* GetChildValue(const std::string& child_name) const;
+  // Equality function that disregards child values
+  bool ShallowEquals(const AnyValue& other) const;
   friend class IValueData;
   std::unique_ptr<IValueData> m_data;
 };

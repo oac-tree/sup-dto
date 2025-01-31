@@ -58,9 +58,9 @@ public:
   void ConvertFrom(const AnyValue& value) override;
 
   bool HasChild(const std::string& child_name) const override;
+  std::vector<std::string> ChildNames() const override;
   AnyValue* GetChildValue(const std::string& child_name) override;
-
-  bool Equals(const AnyValue& other) const override;
+  bool ShallowEquals(const AnyValue& other) const override;
 
 private:
   StructDataT<AnyValue> m_member_data;

@@ -151,6 +151,11 @@ bool IValueData::HasChild(const std::string&) const
   return false;
 }
 
+std::vector<std::string> IValueData::ChildNames() const
+{
+  return {};
+}
+
 AnyValue* IValueData::GetChildValue(const std::string&)
 {
   throw InvalidOperationException("This value does not support members or elements");

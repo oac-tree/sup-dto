@@ -141,7 +141,7 @@ public:
   float64 AsFloat64() const override;
   std::string AsString() const override;
 
-  bool Equals(const AnyValue& other) const override;
+  bool ShallowEquals(const AnyValue& other) const override;
 
 private:
   T m_value;
@@ -244,7 +244,7 @@ std::string ScalarValueDataT<T>::AsString() const
 }
 
 template <typename T>
-bool ScalarValueDataT<T>::Equals(const AnyValue& other) const
+bool ScalarValueDataT<T>::ShallowEquals(const AnyValue& other) const
 {
   if (!IsScalarValue(other))
   {

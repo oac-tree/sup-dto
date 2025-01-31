@@ -128,14 +128,19 @@ bool StructValueData::HasChild(const std::string& child_name) const
   return m_member_data.HasChild(child_name);
 }
 
+std::vector<std::string> StructValueData::ChildNames() const
+{
+  return m_member_data.MemberNames();
+}
+
 AnyValue* StructValueData::GetChildValue(const std::string& child_name)
 {
   return m_member_data.GetChild(child_name);
 }
 
-bool StructValueData::Equals(const AnyValue& other) const
+bool StructValueData::ShallowEquals(const AnyValue& other) const
 {
-  return m_member_data.Equals(other);
+  return m_member_data.ShallowEquals(other);
 }
 
 std::unique_ptr<IValueData> CreateStructValueData(const AnyType& anytype, Constraints constraints)

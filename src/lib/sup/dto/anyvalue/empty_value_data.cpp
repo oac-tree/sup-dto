@@ -65,9 +65,9 @@ void EmptyValueData::ConvertFrom(const AnyValue& value)
   }
 }
 
-bool EmptyValueData::Equals(const AnyValue& other) const
+bool EmptyValueData::ShallowEquals(const AnyValue& other) const
 {
-  return other.GetTypeCode() == TypeCode::Empty;
+  return IsEmptyValue(other);
 }
 
 std::unique_ptr<IValueData> CreateDefaultValueData()
