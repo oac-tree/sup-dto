@@ -78,9 +78,9 @@ public:
   virtual float64 AsFloat64() const;
   virtual std::string AsString() const;
 
-  virtual bool HasField(const std::string&) const;
   virtual AnyValue& operator[](std::size_t);
 
+  virtual bool HasChild(const std::string& child_name) const;
   virtual AnyValue* GetChildValue(const std::string& child_name);
 
   virtual bool Equals(const AnyValue& other) const = 0;

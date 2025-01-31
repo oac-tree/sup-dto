@@ -141,14 +141,14 @@ std::string IValueData::AsString() const
   throw InvalidConversionException("Conversion to string not supported for this type");
 }
 
-bool IValueData::HasField(const std::string&) const
-{
-  return false;
-}
-
 AnyValue& IValueData::operator[](std::size_t )
 {
   throw InvalidOperationException("Member access operator with unsigned index not supported");
+}
+
+bool IValueData::HasChild(const std::string&) const
+{
+  return false;
 }
 
 AnyValue* IValueData::GetChildValue(const std::string&)

@@ -57,7 +57,6 @@ public:
   std::vector<std::string> MemberNames() const;
   std::size_t NumberOfMembers() const;
 
-  bool HasField(const std::string& fieldname) const;
   bool HasChild(const std::string& child_name) const;
   T* GetChild(const std::string& child_name);
   const T* GetChild(const std::string& child_name) const;
@@ -92,7 +91,7 @@ template <typename T>
 void StructDataT<T>::AddMember(const std::string& name, std::unique_ptr<T>&& val)
 {
   utils::VerifyMemberName(name);
-  if (HasField(name))
+  if (HasChild(name))
   {
     throw InvalidOperationException("Cannot add duplicate member keys");
   }
@@ -113,26 +112,6 @@ template <typename T>
 std::size_t StructDataT<T>::NumberOfMembers() const
 {
   return m_members.size();
-}
-
-template <typename T>
-bool StructDataT<T>::HasField(const std::string& fieldname) const
-{
-  auto [firstField, otherFields] = utils::StripFirstFieldName(fieldname);
-  auto it = std::find_if(m_members.cbegin(), m_members.cend(),
-                         [&](const auto& member){
-                           return member.first == firstField;
-                         });
-  if (it == m_members.cend())
-  {
-    return false;
-  }
-  if (otherFields.empty())
-  {
-    return true;
-  }
-  auto& member = it->second;
-  return member->HasField(otherFields);
 }
 
 template <typename T>

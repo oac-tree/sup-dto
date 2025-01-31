@@ -123,9 +123,9 @@ void StructValueData::ConvertFrom(const AnyValue& value)
   }
 }
 
-bool StructValueData::HasField(const std::string& fieldname) const
+bool StructValueData::HasChild(const std::string& child_name) const
 {
-  return m_member_data.HasField(fieldname);
+  return m_member_data.HasChild(child_name);
 }
 
 AnyValue* StructValueData::GetChildValue(const std::string& child_name)

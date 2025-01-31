@@ -120,28 +120,6 @@ void ArrayValueData::ConvertFrom(const AnyValue& value)
   }
 }
 
-bool ArrayValueData::HasField(const std::string& fieldname) const
-{
-  std::pair<std::size_t, std::string> idx_remainder;
-  try
-  {
-    idx_remainder = StripValueIndex(fieldname);
-  }
-  catch(const InvalidOperationException&)
-  {
-    return false;
-  }
-  if (idx_remainder.first >= NumberOfElements())
-  {
-    return false;
-  }
-  if (idx_remainder.second.empty())
-  {
-    return true;
-  }
-  return m_elements[idx_remainder.first]->HasField(idx_remainder.second);
-}
-
 AnyValue& ArrayValueData::operator[](std::size_t idx)
 {
   if (idx >= NumberOfElements())
@@ -149,6 +127,24 @@ AnyValue& ArrayValueData::operator[](std::size_t idx)
     throw InvalidOperationException("Index operator argument out of bounds");
   }
   return *m_elements[idx];
+}
+
+bool ArrayValueData::HasChild(const std::string& child_name) const
+{
+  std::size_t idx{0};
+  try
+  {
+    idx = ParseValueIndex(child_name);
+  }
+  catch(const InvalidOperationException&)
+  {
+    return false;
+  }
+  if (idx >= NumberOfElements())
+  {
+    return false;
+  }
+  return true;
 }
 
 AnyValue* ArrayValueData::GetChildValue(const std::string& child_name)

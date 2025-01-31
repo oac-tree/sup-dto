@@ -340,7 +340,27 @@ std::string AnyValue::As<std::string>() const
 
 bool AnyValue::HasField(const std::string& fieldname) const
 {
-  return m_data->HasField(fieldname);
+  std::deque<std::string> field_names;
+  try
+  {
+    field_names = SplitAnyValueFieldname(fieldname);
+  }
+  catch(const MessageException&)
+  {
+    return false;
+  }
+  const auto* node = this;
+  while (!field_names.empty())
+  {
+    auto child_name = field_names.front();
+    if (!node->HasChild(child_name))
+    {
+      return false;
+    }
+    node = node->GetChildValue(child_name);
+    field_names.pop_front();
+  }
+  return true;
 }
 
 AnyValue& AnyValue::operator[](const std::string& fieldname)
@@ -393,6 +413,11 @@ void AnyValue::UnsafeConvertFrom(const AnyValue& other)
 AnyValue::AnyValue(std::unique_ptr<IValueData>&& data)
   : m_data{std::move(data)}
 {}
+
+bool AnyValue::HasChild(const std::string& child_name) const
+{
+  return m_data->HasChild(child_name);
+}
 
 const AnyValue* AnyValue::GetChildValue(const std::string& child_name) const
 {
