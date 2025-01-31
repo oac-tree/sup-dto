@@ -274,11 +274,6 @@ std::vector<std::string> AnyType::ChildNames() const
   return m_data->ChildNames();
 }
 
-AnyType* AnyType::GetChildType(const std::string& child_name)
-{
-  return const_cast<AnyType*>(const_cast<const AnyType*>(this)->GetChildType(child_name));
-}
-
 const AnyType* AnyType::GetChildType(const std::string& child_name) const
 {
   return m_data->GetChildType(child_name);
