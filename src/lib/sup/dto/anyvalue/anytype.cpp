@@ -40,15 +40,15 @@ namespace
 std::unordered_set<TypeCode> ScalarTypes();
 
 // Split a possibly nested type path into the first component and the rest:
-std::pair<std::string, std::string> SplitFieldnameInHeadTail(const std::string& fieldname);
+std::pair<std::string, std::string> SplitAnyTypeFieldnameInHeadTail(const std::string& fieldname);
 
-std::pair<std::string, std::string> SplitFieldnameOnArrayCharacter(const std::string& fieldname,
-                                                                   std::size_t pos);
+std::pair<std::string, std::string> SplitAnyTypeFieldnameOnArrayCharacter(
+  const std::string& fieldname, std::size_t pos);
 
-std::pair<std::string, std::string> SplitFieldnameOnStructCharacter(const std::string& fieldname,
-                                                                   std::size_t pos);
+std::pair<std::string, std::string> SplitAnyTypeFieldnameOnStructCharacter(
+  const std::string& fieldname, std::size_t pos);
 
-bool CheckComponentFieldname(const std::string& fieldname);
+bool CheckAnyTypeComponentFieldname(const std::string& fieldname);
 }  // unnamed namespace
 
 AnyType::AnyType() noexcept
@@ -362,18 +362,23 @@ const std::vector<std::pair<TypeCode, std::string>>& ScalarTypeDefinitions()
   return scalar_type_definitions;
 }
 
-std::deque<std::string> SplitAnyTypeFieldname(const std::string& fieldname)
+std::deque<std::string> SplitFieldname(const std::string& fieldname, HeadTailFunction func)
 {
   std::deque<std::string> component_names;
-  auto [head, tail] = SplitFieldnameInHeadTail(fieldname);   // head is never empty
+  auto [head, tail] = func(fieldname);   // head is never empty
   component_names.push_back(head);
   while (!tail.empty())
   {
-    auto [new_head, new_tail] = SplitFieldnameInHeadTail(tail);
+    auto [new_head, new_tail] = func(tail);
     component_names.push_back(new_head);
     tail = new_tail;
   }
   return component_names;
+}
+
+std::deque<std::string> SplitAnyTypeFieldname(const std::string& fieldname)
+{
+  return SplitFieldname(fieldname, SplitAnyTypeFieldnameInHeadTail);
 }
 
 const AnyType EmptyType{};
@@ -403,18 +408,19 @@ std::unordered_set<TypeCode> ScalarTypes()
   return result;
 }
 
-std::pair<std::string, std::string> SplitFieldnameInHeadTail(const std::string& fieldname)
+std::pair<std::string, std::string> SplitAnyTypeFieldnameInHeadTail(const std::string& fieldname)
 {
   if (fieldname.empty())
   {
-    throw InvalidOperationException("SplitFieldnameInHeadTail() called with empty fieldname");
+    throw InvalidOperationException(
+      "SplitAnyTypeFieldnameInHeadTail() called with empty fieldname");
   }
   const std::string error =
-    "SplitFieldnameInHeadTail(): could not parse fieldname \"" + fieldname + "\"";
+    "SplitAnyTypeFieldnameInHeadTail(): could not parse fieldname \"" + fieldname + "\"";
   auto pos = fieldname.find_first_of("].");
   if (pos == std::string::npos)
   {
-    if (!CheckComponentFieldname(fieldname))
+    if (!CheckAnyTypeComponentFieldname(fieldname))
     {
       throw InvalidOperationException(error);
     }
@@ -422,16 +428,16 @@ std::pair<std::string, std::string> SplitFieldnameInHeadTail(const std::string& 
   }
   if (fieldname[pos] == ']')
   {
-    return SplitFieldnameOnArrayCharacter(fieldname, pos);
+    return SplitAnyTypeFieldnameOnArrayCharacter(fieldname, pos);
   }
-  return SplitFieldnameOnStructCharacter(fieldname, pos);
+  return SplitAnyTypeFieldnameOnStructCharacter(fieldname, pos);
 }
 
-std::pair<std::string, std::string> SplitFieldnameOnArrayCharacter(const std::string& fieldname,
+std::pair<std::string, std::string> SplitAnyTypeFieldnameOnArrayCharacter(const std::string& fieldname,
                                                                    std::size_t pos)
 {
   const std::string error =
-    "SplitFieldnameInHeadTail(): could not parse fieldname \"" + fieldname + "\"";
+    "SplitAnyTypeFieldnameInHeadTail(): could not parse fieldname \"" + fieldname + "\"";
   auto total_size = fieldname.size();
   std::string head{};
   std::string tail{};
@@ -454,18 +460,18 @@ std::pair<std::string, std::string> SplitFieldnameOnArrayCharacter(const std::st
     head = fieldname.substr(0, pos - 1);
     tail = fieldname.substr(pos - 1);
   }
-  if (!CheckComponentFieldname(head))
+  if (!CheckAnyTypeComponentFieldname(head))
   {
     throw InvalidOperationException(error);
   }
   return { head, tail };
 }
 
-std::pair<std::string, std::string> SplitFieldnameOnStructCharacter(const std::string& fieldname,
+std::pair<std::string, std::string> SplitAnyTypeFieldnameOnStructCharacter(const std::string& fieldname,
                                                                    std::size_t pos)
 {
   const std::string error =
-    "SplitFieldnameInHeadTail(): could not parse fieldname \"" + fieldname + "\"";
+    "SplitAnyTypeFieldnameInHeadTail(): could not parse fieldname \"" + fieldname + "\"";
   auto total_size = fieldname.size();
   if (pos == 0 || pos + 1 == total_size)  // fieldname starts or ends with '.'
   {
@@ -473,14 +479,14 @@ std::pair<std::string, std::string> SplitFieldnameOnStructCharacter(const std::s
   }
   auto head = fieldname.substr(0, pos);
   auto tail = fieldname.substr(pos + 1);
-  if (!CheckComponentFieldname(head))
+  if (!CheckAnyTypeComponentFieldname(head))
   {
     throw InvalidOperationException(error);
   }
   return { head, tail };
 }
 
-bool CheckComponentFieldname(const std::string& fieldname)
+bool CheckAnyTypeComponentFieldname(const std::string& fieldname)
 {
   // A component fieldname is either "[]" or a non-empty string that doesn't contain any of "[]."
   if (fieldname.empty())

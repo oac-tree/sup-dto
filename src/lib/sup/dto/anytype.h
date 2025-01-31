@@ -336,6 +336,9 @@ bool IsScalarType(const AnyType& anytype);
 
 const std::vector<std::pair<TypeCode, std::string>>& ScalarTypeDefinitions();
 
+using HeadTailFunction = std::function<std::pair<std::string, std::string>(const std::string&)>;
+std::deque<std::string> SplitFieldname(const std::string& fieldname, HeadTailFunction func);
+
 /**
  * @brief Splits a possibly nested fieldname for an AnyType into its component names.
  *
