@@ -64,8 +64,7 @@ AnyType::AnyType(std::initializer_list<std::pair<std::string, AnyType>> members,
   auto struct_data = std::make_unique<StructTypeData>(name);
   for (auto& [memberName, memberType] : members)
   {
-    AnyType copy{memberType};
-    struct_data->AddMember(memberName, std::move(copy));
+    struct_data->AddMember(memberName, memberType);
   }
   m_data = std::move(struct_data);
 }
@@ -149,15 +148,13 @@ std::string AnyType::GetTypeName() const
 
 AnyType& AnyType::AddMember(const std::string& name, const AnyType& type) &
 {
-  AnyType copy{type};
-  m_data->AddMember(name, std::move(copy));
+  m_data->AddMember(name, type);
   return *this;
 }
 
 AnyType&& AnyType::AddMember(const std::string& name, const AnyType& type) &&
 {
-  AnyType copy{type};
-  m_data->AddMember(name, std::move(copy));
+  m_data->AddMember(name, type);
   return std::move(*this);
 }
 
