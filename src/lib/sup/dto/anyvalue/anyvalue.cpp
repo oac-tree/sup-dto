@@ -132,9 +132,10 @@ AnyValue::AnyValue(std::initializer_list<std::pair<std::string, AnyValue>> membe
   : AnyValue{}
 {
   auto struct_data = std::make_unique<StructValueData>(type_name, Constraints::kNone);
-  for (auto& [memberName, memberValue] : members)
+  for (auto& [mem_name, mem_value] : members)
   {
-    struct_data->AddMember(memberName, memberValue);
+    AnyValue copy{mem_value};
+    struct_data->AddMember(mem_name, std::move(copy));
   }
   m_data = std::move(struct_data);
 }
@@ -222,15 +223,15 @@ std::string AnyValue::GetTypeName() const
   return m_data->GetTypeName();
 }
 
-AnyValue& AnyValue::AddMember(const std::string& name, const AnyValue& value) &
+AnyValue& AnyValue::AddMember(const std::string& name, AnyValue value) &
 {
-  m_data->AddMember(name, value);
+  m_data->AddMember(name, std::move(value));
   return *this;
 }
 
-AnyValue&& AnyValue::AddMember(const std::string& name, const AnyValue& value) &&
+AnyValue&& AnyValue::AddMember(const std::string& name, AnyValue value) &&
 {
-  m_data->AddMember(name, value);
+  m_data->AddMember(name, std::move(value));
   return std::move(*this);
 }
 

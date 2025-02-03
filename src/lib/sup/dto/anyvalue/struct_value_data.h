@@ -51,7 +51,7 @@ public:
 
   Constraints GetConstraints() const override;
 
-  void AddMember(const std::string& name, const AnyValue& value) override;
+  void AddMember(const std::string& name, AnyValue&& value) override;
   std::vector<std::string> MemberNames() const override;
   std::size_t NumberOfMembers() const override;
 

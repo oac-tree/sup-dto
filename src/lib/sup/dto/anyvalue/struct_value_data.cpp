@@ -86,15 +86,14 @@ Constraints StructValueData::GetConstraints() const
   return m_constraints;
 }
 
-void StructValueData::AddMember(const std::string& name, const AnyValue& value)
+void StructValueData::AddMember(const std::string& name, AnyValue&& value)
 {
   if (IsLockedTypeConstraint(m_constraints))
   {
     throw InvalidOperationException("Cannot add member to struct whose type is locked");
   }
-  auto data = CreateValueData(value.GetType(), m_constraints);
-  data->ConvertFrom(value);
-  m_member_data.AddMember(name, MakeAnyValue(std::move(data)));
+  auto member = std::make_unique<AnyValue>(std::move(value));
+  m_member_data.AddMember(name, std::move(member));
 }
 
 std::vector<std::string> StructValueData::MemberNames() const

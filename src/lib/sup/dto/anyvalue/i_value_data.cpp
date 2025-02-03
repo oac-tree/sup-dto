@@ -46,7 +46,7 @@ bool IValueData::IsScalar() const
   return false;
 }
 
-void IValueData::AddMember(const std::string&, const AnyValue&)
+void IValueData::AddMember(const std::string&, AnyValue&&)
 {
   throw InvalidOperationException("Add member only supported for structured types");
 }

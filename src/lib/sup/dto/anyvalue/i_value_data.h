@@ -56,7 +56,7 @@ public:
   // Return the constraints on the current value node.
   virtual Constraints GetConstraints() const = 0;
 
-  virtual void AddMember(const std::string&, const AnyValue&);
+  virtual void AddMember(const std::string&, AnyValue&&);
   virtual std::vector<std::string> MemberNames() const;
   virtual std::size_t NumberOfMembers() const;
   virtual void AddElement(const AnyValue&);
@@ -83,6 +83,7 @@ public:
   virtual bool HasChild(const std::string& child_name) const;
   virtual std::vector<std::string> ChildNames() const;
   virtual AnyValue* GetChildValue(const std::string& child_name);
+
   virtual bool ShallowEquals(const AnyValue& other) const = 0;
 
 protected:
