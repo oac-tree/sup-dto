@@ -65,6 +65,18 @@ void EmptyValueData::ConvertFrom(const AnyValue& value)
   }
 }
 
+std::unique_ptr<IValueData> EmptyValueData::CloneFromChildren(
+  std::vector<std::unique_ptr<AnyValue>>&& children, Constraints constraints) const
+{
+  if (!children.empty())
+  {
+    const std::string error =
+      "EmptyValueData::CloneFromChildren(): Trying to clone empty value with child values";
+    throw InvalidOperationException(error);
+  }
+  return std::make_unique<EmptyValueData>(constraints);
+}
+
 bool EmptyValueData::ShallowEquals(const AnyValue& other) const
 {
   return IsEmptyValue(other);

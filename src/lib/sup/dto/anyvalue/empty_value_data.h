@@ -47,6 +47,9 @@ public:
 
   void ConvertFrom(const AnyValue& value) override;
 
+  std::unique_ptr<IValueData> CloneFromChildren(std::vector<std::unique_ptr<AnyValue>>&& children,
+                                                Constraints constraints) const override;
+
   bool ShallowEquals(const AnyValue& other) const override;
 
 private:

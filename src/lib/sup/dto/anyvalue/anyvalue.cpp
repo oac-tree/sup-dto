@@ -22,6 +22,7 @@
 #include <sup/dto/anyvalue.h>
 
 #include <sup/dto/anyvalue/anyvalue_compare_node.h>
+#include <sup/dto/anyvalue/anyvalue_copy_node.h>
 #include <sup/dto/anyvalue/array_value_data.h>
 #include <sup/dto/anyvalue/empty_value_data.h>
 #include <sup/dto/anyvalue/scalar_value_data_t.h>
@@ -156,8 +157,36 @@ AnyValue::AnyValue(std::size_t size, const AnyType& elem_type)
 {}
 
 AnyValue::AnyValue(const AnyValue& other)
-  : AnyValue{other.m_data->Clone(Constraints::kNone)}
-{}
+  : AnyValue{}
+{
+  std::deque<AnyValueCopyNode> queue;
+  AnyValueCopyNode root_node{std::addressof(other), other.ChildNames(), Constraints::kNone};
+  queue.push_back(std::move(root_node));
+  while (true)
+  {
+    auto& last_node = queue.back();
+    auto next_child_name = last_node.NextChildName();
+    if (next_child_name.empty())
+    {
+      auto node_value = last_node.GetSource()->CloneFromChildren(last_node.MoveChildValues(),
+                                                                 last_node.GetConstraints());
+      queue.pop_back();
+      if (queue.empty())
+      {
+        std::swap(m_data, node_value->m_data);
+        break;
+      }
+      queue.back().AddChild(std::move(node_value));
+    }
+    else
+    {
+      auto next_child = last_node.GetSource()->GetChildValue(next_child_name);
+      auto child_constraints = last_node.GetChildConstraints();
+      AnyValueCopyNode child_node{next_child, next_child->ChildNames(), child_constraints};
+      queue.push_back(std::move(child_node));
+    }
+  }
+}
 
 AnyValue::AnyValue(AnyValue&& other) noexcept
   : AnyValue{StealOrClone(std::move(other.m_data))}
@@ -452,6 +481,13 @@ std::vector<std::string> AnyValue::ChildNames() const
 const AnyValue* AnyValue::GetChildValue(const std::string& child_name) const
 {
   return m_data->GetChildValue(child_name);
+}
+
+std::unique_ptr<AnyValue> AnyValue::CloneFromChildren(
+  std::vector<std::unique_ptr<AnyValue>>&& children, Constraints constraints) const
+{
+  return std::unique_ptr<AnyValue>{
+    new AnyValue{m_data->CloneFromChildren(std::move(children), constraints)}};
 }
 
 bool AnyValue::ShallowEquals(const AnyValue& other) const

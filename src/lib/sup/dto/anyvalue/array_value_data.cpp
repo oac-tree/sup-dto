@@ -168,6 +168,26 @@ AnyValue* ArrayValueData::GetChildValue(const std::string& child_name)
   return m_elements[idx].get();
 }
 
+std::unique_ptr<IValueData> ArrayValueData::CloneFromChildren(
+  std::vector<std::unique_ptr<AnyValue>>&& children, Constraints constraints) const
+{
+  auto n_elements = NumberOfElements();
+  if (children.size() != n_elements)
+  {
+    const std::string error =
+      "StructValueData::CloneFromChildren(): Trying to clone array value with wrong number of "
+      "child values";
+    throw InvalidOperationException(error);
+  }
+  auto result = std::unique_ptr<ArrayValueData>{
+    new ArrayValueData{m_elem_type, GetTypeName(), constraints}};
+  for (auto& child : children)
+  {
+    result->m_elements.push_back(std::move(child));
+  }
+  return result;
+}
+
 bool ArrayValueData::ShallowEquals(const AnyValue& other) const
 {
   if (!IsArrayValue(other))
@@ -184,6 +204,14 @@ bool ArrayValueData::ShallowEquals(const AnyValue& other) const
   }
   return true;
 }
+
+ArrayValueData::ArrayValueData(const AnyType& elem_type, const std::string& name,
+                               Constraints constraints)
+  : m_elem_type{elem_type}
+  , m_name{name}
+  , m_elements{}
+  , m_constraints{constraints}
+{}
 
 std::pair<std::size_t, std::string> StripValueIndex(const std::string& fieldname)
 {

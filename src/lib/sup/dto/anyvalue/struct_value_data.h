@@ -60,6 +60,8 @@ public:
   bool HasChild(const std::string& child_name) const override;
   std::vector<std::string> ChildNames() const override;
   AnyValue* GetChildValue(const std::string& child_name) override;
+  std::unique_ptr<IValueData> CloneFromChildren(std::vector<std::unique_ptr<AnyValue>>&& children,
+                                                Constraints constraints) const override;
   bool ShallowEquals(const AnyValue& other) const override;
 
 private:

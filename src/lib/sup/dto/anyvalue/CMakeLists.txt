@@ -7,6 +7,7 @@ target_sources(sup-dto-obj
     anytype_registry.cpp
     anytype.cpp
     anyvalue_compare_node.cpp
+    anyvalue_copy_node.cpp
     anyvalue_exceptions.cpp
     anyvalue_helper.cpp
     anyvalue_operations_utils.cpp

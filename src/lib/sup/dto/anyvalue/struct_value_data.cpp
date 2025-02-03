@@ -58,7 +58,7 @@ std::unique_ptr<IValueData> StructValueData::Clone(Constraints constraints) cons
     data->ConvertFrom(member_val);
     result->m_member_data.AddMember(member_name, MakeAnyValue(std::move(data)));
   }
-  return std::unique_ptr<IValueData>{result.release()};
+  return result;
 }
 
 TypeCode StructValueData::GetTypeCode() const
@@ -135,6 +135,25 @@ std::vector<std::string> StructValueData::ChildNames() const
 AnyValue* StructValueData::GetChildValue(const std::string& child_name)
 {
   return m_member_data.GetChild(child_name);
+}
+
+std::unique_ptr<IValueData> StructValueData::CloneFromChildren(
+  std::vector<std::unique_ptr<AnyValue>>&& children, Constraints constraints) const
+{
+  if (children.size() != NumberOfMembers())
+  {
+    const std::string error =
+      "StructValueData::CloneFromChildren(): Trying to clone struct value with wrong number of "
+      "child values";
+    throw InvalidOperationException(error);
+  }
+  auto result = std::make_unique<StructValueData>(GetTypeName(), constraints);
+  auto member_names = MemberNames();
+  for (std::size_t idx = 0; idx < NumberOfMembers(); ++idx)
+  {
+    result->m_member_data.AddMember(member_names[idx], std::move(children[idx]));
+  }
+  return result;
 }
 
 bool StructValueData::ShallowEquals(const AnyValue& other) const

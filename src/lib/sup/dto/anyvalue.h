@@ -39,6 +39,7 @@ namespace sup
 namespace dto
 {
 class IValueData;
+enum class Constraints : sup::dto::uint32;
 
 /**
  * @brief Class for structured data transfer objects.
@@ -402,6 +403,8 @@ private:
   bool HasChild(const std::string& child_name) const;
   std::vector<std::string> ChildNames() const;
   const AnyValue* GetChildValue(const std::string& child_name) const;
+  std::unique_ptr<AnyValue> CloneFromChildren(std::vector<std::unique_ptr<AnyValue>>&& children,
+                                              Constraints constraints) const;
   // Equality function that disregards child values
   bool ShallowEquals(const AnyValue& other) const;
   friend class IValueData;

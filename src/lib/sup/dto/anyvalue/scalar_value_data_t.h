@@ -141,6 +141,8 @@ public:
   float64 AsFloat64() const override;
   std::string AsString() const override;
 
+  std::unique_ptr<IValueData> CloneFromChildren(std::vector<std::unique_ptr<AnyValue>>&& children,
+                                                Constraints constraints) const override;
   bool ShallowEquals(const AnyValue& other) const override;
 
 private:
@@ -156,7 +158,7 @@ ScalarValueDataT<T>::ScalarValueDataT(T value, Constraints constraints)
 template <typename T>
 std::unique_ptr<IValueData> ScalarValueDataT<T>::Clone(Constraints constraints) const
 {
-  return std::unique_ptr<IValueData>{new ScalarValueDataT<T>{m_value, constraints}};
+  return std::make_unique<ScalarValueDataT<T>>(m_value, constraints);
 }
 
 template <typename T>
@@ -241,6 +243,19 @@ template <typename T>
 std::string ScalarValueDataT<T>::AsString() const
 {
   return ConvertScalar<std::string, T>(m_value);
+}
+
+template <typename T>
+std::unique_ptr<IValueData> ScalarValueDataT<T>::CloneFromChildren(
+  std::vector<std::unique_ptr<AnyValue>>&& children, Constraints constraints) const
+{
+  if (!children.empty())
+  {
+    const std::string error =
+      "ScalarValueDataT::CloneFromChildren(): Trying to clone scalar value with child values";
+    throw InvalidOperationException(error);
+  }
+  return std::make_unique<ScalarValueDataT<T>>(m_value, constraints);
 }
 
 template <typename T>

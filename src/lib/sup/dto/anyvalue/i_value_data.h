@@ -83,7 +83,8 @@ public:
   virtual bool HasChild(const std::string& child_name) const;
   virtual std::vector<std::string> ChildNames() const;
   virtual AnyValue* GetChildValue(const std::string& child_name);
-
+  virtual std::unique_ptr<IValueData> CloneFromChildren(
+    std::vector<std::unique_ptr<AnyValue>>&& children, Constraints constraints) const = 0;
   virtual bool ShallowEquals(const AnyValue& other) const = 0;
 
 protected:
