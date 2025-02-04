@@ -189,8 +189,18 @@ AnyValue::AnyValue(const AnyValue& other)
 }
 
 AnyValue::AnyValue(AnyValue&& other) noexcept
-  : AnyValue{StealOrClone(std::move(other.m_data))}
-{}
+  : AnyValue{}
+{
+  if (IsLockedTypeConstraint(other.m_data->GetConstraints()))
+  {
+    AnyValue copy{other};
+    std::swap(m_data, copy.m_data);
+  }
+  else
+  {
+    std::swap(m_data, other.m_data);
+  }
+}
 
 AnyValue& AnyValue::operator=(const AnyValue& other) &
 {
@@ -202,8 +212,8 @@ AnyValue& AnyValue::operator=(const AnyValue& other) &
     }
     else
     {
-      auto tmp = other.m_data->Clone(Constraints::kNone);
-      std::swap(m_data, tmp);
+      AnyValue copy{other};
+      std::swap(m_data, copy.m_data);
     }
   }
   return *this;
@@ -214,12 +224,11 @@ AnyValue& AnyValue::operator=(AnyValue&& other) &
   if (IsLockedTypeConstraint(m_data->GetConstraints()))
   {
     ConvertFrom(other);
-    return *this;
   }
-  if (IsLockedTypeConstraint(other.m_data->GetConstraints()))
+  else if (IsLockedTypeConstraint(other.m_data->GetConstraints()))
   {
-    auto tmp = other.m_data->Clone(Constraints::kNone);
-    std::swap(m_data, tmp);
+    AnyValue copy{other};
+    std::swap(m_data, copy.m_data);
   }
   else
   {
