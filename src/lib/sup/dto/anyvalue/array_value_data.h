@@ -42,7 +42,6 @@ public:
   ArrayValueData& operator=(const ArrayValueData& other) = delete;
   ArrayValueData& operator=(ArrayValueData&& other) = delete;
 
-  std::unique_ptr<IValueData> Clone(Constraints constraints) const override;
   TypeCode GetTypeCode() const override;
   std::string GetTypeName() const override;
   AnyType GetType() const override;

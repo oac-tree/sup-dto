@@ -45,7 +45,6 @@ public:
   IValueData(IValueData&&) = delete;
   IValueData& operator=(IValueData&&) = delete;
 
-  virtual std::unique_ptr<IValueData> Clone(Constraints constraints) const = 0;
   virtual TypeCode GetTypeCode() const = 0;
   virtual std::string GetTypeName() const;
   virtual AnyType GetType() const = 0;
@@ -93,8 +92,6 @@ protected:
 };
 
 bool IsLockedTypeConstraint(Constraints constraints);
-
-std::unique_ptr<IValueData> StealOrClone(std::unique_ptr<IValueData>&& data);
 
 std::unique_ptr<IValueData> CreateValueData(const AnyType& anytype, Constraints constraints);
 

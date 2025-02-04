@@ -62,7 +62,6 @@ public:
   const T* GetChild(const std::string& child_name) const;
 
   bool ShallowEquals(const T& other) const;
-  bool Equals(const T& other) const;
 
 private:
   std::string m_name;
@@ -160,32 +159,6 @@ bool StructDataT<T>::ShallowEquals(const T& other) const
   if (other.MemberNames() != MemberNames())
   {
     return false;
-  }
-  return true;
-}
-
-template <typename T>
-bool StructDataT<T>::Equals(const T& other) const
-{
-  if (other.GetTypeCode() != TypeCode::Struct)
-  {
-    return false;
-  }
-  if (other.GetTypeName() != GetTypeName())
-  {
-    return false;
-  }
-  if (other.MemberNames() != MemberNames())
-  {
-    return false;
-  }
-  for (auto& [memberName, memberType] : m_members)
-  {
-    auto& other_member_field = other[memberName];
-    if (other_member_field != *memberType)
-    {
-      return false;
-    }
   }
   return true;
 }

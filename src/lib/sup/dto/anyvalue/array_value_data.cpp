@@ -57,16 +57,6 @@ ArrayValueData::ArrayValueData(std::size_t size, const AnyType& elem_type,
 
 ArrayValueData::~ArrayValueData() = default;
 
-std::unique_ptr<IValueData> ArrayValueData::Clone(Constraints constraints) const
-{
-  auto result = std::make_unique<ArrayValueData>(NumberOfElements(), m_elem_type, m_name, constraints);
-  for (std::size_t i = 0u; i < NumberOfElements(); ++i)
-  {
-    result->operator[](i) = *m_elements[i];
-  }
-  return result;
-}
-
 TypeCode ArrayValueData::GetTypeCode() const
 {
   return TypeCode::Array;

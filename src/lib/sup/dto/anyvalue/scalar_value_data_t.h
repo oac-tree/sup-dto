@@ -123,8 +123,6 @@ public:
   ScalarValueDataT& operator=(const ScalarValueDataT& other) = delete;
   ScalarValueDataT& operator=(ScalarValueDataT&& other) = delete;
 
-  std::unique_ptr<IValueData> Clone(Constraints constraints) const override;
-
   void ConvertFrom(const AnyValue& value) override;
 
   boolean AsBoolean() const override;
@@ -154,12 +152,6 @@ ScalarValueDataT<T>::ScalarValueDataT(T value, Constraints constraints)
   : ScalarValueDataBase{TypeToCode<T>::code, constraints}
   , m_value{value}
 {}
-
-template <typename T>
-std::unique_ptr<IValueData> ScalarValueDataT<T>::Clone(Constraints constraints) const
-{
-  return std::make_unique<ScalarValueDataT<T>>(m_value, constraints);
-}
 
 template <typename T>
 void ScalarValueDataT<T>::ConvertFrom(const AnyValue& value)
