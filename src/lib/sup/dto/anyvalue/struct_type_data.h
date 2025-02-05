@@ -49,9 +49,11 @@ public:
   std::vector<std::string> MemberNames() const override;
   std::size_t NumberOfMembers() const override;
 
+  std::size_t NumberOfChildren() const override;
   bool HasChild(const std::string& child_name) const override;
   std::vector<std::string> ChildNames() const override;
   AnyType* GetChildType(const std::string& child_name) override;
+  AnyType* GetChildType(std::size_t idx) override;
   std::unique_ptr<ITypeData> CloneFromChildren(
     std::vector<std::unique_ptr<AnyType>>&& children) const override;
 

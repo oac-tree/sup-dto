@@ -68,6 +68,11 @@ std::size_t ArrayTypeData::NumberOfElements() const
   return m_size;
 }
 
+std::size_t ArrayTypeData::NumberOfChildren() const
+{
+  return 1u;
+}
+
 bool ArrayTypeData::HasChild(const std::string& child_name) const
 {
   return child_name == kArrayTypeChildName;
@@ -85,6 +90,17 @@ AnyType* ArrayTypeData::GetChildType(const std::string& child_name)
     const std::string error =
       "ArrayTypeData::GetChildType() called with argument \"" + child_name +
       "\", while it only supports \"" + kArrayTypeChildName + "\"";
+    throw InvalidOperationException(error);
+  }
+  return std::addressof(m_elem_type);
+}
+
+AnyType* ArrayTypeData::GetChildType(std::size_t idx)
+{
+  if (idx != 0)
+  {
+    const std::string error =
+      "ArrayTypeData::GetChildType() called with non-zero index";
     throw InvalidOperationException(error);
   }
   return std::addressof(m_elem_type);

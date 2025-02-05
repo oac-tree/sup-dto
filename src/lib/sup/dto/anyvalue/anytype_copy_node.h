@@ -24,14 +24,18 @@
 
 #include <sup/dto/anytype.h>
 
+#include <limits>
+
 namespace sup
 {
 namespace dto
 {
+constexpr std::size_t kInvalidIndex = std::numeric_limits<std::size_t>::max();
+
 class AnyTypeCopyNode
 {
 public:
-  AnyTypeCopyNode(const AnyType* src, std::vector<std::string>&& child_names);
+  AnyTypeCopyNode(const AnyType* src, std::size_t n_children);
   ~AnyTypeCopyNode() = default;
 
   AnyTypeCopyNode(const AnyTypeCopyNode&) = delete;
@@ -40,14 +44,14 @@ public:
   AnyTypeCopyNode& operator=(AnyTypeCopyNode&&) = default;
 
   const AnyType* GetSource() const;
-  std::string NextChildName();
+  std::size_t NextIndex();
   void AddChild(std::unique_ptr<AnyType>&& child);
   std::vector<std::unique_ptr<AnyType>> MoveChildTypes();
 
 private:
   const AnyType* m_src;
+  std::size_t m_n_children;
   std::size_t m_index;
-  std::vector<std::string> m_child_names;
   std::vector<std::unique_ptr<AnyType>> m_children;
 };
 

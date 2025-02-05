@@ -60,6 +60,7 @@ public:
   bool HasChild(const std::string& child_name) const;
   T* GetChild(const std::string& child_name);
   const T* GetChild(const std::string& child_name) const;
+  T* GetChild(std::size_t idx);
 
   bool ShallowEquals(const T& other) const;
 
@@ -143,6 +144,17 @@ const T* StructDataT<T>::GetChild(const std::string& child_name) const
     throw InvalidOperationException(error);
   }
   return it->second.get();
+}
+
+template <typename T>
+T* StructDataT<T>::GetChild(std::size_t idx)
+{
+  if (idx >= m_members.size())
+  {
+    const std::string error = "StructDataT::GetChild(): index out of bounds";
+    throw InvalidOperationException(error);
+  }
+  return m_members[idx].second.get();
 }
 
 template <typename T>

@@ -55,6 +55,11 @@ std::size_t ITypeData::NumberOfElements() const
   return 0u;
 }
 
+std::size_t ITypeData::NumberOfChildren() const
+{
+  return 0u;
+}
+
 bool ITypeData::HasChild(const std::string&) const
 {
   return false;
@@ -66,6 +71,11 @@ std::vector<std::string> ITypeData::ChildNames() const
 }
 
 AnyType* ITypeData::GetChildType(const std::string&)
+{
+  throw InvalidOperationException("This type does not support members or elements");
+}
+
+AnyType* ITypeData::GetChildType(std::size_t)
 {
   throw InvalidOperationException("This type does not support members or elements");
 }

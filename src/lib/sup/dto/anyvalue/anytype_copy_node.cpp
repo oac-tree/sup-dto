@@ -25,10 +25,10 @@ namespace sup
 {
 namespace dto
 {
-AnyTypeCopyNode::AnyTypeCopyNode(const AnyType* src, std::vector<std::string>&& child_names)
+AnyTypeCopyNode::AnyTypeCopyNode(const AnyType* src, std::size_t n_children)
   : m_src{src}
+  , m_n_children{n_children}
   , m_index{0}
-  , m_child_names{std::move(child_names)}
   , m_children{}
 {}
 
@@ -37,13 +37,13 @@ const AnyType* AnyTypeCopyNode::GetSource() const
   return m_src;
 }
 
-std::string AnyTypeCopyNode::NextChildName()
+std::size_t AnyTypeCopyNode::NextIndex()
 {
-  if (m_index < m_child_names.size())
+  if (m_index < m_n_children)
   {
-    return m_child_names[m_index++];
+    return m_index++;
   }
-  return {};
+  return kInvalidIndex;
 }
 
 void AnyTypeCopyNode::AddChild(std::unique_ptr<AnyType>&& child)

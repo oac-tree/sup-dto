@@ -91,13 +91,13 @@ AnyType::AnyType(const AnyType& other)
   : AnyType{}
 {
   std::deque<AnyTypeCopyNode> queue;
-  AnyTypeCopyNode root_node{std::addressof(other), other.ChildNames()};
+  AnyTypeCopyNode root_node{std::addressof(other), other.NumberOfChildren()};
   queue.push_back(std::move(root_node));
   while (true)
   {
     auto& last_node = queue.back();
-    auto next_child_name = last_node.NextChildName();
-    if (next_child_name.empty())
+    auto next_child_idx = last_node.NextIndex();
+    if (next_child_idx == kInvalidIndex)
     {
       auto node_type = last_node.GetSource()->CloneFromChildren(last_node.MoveChildTypes());
       queue.pop_back();
@@ -110,8 +110,8 @@ AnyType::AnyType(const AnyType& other)
     }
     else
     {
-      auto next_child = last_node.GetSource()->GetChildType(next_child_name);
-      AnyTypeCopyNode child_node{next_child, next_child->ChildNames()};
+      auto next_child = last_node.GetSource()->GetChildType(next_child_idx);
+      AnyTypeCopyNode child_node{next_child, next_child->NumberOfChildren()};
       queue.push_back(std::move(child_node));
     }
   }
@@ -264,6 +264,11 @@ AnyType::AnyType(std::unique_ptr<ITypeData>&& data)
   : m_data{std::move(data)}
 {}
 
+std::size_t AnyType::NumberOfChildren() const
+{
+  return m_data->NumberOfChildren();
+}
+
 bool AnyType::HasChild(const std::string& child_name) const
 {
   return m_data->HasChild(child_name);
@@ -277,6 +282,11 @@ std::vector<std::string> AnyType::ChildNames() const
 const AnyType* AnyType::GetChildType(const std::string& child_name) const
 {
   return m_data->GetChildType(child_name);
+}
+
+const AnyType* AnyType::GetChildType(std::size_t idx) const
+{
+  return m_data->GetChildType(idx);
 }
 
 std::unique_ptr<AnyType> AnyType::CloneFromChildren(

@@ -49,9 +49,11 @@ public:
   virtual AnyType ElementType() const;
   virtual std::size_t NumberOfElements() const;
 
+  virtual std::size_t NumberOfChildren() const;
   virtual bool HasChild(const std::string& child_name) const;
   virtual std::vector<std::string> ChildNames() const;
   virtual AnyType* GetChildType(const std::string& child_name);
+  virtual AnyType* GetChildType(std::size_t idx);
   virtual std::unique_ptr<ITypeData> CloneFromChildren(
     std::vector<std::unique_ptr<AnyType>>&& children) const = 0;
 

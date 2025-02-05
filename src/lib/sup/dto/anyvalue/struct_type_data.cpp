@@ -58,6 +58,11 @@ std::size_t StructTypeData::NumberOfMembers() const
   return m_member_data.NumberOfMembers();
 }
 
+std::size_t StructTypeData::NumberOfChildren() const
+{
+  return m_member_data.NumberOfMembers();
+}
+
 bool StructTypeData::HasChild(const std::string& child_name) const
 {
   return m_member_data.HasChild(child_name);
@@ -71,6 +76,11 @@ std::vector<std::string> StructTypeData::ChildNames() const
 AnyType* StructTypeData::GetChildType(const std::string& child_name)
 {
   return m_member_data.GetChild(child_name);
+}
+
+AnyType* StructTypeData::GetChildType(std::size_t idx)
+{
+  return m_member_data.GetChild(idx);
 }
 
 std::unique_ptr<ITypeData> StructTypeData::CloneFromChildren(
