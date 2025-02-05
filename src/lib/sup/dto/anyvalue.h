@@ -400,9 +400,11 @@ public:
 
 private:
   explicit AnyValue(std::unique_ptr<IValueData>&& data);
+  std::size_t NumberOfChildren() const;
   bool HasChild(const std::string& child_name) const;
   std::vector<std::string> ChildNames() const;
   const AnyValue* GetChildValue(const std::string& child_name) const;
+  const AnyValue* GetChildValue(std::size_t idx) const;
   std::unique_ptr<AnyValue> CloneFromChildren(std::vector<std::unique_ptr<AnyValue>>&& children,
                                               Constraints constraints) const;
   // Equality function that disregards child values

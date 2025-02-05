@@ -438,25 +438,25 @@ bool AnyValue::operator==(const AnyValue& other) const
     return false;
   }
   std::deque<AnyValueCompareNode> queue;
-  AnyValueCompareNode root_node{this, std::addressof(other), ChildNames()};
+  AnyValueCompareNode root_node{this, std::addressof(other), NumberOfChildren()};
   queue.push_back(root_node);
   while (!queue.empty())
   {
     auto& last_node = queue.back();
-    if (last_node.m_index >= last_node.m_child_names.size())
+    if (last_node.m_index >= last_node.m_n_children)
     {
       queue.pop_back();
     }
     else
     {
-      auto child_name = last_node.m_child_names[last_node.m_index++];
-      auto left_child = last_node.m_left->GetChildValue(child_name);
-      auto right_child = last_node.m_right->GetChildValue(child_name);
+      auto idx = last_node.m_index++;
+      auto left_child = last_node.m_left->GetChildValue(idx);
+      auto right_child = last_node.m_right->GetChildValue(idx);
       if (!left_child->ShallowEquals(*right_child))
       {
         return false;
       }
-      AnyValueCompareNode child_node{left_child, right_child, left_child->ChildNames()};
+      AnyValueCompareNode child_node{left_child, right_child, left_child->NumberOfChildren()};
       queue.push_back(child_node);
     }
   }
@@ -477,6 +477,11 @@ AnyValue::AnyValue(std::unique_ptr<IValueData>&& data)
   : m_data{std::move(data)}
 {}
 
+std::size_t AnyValue::NumberOfChildren() const
+{
+  return m_data->NumberOfChildren();
+}
+
 bool AnyValue::HasChild(const std::string& child_name) const
 {
   return m_data->HasChild(child_name);
@@ -490,6 +495,11 @@ std::vector<std::string> AnyValue::ChildNames() const
 const AnyValue* AnyValue::GetChildValue(const std::string& child_name) const
 {
   return m_data->GetChildValue(child_name);
+}
+
+const AnyValue* AnyValue::GetChildValue(std::size_t idx) const
+{
+  return m_data->GetChildValue(idx);
 }
 
 std::unique_ptr<AnyValue> AnyValue::CloneFromChildren(

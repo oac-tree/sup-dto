@@ -109,6 +109,11 @@ void StructValueData::ConvertFrom(const AnyValue& value)
   }
 }
 
+std::size_t StructValueData::NumberOfChildren() const
+{
+  return m_member_data.NumberOfMembers();
+}
+
 bool StructValueData::HasChild(const std::string& child_name) const
 {
   return m_member_data.HasChild(child_name);
@@ -122,6 +127,11 @@ std::vector<std::string> StructValueData::ChildNames() const
 AnyValue* StructValueData::GetChildValue(const std::string& child_name)
 {
   return m_member_data.GetChild(child_name);
+}
+
+AnyValue* StructValueData::GetChildValue(std::size_t idx)
+{
+  return m_member_data.GetChild(idx);
 }
 
 std::unique_ptr<IValueData> StructValueData::CloneFromChildren(

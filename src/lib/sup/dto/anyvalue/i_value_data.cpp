@@ -146,6 +146,11 @@ AnyValue& IValueData::operator[](std::size_t )
   throw InvalidOperationException("Member access operator with unsigned index not supported");
 }
 
+std::size_t IValueData::NumberOfChildren() const
+{
+  return 0u;
+}
+
 bool IValueData::HasChild(const std::string&) const
 {
   return false;
@@ -157,6 +162,11 @@ std::vector<std::string> IValueData::ChildNames() const
 }
 
 AnyValue* IValueData::GetChildValue(const std::string&)
+{
+  throw InvalidOperationException("This value does not support members or elements");
+}
+
+AnyValue* IValueData::GetChildValue(std::size_t)
 {
   throw InvalidOperationException("This value does not support members or elements");
 }

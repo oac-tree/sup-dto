@@ -119,6 +119,11 @@ AnyValue& ArrayValueData::operator[](std::size_t idx)
   return *m_elements[idx];
 }
 
+std::size_t ArrayValueData::NumberOfChildren() const
+{
+  return m_elements.size();
+}
+
 bool ArrayValueData::HasChild(const std::string& child_name) const
 {
   std::size_t idx{0};
@@ -151,6 +156,15 @@ std::vector<std::string> ArrayValueData::ChildNames() const
 AnyValue* ArrayValueData::GetChildValue(const std::string& child_name)
 {
   auto idx = ParseValueIndex(child_name);
+  if (idx >= NumberOfElements())
+  {
+    throw InvalidOperationException("Index operator argument out of bounds");
+  }
+  return m_elements[idx].get();
+}
+
+AnyValue* ArrayValueData::GetChildValue(std::size_t idx)
+{
   if (idx >= NumberOfElements())
   {
     throw InvalidOperationException("Index operator argument out of bounds");
