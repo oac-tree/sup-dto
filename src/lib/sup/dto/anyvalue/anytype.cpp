@@ -103,7 +103,7 @@ AnyType::AnyType(const AnyType& other)
       queue.pop_back();
       if (queue.empty())
       {
-        std::swap(m_data, node_type.m_data);
+        std::swap(m_data, node_type->m_data);
         break;
       }
       queue.back().AddChild(std::move(node_type));
@@ -112,7 +112,7 @@ AnyType::AnyType(const AnyType& other)
     {
       auto next_child = last_node.GetSource()->GetChildType(next_child_name);
       AnyTypeCopyNode child_node{next_child, next_child->ChildNames()};
-      queue.push_back(child_node);
+      queue.push_back(std::move(child_node));
     }
   }
 }
@@ -125,15 +125,14 @@ AnyType::AnyType(AnyType&& other) noexcept
 
 AnyType& AnyType::operator=(const AnyType& other) &
 {
-  auto copy = AnyType(other);
+  AnyType copy{other};
   std::swap(m_data, copy.m_data);
   return *this;
 }
 
 AnyType& AnyType::operator=(AnyType&& other) & noexcept
 {
-  auto moved = std::move(other);
-  std::swap(m_data, moved.m_data);
+  std::swap(m_data, other.m_data);
   return *this;
 }
 
@@ -280,10 +279,10 @@ const AnyType* AnyType::GetChildType(const std::string& child_name) const
   return m_data->GetChildType(child_name);
 }
 
-AnyType AnyType::CloneFromChildren(std::vector<AnyType>&& children) const
+std::unique_ptr<AnyType> AnyType::CloneFromChildren(
+  std::vector<std::unique_ptr<AnyType>>&& children) const
 {
-  auto type_data = m_data->CloneFromChildren(std::move(children));
-  return AnyType{std::move(type_data)};
+  return std::unique_ptr<AnyType>{new AnyType{m_data->CloneFromChildren(std::move(children))}};
 }
 
 bool AnyType::ShallowEquals(const AnyType& other) const

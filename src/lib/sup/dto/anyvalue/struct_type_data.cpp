@@ -73,7 +73,8 @@ AnyType* StructTypeData::GetChildType(const std::string& child_name)
   return m_member_data.GetChild(child_name);
 }
 
-std::unique_ptr<ITypeData> StructTypeData::CloneFromChildren(std::vector<AnyType>&& children) const
+std::unique_ptr<ITypeData> StructTypeData::CloneFromChildren(
+  std::vector<std::unique_ptr<AnyType>>&& children) const
 {
   auto n_members = m_member_data.NumberOfMembers();
   if (children.size() != n_members)
@@ -87,7 +88,8 @@ std::unique_ptr<ITypeData> StructTypeData::CloneFromChildren(std::vector<AnyType
   auto member_names = m_member_data.MemberNames();
   for (std::size_t idx=0; idx < n_members; ++idx)
   {
-    result->AddMember(member_names[idx], std::move(children[idx]));
+    auto mem_type = std::move(children[idx]);
+    result->AddMember(member_names[idx], std::move(*mem_type));
   }
   return result;
 }

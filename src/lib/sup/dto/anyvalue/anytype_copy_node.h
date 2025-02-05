@@ -34,21 +34,21 @@ public:
   AnyTypeCopyNode(const AnyType* src, std::vector<std::string>&& child_names);
   ~AnyTypeCopyNode() = default;
 
-  AnyTypeCopyNode(const AnyTypeCopyNode&) = default;
-  AnyTypeCopyNode& operator=(const AnyTypeCopyNode&) = default;
+  AnyTypeCopyNode(const AnyTypeCopyNode&) = delete;
+  AnyTypeCopyNode& operator=(const AnyTypeCopyNode&) = delete;
   AnyTypeCopyNode(AnyTypeCopyNode&&) = default;
   AnyTypeCopyNode& operator=(AnyTypeCopyNode&&) = default;
 
   const AnyType* GetSource() const;
   std::string NextChildName();
-  void AddChild(AnyType&& child);
-  std::vector<AnyType> MoveChildTypes();
+  void AddChild(std::unique_ptr<AnyType>&& child);
+  std::vector<std::unique_ptr<AnyType>> MoveChildTypes();
 
 private:
   const AnyType* m_src;
   std::size_t m_index;
   std::vector<std::string> m_child_names;
-  std::vector<AnyType> m_children;
+  std::vector<std::unique_ptr<AnyType>> m_children;
 };
 
 }  // namespace dto

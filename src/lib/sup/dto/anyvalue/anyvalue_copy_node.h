@@ -37,8 +37,8 @@ public:
                    Constraints constraints);
   ~AnyValueCopyNode() = default;
 
-  AnyValueCopyNode(const AnyValueCopyNode&) = default;
-  AnyValueCopyNode& operator=(const AnyValueCopyNode&) = default;
+  AnyValueCopyNode(const AnyValueCopyNode&) = delete;
+  AnyValueCopyNode& operator=(const AnyValueCopyNode&) = delete;
   AnyValueCopyNode(AnyValueCopyNode&&) = default;
   AnyValueCopyNode& operator=(AnyValueCopyNode&&) = default;
 

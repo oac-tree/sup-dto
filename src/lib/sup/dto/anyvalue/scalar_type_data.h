@@ -42,7 +42,8 @@ public:
   TypeCode GetTypeCode() const override;
   std::string GetTypeName() const override;
 
-  std::unique_ptr<ITypeData> CloneFromChildren(std::vector<AnyType>&& children) const override;
+  std::unique_ptr<ITypeData> CloneFromChildren(
+    std::vector<std::unique_ptr<AnyType>>&& children) const override;
 
   bool ShallowEquals(const AnyType& other) const override;
 

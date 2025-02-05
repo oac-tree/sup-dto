@@ -46,12 +46,12 @@ std::string AnyTypeCopyNode::NextChildName()
   return {};
 }
 
-void AnyTypeCopyNode::AddChild(AnyType&& child)
+void AnyTypeCopyNode::AddChild(std::unique_ptr<AnyType>&& child)
 {
   m_children.push_back(std::move(child));
 }
 
-std::vector<AnyType> AnyTypeCopyNode::MoveChildTypes()
+std::vector<std::unique_ptr<AnyType>> AnyTypeCopyNode::MoveChildTypes()
 {
   return std::move(m_children);
 }

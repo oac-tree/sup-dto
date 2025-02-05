@@ -42,7 +42,8 @@ std::string EmptyTypeData::GetTypeName() const
   return kEmptyTypeName;
 }
 
-std::unique_ptr<ITypeData> EmptyTypeData::CloneFromChildren(std::vector<AnyType>&& children) const
+std::unique_ptr<ITypeData> EmptyTypeData::CloneFromChildren(
+  std::vector<std::unique_ptr<AnyType>>&& children) const
 {
   if (!children.empty())
   {

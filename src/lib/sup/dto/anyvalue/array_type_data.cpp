@@ -90,7 +90,8 @@ AnyType* ArrayTypeData::GetChildType(const std::string& child_name)
   return std::addressof(m_elem_type);
 }
 
-std::unique_ptr<ITypeData> ArrayTypeData::CloneFromChildren(std::vector<AnyType>&& children) const
+std::unique_ptr<ITypeData> ArrayTypeData::CloneFromChildren(
+  std::vector<std::unique_ptr<AnyType>>&& children) const
 {
   if (children.size() != 1u)
   {
@@ -98,7 +99,8 @@ std::unique_ptr<ITypeData> ArrayTypeData::CloneFromChildren(std::vector<AnyType>
       "ArrayTypeData::CloneFromChildren(): children must contain exactly one type";
     throw InvalidOperationException(error);
   }
-  return std::make_unique<ArrayTypeData>(m_size, std::move(children[0]), m_name);
+  auto elem_typ = std::move(children[0]);
+  return std::make_unique<ArrayTypeData>(m_size, std::move(*elem_typ), m_name);
 }
 
 bool ArrayTypeData::ShallowEquals(const AnyType& other) const
