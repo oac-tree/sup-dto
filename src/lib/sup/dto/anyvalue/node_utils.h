@@ -19,45 +19,19 @@
  * of the distribution package.
  ******************************************************************************/
 
-#include "anytype_copy_node.h"
+#ifndef SUP_DTO_NODE_UTILS_H_
+#define SUP_DTO_NODE_UTILS_H_
 
-#include "node_utils.h"
+#include <limits>
 
 namespace sup
 {
 namespace dto
 {
-AnyTypeCopyNode::AnyTypeCopyNode(const AnyType* src, std::size_t n_children)
-  : m_src{src}
-  , m_n_children{n_children}
-  , m_index{0}
-  , m_children{}
-{}
-
-const AnyType* AnyTypeCopyNode::GetSource() const
-{
-  return m_src;
-}
-
-std::size_t AnyTypeCopyNode::NextIndex()
-{
-  if (m_index < m_n_children)
-  {
-    return m_index++;
-  }
-  return kInvalidIndex;
-}
-
-void AnyTypeCopyNode::AddChild(std::unique_ptr<AnyType>&& child)
-{
-  m_children.push_back(std::move(child));
-}
-
-std::vector<std::unique_ptr<AnyType>> AnyTypeCopyNode::MoveChildTypes()
-{
-  return std::move(m_children);
-}
+constexpr std::size_t kInvalidIndex = std::numeric_limits<std::size_t>::max();
 
 }  // namespace dto
 
 }  // namespace sup
+
+#endif  // SUP_DTO_NODE_UTILS_H_

@@ -25,6 +25,7 @@
 #include <sup/dto/anyvalue/anyvalue_copy_node.h>
 #include <sup/dto/anyvalue/array_value_data.h>
 #include <sup/dto/anyvalue/empty_value_data.h>
+#include <sup/dto/anyvalue/node_utils.h>
 #include <sup/dto/anyvalue/scalar_value_data_t.h>
 #include <sup/dto/anyvalue/struct_value_data.h>
 #include <sup/dto/parse/ctype_parser.h>
@@ -160,13 +161,13 @@ AnyValue::AnyValue(const AnyValue& other)
   : AnyValue{}
 {
   std::deque<AnyValueCopyNode> queue;
-  AnyValueCopyNode root_node{std::addressof(other), other.ChildNames(), Constraints::kNone};
+  AnyValueCopyNode root_node{std::addressof(other), other.NumberOfChildren(), Constraints::kNone};
   queue.push_back(std::move(root_node));
   while (true)
   {
     auto& last_node = queue.back();
-    auto next_child_name = last_node.NextChildName();
-    if (next_child_name.empty())
+    auto next_child_idx = last_node.NextIndex();
+    if (next_child_idx == kInvalidIndex)
     {
       auto node_value = last_node.GetSource()->CloneFromChildren(last_node.MoveChildValues(),
                                                                  last_node.GetConstraints());
@@ -180,9 +181,9 @@ AnyValue::AnyValue(const AnyValue& other)
     }
     else
     {
-      auto next_child = last_node.GetSource()->GetChildValue(next_child_name);
+      auto next_child = last_node.GetSource()->GetChildValue(next_child_idx);
       auto child_constraints = last_node.GetChildConstraints();
-      AnyValueCopyNode child_node{next_child, next_child->ChildNames(), child_constraints};
+      AnyValueCopyNode child_node{next_child, next_child->NumberOfChildren(), child_constraints};
       queue.push_back(std::move(child_node));
     }
   }
@@ -485,11 +486,6 @@ std::size_t AnyValue::NumberOfChildren() const
 bool AnyValue::HasChild(const std::string& child_name) const
 {
   return m_data->HasChild(child_name);
-}
-
-std::vector<std::string> AnyValue::ChildNames() const
-{
-  return m_data->ChildNames();
 }
 
 const AnyValue* AnyValue::GetChildValue(const std::string& child_name) const

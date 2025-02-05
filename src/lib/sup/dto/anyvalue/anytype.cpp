@@ -25,6 +25,7 @@
 #include <sup/dto/anyvalue/anytype_copy_node.h>
 #include <sup/dto/anyvalue/array_type_data.h>
 #include <sup/dto/anyvalue/empty_type_data.h>
+#include <sup/dto/anyvalue/node_utils.h>
 #include <sup/dto/anyvalue/scalar_type_data.h>
 #include <sup/dto/anyvalue/struct_type_data.h>
 

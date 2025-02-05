@@ -21,16 +21,18 @@
 
 #include "anyvalue_copy_node.h"
 
+#include "node_utils.h"
+
 namespace sup
 {
 namespace dto
 {
-AnyValueCopyNode::AnyValueCopyNode(const AnyValue* src, std::vector<std::string>&& child_names,
+AnyValueCopyNode::AnyValueCopyNode(const AnyValue* src, std::size_t n_children,
                                    Constraints constraints)
   : m_src{src}
-  , m_index{0}
-  , m_child_names{std::move(child_names)}
+  , m_n_children{n_children}
   , m_constraints{constraints}
+  , m_index{0}
   , m_children{}
 {}
 
@@ -44,13 +46,13 @@ Constraints AnyValueCopyNode::GetConstraints() const
   return m_constraints;
 }
 
-std::string AnyValueCopyNode::NextChildName()
+std::size_t AnyValueCopyNode::NextIndex()
 {
-  if (m_index < m_child_names.size())
+  if (m_index < m_n_children)
   {
-    return m_child_names[m_index++];
+    return m_index++;
   }
-  return {};
+  return kInvalidIndex;
 }
 
 Constraints AnyValueCopyNode::GetChildConstraints() const

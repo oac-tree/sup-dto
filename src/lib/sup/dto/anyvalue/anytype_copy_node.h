@@ -30,8 +30,6 @@ namespace sup
 {
 namespace dto
 {
-constexpr std::size_t kInvalidIndex = std::numeric_limits<std::size_t>::max();
-
 class AnyTypeCopyNode
 {
 public:

@@ -33,7 +33,7 @@ namespace dto
 class AnyValueCopyNode
 {
 public:
-  AnyValueCopyNode(const AnyValue* src, std::vector<std::string>&& child_names,
+  AnyValueCopyNode(const AnyValue* src, std::size_t n_children,
                    Constraints constraints);
   ~AnyValueCopyNode() = default;
 
@@ -44,16 +44,16 @@ public:
 
   const AnyValue* GetSource() const;
   Constraints GetConstraints() const;
-  std::string NextChildName();
+  std::size_t NextIndex();
   Constraints GetChildConstraints() const;
   void AddChild(std::unique_ptr<AnyValue>&& child);
   std::vector<std::unique_ptr<AnyValue>> MoveChildValues();
 
 private:
   const AnyValue* m_src;
-  std::size_t m_index;
-  std::vector<std::string> m_child_names;
+  std::size_t m_n_children;
   Constraints m_constraints;
+  std::size_t m_index;
   std::vector<std::unique_ptr<AnyValue>> m_children;
 };
 

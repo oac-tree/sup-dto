@@ -81,7 +81,6 @@ public:
 
   virtual std::size_t NumberOfChildren() const;
   virtual bool HasChild(const std::string& child_name) const;
-  virtual std::vector<std::string> ChildNames() const;
   virtual AnyValue* GetChildValue(const std::string& child_name);
   virtual AnyValue* GetChildValue(std::size_t idx);
   virtual std::unique_ptr<IValueData> CloneFromChildren(

@@ -119,11 +119,6 @@ bool StructValueData::HasChild(const std::string& child_name) const
   return m_member_data.HasChild(child_name);
 }
 
-std::vector<std::string> StructValueData::ChildNames() const
-{
-  return m_member_data.MemberNames();
-}
-
 AnyValue* StructValueData::GetChildValue(const std::string& child_name)
 {
   return m_member_data.GetChild(child_name);
