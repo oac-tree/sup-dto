@@ -230,25 +230,25 @@ bool AnyType::operator==(const AnyType& other) const
     return false;
   }
   std::deque<AnyTypeCompareNode> queue;
-  AnyTypeCompareNode root_node{this, std::addressof(other), ChildNames()};
+  AnyTypeCompareNode root_node{this, std::addressof(other), NumberOfChildren()};
   queue.push_back(root_node);
   while (!queue.empty())
   {
     auto& last_node = queue.back();
-    if (last_node.m_index >= last_node.m_child_names.size())
+    if (last_node.m_index >= last_node.m_n_children)
     {
       queue.pop_back();
     }
     else
     {
-      auto child_name = last_node.m_child_names[last_node.m_index++];
-      auto left_child = last_node.m_left->GetChildType(child_name);
-      auto right_child = last_node.m_right->GetChildType(child_name);
+      auto idx = last_node.m_index++;
+      auto left_child = last_node.m_left->GetChildType(idx);
+      auto right_child = last_node.m_right->GetChildType(idx);
       if (!left_child->ShallowEquals(*right_child))
       {
         return false;
       }
-      AnyTypeCompareNode child_node{left_child, right_child, left_child->ChildNames()};
+      AnyTypeCompareNode child_node{left_child, right_child, left_child->NumberOfChildren()};
       queue.push_back(child_node);
     }
   }
@@ -272,11 +272,6 @@ std::size_t AnyType::NumberOfChildren() const
 bool AnyType::HasChild(const std::string& child_name) const
 {
   return m_data->HasChild(child_name);
-}
-
-std::vector<std::string> AnyType::ChildNames() const
-{
-  return m_data->ChildNames();
 }
 
 const AnyType* AnyType::GetChildType(const std::string& child_name) const

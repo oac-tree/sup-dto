@@ -301,7 +301,6 @@ private:
   explicit AnyType(std::unique_ptr<ITypeData>&& data);
   std::size_t NumberOfChildren() const;
   bool HasChild(const std::string& child_name) const;
-  std::vector<std::string> ChildNames() const;
   const AnyType* GetChildType(const std::string& child_name) const;
   const AnyType* GetChildType(std::size_t idx) const;
   std::unique_ptr<AnyType> CloneFromChildren(

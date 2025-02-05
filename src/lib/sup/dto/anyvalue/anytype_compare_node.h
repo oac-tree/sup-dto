@@ -30,8 +30,7 @@ namespace dto
 {
 struct AnyTypeCompareNode
 {
-  AnyTypeCompareNode(const AnyType* left, const AnyType* right,
-                     std::vector<std::string>&& child_names);
+  AnyTypeCompareNode(const AnyType* left, const AnyType* right, std::size_t n_children);
   ~AnyTypeCompareNode() = default;
 
   AnyTypeCompareNode(const AnyTypeCompareNode&) = default;
@@ -41,8 +40,8 @@ struct AnyTypeCompareNode
 
   const AnyType* m_left;
   const AnyType* m_right;
+  std::size_t m_n_children;
   std::size_t m_index;
-  std::vector<std::string> m_child_names;
 };
 
 }  // namespace dto

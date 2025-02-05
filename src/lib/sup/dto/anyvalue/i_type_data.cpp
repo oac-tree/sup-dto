@@ -65,11 +65,6 @@ bool ITypeData::HasChild(const std::string&) const
   return false;
 }
 
-std::vector<std::string> ITypeData::ChildNames() const
-{
-  return {};
-}
-
 AnyType* ITypeData::GetChildType(const std::string&)
 {
   throw InvalidOperationException("This type does not support members or elements");

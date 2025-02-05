@@ -78,11 +78,6 @@ bool ArrayTypeData::HasChild(const std::string& child_name) const
   return child_name == kArrayTypeChildName;
 }
 
-std::vector<std::string> ArrayTypeData::ChildNames() const
-{
-  return { kArrayTypeChildName };
-}
-
 AnyType* ArrayTypeData::GetChildType(const std::string& child_name)
 {
   if (child_name != kArrayTypeChildName)

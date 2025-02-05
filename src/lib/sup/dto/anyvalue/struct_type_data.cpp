@@ -68,11 +68,6 @@ bool StructTypeData::HasChild(const std::string& child_name) const
   return m_member_data.HasChild(child_name);
 }
 
-std::vector<std::string> StructTypeData::ChildNames() const
-{
-  return m_member_data.MemberNames();
-}
-
 AnyType* StructTypeData::GetChildType(const std::string& child_name)
 {
   return m_member_data.GetChild(child_name);

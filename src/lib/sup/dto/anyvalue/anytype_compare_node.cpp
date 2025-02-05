@@ -27,11 +27,11 @@ namespace dto
 {
 
 AnyTypeCompareNode::AnyTypeCompareNode(const AnyType* left, const AnyType* right,
-                                       std::vector<std::string>&& child_names)
+                                       std::size_t n_children)
   : m_left{left}
   , m_right{right}
+  , m_n_children{n_children}
   , m_index{0}
-  , m_child_names{std::move(child_names)}
 {}
 
 }  // namespace dto
