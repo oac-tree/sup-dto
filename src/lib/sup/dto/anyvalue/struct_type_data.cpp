@@ -93,8 +93,7 @@ std::unique_ptr<ITypeData> StructTypeData::CloneFromChildren(
   auto member_names = m_member_data.MemberNames();
   for (std::size_t idx=0; idx < n_members; ++idx)
   {
-    auto mem_type = std::move(children[idx]);
-    result->AddMember(member_names[idx], std::move(*mem_type));
+    result->m_member_data.AddMember(member_names[idx], std::move(children[idx]));
   }
   return result;
 }
