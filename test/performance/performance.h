@@ -35,6 +35,9 @@ namespace dto
 {
 namespace performance
 {
+using TestFunction = std::function<void(const AnyType&)>;
+
+void RunTestFunction(TestFunction func);
 
 void PrintDateTime();
 AnyType CreateScalarMix_Type();
@@ -74,8 +77,9 @@ private:
 };
 
 template <typename Encoder>
-void MeasureEncoderWithValue(const AnyValue& anyvalue)
+void MeasureEncoderWithValue(const AnyType& anytype)
 {
+  AnyValue anyvalue{anytype};
   Encoder encoder(anyvalue);
   auto start = std::chrono::system_clock::now();
   encoder.Encode();
@@ -121,36 +125,7 @@ void MeasureEncoderWithValue(const AnyValue& anyvalue)
 
 void MeasureCopyAnyType(const AnyType& anytype);
 
-void MeasureCopyAnyTypes();
-
-void MeasureCopyAnyValue(const AnyValue& anyvalue);
-
-void MeasureCopyAnyValues();
-
-template <typename Encoder>
-void MeasureEncoder()
-{
-  {
-    sup::dto::AnyValue val{CreateScalarMix_Type()};
-    MeasureEncoderWithValue<Encoder>(val);
-  }
-  {
-    sup::dto::AnyValue val{CreateScalarMixArray_Type()};
-    MeasureEncoderWithValue<Encoder>(val);
-  }
-  {
-    sup::dto::AnyValue val{CreateSystemConfigs_Type()};
-    MeasureEncoderWithValue<Encoder>(val);
-  }
-  {
-    sup::dto::AnyValue val{CreateFullConfig_Type()};
-    MeasureEncoderWithValue<Encoder>(val);
-  }
-  {
-    sup::dto::AnyValue val{CreateManyFullConfig_t_Type()};
-    MeasureEncoderWithValue<Encoder>(val);
-  }
-}
+void MeasureCopyAnyValue(const AnyType& anytype);
 
 }  // namespace performance
 

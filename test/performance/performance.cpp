@@ -36,6 +36,30 @@ namespace dto
 namespace performance
 {
 
+void RunTestFunction(TestFunction func)
+{
+  {
+    AnyType anytype = CreateScalarMix_Type();
+    func(anytype);
+  }
+  {
+    AnyType anytype = CreateScalarMixArray_Type();
+    func(anytype);
+  }
+  {
+    AnyType anytype = CreateSystemConfigs_Type();
+    func(anytype);
+  }
+  {
+    AnyType anytype = CreateFullConfig_Type();
+    func(anytype);
+  }
+  {
+    AnyType anytype = CreateManyFullConfig_t_Type();
+    func(anytype);
+  }
+}
+
 void PrintDateTime()
 {
   auto now = std::chrono::system_clock::now();
@@ -187,32 +211,9 @@ void MeasureCopyAnyType(const AnyType& anytype)
   std::cout << std::endl;
 }
 
-void MeasureCopyAnyTypes()
+void MeasureCopyAnyValue(const AnyType& anytype)
 {
-  {
-    AnyType anytype = CreateScalarMix_Type();
-    MeasureCopyAnyType(anytype);
-  }
-  {
-    AnyType anytype = CreateScalarMixArray_Type();
-    MeasureCopyAnyType(anytype);
-  }
-  {
-    AnyType anytype = CreateSystemConfigs_Type();
-    MeasureCopyAnyType(anytype);
-  }
-  {
-    AnyType anytype = CreateFullConfig_Type();
-    MeasureCopyAnyType(anytype);
-  }
-  {
-    AnyType anytype = CreateManyFullConfig_t_Type();
-    MeasureCopyAnyType(anytype);
-  }
-}
-
-void MeasureCopyAnyValue(const AnyValue& anyvalue)
-{
+  AnyValue anyvalue{anytype};
   auto start = std::chrono::system_clock::now();
   AnyValue copy{anyvalue};
   auto one_cycle = std::chrono::duration_cast<std::chrono::nanoseconds>(
@@ -250,31 +251,6 @@ void MeasureCopyAnyValue(const AnyValue& anyvalue)
   std::cout << "  Mean equality check time (ms)     : " << mean_equality_ms << std::endl;
   std::cout << std::endl;
 }
-
-void MeasureCopyAnyValues()
-{
-  {
-    sup::dto::AnyValue val{CreateScalarMix_Type()};
-    MeasureCopyAnyValue(val);
-  }
-  {
-    sup::dto::AnyValue val{CreateScalarMixArray_Type()};
-    MeasureCopyAnyValue(val);
-  }
-  {
-    sup::dto::AnyValue val{CreateSystemConfigs_Type()};
-    MeasureCopyAnyValue(val);
-  }
-  {
-    sup::dto::AnyValue val{CreateFullConfig_Type()};
-    MeasureCopyAnyValue(val);
-  }
-  {
-    sup::dto::AnyValue val{CreateManyFullConfig_t_Type()};
-    MeasureCopyAnyValue(val);
-  }
-}
-
 
 }  // namespace performance
 

@@ -36,26 +36,26 @@ int main()
   // Measure AnyType copy and equality checks
   std::cout << "Test AnyType copy/equality performance" << std::endl;
   std::cout << "**************************************" << std::endl;
-  performance::MeasureCopyAnyTypes();
+  performance::RunTestFunction(performance::MeasureCopyAnyType);
 
   std::cout << std::endl;
 
   // Measure AnyType copy and equality checks
   std::cout << "Test AnyValue copy/equality performance" << std::endl;
   std::cout << "***************************************" << std::endl;
-  performance::MeasureCopyAnyValues();
+  performance::RunTestFunction(performance::MeasureCopyAnyValue);
 
   std::cout << std::endl;
 
-  // // Measure JSON performance:
-  // std::cout << "Test JSON serialize/parse performance" << std::endl;
-  // std::cout << "*************************************" << std::endl;
-  // performance::MeasureEncoder<performance::JSONEncoder>();
+  // Measure JSON performance:
+  std::cout << "Test JSON serialize/parse performance" << std::endl;
+  std::cout << "*************************************" << std::endl;
+  performance::RunTestFunction(performance::MeasureEncoderWithValue<performance::JSONEncoder>);
 
-  // std::cout << std::endl;
+  std::cout << std::endl;
 
-  // // Measure binary performance:
-  // std::cout << "Test binary serialize/parse performance" << std::endl;
-  // std::cout << "***************************************" << std::endl;
-  // performance::MeasureEncoder<performance::BinaryEncoder>();
+  // Measure binary performance:
+  std::cout << "Test binary serialize/parse performance" << std::endl;
+  std::cout << "***************************************" << std::endl;
+  performance::RunTestFunction(performance::MeasureEncoderWithValue<performance::BinaryEncoder>);
 }
