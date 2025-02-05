@@ -33,15 +33,29 @@ int main()
 {
   performance::PrintDateTime();
 
-  // Measure JSON performance:
-  std::cout << "Test JSON serialize/parse performance" << std::endl;
-  std::cout << "*************************************" << std::endl;
-  performance::MeasureEncoder<performance::JSONEncoder>();
+  // Measure AnyType copy and equality checks
+  std::cout << "Test AnyType copy/equality performance" << std::endl;
+  std::cout << "**************************************" << std::endl;
+  performance::MeasureCopyAnyTypes();
 
   std::cout << std::endl;
 
-  // Measure binary performance:
-  std::cout << "Test binary serialize/parse performance" << std::endl;
+  // Measure AnyType copy and equality checks
+  std::cout << "Test AnyValue copy/equality performance" << std::endl;
   std::cout << "***************************************" << std::endl;
-  performance::MeasureEncoder<performance::BinaryEncoder>();
+  performance::MeasureCopyAnyValues();
+
+  std::cout << std::endl;
+
+  // // Measure JSON performance:
+  // std::cout << "Test JSON serialize/parse performance" << std::endl;
+  // std::cout << "*************************************" << std::endl;
+  // performance::MeasureEncoder<performance::JSONEncoder>();
+
+  // std::cout << std::endl;
+
+  // // Measure binary performance:
+  // std::cout << "Test binary serialize/parse performance" << std::endl;
+  // std::cout << "***************************************" << std::endl;
+  // performance::MeasureEncoder<performance::BinaryEncoder>();
 }

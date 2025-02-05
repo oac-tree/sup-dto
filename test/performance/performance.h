@@ -119,6 +119,14 @@ void MeasureEncoderWithValue(const AnyValue& anyvalue)
   std::cout << std::endl;
 }
 
+void MeasureCopyAnyType(const AnyType& anytype);
+
+void MeasureCopyAnyTypes();
+
+void MeasureCopyAnyValue(const AnyValue& anyvalue);
+
+void MeasureCopyAnyValues();
+
 template <typename Encoder>
 void MeasureEncoder()
 {

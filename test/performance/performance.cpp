@@ -147,6 +147,135 @@ std::size_t BinaryEncoder::Size() const
   return m_representation.size();
 }
 
+void MeasureCopyAnyType(const AnyType& anytype)
+{
+  auto start = std::chrono::system_clock::now();
+  AnyType copy{anytype};
+  auto one_cycle = std::chrono::duration_cast<std::chrono::nanoseconds>(
+      std::chrono::system_clock::now() - start).count();
+  if (one_cycle < 1)
+  {
+    one_cycle = 1;
+  }
+  unsigned N = std::min(100000u, static_cast<unsigned>(5000000000 / one_cycle));  // max 5s
+  N = std::max(N, 3u);  // at least 3 iterations
+  std::chrono::nanoseconds copy_duration{0};
+  std::chrono::nanoseconds equality_duration{0};
+  for (unsigned i=0; i<N; ++i)
+  {
+    auto start = std::chrono::system_clock::now();
+    auto copy{anytype};
+    auto middle = std::chrono::system_clock::now();
+    if (copy != anytype)
+    {
+      throw std::runtime_error("Copy is not equal to original");
+    }
+    copy_duration += middle - start;
+    equality_duration += std::chrono::system_clock::now() - middle;
+  }
+  auto copy_duration_ms =
+      std::chrono::duration_cast<std::chrono::milliseconds>(copy_duration).count();
+  auto equality_duration_ms =
+      std::chrono::duration_cast<std::chrono::milliseconds>(equality_duration).count();
+  std::cout << "Results for " << N << " iterations:" << std::endl;
+  std::cout << "  Total copy time (ms) : " << copy_duration_ms << std::endl;
+  std::cout << "  Total equality check time (ms)     : " << equality_duration_ms << std::endl;
+  auto mean_copy_ms = (double)copy_duration_ms / N;
+  auto mean_equality_ms = (double)equality_duration_ms / N;
+  std::cout << "  Mean copy time (ms) : " << mean_copy_ms << std::endl;
+  std::cout << "  Mean equality check time (ms)     : " << mean_equality_ms << std::endl;
+  std::cout << std::endl;
+}
+
+void MeasureCopyAnyTypes()
+{
+  {
+    AnyType anytype = CreateScalarMix_Type();
+    MeasureCopyAnyType(anytype);
+  }
+  {
+    AnyType anytype = CreateScalarMixArray_Type();
+    MeasureCopyAnyType(anytype);
+  }
+  {
+    AnyType anytype = CreateSystemConfigs_Type();
+    MeasureCopyAnyType(anytype);
+  }
+  {
+    AnyType anytype = CreateFullConfig_Type();
+    MeasureCopyAnyType(anytype);
+  }
+  {
+    AnyType anytype = CreateManyFullConfig_t_Type();
+    MeasureCopyAnyType(anytype);
+  }
+}
+
+void MeasureCopyAnyValue(const AnyValue& anyvalue)
+{
+  auto start = std::chrono::system_clock::now();
+  AnyValue copy{anyvalue};
+  auto one_cycle = std::chrono::duration_cast<std::chrono::nanoseconds>(
+      std::chrono::system_clock::now() - start).count();
+  if (one_cycle < 1)
+  {
+    one_cycle = 1;
+  }
+  unsigned N = std::min(100000u, static_cast<unsigned>(5000000000 / one_cycle));  // max 5s
+  N = std::max(N, 3u);  // at least 3 iterations
+  std::chrono::nanoseconds copy_duration{0};
+  std::chrono::nanoseconds equality_duration{0};
+  for (unsigned i=0; i<N; ++i)
+  {
+    auto start = std::chrono::system_clock::now();
+    auto copy{anyvalue};
+    auto middle = std::chrono::system_clock::now();
+    if (copy != anyvalue)
+    {
+      throw std::runtime_error("Copy is not equal to original");
+    }
+    copy_duration += middle - start;
+    equality_duration += std::chrono::system_clock::now() - middle;
+  }
+  auto copy_duration_ms =
+      std::chrono::duration_cast<std::chrono::milliseconds>(copy_duration).count();
+  auto equality_duration_ms =
+      std::chrono::duration_cast<std::chrono::milliseconds>(equality_duration).count();
+  std::cout << "Results for " << N << " iterations:" << std::endl;
+  std::cout << "  Total copy time (ms) : " << copy_duration_ms << std::endl;
+  std::cout << "  Total equality check time (ms)     : " << equality_duration_ms << std::endl;
+  auto mean_copy_ms = (double)copy_duration_ms / N;
+  auto mean_equality_ms = (double)equality_duration_ms / N;
+  std::cout << "  Mean copy time (ms) : " << mean_copy_ms << std::endl;
+  std::cout << "  Mean equality check time (ms)     : " << mean_equality_ms << std::endl;
+  std::cout << std::endl;
+}
+
+void MeasureCopyAnyValues()
+{
+  {
+    sup::dto::AnyValue val{CreateScalarMix_Type()};
+    MeasureCopyAnyValue(val);
+  }
+  {
+    sup::dto::AnyValue val{CreateScalarMixArray_Type()};
+    MeasureCopyAnyValue(val);
+  }
+  {
+    sup::dto::AnyValue val{CreateSystemConfigs_Type()};
+    MeasureCopyAnyValue(val);
+  }
+  {
+    sup::dto::AnyValue val{CreateFullConfig_Type()};
+    MeasureCopyAnyValue(val);
+  }
+  {
+    sup::dto::AnyValue val{CreateManyFullConfig_t_Type()};
+    MeasureCopyAnyValue(val);
+  }
+}
+
+
 }  // namespace performance
 
 }  // namespace dto
