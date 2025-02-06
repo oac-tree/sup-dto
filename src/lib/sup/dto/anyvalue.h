@@ -399,21 +399,21 @@ public:
   void UnsafeConvertFrom(const AnyValue& other);
 
 private:
-  static AnyValue MakeAnyValue(const AnyType& anytype,
-                               std::vector<std::unique_ptr<AnyValue>>&& children,
-                               Constraints constraints);
-  static AnyValue MakeStructAnyValue(const AnyType& anytype,
-                                     std::vector<std::unique_ptr<AnyValue>>&& children,
-                                     Constraints constraints);
-  static AnyValue MakeArrayAnyValue(const AnyType& anytype,
-                                    std::vector<std::unique_ptr<AnyValue>>&& children,
-                                    Constraints constraints);
-  static AnyValue MakeScalarAnyValue(const AnyType& anytype,
-                                     std::vector<std::unique_ptr<AnyValue>>&& children,
-                                     Constraints constraints);
-  static AnyValue MakeEmptyAnyValue(const AnyType& anytype,
-                                    std::vector<std::unique_ptr<AnyValue>>&& children,
-                                    Constraints constraints);
+  static std::unique_ptr<AnyValue> MakeAnyValue(
+    const AnyType& anytype, std::vector<std::unique_ptr<AnyValue>>&& children,
+    Constraints constraints);
+  static std::unique_ptr<AnyValue> MakeStructAnyValue(
+    const AnyType& anytype, std::vector<std::unique_ptr<AnyValue>>&& children,
+    Constraints constraints);
+  static std::unique_ptr<AnyValue> MakeArrayAnyValue(
+    const AnyType& anytype, std::vector<std::unique_ptr<AnyValue>>&& children,
+    Constraints constraints);
+  static std::unique_ptr<AnyValue> MakeScalarAnyValue(
+    const AnyType& anytype, std::vector<std::unique_ptr<AnyValue>>&& children,
+    Constraints constraints);
+  static std::unique_ptr<AnyValue> MakeEmptyAnyValue(
+    const AnyType& anytype, std::vector<std::unique_ptr<AnyValue>>&& children,
+    Constraints constraints);
   explicit AnyValue(std::unique_ptr<IValueData>&& data);
   AnyValue(const AnyValue& other, Constraints constraints);
   std::size_t NumberOfChildren() const;

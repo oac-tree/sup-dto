@@ -25,6 +25,7 @@
 #include <sup/dto/anyvalue/anyvalue_copy_node.h>
 #include <sup/dto/anyvalue/array_value_data.h>
 #include <sup/dto/anyvalue/empty_value_data.h>
+#include <sup/dto/anyvalue/anyvalue_from_anytype_node.h>
 #include <sup/dto/anyvalue/node_utils.h>
 #include <sup/dto/anyvalue/scalar_value_data_t.h>
 #include <sup/dto/anyvalue/struct_value_data.h>
@@ -64,8 +65,36 @@ AnyValue::AnyValue() noexcept
 {}
 
 AnyValue::AnyValue(const AnyType& anytype)
-  : AnyValue{CreateValueData(anytype, Constraints::kNone)}
-{}
+  : AnyValue{}
+{
+  std::deque<AnyValueFromAnyTypeNode> queue;
+  AnyValueFromAnyTypeNode root_node{std::addressof(anytype), Constraints::kNone};
+  queue.push_back(std::move(root_node));
+  while (true)
+  {
+    auto& last_node = queue.back();
+    auto next_child_idx = last_node.NextIndex();
+    if (next_child_idx == kInvalidIndex)
+    {
+      auto node_value = MakeAnyValue(*last_node.GetSource(), last_node.MoveChildValues(),
+                                     last_node.GetConstraints());
+      queue.pop_back();
+      if (queue.empty())
+      {
+        std::swap(m_data, node_value->m_data);
+        break;
+      }
+      queue.back().AddChild(std::move(node_value));
+    }
+    else
+    {
+      auto next_child = last_node.GetSource()->GetChildType(next_child_idx);
+      auto child_constraints = last_node.GetChildConstraints();
+      AnyValueFromAnyTypeNode child_node{next_child, child_constraints};
+      queue.push_back(std::move(child_node));
+    }
+  }
+}
 
 AnyValue::AnyValue(boolean val)
   : AnyValue{CreateUnconstrainedScalarData(val)}
@@ -124,7 +153,7 @@ AnyValue::AnyValue(const char* val)
 {}
 
 AnyValue::AnyValue(const AnyType& anytype, const AnyValue& anyvalue)
-  : AnyValue{CreateValueData(anytype, Constraints::kNone)}
+  : AnyValue{anytype}
 {
   m_data->ConvertFrom(anyvalue);
 }
@@ -242,6 +271,10 @@ std::string AnyValue::GetTypeName() const
 
 AnyValue& AnyValue::AddMember(const std::string& name, AnyValue value) &
 {
+  if (IsLockedTypeConstraint(m_data->GetConstraints()))
+  {
+    throw InvalidOperationException("Cannot add member to AnyValue whose type is locked");
+  }
   auto copy = std::make_unique<AnyValue>(std::move(value));
   m_data->AddMember(name, std::move(copy));
   return *this;
@@ -249,6 +282,10 @@ AnyValue& AnyValue::AddMember(const std::string& name, AnyValue value) &
 
 AnyValue&& AnyValue::AddMember(const std::string& name, AnyValue value) &&
 {
+  if (IsLockedTypeConstraint(m_data->GetConstraints()))
+  {
+    throw InvalidOperationException("Cannot add member to AnyValue whose type is locked");
+  }
   auto copy = std::make_unique<AnyValue>(std::move(value));
   m_data->AddMember(name, std::move(copy));
   return std::move(*this);
@@ -266,6 +303,10 @@ std::size_t AnyValue::NumberOfMembers() const
 
 AnyValue& AnyValue::AddElement(const AnyValue& value) &
 {
+  if (IsLockedTypeConstraint(m_data->GetConstraints()))
+  {
+    throw InvalidOperationException("Cannot add element to AnyValue whose type is locked");
+  }
   auto copy = std::unique_ptr<AnyValue>{new AnyValue{value, Constraints::kLockedType}};
   m_data->AddElement(std::move(copy));
   return *this;
@@ -455,9 +496,9 @@ void AnyValue::UnsafeConvertFrom(const AnyValue& other)
   m_data->ConvertFrom(other);
 }
 
-AnyValue AnyValue::MakeAnyValue(const AnyType& anytype,
-                             std::vector<std::unique_ptr<AnyValue>>&& children,
-                             Constraints constraints)
+std::unique_ptr<AnyValue> AnyValue::MakeAnyValue(
+  const AnyType& anytype, std::vector<std::unique_ptr<AnyValue>>&& children,
+  Constraints constraints)
 {
   if (IsScalarType(anytype))
   {
@@ -474,9 +515,9 @@ AnyValue AnyValue::MakeAnyValue(const AnyType& anytype,
   return MakeEmptyAnyValue(anytype, std::move(children), constraints);
 }
 
-AnyValue AnyValue::MakeStructAnyValue(const AnyType& anytype,
-                                      std::vector<std::unique_ptr<AnyValue>>&& children,
-                                      Constraints constraints)
+std::unique_ptr<AnyValue> AnyValue::MakeStructAnyValue(
+  const AnyType& anytype, std::vector<std::unique_ptr<AnyValue>>&& children,
+  Constraints constraints)
 {
   auto struct_data = std::make_unique<StructValueData>(anytype.GetTypeName(), constraints);
   auto member_names = anytype.MemberNames();
@@ -491,12 +532,12 @@ AnyValue AnyValue::MakeStructAnyValue(const AnyType& anytype,
     struct_data->AddMember(member_names[idx], std::move(children[idx]));
   }
   std::unique_ptr<IValueData> val_data = std::move(struct_data);
-  return AnyValue{std::move(val_data)};
+  return std::unique_ptr<AnyValue>{new AnyValue{std::move(val_data)}};
 }
 
-AnyValue AnyValue::MakeArrayAnyValue(const AnyType& anytype,
-                                     std::vector<std::unique_ptr<AnyValue>>&& children,
-                                     Constraints constraints)
+std::unique_ptr<AnyValue> AnyValue::MakeArrayAnyValue(
+  const AnyType& anytype, std::vector<std::unique_ptr<AnyValue>>&& children,
+  Constraints constraints)
 {
   auto array_data = std::make_unique<ArrayValueData>(anytype.ElementType(), anytype.GetTypeName(),
                                                      constraints);
@@ -512,12 +553,12 @@ AnyValue AnyValue::MakeArrayAnyValue(const AnyType& anytype,
     array_data->AddElement(std::move(copy));
   }
   std::unique_ptr<IValueData> val_data = std::move(array_data);
-  return AnyValue{std::move(val_data)};
+  return std::unique_ptr<AnyValue>{new AnyValue{std::move(val_data)}};
 }
 
-AnyValue AnyValue::MakeScalarAnyValue(const AnyType& anytype,
-                                      std::vector<std::unique_ptr<AnyValue>>&& children,
-                                      Constraints constraints)
+std::unique_ptr<AnyValue> AnyValue::MakeScalarAnyValue(
+  const AnyType& anytype, std::vector<std::unique_ptr<AnyValue>>&& children,
+  Constraints constraints)
 {
   if (children.size() != 0u)
   {
@@ -526,12 +567,12 @@ AnyValue AnyValue::MakeScalarAnyValue(const AnyType& anytype,
     throw InvalidOperationException(error);
   }
   std::unique_ptr<IValueData> val_data = CreateScalarValueData(anytype.GetTypeCode(), constraints);
-  return AnyValue{std::move(val_data)};
+  return std::unique_ptr<AnyValue>{new AnyValue{std::move(val_data)}};
 }
 
-AnyValue AnyValue::MakeEmptyAnyValue(const AnyType& anytype,
-                                     std::vector<std::unique_ptr<AnyValue>>&& children,
-                                     Constraints constraints)
+std::unique_ptr<AnyValue> AnyValue::MakeEmptyAnyValue(
+  const AnyType& anytype, std::vector<std::unique_ptr<AnyValue>>&& children,
+  Constraints constraints)
 {
   (void)anytype;
   if (children.size() != 0u)
@@ -541,7 +582,7 @@ AnyValue AnyValue::MakeEmptyAnyValue(const AnyType& anytype,
     throw InvalidOperationException(error);
   }
   std::unique_ptr<IValueData> val_data = std::make_unique<EmptyValueData>(constraints);
-  return AnyValue{std::move(val_data)};
+  return std::unique_ptr<AnyValue>{new AnyValue{std::move(val_data)}};
 }
 
 AnyValue::AnyValue(std::unique_ptr<IValueData>&& data)

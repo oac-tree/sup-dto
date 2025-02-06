@@ -92,10 +92,6 @@ Constraints ArrayValueData::GetConstraints() const
 
 void ArrayValueData::AddElement(std::unique_ptr<AnyValue>&& value)
 {
-  if (IsLockedTypeConstraint(m_constraints))
-  {
-    throw InvalidOperationException("Cannot add element to array whose type is locked");
-  }
   m_elements.push_back(std::move(value));
 }
 

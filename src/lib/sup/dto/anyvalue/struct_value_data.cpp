@@ -75,10 +75,6 @@ Constraints StructValueData::GetConstraints() const
 
 void StructValueData::AddMember(const std::string& name, std::unique_ptr<AnyValue>&& value)
 {
-  if (IsLockedTypeConstraint(m_constraints))
-  {
-    throw InvalidOperationException("Cannot add member to struct whose type is locked");
-  }
   m_member_data.AddMember(name, std::move(value));
 }
 

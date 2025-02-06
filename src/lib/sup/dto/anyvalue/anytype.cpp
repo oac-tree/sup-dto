@@ -261,14 +261,19 @@ bool AnyType::operator!=(const AnyType& other) const
   return !(this->operator==(other));
 }
 
-AnyType::AnyType(std::unique_ptr<ITypeData>&& data)
-  : m_data{std::move(data)}
-{}
-
 std::size_t AnyType::NumberOfChildren() const
 {
   return m_data->NumberOfChildren();
 }
+
+const AnyType* AnyType::GetChildType(std::size_t idx) const
+{
+  return m_data->GetChildType(idx);
+}
+
+AnyType::AnyType(std::unique_ptr<ITypeData>&& data)
+  : m_data{std::move(data)}
+{}
 
 bool AnyType::HasChild(const std::string& child_name) const
 {
@@ -278,11 +283,6 @@ bool AnyType::HasChild(const std::string& child_name) const
 const AnyType* AnyType::GetChildType(const std::string& child_name) const
 {
   return m_data->GetChildType(child_name);
-}
-
-const AnyType* AnyType::GetChildType(std::size_t idx) const
-{
-  return m_data->GetChildType(idx);
 }
 
 std::unique_ptr<AnyType> AnyType::CloneFromChildren(
