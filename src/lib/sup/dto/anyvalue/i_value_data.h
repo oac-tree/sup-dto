@@ -55,7 +55,7 @@ public:
   // Return the constraints on the current value node.
   virtual Constraints GetConstraints() const = 0;
 
-  virtual void AddMember(const std::string&, AnyValue&&);
+  virtual void AddMember(const std::string&, std::unique_ptr<AnyValue>&&);
   virtual std::vector<std::string> MemberNames() const;
   virtual std::size_t NumberOfMembers() const;
   virtual void AddElement(const AnyValue&);
