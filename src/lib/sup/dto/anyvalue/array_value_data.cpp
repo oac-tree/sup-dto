@@ -55,6 +55,14 @@ ArrayValueData::ArrayValueData(std::size_t size, const AnyType& elem_type,
   }
 }
 
+ArrayValueData::ArrayValueData(const AnyType& elem_type, const std::string& name,
+                               Constraints constraints)
+  : m_elem_type{elem_type}
+  , m_name{name}
+  , m_elements{}
+  , m_constraints{constraints}
+{}
+
 ArrayValueData::~ArrayValueData() = default;
 
 TypeCode ArrayValueData::GetTypeCode() const
@@ -172,8 +180,7 @@ std::unique_ptr<IValueData> ArrayValueData::CloneFromChildren(
       "child values";
     throw InvalidOperationException(error);
   }
-  auto result = std::unique_ptr<ArrayValueData>{
-    new ArrayValueData{m_elem_type, GetTypeName(), constraints}};
+  auto result = std::make_unique<ArrayValueData>(m_elem_type, GetTypeName(), constraints);
   for (auto& child : children)
   {
     result->m_elements.push_back(std::move(child));
@@ -197,14 +204,6 @@ bool ArrayValueData::ShallowEquals(const AnyValue& other) const
   }
   return true;
 }
-
-ArrayValueData::ArrayValueData(const AnyType& elem_type, const std::string& name,
-                               Constraints constraints)
-  : m_elem_type{elem_type}
-  , m_name{name}
-  , m_elements{}
-  , m_constraints{constraints}
-{}
 
 std::pair<std::size_t, std::string> StripValueIndex(const std::string& fieldname)
 {

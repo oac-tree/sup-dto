@@ -150,6 +150,11 @@ AnyValue::AnyValue(std::size_t size, const AnyType& elem_type, const std::string
   : AnyValue{}
 {
   auto array_data = std::make_unique<ArrayValueData>(size, elem_type, name, Constraints::kNone);
+  // for (std::size_t idx = 0; idx < size; ++idx)
+  // {
+  //   auto value_data = CreateValueData(elem_type, Constraints::kLockedType);
+  //   array_data->AddElement(AnyValue{std::move(value_data)});
+  // }
   m_data = std::move(array_data);
 }
 

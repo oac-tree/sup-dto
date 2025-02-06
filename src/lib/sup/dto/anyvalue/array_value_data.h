@@ -35,6 +35,7 @@ class ArrayValueData : public IValueData
 public:
   ArrayValueData(std::size_t size, const AnyType& elem_type, const std::string& name,
                  Constraints constraints);
+  ArrayValueData(const AnyType& elem_type, const std::string& name, Constraints constraints);
   ~ArrayValueData() override;
 
   ArrayValueData(const ArrayValueData& other) = delete;
@@ -64,7 +65,6 @@ public:
   bool ShallowEquals(const AnyValue& other) const override;
 
 private:
-  ArrayValueData(const AnyType& elem_type, const std::string& name, Constraints constraints);
   AnyType m_elem_type;
   std::string m_name;
   std::vector<std::unique_ptr<AnyValue>> m_elements;
