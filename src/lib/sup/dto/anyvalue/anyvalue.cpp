@@ -455,6 +455,95 @@ void AnyValue::UnsafeConvertFrom(const AnyValue& other)
   m_data->ConvertFrom(other);
 }
 
+AnyValue AnyValue::MakeAnyValue(const AnyType& anytype,
+                             std::vector<std::unique_ptr<AnyValue>>&& children,
+                             Constraints constraints)
+{
+  if (IsScalarType(anytype))
+  {
+    return MakeScalarAnyValue(anytype, std::move(children), constraints);
+  }
+  if (IsStructType(anytype))
+  {
+    return MakeStructAnyValue(anytype, std::move(children), constraints);
+  }
+  if (IsArrayType(anytype))
+  {
+    return MakeArrayAnyValue(anytype, std::move(children), constraints);
+  }
+  return MakeEmptyAnyValue(anytype, std::move(children), constraints);
+}
+
+AnyValue AnyValue::MakeStructAnyValue(const AnyType& anytype,
+                                      std::vector<std::unique_ptr<AnyValue>>&& children,
+                                      Constraints constraints)
+{
+  auto struct_data = std::make_unique<StructValueData>(anytype.GetTypeName(), constraints);
+  auto member_names = anytype.MemberNames();
+  if (children.size() != member_names.size())
+  {
+    const std::string error =
+      "AnyValue::MakeStructAnyValue(): called with wrong number of children";
+    throw InvalidOperationException(error);
+  }
+  for (std::size_t idx = 0; idx < member_names.size(); ++idx)
+  {
+    struct_data->AddMember(member_names[idx], std::move(children[idx]));
+  }
+  std::unique_ptr<IValueData> val_data = std::move(struct_data);
+  return AnyValue{std::move(val_data)};
+}
+
+AnyValue AnyValue::MakeArrayAnyValue(const AnyType& anytype,
+                                     std::vector<std::unique_ptr<AnyValue>>&& children,
+                                     Constraints constraints)
+{
+  auto array_data = std::make_unique<ArrayValueData>(anytype.ElementType(), anytype.GetTypeName(),
+                                                     constraints);
+  if (children.size() != 1u)
+  {
+    const std::string error =
+      "AnyValue::MakeArrayAnyValue(): should be called with exactly one child as a template";
+    throw InvalidOperationException(error);
+  }
+  for (std::size_t idx = 0; idx < anytype.NumberOfElements(); ++idx)
+  {
+    auto copy = std::unique_ptr<AnyValue>{new AnyValue{*children[0], Constraints::kLockedType}};
+    array_data->AddElement(std::move(copy));
+  }
+  std::unique_ptr<IValueData> val_data = std::move(array_data);
+  return AnyValue{std::move(val_data)};
+}
+
+AnyValue AnyValue::MakeScalarAnyValue(const AnyType& anytype,
+                                      std::vector<std::unique_ptr<AnyValue>>&& children,
+                                      Constraints constraints)
+{
+  if (children.size() != 0u)
+  {
+    const std::string error =
+      "AnyValue::MakeScalarAnyValue(): called with non-zero number of children";
+    throw InvalidOperationException(error);
+  }
+  std::unique_ptr<IValueData> val_data = CreateScalarValueData(anytype.GetTypeCode(), constraints);
+  return AnyValue{std::move(val_data)};
+}
+
+AnyValue AnyValue::MakeEmptyAnyValue(const AnyType& anytype,
+                                     std::vector<std::unique_ptr<AnyValue>>&& children,
+                                     Constraints constraints)
+{
+  (void)anytype;
+  if (children.size() != 0u)
+  {
+    const std::string error =
+      "AnyValue::MakeEmptyAnyValue(): called with non-zero number of children";
+    throw InvalidOperationException(error);
+  }
+  std::unique_ptr<IValueData> val_data = std::make_unique<EmptyValueData>(constraints);
+  return AnyValue{std::move(val_data)};
+}
+
 AnyValue::AnyValue(std::unique_ptr<IValueData>&& data)
   : m_data{std::move(data)}
 {}
