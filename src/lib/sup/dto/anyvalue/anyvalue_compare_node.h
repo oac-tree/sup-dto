@@ -33,8 +33,8 @@ struct AnyValueCompareNode
   AnyValueCompareNode(const AnyValue* left, const AnyValue* right, std::size_t n_children);
   ~AnyValueCompareNode() = default;
 
-  AnyValueCompareNode(const AnyValueCompareNode&) = default;
-  AnyValueCompareNode& operator=(const AnyValueCompareNode&) = default;
+  AnyValueCompareNode(const AnyValueCompareNode&) = delete;
+  AnyValueCompareNode& operator=(const AnyValueCompareNode&) = delete;
   AnyValueCompareNode(AnyValueCompareNode&&) = default;
   AnyValueCompareNode& operator=(AnyValueCompareNode&&) = default;
 

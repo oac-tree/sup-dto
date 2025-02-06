@@ -45,17 +45,17 @@ int main()
   std::cout << "***************************************" << std::endl;
   performance::RunTestFunction(performance::MeasureCopyAnyValue);
 
-  std::cout << std::endl;
+  // std::cout << std::endl;
 
-  // Measure JSON performance:
-  std::cout << "Test JSON serialize/parse performance" << std::endl;
-  std::cout << "*************************************" << std::endl;
-  performance::RunTestFunction(performance::MeasureEncoderWithValue<performance::JSONEncoder>);
+  // // Measure JSON performance:
+  // std::cout << "Test JSON serialize/parse performance" << std::endl;
+  // std::cout << "*************************************" << std::endl;
+  // performance::RunTestFunction(performance::MeasureEncoderWithValue<performance::JSONEncoder>);
 
-  std::cout << std::endl;
+  // std::cout << std::endl;
 
-  // Measure binary performance:
-  std::cout << "Test binary serialize/parse performance" << std::endl;
-  std::cout << "***************************************" << std::endl;
-  performance::RunTestFunction(performance::MeasureEncoderWithValue<performance::BinaryEncoder>);
+  // // Measure binary performance:
+  // std::cout << "Test binary serialize/parse performance" << std::endl;
+  // std::cout << "***************************************" << std::endl;
+  // performance::RunTestFunction(performance::MeasureEncoderWithValue<performance::BinaryEncoder>);
 }

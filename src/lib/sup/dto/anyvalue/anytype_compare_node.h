@@ -33,8 +33,8 @@ struct AnyTypeCompareNode
   AnyTypeCompareNode(const AnyType* left, const AnyType* right, std::size_t n_children);
   ~AnyTypeCompareNode() = default;
 
-  AnyTypeCompareNode(const AnyTypeCompareNode&) = default;
-  AnyTypeCompareNode& operator=(const AnyTypeCompareNode&) = default;
+  AnyTypeCompareNode(const AnyTypeCompareNode&) = delete;
+  AnyTypeCompareNode& operator=(const AnyTypeCompareNode&) = delete;
   AnyTypeCompareNode(AnyTypeCompareNode&&) = default;
   AnyTypeCompareNode& operator=(AnyTypeCompareNode&&) = default;
 

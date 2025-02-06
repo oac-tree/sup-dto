@@ -440,7 +440,7 @@ bool AnyValue::operator==(const AnyValue& other) const
   }
   std::deque<AnyValueCompareNode> queue;
   AnyValueCompareNode root_node{this, std::addressof(other), NumberOfChildren()};
-  queue.push_back(root_node);
+  queue.push_back(std::move(root_node));
   while (!queue.empty())
   {
     auto& last_node = queue.back();
@@ -458,7 +458,7 @@ bool AnyValue::operator==(const AnyValue& other) const
         return false;
       }
       AnyValueCompareNode child_node{left_child, right_child, left_child->NumberOfChildren()};
-      queue.push_back(child_node);
+      queue.push_back(std::move(child_node));
     }
   }
   return true;
