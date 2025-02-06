@@ -400,6 +400,7 @@ public:
 
 private:
   explicit AnyValue(std::unique_ptr<IValueData>&& data);
+  AnyValue(const AnyValue& other, Constraints constraints);
   std::size_t NumberOfChildren() const;
   bool HasChild(const std::string& child_name) const;
   const AnyValue* GetChildValue(const std::string& child_name) const;

@@ -143,7 +143,7 @@ AnyValue::AnyValue(std::initializer_list<std::pair<std::string, AnyValue>> membe
 }
 
 AnyValue::AnyValue(std::initializer_list<std::pair<std::string, AnyValue>> members)
-  : AnyValue{members, {}}
+  : AnyValue{members, std::string{}}
 {}
 
 AnyValue::AnyValue(std::size_t size, const AnyType& elem_type, const std::string& name)
@@ -163,36 +163,8 @@ AnyValue::AnyValue(std::size_t size, const AnyType& elem_type)
 {}
 
 AnyValue::AnyValue(const AnyValue& other)
-  : AnyValue{}
-{
-  std::deque<AnyValueCopyNode> queue;
-  AnyValueCopyNode root_node{std::addressof(other), other.NumberOfChildren(), Constraints::kNone};
-  queue.push_back(std::move(root_node));
-  while (true)
-  {
-    auto& last_node = queue.back();
-    auto next_child_idx = last_node.NextIndex();
-    if (next_child_idx == kInvalidIndex)
-    {
-      auto node_value = last_node.GetSource()->CloneFromChildren(last_node.MoveChildValues(),
-                                                                 last_node.GetConstraints());
-      queue.pop_back();
-      if (queue.empty())
-      {
-        std::swap(m_data, node_value->m_data);
-        break;
-      }
-      queue.back().AddChild(std::move(node_value));
-    }
-    else
-    {
-      auto next_child = last_node.GetSource()->GetChildValue(next_child_idx);
-      auto child_constraints = last_node.GetChildConstraints();
-      AnyValueCopyNode child_node{next_child, next_child->NumberOfChildren(), child_constraints};
-      queue.push_back(std::move(child_node));
-    }
-  }
-}
+  : AnyValue{other, Constraints::kNone}
+{}
 
 AnyValue::AnyValue(AnyValue&& other) noexcept
   : AnyValue{}
@@ -484,6 +456,38 @@ void AnyValue::UnsafeConvertFrom(const AnyValue& other)
 AnyValue::AnyValue(std::unique_ptr<IValueData>&& data)
   : m_data{std::move(data)}
 {}
+
+AnyValue::AnyValue(const AnyValue& other, Constraints constraints)
+  : AnyValue{}
+{
+  std::deque<AnyValueCopyNode> queue;
+  AnyValueCopyNode root_node{std::addressof(other), other.NumberOfChildren(), constraints};
+  queue.push_back(std::move(root_node));
+  while (true)
+  {
+    auto& last_node = queue.back();
+    auto next_child_idx = last_node.NextIndex();
+    if (next_child_idx == kInvalidIndex)
+    {
+      auto node_value = last_node.GetSource()->CloneFromChildren(last_node.MoveChildValues(),
+                                                                 last_node.GetConstraints());
+      queue.pop_back();
+      if (queue.empty())
+      {
+        std::swap(m_data, node_value->m_data);
+        break;
+      }
+      queue.back().AddChild(std::move(node_value));
+    }
+    else
+    {
+      auto next_child = last_node.GetSource()->GetChildValue(next_child_idx);
+      auto child_constraints = last_node.GetChildConstraints();
+      AnyValueCopyNode child_node{next_child, next_child->NumberOfChildren(), child_constraints};
+      queue.push_back(std::move(child_node));
+    }
+  }
+}
 
 std::size_t AnyValue::NumberOfChildren() const
 {
