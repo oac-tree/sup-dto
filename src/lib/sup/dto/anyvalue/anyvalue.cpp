@@ -512,12 +512,7 @@ std::unique_ptr<AnyValue> AnyValue::CloneFromChildren(
 
 bool AnyValue::ShallowEquals(const AnyValue& other) const
 {
-  if (m_data->IsScalar())
-  {
-    // Enforce symmetry of scalar comparison when conversions are involved
-    return (m_data->ShallowEquals(other)) && (other.m_data->ShallowEquals(*this));
-  }
-  return m_data->ShallowEquals(other);
+  return m_data->ShallowEquals(other.m_data.get());
 }
 
 AnyValue EmptyStruct(const std::string& type_name)

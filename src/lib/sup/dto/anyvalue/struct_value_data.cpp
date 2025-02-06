@@ -148,9 +148,21 @@ std::unique_ptr<IValueData> StructValueData::CloneFromChildren(
   return result;
 }
 
-bool StructValueData::ShallowEquals(const AnyValue& other) const
+bool StructValueData::ShallowEquals(const IValueData* other) const
 {
-  return m_member_data.ShallowEquals(other);
+  if (!IsStructTypeCode(other->GetTypeCode()))
+  {
+    return false;
+  }
+  if (other->GetTypeName() != GetTypeName())
+  {
+    return false;
+  }
+  if (other->MemberNames() != MemberNames())
+  {
+    return false;
+  }
+  return true;
 }
 
 std::unique_ptr<IValueData> CreateStructValueData(const AnyType& anytype, Constraints constraints)

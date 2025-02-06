@@ -72,9 +72,9 @@ std::unique_ptr<IValueData> EmptyValueData::CloneFromChildren(
   return std::make_unique<EmptyValueData>(constraints);
 }
 
-bool EmptyValueData::ShallowEquals(const AnyValue& other) const
+bool EmptyValueData::ShallowEquals(const IValueData* other) const
 {
-  return IsEmptyValue(other);
+  return IsEmptyTypeCode(other->GetTypeCode());
 }
 
 std::unique_ptr<IValueData> CreateDefaultValueData()

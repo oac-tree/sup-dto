@@ -188,17 +188,17 @@ std::unique_ptr<IValueData> ArrayValueData::CloneFromChildren(
   return result;
 }
 
-bool ArrayValueData::ShallowEquals(const AnyValue& other) const
+bool ArrayValueData::ShallowEquals(const IValueData* other) const
 {
-  if (!IsArrayValue(other))
+  if (!IsArrayTypeCode(other->GetTypeCode()))
   {
     return false;
   }
-  if (other.GetTypeName() != GetTypeName())
+  if (other->GetTypeName() != GetTypeName())
   {
     return false;
   }
-  if (other.NumberOfElements() != NumberOfElements())
+  if (other->NumberOfElements() != NumberOfElements())
   {
     return false;
   }

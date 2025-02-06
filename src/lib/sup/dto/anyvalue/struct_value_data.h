@@ -62,7 +62,7 @@ public:
   AnyValue* GetChildValue(std::size_t idx) override;
   std::unique_ptr<IValueData> CloneFromChildren(std::vector<std::unique_ptr<AnyValue>>&& children,
                                                 Constraints constraints) const override;
-  bool ShallowEquals(const AnyValue& other) const override;
+  bool ShallowEquals(const IValueData* other) const override;
 
 private:
   StructDataT<AnyValue> m_member_data;

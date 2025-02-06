@@ -46,6 +46,8 @@ public:
 
   Constraints GetConstraints() const override;
 
+  bool ShallowEquals(const IValueData* other) const override;
+
 protected:
   ScalarValueDataBase(TypeCode type_code, Constraints constraints);
 

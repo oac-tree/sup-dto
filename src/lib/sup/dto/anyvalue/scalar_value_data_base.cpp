@@ -60,6 +60,11 @@ Constraints ScalarValueDataBase::GetConstraints() const
   return m_constraints;
 }
 
+bool ScalarValueDataBase::ShallowEquals(const IValueData* other) const
+{
+  return ScalarEquals(other) && other->ScalarEquals(this);
+}
+
 template <typename T>
 std::unique_ptr<IValueData> ScalarValueConstructor(Constraints constraints)
 {

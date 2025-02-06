@@ -166,6 +166,11 @@ AnyValue* IValueData::GetChildValue(std::size_t)
   throw InvalidOperationException("This value does not support members or elements");
 }
 
+bool IValueData::ScalarEquals(const IValueData*) const
+{
+  return false;
+}
+
 std::unique_ptr<AnyValue> IValueData::MakeAnyValue(std::unique_ptr<IValueData>&& data)
 {
   // std::make_unique is not used here because the constructor is private

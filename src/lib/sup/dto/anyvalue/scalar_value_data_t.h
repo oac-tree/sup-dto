@@ -23,93 +23,13 @@
 #define SUP_DTO_SCALAR_VALUE_DATA_H_
 
 #include <sup/dto/low_level/scalar_conversion.h>
+#include <sup/dto/anyvalue/scalar_type_functions.h>
 #include <sup/dto/anyvalue/scalar_value_data_base.h>
 
 namespace sup
 {
 namespace dto
 {
-
-template <typename T>
-struct TypeToCode;
-
-template <>
-struct TypeToCode<boolean>
-{
-  static constexpr TypeCode code = TypeCode::Bool;
-};
-
-template <>
-struct TypeToCode<char8>
-{
-  static constexpr TypeCode code = TypeCode::Char8;
-};
-
-template <>
-struct TypeToCode<int8>
-{
-  static constexpr TypeCode code = TypeCode::Int8;
-};
-
-template <>
-struct TypeToCode<uint8>
-{
-  static constexpr TypeCode code = TypeCode::UInt8;
-};
-
-template <>
-struct TypeToCode<int16>
-{
-  static constexpr TypeCode code = TypeCode::Int16;
-};
-
-template <>
-struct TypeToCode<uint16>
-{
-  static constexpr TypeCode code = TypeCode::UInt16;
-};
-
-template <>
-struct TypeToCode<int32>
-{
-  static constexpr TypeCode code = TypeCode::Int32;
-};
-
-template <>
-struct TypeToCode<uint32>
-{
-  static constexpr TypeCode code = TypeCode::UInt32;
-};
-
-template <>
-struct TypeToCode<int64>
-{
-  static constexpr TypeCode code = TypeCode::Int64;
-};
-
-template <>
-struct TypeToCode<uint64>
-{
-  static constexpr TypeCode code = TypeCode::UInt64;
-};
-
-template <>
-struct TypeToCode<float32>
-{
-  static constexpr TypeCode code = TypeCode::Float32;
-};
-
-template <>
-struct TypeToCode<float64>
-{
-  static constexpr TypeCode code = TypeCode::Float64;
-};
-
-template <>
-struct TypeToCode<std::string>
-{
-  static constexpr TypeCode code = TypeCode::String;
-};
 
 template <typename T>
 class ScalarValueDataT : public ScalarValueDataBase
@@ -141,7 +61,7 @@ public:
 
   std::unique_ptr<IValueData> CloneFromChildren(std::vector<std::unique_ptr<AnyValue>>&& children,
                                                 Constraints constraints) const override;
-  bool ShallowEquals(const AnyValue& other) const override;
+  bool ScalarEquals(const IValueData* other) const override;
 
 private:
   T m_value;
@@ -251,15 +171,12 @@ std::unique_ptr<IValueData> ScalarValueDataT<T>::CloneFromChildren(
 }
 
 template <typename T>
-bool ScalarValueDataT<T>::ShallowEquals(const AnyValue& other) const
+bool ScalarValueDataT<T>::ScalarEquals(const IValueData* other) const
 {
-  if (!IsScalarValue(other))
-  {
-    return false;
-  }
   try
   {
-    if (m_value == other.As<T>())
+    auto mem_function = TypeToConversionFunc<T>::MemFunc;
+    if (m_value == (other->*mem_function)())
     {
       return true;
     }

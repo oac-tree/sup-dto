@@ -85,7 +85,8 @@ public:
   virtual AnyValue* GetChildValue(std::size_t idx);
   virtual std::unique_ptr<IValueData> CloneFromChildren(
     std::vector<std::unique_ptr<AnyValue>>&& children, Constraints constraints) const = 0;
-  virtual bool ShallowEquals(const AnyValue& other) const = 0;
+  virtual bool ShallowEquals(const IValueData* other) const = 0;
+  virtual bool ScalarEquals(const IValueData* other) const;
 
 protected:
   static std::unique_ptr<AnyValue> MakeAnyValue(std::unique_ptr<IValueData>&& data);
