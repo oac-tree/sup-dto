@@ -49,7 +49,7 @@ public:
 
   Constraints GetConstraints() const override;
 
-  void AddElement(const AnyValue& value) override;
+  void AddElement(std::unique_ptr<AnyValue>&& value) override;
   std::size_t NumberOfElements() const override;
 
   void ConvertFrom(const AnyValue& value) override;

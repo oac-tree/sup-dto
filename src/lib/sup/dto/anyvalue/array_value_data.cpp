@@ -61,7 +61,12 @@ ArrayValueData::ArrayValueData(const AnyType& elem_type, const std::string& name
   , m_name{name}
   , m_elements{}
   , m_constraints{constraints}
-{}
+{
+  if (m_elem_type == EmptyType)
+  {
+    throw InvalidOperationException("Empty type is not allowed as element type");
+  }
+}
 
 ArrayValueData::~ArrayValueData() = default;
 
@@ -85,15 +90,13 @@ Constraints ArrayValueData::GetConstraints() const
   return m_constraints;
 }
 
-void ArrayValueData::AddElement(const AnyValue& value)
+void ArrayValueData::AddElement(std::unique_ptr<AnyValue>&& value)
 {
   if (IsLockedTypeConstraint(m_constraints))
   {
     throw InvalidOperationException("Cannot add element to array whose type is locked");
   }
-  auto data = CreateValueData(m_elem_type, Constraints::kLockedType);
-  data->ConvertFrom(value);
-  m_elements.push_back(MakeAnyValue(std::move(data)));
+  m_elements.push_back(std::move(value));
 }
 
 std::size_t ArrayValueData::NumberOfElements() const

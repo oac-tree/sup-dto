@@ -61,7 +61,7 @@ std::size_t IValueData::NumberOfMembers() const
   return 0u;
 }
 
-void IValueData::AddElement(const AnyValue&)
+void IValueData::AddElement(std::unique_ptr<AnyValue>&&)
 {
   throw InvalidOperationException("Add element only supported for array types");
 }

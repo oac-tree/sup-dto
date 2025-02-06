@@ -58,7 +58,7 @@ public:
   virtual void AddMember(const std::string&, std::unique_ptr<AnyValue>&&);
   virtual std::vector<std::string> MemberNames() const;
   virtual std::size_t NumberOfMembers() const;
-  virtual void AddElement(const AnyValue&);
+  virtual void AddElement(std::unique_ptr<AnyValue>&&);
   virtual std::size_t NumberOfElements() const;
 
   virtual void ConvertFrom(const AnyValue&);

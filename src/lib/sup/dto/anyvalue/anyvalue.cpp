@@ -149,12 +149,13 @@ AnyValue::AnyValue(std::initializer_list<std::pair<std::string, AnyValue>> membe
 AnyValue::AnyValue(std::size_t size, const AnyType& elem_type, const std::string& name)
   : AnyValue{}
 {
-  auto array_data = std::make_unique<ArrayValueData>(size, elem_type, name, Constraints::kNone);
-  // for (std::size_t idx = 0; idx < size; ++idx)
-  // {
-  //   auto value_data = CreateValueData(elem_type, Constraints::kLockedType);
-  //   array_data->AddElement(AnyValue{std::move(value_data)});
-  // }
+  auto array_data = std::make_unique<ArrayValueData>(elem_type, name, Constraints::kNone);
+  AnyValue default_element{elem_type};
+  for (std::size_t idx = 0; idx < size; ++idx)
+  {
+    auto copy = std::unique_ptr<AnyValue>{new AnyValue{default_element, Constraints::kLockedType}};
+    array_data->AddElement(std::move(copy));
+  }
   m_data = std::move(array_data);
 }
 
@@ -265,7 +266,8 @@ std::size_t AnyValue::NumberOfMembers() const
 
 AnyValue& AnyValue::AddElement(const AnyValue& value) &
 {
-  m_data->AddElement(value);
+  auto copy = std::unique_ptr<AnyValue>{new AnyValue{value, Constraints::kLockedType}};
+  m_data->AddElement(std::move(copy));
   return *this;
 }
 
