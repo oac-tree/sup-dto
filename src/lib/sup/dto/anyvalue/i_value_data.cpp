@@ -171,12 +171,6 @@ bool IValueData::ScalarEquals(const IValueData*) const
   return false;
 }
 
-std::unique_ptr<AnyValue> IValueData::MakeAnyValue(std::unique_ptr<IValueData>&& data)
-{
-  // std::make_unique is not used here because the constructor is private
-  return std::unique_ptr<AnyValue>{new AnyValue{std::move(data)}};
-}
-
 void IValueData::UnsafeConversion(AnyValue& dest, const AnyValue& src)
 {
   dest.UnsafeConvertFrom(src);

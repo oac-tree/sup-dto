@@ -247,7 +247,7 @@ AnyValue& AnyValue::operator=(AnyValue&& other) &
 
 void AnyValue::ConvertFrom(const AnyValue& other)
 {
-  AnyValue copy{*this};
+  AnyValue copy{*this, m_data->GetConstraints()};
   copy.UnsafeConvertFrom(other);
   std::swap(m_data, copy.m_data);
 }

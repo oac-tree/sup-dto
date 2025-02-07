@@ -424,7 +424,6 @@ private:
                                               Constraints constraints) const;
   // Equality function that disregards child values
   bool ShallowEquals(const AnyValue& other) const;
-  friend class IValueData;
   std::unique_ptr<IValueData> m_data;
 };
 

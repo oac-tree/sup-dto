@@ -89,7 +89,6 @@ public:
   virtual bool ScalarEquals(const IValueData* other) const;
 
 protected:
-  static std::unique_ptr<AnyValue> MakeAnyValue(std::unique_ptr<IValueData>&& data);
   static void UnsafeConversion(AnyValue& dest, const AnyValue& src);
 };
 
