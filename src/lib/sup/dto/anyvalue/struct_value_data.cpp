@@ -149,6 +149,18 @@ bool StructValueData::ShallowEquals(const IValueData* other) const
   return true;
 }
 
+void StructValueData::ShallowConvertFrom(const AnyValue& value)
+{
+  if (value.GetTypeCode() != TypeCode::Struct)
+  {
+    IValueData::ShallowConvertFrom(value);
+  }
+  if (value.MemberNames() != MemberNames())
+  {
+    throw InvalidConversionException("Can't convert between structs with different lists of fields");
+  }
+}
+
 }  // namespace dto
 
 }  // namespace sup

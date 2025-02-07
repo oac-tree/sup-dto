@@ -61,6 +61,7 @@ public:
   std::unique_ptr<IValueData> CloneFromChildren(std::vector<std::unique_ptr<AnyValue>>&& children,
                                                 Constraints constraints) const override;
   bool ShallowEquals(const IValueData* other) const override;
+  void ShallowConvertFrom(const AnyValue& value) override;
 
 private:
   AnyType m_elem_type;

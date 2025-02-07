@@ -186,6 +186,18 @@ bool ArrayValueData::ShallowEquals(const IValueData* other) const
   return true;
 }
 
+void ArrayValueData::ShallowConvertFrom(const AnyValue& value)
+{
+  if (value.GetTypeCode() != TypeCode::Array)
+  {
+    IValueData::ShallowConvertFrom(value);
+  }
+  if (value.NumberOfElements() != NumberOfElements())
+  {
+    throw InvalidConversionException("Can't convert between arrays of different length");
+  }
+}
+
 std::pair<std::size_t, std::string> StripValueIndex(const std::string& fieldname)
 {
   if ((fieldname.empty()) || (fieldname.substr(0u, 1u) != "["))

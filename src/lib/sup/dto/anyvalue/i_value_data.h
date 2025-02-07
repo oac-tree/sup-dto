@@ -87,6 +87,7 @@ public:
     std::vector<std::unique_ptr<AnyValue>>&& children, Constraints constraints) const = 0;
   virtual bool ShallowEquals(const IValueData* other) const = 0;
   virtual bool ScalarEquals(const IValueData* other) const;
+  virtual void ShallowConvertFrom(const AnyValue&);
 
 protected:
   static void UnsafeConversion(AnyValue& dest, const AnyValue& src);

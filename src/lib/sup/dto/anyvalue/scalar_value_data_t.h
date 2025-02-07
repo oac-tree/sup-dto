@@ -62,6 +62,7 @@ public:
   std::unique_ptr<IValueData> CloneFromChildren(std::vector<std::unique_ptr<AnyValue>>&& children,
                                                 Constraints constraints) const override;
   bool ScalarEquals(const IValueData* other) const override;
+  void ShallowConvertFrom(const AnyValue& value) override;
 
 private:
   T m_value;
@@ -186,6 +187,12 @@ bool ScalarValueDataT<T>::ScalarEquals(const IValueData* other) const
     return false;
   }
   return false;
+}
+
+template <typename T>
+void ScalarValueDataT<T>::ShallowConvertFrom(const AnyValue& value)
+{
+  m_value = value.As<T>();
 }
 
 }  // namespace dto

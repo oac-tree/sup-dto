@@ -82,6 +82,14 @@ std::unique_ptr<IValueData> CreateDefaultValueData()
   return std::make_unique<EmptyValueData>(Constraints::kNone);
 }
 
+void EmptyValueData::ShallowConvertFrom(const AnyValue& value)
+{
+  if (!IsEmptyValue(value))
+  {
+    return IValueData::ShallowConvertFrom(value);
+  }
+}
+
 }  // namespace dto
 
 }  // namespace sup

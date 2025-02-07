@@ -50,6 +50,7 @@ public:
                                                 Constraints constraints) const override;
 
   bool ShallowEquals(const IValueData* other) const override;
+  void ShallowConvertFrom(const AnyValue& value) override;
 
 private:
   Constraints m_constraints;

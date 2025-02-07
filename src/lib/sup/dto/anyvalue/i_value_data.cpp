@@ -171,6 +171,11 @@ bool IValueData::ScalarEquals(const IValueData*) const
   return false;
 }
 
+void IValueData::ShallowConvertFrom(const AnyValue&)
+{
+  throw InvalidConversionException("Cannot convert from incompatible AnyValue");
+}
+
 void IValueData::UnsafeConversion(AnyValue& dest, const AnyValue& src)
 {
   dest.UnsafeConvertFrom(src);
