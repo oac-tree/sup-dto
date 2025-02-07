@@ -22,6 +22,7 @@
 #include <sup/dto/anyvalue.h>
 
 #include <sup/dto/anyvalue/anyvalue_compare_node.h>
+#include <sup/dto/anyvalue/anyvalue_convert_node.h>
 #include <sup/dto/anyvalue/anyvalue_copy_node.h>
 #include <sup/dto/anyvalue/array_value_data.h>
 #include <sup/dto/anyvalue/empty_value_data.h>
@@ -493,7 +494,29 @@ bool AnyValue::operator!=(const AnyValue& other) const
 
 void AnyValue::UnsafeConvertFrom(const AnyValue& other)
 {
-  m_data->ConvertFrom(other);
+  // Only push nodes that didn't throw on conversion:
+  ShallowConvertFrom(other);
+  std::deque<AnyValueConvertNode> queue;
+  AnyValueConvertNode root_node{this, std::addressof(other), NumberOfChildren()};
+  queue.push_back(std::move(root_node));
+  while (!queue.empty())
+  {
+    auto& last_node = queue.back();
+    if (last_node.m_index >= last_node.m_n_children)
+    {
+      queue.pop_back();
+    }
+    else
+    {
+      auto idx = last_node.m_index++;
+      auto left_child = last_node.m_left->GetChildValue(idx);
+      auto right_child = last_node.m_right->GetChildValue(idx);
+      // Only push nodes that didn't throw on conversion:
+      left_child->ShallowConvertFrom(*right_child);
+      AnyValueConvertNode child_node{left_child, right_child, left_child->NumberOfChildren()};
+      queue.push_back(std::move(child_node));
+    }
+  }
 }
 
 std::unique_ptr<AnyValue> AnyValue::MakeAnyValue(
@@ -641,6 +664,11 @@ const AnyValue* AnyValue::GetChildValue(std::size_t idx) const
   return m_data->GetChildValue(idx);
 }
 
+AnyValue* AnyValue::GetChildValue(std::size_t idx)
+{
+  return m_data->GetChildValue(idx);
+}
+
 std::unique_ptr<AnyValue> AnyValue::CloneFromChildren(
   std::vector<std::unique_ptr<AnyValue>>&& children, Constraints constraints) const
 {
@@ -651,6 +679,11 @@ std::unique_ptr<AnyValue> AnyValue::CloneFromChildren(
 bool AnyValue::ShallowEquals(const AnyValue& other) const
 {
   return m_data->ShallowEquals(other.m_data.get());
+}
+
+void AnyValue::ShallowConvertFrom(const AnyValue& other)
+{
+  return m_data->ShallowConvertFrom(other);
 }
 
 AnyValue EmptyStruct(const std::string& type_name)

@@ -420,10 +420,12 @@ private:
   bool HasChild(const std::string& child_name) const;
   const AnyValue* GetChildValue(const std::string& child_name) const;
   const AnyValue* GetChildValue(std::size_t idx) const;
+  AnyValue* GetChildValue(std::size_t idx);
   std::unique_ptr<AnyValue> CloneFromChildren(std::vector<std::unique_ptr<AnyValue>>&& children,
                                               Constraints constraints) const;
   // Equality function that disregards child values
   bool ShallowEquals(const AnyValue& other) const;
+  void ShallowConvertFrom(const AnyValue& other);
   std::unique_ptr<IValueData> m_data;
 };
 
