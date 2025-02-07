@@ -95,8 +95,6 @@ protected:
 
 bool IsLockedTypeConstraint(Constraints constraints);
 
-std::unique_ptr<IValueData> CreateValueData(const AnyType& anytype, Constraints constraints);
-
 }  // namespace dto
 
 }  // namespace sup

@@ -247,9 +247,9 @@ AnyValue& AnyValue::operator=(AnyValue&& other) &
 
 void AnyValue::ConvertFrom(const AnyValue& other)
 {
-  auto tmp = CreateValueData(GetType(), m_data->GetConstraints());
-  tmp->ConvertFrom(other);
-  std::swap(m_data, tmp);
+  AnyValue copy{*this};
+  copy.UnsafeConvertFrom(other);
+  std::swap(m_data, copy.m_data);
 }
 
 AnyValue::~AnyValue() = default;

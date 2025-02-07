@@ -33,8 +33,6 @@ namespace dto
 class ArrayValueData : public IValueData
 {
 public:
-  ArrayValueData(std::size_t size, const AnyType& elem_type, const std::string& name,
-                 Constraints constraints);
   ArrayValueData(const AnyType& elem_type, const std::string& name, Constraints constraints);
   ~ArrayValueData() override;
 
@@ -70,8 +68,6 @@ private:
   std::vector<std::unique_ptr<AnyValue>> m_elements;
   Constraints m_constraints;
 };
-
-std::unique_ptr<IValueData> CreateArrayValueData(const AnyType& anytype, Constraints constraints);
 
 /**
  * @brief Strips the index from the fieldname.

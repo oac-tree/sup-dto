@@ -18,9 +18,7 @@
  refer to the file ITER-LICENSE.TXT located in the top level directory
  of the distribution package.
 -->
-<project xmlns="http://maven.apache.org/POM/4.0.0"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <groupId>org.iter.codac.units</groupId>
     <artifactId>sup-dto</artifactId>
@@ -114,7 +112,7 @@
                         </package>
                         <package name="docs">
                             <!--  Public API headers  -->
-                            <include type="file" source="doc/${project.artifactId}" target="doc/${project.artifactId}"/>
+                            <include type="file" source="doc/${project.artifactId}" target="doc/${project.artifactId}" />
                             <!-- Package dependencies -->
                             <requires version="current">%{codac_rpm_prefix}-${project.artifactId}</requires>
                             <requires version="current" buildOnly="true">doxygen</requires>

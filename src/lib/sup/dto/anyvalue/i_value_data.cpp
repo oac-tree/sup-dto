@@ -187,23 +187,6 @@ bool IsLockedTypeConstraint(Constraints constraints)
   return constraints == Constraints::kLockedType;
 }
 
-std::unique_ptr<IValueData> CreateValueData(const AnyType& anytype, Constraints constraints)
-{
-  if (IsScalarType(anytype))
-  {
-    return CreateScalarValueData(anytype.GetTypeCode(), constraints);
-  }
-  if (IsStructType(anytype))
-  {
-    return CreateStructValueData(anytype, constraints);
-  }
-  if (IsArrayType(anytype))
-  {
-    return CreateArrayValueData(anytype, constraints);
-  }
-  return std::make_unique<EmptyValueData>(constraints);
-}
-
 }  // namespace dto
 
 }  // namespace sup

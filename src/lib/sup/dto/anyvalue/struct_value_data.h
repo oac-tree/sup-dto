@@ -36,7 +36,6 @@ class StructValueData : public IValueData
 {
 public:
   StructValueData(const std::string& type_name, Constraints constraints);
-  StructValueData(const AnyType& anytype, Constraints constraints);
   ~StructValueData() override;
 
   StructValueData(const StructValueData& other) = delete;
@@ -68,8 +67,6 @@ private:
   StructDataT<AnyValue> m_member_data;
   Constraints m_constraints;
 };
-
-std::unique_ptr<IValueData> CreateStructValueData(const AnyType& anytype, Constraints constraints);
 
 }  // namespace dto
 

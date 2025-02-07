@@ -35,17 +35,6 @@ StructValueData::StructValueData(const std::string& type_name, Constraints const
   , m_constraints{constraints}
 {}
 
-StructValueData::StructValueData(const AnyType& anytype, Constraints constraints)
-  : StructValueData(anytype.GetTypeName(), constraints)
-{
-  for (const auto& member_name : anytype.MemberNames())
-  {
-    const auto& member_type = anytype[member_name];
-    auto data = CreateValueData(member_type, constraints);
-    m_member_data.AddMember(member_name, MakeAnyValue(std::move(data)));
-  }
-}
-
 StructValueData::~StructValueData() = default;
 
 TypeCode StructValueData::GetTypeCode() const
@@ -158,11 +147,6 @@ bool StructValueData::ShallowEquals(const IValueData* other) const
     return false;
   }
   return true;
-}
-
-std::unique_ptr<IValueData> CreateStructValueData(const AnyType& anytype, Constraints constraints)
-{
-  return std::make_unique<StructValueData>(anytype, constraints);
 }
 
 }  // namespace dto

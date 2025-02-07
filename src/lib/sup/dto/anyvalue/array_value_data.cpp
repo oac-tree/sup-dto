@@ -37,24 +37,6 @@ namespace sup
 namespace dto
 {
 
-ArrayValueData::ArrayValueData(std::size_t size, const AnyType& elem_type,
-                               const std::string& name, Constraints constraints)
-  : m_elem_type{elem_type}
-  , m_name{name}
-  , m_elements{}
-  , m_constraints{constraints}
-{
-  if (m_elem_type == EmptyType)
-  {
-    throw InvalidOperationException("Empty type is not allowed as element type");
-  }
-  for (std::size_t i = 0u; i < size; ++i)
-  {
-    auto data = CreateValueData(m_elem_type, Constraints::kLockedType);
-    m_elements.push_back(MakeAnyValue(std::move(data)));
-  }
-}
-
 ArrayValueData::ArrayValueData(const AnyType& elem_type, const std::string& name,
                                Constraints constraints)
   : m_elem_type{elem_type}
@@ -237,13 +219,6 @@ std::pair<std::size_t, std::string> StripValueIndex(const std::string& fieldname
     return { idx, remainder.substr(1u) };
   }
   return { idx, remainder };
-}
-
-std::unique_ptr<IValueData> CreateArrayValueData(const AnyType& anytype,
-                                                 Constraints constraints)
-{
-  return std::make_unique<ArrayValueData>(anytype.NumberOfElements(), anytype.ElementType(),
-                                          anytype.GetTypeName(), constraints);
 }
 
 }  // namespace dto
