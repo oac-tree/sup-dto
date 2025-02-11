@@ -262,7 +262,8 @@ TypeCode AnyValue::GetTypeCode() const
 
 AnyType AnyValue::GetType() const
 {
-  return m_data->GetType();
+  return AnyType{*this};
+  // return m_data->GetType();
 }
 
 std::string AnyValue::GetTypeName() const
@@ -316,6 +317,11 @@ AnyValue& AnyValue::AddElement(const AnyValue& value) &
 std::size_t AnyValue::NumberOfElements() const
 {
   return m_data->NumberOfElements();
+}
+
+AnyType AnyValue::ElementType() const
+{
+  return m_data->ElementType();
 }
 
 template <>
@@ -492,6 +498,16 @@ bool AnyValue::operator!=(const AnyValue& other) const
   return !(this->operator==(other));
 }
 
+std::size_t AnyValue::NumberOfChildren() const
+{
+  return m_data->NumberOfChildren();
+}
+
+const AnyValue* AnyValue::GetChildValue(std::size_t idx) const
+{
+  return m_data->GetChildValue(idx);
+}
+
 void AnyValue::UnsafeConvertFrom(const AnyValue& other)
 {
   // Only push nodes that didn't throw on conversion:
@@ -542,14 +558,14 @@ std::unique_ptr<AnyValue> AnyValue::MakeStructAnyValue(
   const AnyType& anytype, std::vector<std::unique_ptr<AnyValue>>&& children,
   Constraints constraints)
 {
-  auto struct_data = std::make_unique<StructValueData>(anytype.GetTypeName(), constraints);
   auto member_names = anytype.MemberNames();
   if (children.size() != member_names.size())
   {
     const std::string error =
-      "AnyValue::MakeStructAnyValue(): called with wrong number of children";
+    "AnyValue::MakeStructAnyValue(): called with wrong number of children";
     throw InvalidOperationException(error);
   }
+  auto struct_data = std::make_unique<StructValueData>(anytype.GetTypeName(), constraints);
   for (std::size_t idx = 0; idx < member_names.size(); ++idx)
   {
     struct_data->AddMember(member_names[idx], std::move(children[idx]));
@@ -562,14 +578,14 @@ std::unique_ptr<AnyValue> AnyValue::MakeArrayAnyValue(
   const AnyType& anytype, std::vector<std::unique_ptr<AnyValue>>&& children,
   Constraints constraints)
 {
-  auto array_data = std::make_unique<ArrayValueData>(anytype.ElementType(), anytype.GetTypeName(),
-                                                     constraints);
   if (children.size() != 1u)
   {
     const std::string error =
-      "AnyValue::MakeArrayAnyValue(): should be called with exactly one child as a template";
+    "AnyValue::MakeArrayAnyValue(): should be called with exactly one child as a template";
     throw InvalidOperationException(error);
   }
+  auto array_data = std::make_unique<ArrayValueData>(anytype.ElementType(), anytype.GetTypeName(),
+                                                     constraints);
   for (std::size_t idx = 0; idx < anytype.NumberOfElements(); ++idx)
   {
     auto copy = std::unique_ptr<AnyValue>{new AnyValue{*children[0], Constraints::kLockedType}};
@@ -644,11 +660,6 @@ AnyValue::AnyValue(const AnyValue& other, Constraints constraints)
   }
 }
 
-std::size_t AnyValue::NumberOfChildren() const
-{
-  return m_data->NumberOfChildren();
-}
-
 bool AnyValue::HasChild(const std::string& child_name) const
 {
   return m_data->HasChild(child_name);
@@ -657,11 +668,6 @@ bool AnyValue::HasChild(const std::string& child_name) const
 const AnyValue* AnyValue::GetChildValue(const std::string& child_name) const
 {
   return m_data->GetChildValue(child_name);
-}
-
-const AnyValue* AnyValue::GetChildValue(std::size_t idx) const
-{
-  return m_data->GetChildValue(idx);
 }
 
 AnyValue* AnyValue::GetChildValue(std::size_t idx)

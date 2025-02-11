@@ -292,6 +292,14 @@ public:
   std::size_t NumberOfElements() const;
 
   /**
+   * @brief Return the type of the elements of an array.
+   *
+   * @return AnyType of the array's elements.
+   * @throws InvalidOperationException when the current AnyValue is not an array.
+   */
+  AnyType ElementType() const;
+
+  /**
    * @brief Cast to given type.
    *
    * @return This value as a T value when successful.
@@ -393,6 +401,24 @@ public:
   bool operator!=(const AnyValue& other) const;
 
   /**
+   * @brief Get number of child values. This is mostly used to be able to visit an AnyValue tree
+   * structure.
+   *
+   * @return Number of child values.
+   */
+  std::size_t NumberOfChildren() const;
+
+  /**
+   * @brief Get the child value for the given index. This is mostly used to be able to visit an
+   * AnyValue tree.
+   *
+   * @param idx Index of the child value.
+   * @return Child value for the given index.
+   * @throws InvalidOperationException if no child value for the given index exists.
+   */
+  const AnyValue* GetChildValue(std::size_t idx) const;
+
+  /**
    * @brief Conversion that could leave this AnyValue in a partially changed state if the execution
    * throws.
    */
@@ -416,10 +442,8 @@ private:
     Constraints constraints);
   explicit AnyValue(std::unique_ptr<IValueData>&& data);
   AnyValue(const AnyValue& other, Constraints constraints);
-  std::size_t NumberOfChildren() const;
   bool HasChild(const std::string& child_name) const;
   const AnyValue* GetChildValue(const std::string& child_name) const;
-  const AnyValue* GetChildValue(std::size_t idx) const;
   AnyValue* GetChildValue(std::size_t idx);
   std::unique_ptr<AnyValue> CloneFromChildren(std::vector<std::unique_ptr<AnyValue>>&& children,
                                               Constraints constraints) const;

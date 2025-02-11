@@ -60,6 +60,7 @@ public:
   virtual std::size_t NumberOfMembers() const;
   virtual void AddElement(std::unique_ptr<AnyValue>&&);
   virtual std::size_t NumberOfElements() const;
+  virtual AnyType ElementType() const;
 
   virtual boolean AsBoolean() const;
   virtual char8 AsCharacter8() const;

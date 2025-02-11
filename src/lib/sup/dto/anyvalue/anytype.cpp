@@ -23,6 +23,7 @@
 
 #include <sup/dto/anyvalue/anytype_compare_node.h>
 #include <sup/dto/anyvalue/anytype_copy_node.h>
+#include <sup/dto/anyvalue/anytype_from_anyvalue_node.h>
 #include <sup/dto/anyvalue/array_type_data.h>
 #include <sup/dto/anyvalue/empty_type_data.h>
 #include <sup/dto/anyvalue/node_utils.h>
@@ -87,6 +88,36 @@ AnyType::AnyType(std::size_t size, const AnyType& elem_type, const std::string& 
 AnyType::AnyType(std::size_t size, const AnyType& elem_type)
   : AnyType{size, elem_type, {}}
 {}
+
+AnyType::AnyType(const AnyValue& anyvalue)
+  : AnyType{}
+{
+  std::deque<AnyTypeFromAnyValueNode> queue;
+  AnyTypeFromAnyValueNode root_node{std::addressof(anyvalue)};
+  queue.push_back(std::move(root_node));
+  while (true)
+  {
+    auto& last_node = queue.back();
+    auto next_child_idx = last_node.NextIndex();
+    if (next_child_idx == kInvalidIndex)
+    {
+      auto node_type = MakeAnyType(*last_node.GetSource(), last_node.MoveChildValues());
+      queue.pop_back();
+      if (queue.empty())
+      {
+        std::swap(m_data, node_type->m_data);
+        break;
+      }
+      queue.back().AddChild(std::move(node_type));
+    }
+    else
+    {
+      auto next_child = last_node.GetSource()->GetChildValue(next_child_idx);
+      AnyTypeFromAnyValueNode child_node{next_child};
+      queue.push_back(std::move(child_node));
+    }
+  }
+}
 
 AnyType::AnyType(const AnyType& other)
   : AnyType{}
@@ -269,6 +300,85 @@ std::size_t AnyType::NumberOfChildren() const
 const AnyType* AnyType::GetChildType(std::size_t idx) const
 {
   return m_data->GetChildType(idx);
+}
+
+std::unique_ptr<AnyType> AnyType::MakeAnyType(
+  const AnyValue& anyvalue, std::vector<std::unique_ptr<AnyType>>&& children)
+{
+  if (IsScalarValue(anyvalue))
+  {
+    return MakeScalarAnyType(anyvalue, std::move(children));
+  }
+  if (IsStructValue(anyvalue))
+  {
+    return MakeStructAnyType(anyvalue, std::move(children));
+  }
+  if (IsArrayValue(anyvalue))
+  {
+    return MakeArrayAnyType(anyvalue, std::move(children));
+  }
+  return MakeEmptyAnyType(anyvalue, std::move(children));
+}
+
+std::unique_ptr<AnyType> AnyType::MakeStructAnyType(
+  const AnyValue& anyvalue, std::vector<std::unique_ptr<AnyType>>&& children)
+{
+  const auto& type_name = anyvalue.GetTypeName();
+  const auto member_names = anyvalue.MemberNames();
+  if (children.size() != member_names.size())
+  {
+    const std::string error =
+      "AnyType::MakeStructAnyType(): called with wrong number of children";
+    throw InvalidOperationException(error);
+  }
+  auto struct_data = std::make_unique<StructTypeData>(type_name);
+  for (std::size_t idx = 0; idx < member_names.size(); ++idx)
+  {
+    struct_data->AddMember(member_names[idx], std::move(*children[idx]));
+  }
+  std::unique_ptr<ITypeData> type_data = std::move(struct_data);
+  return std::unique_ptr<AnyType>{new AnyType{std::move(type_data)}};
+}
+
+std::unique_ptr<AnyType> AnyType::MakeArrayAnyType(
+  const AnyValue& anyvalue, std::vector<std::unique_ptr<AnyType>>&& children)
+{
+  if (children.size() != 0u)
+  {
+    const std::string error = "AnyType::MakeArrayAnyType(): should be called without children, as "
+      "the type is already available";
+    throw InvalidOperationException(error);
+  }
+  const auto& type_name = anyvalue.GetTypeName();
+  const size_t n_elems = anyvalue.NumberOfElements();
+  auto array_data = std::make_unique<ArrayTypeData>(n_elems, anyvalue.ElementType(), type_name);
+  std::unique_ptr<ITypeData> type_data = std::move(array_data);
+  return std::unique_ptr<AnyType>{new AnyType{std::move(type_data)}};
+}
+
+std::unique_ptr<AnyType> AnyType::MakeScalarAnyType(
+  const AnyValue& anyvalue, std::vector<std::unique_ptr<AnyType>>&& children)
+{
+  if (children.size() != 0u)
+  {
+    const std::string error =
+      "AnyType::MakeScalarAnyType(): called with non-zero number of children";
+    throw InvalidOperationException(error);
+  }
+  return std::unique_ptr<AnyType>{new AnyType{CreateScalarData(anyvalue.GetTypeCode())}};
+}
+
+std::unique_ptr<AnyType> AnyType::MakeEmptyAnyType(
+  const AnyValue& anyvalue, std::vector<std::unique_ptr<AnyType>>&& children)
+{
+  (void)anyvalue;
+  if (children.size() != 0u)
+  {
+    const std::string error =
+      "AnyType::MakeEmptyAnyType(): called with non-zero number of children";
+    throw InvalidOperationException(error);
+  }
+  return std::make_unique<AnyType>();
 }
 
 AnyType::AnyType(std::unique_ptr<ITypeData>&& data)

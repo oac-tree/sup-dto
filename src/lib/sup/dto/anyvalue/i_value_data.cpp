@@ -71,6 +71,11 @@ std::size_t IValueData::NumberOfElements() const
   return 0u;
 }
 
+AnyType IValueData::ElementType() const
+{
+  throw InvalidConversionException("Element type only supported for array types");
+}
+
 boolean IValueData::AsBoolean() const
 {
   throw InvalidConversionException("Conversion to boolean not supported for this type");

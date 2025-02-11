@@ -75,6 +75,7 @@ const std::string kFloat64TypeName = "float64";
 const std::string kStringTypeName = "string";
 
 class ITypeData;
+class AnyValue;
 
 /**
  * @brief Class for structured data transfer object types.
@@ -134,6 +135,13 @@ public:
    * @param elem_type type of the elements in the array.
    */
   AnyType(std::size_t size, const AnyType& elem_type);
+
+  /**
+   * @brief Construct type from given value.
+   *
+   * @param anyvalue AnyValue whose type to construct.
+   */
+  AnyType(const AnyValue& anyvalue);
 
   /**
    * @brief Copy constructor.
@@ -297,9 +305,35 @@ public:
   bool operator==(const AnyType& other) const;
   bool operator!=(const AnyType& other) const;
 
+  /**
+   * @brief Get number of child types. This is mostly used to be able to visit an AnyType tree
+   * structure.
+   *
+   * @return Number of child types.
+   */
   std::size_t NumberOfChildren() const;
+
+  /**
+   * @brief Get the child type for the given index. This is mostly used to be able to visit an
+   * AnyType tree.
+   *
+   * @param idx Index of the child type.
+   * @return Child type for the given index.
+   * @throws InvalidOperationException if no child type for the given index exists.
+   */
   const AnyType* GetChildType(std::size_t idx) const;
+
 private:
+  static std::unique_ptr<AnyType> MakeAnyType(
+    const AnyValue& anyvalue, std::vector<std::unique_ptr<AnyType>>&& children);
+  static std::unique_ptr<AnyType> MakeStructAnyType(
+    const AnyValue& anyvalue, std::vector<std::unique_ptr<AnyType>>&& children);
+  static std::unique_ptr<AnyType> MakeArrayAnyType(
+    const AnyValue& anyvalue, std::vector<std::unique_ptr<AnyType>>&& children);
+  static std::unique_ptr<AnyType> MakeScalarAnyType(
+    const AnyValue& anyvalue, std::vector<std::unique_ptr<AnyType>>&& children);
+  static std::unique_ptr<AnyType> MakeEmptyAnyType(
+    const AnyValue& anyvalue, std::vector<std::unique_ptr<AnyType>>&& children);
   explicit AnyType(std::unique_ptr<ITypeData>&& data);
   bool HasChild(const std::string& child_name) const;
   const AnyType* GetChildType(const std::string& child_name) const;

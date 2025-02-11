@@ -49,6 +49,7 @@ public:
 
   void AddElement(std::unique_ptr<AnyValue>&& value) override;
   std::size_t NumberOfElements() const override;
+  AnyType ElementType() const override;
 
   AnyValue& operator[](std::size_t idx) override;
 

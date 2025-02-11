@@ -3,6 +3,7 @@ target_sources(sup-dto-obj
     any_functor.cpp
     anytype_compare_node.cpp
     anytype_copy_node.cpp
+    anytype_from_anyvalue_node.cpp
     anytype_helper.cpp
     anytype_registry.cpp
     anytype.cpp

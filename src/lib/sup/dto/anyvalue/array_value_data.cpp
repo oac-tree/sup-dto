@@ -82,6 +82,11 @@ std::size_t ArrayValueData::NumberOfElements() const
   return m_elements.size();
 }
 
+AnyType ArrayValueData::ElementType() const
+{
+  return m_elem_type;
+}
+
 AnyValue& ArrayValueData::operator[](std::size_t idx)
 {
   if (idx >= NumberOfElements())
