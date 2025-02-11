@@ -34,6 +34,8 @@
 #include <sup/dto/serialize/ctype_serializer.h>
 #include <sup/dto/visit/visit_t.h>
 
+#include <stdexcept>
+
 namespace
 {
 using namespace sup::dto;
