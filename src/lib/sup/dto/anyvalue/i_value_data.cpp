@@ -171,11 +171,6 @@ void IValueData::ShallowConvertFrom(const AnyValue&)
   throw InvalidConversionException("Cannot convert from incompatible AnyValue");
 }
 
-void IValueData::UnsafeConversion(AnyValue& dest, const AnyValue& src)
-{
-  dest.UnsafeConvertFrom(src);
-}
-
 bool IsLockedTypeConstraint(Constraints constraints)
 {
   return constraints == Constraints::kLockedType;
