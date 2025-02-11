@@ -62,7 +62,7 @@ namespace sup
 namespace dto
 {
 AnyValue::AnyValue() noexcept
-  : AnyValue{CreateDefaultValueData()}
+  : AnyValue{CreateEmptyValueData()}
 {}
 
 AnyValue::AnyValue(const AnyType& anytype)

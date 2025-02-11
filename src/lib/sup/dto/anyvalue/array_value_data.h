@@ -68,21 +68,6 @@ private:
   Constraints m_constraints;
 };
 
-/**
- * @brief Strips the index from the fieldname.
- *
- * @param fieldname Full fieldname.
- *
- * @return Pair of integer index and the remainder of the fieldname.
- *
- * @note An optional dot '.' after the square brackets will be ignored.
- *
- * @throws InvalidOperationException Thrown when the fieldname cannot be parsed correctly (e.g. no
- * starting square brackets or characters inside square brackets cannot be interpreted as a
- * positive integer).
- */
-std::pair<std::size_t, std::string> StripValueIndex(const std::string& fieldname);
-
 }  // namespace dto
 
 }  // namespace sup

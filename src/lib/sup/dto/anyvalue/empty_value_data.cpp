@@ -69,7 +69,7 @@ bool EmptyValueData::ShallowEquals(const IValueData* other) const
   return IsEmptyTypeCode(other->GetTypeCode());
 }
 
-std::unique_ptr<IValueData> CreateDefaultValueData()
+std::unique_ptr<IValueData> CreateEmptyValueData()
 {
   return std::make_unique<EmptyValueData>(Constraints::kNone);
 }
