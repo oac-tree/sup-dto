@@ -45,9 +45,9 @@ TypeCode ScalarValueDataBase::GetTypeCode() const
   return m_type_code;
 }
 
-AnyType ScalarValueDataBase::GetType() const
+std::string ScalarValueDataBase::GetTypeName() const
 {
-  return AnyType(m_type_code);
+  return AnyType{m_type_code}.GetTypeName();
 }
 
 bool ScalarValueDataBase::IsScalar() const

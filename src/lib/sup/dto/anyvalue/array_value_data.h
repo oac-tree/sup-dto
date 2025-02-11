@@ -43,7 +43,6 @@ public:
 
   TypeCode GetTypeCode() const override;
   std::string GetTypeName() const override;
-  AnyType GetType() const override;
 
   Constraints GetConstraints() const override;
 

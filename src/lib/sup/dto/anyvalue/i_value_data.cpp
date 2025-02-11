@@ -36,11 +36,6 @@ namespace dto
 
 IValueData::~IValueData() = default;
 
-std::string IValueData::GetTypeName() const
-{
-  return GetType().GetTypeName();
-}
-
 bool IValueData::IsScalar() const
 {
   return false;

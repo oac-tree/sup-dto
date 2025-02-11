@@ -46,8 +46,7 @@ public:
   IValueData& operator=(IValueData&&) = delete;
 
   virtual TypeCode GetTypeCode() const = 0;
-  virtual std::string GetTypeName() const;
-  virtual AnyType GetType() const = 0;
+  virtual std::string GetTypeName() const = 0;
 
   // Only used to provide a fast private way for AnyValue to assess if it's scalar
   virtual bool IsScalar() const;

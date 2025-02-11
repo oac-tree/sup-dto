@@ -39,8 +39,7 @@ public:
   ScalarValueDataBase& operator=(ScalarValueDataBase&&) = delete;
 
   TypeCode GetTypeCode() const override;
-
-  AnyType GetType() const override;
+  std::string GetTypeName() const override;
 
   bool IsScalar() const override;
 

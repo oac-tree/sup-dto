@@ -62,11 +62,6 @@ std::string ArrayValueData::GetTypeName() const
   return m_name;
 }
 
-AnyType ArrayValueData::GetType() const
-{
-  return AnyType(NumberOfElements(), m_elem_type, m_name);
-}
-
 Constraints ArrayValueData::GetConstraints() const
 {
   return m_constraints;

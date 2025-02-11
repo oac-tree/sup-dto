@@ -127,6 +127,17 @@ bool StructDataT<T>::HasChild(const std::string& child_name) const
 template <typename T>
 T* StructDataT<T>::GetChild(const std::string& child_name)
 {
+  // auto pred = [child_name](const auto& member){
+  //   return member.first == child_name;
+  // };
+  // auto it = std::find_if(m_members.begin(), m_members.end(), pred);
+  // if (it == m_members.end())
+  // {
+  //   const std::string error =
+  //     "StructDataT::GetChild() called with unknown child name \"" + child_name + "\"";
+  //   throw InvalidOperationException(error);
+  // }
+  // return it->second.get();
   return const_cast<T*>(const_cast<const StructDataT<T>*>(this)->GetChild(child_name));
 }
 

@@ -40,7 +40,7 @@ public:
   EmptyValueData& operator=(EmptyValueData&& other) = delete;
 
   TypeCode GetTypeCode() const override;
-  AnyType GetType() const override;
+  std::string GetTypeName() const override;
 
   Constraints GetConstraints() const override;
 

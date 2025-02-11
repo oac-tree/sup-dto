@@ -47,16 +47,6 @@ std::string StructValueData::GetTypeName() const
   return m_member_data.GetTypeName();
 }
 
-AnyType StructValueData::GetType() const
-{
-  auto result = EmptyStructType(GetTypeName());
-  for (const auto& member_name : MemberNames())
-  {
-    (void)result.AddMember(member_name, m_member_data.GetChild(member_name)->GetType());
-  }
-  return result;
-}
-
 Constraints StructValueData::GetConstraints() const
 {
   return m_constraints;

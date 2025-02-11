@@ -42,9 +42,9 @@ TypeCode EmptyValueData::GetTypeCode() const
   return TypeCode::Empty;
 }
 
-AnyType EmptyValueData::GetType() const
+std::string EmptyValueData::GetTypeName() const
 {
-  return AnyType{};
+  return AnyType{}.GetTypeName();
 }
 
 Constraints EmptyValueData::GetConstraints() const
