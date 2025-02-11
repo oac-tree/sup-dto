@@ -52,14 +52,6 @@ Constraints EmptyValueData::GetConstraints() const
   return m_constraints;
 }
 
-void EmptyValueData::ConvertFrom(const AnyValue& value)
-{
-  if (!IsEmptyValue(value))
-  {
-    return IValueData::ConvertFrom(value);
-  }
-}
-
 std::unique_ptr<IValueData> EmptyValueData::CloneFromChildren(
   std::vector<std::unique_ptr<AnyValue>>&& children, Constraints constraints) const
 {

@@ -156,7 +156,7 @@ AnyValue::AnyValue(const char* val)
 AnyValue::AnyValue(const AnyType& anytype, const AnyValue& anyvalue)
   : AnyValue{anytype}
 {
-  m_data->ConvertFrom(anyvalue);
+  ConvertFrom(anyvalue);
 }
 
 AnyValue::AnyValue(std::initializer_list<std::pair<std::string, AnyValue>> members,

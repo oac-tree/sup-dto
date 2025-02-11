@@ -61,8 +61,6 @@ public:
   virtual void AddElement(std::unique_ptr<AnyValue>&&);
   virtual std::size_t NumberOfElements() const;
 
-  virtual void ConvertFrom(const AnyValue&);
-
   virtual boolean AsBoolean() const;
   virtual char8 AsCharacter8() const;
   virtual int8 AsSignedInteger8() const;

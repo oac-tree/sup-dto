@@ -43,8 +43,6 @@ public:
   ScalarValueDataT& operator=(const ScalarValueDataT& other) = delete;
   ScalarValueDataT& operator=(ScalarValueDataT&& other) = delete;
 
-  void ConvertFrom(const AnyValue& value) override;
-
   boolean AsBoolean() const override;
   char8 AsCharacter8() const override;
   int8 AsSignedInteger8() const override;
@@ -73,12 +71,6 @@ ScalarValueDataT<T>::ScalarValueDataT(T value, Constraints constraints)
   : ScalarValueDataBase{TypeToCode<T>::code, constraints}
   , m_value{value}
 {}
-
-template <typename T>
-void ScalarValueDataT<T>::ConvertFrom(const AnyValue& value)
-{
-  m_value = value.As<T>();
-}
 
 template <typename T>
 boolean ScalarValueDataT<T>::AsBoolean() const

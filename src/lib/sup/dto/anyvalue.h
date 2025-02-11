@@ -183,7 +183,7 @@ public:
    *
    * @throws InvalidConversionException Thrown when the given AnyValue cannot be properly converted
    * to this AnyValue (only possible when conversions are required, meaning the types are not
-   * exactly equal).
+   * compatible).
    */
   AnyValue& operator=(AnyValue&& other) &;
 
@@ -194,7 +194,7 @@ public:
    *
    * @throws InvalidConversionException Thrown when the given AnyValue cannot be properly converted
    * to this AnyValue (only possible when conversions are required, meaning the types are not
-   * exactly equal).
+   * compatible).
    */
   void ConvertFrom(const AnyValue& other);
 

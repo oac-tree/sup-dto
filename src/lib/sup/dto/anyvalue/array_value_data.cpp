@@ -82,23 +82,6 @@ std::size_t ArrayValueData::NumberOfElements() const
   return m_elements.size();
 }
 
-void ArrayValueData::ConvertFrom(const AnyValue& value)
-{
-  if (value.GetTypeCode() != TypeCode::Array)
-  {
-    IValueData::ConvertFrom(value);
-  }
-  if (value.NumberOfElements() != NumberOfElements())
-  {
-    throw InvalidConversionException("Can't convert between array values with different length "
-                                     "unless target has zero size");
-  }
-  for (std::size_t idx = 0u; idx < NumberOfElements(); ++idx)
-  {
-    UnsafeConversion(*m_elements[idx], value[idx]);
-  }
-}
-
 AnyValue& ArrayValueData::operator[](std::size_t idx)
 {
   if (idx >= NumberOfElements())

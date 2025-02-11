@@ -71,11 +71,6 @@ std::size_t IValueData::NumberOfElements() const
   return 0u;
 }
 
-void IValueData::ConvertFrom(const AnyValue&)
-{
-  throw InvalidConversionException("Cannot convert from incompatible AnyValue");
-}
-
 boolean IValueData::AsBoolean() const
 {
   throw InvalidConversionException("Conversion to boolean not supported for this type");

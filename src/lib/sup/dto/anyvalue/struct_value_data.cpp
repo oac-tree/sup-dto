@@ -77,22 +77,6 @@ std::size_t StructValueData::NumberOfMembers() const
   return m_member_data.NumberOfMembers();
 }
 
-void StructValueData::ConvertFrom(const AnyValue& value)
-{
-  if (value.GetTypeCode() != TypeCode::Struct)
-  {
-    IValueData::ConvertFrom(value);
-  }
-  if (value.MemberNames() != MemberNames())
-  {
-    throw InvalidConversionException("Can't convert AnyValues with different list of fields");
-  }
-  for (const auto& member_name : MemberNames())
-  {
-    UnsafeConversion(*m_member_data.GetChild(member_name), value[member_name]);
-  }
-}
-
 std::size_t StructValueData::NumberOfChildren() const
 {
   return m_member_data.NumberOfMembers();

@@ -53,8 +53,6 @@ public:
   std::vector<std::string> MemberNames() const override;
   std::size_t NumberOfMembers() const override;
 
-  void ConvertFrom(const AnyValue& value) override;
-
   std::size_t NumberOfChildren() const override;
   bool HasChild(const std::string& child_name) const override;
   AnyValue* GetChildValue(const std::string& child_name) override;

@@ -50,8 +50,6 @@ public:
   void AddElement(std::unique_ptr<AnyValue>&& value) override;
   std::size_t NumberOfElements() const override;
 
-  void ConvertFrom(const AnyValue& value) override;
-
   AnyValue& operator[](std::size_t idx) override;
 
   std::size_t NumberOfChildren() const override;
