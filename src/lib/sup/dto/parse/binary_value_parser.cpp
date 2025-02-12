@@ -39,12 +39,12 @@ using sup::dto::TypeCode;
 template <typename T>
 void AssignBinaryScalarT(AnyValue& anyvalue, ByteIterator& it, ByteIterator end)
 {
-  anyvalue.UnsafeConvertFrom(sup::dto::ParseBinaryScalarT<T>(it, end));
+  anyvalue.ConvertFrom(sup::dto::ParseBinaryScalarT<T>(it, end));
 }
 
 void AssignBinaryString(AnyValue& anyvalue, ByteIterator& it, ByteIterator end)
 {
-  anyvalue.UnsafeConvertFrom(sup::dto::ParseBinaryString(it, end));
+  anyvalue.ConvertFrom(sup::dto::ParseBinaryString(it, end));
 }
 
 using ScalarParserFunction = std::function<void(AnyValue&, ByteIterator&, ByteIterator)>;

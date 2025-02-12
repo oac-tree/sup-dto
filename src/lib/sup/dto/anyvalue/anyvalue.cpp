@@ -250,9 +250,29 @@ AnyValue& AnyValue::operator=(AnyValue&& other) &
 
 void AnyValue::ConvertFrom(const AnyValue& other)
 {
-  AnyValue copy{*this, m_data->GetConstraints()};
-  copy.UnsafeConvertFrom(other);
-  std::swap(m_data, copy.m_data);
+  // Only push nodes that didn't throw on conversion:
+  ShallowConvertFrom(other);
+  std::deque<AnyValueConvertNode> queue;
+  AnyValueConvertNode root_node{this, std::addressof(other)};
+  queue.push_back(std::move(root_node));
+  while (!queue.empty())
+  {
+    auto& last_node = queue.back();
+    if (last_node.m_index >= last_node.m_n_children)
+    {
+      queue.pop_back();
+    }
+    else
+    {
+      auto idx = last_node.m_index++;
+      auto left_child = last_node.m_left->GetChildValue(idx);
+      auto right_child = last_node.m_right->GetChildValue(idx);
+      // Only push nodes that didn't throw on conversion:
+      left_child->ShallowConvertFrom(*right_child);
+      AnyValueConvertNode child_node{left_child, right_child};
+      queue.push_back(std::move(child_node));
+    }
+  }
 }
 
 AnyValue::~AnyValue() = default;
@@ -508,33 +528,6 @@ std::size_t AnyValue::NumberOfChildren() const
 const AnyValue* AnyValue::GetChildValue(std::size_t idx) const
 {
   return m_data->GetChildValue(idx);
-}
-
-void AnyValue::UnsafeConvertFrom(const AnyValue& other)
-{
-  // Only push nodes that didn't throw on conversion:
-  ShallowConvertFrom(other);
-  std::deque<AnyValueConvertNode> queue;
-  AnyValueConvertNode root_node{this, std::addressof(other)};
-  queue.push_back(std::move(root_node));
-  while (!queue.empty())
-  {
-    auto& last_node = queue.back();
-    if (last_node.m_index >= last_node.m_n_children)
-    {
-      queue.pop_back();
-    }
-    else
-    {
-      auto idx = last_node.m_index++;
-      auto left_child = last_node.m_left->GetChildValue(idx);
-      auto right_child = last_node.m_right->GetChildValue(idx);
-      // Only push nodes that didn't throw on conversion:
-      left_child->ShallowConvertFrom(*right_child);
-      AnyValueConvertNode child_node{left_child, right_child};
-      queue.push_back(std::move(child_node));
-    }
-  }
 }
 
 std::unique_ptr<AnyValue> AnyValue::MakeAnyValue(

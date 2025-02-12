@@ -1,6 +1,7 @@
 Changes for 1.6.0:
 
 - Reduce doxygen warnings
+- Remove obsolete AnyValue::UnsafeConvertFrom
 
 Changes for 1.5.0:
 

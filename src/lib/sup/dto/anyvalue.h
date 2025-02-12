@@ -190,6 +190,9 @@ public:
   /**
    * @brief Try to convert from other AnyValue without changing the underlying type.
    *
+   * @note This operation could leave this AnyValue in a partially updated state if the execution
+   * throws. However, the object is always in a consistent state.
+   *
    * @param other Source AnyValue for conversion.
    *
    * @throws InvalidConversionException Thrown when the given AnyValue cannot be properly converted
@@ -417,12 +420,6 @@ public:
    * @throws InvalidOperationException if no child value for the given index exists.
    */
   const AnyValue* GetChildValue(std::size_t idx) const;
-
-  /**
-   * @brief Conversion that could leave this AnyValue in a partially changed state if the execution
-   * throws.
-   */
-  void UnsafeConvertFrom(const AnyValue& other);
 
 private:
   static std::unique_ptr<AnyValue> MakeAnyValue(
