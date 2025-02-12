@@ -33,8 +33,7 @@ namespace dto
 class AnyValueCopyNode
 {
 public:
-  AnyValueCopyNode(const AnyValue* src, std::size_t n_children,
-                   Constraints constraints);
+  AnyValueCopyNode(const AnyValue* src, Constraints constraints);
   ~AnyValueCopyNode() = default;
 
   AnyValueCopyNode(const AnyValueCopyNode&) = delete;

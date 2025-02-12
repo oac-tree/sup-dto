@@ -30,7 +30,7 @@ namespace dto
 {
 struct AnyValueConvertNode
 {
-  AnyValueConvertNode(AnyValue* left, const AnyValue* right, std::size_t n_children);
+  AnyValueConvertNode(AnyValue* left, const AnyValue* right);
   ~AnyValueConvertNode() = default;
 
   AnyValueConvertNode(const AnyValueConvertNode&) = delete;

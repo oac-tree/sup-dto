@@ -33,7 +33,7 @@ namespace dto
 class AnyTypeCopyNode
 {
 public:
-  AnyTypeCopyNode(const AnyType* src, std::size_t n_children);
+  AnyTypeCopyNode(const AnyType* src);
   ~AnyTypeCopyNode() = default;
 
   AnyTypeCopyNode(const AnyTypeCopyNode&) = delete;

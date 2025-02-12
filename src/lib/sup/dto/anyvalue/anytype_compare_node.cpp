@@ -26,11 +26,10 @@ namespace sup
 namespace dto
 {
 
-AnyTypeCompareNode::AnyTypeCompareNode(const AnyType* left, const AnyType* right,
-                                       std::size_t n_children)
+AnyTypeCompareNode::AnyTypeCompareNode(const AnyType* left, const AnyType* right)
   : m_left{left}
   , m_right{right}
-  , m_n_children{n_children}
+  , m_n_children{m_left->NumberOfChildren()}
   , m_index{0}
 {}
 

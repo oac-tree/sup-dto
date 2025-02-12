@@ -123,7 +123,7 @@ AnyType::AnyType(const AnyType& other)
   : AnyType{}
 {
   std::deque<AnyTypeCopyNode> queue;
-  AnyTypeCopyNode root_node{std::addressof(other), other.NumberOfChildren()};
+  AnyTypeCopyNode root_node{std::addressof(other)};
   queue.push_back(std::move(root_node));
   while (true)
   {
@@ -143,7 +143,7 @@ AnyType::AnyType(const AnyType& other)
     else
     {
       auto next_child = last_node.GetSource()->GetChildType(next_child_idx);
-      AnyTypeCopyNode child_node{next_child, next_child->NumberOfChildren()};
+      AnyTypeCopyNode child_node{next_child};
       queue.push_back(std::move(child_node));
     }
   }
@@ -262,7 +262,7 @@ bool AnyType::operator==(const AnyType& other) const
     return false;
   }
   std::deque<AnyTypeCompareNode> queue;
-  AnyTypeCompareNode root_node{this, std::addressof(other), NumberOfChildren()};
+  AnyTypeCompareNode root_node{this, std::addressof(other)};
   queue.push_back(std::move(root_node));
   while (!queue.empty())
   {
@@ -280,7 +280,7 @@ bool AnyType::operator==(const AnyType& other) const
       {
         return false;
       }
-      AnyTypeCompareNode child_node{left_child, right_child, left_child->NumberOfChildren()};
+      AnyTypeCompareNode child_node{left_child, right_child};
       queue.push_back(std::move(child_node));
     }
   }

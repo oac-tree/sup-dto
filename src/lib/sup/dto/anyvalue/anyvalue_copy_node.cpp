@@ -27,10 +27,9 @@ namespace sup
 {
 namespace dto
 {
-AnyValueCopyNode::AnyValueCopyNode(const AnyValue* src, std::size_t n_children,
-                                   Constraints constraints)
+AnyValueCopyNode::AnyValueCopyNode(const AnyValue* src, Constraints constraints)
   : m_src{src}
-  , m_n_children{n_children}
+  , m_n_children{m_src->NumberOfChildren()}
   , m_constraints{constraints}
   , m_index{0}
   , m_children{}

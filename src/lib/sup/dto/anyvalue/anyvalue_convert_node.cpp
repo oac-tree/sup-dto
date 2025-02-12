@@ -26,11 +26,10 @@ namespace sup
 namespace dto
 {
 
-AnyValueConvertNode::AnyValueConvertNode(AnyValue* left, const AnyValue* right,
-                                         std::size_t n_children)
+AnyValueConvertNode::AnyValueConvertNode(AnyValue* left, const AnyValue* right)
   : m_left{left}
   , m_right{right}
-  , m_n_children{n_children}
+  , m_n_children{m_left->NumberOfChildren()}
   , m_index{0}
 {}
 

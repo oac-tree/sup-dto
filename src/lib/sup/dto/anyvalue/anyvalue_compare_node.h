@@ -30,7 +30,7 @@ namespace dto
 {
 struct AnyValueCompareNode
 {
-  AnyValueCompareNode(const AnyValue* left, const AnyValue* right, std::size_t n_children);
+  AnyValueCompareNode(const AnyValue* left, const AnyValue* right);
   ~AnyValueCompareNode() = default;
 
   AnyValueCompareNode(const AnyValueCompareNode&) = delete;

@@ -27,9 +27,9 @@ namespace sup
 {
 namespace dto
 {
-AnyTypeCopyNode::AnyTypeCopyNode(const AnyType* src, std::size_t n_children)
+AnyTypeCopyNode::AnyTypeCopyNode(const AnyType* src)
   : m_src{src}
-  , m_n_children{n_children}
+  , m_n_children{m_src->NumberOfChildren()}
   , m_index{0}
   , m_children{}
 {}

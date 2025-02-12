@@ -470,7 +470,7 @@ bool AnyValue::operator==(const AnyValue& other) const
     return false;
   }
   std::deque<AnyValueCompareNode> queue;
-  AnyValueCompareNode root_node{this, std::addressof(other), NumberOfChildren()};
+  AnyValueCompareNode root_node{this, std::addressof(other)};
   queue.push_back(std::move(root_node));
   while (!queue.empty())
   {
@@ -488,7 +488,7 @@ bool AnyValue::operator==(const AnyValue& other) const
       {
         return false;
       }
-      AnyValueCompareNode child_node{left_child, right_child, left_child->NumberOfChildren()};
+      AnyValueCompareNode child_node{left_child, right_child};
       queue.push_back(std::move(child_node));
     }
   }
@@ -515,7 +515,7 @@ void AnyValue::UnsafeConvertFrom(const AnyValue& other)
   // Only push nodes that didn't throw on conversion:
   ShallowConvertFrom(other);
   std::deque<AnyValueConvertNode> queue;
-  AnyValueConvertNode root_node{this, std::addressof(other), NumberOfChildren()};
+  AnyValueConvertNode root_node{this, std::addressof(other)};
   queue.push_back(std::move(root_node));
   while (!queue.empty())
   {
@@ -531,7 +531,7 @@ void AnyValue::UnsafeConvertFrom(const AnyValue& other)
       auto right_child = last_node.m_right->GetChildValue(idx);
       // Only push nodes that didn't throw on conversion:
       left_child->ShallowConvertFrom(*right_child);
-      AnyValueConvertNode child_node{left_child, right_child, left_child->NumberOfChildren()};
+      AnyValueConvertNode child_node{left_child, right_child};
       queue.push_back(std::move(child_node));
     }
   }
@@ -634,7 +634,7 @@ AnyValue::AnyValue(const AnyValue& other, Constraints constraints)
   : AnyValue{}
 {
   std::deque<AnyValueCopyNode> queue;
-  AnyValueCopyNode root_node{std::addressof(other), other.NumberOfChildren(), constraints};
+  AnyValueCopyNode root_node{std::addressof(other), constraints};
   queue.push_back(std::move(root_node));
   while (true)
   {
@@ -656,7 +656,7 @@ AnyValue::AnyValue(const AnyValue& other, Constraints constraints)
     {
       auto next_child = last_node.GetSource()->GetChildValue(next_child_idx);
       auto child_constraints = last_node.GetChildConstraints();
-      AnyValueCopyNode child_node{next_child, next_child->NumberOfChildren(), child_constraints};
+      AnyValueCopyNode child_node{next_child, child_constraints};
       queue.push_back(std::move(child_node));
     }
   }
