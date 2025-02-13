@@ -23,8 +23,6 @@
 
 #include <sup/dto/anyvalue/field_utils.h>
 
-#include <algorithm>
-
 namespace sup
 {
 namespace dto

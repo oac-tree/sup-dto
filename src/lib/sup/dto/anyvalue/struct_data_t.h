@@ -100,8 +100,9 @@ void StructDataT<T>::AddMember(const std::string& name, std::unique_ptr<T>&& val
 template <typename T>
 std::vector<std::string> StructDataT<T>::MemberNames() const
 {
-  std::vector<std::string> result;
-  (void)std::transform(m_members.begin(), m_members.end(), std::back_inserter(result),
+  auto number_of_members = m_members.size();
+  std::vector<std::string> result{number_of_members};
+  (void)std::transform(m_members.begin(), m_members.end(), result.begin(),
                        [](const auto& member)
                        { return member.first; });
   return result;
