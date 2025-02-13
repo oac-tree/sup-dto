@@ -26,7 +26,27 @@
 
 using namespace sup::dto;
 
-TEST(ArrayValueInvariantTest, StructElement)
+TEST(ArrayValueInvariantTest, ArrayAddElement)
+{
+  // define array of arrays
+  AnyValue scalar_array{5, SignedInteger32Type, "int32x5"};
+  EXPECT_TRUE(IsArrayValue(scalar_array));
+
+  // Do not allow adding element of the wrong type:
+  EXPECT_THROW(scalar_array.AddElement({StringType, "oops"}), InvalidOperationException);
+}
+
+TEST(ArrayValueInvariantTest, ArrayAssignElement)
+{
+  // define array of arrays
+  AnyValue scalar_array{5, SignedInteger32Type, "int32x5"};
+  EXPECT_TRUE(IsArrayValue(scalar_array));
+
+  // Do not allow assigning element of the wrong type:
+  EXPECT_THROW((scalar_array[1] = AnyValue{StringType, "oops"}), InvalidConversionException);
+}
+
+TEST(ArrayValueInvariantTest, ArrayOfStruct)
 {
   // define array of structures
   AnyType two_scalars{{
@@ -38,10 +58,10 @@ TEST(ArrayValueInvariantTest, StructElement)
   EXPECT_TRUE(IsArrayValue(array_value));
 
   // Do not allow changing type of array elements that are structs:
-  // EXPECT_THROW(array_value[0].AddMember("NotAllowed", 13), InvalidOperationException);
+  EXPECT_THROW(array_value[0].AddMember("NotAllowed", 13), InvalidOperationException);
 }
 
-TEST(ArrayValueInvariantTest, ArrayElement)
+TEST(ArrayValueInvariantTest, ArrayOfArray)
 {
   // define array of arrays
   AnyValue scalar_array{5, SignedInteger32Type, "int32x5"};
