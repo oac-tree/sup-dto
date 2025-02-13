@@ -439,6 +439,7 @@ private:
     Constraints constraints);
   explicit AnyValue(std::unique_ptr<IValueData>&& data);
   AnyValue(const AnyValue& other, Constraints constraints);
+  AnyValue(const AnyType& anytype, Constraints constraints);
   bool HasChild(const std::string& child_name) const;
   const AnyValue* GetChildValue(const std::string& child_name) const;
   AnyValue* GetChildValue(std::size_t idx);

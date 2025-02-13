@@ -68,34 +68,8 @@ AnyValue::AnyValue() noexcept
 {}
 
 AnyValue::AnyValue(const AnyType& anytype)
-  : AnyValue{}
-{
-  std::deque<AnyValueFromAnyTypeNode> queue;
-  queue.emplace_back(std::addressof(anytype), Constraints::kNone);
-  while (true)
-  {
-    auto& last_node = queue.back();
-    auto next_child_idx = last_node.NextIndex();
-    if (next_child_idx == kInvalidIndex)
-    {
-      auto node_value = MakeAnyValue(*last_node.GetSource(), last_node.MoveChildValues(),
-                                     last_node.GetConstraints());
-      queue.pop_back();
-      if (queue.empty())
-      {
-        std::swap(m_data, node_value->m_data);
-        break;
-      }
-      queue.back().AddChild(std::move(node_value));
-    }
-    else
-    {
-      auto next_child = last_node.GetSource()->GetChildType(next_child_idx);
-      auto child_constraints = last_node.GetChildConstraints();
-      queue.emplace_back(next_child, child_constraints);
-    }
-  }
-}
+  : AnyValue{anytype, Constraints::kNone}
+{}
 
 AnyValue::AnyValue(boolean val)
   : AnyValue{CreateUnconstrainedScalarData(val)}
@@ -323,11 +297,13 @@ std::size_t AnyValue::NumberOfMembers() const
 
 AnyValue& AnyValue::AddElement(const AnyValue& value) &
 {
-  if (IsLockedTypeConstraint(m_data->GetConstraints()))
+  if (!IsArrayValue(*this) || IsLockedTypeConstraint(m_data->GetConstraints()))
   {
-    throw InvalidOperationException("Cannot add element to AnyValue whose type is locked");
+    const std::string error = "Cannot add element to non-array or to value whose type is locked";
+    throw InvalidOperationException(error);
   }
-  auto copy = std::unique_ptr<AnyValue>{new AnyValue{value, Constraints::kLockedType}};
+  auto copy = std::unique_ptr<AnyValue>{new AnyValue{ElementType(), Constraints::kLockedType}};
+  copy->ConvertFrom(value);
   m_data->AddElement(std::move(copy));
   return *this;
 }
@@ -641,6 +617,36 @@ AnyValue::AnyValue(const AnyValue& other, Constraints constraints)
     else
     {
       auto next_child = last_node.GetSource()->GetChildValue(next_child_idx);
+      auto child_constraints = last_node.GetChildConstraints();
+      queue.emplace_back(next_child, child_constraints);
+    }
+  }
+}
+
+AnyValue::AnyValue(const AnyType& anytype, Constraints constraints)
+: AnyValue{}
+{
+  std::deque<AnyValueFromAnyTypeNode> queue;
+  queue.emplace_back(std::addressof(anytype), constraints);
+  while (true)
+  {
+    auto& last_node = queue.back();
+    auto next_child_idx = last_node.NextIndex();
+    if (next_child_idx == kInvalidIndex)
+    {
+      auto node_value = MakeAnyValue(*last_node.GetSource(), last_node.MoveChildValues(),
+                                     last_node.GetConstraints());
+      queue.pop_back();
+      if (queue.empty())
+      {
+        std::swap(m_data, node_value->m_data);
+        break;
+      }
+      queue.back().AddChild(std::move(node_value));
+    }
+    else
+    {
+      auto next_child = last_node.GetSource()->GetChildType(next_child_idx);
       auto child_constraints = last_node.GetChildConstraints();
       queue.emplace_back(next_child, child_constraints);
     }

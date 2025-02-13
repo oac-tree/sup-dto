@@ -33,7 +33,7 @@ TEST(ArrayValueInvariantTest, ArrayAddElement)
   EXPECT_TRUE(IsArrayValue(scalar_array));
 
   // Do not allow adding element of the wrong type:
-  EXPECT_THROW(scalar_array.AddElement({StringType, "oops"}), InvalidOperationException);
+  EXPECT_THROW(scalar_array.AddElement({StringType, "oops"}), InvalidConversionException);
 }
 
 TEST(ArrayValueInvariantTest, ArrayAssignElement)
