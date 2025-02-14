@@ -292,6 +292,8 @@ TEST_F(JSONTypeParserTest, EmptyMember)
 
 TEST_F(JSONTypeParserTest, PermissiveParsing)
 {
+  // TODO: some of these permissive parsing cases should not be allowed, while others seem
+  // natural.
   {
     // Scalar with multiplicity in JSON
     const std::string json_str =
@@ -321,6 +323,33 @@ TEST_F(JSONTypeParserTest, PermissiveParsing)
       {"id", StringType},
       {"number", SignedInteger32Type}
     }};
+    ASSERT_TRUE(m_parser.ParseString(json_str));
+    auto readback = m_parser.MoveAnyType();
+    EXPECT_EQ(readback, expected_type);
+  }
+  {
+    // Array without type in JSON
+    const std::string json_str =
+    R"RAW({"multiplicity":5,"element":{"type":"char8"}})RAW";
+    AnyType expected_type{5, Character8Type};
+    ASSERT_TRUE(m_parser.ParseString(json_str));
+    auto readback = m_parser.MoveAnyType();
+    EXPECT_EQ(readback, expected_type);
+  }
+  {
+    // Array with multiplicity after element in JSON
+    const std::string json_str =
+    R"RAW({"type":"","element":{"type":"char8"},"multiplicity":5})RAW";
+    AnyType expected_type{5, Character8Type};
+    ASSERT_TRUE(m_parser.ParseString(json_str));
+    auto readback = m_parser.MoveAnyType();
+    EXPECT_EQ(readback, expected_type);
+  }
+  {
+    // Array without multiplicity in JSON
+    const std::string json_str =
+    R"RAW({"type":"","element":{"type":"char8"}})RAW";
+    AnyType expected_type{0, Character8Type};
     ASSERT_TRUE(m_parser.ParseString(json_str));
     auto readback = m_parser.MoveAnyType();
     EXPECT_EQ(readback, expected_type);
