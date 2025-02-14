@@ -290,6 +290,43 @@ TEST_F(JSONTypeParserTest, EmptyMember)
   }
 }
 
+TEST_F(JSONTypeParserTest, PermissiveParsing)
+{
+  {
+    // Scalar with multiplicity in JSON
+    const std::string json_str =
+    R"RAW({"type":"uint32","multiplicity":3})RAW";
+    AnyType expected_type{UnsignedInteger32Type};
+    ASSERT_TRUE(m_parser.ParseString(json_str));
+    auto readback = m_parser.MoveAnyType();
+    EXPECT_EQ(readback, expected_type);
+  }
+  {
+    // Structure without type in JSON
+    const std::string json_str =
+    R"RAW({"attributes":[{"id":{"type":"string"}},{"number":{"type":"int32"}}]})RAW";
+    AnyType expected_type{{
+      {"id", StringType},
+      {"number", SignedInteger32Type}
+    }};
+    ASSERT_TRUE(m_parser.ParseString(json_str));
+    auto readback = m_parser.MoveAnyType();
+    EXPECT_EQ(readback, expected_type);
+  }
+  {
+    // Structure with multiplicity in JSON
+    const std::string json_str =
+    R"RAW({"type":"","multiplicity":3,"attributes":[{"id":{"type":"string"}},{"number":{"type":"int32"}}]})RAW";
+    AnyType expected_type{{
+      {"id", StringType},
+      {"number", SignedInteger32Type}
+    }};
+    ASSERT_TRUE(m_parser.ParseString(json_str));
+    auto readback = m_parser.MoveAnyType();
+    EXPECT_EQ(readback, expected_type);
+  }
+}
+
 JSONTypeParserTest::JSONTypeParserTest() = default;
 
 JSONTypeParserTest::~JSONTypeParserTest() = default;
