@@ -126,7 +126,7 @@ public:
    * @param elem_type type of the elements in the array.
    * @param name Optional name for the type.
    */
-  AnyType(std::size_t size, const AnyType& elem_type, const std::string& name);
+  AnyType(std::size_t size, AnyType elem_type, const std::string& name);
 
   /**
    * @brief Constructor for array types with empty name.
@@ -134,7 +134,7 @@ public:
    * @param size number of elements in the array.
    * @param elem_type type of the elements in the array.
    */
-  AnyType(std::size_t size, const AnyType& elem_type);
+  AnyType(std::size_t size, AnyType elem_type);
 
   /**
    * @brief Construct type from given value.

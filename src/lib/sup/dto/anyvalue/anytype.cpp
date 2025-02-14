@@ -78,15 +78,16 @@ AnyType::AnyType(std::initializer_list<std::pair<std::string, AnyType>> members)
   : AnyType{members, {}}
 {}
 
-AnyType::AnyType(std::size_t size, const AnyType& elem_type, const std::string& name)
+AnyType::AnyType(std::size_t size, AnyType elem_type, const std::string& name)
   : AnyType{}
 {
-  std::unique_ptr<ITypeData> array_data = std::make_unique<ArrayTypeData>(size, elem_type, name);
+  std::unique_ptr<ITypeData> array_data =
+    std::make_unique<ArrayTypeData>(size, std::move(elem_type), name);
   m_data = std::move(array_data);
 }
 
-AnyType::AnyType(std::size_t size, const AnyType& elem_type)
-  : AnyType{size, elem_type, {}}
+AnyType::AnyType(std::size_t size, AnyType elem_type)
+  : AnyType{size, std::move(elem_type), {}}
 {}
 
 AnyType::AnyType(const AnyValue& anyvalue)

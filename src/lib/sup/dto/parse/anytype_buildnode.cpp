@@ -167,14 +167,14 @@ AnyType AnyTypeBuildNode::GetStructuredType() const
   auto result = EmptyStructType(m_type_name);
   for (auto& [memberName, memberType] : m_member_types)
   {
-    (void)result.AddMember(memberName, memberType);
+    (void)result.AddMember(memberName, std::move(memberType));
   }
   return result;
 }
 
 AnyType AnyTypeBuildNode::GetArrayType() const
 {
-  return AnyType(m_number_elements, m_element_type, m_type_name);
+  return AnyType(m_number_elements, std::move(m_element_type), m_type_name);
 }
 
 AnyType AnyTypeBuildNode::GetTypeFromRegistry() const
