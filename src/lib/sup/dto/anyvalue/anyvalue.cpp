@@ -255,7 +255,6 @@ TypeCode AnyValue::GetTypeCode() const
 AnyType AnyValue::GetType() const
 {
   return AnyType{*this};
-  // return m_data->GetType();
 }
 
 std::string AnyValue::GetTypeName() const
