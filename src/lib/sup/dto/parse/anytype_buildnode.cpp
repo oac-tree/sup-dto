@@ -44,7 +44,6 @@ AnyTypeBuildNode::AnyTypeBuildNode(const AnyTypeRegistry* anytype_registry,
   , m_array_type{false}
   , m_type_name{}
   , m_number_elements{}
-  , m_array_bound_specified{false}
   , m_member_types{}
   , m_element_type{}
 {}
@@ -80,7 +79,6 @@ bool AnyTypeBuildNode::Uint64(uint64 u)
   }
   m_current_member_name.clear();
   m_number_elements = u;
-  m_array_bound_specified = true;
   return true;
 }
 
