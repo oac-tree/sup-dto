@@ -46,7 +46,7 @@ public:
   std::size_t NextIndex();
   Constraints GetChildConstraints() const;
   void AddChild(std::unique_ptr<AnyValue>&& child);
-  std::vector<std::unique_ptr<AnyValue>> MoveChildValues();
+  std::vector<std::unique_ptr<AnyValue>>&& MoveChildValues();
 
 private:
   const AnyValue* m_src;

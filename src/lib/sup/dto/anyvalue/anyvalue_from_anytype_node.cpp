@@ -70,7 +70,7 @@ void AnyValueFromAnyTypeNode::AddChild(std::unique_ptr<AnyValue>&& child)
   m_children.push_back(std::move(child));
 }
 
-std::vector<std::unique_ptr<AnyValue>> AnyValueFromAnyTypeNode::MoveChildValues()
+std::vector<std::unique_ptr<AnyValue>>&& AnyValueFromAnyTypeNode::MoveChildValues()
 {
   return std::move(m_children);
 }

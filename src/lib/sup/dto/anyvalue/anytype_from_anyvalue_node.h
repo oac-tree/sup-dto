@@ -41,7 +41,7 @@ struct AnyTypeFromAnyValueNode
   const AnyValue* GetSource() const;
   std::size_t NextIndex();
   void AddChild(std::unique_ptr<AnyType>&& child);
-  std::vector<std::unique_ptr<AnyType>> MoveChildValues();
+  std::vector<std::unique_ptr<AnyType>>&& MoveChildValues();
 
 private:
   const AnyValue* m_anyvalue;

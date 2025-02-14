@@ -61,7 +61,7 @@ void AnyTypeFromAnyValueNode::AddChild(std::unique_ptr<AnyType>&& child)
   m_children.push_back(std::move(child));
 }
 
-std::vector<std::unique_ptr<AnyType>> AnyTypeFromAnyValueNode::MoveChildValues()
+std::vector<std::unique_ptr<AnyType>>&& AnyTypeFromAnyValueNode::MoveChildValues()
 {
   return std::move(m_children);
 }

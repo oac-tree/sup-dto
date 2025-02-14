@@ -44,7 +44,7 @@ public:
   const AnyType* GetSource() const;
   std::size_t NextIndex();
   void AddChild(std::unique_ptr<AnyType>&& child);
-  std::vector<std::unique_ptr<AnyType>> MoveChildTypes();
+  std::vector<std::unique_ptr<AnyType>>&& MoveChildTypes();
 
 private:
   const AnyType* m_src;
