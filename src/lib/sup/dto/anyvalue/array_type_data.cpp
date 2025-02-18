@@ -34,12 +34,6 @@ namespace sup
 namespace dto
 {
 
-ArrayTypeData::ArrayTypeData(std::size_t size, const AnyType& elem_type, const std::string& name)
-  : m_size{size}
-  , m_elem_type{elem_type}
-  , m_name{name}
-{}
-
 ArrayTypeData::ArrayTypeData(std::size_t size, AnyType&& elem_type, const std::string& name)
   : m_size{size}
   , m_elem_type{std::move(elem_type)}

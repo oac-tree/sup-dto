@@ -31,7 +31,6 @@ namespace dto
 class ArrayTypeData : public ITypeData
 {
 public:
-  ArrayTypeData(std::size_t size, const AnyType& elem_type, const std::string& name);
   ArrayTypeData(std::size_t size, AnyType&& elem_type, const std::string& name);
   ~ArrayTypeData() override;
 
