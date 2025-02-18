@@ -123,6 +123,11 @@ TEST_F(SplitAnyTypeFieldnameTest, TwoFieldsOfStructOfArray)
     ASSERT_EQ(names.size(), 2u);
     EXPECT_EQ(names, expected_names);
   }
+  {
+    // Field name contains '['
+    const std::string fieldname{"mem[[]"};
+    EXPECT_THROW(SplitAnyTypeFieldname(fieldname), InvalidOperationException);
+  }
 }
 
 TEST_F(SplitAnyTypeFieldnameTest, TwoFieldsOfArrayOfStruct)
@@ -168,6 +173,11 @@ TEST_F(SplitAnyTypeFieldnameTest, TwoFieldsOfStructOfStruct)
   {
     // Fieldname can never end with (unless the end is "[].")
     const std::string fieldname{"mem1.mem2."};
+    EXPECT_THROW(SplitAnyTypeFieldname(fieldname), InvalidOperationException);
+  }
+  {
+    // Field name contains '['
+    const std::string fieldname{"mem[.mem2"};
     EXPECT_THROW(SplitAnyTypeFieldname(fieldname), InvalidOperationException);
   }
 }

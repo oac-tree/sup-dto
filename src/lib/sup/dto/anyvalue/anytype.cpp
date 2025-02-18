@@ -320,12 +320,6 @@ std::unique_ptr<AnyType> AnyType::MakeStructAnyType(
 {
   const auto& type_name = anyvalue.GetTypeName();
   const auto member_names = anyvalue.MemberNames();
-  if (children.size() != member_names.size())
-  {
-    const std::string error =
-      "AnyType::MakeStructAnyType(): called with wrong number of children";
-    throw InvalidOperationException(error);
-  }
   auto struct_data = std::make_unique<StructTypeData>(type_name);
   for (std::size_t idx = 0; idx < member_names.size(); ++idx)
   {
@@ -338,12 +332,7 @@ std::unique_ptr<AnyType> AnyType::MakeStructAnyType(
 std::unique_ptr<AnyType> AnyType::MakeArrayAnyType(
   const AnyValue& anyvalue, std::vector<std::unique_ptr<AnyType>>&& children)
 {
-  if (children.size() != 0u)
-  {
-    const std::string error = "AnyType::MakeArrayAnyType(): should be called without children, as "
-      "the type is already available";
-    throw InvalidOperationException(error);
-  }
+  (void)children;
   const auto& type_name = anyvalue.GetTypeName();
   const size_t n_elems = anyvalue.NumberOfElements();
   auto array_data = std::make_unique<ArrayTypeData>(n_elems, anyvalue.ElementType(), type_name);
@@ -354,12 +343,7 @@ std::unique_ptr<AnyType> AnyType::MakeArrayAnyType(
 std::unique_ptr<AnyType> AnyType::MakeScalarAnyType(
   const AnyValue& anyvalue, std::vector<std::unique_ptr<AnyType>>&& children)
 {
-  if (children.size() != 0u)
-  {
-    const std::string error =
-      "AnyType::MakeScalarAnyType(): called with non-zero number of children";
-    throw InvalidOperationException(error);
-  }
+  (void)children;
   return std::unique_ptr<AnyType>{new AnyType{CreateScalarData(anyvalue.GetTypeCode())}};
 }
 
@@ -367,12 +351,7 @@ std::unique_ptr<AnyType> AnyType::MakeEmptyAnyType(
   const AnyValue& anyvalue, std::vector<std::unique_ptr<AnyType>>&& children)
 {
   (void)anyvalue;
-  if (children.size() != 0u)
-  {
-    const std::string error =
-      "AnyType::MakeEmptyAnyType(): called with non-zero number of children";
-    throw InvalidOperationException(error);
-  }
+  (void)children;
   return std::make_unique<AnyType>();
 }
 
