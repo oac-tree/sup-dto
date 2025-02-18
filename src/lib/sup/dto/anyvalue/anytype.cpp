@@ -94,7 +94,7 @@ AnyType::AnyType(const AnyValue& anyvalue)
   : AnyType{}
 {
   std::deque<AnyTypeFromAnyValueNode> queue;
-  queue.emplace_back(std::addressof(anyvalue));
+  (void)queue.emplace_back(std::addressof(anyvalue));
   while (true)
   {
     auto& last_node = queue.back();
@@ -113,7 +113,7 @@ AnyType::AnyType(const AnyValue& anyvalue)
     else
     {
       auto next_child = last_node.GetSource()->GetChildValue(next_child_idx);
-      queue.emplace_back(next_child);
+      (void)queue.emplace_back(next_child);
     }
   }
 }
@@ -122,7 +122,7 @@ AnyType::AnyType(const AnyType& other)
   : AnyType{}
 {
   std::deque<AnyTypeCopyNode> queue;
-  queue.emplace_back(std::addressof(other));
+  (void)queue.emplace_back(std::addressof(other));
   while (true)
   {
     auto& last_node = queue.back();
@@ -141,7 +141,7 @@ AnyType::AnyType(const AnyType& other)
     else
     {
       auto next_child = last_node.GetSource()->GetChildType(next_child_idx);
-      queue.emplace_back(next_child);
+      (void)queue.emplace_back(next_child);
     }
   }
 }
@@ -259,7 +259,7 @@ bool AnyType::operator==(const AnyType& other) const
     return false;
   }
   std::deque<AnyTypeCompareNode> queue;
-  queue.emplace_back(this, std::addressof(other));
+  (void)queue.emplace_back(this, std::addressof(other));
   while (!queue.empty())
   {
     auto& last_node = queue.back();
@@ -276,7 +276,7 @@ bool AnyType::operator==(const AnyType& other) const
       {
         return false;
       }
-      queue.emplace_back(left_child, right_child);
+      (void)queue.emplace_back(left_child, right_child);
     }
   }
   return true;

@@ -225,7 +225,7 @@ void AnyValue::ConvertFrom(const AnyValue& other)
   // Only push nodes that didn't throw on conversion:
   ShallowConvertFrom(other);
   std::deque<AnyValueConvertNode> queue;
-  queue.emplace_back(this, std::addressof(other));
+  (void)queue.emplace_back(this, std::addressof(other));
   while (!queue.empty())
   {
     auto& last_node = queue.back();
@@ -240,7 +240,7 @@ void AnyValue::ConvertFrom(const AnyValue& other)
       auto right_child = last_node.m_right->GetChildValue(idx);
       // Only push nodes that didn't throw on conversion:
       left_child->ShallowConvertFrom(*right_child);
-      queue.emplace_back(left_child, right_child);
+      (void)queue.emplace_back(left_child, right_child);
     }
   }
 }
@@ -461,7 +461,7 @@ bool AnyValue::operator==(const AnyValue& other) const
     return false;
   }
   std::deque<AnyValueCompareNode> queue;
-  queue.emplace_back(this, std::addressof(other));
+  (void)queue.emplace_back(this, std::addressof(other));
   while (!queue.empty())
   {
     auto& last_node = queue.back();
@@ -478,7 +478,7 @@ bool AnyValue::operator==(const AnyValue& other) const
       {
         return false;
       }
-      queue.emplace_back(left_child, right_child);
+      (void)queue.emplace_back(left_child, right_child);
     }
   }
   return true;
@@ -596,7 +596,7 @@ AnyValue::AnyValue(const AnyValue& other, Constraints constraints)
   : AnyValue{}
 {
   std::deque<AnyValueCopyNode> queue;
-  queue.emplace_back(std::addressof(other), constraints);
+  (void)queue.emplace_back(std::addressof(other), constraints);
   while (true)
   {
     auto& last_node = queue.back();
@@ -617,7 +617,7 @@ AnyValue::AnyValue(const AnyValue& other, Constraints constraints)
     {
       auto next_child = last_node.GetSource()->GetChildValue(next_child_idx);
       auto child_constraints = last_node.GetChildConstraints();
-      queue.emplace_back(next_child, child_constraints);
+      (void)queue.emplace_back(next_child, child_constraints);
     }
   }
 }
@@ -626,7 +626,7 @@ AnyValue::AnyValue(const AnyType& anytype, Constraints constraints)
 : AnyValue{}
 {
   std::deque<AnyValueFromAnyTypeNode> queue;
-  queue.emplace_back(std::addressof(anytype), constraints);
+  (void)queue.emplace_back(std::addressof(anytype), constraints);
   while (true)
   {
     auto& last_node = queue.back();
@@ -647,7 +647,7 @@ AnyValue::AnyValue(const AnyType& anytype, Constraints constraints)
     {
       auto next_child = last_node.GetSource()->GetChildType(next_child_idx);
       auto child_constraints = last_node.GetChildConstraints();
-      queue.emplace_back(next_child, child_constraints);
+      (void)queue.emplace_back(next_child, child_constraints);
     }
   }
 }

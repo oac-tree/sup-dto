@@ -30,7 +30,7 @@ namespace dto
 {
 struct AnyTypeFromAnyValueNode
 {
-  AnyTypeFromAnyValueNode(const AnyValue* anyvalue);
+  explicit AnyTypeFromAnyValueNode(const AnyValue* anyvalue);
   ~AnyTypeFromAnyValueNode() = default;
 
   AnyTypeFromAnyValueNode(const AnyTypeFromAnyValueNode&) = delete;

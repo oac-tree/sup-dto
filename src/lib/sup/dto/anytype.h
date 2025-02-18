@@ -141,7 +141,7 @@ public:
    *
    * @param anyvalue AnyValue whose type to construct.
    */
-  AnyType(const AnyValue& anyvalue);
+  explicit AnyType(const AnyValue& anyvalue);
 
   /**
    * @brief Copy constructor.
