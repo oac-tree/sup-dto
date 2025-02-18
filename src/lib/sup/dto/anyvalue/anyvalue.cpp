@@ -505,7 +505,7 @@ std::unique_ptr<AnyValue> AnyValue::MakeAnyValue(
 {
   if (IsScalarType(anytype))
   {
-    return MakeScalarAnyValue(anytype, std::move(children), constraints);
+    return MakeScalarAnyValue(anytype, constraints);
   }
   if (IsStructType(anytype))
   {
@@ -515,7 +515,7 @@ std::unique_ptr<AnyValue> AnyValue::MakeAnyValue(
   {
     return MakeArrayAnyValue(anytype, std::move(children), constraints);
   }
-  return MakeEmptyAnyValue(anytype, std::move(children), constraints);
+  return MakeEmptyAnyValue(constraints);
 }
 
 std::unique_ptr<AnyValue> AnyValue::MakeStructAnyValue(
@@ -547,21 +547,15 @@ std::unique_ptr<AnyValue> AnyValue::MakeArrayAnyValue(
   return std::unique_ptr<AnyValue>{new AnyValue{std::move(val_data)}};
 }
 
-std::unique_ptr<AnyValue> AnyValue::MakeScalarAnyValue(
-  const AnyType& anytype, std::vector<std::unique_ptr<AnyValue>>&& children,
-  Constraints constraints)
+std::unique_ptr<AnyValue> AnyValue::MakeScalarAnyValue(const AnyType& anytype,
+                                                       Constraints constraints)
 {
-  (void)children;
   std::unique_ptr<IValueData> val_data = CreateScalarValueData(anytype.GetTypeCode(), constraints);
   return std::unique_ptr<AnyValue>{new AnyValue{std::move(val_data)}};
 }
 
-std::unique_ptr<AnyValue> AnyValue::MakeEmptyAnyValue(
-  const AnyType& anytype, std::vector<std::unique_ptr<AnyValue>>&& children,
-  Constraints constraints)
+std::unique_ptr<AnyValue> AnyValue::MakeEmptyAnyValue(Constraints constraints)
 {
-  (void)anytype;
-  (void)children;
   std::unique_ptr<IValueData> val_data = std::make_unique<EmptyValueData>(constraints);
   return std::unique_ptr<AnyValue>{new AnyValue{std::move(val_data)}};
 }

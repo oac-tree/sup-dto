@@ -183,7 +183,7 @@ TEST(AnyValueTest, MoveConstruction)
       {"unsigned", UnsignedInteger8Type }
     }};
     AnyValue array{2, two_scalars_t};
-    AnyValue el_1{array[0]};
+    AnyValue el_1{std::move(array[0])};
     EXPECT_EQ(el_1.GetType(), two_scalars_t);
     EXPECT_THROW(array[0].AddMember("test", true), InvalidOperationException);
     EXPECT_NO_THROW(el_1.AddMember("test", true));
@@ -247,7 +247,7 @@ TEST(AnyValueTest, MoveAssignment)
     }};
     AnyValue array{2, two_scalars_t};
     AnyValue el_1;
-    el_1 = array[0];
+    el_1 = std::move(array[0]);
     EXPECT_EQ(el_1.GetType(), two_scalars_t);
     EXPECT_THROW(array[0].AddMember("test", true), InvalidOperationException);
     EXPECT_NO_THROW(el_1.AddMember("test", true));

@@ -302,7 +302,7 @@ std::unique_ptr<AnyType> AnyType::MakeAnyType(
 {
   if (IsScalarValue(anyvalue))
   {
-    return MakeScalarAnyType(anyvalue, std::move(children));
+    return MakeScalarAnyType(anyvalue);
   }
   if (IsStructValue(anyvalue))
   {
@@ -310,9 +310,9 @@ std::unique_ptr<AnyType> AnyType::MakeAnyType(
   }
   if (IsArrayValue(anyvalue))
   {
-    return MakeArrayAnyType(anyvalue, std::move(children));
+    return MakeArrayAnyType(anyvalue);
   }
-  return MakeEmptyAnyType(anyvalue, std::move(children));
+  return MakeEmptyAnyType();
 }
 
 std::unique_ptr<AnyType> AnyType::MakeStructAnyType(
@@ -329,10 +329,8 @@ std::unique_ptr<AnyType> AnyType::MakeStructAnyType(
   return std::unique_ptr<AnyType>{new AnyType{std::move(type_data)}};
 }
 
-std::unique_ptr<AnyType> AnyType::MakeArrayAnyType(
-  const AnyValue& anyvalue, std::vector<std::unique_ptr<AnyType>>&& children)
+std::unique_ptr<AnyType> AnyType::MakeArrayAnyType(const AnyValue& anyvalue)
 {
-  (void)children;
   const auto& type_name = anyvalue.GetTypeName();
   const size_t n_elems = anyvalue.NumberOfElements();
   auto array_data = std::make_unique<ArrayTypeData>(n_elems, anyvalue.ElementType(), type_name);
@@ -340,18 +338,13 @@ std::unique_ptr<AnyType> AnyType::MakeArrayAnyType(
   return std::unique_ptr<AnyType>{new AnyType{std::move(type_data)}};
 }
 
-std::unique_ptr<AnyType> AnyType::MakeScalarAnyType(
-  const AnyValue& anyvalue, std::vector<std::unique_ptr<AnyType>>&& children)
+std::unique_ptr<AnyType> AnyType::MakeScalarAnyType(const AnyValue& anyvalue)
 {
-  (void)children;
   return std::unique_ptr<AnyType>{new AnyType{CreateScalarData(anyvalue.GetTypeCode())}};
 }
 
-std::unique_ptr<AnyType> AnyType::MakeEmptyAnyType(
-  const AnyValue& anyvalue, std::vector<std::unique_ptr<AnyType>>&& children)
+std::unique_ptr<AnyType> AnyType::MakeEmptyAnyType()
 {
-  (void)anyvalue;
-  (void)children;
   return std::make_unique<AnyType>();
 }
 

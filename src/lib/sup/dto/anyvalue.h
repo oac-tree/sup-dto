@@ -431,12 +431,9 @@ private:
   static std::unique_ptr<AnyValue> MakeArrayAnyValue(
     const AnyType& anytype, std::vector<std::unique_ptr<AnyValue>>&& children,
     Constraints constraints);
-  static std::unique_ptr<AnyValue> MakeScalarAnyValue(
-    const AnyType& anytype, std::vector<std::unique_ptr<AnyValue>>&& children,
-    Constraints constraints);
-  static std::unique_ptr<AnyValue> MakeEmptyAnyValue(
-    const AnyType& anytype, std::vector<std::unique_ptr<AnyValue>>&& children,
-    Constraints constraints);
+  static std::unique_ptr<AnyValue> MakeScalarAnyValue(const AnyType& anytype,
+                                                      Constraints constraints);
+  static std::unique_ptr<AnyValue> MakeEmptyAnyValue(Constraints constraints);
   explicit AnyValue(std::unique_ptr<IValueData>&& data);
   AnyValue(const AnyValue& other, Constraints constraints);
   AnyValue(const AnyType& anytype, Constraints constraints);

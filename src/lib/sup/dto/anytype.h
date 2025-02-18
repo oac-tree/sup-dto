@@ -328,12 +328,9 @@ private:
     const AnyValue& anyvalue, std::vector<std::unique_ptr<AnyType>>&& children);
   static std::unique_ptr<AnyType> MakeStructAnyType(
     const AnyValue& anyvalue, std::vector<std::unique_ptr<AnyType>>&& children);
-  static std::unique_ptr<AnyType> MakeArrayAnyType(
-    const AnyValue& anyvalue, std::vector<std::unique_ptr<AnyType>>&& children);
-  static std::unique_ptr<AnyType> MakeScalarAnyType(
-    const AnyValue& anyvalue, std::vector<std::unique_ptr<AnyType>>&& children);
-  static std::unique_ptr<AnyType> MakeEmptyAnyType(
-    const AnyValue& anyvalue, std::vector<std::unique_ptr<AnyType>>&& children);
+  static std::unique_ptr<AnyType> MakeArrayAnyType(const AnyValue& anyvalue);
+  static std::unique_ptr<AnyType> MakeScalarAnyType(const AnyValue& anyvalue);
+  static std::unique_ptr<AnyType> MakeEmptyAnyType();
   explicit AnyType(std::unique_ptr<ITypeData>&& data);
   bool HasChild(const std::string& child_name) const;
   const AnyType* GetChildType(const std::string& child_name) const;
