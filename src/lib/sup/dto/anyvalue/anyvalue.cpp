@@ -523,12 +523,6 @@ std::unique_ptr<AnyValue> AnyValue::MakeStructAnyValue(
   Constraints constraints)
 {
   auto member_names = anytype.MemberNames();
-  if (children.size() != member_names.size())
-  {
-    const std::string error =
-    "AnyValue::MakeStructAnyValue(): called with wrong number of children";
-    throw InvalidOperationException(error);
-  }
   auto struct_data = std::make_unique<StructValueData>(anytype.GetTypeName(), constraints);
   for (std::size_t idx = 0; idx < member_names.size(); ++idx)
   {
@@ -542,12 +536,6 @@ std::unique_ptr<AnyValue> AnyValue::MakeArrayAnyValue(
   const AnyType& anytype, std::vector<std::unique_ptr<AnyValue>>&& children,
   Constraints constraints)
 {
-  if (children.size() != 1u)
-  {
-    const std::string error =
-    "AnyValue::MakeArrayAnyValue(): should be called with exactly one child as a template";
-    throw InvalidOperationException(error);
-  }
   auto array_data = std::make_unique<ArrayValueData>(anytype.ElementType(), anytype.GetTypeName(),
                                                      constraints);
   for (std::size_t idx = 0; idx < anytype.NumberOfElements(); ++idx)
@@ -563,12 +551,7 @@ std::unique_ptr<AnyValue> AnyValue::MakeScalarAnyValue(
   const AnyType& anytype, std::vector<std::unique_ptr<AnyValue>>&& children,
   Constraints constraints)
 {
-  if (children.size() != 0u)
-  {
-    const std::string error =
-      "AnyValue::MakeScalarAnyValue(): called with non-zero number of children";
-    throw InvalidOperationException(error);
-  }
+  (void)children;
   std::unique_ptr<IValueData> val_data = CreateScalarValueData(anytype.GetTypeCode(), constraints);
   return std::unique_ptr<AnyValue>{new AnyValue{std::move(val_data)}};
 }
@@ -578,12 +561,7 @@ std::unique_ptr<AnyValue> AnyValue::MakeEmptyAnyValue(
   Constraints constraints)
 {
   (void)anytype;
-  if (children.size() != 0u)
-  {
-    const std::string error =
-      "AnyValue::MakeEmptyAnyValue(): called with non-zero number of children";
-    throw InvalidOperationException(error);
-  }
+  (void)children;
   std::unique_ptr<IValueData> val_data = std::make_unique<EmptyValueData>(constraints);
   return std::unique_ptr<AnyValue>{new AnyValue{std::move(val_data)}};
 }

@@ -170,6 +170,11 @@ TEST_F(SplitAnyValueFieldnameTest, TwoFieldsOfStructOfStruct)
     const std::string fieldname{"mem1.mem2."};
     EXPECT_THROW(SplitAnyValueFieldname(fieldname), InvalidOperationException);
   }
+  {
+    // Fieldname can never have a first part that contains ']'
+    const std::string fieldname{"mem].mem2"};
+    EXPECT_THROW(SplitAnyValueFieldname(fieldname), InvalidOperationException);
+  }
 }
 
 TEST_F(SplitAnyValueFieldnameTest, ComplexNestedNames)
