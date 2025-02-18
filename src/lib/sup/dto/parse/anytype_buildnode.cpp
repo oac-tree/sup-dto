@@ -142,7 +142,7 @@ bool AnyTypeBuildNode::PopArrayNode()
   return true;
 }
 
-AnyType AnyTypeBuildNode::GetAnyType() const
+AnyType AnyTypeBuildNode::GetAnyType()
 {
   if (m_struct_type)
   {
@@ -160,7 +160,7 @@ bool AnyTypeBuildNode::IsComplexType() const
   return m_struct_type || m_array_type;
 }
 
-AnyType AnyTypeBuildNode::GetStructuredType() const
+AnyType AnyTypeBuildNode::GetStructuredType()
 {
   auto result = EmptyStructType(m_type_name);
   for (auto& [memberName, memberType] : m_member_types)
@@ -170,7 +170,7 @@ AnyType AnyTypeBuildNode::GetStructuredType() const
   return result;
 }
 
-AnyType AnyTypeBuildNode::GetArrayType() const
+AnyType AnyTypeBuildNode::GetArrayType()
 {
   return AnyType(m_number_elements, std::move(m_element_type), m_type_name);
 }

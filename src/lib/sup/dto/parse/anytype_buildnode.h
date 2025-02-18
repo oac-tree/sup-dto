@@ -60,12 +60,12 @@ public:
   bool PopStructureNode() override;
   bool PopArrayNode() override;
 
-  AnyType GetAnyType() const;
+  AnyType GetAnyType();
 
 private:
   bool IsComplexType() const;
-  AnyType GetStructuredType() const;
-  AnyType GetArrayType() const;
+  AnyType GetStructuredType();
+  AnyType GetArrayType();
   AnyType GetTypeFromRegistry() const;
   std::unique_ptr<AnyTypeBuildNode> m_element_node;
   std::unique_ptr<MemberTypeArrayBuildNode> m_member_array_node;
