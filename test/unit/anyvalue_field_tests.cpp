@@ -99,3 +99,14 @@ TEST(AnyValueFieldTest, ArrayOfStruct)
   EXPECT_FALSE(array_val.HasField("[0].absent"));
   EXPECT_FALSE(array_val.HasField("absent"));
 }
+
+TEST(AnyValueFieldTest, ParseFailure)
+{
+  AnyValue array_val = ArrayValue({{UnsignedInteger16Type, 0}, 10 ,20 ,30});
+  EXPECT_TRUE(IsArrayValue(array_val));
+  EXPECT_TRUE(array_val.HasField("[0]"));
+  EXPECT_TRUE(array_val.HasField("[3]"));
+  EXPECT_FALSE(array_val.HasField("[0"));
+  EXPECT_FALSE(array_val.HasField("]"));
+  EXPECT_FALSE(array_val.HasField(".absent"));
+}

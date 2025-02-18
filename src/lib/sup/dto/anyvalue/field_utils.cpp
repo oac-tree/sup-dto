@@ -41,23 +41,6 @@ void VerifyMemberName(const std::string& name)
   }
 }
 
-std::pair<std::string, std::string> StripFirstFieldName(const std::string& fieldname)
-{
-  auto pos = fieldname.find_first_of("[.");
-  if (pos == std::string::npos)
-  {
-    return { fieldname, ""};
-  }
-  auto first = fieldname.substr(0u, pos);
-  auto rest = fieldname.substr(pos);
-  if (rest[0u] == '.')
-  {
-    // Only strip dots
-    rest = rest.substr(1u);
-  }
-  return { first, rest };
-}
-
 }  // namespace utils
 
 }  // namespace dto

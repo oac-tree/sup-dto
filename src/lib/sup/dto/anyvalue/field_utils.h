@@ -33,8 +33,6 @@ namespace utils
 {
 void VerifyMemberName(const std::string& name);
 
-std::pair<std::string, std::string> StripFirstFieldName(const std::string& fieldname);
-
 }  // namespace utils
 
 }  // namespace dto

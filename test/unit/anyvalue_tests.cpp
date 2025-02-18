@@ -140,86 +140,119 @@ TEST(AnyValueTest, CopyAssignment)
 
 TEST(AnyValueTest, MoveConstruction)
 {
-  const std::string nested_name = "nested_struct";
-  AnyValue two_scalars = {{
-    {"signed", {SignedInteger8Type, 1}},
-    {"unsigned", {UnsignedInteger8Type, 12}}
-  }};
-  AnyValue nested_val{{
-    {"scalars", two_scalars},
-    {"single", {
-      {"first", {SignedInteger8Type, 0}},
-      {"second", {SignedInteger8Type, 5}}
-    }}
-  }, nested_name};
-  EXPECT_TRUE(IsStructValue(nested_val));
-  EXPECT_EQ(nested_val.GetTypeCode(), TypeCode::Struct);
-  EXPECT_EQ(nested_val.GetTypeName(), nested_name);
+  {
+    // Move ctor of nested structure
+    const std::string nested_name = "nested_struct";
+    AnyValue two_scalars = {{
+        {"signed", {SignedInteger8Type, 1}},
+        {"unsigned", {UnsignedInteger8Type, 12}}
+      }};
+    AnyValue nested_val{{
+      {"scalars", two_scalars},
+      {"single", {
+        {"first", {SignedInteger8Type, 0}},
+        {"second", {SignedInteger8Type, 5}}
+      }}
+    }, nested_name};
+    EXPECT_TRUE(IsStructValue(nested_val));
+    EXPECT_EQ(nested_val.GetTypeCode(), TypeCode::Struct);
+    EXPECT_EQ(nested_val.GetTypeName(), nested_name);
 
-  AnyValue moved = std::move(nested_val);
-  EXPECT_NE(moved, nested_val);
-  EXPECT_TRUE(IsStructValue(moved));
-  EXPECT_EQ(moved.GetTypeCode(), TypeCode::Struct);
-  EXPECT_EQ(moved.GetTypeName(), nested_name);
-  EXPECT_TRUE(moved.HasField("scalars"));
-  EXPECT_TRUE(moved.HasField("single"));
-  EXPECT_FALSE(moved.HasField("index"));
+    AnyValue moved = std::move(nested_val);
+    EXPECT_NE(moved, nested_val);
+    EXPECT_TRUE(IsStructValue(moved));
+    EXPECT_EQ(moved.GetTypeCode(), TypeCode::Struct);
+    EXPECT_EQ(moved.GetTypeName(), nested_name);
+    EXPECT_TRUE(moved.HasField("scalars"));
+    EXPECT_TRUE(moved.HasField("single"));
+    EXPECT_FALSE(moved.HasField("index"));
 
-  moved.AddMember("index", {UnsignedInteger64Type, 2022});
-  EXPECT_NE(moved, nested_val);
-  EXPECT_TRUE(IsStructValue(moved));
-  EXPECT_EQ(moved.GetTypeCode(), TypeCode::Struct);
-  EXPECT_EQ(moved.GetTypeName(), nested_name);
-  EXPECT_TRUE(moved.HasField("scalars"));
-  EXPECT_TRUE(moved.HasField("single"));
-  EXPECT_TRUE(moved.HasField("index"));
+    moved.AddMember("index", {UnsignedInteger64Type, 2022});
+    EXPECT_NE(moved, nested_val);
+    EXPECT_TRUE(IsStructValue(moved));
+    EXPECT_EQ(moved.GetTypeCode(), TypeCode::Struct);
+    EXPECT_EQ(moved.GetTypeName(), nested_name);
+    EXPECT_TRUE(moved.HasField("scalars"));
+    EXPECT_TRUE(moved.HasField("single"));
+    EXPECT_TRUE(moved.HasField("index"));
+  }
+  {
+    // Move construction of locked value
+    AnyType two_scalars_t = {{
+      {"signed", SignedInteger8Type },
+      {"unsigned", UnsignedInteger8Type }
+    }};
+    AnyValue array{2, two_scalars_t};
+    AnyValue el_1{array[0]};
+    EXPECT_EQ(el_1.GetType(), two_scalars_t);
+    EXPECT_THROW(array[0].AddMember("test", true), InvalidOperationException);
+    EXPECT_NO_THROW(el_1.AddMember("test", true));
+    EXPECT_TRUE(el_1.HasField("test"));
+  }
 }
 
 TEST(AnyValueTest, MoveAssignment)
 {
-  const std::string nested_name = "nested_struct";
-  AnyValue two_scalars = {{
-    {"signed", {SignedInteger8Type, 1}},
-    {"unsigned", {UnsignedInteger8Type, 12}}
-  }};
-  AnyValue nested_val = (EmptyStruct(nested_name)
-                            .AddMember("scalars", two_scalars)
-                            .AddMember("single", EmptyStruct()
-                                .AddMember("first", {SignedInteger8Type, 0})
-                                .AddMember("second", {SignedInteger8Type, 5})));
-  EXPECT_TRUE(IsStructValue(nested_val));
-  EXPECT_EQ(nested_val.GetTypeCode(), TypeCode::Struct);
-  EXPECT_EQ(nested_val.GetTypeName(), nested_name);
+  {
+    // Move assignment of nested structure
+    const std::string nested_name = "nested_struct";
+    AnyValue two_scalars = {{
+      {"signed", {SignedInteger8Type, 1}},
+      {"unsigned", {UnsignedInteger8Type, 12}}
+    }};
+    AnyValue nested_val = (EmptyStruct(nested_name)
+                              .AddMember("scalars", two_scalars)
+                              .AddMember("single", EmptyStruct()
+                                  .AddMember("first", {SignedInteger8Type, 0})
+                                  .AddMember("second", {SignedInteger8Type, 5})));
+    EXPECT_TRUE(IsStructValue(nested_val));
+    EXPECT_EQ(nested_val.GetTypeCode(), TypeCode::Struct);
+    EXPECT_EQ(nested_val.GetTypeName(), nested_name);
 
-  AnyValue moved;
-  moved = std::move(nested_val);
-  EXPECT_NE(moved, nested_val);
-  EXPECT_TRUE(IsStructValue(moved));
-  EXPECT_TRUE(IsEmptyValue(nested_val));
-  EXPECT_EQ(moved.GetTypeCode(), TypeCode::Struct);
-  EXPECT_EQ(moved.GetTypeName(), nested_name);
-  EXPECT_TRUE(moved.HasField("scalars"));
-  EXPECT_TRUE(moved.HasField("single"));
-  EXPECT_FALSE(moved.HasField("index"));
+    AnyValue moved;
+    moved = std::move(nested_val);
+    EXPECT_NE(moved, nested_val);
+    EXPECT_TRUE(IsStructValue(moved));
+    EXPECT_TRUE(IsEmptyValue(nested_val));
+    EXPECT_EQ(moved.GetTypeCode(), TypeCode::Struct);
+    EXPECT_EQ(moved.GetTypeName(), nested_name);
+    EXPECT_TRUE(moved.HasField("scalars"));
+    EXPECT_TRUE(moved.HasField("single"));
+    EXPECT_FALSE(moved.HasField("index"));
 
-  moved.AddMember("index", {UnsignedInteger64Type, 2022});
-  EXPECT_NE(moved, nested_val);
-  EXPECT_TRUE(IsStructValue(moved));
-  EXPECT_EQ(moved.GetTypeCode(), TypeCode::Struct);
-  EXPECT_EQ(moved.GetTypeName(), nested_name);
-  EXPECT_TRUE(moved.HasField("scalars"));
-  EXPECT_TRUE(moved.HasField("single"));
-  EXPECT_TRUE(moved.HasField("index"));
+    moved.AddMember("index", {UnsignedInteger64Type, 2022});
+    EXPECT_NE(moved, nested_val);
+    EXPECT_TRUE(IsStructValue(moved));
+    EXPECT_EQ(moved.GetTypeCode(), TypeCode::Struct);
+    EXPECT_EQ(moved.GetTypeName(), nested_name);
+    EXPECT_TRUE(moved.HasField("scalars"));
+    EXPECT_TRUE(moved.HasField("single"));
+    EXPECT_TRUE(moved.HasField("index"));
 
-  AnyValue moved_again{moved.GetType()};
-  moved_again = std::move(moved);
-  EXPECT_NE(moved_again, moved);
-  EXPECT_TRUE(IsStructValue(moved_again));
-  EXPECT_EQ(moved_again.GetTypeCode(), TypeCode::Struct);
-  EXPECT_EQ(moved_again.GetTypeName(), nested_name);
-  EXPECT_TRUE(moved_again.HasField("scalars"));
-  EXPECT_TRUE(moved_again.HasField("single"));
-  EXPECT_TRUE(moved_again.HasField("index"));
+    AnyValue moved_again{moved.GetType()};
+    moved_again = std::move(moved);
+    EXPECT_NE(moved_again, moved);
+    EXPECT_TRUE(IsStructValue(moved_again));
+    EXPECT_EQ(moved_again.GetTypeCode(), TypeCode::Struct);
+    EXPECT_EQ(moved_again.GetTypeName(), nested_name);
+    EXPECT_TRUE(moved_again.HasField("scalars"));
+    EXPECT_TRUE(moved_again.HasField("single"));
+    EXPECT_TRUE(moved_again.HasField("index"));
+  }
+  {
+    // Move assignment of locked value
+    AnyType two_scalars_t = {{
+      {"signed", SignedInteger8Type },
+      {"unsigned", UnsignedInteger8Type }
+    }};
+    AnyValue array{2, two_scalars_t};
+    AnyValue el_1;
+    el_1 = array[0];
+    EXPECT_EQ(el_1.GetType(), two_scalars_t);
+    EXPECT_THROW(array[0].AddMember("test", true), InvalidOperationException);
+    EXPECT_NO_THROW(el_1.AddMember("test", true));
+    EXPECT_TRUE(el_1.HasField("test"));
+  }
 }
 
 TEST(AnyValueTest, CastToAnyValue)
