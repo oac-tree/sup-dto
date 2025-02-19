@@ -82,13 +82,6 @@ std::unique_ptr<ITypeData> StructTypeData::CloneFromChildren(
   std::vector<std::unique_ptr<AnyType>>&& children) const
 {
   auto n_members = m_member_data.NumberOfMembers();
-  if (children.size() != n_members)
-  {
-    const std::string error =
-      "StructTypeData::CloneFromChildren(): argument must contain same number of children as source"
-      " struct";
-    throw InvalidOperationException(error);
-  }
   auto result = std::make_unique<StructTypeData>(GetTypeName());
   auto member_names = m_member_data.MemberNames();
   for (std::size_t idx=0; idx < n_members; ++idx)

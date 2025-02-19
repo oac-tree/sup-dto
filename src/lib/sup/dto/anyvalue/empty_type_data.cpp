@@ -43,14 +43,8 @@ std::string EmptyTypeData::GetTypeName() const
 }
 
 std::unique_ptr<ITypeData> EmptyTypeData::CloneFromChildren(
-  std::vector<std::unique_ptr<AnyType>>&& children) const
+  std::vector<std::unique_ptr<AnyType>>&&) const
 {
-  if (!children.empty())
-  {
-    const std::string error =
-      "EmptyTypeData::CloneFromChildren(): Trying to clone empty type with child types";
-    throw InvalidOperationException(error);
-  }
   return std::make_unique<EmptyTypeData>();
 }
 

@@ -54,14 +54,8 @@ std::string ScalarTypeData::GetTypeName() const
 }
 
 std::unique_ptr<ITypeData> ScalarTypeData::CloneFromChildren(
-  std::vector<std::unique_ptr<AnyType>>&& children) const
+  std::vector<std::unique_ptr<AnyType>>&&) const
 {
-  if (!children.empty())
-  {
-    const std::string error =
-      "ScalarTypeData::CloneFromChildren(): Trying to clone scalar type with child types";
-    throw InvalidOperationException(error);
-  }
   return std::make_unique<ScalarTypeData>(m_type_code);
 }
 

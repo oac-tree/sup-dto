@@ -98,12 +98,6 @@ AnyType* ArrayTypeData::GetChildType(std::size_t idx)
 std::unique_ptr<ITypeData> ArrayTypeData::CloneFromChildren(
   std::vector<std::unique_ptr<AnyType>>&& children) const
 {
-  if (children.size() != 1u)
-  {
-    const std::string error =
-      "ArrayTypeData::CloneFromChildren(): children must contain exactly one type";
-    throw InvalidOperationException(error);
-  }
   auto elem_typ = std::move(children[0]);
   return std::make_unique<ArrayTypeData>(m_size, std::move(*elem_typ), m_name);
 }
