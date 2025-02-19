@@ -21,6 +21,7 @@
 
 #include <gtest/gtest.h>
 
+#include <sup/dto/anyvalue_exceptions.h>
 #include <sup/dto/anytype.h>
 
 using namespace sup::dto;
@@ -35,9 +36,13 @@ TEST(AnyTypeFieldTest, SimpleStruct)
   EXPECT_TRUE(two_scalars.HasField("signed"));
   EXPECT_TRUE(two_scalars.HasField("unsigned"));
   EXPECT_FALSE(two_scalars.HasField("absent"));
+  EXPECT_THROW(two_scalars["absent"], InvalidOperationException);
   EXPECT_FALSE(two_scalars.HasField("signed.absent"));
+  EXPECT_THROW(two_scalars["signed.absent"], InvalidOperationException);
   EXPECT_FALSE(two_scalars.HasField("signed.[]"));
+  EXPECT_THROW(two_scalars["signed.[]"], InvalidOperationException);
   EXPECT_FALSE(two_scalars.HasField("signed[]"));
+  EXPECT_THROW(two_scalars["signed[]"], InvalidOperationException);
 }
 
 TEST(AnyTypeFieldTest, NestedStruct)
@@ -62,12 +67,19 @@ TEST(AnyTypeFieldTest, NestedStruct)
   EXPECT_TRUE(nested_val.HasField("single.first"));
   EXPECT_TRUE(nested_val.HasField("single.second"));
   EXPECT_FALSE(nested_val.HasField("absent"));
+  EXPECT_THROW(two_scalars["absent"], InvalidOperationException);
   EXPECT_FALSE(nested_val.HasField("scalars.absent"));
+  EXPECT_THROW(two_scalars["scalars.absent"], InvalidOperationException);
   EXPECT_FALSE(nested_val.HasField("scalars.[]"));
+  EXPECT_THROW(two_scalars["scalars.[]"], InvalidOperationException);
   EXPECT_FALSE(nested_val.HasField("scalars[]"));
+  EXPECT_THROW(two_scalars["scalars[]"], InvalidOperationException);
   EXPECT_FALSE(nested_val.HasField("scalars.signed.absent"));
+  EXPECT_THROW(two_scalars["scalars.signed.absent"], InvalidOperationException);
   EXPECT_FALSE(nested_val.HasField("scalars.signed.[]"));
+  EXPECT_THROW(two_scalars["scalars.signed.[]"], InvalidOperationException);
   EXPECT_FALSE(nested_val.HasField("scalars.signed[]"));
+  EXPECT_THROW(two_scalars["scalars.signed[]"], InvalidOperationException);
 }
 
 TEST(AnyTypeFieldTest, SimpleArray)
@@ -76,9 +88,13 @@ TEST(AnyTypeFieldTest, SimpleArray)
   EXPECT_TRUE(IsArrayType(array_type));
   EXPECT_TRUE(array_type.HasField("[]"));
   EXPECT_FALSE(array_type.HasField("[0]"));
+  EXPECT_THROW(array_type["[0]"], InvalidOperationException);
   EXPECT_FALSE(array_type.HasField("absent"));
+  EXPECT_THROW(array_type["absent"], InvalidOperationException);
   EXPECT_FALSE(array_type.HasField("[].absent"));
+  EXPECT_THROW(array_type["[].absent"], InvalidOperationException);
   EXPECT_FALSE(array_type.HasField("[]absent"));
+  EXPECT_THROW(array_type["[]absent"], InvalidOperationException);
 }
 
 TEST(AnyTypeFieldTest, ArrayOfStruct)
@@ -93,7 +109,11 @@ TEST(AnyTypeFieldTest, ArrayOfStruct)
   EXPECT_TRUE(array_type.HasField("[]first"));
   EXPECT_TRUE(array_type.HasField("[].second"));
   EXPECT_FALSE(array_type.HasField("[1]"));
+  EXPECT_THROW(array_type["[1]"], InvalidOperationException);
   EXPECT_FALSE(array_type.HasField("[]absent"));
+  EXPECT_THROW(array_type["[]absent"], InvalidOperationException);
   EXPECT_FALSE(array_type.HasField("[].absent"));
+  EXPECT_THROW(array_type["[].absent"], InvalidOperationException);
   EXPECT_FALSE(array_type.HasField("absent"));
+  EXPECT_THROW(array_type["absent"], InvalidOperationException);
 }
