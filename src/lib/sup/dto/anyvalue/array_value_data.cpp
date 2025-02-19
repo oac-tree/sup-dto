@@ -136,14 +136,6 @@ AnyValue* ArrayValueData::GetChildValue(std::size_t idx)
 std::unique_ptr<IValueData> ArrayValueData::CloneFromChildren(
   std::vector<std::unique_ptr<AnyValue>>&& children, Constraints constraints) const
 {
-  auto n_elements = NumberOfElements();
-  if (children.size() != n_elements)
-  {
-    const std::string error =
-      "StructValueData::CloneFromChildren(): Trying to clone array value with wrong number of "
-      "child values";
-    throw InvalidOperationException(error);
-  }
   auto result = std::make_unique<ArrayValueData>(m_elem_type, GetTypeName(), constraints);
   for (auto& child : children)
   {

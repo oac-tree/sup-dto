@@ -238,3 +238,17 @@ TEST(ArrayValueTest, InvalidAddElement)
   }};
   EXPECT_THROW(two_scalars.AddElement(6), InvalidOperationException);
 }
+
+TEST(ArrayValueTest, Conversion)
+{
+  AnyValue my_array = ArrayValue({
+    {SignedInteger64Type, 1}, 2, 3, 4, 5
+  }, "my_array_t");
+  AnyValue my_scalar{StringType, "does_not_work"};
+  AnyValue my_other_array = ArrayValue({
+    {SignedInteger64Type, 1}, 2, 3,
+  }, "my_array_t");
+  EXPECT_THROW(my_array.ConvertFrom(my_scalar), InvalidConversionException);
+  EXPECT_THROW(my_array.ConvertFrom(my_other_array), InvalidConversionException);
+}
+

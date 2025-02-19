@@ -100,4 +100,10 @@ TEST(AnyValueHelperTest, TryAssignIfEmptyOrConvert)
     EXPECT_FALSE(TryAssignIfEmptyOrConvert(value, 42));
     EXPECT_TRUE(IsStructValue(value));
   }
+  {
+    AnyValue value{5, UnsignedInteger32Type};
+    EXPECT_TRUE(IsArrayValue(value));
+    EXPECT_FALSE(TryAssign(value[2], "oops"));
+    EXPECT_TRUE(IsArrayValue(value));
+  }
 }

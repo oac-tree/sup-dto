@@ -156,3 +156,14 @@ TEST(StructuredValueTest, MemberAccess)
   EXPECT_EQ(scalar_value.MemberNames().size(), 0);
   EXPECT_EQ(scalar_value.NumberOfMembers(), 0);
 }
+
+TEST(StructuredValueTest, ElementFunctions)
+{
+  AnyValue two_scalars{{
+    {"signed", {SignedInteger8Type, -5}},
+    {"unsigned", {UnsignedInteger8Type, 22}}
+  }};
+  EXPECT_THROW(two_scalars.AddElement(5), InvalidOperationException);
+  EXPECT_THROW(two_scalars.ElementType(), InvalidOperationException);
+}
+
