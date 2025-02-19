@@ -36,7 +36,7 @@ class MessageException : public std::exception
 {
 public:
   explicit MessageException(std::string message);
-  ~MessageException() override;
+  ~MessageException() override = default;
 
   const char* what() const noexcept override;
 protected:
@@ -55,7 +55,7 @@ class InvalidConversionException : public MessageException
 {
 public:
   explicit InvalidConversionException(const std::string& message);
-  ~InvalidConversionException() override;
+  ~InvalidConversionException() override = default;
   InvalidConversionException(const InvalidConversionException& other) = default;
   InvalidConversionException& operator=(const InvalidConversionException& other) & = default;
   InvalidConversionException(InvalidConversionException&&) = default;
@@ -69,7 +69,7 @@ class InvalidOperationException : public MessageException
 {
 public:
   explicit InvalidOperationException(const std::string& message);
-  ~InvalidOperationException() override;
+  ~InvalidOperationException() override = default;
   InvalidOperationException(const InvalidOperationException& other) = default;
   InvalidOperationException& operator=(const InvalidOperationException& other) & = default;
   InvalidOperationException(InvalidOperationException&&) = default;
@@ -83,7 +83,7 @@ class SerializeException : public MessageException
 {
 public:
   explicit SerializeException(const std::string& message);
-  ~SerializeException() override;
+  ~SerializeException() override = default;
   SerializeException(const SerializeException& other) = default;
   SerializeException& operator=(const SerializeException& other) & = default;
   SerializeException(SerializeException&&) = default;
@@ -97,7 +97,7 @@ class ParseException : public MessageException
 {
 public:
   explicit ParseException(const std::string& message);
-  ~ParseException() override;
+  ~ParseException() override = default;
   ParseException(const ParseException& other) = default;
   ParseException& operator=(const ParseException& other) & = default;
   ParseException(ParseException&&) = default;
