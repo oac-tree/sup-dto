@@ -41,7 +41,7 @@ class ValueComposerComponent : public AbstractValueComposerComponent
 {
 public:
   explicit ValueComposerComponent(const sup::dto::AnyValue& value);
-  ~ValueComposerComponent() override = default;
+  ~ValueComposerComponent() override;
   ValueComposerComponent(const ValueComposerComponent& other) = delete;
   ValueComposerComponent(ValueComposerComponent&& other) = delete;
   ValueComposerComponent& operator=(const ValueComposerComponent& other) = delete;
@@ -59,7 +59,7 @@ class StartStructValueComposerComponent : public AbstractValueComposerComponent
 {
 public:
   explicit StartStructValueComposerComponent(const std::string& struct_name);
-  ~StartStructValueComposerComponent() override = default;
+  ~StartStructValueComposerComponent() override;
   StartStructValueComposerComponent(const StartStructValueComposerComponent& other) = delete;
   StartStructValueComposerComponent(StartStructValueComposerComponent&& other) = delete;
   StartStructValueComposerComponent& operator=(const StartStructValueComposerComponent& other) = delete;
@@ -79,7 +79,7 @@ class EndStructValueComposerComponent : public AbstractValueComposerComponent
 {
 public:
   EndStructValueComposerComponent() = default;
-  ~EndStructValueComposerComponent() override = default;
+  ~EndStructValueComposerComponent() override;
   EndStructValueComposerComponent(const EndStructValueComposerComponent& other) = delete;
   EndStructValueComposerComponent(EndStructValueComposerComponent&& other) = delete;
   EndStructValueComposerComponent& operator=(const EndStructValueComposerComponent& other) = delete;
@@ -96,7 +96,7 @@ class StartFieldValueComposerComponent : public AbstractValueComposerComponent
 {
 public:
   explicit StartFieldValueComposerComponent(const std::string& field_name);
-  ~StartFieldValueComposerComponent() override = default;
+  ~StartFieldValueComposerComponent() override;
   StartFieldValueComposerComponent(const StartFieldValueComposerComponent& other) = delete;
   StartFieldValueComposerComponent(StartFieldValueComposerComponent&& other) = delete;
   StartFieldValueComposerComponent& operator=(const StartFieldValueComposerComponent& other) = delete;
@@ -113,7 +113,7 @@ class EndFieldValueComposerComponent : public AbstractValueComposerComponent
 {
 public:
   EndFieldValueComposerComponent() = default;
-  ~EndFieldValueComposerComponent() override = default;
+  ~EndFieldValueComposerComponent() override;
   EndFieldValueComposerComponent(const EndFieldValueComposerComponent& other) = delete;
   EndFieldValueComposerComponent(EndFieldValueComposerComponent&& other) = delete;
   EndFieldValueComposerComponent& operator=(const EndFieldValueComposerComponent& other) = delete;
@@ -130,7 +130,7 @@ class StartArrayValueComposerComponent : public AbstractValueComposerComponent
 {
 public:
   explicit StartArrayValueComposerComponent(const std::string& array_name);
-  ~StartArrayValueComposerComponent() override = default;
+  ~StartArrayValueComposerComponent() override;
   StartArrayValueComposerComponent(const StartArrayValueComposerComponent& other) = delete;
   StartArrayValueComposerComponent(StartArrayValueComposerComponent&& other) = delete;
   StartArrayValueComposerComponent& operator=(const StartArrayValueComposerComponent& other) = delete;
@@ -153,7 +153,7 @@ class EndArrayValueComposerComponent : public AbstractValueComposerComponent
 {
 public:
   EndArrayValueComposerComponent() = default;
-  ~EndArrayValueComposerComponent() override = default;
+  ~EndArrayValueComposerComponent() override;
   EndArrayValueComposerComponent(const EndArrayValueComposerComponent& other) = delete;
   EndArrayValueComposerComponent(EndArrayValueComposerComponent&& other) = delete;
   EndArrayValueComposerComponent& operator=(const EndArrayValueComposerComponent& other) = delete;
@@ -170,7 +170,7 @@ class StartArrayElementValueComposerComponent : public AbstractValueComposerComp
 {
 public:
   StartArrayElementValueComposerComponent() = default;
-  ~StartArrayElementValueComposerComponent() override = default;
+  ~StartArrayElementValueComposerComponent() override;
   StartArrayElementValueComposerComponent(const StartArrayElementValueComposerComponent& other) = delete;
   StartArrayElementValueComposerComponent(StartArrayElementValueComposerComponent&& other) = delete;
   StartArrayElementValueComposerComponent& operator=(const StartArrayElementValueComposerComponent& other) = delete;
@@ -187,7 +187,7 @@ class EndArrayElementValueComposerComponent : public AbstractValueComposerCompon
 {
 public:
   EndArrayElementValueComposerComponent() = default;
-  ~EndArrayElementValueComposerComponent() override = default;
+  ~EndArrayElementValueComposerComponent() override;
   EndArrayElementValueComposerComponent(const EndArrayElementValueComposerComponent& other) = delete;
   EndArrayElementValueComposerComponent(EndArrayElementValueComposerComponent&& other) = delete;
   EndArrayElementValueComposerComponent& operator=(const EndArrayElementValueComposerComponent& other) = delete;

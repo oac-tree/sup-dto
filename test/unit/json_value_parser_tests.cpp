@@ -27,19 +27,19 @@
 
 using namespace sup::dto;
 
-static const std::string json_simple_struct_full =
+const std::string json_simple_struct_full =
     R"RAW([{"encoding":"sup-dto/v1.0/JSON"},{"datatype":{"type":"","attributes":[{"id":{"type":"string"}},{"number":{"type":"int32"}},{"weight":{"type":"float64"}}]}},{"instance":{"id":"my_id","number":1729,"weight":50.25}}])RAW";
 
-static const std::string json_simple_array_full =
+const std::string json_simple_array_full =
     R"RAW([{"encoding":"sup-dto/v1.0/JSON"},{"datatype":{"type":"","multiplicity":5,"element":{"type":"int32"}}},{"instance":[0,20,40,60,80]}])RAW";
 
-static const std::string json_dynamic_array_full =
+const std::string json_dynamic_array_full =
     R"RAW([{"encoding":"sup-dto/v1.0/JSON"},{"datatype":{"type":"","element":{"type":"uint64"}}},{"instance":[11,22,33]}])RAW";
 
-static const std::string json_empty_array_full =
+const std::string json_empty_array_full =
     R"RAW([{"encoding":"sup-dto/v1.0/JSON"},{"datatype":{"type":"","element":{"type":"float32"}}},{"instance":[]}])RAW";
 
-static const std::string pretty_json_simple_struct =
+const std::string pretty_json_simple_struct =
 R"RAW([
   {
     "encoding": "sup-dto/v1.0/JSON"
@@ -75,7 +75,7 @@ R"RAW([
   }
 ])RAW";
 
-static const std::string json_ntenum_full =
+const std::string json_ntenum_full =
 R"RAW([
   {
     "encoding": "sup-dto/v1.0/JSON"
@@ -123,7 +123,7 @@ R"RAW([
   }
 ])RAW";
 
-static const std::string json_dynamic_array_of_struct =
+const std::string json_dynamic_array_of_struct =
 R"RAW([
   {
     "encoding": "sup-dto/v1.0/JSON"
@@ -158,7 +158,7 @@ R"RAW([
   }
 ])RAW";
 
-static const std::string json_dynamic_array_of_array =
+const std::string json_dynamic_array_of_array =
 R"RAW([
   {
     "encoding": "sup-dto/v1.0/JSON"
@@ -181,6 +181,9 @@ R"RAW([
     ]
   }
 ])RAW";
+
+const std::string json_unknown_struct_type =
+    R"RAW([{"encoding":"sup-dto/v1.0/JSON"},{"datatype":{"type":"UNKNOWN"}},{"instance":{"id":"my_id","number":1729,"weight":50.25}}])RAW";
 
 class JSONValueParserTest : public ::testing::Test
 {
@@ -621,6 +624,11 @@ TEST_F(JSONValueParserTest, EmptyMember)
     auto readback = parser.MoveAnyValue();
     EXPECT_EQ(anyvalue, readback);
   }
+}
+
+TEST_F(JSONValueParserTest, UnknownType)
+{
+  EXPECT_FALSE(m_parser.ParseString(json_unknown_struct_type));
 }
 
 JSONValueParserTest::JSONValueParserTest() = default;

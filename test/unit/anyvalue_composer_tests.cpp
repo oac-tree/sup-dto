@@ -48,16 +48,146 @@ TEST_F(AnyValueComposerTests, InitialState)
 
 TEST_F(AnyValueComposerTests, Scalar)
 {
-  AnyValueComposer builder;
-
-  builder.Int32(42);
-
-  EXPECT_EQ(builder.GetStackSize(), 1);
-
-  auto value = builder.MoveAnyValue();
-  EXPECT_EQ(value.GetType(), SignedInteger32Type);
-  EXPECT_TRUE(IsScalarValue(value));
-  EXPECT_EQ(value.As<int32>(), 42);
+  {
+    // Empty value
+    AnyValueComposer builder;
+    builder.Empty();
+    EXPECT_EQ(builder.GetStackSize(), 1);
+    auto value = builder.MoveAnyValue();
+    EXPECT_EQ(value.GetType(), EmptyType);
+    EXPECT_TRUE(IsEmptyValue(value));
+  }
+  {
+    // bool
+    AnyValueComposer builder;
+    builder.Bool(true);
+    EXPECT_EQ(builder.GetStackSize(), 1);
+    auto value = builder.MoveAnyValue();
+    EXPECT_EQ(value.GetType(), BooleanType);
+    EXPECT_TRUE(IsScalarValue(value));
+    EXPECT_EQ(value.As<boolean>(), true);
+  }
+  {
+    // char8
+    AnyValueComposer builder;
+    builder.Char8(42);
+    EXPECT_EQ(builder.GetStackSize(), 1);
+    auto value = builder.MoveAnyValue();
+    EXPECT_EQ(value.GetType(), Character8Type);
+    EXPECT_TRUE(IsScalarValue(value));
+    EXPECT_EQ(value.As<char8>(), 42);
+  }
+  {
+    // int8
+    AnyValueComposer builder;
+    builder.Int8(42);
+    EXPECT_EQ(builder.GetStackSize(), 1);
+    auto value = builder.MoveAnyValue();
+    EXPECT_EQ(value.GetType(), SignedInteger8Type);
+    EXPECT_TRUE(IsScalarValue(value));
+    EXPECT_EQ(value.As<int8>(), 42);
+  }
+  {
+    // uint8
+    AnyValueComposer builder;
+    builder.UInt8(42);
+    EXPECT_EQ(builder.GetStackSize(), 1);
+    auto value = builder.MoveAnyValue();
+    EXPECT_EQ(value.GetType(), UnsignedInteger8Type);
+    EXPECT_TRUE(IsScalarValue(value));
+    EXPECT_EQ(value.As<uint8>(), 42);
+  }
+  {
+    // int16
+    AnyValueComposer builder;
+    builder.Int16(42);
+    EXPECT_EQ(builder.GetStackSize(), 1);
+    auto value = builder.MoveAnyValue();
+    EXPECT_EQ(value.GetType(), SignedInteger16Type);
+    EXPECT_TRUE(IsScalarValue(value));
+    EXPECT_EQ(value.As<int16>(), 42);
+  }
+  {
+    // uint16
+    AnyValueComposer builder;
+    builder.UInt16(42);
+    EXPECT_EQ(builder.GetStackSize(), 1);
+    auto value = builder.MoveAnyValue();
+    EXPECT_EQ(value.GetType(), UnsignedInteger16Type);
+    EXPECT_TRUE(IsScalarValue(value));
+    EXPECT_EQ(value.As<uint16>(), 42);
+  }
+  {
+    // int32
+    AnyValueComposer builder;
+    builder.Int32(42);
+    EXPECT_EQ(builder.GetStackSize(), 1);
+    auto value = builder.MoveAnyValue();
+    EXPECT_EQ(value.GetType(), SignedInteger32Type);
+    EXPECT_TRUE(IsScalarValue(value));
+    EXPECT_EQ(value.As<int32>(), 42);
+  }
+  {
+    // uint32
+    AnyValueComposer builder;
+    builder.UInt32(42);
+    EXPECT_EQ(builder.GetStackSize(), 1);
+    auto value = builder.MoveAnyValue();
+    EXPECT_EQ(value.GetType(), UnsignedInteger32Type);
+    EXPECT_TRUE(IsScalarValue(value));
+    EXPECT_EQ(value.As<uint32>(), 42);
+  }
+  {
+    // int64
+    AnyValueComposer builder;
+    builder.Int64(42);
+    EXPECT_EQ(builder.GetStackSize(), 1);
+    auto value = builder.MoveAnyValue();
+    EXPECT_EQ(value.GetType(), SignedInteger64Type);
+    EXPECT_TRUE(IsScalarValue(value));
+    EXPECT_EQ(value.As<int64>(), 42);
+  }
+  {
+    // uint64
+    AnyValueComposer builder;
+    builder.UInt64(42);
+    EXPECT_EQ(builder.GetStackSize(), 1);
+    auto value = builder.MoveAnyValue();
+    EXPECT_EQ(value.GetType(), UnsignedInteger64Type);
+    EXPECT_TRUE(IsScalarValue(value));
+    EXPECT_EQ(value.As<uint64>(), 42);
+  }
+  {
+    // float32
+    AnyValueComposer builder;
+    builder.Float32(42.0);
+    EXPECT_EQ(builder.GetStackSize(), 1);
+    auto value = builder.MoveAnyValue();
+    EXPECT_EQ(value.GetType(), Float32Type);
+    EXPECT_TRUE(IsScalarValue(value));
+    EXPECT_EQ(value.As<float32>(), 42.0);
+  }
+  {
+    // float64
+    AnyValueComposer builder;
+    builder.Float64(42);
+    EXPECT_EQ(builder.GetStackSize(), 1);
+    auto value = builder.MoveAnyValue();
+    EXPECT_EQ(value.GetType(), Float64Type);
+    EXPECT_TRUE(IsScalarValue(value));
+    EXPECT_EQ(value.As<float64>(), 42.0);
+  }
+  {
+    // string
+    AnyValueComposer builder;
+    const std::string val{"str_value"};
+    builder.String(val);
+    EXPECT_EQ(builder.GetStackSize(), 1);
+    auto value = builder.MoveAnyValue();
+    EXPECT_EQ(value.GetType(), StringType);
+    EXPECT_TRUE(IsScalarValue(value));
+    EXPECT_EQ(value.As<std::string>(), val);
+  }
 }
 
 //! Creation of AnyValue scalar via AddMember method with empty name.

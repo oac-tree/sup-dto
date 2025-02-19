@@ -41,6 +41,8 @@ namespace dto
 // ValueComposerComponent
 // ----------------------------------------------------------------------------
 
+ValueComposerComponent::~ValueComposerComponent() = default;
+
 ValueComposerComponent::ValueComposerComponent(const sup::dto::AnyValue &value)
     : AbstractValueComposerComponent(value)
 {
@@ -60,6 +62,8 @@ bool ValueComposerComponent::Process(std::stack<component_t> &stack)
 // ----------------------------------------------------------------------------
 // StartStructValueComposerComponent
 // ----------------------------------------------------------------------------
+
+StartStructValueComposerComponent::~StartStructValueComposerComponent() = default;
 
 StartStructValueComposerComponent::StartStructValueComposerComponent(const std::string &struct_name)
     : AbstractValueComposerComponent(::sup::dto::EmptyStruct(struct_name))
@@ -88,6 +92,8 @@ void StartStructValueComposerComponent::AddMember(const std::string &name,
 // EndStructValueComposerComponent
 // ----------------------------------------------------------------------------
 
+EndStructValueComposerComponent::~EndStructValueComposerComponent() = default;
+
 AbstractValueComposerComponent::Type EndStructValueComposerComponent::GetComponentType() const
 {
   return Type::kEndStruct;
@@ -107,6 +113,8 @@ bool EndStructValueComposerComponent::Process(std::stack<component_t> &stack)
 // ----------------------------------------------------------------------------
 // StartFieldValueComposerComponent
 // ----------------------------------------------------------------------------
+
+StartFieldValueComposerComponent::~StartFieldValueComposerComponent() = default;
 
 StartFieldValueComposerComponent::StartFieldValueComposerComponent(const std::string &field_name)
     : AbstractValueComposerComponent()
@@ -135,6 +143,8 @@ bool StartFieldValueComposerComponent::Process(std::stack<component_t> &stack)
 // ----------------------------------------------------------------------------
 // EndFieldValueComposerComponent
 // ----------------------------------------------------------------------------
+
+EndFieldValueComposerComponent::~EndFieldValueComposerComponent() = default;
 
 AbstractValueComposerComponent::Type EndFieldValueComposerComponent::GetComponentType() const
 {
@@ -169,6 +179,8 @@ bool EndFieldValueComposerComponent::Process(std::stack<component_t> &stack)
 // ----------------------------------------------------------------------------
 // StartArrayValueComposerComponent
 // ----------------------------------------------------------------------------
+
+StartArrayValueComposerComponent::~StartArrayValueComposerComponent() = default;
 
 StartArrayValueComposerComponent::StartArrayValueComposerComponent(const std::string &array_name)
   : AbstractValueComposerComponent()
@@ -207,6 +219,8 @@ void StartArrayValueComposerComponent::AddElement(const sup::dto::AnyValue &valu
 // EndArrayValueComposerComponent
 // ----------------------------------------------------------------------------
 
+EndArrayValueComposerComponent::~EndArrayValueComposerComponent() = default;
+
 AbstractValueComposerComponent::Type EndArrayValueComposerComponent::GetComponentType() const
 {
   return Type::kEndArray;
@@ -235,6 +249,8 @@ bool EndArrayValueComposerComponent::Process(std::stack<component_t> &stack)
 // StartArrayElementValueComposerComponent
 // ----------------------------------------------------------------------------
 
+StartArrayElementValueComposerComponent::~StartArrayElementValueComposerComponent() = default;
+
 AbstractValueComposerComponent::Type StartArrayElementValueComposerComponent::GetComponentType() const
 {
   return Type::kStartArrayElement;
@@ -249,6 +265,8 @@ bool StartArrayElementValueComposerComponent::Process(std::stack<component_t> &s
 // ----------------------------------------------------------------------------
 // EndArrayElementValueComposerComponent
 // ----------------------------------------------------------------------------
+
+EndArrayElementValueComposerComponent::~EndArrayElementValueComposerComponent() = default;
 
 AbstractValueComposerComponent::Type EndArrayElementValueComposerComponent::GetComponentType() const
 {

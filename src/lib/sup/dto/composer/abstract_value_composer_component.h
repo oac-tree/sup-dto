@@ -38,7 +38,7 @@ namespace dto
 class AbstractValueComposerComponent
 {
 public:
-  virtual ~AbstractValueComposerComponent() = default;
+  virtual ~AbstractValueComposerComponent();
   using component_t = std::unique_ptr<AbstractValueComposerComponent>;
 
   enum class Type : sup::dto::uint32

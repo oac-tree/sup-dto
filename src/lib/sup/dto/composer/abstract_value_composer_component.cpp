@@ -27,6 +27,8 @@ namespace sup
 namespace dto
 {
 
+AbstractValueComposerComponent::~AbstractValueComposerComponent() = default;
+
 AbstractValueComposerComponent::AbstractValueComposerComponent()
   : AbstractValueComposerComponent(AnyValue{})
 {}

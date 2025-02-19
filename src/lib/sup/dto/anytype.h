@@ -409,6 +409,7 @@ extern const AnyType StringType;
 
 }  // namespace sup
 
+#if (__cplusplus <= 201402L)
 namespace std
 {
 /**
@@ -422,5 +423,6 @@ template <> struct hash<::sup::dto::TypeCode>
   }
 };
 }
+#endif
 
 #endif  // SUP_DTO_ANYTYPE_H_

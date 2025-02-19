@@ -30,6 +30,8 @@ MessageException::MessageException(std::string message)
   : std::exception(), m_message{std::move(message)}
 {}
 
+MessageException::~MessageException() = default;
+
 const char* MessageException::what() const noexcept
 {
   return m_message.c_str();
@@ -39,17 +41,25 @@ InvalidConversionException::InvalidConversionException(const std::string& messag
   : MessageException{message}
 {}
 
+InvalidConversionException::~InvalidConversionException() = default;
+
 InvalidOperationException::InvalidOperationException(const std::string& message)
   : MessageException{message}
 {}
+
+InvalidOperationException::~InvalidOperationException() = default;
 
 SerializeException::SerializeException(const std::string& message)
   : MessageException{message}
 {}
 
+SerializeException::~SerializeException() = default;
+
 ParseException::ParseException(const std::string& message)
   : MessageException{message}
 {}
+
+ParseException::~ParseException() = default;
 
 }  // namespace dto
 

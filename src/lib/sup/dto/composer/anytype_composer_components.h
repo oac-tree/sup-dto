@@ -39,7 +39,7 @@ class LeafTypeComposerComponent : public AbstractTypeComposerComponent
 public:
   explicit LeafTypeComposerComponent(const sup::dto::AnyType& anytype);
 
-  ~LeafTypeComposerComponent() override = default;
+  ~LeafTypeComposerComponent() override;
   LeafTypeComposerComponent(const LeafTypeComposerComponent& other) = delete;
   LeafTypeComposerComponent(LeafTypeComposerComponent&& other) = delete;
   LeafTypeComposerComponent& operator=(const LeafTypeComposerComponent& other) = delete;
@@ -56,7 +56,7 @@ class StartStructTypeComposerComponent : public AbstractTypeComposerComponent
 public:
   explicit StartStructTypeComposerComponent(const std::string& struct_name);
 
-  ~StartStructTypeComposerComponent() override = default;
+  ~StartStructTypeComposerComponent() override;
   StartStructTypeComposerComponent(const StartStructTypeComposerComponent& other) = delete;
   StartStructTypeComposerComponent(StartStructTypeComposerComponent&& other) = delete;
   StartStructTypeComposerComponent& operator=(const StartStructTypeComposerComponent& other) = delete;
@@ -74,7 +74,7 @@ class EndStructTypeComposerComponent : public AbstractTypeComposerComponent
 {
 public:
   EndStructTypeComposerComponent() = default;
-  ~EndStructTypeComposerComponent() override = default;
+  ~EndStructTypeComposerComponent() override;
   EndStructTypeComposerComponent(const EndStructTypeComposerComponent& other) = delete;
   EndStructTypeComposerComponent(EndStructTypeComposerComponent&& other) = delete;
   EndStructTypeComposerComponent& operator=(const EndStructTypeComposerComponent& other) = delete;
@@ -91,7 +91,7 @@ class StartFieldTypeComposerComponent : public AbstractTypeComposerComponent
 public:
   explicit StartFieldTypeComposerComponent(const std::string& field_name);
 
-  ~StartFieldTypeComposerComponent() override = default;
+  ~StartFieldTypeComposerComponent() override;
   StartFieldTypeComposerComponent(const StartFieldTypeComposerComponent& other) = delete;
   StartFieldTypeComposerComponent(StartFieldTypeComposerComponent&& other) = delete;
   StartFieldTypeComposerComponent& operator=(const StartFieldTypeComposerComponent& other) = delete;
@@ -107,7 +107,7 @@ class EndFieldTypeComposerComponent : public AbstractTypeComposerComponent
 {
 public:
   EndFieldTypeComposerComponent() = default;
-  ~EndFieldTypeComposerComponent() override = default;
+  ~EndFieldTypeComposerComponent() override;
   EndFieldTypeComposerComponent(const EndFieldTypeComposerComponent& other) = delete;
   EndFieldTypeComposerComponent(EndFieldTypeComposerComponent&& other) = delete;
   EndFieldTypeComposerComponent& operator=(const EndFieldTypeComposerComponent& other) = delete;
@@ -124,7 +124,7 @@ class StartArrayTypeComposerComponent : public AbstractTypeComposerComponent
 public:
   StartArrayTypeComposerComponent(const std::string& array_name, sup::dto::uint64 array_size);
 
-  ~StartArrayTypeComposerComponent() override = default;
+  ~StartArrayTypeComposerComponent() override;
   StartArrayTypeComposerComponent(const StartArrayTypeComposerComponent& other) = delete;
   StartArrayTypeComposerComponent(StartArrayTypeComposerComponent&& other) = delete;
   StartArrayTypeComposerComponent& operator=(const StartArrayTypeComposerComponent& other) = delete;
@@ -146,7 +146,7 @@ class EndArrayTypeComposerComponent : public AbstractTypeComposerComponent
 {
 public:
   EndArrayTypeComposerComponent() = default;
-  ~EndArrayTypeComposerComponent() override = default;
+  ~EndArrayTypeComposerComponent() override;
   EndArrayTypeComposerComponent(const EndArrayTypeComposerComponent& other) = delete;
   EndArrayTypeComposerComponent(EndArrayTypeComposerComponent&& other) = delete;
   EndArrayTypeComposerComponent& operator=(const EndArrayTypeComposerComponent& other) = delete;
@@ -162,7 +162,7 @@ class StartArrayElementTypeComposerComponent : public AbstractTypeComposerCompon
 {
 public:
   StartArrayElementTypeComposerComponent() = default;
-  ~StartArrayElementTypeComposerComponent() override = default;
+  ~StartArrayElementTypeComposerComponent() override;
   StartArrayElementTypeComposerComponent(const StartArrayElementTypeComposerComponent& other) = delete;
   StartArrayElementTypeComposerComponent(StartArrayElementTypeComposerComponent&& other) = delete;
   StartArrayElementTypeComposerComponent& operator=(const StartArrayElementTypeComposerComponent& other) = delete;
@@ -178,7 +178,7 @@ class EndArrayElementTypeComposerComponent : public AbstractTypeComposerComponen
 {
 public:
   EndArrayElementTypeComposerComponent() = default;
-  ~EndArrayElementTypeComposerComponent() override = default;
+  ~EndArrayElementTypeComposerComponent() override;
   EndArrayElementTypeComposerComponent(const EndArrayElementTypeComposerComponent& other) = delete;
   EndArrayElementTypeComposerComponent(EndArrayElementTypeComposerComponent&& other) = delete;
   EndArrayElementTypeComposerComponent& operator=(const EndArrayElementTypeComposerComponent& other) = delete;

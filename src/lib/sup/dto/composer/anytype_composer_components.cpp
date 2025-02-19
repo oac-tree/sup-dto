@@ -40,6 +40,8 @@ namespace dto
 // LeafTypeComposerComponent
 // ----------------------------------------------------------------------------
 
+LeafTypeComposerComponent::~LeafTypeComposerComponent() = default;
+
 LeafTypeComposerComponent::LeafTypeComposerComponent(const sup::dto::AnyType& anytype)
   : AbstractTypeComposerComponent(anytype)
 {}
@@ -58,6 +60,8 @@ bool LeafTypeComposerComponent::Process(std::stack<component_t>& stack)
 // ----------------------------------------------------------------------------
 // StartStructTypeComposerComponent
 // ----------------------------------------------------------------------------
+
+StartStructTypeComposerComponent::~StartStructTypeComposerComponent() = default;
 
 StartStructTypeComposerComponent::StartStructTypeComposerComponent(const std::string& struct_name)
   : AbstractTypeComposerComponent(::sup::dto::EmptyStructType(struct_name))
@@ -84,6 +88,8 @@ void StartStructTypeComposerComponent::AddMember(const std::string& name,
 // EndStructTypeComposerComponent
 // ----------------------------------------------------------------------------
 
+EndStructTypeComposerComponent::~EndStructTypeComposerComponent() = default;
+
 AbstractTypeComposerComponent::Type EndStructTypeComposerComponent::GetComponentType() const
 {
   return Type::kEndStruct;
@@ -103,6 +109,8 @@ bool EndStructTypeComposerComponent::Process(std::stack<component_t>& stack)
 // ----------------------------------------------------------------------------
 // StartFieldTypeComposerComponent
 // ----------------------------------------------------------------------------
+
+StartFieldTypeComposerComponent::~StartFieldTypeComposerComponent() = default;
 
 StartFieldTypeComposerComponent::StartFieldTypeComposerComponent(const std::string& field_name)
     : AbstractTypeComposerComponent{}
@@ -125,6 +133,8 @@ bool StartFieldTypeComposerComponent::Process(std::stack<component_t>& stack)
 // ----------------------------------------------------------------------------
 // EndFieldTypeComposerComponent
 // ----------------------------------------------------------------------------
+
+EndFieldTypeComposerComponent::~EndFieldTypeComposerComponent() = default;
 
 AbstractTypeComposerComponent::Type EndFieldTypeComposerComponent::GetComponentType() const
 {
@@ -157,6 +167,8 @@ bool EndFieldTypeComposerComponent::Process(std::stack<component_t>& stack)
 // ----------------------------------------------------------------------------
 // StartArrayTypeComposerComponent
 // ----------------------------------------------------------------------------
+
+StartArrayTypeComposerComponent::~StartArrayTypeComposerComponent() = default;
 
 StartArrayTypeComposerComponent::StartArrayTypeComposerComponent(const std::string& array_name,
                                                                  sup::dto::uint64 array_size)
@@ -193,6 +205,8 @@ void StartArrayTypeComposerComponent::AddElement(const sup::dto::AnyType& anytyp
 // EndArrayTypeComposerComponent
 // ----------------------------------------------------------------------------
 
+EndArrayTypeComposerComponent::~EndArrayTypeComposerComponent() = default;
+
 AbstractTypeComposerComponent::Type EndArrayTypeComposerComponent::GetComponentType() const
 {
   return Type::kEndArray;
@@ -219,6 +233,8 @@ bool EndArrayTypeComposerComponent::Process(std::stack<component_t>& stack)
 // StartArrayElementTypeComposerComponent
 // ----------------------------------------------------------------------------
 
+StartArrayElementTypeComposerComponent::~StartArrayElementTypeComposerComponent() = default;
+
 AbstractTypeComposerComponent::Type StartArrayElementTypeComposerComponent::GetComponentType() const
 {
   return Type::kStartArrayElement;
@@ -233,6 +249,8 @@ bool StartArrayElementTypeComposerComponent::Process(std::stack<component_t>& st
 // ----------------------------------------------------------------------------
 // EndArrayElementTypeComposerComponent
 // ----------------------------------------------------------------------------
+
+EndArrayElementTypeComposerComponent::~EndArrayElementTypeComposerComponent() = default;
 
 AbstractTypeComposerComponent::Type EndArrayElementTypeComposerComponent::GetComponentType() const
 {

@@ -53,6 +53,7 @@ target_sources(unit-tests
     structuredtype_tests.cpp
     structuredvalue_tests.cpp
     test_serializers.cpp
+    typecode_hash_tests.cpp
 )
 
 target_include_directories(unit-tests
