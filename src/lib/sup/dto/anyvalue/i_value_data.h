@@ -48,7 +48,7 @@ public:
   virtual TypeCode GetTypeCode() const = 0;
   virtual std::string GetTypeName() const = 0;
 
-  // Only used to provide a fast private way for AnyValue to assess if it's scalar
+  // Faster way to assess if a an AnyValue is scalar
   virtual bool IsScalar() const;
 
   // Return the constraints on the current value node.

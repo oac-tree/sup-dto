@@ -199,6 +199,13 @@ public:
   std::string GetTypeName() const;
 
   /**
+   * @brief Query if this type is scalar (not empty, struct or array).
+   *
+   * @return true when this type is scalar.
+   */
+  bool IsScalar() const;
+
+  /**
    * @brief Add member type.
    *
    * @note AnyType is passed by value (see Scott Meyers Effective Modern C++ Item 41: consider

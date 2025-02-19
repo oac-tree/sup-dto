@@ -262,6 +262,11 @@ std::string AnyValue::GetTypeName() const
   return m_data->GetTypeName();
 }
 
+bool AnyValue::IsScalar() const
+{
+  return m_data->IsScalar();
+}
+
 AnyValue& AnyValue::AddMember(const std::string& name, AnyValue value) &
 {
   if (IsLockedTypeConstraint(m_data->GetConstraints()))
@@ -704,7 +709,7 @@ bool IsArrayValue(const AnyValue& anyvalue)
 
 bool IsScalarValue(const AnyValue& anyvalue)
 {
-  return IsScalarTypeCode(anyvalue.GetTypeCode());
+  return anyvalue.IsScalar();
 }
 
 std::deque<std::string> SplitAnyValueFieldname(const std::string& fieldname)

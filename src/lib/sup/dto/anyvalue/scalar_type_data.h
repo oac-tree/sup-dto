@@ -42,6 +42,8 @@ public:
   TypeCode GetTypeCode() const override;
   std::string GetTypeName() const override;
 
+  bool IsScalar() const override;
+
   std::unique_ptr<ITypeData> CloneFromChildren(
     std::vector<std::unique_ptr<AnyType>>&& children) const override;
 

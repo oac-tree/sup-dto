@@ -30,6 +30,11 @@ namespace dto
 
 ITypeData::~ITypeData() = default;
 
+bool ITypeData::IsScalar() const
+{
+  return false;
+}
+
 void ITypeData::AddMember(const std::string&, AnyType&&)
 {
   throw InvalidOperationException("Add member only supported for structured types");

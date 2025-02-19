@@ -177,6 +177,11 @@ std::string AnyType::GetTypeName() const
   return m_data->GetTypeName();
 }
 
+bool AnyType::IsScalar() const
+{
+  return m_data->IsScalar();
+}
+
 AnyType& AnyType::AddMember(const std::string& name, AnyType type) &
 {
   m_data->AddMember(name, std::move(type));
@@ -421,7 +426,7 @@ bool IsArrayType(const AnyType& anytype)
 
 bool IsScalarType(const AnyType& anytype)
 {
-  return IsScalarTypeCode(anytype.GetTypeCode());
+  return anytype.IsScalar();
 }
 
 const std::vector<std::pair<TypeCode, std::string>>& ScalarTypeDefinitions()

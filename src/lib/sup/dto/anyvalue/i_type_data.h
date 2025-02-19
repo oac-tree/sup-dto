@@ -42,6 +42,9 @@ public:
   virtual TypeCode GetTypeCode() const = 0;
   virtual std::string GetTypeName() const = 0;
 
+  // Faster way to assess if a an AnyType is scalar
+  virtual bool IsScalar() const;
+
   virtual void AddMember(const std::string&, AnyType&&);
   virtual std::vector<std::string> MemberNames() const;
   virtual std::size_t NumberOfMembers() const;

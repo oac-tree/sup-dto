@@ -53,6 +53,11 @@ std::string ScalarTypeData::GetTypeName() const
   return ScalarTypeCodeToString(m_type_code);
 }
 
+bool ScalarTypeData::IsScalar() const
+{
+  return true;
+}
+
 std::unique_ptr<ITypeData> ScalarTypeData::CloneFromChildren(
   std::vector<std::unique_ptr<AnyType>>&&) const
 {
