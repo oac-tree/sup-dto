@@ -117,7 +117,7 @@ std::size_t StructDataT<T>::NumberOfMembers() const
 template <typename T>
 bool StructDataT<T>::HasChild(const std::string& child_name) const
 {
-  auto pred = [child_name](const auto& member){
+  auto pred = [&child_name](const auto& member){
     return member.first == child_name;
   };
   auto it = std::find_if(m_members.begin(), m_members.end(), pred);
@@ -127,7 +127,7 @@ bool StructDataT<T>::HasChild(const std::string& child_name) const
 template <typename T>
 T* StructDataT<T>::GetChild(const std::string& child_name)
 {
-  auto pred = [child_name](const auto& member){
+  auto pred = [&child_name](const auto& member){
     return member.first == child_name;
   };
   auto it = std::find_if(m_members.begin(), m_members.end(), pred);
