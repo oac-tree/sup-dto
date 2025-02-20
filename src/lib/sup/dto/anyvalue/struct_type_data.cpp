@@ -44,6 +44,11 @@ std::string StructTypeData::GetTypeName() const
 
 void StructTypeData::AddMember(const std::string& name, AnyType&& type)
 {
+  utils::VerifyMemberName(name);
+  if (HasChild(name))
+  {
+    throw InvalidOperationException("Cannot add duplicate member keys");
+  }
   auto moved = std::make_unique<AnyType>(std::move(type));
   m_member_data.AddMember(name, std::move(moved));
 }

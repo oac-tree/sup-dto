@@ -52,6 +52,11 @@ Constraints StructValueData::GetConstraints() const
 
 void StructValueData::AddMember(const std::string& name, std::unique_ptr<AnyValue>&& value)
 {
+  utils::VerifyMemberName(name);
+  if (HasChild(name))
+  {
+    throw InvalidOperationException("Cannot add duplicate member keys");
+  }
   m_member_data.AddMember(name, std::move(value));
 }
 

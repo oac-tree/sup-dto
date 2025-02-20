@@ -89,11 +89,6 @@ std::string StructDataT<T>::GetTypeName() const
 template <typename T>
 void StructDataT<T>::AddMember(const std::string& name, std::unique_ptr<T>&& val)
 {
-  utils::VerifyMemberName(name);
-  if (HasChild(name))
-  {
-    throw InvalidOperationException("Cannot add duplicate member keys");
-  }
   (void)m_members.emplace_back(name, std::move(val));
 }
 
