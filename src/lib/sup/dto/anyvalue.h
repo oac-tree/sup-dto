@@ -426,6 +426,7 @@ public:
    * @return Child value for the given index.
    * @throws InvalidOperationException if no child value for the given index exists.
    */
+  AnyValue* GetChildValue(std::size_t idx);
   const AnyValue* GetChildValue(std::size_t idx) const;
 
 private:
@@ -446,7 +447,6 @@ private:
   AnyValue(const AnyType& anytype, Constraints constraints);
   bool HasChild(const std::string& child_name) const;
   const AnyValue* GetChildValue(const std::string& child_name) const;
-  AnyValue* GetChildValue(std::size_t idx);
   std::unique_ptr<AnyValue> CloneFromChildren(std::vector<std::unique_ptr<AnyValue>>&& children,
                                               Constraints constraints) const;
   // Equality function that disregards child values

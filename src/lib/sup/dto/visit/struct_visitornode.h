@@ -72,11 +72,11 @@ std::unique_ptr<IAnyVisitorNode<T>> StructVisitorNode<T>::NextChild()
   {
     return {};
   }
-  auto member_name = m_member_names[m_next_index];
+  T* member = GetIndexedChild(this->GetValue(), m_next_index);
+  const auto& member_name = m_member_names[m_next_index];
   ++m_next_index;
-  T *member_type = &this->GetValue()->operator[](member_name);
   std::unique_ptr<IAnyVisitorNode<T>> result{
-      new MemberVisitorNode<T>(member_type, member_name)};
+      new MemberVisitorNode<T>(member, member_name)};
   return result;
 }
 

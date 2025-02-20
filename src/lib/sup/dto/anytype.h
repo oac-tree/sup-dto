@@ -328,6 +328,7 @@ public:
    * @return Child type for the given index.
    * @throws InvalidOperationException if no child type for the given index exists.
    */
+  AnyType* GetChildType(std::size_t idx);
   const AnyType* GetChildType(std::size_t idx) const;
 
 private:

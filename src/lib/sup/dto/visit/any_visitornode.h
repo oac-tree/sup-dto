@@ -30,6 +30,13 @@ namespace sup
 {
 namespace dto
 {
+class AnyType;
+class AnyValue;
+
+AnyType* GetIndexedChild(AnyType* parent, std::size_t idx);
+const AnyType* GetIndexedChild(const AnyType* parent, std::size_t idx);
+AnyValue* GetIndexedChild(AnyValue* parent, std::size_t idx);
+const AnyValue* GetIndexedChild(const AnyValue* parent, std::size_t idx);
 
 /**
  * @brief Templated interface for thin nodes to visit an AnyType/AnyValue tree in

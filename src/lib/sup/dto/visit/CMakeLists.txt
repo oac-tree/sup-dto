@@ -1,5 +1,6 @@
 target_sources(sup-dto-obj
     PRIVATE
+    any_visitornode.cpp
     array_visitornode.cpp
     create_any_visitornode.cpp
 )

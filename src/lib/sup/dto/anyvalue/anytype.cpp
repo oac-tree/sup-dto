@@ -297,6 +297,11 @@ std::size_t AnyType::NumberOfChildren() const
   return m_data->NumberOfChildren();
 }
 
+AnyType* AnyType::GetChildType(std::size_t idx)
+{
+  return m_data->GetChildType(idx);
+}
+
 const AnyType* AnyType::GetChildType(std::size_t idx) const
 {
   return m_data->GetChildType(idx);

@@ -499,6 +499,11 @@ std::size_t AnyValue::NumberOfChildren() const
   return m_data->NumberOfChildren();
 }
 
+AnyValue* AnyValue::GetChildValue(std::size_t idx)
+{
+  return m_data->GetChildValue(idx);
+}
+
 const AnyValue* AnyValue::GetChildValue(std::size_t idx) const
 {
   return m_data->GetChildValue(idx);
@@ -637,11 +642,6 @@ bool AnyValue::HasChild(const std::string& child_name) const
 const AnyValue* AnyValue::GetChildValue(const std::string& child_name) const
 {
   return m_data->GetChildValue(child_name);
-}
-
-AnyValue* AnyValue::GetChildValue(std::size_t idx)
-{
-  return m_data->GetChildValue(idx);
 }
 
 std::unique_ptr<AnyValue> AnyValue::CloneFromChildren(
