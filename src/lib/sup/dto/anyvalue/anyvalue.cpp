@@ -747,13 +747,13 @@ std::pair<std::string, std::string> SplitAnyValueFieldnameInHeadTail(const std::
     throw InvalidOperationException(
       "SplitAnyValueFieldnameInHeadTail() called with empty fieldname");
   }
-  const std::string error =
-    "SplitAnyValueFieldnameInHeadTail(): could not parse fieldname \"" + fieldname + "\"";
   auto pos = fieldname.find_first_of("[.");
   if (pos == std::string::npos)
   {
     if (!CheckAnyValueComponentFieldname(fieldname))
     {
+      const std::string error =
+        "SplitAnyValueFieldnameInHeadTail(): could not parse fieldname \"" + fieldname + "\"";
       throw InvalidOperationException(error);
     }
     return { fieldname, "" };
@@ -768,8 +768,6 @@ std::pair<std::string, std::string> SplitAnyValueFieldnameInHeadTail(const std::
 std::pair<std::string, std::string> SplitAnyValueFieldnameOnArrayCharacter(
   const std::string& fieldname, std::size_t pos)
 {
-  const std::string error =
-    "SplitAnyValueFieldnameInHeadTail(): could not parse fieldname \"" + fieldname + "\"";
   std::string head{};
   std::string tail{};
   if (pos == 0)
@@ -777,6 +775,8 @@ std::pair<std::string, std::string> SplitAnyValueFieldnameOnArrayCharacter(
     auto pos_end = fieldname.find(']', pos);
     if (pos_end == std::string::npos)
     {
+      const std::string error =
+      "SplitAnyValueFieldnameInHeadTail(): could not parse fieldname \"" + fieldname + "\"";
       throw InvalidOperationException(error);
     }
     auto remainder_start = pos_end + 1;
@@ -794,6 +794,8 @@ std::pair<std::string, std::string> SplitAnyValueFieldnameOnArrayCharacter(
   }
   if (!CheckAnyValueComponentFieldname(head))
   {
+    const std::string error =
+      "SplitAnyValueFieldnameInHeadTail(): could not parse fieldname \"" + fieldname + "\"";
     throw InvalidOperationException(error);
   }
   return { head, tail };
@@ -802,17 +804,19 @@ std::pair<std::string, std::string> SplitAnyValueFieldnameOnArrayCharacter(
 std::pair<std::string, std::string> SplitAnyValueFieldnameOnStructCharacter(
   const std::string& fieldname, std::size_t pos)
 {
-  const std::string error =
-    "SplitAnyValueFieldnameInHeadTail(): could not parse fieldname \"" + fieldname + "\"";
   auto total_size = fieldname.size();
   if (pos == 0 || pos + 1 == total_size)  // fieldname starts or ends with '.'
   {
+    const std::string error =
+      "SplitAnyValueFieldnameInHeadTail(): could not parse fieldname \"" + fieldname + "\"";
     throw InvalidOperationException(error);
   }
   auto head = fieldname.substr(0, pos);
   auto tail = fieldname.substr(pos + 1);
   if (!CheckAnyValueComponentFieldname(head))
   {
+    const std::string error =
+      "SplitAnyValueFieldnameInHeadTail(): could not parse fieldname \"" + fieldname + "\"";
     throw InvalidOperationException(error);
   }
   return { head, tail };
