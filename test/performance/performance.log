@@ -1,163 +1,163 @@
-Performance tests (2025-02-12T14:45:03Z)
+Performance tests (2025-02-20T13:42:02Z)
 ========================================
 
 Test AnyType copy/equality performance
 **************************************
 Results for 100000 iterations:
-  Total copy time (ms) : 145
-  Total equality check time (ms)     : 55
-  Mean copy time (ms) : 0.00145
-  Mean equality check time (ms)     : 0.00055
+  Total copy time (ms) : 73
+  Total equality check time (ms)     : 36
+  Mean copy time (ms) : 0.00073
+  Mean equality check time (ms)     : 0.00036
 
 Results for 100000 iterations:
-  Total copy time (ms) : 165
-  Total equality check time (ms)     : 70
-  Mean copy time (ms) : 0.00165
-  Mean equality check time (ms)     : 0.0007
+  Total copy time (ms) : 84
+  Total equality check time (ms)     : 43
+  Mean copy time (ms) : 0.00084
+  Mean equality check time (ms)     : 0.00043
 
 Results for 100000 iterations:
-  Total copy time (ms) : 1047
-  Total equality check time (ms)     : 386
-  Mean copy time (ms) : 0.01047
-  Mean equality check time (ms)     : 0.00386
+  Total copy time (ms) : 574
+  Total equality check time (ms)     : 268
+  Mean copy time (ms) : 0.00574
+  Mean equality check time (ms)     : 0.00268
 
 Results for 100000 iterations:
-  Total copy time (ms) : 1037
-  Total equality check time (ms)     : 385
-  Mean copy time (ms) : 0.01037
-  Mean equality check time (ms)     : 0.00385
+  Total copy time (ms) : 568
+  Total equality check time (ms)     : 277
+  Mean copy time (ms) : 0.00568
+  Mean equality check time (ms)     : 0.00277
 
 Results for 100000 iterations:
-  Total copy time (ms) : 1054
-  Total equality check time (ms)     : 391
-  Mean copy time (ms) : 0.01054
-  Mean equality check time (ms)     : 0.00391
+  Total copy time (ms) : 589
+  Total equality check time (ms)     : 288
+  Mean copy time (ms) : 0.00589
+  Mean equality check time (ms)     : 0.00288
 
 
 Test AnyValue copy/equality performance
 ***************************************
 Results for 100000 iterations:
-  Total copy time (ms) : 173
-  Total equality check time (ms)     : 65
-  Mean copy time (ms) : 0.00173
-  Mean equality check time (ms)     : 0.00065
+  Total copy time (ms) : 96
+  Total equality check time (ms)     : 42
+  Mean copy time (ms) : 0.00096
+  Mean equality check time (ms)     : 0.00042
 
-Results for 14565 iterations:
-  Total copy time (ms) : 3091
-  Total equality check time (ms)     : 1065
-  Mean copy time (ms) : 0.212221
-  Mean equality check time (ms)     : 0.0731205
+Results for 21376 iterations:
+  Total copy time (ms) : 2570
+  Total equality check time (ms)     : 1083
+  Mean copy time (ms) : 0.120228
+  Mean equality check time (ms)     : 0.0506643
 
-Results for 1758 iterations:
-  Total copy time (ms) : 2288
-  Total equality check time (ms)     : 773
-  Mean copy time (ms) : 1.30148
-  Mean equality check time (ms)     : 0.439704
+Results for 2115 iterations:
+  Total copy time (ms) : 1648
+  Total equality check time (ms)     : 670
+  Mean copy time (ms) : 0.779196
+  Mean equality check time (ms)     : 0.316785
 
-Results for 155 iterations:
-  Total copy time (ms) : 6573
-  Total equality check time (ms)     : 2143
-  Mean copy time (ms) : 42.4065
-  Mean equality check time (ms)     : 13.8258
+Results for 269 iterations:
+  Total copy time (ms) : 4799
+  Total equality check time (ms)     : 1856
+  Mean copy time (ms) : 17.8401
+  Mean equality check time (ms)     : 6.89963
 
-Results for 4 iterations:
-  Total copy time (ms) : 4662
-  Total equality check time (ms)     : 1339
-  Mean copy time (ms) : 1165.5
-  Mean equality check time (ms)     : 334.75
+Results for 13 iterations:
+  Total copy time (ms) : 4915
+  Total equality check time (ms)     : 1804
+  Mean copy time (ms) : 378.077
+  Mean equality check time (ms)     : 138.769
 
 
 Test JSON serialize/parse performance
 *************************************
 Encoded size: 493
-Results for 454 iterations:
-  Total serialize time (ms) : 10
-  Total parse time (ms)     : 19
-  Mean serialize time (ms) : 0.0220264
-  Mean parse time (ms)     : 0.0418502
-  Mean bytes/s (serialize) : 2.23822e+07
-  Mean bytes/s (parse)     : 1.17801e+07
+Results for 17 iterations:
+  Total serialize time (ms) : 0
+  Total parse time (ms)     : 0
+  Mean serialize time (ms) : 0
+  Mean parse time (ms)     : 0
+  Mean bytes/s (serialize) : inf
+  Mean bytes/s (parse)     : inf
 
 Encoded size: 11145
-Results for 10 iterations:
-  Total serialize time (ms) : 5
-  Total parse time (ms)     : 15
-  Mean serialize time (ms) : 0.5
-  Mean parse time (ms)     : 1.5
-  Mean bytes/s (serialize) : 2.229e+07
-  Mean bytes/s (parse)     : 7.43e+06
+Results for 1000 iterations:
+  Total serialize time (ms) : 197
+  Total parse time (ms)     : 596
+  Mean serialize time (ms) : 0.197
+  Mean parse time (ms)     : 0.596
+  Mean bytes/s (serialize) : 5.65736e+07
+  Mean bytes/s (parse)     : 1.86997e+07
 
 Encoded size: 66866
-Results for 357 iterations:
-  Total serialize time (ms) : 1201
-  Total parse time (ms)     : 3113
-  Mean serialize time (ms) : 3.36415
-  Mean parse time (ms)     : 8.71989
-  Mean bytes/s (serialize) : 1.98761e+07
-  Mean bytes/s (parse)     : 7.66822e+06
+Results for 1000 iterations:
+  Total serialize time (ms) : 1182
+  Total parse time (ms)     : 3551
+  Mean serialize time (ms) : 1.182
+  Mean parse time (ms)     : 3.551
+  Mean bytes/s (serialize) : 5.65702e+07
+  Mean bytes/s (parse)     : 1.88302e+07
 
 Encoded size: 1029906
-Results for 25 iterations:
-  Total serialize time (ms) : 1334
-  Total parse time (ms)     : 3471
-  Mean serialize time (ms) : 53.36
-  Mean parse time (ms)     : 138.84
-  Mean bytes/s (serialize) : 1.93011e+07
-  Mean bytes/s (parse)     : 7.41793e+06
+Results for 53 iterations:
+  Total serialize time (ms) : 1112
+  Total parse time (ms)     : 3297
+  Mean serialize time (ms) : 20.9811
+  Mean parse time (ms)     : 62.2075
+  Mean bytes/s (serialize) : 4.90872e+07
+  Mean bytes/s (parse)     : 1.6556e+07
 
 Encoded size: 20546500
 Results for 3 iterations:
-  Total serialize time (ms) : 3173
-  Total parse time (ms)     : 9267
-  Mean serialize time (ms) : 1057.67
-  Mean parse time (ms)     : 3089
-  Mean bytes/s (serialize) : 1.94263e+07
-  Mean bytes/s (parse)     : 6.65151e+06
+  Total serialize time (ms) : 1223
+  Total parse time (ms)     : 3704
+  Mean serialize time (ms) : 407.667
+  Mean parse time (ms)     : 1234.67
+  Mean bytes/s (serialize) : 5.04002e+07
+  Mean bytes/s (parse)     : 1.66413e+07
 
 
 Test binary serialize/parse performance
 ***************************************
 Encoded size: 115
 Results for 1000 iterations:
-  Total serialize time (ms) : 11
-  Total parse time (ms)     : 18
-  Mean serialize time (ms) : 0.011
-  Mean parse time (ms)     : 0.018
-  Mean bytes/s (serialize) : 1.04545e+07
-  Mean bytes/s (parse)     : 6.38889e+06
+  Total serialize time (ms) : 4
+  Total parse time (ms)     : 11
+  Mean serialize time (ms) : 0.004
+  Mean parse time (ms)     : 0.011
+  Mean bytes/s (serialize) : 2.875e+07
+  Mean bytes/s (parse)     : 1.04545e+07
 
 Encoded size: 5493
 Results for 1000 iterations:
-  Total serialize time (ms) : 483
-  Total parse time (ms)     : 872
-  Mean serialize time (ms) : 0.483
-  Mean parse time (ms)     : 0.872
-  Mean bytes/s (serialize) : 1.13727e+07
-  Mean bytes/s (parse)     : 6.29931e+06
+  Total serialize time (ms) : 155
+  Total parse time (ms)     : 376
+  Mean serialize time (ms) : 0.155
+  Mean parse time (ms)     : 0.376
+  Mean bytes/s (serialize) : 3.54387e+07
+  Mean bytes/s (parse)     : 1.4609e+07
 
 Encoded size: 33060
-Results for 555 iterations:
-  Total serialize time (ms) : 1660
-  Total parse time (ms)     : 2965
-  Mean serialize time (ms) : 2.99099
-  Mean parse time (ms)     : 5.34234
-  Mean bytes/s (serialize) : 1.10532e+07
-  Mean bytes/s (parse)     : 6.1883e+06
+Results for 1000 iterations:
+  Total serialize time (ms) : 993
+  Total parse time (ms)     : 2341
+  Mean serialize time (ms) : 0.993
+  Mean parse time (ms)     : 2.341
+  Mean bytes/s (serialize) : 3.32931e+07
+  Mean bytes/s (parse)     : 1.41222e+07
 
 Encoded size: 519108
-Results for 36 iterations:
-  Total serialize time (ms) : 2163
-  Total parse time (ms)     : 3870
-  Mean serialize time (ms) : 60.0833
-  Mean parse time (ms)     : 107.5
-  Mean bytes/s (serialize) : 8.6398e+06
-  Mean bytes/s (parse)     : 4.82891e+06
+Results for 83 iterations:
+  Total serialize time (ms) : 1528
+  Total parse time (ms)     : 3242
+  Mean serialize time (ms) : 18.4096
+  Mean parse time (ms)     : 39.0602
+  Mean bytes/s (serialize) : 2.81976e+07
+  Mean bytes/s (parse)     : 1.32899e+07
 
 Encoded size: 10369339
-Results for 3 iterations:
-  Total serialize time (ms) : 3358
-  Total parse time (ms)     : 6105
-  Mean serialize time (ms) : 1119.33
-  Mean parse time (ms)     : 2035
-  Mean bytes/s (serialize) : 9.26385e+06
-  Mean bytes/s (parse)     : 5.0955e+06
+Results for 4 iterations:
+  Total serialize time (ms) : 1226
+  Total parse time (ms)     : 3615
+  Mean serialize time (ms) : 306.5
+  Mean parse time (ms)     : 903.75
+  Mean bytes/s (serialize) : 3.38314e+07
+  Mean bytes/s (parse)     : 1.14737e+07
