@@ -2,6 +2,9 @@ Changes for 1.6.0:
 
 - Reduce doxygen warnings
 - Remove obsolete AnyValue::UnsafeConvertFrom
+- Refactor:
+  - Use non-recursive implementations in AnyType/AnyValue copy/assign/etc.
+  - Optimize JSON/binary serialization/parsing
 
 Changes for 1.5.0:
 
