@@ -1,3 +1,7 @@
+Changes for 1.7.0:
+
+- CMake changes to allow for pulling sup-dto as a github dependency
+
 Changes for 1.6.0:
 
 - Reduce doxygen warnings
