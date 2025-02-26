@@ -2,7 +2,7 @@ if(NOT COA_BUILD_TESTS)
   return()
 endif()
 
-set(SUP_DTO_AUTOGEN_DIR ${CMAKE_BINARY_DIR}/autogen)
+set(SUP_DTO_AUTOGEN_DIR ${CMAKE_CURRENT_BINARY_DIR}/autogen)
 file(MAKE_DIRECTORY ${SUP_DTO_AUTOGEN_DIR})
 
 add_subdirectory(unit)

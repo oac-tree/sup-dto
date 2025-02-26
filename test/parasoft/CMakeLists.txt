@@ -8,7 +8,7 @@ include(COASetupParasoft)
 # This generates the build time information needed by Parasoft for analysis
 cpptest_add_executable(sup-dto-cpptest
   CPPTEST_PROJECT_LOC ${CMAKE_CURRENT_BINARY_DIR}
-  CPPTEST_PROJECT_FOLDERS sup-dto-obj=${CMAKE_SOURCE_DIR}/src/lib/sup/dto
+  CPPTEST_PROJECT_FOLDERS sup-dto-obj=${CMAKE_CURRENT_SOURCE_DIR}/src/lib/sup/dto
   TARGETS sup-dto-obj
 )
 get_target_property(SUP_DTO_INCLUDE_DIRECTORIES sup-dto-obj INCLUDE_DIRECTORIES)
