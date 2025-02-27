@@ -1,11 +1,13 @@
-add_executable(sup-dto-unit-tests)
+set(unit-tests sup-dto-unit-tests)
 
-set_target_properties(sup-dto-unit-tests PROPERTIES OUTPUT_NAME "unit-tests")
-set_target_properties(sup-dto-unit-tests PROPERTIES RUNTIME_OUTPUT_DIRECTORY ${TEST_OUTPUT_DIRECTORY})
+add_executable(${unit-tests})
+
+set_target_properties(${unit-tests} PROPERTIES OUTPUT_NAME "unit-tests")
+set_target_properties(${unit-tests} PROPERTIES RUNTIME_OUTPUT_DIRECTORY ${TEST_OUTPUT_DIRECTORY})
 
 configure_file(${CMAKE_CURRENT_LIST_DIR}/test_config.h.in ${SUP_DTO_AUTOGEN_DIR}/test_config.h @ONLY)
 
-target_sources(sup-dto-unit-tests
+target_sources(${unit-tests}
   PRIVATE
     abstract_type_composer_component_tests.cpp
     abstract_value_composer_component_tests.cpp
@@ -59,7 +61,7 @@ target_sources(sup-dto-unit-tests
     typecode_hash_tests.cpp
 )
 
-target_include_directories(sup-dto-unit-tests
+target_include_directories(${unit-tests}
   PRIVATE
   ${SUP_DTO_AUTOGEN_DIR}
 )
@@ -68,11 +70,11 @@ find_package(GTest REQUIRED)
 
 include(GoogleTest)
 
-target_link_libraries(sup-dto-unit-tests
+target_link_libraries(${unit-tests}
   PRIVATE
     GTest::GTest
     GTest::Main
     sup-dto-shared
 )
 
-gtest_discover_tests(sup-dto-unit-tests)
+gtest_discover_tests(${unit-tests})
