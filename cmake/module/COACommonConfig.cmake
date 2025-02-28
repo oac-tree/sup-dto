@@ -4,7 +4,6 @@
 
 include(GNUInstallDirs)
 include(CTest)
-include(COASetupCodacEnvironment)
 
 # -----------------------------------------------------------------------------
 # C++ version

@@ -3,3 +3,4 @@
 # -----------------------------------------------------------------------------
 
 include(COACommonConfig)
+include(COASetupCodacEnvironment)
