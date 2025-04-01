@@ -130,7 +130,7 @@ template <typename To, typename From,
     std::is_arithmetic<From>::value, bool>::type = true>
 To ConvertScalar(const From& value)
 {
-  return value;
+  return static_cast<To>(value);
 }
 
 // Conversion from boolean type to strict arithmetic type (to avoid duplicate declaration)
@@ -139,7 +139,7 @@ template <typename To, typename From,
     std::is_same<typename std::remove_cv<From>::type, bool>::value, bool>::type = true>
 To ConvertScalar(const From& value)
 {
-  return value;
+  return static_cast<To>(value);
 }
 
 // Conversion from strict integer type to floating type
@@ -148,7 +148,7 @@ template <typename To, typename From,
     IsStrictlyInteger<From>::value, bool>::type = true>
 To ConvertScalar(const From& value)
 {
-  return value;
+  return static_cast<To>(value);
 }
 
 // Conversion from floating type to strictly arithmetic type

@@ -181,7 +181,7 @@ AnyType AnyTypeBuildNode::GetTypeFromRegistry() const
   {
     return GetTypeRegistry()->GetType(m_type_name);
   }
-  catch(const MessageException& e)
+  catch(const MessageException&)
   {
     throw ParseException(
       "AnyTypeBuildNode::GetTypeFromRegistry called with unknown type name");

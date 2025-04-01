@@ -2,6 +2,14 @@ set(unit-tests sup-dto-unit-tests)
 
 add_executable(${unit-tests})
 
+if(MSVC)
+  add_custom_command(TARGET ${unit-tests} POST_BUILD
+      COMMAND ${CMAKE_COMMAND} -E copy_if_different
+          $<TARGET_FILE:sup-dto-shared>
+          $<TARGET_FILE_DIR:${unit-tests}> # where the test exe goes
+)
+endif()
+
 set_target_properties(${unit-tests} PROPERTIES OUTPUT_NAME "unit-tests")
 set_target_properties(${unit-tests} PROPERTIES RUNTIME_OUTPUT_DIRECTORY ${TEST_OUTPUT_DIRECTORY})
 

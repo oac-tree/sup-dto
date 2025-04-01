@@ -29,35 +29,41 @@
 
 using namespace sup::dto;
 
-struct __attribute__((__packed__)) AddressType
+#ifdef _MSC_VER
+#define PACK( __Declaration__ ) __pragma( pack(push, 1) ) __Declaration__ __pragma( pack(pop))
+#else
+#define PACK( __Declaration__ ) __Declaration__ __attribute__((__packed__))
+#endif
+
+PACK(struct AddressType
 {
   char street[kStringMaxLength];
   uint16 number;
-};
+});
 
-struct __attribute__((__packed__)) TwoScalarsType
+PACK(struct TwoScalarsType
 {
   int8 signed_scalar;
   uint8 unsigned_scalar;
-};
+});
 
-struct __attribute__((__packed__)) ArrayType
+PACK(struct ArrayType
 {
   uint32 elements[5];
-};
+});
 
-struct __attribute__((__packed__)) SimpleStructType
+PACK(struct SimpleStructType
 {
   char id[kStringMaxLength];
   uint64 number;
-};
+});
 
-struct __attribute__((__packed__)) ComplexStructType
+PACK(struct ComplexStructType
 {
   SimpleStructType simple_array[2];
   SimpleStructType simple_val;
   bool validated;
-};
+});
 
 TEST(AnyValueCTypeTest, ToStringFields)
 {

@@ -398,20 +398,28 @@ std::deque<std::string> SplitFieldname(const std::string& fieldname, HeadTailFun
  */
 std::deque<std::string> SplitAnyTypeFieldname(const std::string& fieldname);
 
-extern const AnyType EmptyType;
-extern const AnyType BooleanType;
-extern const AnyType Character8Type;
-extern const AnyType SignedInteger8Type;
-extern const AnyType UnsignedInteger8Type;
-extern const AnyType SignedInteger16Type;
-extern const AnyType UnsignedInteger16Type;
-extern const AnyType SignedInteger32Type;
-extern const AnyType UnsignedInteger32Type;
-extern const AnyType SignedInteger64Type;
-extern const AnyType UnsignedInteger64Type;
-extern const AnyType Float32Type;
-extern const AnyType Float64Type;
-extern const AnyType StringType;
+#ifdef _WIN32
+  #ifdef SUP_DTO_EXPORTS
+    #define SUP_DTO_API __declspec(dllexport)
+  #else
+    #define SUP_DTO_API __declspec(dllimport)
+  #endif
+#endif
+
+SUP_DTO_API extern const AnyType EmptyType;
+SUP_DTO_API extern const AnyType BooleanType;
+SUP_DTO_API extern const AnyType Character8Type;
+SUP_DTO_API extern const AnyType SignedInteger8Type;
+SUP_DTO_API extern const AnyType UnsignedInteger8Type;
+SUP_DTO_API extern const AnyType SignedInteger16Type;
+SUP_DTO_API extern const AnyType UnsignedInteger16Type;
+SUP_DTO_API extern const AnyType SignedInteger32Type;
+SUP_DTO_API extern const AnyType UnsignedInteger32Type;
+SUP_DTO_API extern const AnyType SignedInteger64Type;
+SUP_DTO_API extern const AnyType UnsignedInteger64Type;
+SUP_DTO_API extern const AnyType Float32Type;
+SUP_DTO_API extern const AnyType Float64Type;
+SUP_DTO_API extern const AnyType StringType;
 
 }  // namespace dto
 

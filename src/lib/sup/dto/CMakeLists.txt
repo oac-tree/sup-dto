@@ -27,9 +27,17 @@ target_include_directories(sup-dto-shared PUBLIC
   $<INSTALL_INTERFACE:include>
   $<BUILD_INTERFACE:${CMAKE_CURRENT_LIST_DIR}/../..>)
 
-set_target_properties(sup-dto-static PROPERTIES
-  OUTPUT_NAME sup-dto
-)
+if(MSVC)
+  target_compile_definitions(sup-dto-obj PRIVATE SUP_DTO_EXPORTS)
+
+  set_target_properties(sup-dto-static PROPERTIES
+    OUTPUT_NAME sup-dto-static
+  )
+else()
+  set_target_properties(sup-dto-static PROPERTIES
+    OUTPUT_NAME sup-dto
+  )
+endif()
 
 target_link_libraries(sup-dto-static
   PRIVATE

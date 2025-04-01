@@ -1,0 +1,7 @@
+{
+    "name": "sup-dto",
+    "version": "1.7",
+    "dependencies": [    
+      "gtest"
+    ]
+  }

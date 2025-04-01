@@ -79,7 +79,7 @@ void AppendSize(std::vector<sup::dto::uint8>& representation, sup::dto::uint64 s
 {
   if (size < SHORT_SIZE_LIMIT)
   {
-    representation.push_back(size);
+    representation.push_back(static_cast<sup::dto::uint8>(size));
   }
   else
   {
