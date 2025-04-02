@@ -196,7 +196,7 @@ TEST_F(AnyValueComparisonTests, SignedIntegerTypes)
     EXPECT_EQ(Compare(AnyValue{SignedInteger64Type, 120},
                       AnyValue{SignedInteger32Type, 1000000}), CompareResult::Less);
     EXPECT_EQ(Compare(AnyValue{SignedInteger8Type, 120},
-                      AnyValue{SignedInteger64Type, 4000000000ll}), CompareResult::Less);
+                      AnyValue{SignedInteger64Type, int64(4000000000ll)}), CompareResult::Less);
     EXPECT_EQ(Compare(AnyValue{SignedInteger8Type, 121},
                       AnyValue{SignedInteger8Type, 121}), CompareResult::Equivalent);
     EXPECT_EQ(Compare(AnyValue{SignedInteger8Type, 120},
@@ -204,7 +204,7 @@ TEST_F(AnyValueComparisonTests, SignedIntegerTypes)
     EXPECT_EQ(Compare(AnyValue{SignedInteger64Type, 1000000},
                       AnyValue{SignedInteger32Type, 1000000}), CompareResult::Equivalent);
     EXPECT_EQ(Compare(AnyValue{SignedInteger8Type, 120},
-                      AnyValue{SignedInteger64Type, 120ll}), CompareResult::Equivalent);
+                      AnyValue{SignedInteger64Type, int64(120ll)}), CompareResult::Equivalent);
     EXPECT_EQ(Compare(AnyValue{SignedInteger8Type, 122},
                       AnyValue{SignedInteger8Type, 121}), CompareResult::Greater);
     EXPECT_EQ(Compare(AnyValue{SignedInteger8Type, 127},
@@ -212,7 +212,7 @@ TEST_F(AnyValueComparisonTests, SignedIntegerTypes)
     EXPECT_EQ(Compare(AnyValue{SignedInteger64Type, 1000001},
                       AnyValue{SignedInteger32Type, 1000000}), CompareResult::Greater);
     EXPECT_EQ(Compare(AnyValue{SignedInteger8Type, 120},
-                      AnyValue{SignedInteger64Type, 119ll}), CompareResult::Greater);
+                      AnyValue{SignedInteger64Type, int64(119ll)}), CompareResult::Greater);
   }
   {
     // Negative and positive signed integers
@@ -223,7 +223,7 @@ TEST_F(AnyValueComparisonTests, SignedIntegerTypes)
     EXPECT_EQ(Compare(AnyValue{SignedInteger64Type, 0},
                       AnyValue{SignedInteger32Type, 1000000}), CompareResult::Less);
     EXPECT_EQ(Compare(AnyValue{SignedInteger8Type, -120},
-                      AnyValue{SignedInteger64Type, 4000000000ll}), CompareResult::Less);
+                      AnyValue{SignedInteger64Type, int64(4000000000ll)}), CompareResult::Less);
     EXPECT_EQ(Compare(AnyValue{SignedInteger8Type, -121},
                       AnyValue{SignedInteger8Type, -121}), CompareResult::Equivalent);
     EXPECT_EQ(Compare(AnyValue{SignedInteger8Type, -120},
@@ -231,7 +231,7 @@ TEST_F(AnyValueComparisonTests, SignedIntegerTypes)
     EXPECT_EQ(Compare(AnyValue{SignedInteger64Type, 0},
                       AnyValue{SignedInteger32Type, 0}), CompareResult::Equivalent);
     EXPECT_EQ(Compare(AnyValue{SignedInteger8Type, -120},
-                      AnyValue{SignedInteger64Type, -120ll}), CompareResult::Equivalent);
+                      AnyValue{SignedInteger64Type, int64(-120ll)}), CompareResult::Equivalent);
     EXPECT_EQ(Compare(AnyValue{SignedInteger8Type, 122},
                       AnyValue{SignedInteger8Type, -121}), CompareResult::Greater);
     EXPECT_EQ(Compare(AnyValue{SignedInteger8Type, 127},
@@ -239,7 +239,7 @@ TEST_F(AnyValueComparisonTests, SignedIntegerTypes)
     EXPECT_EQ(Compare(AnyValue{SignedInteger64Type, -1000000},
                       AnyValue{SignedInteger32Type, -1000001}), CompareResult::Greater);
     EXPECT_EQ(Compare(AnyValue{SignedInteger8Type, -119},
-                      AnyValue{SignedInteger64Type, -20000ll}), CompareResult::Greater);
+                      AnyValue{SignedInteger64Type, int64(-20000ll)}), CompareResult::Greater);
   }
 }
 
@@ -252,7 +252,7 @@ TEST_F(AnyValueComparisonTests, UnsignedIntegerTypes)
   EXPECT_EQ(Compare(AnyValue{UnsignedInteger64Type, 120},
                     AnyValue{UnsignedInteger32Type, 1000000}), CompareResult::Less);
   EXPECT_EQ(Compare(AnyValue{UnsignedInteger8Type, 0},
-                    AnyValue{UnsignedInteger64Type, 4000000000ll}), CompareResult::Less);
+                    AnyValue{UnsignedInteger64Type, int64(4000000000ll)}), CompareResult::Less);
   EXPECT_EQ(Compare(AnyValue{UnsignedInteger8Type, 121},
                     AnyValue{UnsignedInteger8Type, 121}), CompareResult::Equivalent);
   EXPECT_EQ(Compare(AnyValue{UnsignedInteger8Type, 120},
@@ -260,7 +260,7 @@ TEST_F(AnyValueComparisonTests, UnsignedIntegerTypes)
   EXPECT_EQ(Compare(AnyValue{UnsignedInteger64Type, 0},
                     AnyValue{UnsignedInteger32Type, 0}), CompareResult::Equivalent);
   EXPECT_EQ(Compare(AnyValue{UnsignedInteger8Type, 120},
-                    AnyValue{UnsignedInteger64Type, 120ll}), CompareResult::Equivalent);
+                    AnyValue{UnsignedInteger64Type, int64(120ll)}), CompareResult::Equivalent);
   EXPECT_EQ(Compare(AnyValue{UnsignedInteger8Type, 122},
                     AnyValue{UnsignedInteger8Type, 121}), CompareResult::Greater);
   EXPECT_EQ(Compare(AnyValue{UnsignedInteger8Type, 127},
@@ -268,7 +268,7 @@ TEST_F(AnyValueComparisonTests, UnsignedIntegerTypes)
   EXPECT_EQ(Compare(AnyValue{UnsignedInteger64Type, 1000001},
                     AnyValue{UnsignedInteger32Type, 1000000}), CompareResult::Greater);
   EXPECT_EQ(Compare(AnyValue{UnsignedInteger8Type, 120},
-                    AnyValue{UnsignedInteger64Type, 119ll}), CompareResult::Greater);
+                    AnyValue{UnsignedInteger64Type, int64(119ll)}), CompareResult::Greater);
 }
 
 TEST_F(AnyValueComparisonTests, MixedSignIntegerTypes)

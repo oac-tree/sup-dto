@@ -404,6 +404,8 @@ std::deque<std::string> SplitAnyTypeFieldname(const std::string& fieldname);
   #else
     #define SUP_DTO_API __declspec(dllimport)
   #endif
+#else
+  #define SUP_DTO_API
 #endif
 
 SUP_DTO_API extern const AnyType EmptyType;
