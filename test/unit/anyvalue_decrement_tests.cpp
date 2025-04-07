@@ -111,7 +111,7 @@ TEST_F(AnyValueDecrementTests, UnsignedIntegerTypes)
     AnyValue ui32{UnsignedInteger32Type, 1};
     EXPECT_TRUE(Decrement(ui32));
     EXPECT_EQ(ui32.As<uint32>(), 0);
-    AnyValue ui64{UnsignedInteger64Type, int64(1000001ull)};
+    AnyValue ui64{UnsignedInteger64Type, uint64(1000001ull)};
     EXPECT_TRUE(Decrement(ui64));
     EXPECT_EQ(ui64.As<uint64>(), 1000000ul);
   }
