@@ -75,7 +75,7 @@ TEST_F(AnyValueBuilderTest, AnyValueBuildNodeMethods)
   AnyValue val;
   EXPECT_THROW(AnyValueBuildNode invalid_node(nullptr, nullptr, val), InvalidOperationException);
   AnyValueBuildNode node(&anytype_registry, nullptr, val);
-  EXPECT_THROW(node.Bool(-1), ParseException);
+  EXPECT_THROW(node.Bool(bool(-1)), ParseException);
   EXPECT_THROW(node.Int32(-1), ParseException);
   EXPECT_THROW(node.Int64(-1), ParseException);
   EXPECT_THROW(node.Uint32(1), ParseException);
