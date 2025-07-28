@@ -1,5 +1,10 @@
+Changes for 1.7.1:
+
+- Bump version for patched ChangeLog
+
 Changes for 1.7.0:
 
+- Provide Windows build support
 - CMake changes to allow for pulling sup-dto as a github dependency
 
 Changes for 1.6.0:
