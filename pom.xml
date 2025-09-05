@@ -25,7 +25,7 @@
     <artifactId>sup-dto</artifactId>
     <packaging>codac</packaging>
     <!-- See ChangeLog file for details -->
-    <version>1.7.1</version>
+    <version>1.8.0</version>
     <name>SUP data transfer objects module</name>
     <description>Library for Data Transfer Objects in SUP</description>
     <url>http://www.iter.org/</url>
