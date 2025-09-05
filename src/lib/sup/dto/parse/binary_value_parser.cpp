@@ -59,7 +59,8 @@ namespace dto
 {
 
 BinaryValueParser::BinaryValueParser(ByteIterator& it, ByteIterator end)
-  : m_it{it}
+  : IAnyVisitor<AnyValue>{}
+  , m_it{it}
   , m_end{end}
 {}
 

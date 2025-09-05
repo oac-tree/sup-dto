@@ -28,7 +28,8 @@ namespace dto
 {
 
 StructTypeData::StructTypeData(const std::string& name)
-  : m_member_data{name}
+  : ITypeData{}
+  , m_member_data{name}
 {}
 
 StructTypeData::~StructTypeData() = default;

@@ -29,7 +29,9 @@ namespace sup
 namespace dto
 {
 
-EmptyTypeData::EmptyTypeData() = default;
+EmptyTypeData::EmptyTypeData()
+  : ITypeData{}
+{}
 
 EmptyTypeData::~EmptyTypeData() = default;
 

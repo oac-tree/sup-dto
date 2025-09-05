@@ -40,7 +40,8 @@ namespace dto
 
 ArrayValueData::ArrayValueData(const AnyType& elem_type, const std::string& name,
                                Constraints constraints)
-  : m_elem_type{elem_type}
+  : IValueData{}
+  , m_elem_type{elem_type}
   , m_name{name}
   , m_elements{}
   , m_constraints{constraints}

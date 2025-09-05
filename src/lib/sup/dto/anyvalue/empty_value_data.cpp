@@ -33,7 +33,8 @@ namespace dto
 {
 
 EmptyValueData::EmptyValueData(Constraints constraints)
-  : m_constraints{constraints}
+  : IValueData{}
+  , m_constraints{constraints}
 {}
 
 EmptyValueData::~EmptyValueData() = default;

@@ -30,7 +30,8 @@ namespace dto
 {
 
 StructValueData::StructValueData(const std::string& type_name, Constraints constraints)
-  : m_member_data{type_name}
+  : IValueData{}
+  , m_member_data{type_name}
   , m_constraints{constraints}
 {}
 

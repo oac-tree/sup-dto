@@ -32,7 +32,8 @@ namespace dto
 {
 
 WriterTypeSerializer::WriterTypeSerializer(IWriter* writer)
-  : m_writer{writer}
+  : IAnyVisitor<const AnyType>{}
+  , m_writer{writer}
 {}
 WriterTypeSerializer::~WriterTypeSerializer() = default;
 
@@ -117,7 +118,8 @@ void WriterTypeSerializer::ScalarEpilog(const AnyType*)
 /**************************************/
 
 WriterValueSerializer::WriterValueSerializer(IWriter* writer)
-  : m_writer{writer}
+  : IAnyVisitor<const AnyValue>{}
+  , m_writer{writer}
 {}
 WriterValueSerializer::~WriterValueSerializer() = default;
 

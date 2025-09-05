@@ -39,7 +39,8 @@ std::string ScalarTypeCodeToString(TypeCode type_code);
 }  // unnamed namespace
 
 ScalarTypeData::ScalarTypeData(TypeCode type_code)
-  : m_type_code{type_code}
+  : ITypeData{}
+  , m_type_code{type_code}
 {}
 
 ScalarTypeData::~ScalarTypeData() = default;

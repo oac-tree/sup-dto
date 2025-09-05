@@ -32,7 +32,8 @@ namespace sup
 namespace dto
 {
 BinaryTypeSerializer::BinaryTypeSerializer(std::vector<uint8>& representation)
-  : m_representation{representation}
+  : IAnyVisitor<const AnyType>{}
+  , m_representation{representation}
 {}
 BinaryTypeSerializer::~BinaryTypeSerializer() = default;
 
@@ -90,7 +91,8 @@ void BinaryTypeSerializer::ScalarEpilog(const AnyType*)
 {}
 
 BinaryValueSerializer::BinaryValueSerializer(std::vector<uint8>& representation)
-  : m_representation{representation}
+  : IAnyVisitor<const AnyValue>{}
+  , m_representation{representation}
 {}
 BinaryValueSerializer::~BinaryValueSerializer() = default;
 

@@ -35,7 +35,8 @@ namespace dto
 {
 
 CTypeParser::CTypeParser(const uint8* bytes, std::size_t total_size)
-  : m_bytes{bytes}
+  : IAnyVisitor<AnyValue>{}
+  , m_bytes{bytes}
   , m_total_size{total_size}
   , m_current_position{0}
 {}

@@ -32,7 +32,8 @@ namespace dto
 {
 
 CTypeSerializer::CTypeSerializer()
-  : m_representation{}
+  : IAnyVisitor<const AnyValue>{}
+  , m_representation{}
 {}
 CTypeSerializer::~CTypeSerializer() = default;
 

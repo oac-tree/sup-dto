@@ -82,13 +82,15 @@ private:
 
 template <typename WriterImpl>
 JSONStringWriterT<WriterImpl>::JSONStringWriterT(std::ostream& out_stream)
-  : m_out_stream{out_stream}
+  : IWriter{}
+  , m_out_stream{out_stream}
   , m_json_writer{m_out_stream}
 {}
 
 template <>
 JSONStringWriterT<RapidJSONPrettyWriter>::JSONStringWriterT(std::ostream& out_stream)
-  : m_out_stream{out_stream}
+  : IWriter{}
+  , m_out_stream{out_stream}
   , m_json_writer{m_out_stream}
 {
   (void)m_json_writer.SetIndent(' ', FormatConstants::kIndentSize);

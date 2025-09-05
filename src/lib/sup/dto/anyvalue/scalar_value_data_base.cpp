@@ -35,7 +35,8 @@ namespace dto
 {
 
 ScalarValueDataBase::ScalarValueDataBase(TypeCode type_code, Constraints constraints)
-  : m_type_code{type_code}
+  : IValueData{}
+  , m_type_code{type_code}
   , m_constraints{constraints}
 {}
 

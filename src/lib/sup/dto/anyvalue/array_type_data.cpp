@@ -36,7 +36,8 @@ namespace dto
 {
 
 ArrayTypeData::ArrayTypeData(std::size_t size, AnyType&& elem_type, const std::string& name)
-  : m_size{size}
+  : ITypeData{}
+  , m_size{size}
   , m_elem_type{std::move(elem_type)}
   , m_name{name}
 {}
