@@ -33,6 +33,15 @@ namespace sup
 {
 namespace dto
 {
+namespace
+{
+template <typename T>
+std::unique_ptr<IValueData> ScalarValueConstructor(Constraints constraints)
+{
+  return std::make_unique<ScalarValueDataT<T>>(T{}, constraints);
+}
+
+}  // unnamed namespace
 
 ScalarValueDataBase::ScalarValueDataBase(TypeCode type_code, Constraints constraints)
   : IValueData{}
@@ -65,12 +74,6 @@ Constraints ScalarValueDataBase::GetConstraints() const
 bool ScalarValueDataBase::ShallowEquals(const IValueData* other) const
 {
   return ScalarEquals(other) && other->ScalarEquals(this);
-}
-
-template <typename T>
-std::unique_ptr<IValueData> ScalarValueConstructor(Constraints constraints)
-{
-  return std::make_unique<ScalarValueDataT<T>>(T{}, constraints);
 }
 
 std::unique_ptr<IValueData> CreateScalarValueData(TypeCode type_code, Constraints constraints)

@@ -570,7 +570,7 @@ std::pair<std::string, std::string> SplitAnyTypeFieldnameOnStructCharacter(
   const std::string& fieldname, std::size_t pos)
 {
   auto total_size = fieldname.size();
-  if ((pos == 0) || (pos + 1 == total_size))  // fieldname starts or ends with '.'
+  if ((pos == 0) || ((pos + 1) == total_size))  // fieldname starts or ends with '.'
   {
     const std::string error =
       "SplitAnyTypeFieldnameInHeadTail(): could not parse fieldname \"" + fieldname + "\"";

@@ -26,7 +26,6 @@
 
 namespace
 {
-const sup::dto::uint32 kBracketsSize = 2u;
 const std::string kArrayTypeChildName = "[]";  // fieldname of the only child
 }
 
