@@ -44,7 +44,7 @@ template <typename T> bool ArrayValueBuildNode::TryAssign(T val)
   }
   try
   {
-    m_anyvalue[m_current_index] = val;
+    m_anyvalue[m_current_index] = AnyValue{val};
   }
   catch(const MessageException& e)
   {

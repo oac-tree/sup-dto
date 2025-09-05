@@ -61,7 +61,7 @@ bool AnyValueBuildNode::Bool(boolean b)
     throw ParseException(
         "AnyValueBuildNode::Bool must be called after member name");
   }
-  m_anyvalue[m_member_name].ConvertFrom(b);
+  m_anyvalue[m_member_name].ConvertFrom(AnyValue{b});
   m_member_name.clear();
   return true;
 }

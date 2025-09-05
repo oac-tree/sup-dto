@@ -40,7 +40,7 @@ using sup::dto::TypeCode;
 template <typename T>
 void AssignBinaryScalarT(AnyValue& anyvalue, ByteIterator& it, ByteIterator end)
 {
-  anyvalue.ConvertFrom(sup::dto::ParseBinaryScalarT<T>(it, end));
+  anyvalue.ConvertFrom(AnyValue{sup::dto::ParseBinaryScalarT<T>(it, end)});
 }
 
 void AssignBinaryString(AnyValue& anyvalue, ByteIterator& it, ByteIterator end)

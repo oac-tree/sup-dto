@@ -63,7 +63,7 @@ bool AnyValueValueElementBuildNode::Bool(boolean b)
     throw ParseException(
         "AnyValueValueElementBuildNode::Bool must be called after \"instance\" key");
   }
-  m_anyvalue.ConvertFrom(b);
+  m_anyvalue.ConvertFrom(AnyValue{b});
   m_member_name.clear();
   return true;
 }
