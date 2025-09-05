@@ -45,16 +45,16 @@ std::unique_ptr<IAnyVisitorNode<T>> CreateVisitorNodeT(T* any)
   switch (any->GetTypeCode())
   {
   case TypeCode::Empty:
-    result.reset(new EmptyVisitorNode<T>(any));
+    result = std::make_unique<EmptyVisitorNode<T>>(any);
     break;
   case TypeCode::Struct:
-    result.reset(new StructVisitorNode<T>(any));
+    result = std::make_unique<StructVisitorNode<T>>(any);
     break;
   case TypeCode::Array:
-    result.reset(new ArrayVisitorNode<T>(any));
+    result = std::make_unique<ArrayVisitorNode<T>>(any);
     break;
   default:
-    result.reset(new ScalarVisitorNode<T>(any));
+    result = std::make_unique<ScalarVisitorNode<T>>(any);
     break;
   }
   return result;
