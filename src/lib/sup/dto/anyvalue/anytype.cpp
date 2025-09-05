@@ -532,7 +532,7 @@ std::pair<std::string, std::string> SplitAnyTypeFieldnameOnArrayCharacter(
   auto total_size = fieldname.size();
   std::string head{};
   std::string tail{};
-  if (pos == 0 || fieldname[pos-1] != '[')
+  if ((pos == 0) || (fieldname[pos-1] != '['))
   {
     const std::string error =
       "SplitAnyTypeFieldnameInHeadTail(): could not parse fieldname \"" + fieldname + "\"";
@@ -541,7 +541,7 @@ std::pair<std::string, std::string> SplitAnyTypeFieldnameOnArrayCharacter(
   if (pos == 1)  // fieldname starts with []
   {
     auto pos_remainder = pos + 1;
-    if (pos_remainder < total_size && fieldname[pos_remainder] == '.')
+    if ((pos_remainder < total_size) && (fieldname[pos_remainder] == '.'))
     {
       ++pos_remainder;
     }
@@ -566,7 +566,7 @@ std::pair<std::string, std::string> SplitAnyTypeFieldnameOnStructCharacter(
   const std::string& fieldname, std::size_t pos)
 {
   auto total_size = fieldname.size();
-  if (pos == 0 || pos + 1 == total_size)  // fieldname starts or ends with '.'
+  if ((pos == 0) || (pos + 1 == total_size))  // fieldname starts or ends with '.'
   {
     const std::string error =
       "SplitAnyTypeFieldnameInHeadTail(): could not parse fieldname \"" + fieldname + "\"";

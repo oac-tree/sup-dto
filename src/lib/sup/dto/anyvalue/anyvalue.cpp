@@ -781,7 +781,7 @@ std::pair<std::string, std::string> SplitAnyValueFieldnameOnArrayCharacter(
       throw InvalidOperationException(error);
     }
     auto remainder_start = pos_end + 1;
-    if (remainder_start < fieldname.size() && fieldname[remainder_start] == '.')
+    if ((remainder_start < fieldname.size()) && (fieldname[remainder_start] == '.'))
     {
       ++remainder_start;
     }
@@ -806,7 +806,7 @@ std::pair<std::string, std::string> SplitAnyValueFieldnameOnStructCharacter(
   const std::string& fieldname, std::size_t pos)
 {
   auto total_size = fieldname.size();
-  if (pos == 0 || pos + 1 == total_size)  // fieldname starts or ends with '.'
+  if ((pos == 0) || (pos + 1 == total_size))  // fieldname starts or ends with '.'
   {
     const std::string error =
       "SplitAnyValueFieldnameInHeadTail(): could not parse fieldname \"" + fieldname + "\"";
@@ -832,7 +832,7 @@ bool CheckAnyValueComponentFieldname(const std::string& fieldname)
     return false;
   }
   auto total_size = fieldname.size();
-  if (fieldname[0] == '[' && fieldname[total_size - 1] == ']')
+  if ((fieldname[0] == '[') && (fieldname[total_size - 1] == ']'))
   {
     return CheckIndexString(fieldname.substr(1, total_size - 2));
   }

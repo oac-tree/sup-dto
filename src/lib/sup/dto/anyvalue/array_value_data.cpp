@@ -190,7 +190,7 @@ std::size_t ParseValueIndex(const std::string& fieldname)
   {
     throw InvalidOperationException(error);
   }
-  if (fieldname[0] != '[' || fieldname[total_size - 1] != ']')
+  if ((fieldname[0] != '[') || (fieldname[total_size - 1] != ']'))
   {
     throw InvalidOperationException(error);
   }
