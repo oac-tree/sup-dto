@@ -332,7 +332,8 @@ std::unique_ptr<AnyType> AnyType::MakeStructAnyType(
   const auto& type_name = anyvalue.GetTypeName();
   const auto member_names = anyvalue.MemberNames();
   auto struct_data = std::make_unique<StructTypeData>(type_name);
-  for (std::size_t idx = 0; idx < member_names.size(); ++idx)
+  const auto n_members = member_names.size();
+  for (std::size_t idx = 0; idx < n_members; ++idx)
   {
     struct_data->AddMember(member_names[idx], std::move(*children[idx]));
   }

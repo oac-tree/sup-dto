@@ -535,7 +535,8 @@ std::unique_ptr<AnyValue> AnyValue::MakeStructAnyValue(
 {
   auto member_names = anytype.MemberNames();
   auto struct_data = std::make_unique<StructValueData>(anytype.GetTypeName(), constraints);
-  for (std::size_t idx = 0; idx < member_names.size(); ++idx)
+  const auto n_members = member_names.size();
+  for (std::size_t idx = 0; idx < n_members; ++idx)
   {
     struct_data->AddMember(member_names[idx], std::move(children[idx]));
   }
@@ -549,7 +550,8 @@ std::unique_ptr<AnyValue> AnyValue::MakeArrayAnyValue(
 {
   auto array_data = std::make_unique<ArrayValueData>(anytype.ElementType(), anytype.GetTypeName(),
                                                      constraints);
-  for (std::size_t idx = 0; idx < anytype.NumberOfElements(); ++idx)
+  const auto n_elements = anytype.NumberOfElements();
+  for (std::size_t idx = 0; idx < n_elements; ++idx)
   {
     auto copy = std::unique_ptr<AnyValue>{new AnyValue{*children[0], Constraints::kLockedType}};
     array_data->AddElement(std::move(copy));

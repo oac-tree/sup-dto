@@ -97,7 +97,8 @@ std::unique_ptr<IValueData> StructValueData::CloneFromChildren(
 {
   auto result = std::make_unique<StructValueData>(GetTypeName(), constraints);
   auto member_names = MemberNames();
-  for (std::size_t idx = 0; idx < NumberOfMembers(); ++idx)
+  const auto n_members = NumberOfMembers();
+  for (std::size_t idx = 0; idx < n_members; ++idx)
   {
     result->m_member_data.AddMember(member_names[idx], std::move(children[idx]));
   }
