@@ -76,9 +76,7 @@ std::unique_ptr<IAnyVisitorNode<T>> StructVisitorNode<T>::NextChild()
   T* member = GetIndexedChild(this->GetValue(), m_next_index);
   const auto& member_name = m_member_names[m_next_index];
   ++m_next_index;
-  std::unique_ptr<IAnyVisitorNode<T>> result{
-      new MemberVisitorNode<T>(member, member_name)};
-  return result;
+  return std::make_unique<MemberVisitorNode<T>>(member, member_name);
 }
 
 template <typename T>
