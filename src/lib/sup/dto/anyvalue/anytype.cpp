@@ -166,7 +166,10 @@ AnyType& AnyType::operator=(AnyType&& other) & noexcept
   return *this;
 }
 
-AnyType::~AnyType() = default;
+AnyType::~AnyType()
+{
+  m_data.reset();
+}
 
 TypeCode AnyType::GetTypeCode() const
 {

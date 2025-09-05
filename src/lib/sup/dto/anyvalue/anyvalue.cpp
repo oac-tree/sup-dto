@@ -246,7 +246,10 @@ void AnyValue::ConvertFrom(const AnyValue& other)
   }
 }
 
-AnyValue::~AnyValue() = default;
+AnyValue::~AnyValue()
+{
+  m_data.reset();
+}
 
 TypeCode AnyValue::GetTypeCode() const
 {
