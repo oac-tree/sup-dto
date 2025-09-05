@@ -67,6 +67,7 @@ std::vector<std::string> AnyTypeRegistry::RegisteredAnyTypeNames() const
   std::vector<std::string> result;
   for (const auto& [memberName, memberType] : m_anytypes)
   {
+    (void)memberType;
     result.push_back(memberName);
   }
   return result;
