@@ -31,6 +31,19 @@ namespace dto
 
 AnyFunctor::~AnyFunctor() = default;
 
+ThreadsafeAnyFunctorDecorator::ThreadsafeAnyFunctorDecorator(AnyFunctor& functor)
+  : m_functor{functor}
+  , m_mtx{}
+{}
+
+ThreadsafeAnyFunctorDecorator::~ThreadsafeAnyFunctorDecorator() = default;
+
+sup::dto::AnyValue ThreadsafeAnyFunctorDecorator::operator()(const sup::dto::AnyValue& input)
+{
+  std::lock_guard<std::mutex> lk{m_mtx};
+  return m_functor(input);
+}
+
 }  // namespace dto
 
 }  // namespace sup

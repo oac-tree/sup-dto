@@ -23,6 +23,8 @@
 #ifndef SUP_DTO_ANY_FUNCTOR_H_
 #define SUP_DTO_ANY_FUNCTOR_H_
 
+#include <mutex>
+
 namespace sup
 {
 namespace dto
@@ -44,6 +46,24 @@ public:
    * @return The output of the function object call.
    */
   virtual sup::dto::AnyValue operator()(const sup::dto::AnyValue& input) = 0;
+};
+
+/**
+ * @brief AnyFunctor decorator that effectively serializes concurrent calls to the call operator.
+ */
+class ThreadsafeAnyFunctorDecorator : public AnyFunctor
+{
+public:
+  explicit ThreadsafeAnyFunctorDecorator(AnyFunctor& functor);
+  ~ThreadsafeAnyFunctorDecorator() override;
+
+  /**
+   * @brief Call the underlying functor while holding a lock.
+   */
+  sup::dto::AnyValue operator()(const sup::dto::AnyValue& input) override;
+private:
+  AnyFunctor& m_functor;
+  std::mutex m_mtx;
 };
 
 }  // namespace dto
