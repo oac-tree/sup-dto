@@ -1,3 +1,7 @@
+Changes for 1.9.0:
+
+- Add threadsafe AnyFunctor decorator
+
 Changes for 1.8.0:
 
 - Improve code quality
