@@ -79,6 +79,10 @@ public:
   AnyValue(uint32 val);
   AnyValue(int64 val);
   AnyValue(uint64 val);
+#if defined(__APPLE__)
+  AnyValue(long val);
+  AnyValue(unsigned long val);
+#endif
   AnyValue(float32 val);
   AnyValue(float64 val);
   AnyValue(const std::string& val);

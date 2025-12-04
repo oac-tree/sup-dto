@@ -112,6 +112,12 @@ AnyValue::AnyValue(uint64 val)
   : AnyValue{CreateUnconstrainedScalarData(val)}
 {}
 
+#if defined(__APPLE__)
+AnyValue::AnyValue(long val) : AnyValue{static_cast<int64>(val)} {}
+
+AnyValue::AnyValue(unsigned long val) : AnyValue{static_cast<uint64>(val)} {}
+#endif
+
 AnyValue::AnyValue(float32 val)
   : AnyValue{CreateUnconstrainedScalarData(val)}
 {}
