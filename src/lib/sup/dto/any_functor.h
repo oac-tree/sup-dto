@@ -37,6 +37,7 @@ class AnyValue;
 class AnyFunctor
 {
 public:
+  virtual ~AnyFunctor();
   /**
    * @brief Call the function object.
    *
@@ -47,7 +48,6 @@ public:
 
 protected:
   AnyFunctor() = default;
-  virtual ~AnyFunctor();
 
   AnyFunctor(const AnyFunctor&) = default;
   AnyFunctor& operator=(const AnyFunctor&) = default;
