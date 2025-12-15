@@ -37,8 +37,6 @@ class AnyValue;
 class AnyFunctor
 {
 public:
-  virtual ~AnyFunctor();
-
   /**
    * @brief Call the function object.
    *
@@ -46,6 +44,15 @@ public:
    * @return The output of the function object call.
    */
   virtual sup::dto::AnyValue operator()(const sup::dto::AnyValue& input) = 0;
+
+protected:
+  AnyFunctor() = default;
+  virtual ~AnyFunctor();
+
+  AnyFunctor(const AnyFunctor&) = default;
+  AnyFunctor& operator=(const AnyFunctor&) = default;
+  AnyFunctor(AnyFunctor&&) = default;
+  AnyFunctor& operator=(AnyFunctor&&) = default;
 };
 
 /**
@@ -56,6 +63,11 @@ class ThreadsafeAnyFunctorDecorator : public AnyFunctor
 public:
   explicit ThreadsafeAnyFunctorDecorator(AnyFunctor& functor);
   ~ThreadsafeAnyFunctorDecorator() override;
+
+  ThreadsafeAnyFunctorDecorator(const ThreadsafeAnyFunctorDecorator&) = delete;
+  ThreadsafeAnyFunctorDecorator& operator=(const ThreadsafeAnyFunctorDecorator&) = delete;
+  ThreadsafeAnyFunctorDecorator(ThreadsafeAnyFunctorDecorator&&) = default;
+  ThreadsafeAnyFunctorDecorator& operator=(ThreadsafeAnyFunctorDecorator&&) = default;
 
   /**
    * @brief Call the underlying functor while holding a lock.
