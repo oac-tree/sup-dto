@@ -33,6 +33,7 @@ namespace sup
 namespace dto
 {
 class AnyValue;
+class AnyType;
 class AnyTypeRegistry;
 
 /**
@@ -66,6 +67,21 @@ bool TryAssign(AnyValue& dest, const AnyValue& src);
  * returned.
  */
 bool TryAssignIfEmptyOrConvert(AnyValue& dest, const AnyValue& src);
+
+/**
+ * @brief Try to convert an AnyValue to a value of the given type, where the type may contain
+ * only a subset of the original value's fields.
+ *
+ * @note If the destination type is empty, the value needs to be empty too for the conversion
+ * to succeed.
+ *
+ * @param src AnyValue object to assign/convert from.
+ * @param dest_type Requested AnyType for the result.
+ *
+ * @return Boolean indicating success of the conversion and the resulting AnyValue in case of
+ * success.
+ */
+std::pair<bool, AnyValue> TryNarrowingConvert(const AnyValue& src, const AnyType& dest_type);
 
 /**
  * @brief Serialize an AnyValue using the given generic serializer.

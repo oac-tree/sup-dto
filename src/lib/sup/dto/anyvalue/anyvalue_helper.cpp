@@ -44,6 +44,13 @@ using sup::dto::AnyValue;
 void PrintAnyValueToStream(std::ostream& os, const AnyValue& anyvalue, const std::string& indent);
 void PrintStructValueToStream(std::ostream& os, const AnyValue& anyvalue, const std::string& indent);
 void PrintArrayValueToStream(std::ostream& os, const AnyValue& anyvalue, const std::string& indent);
+
+struct PartialConvertNode
+{
+  AnyValue* m_dest;
+  const AnyValue* m_src;
+};
+
 }  // unnamed namespace
 
 namespace sup
@@ -94,6 +101,43 @@ bool TryAssignIfEmptyOrConvert(AnyValue& dest, const AnyValue& src)
     return false;
   }
   return true;
+}
+
+std::pair<bool, AnyValue> TryNarrowingConvert(const AnyValue& src, const AnyType& dest_type)
+{
+  const std::pair<bool, AnyValue> failure{ false, {} };
+  AnyValue result{dest_type};
+  std::deque<PartialConvertNode> stack{};
+  stack.push_back(PartialConvertNode{std::addressof(result), std::addressof(src)});
+  while (!stack.empty())
+  {
+    auto& front = stack.front();
+    auto* current_dest = front.m_dest;
+    auto* current_src = front.m_src;
+    if (IsStructValue(*current_dest))
+    {
+      auto mem_names = current_dest->MemberNames();
+      for (const auto& mem_name : mem_names)
+      {
+        if (!current_src->HasField(mem_name))
+        {
+          return failure;
+        }
+        auto* dest_mem = std::addressof((*current_dest)[mem_name]);
+        auto* src_mem = std::addressof((*current_src)[mem_name]);
+        stack.push_back(PartialConvertNode{dest_mem, src_mem});
+      }
+    }
+    else
+    {
+      if (!TryConvert(*current_dest, *current_src))
+      {
+        return failure;
+      }
+    }
+    stack.pop_front();
+  }
+  return { true, result };
 }
 
 void SerializeAnyValue(const AnyValue& anyvalue, IAnyVisitor<const AnyValue>& serializer)

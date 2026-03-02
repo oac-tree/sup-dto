@@ -108,3 +108,210 @@ TEST(AnyValueHelperTest, TryAssignIfEmptyOrConvert)
     EXPECT_TRUE(IsArrayValue(value));
   }
 }
+
+TEST(AnyValueHelperTest, NarrowingConvertToEmptyTargetType)
+{
+  {
+    // Emtpy value succeeds
+    AnyType anytype{};
+    AnyValue value{};
+    auto result = TryNarrowingConvert(value, anytype);
+    EXPECT_TRUE(result.first);
+    EXPECT_EQ(result.second, value);
+  }
+  {
+    // Scalar value fails
+    AnyType anytype{};
+    AnyValue value{UnsignedInteger64Type, 42U};
+    AnyValue expected{};
+    auto result = TryNarrowingConvert(value, anytype);
+    EXPECT_FALSE(result.first);
+    EXPECT_EQ(result.second, expected);
+  }
+  {
+    // Struct value fails
+    AnyType anytype{};
+    AnyValue value = {{
+      { "mode", {UnsignedInteger16Type, 3U }},
+      { "setpoint", {Float64Type, 3.14 }}
+    }};
+    AnyValue expected{};
+    auto result = TryNarrowingConvert(value, anytype);
+    EXPECT_FALSE(result.first);
+    EXPECT_EQ(result.second, expected);
+  }
+  {
+    // Array value fails
+    AnyType anytype{};
+    AnyValue value = ArrayValue({0, 1, 2, 3, 4});
+    AnyValue expected{};
+    auto result = TryNarrowingConvert(value, anytype);
+    EXPECT_FALSE(result.first);
+    EXPECT_EQ(result.second, expected);
+  }
+}
+
+TEST(AnyValueHelperTest, NarrowingConvertToScalarTargetType)
+{
+  {
+    // Simple scalar conversion
+    AnyType anytype{UnsignedInteger32Type};
+    AnyValue value{UnsignedInteger8Type, 42U};
+    AnyValue expected{UnsignedInteger32Type, 42U};
+    auto result = TryNarrowingConvert(value, anytype);
+    EXPECT_TRUE(result.first);
+    EXPECT_EQ(result.second, expected);
+  }
+  {
+    // Scalar that doesn't allow conversion (too big) will fail and return empty value
+    AnyType anytype{UnsignedInteger8Type};
+    AnyValue value{UnsignedInteger32Type, 1729U};
+    AnyValue expected{};
+    auto result = TryNarrowingConvert(value, anytype);
+    EXPECT_FALSE(result.first);
+    EXPECT_EQ(result.second, expected);
+  }
+  {
+    // Struct value fails
+    AnyType anytype{UnsignedInteger32Type};
+    AnyValue value = {{
+      { "value", {UnsignedInteger8Type, 3U }},
+      { "ignored", "this field will not be considered"}
+    }};
+    AnyValue expected{};
+    auto result = TryNarrowingConvert(value, anytype);
+    EXPECT_FALSE(result.first);
+    EXPECT_EQ(result.second, expected);
+  }
+  {
+    // Array value fails
+    AnyType anytype{UnsignedInteger32Type};
+    AnyValue value = ArrayValue({0, 1, 2, 3, 4});
+    AnyValue expected{};
+    auto result = TryNarrowingConvert(value, anytype);
+    EXPECT_FALSE(result.first);
+    EXPECT_EQ(result.second, expected);
+  }
+}
+
+TEST(AnyValueHelperTest, NarrowingConvertToStructTargetType)
+{
+  {
+    // Scalar will not convert to struct
+    AnyType anytype{{
+      { "mode", UnsignedInteger32Type },
+      { "description", StringType }
+    }};
+    AnyValue value{UnsignedInteger8Type, 42U};
+    AnyValue expected{};
+    auto result = TryNarrowingConvert(value, anytype);
+    EXPECT_FALSE(result.first);
+    EXPECT_EQ(result.second, expected);
+  }
+  {
+    // Struct with same fields will do only scalar conversion of leafs
+    AnyType anytype{{
+      { "mode", UnsignedInteger32Type },
+      { "description", StringType }
+    }};
+    AnyValue value = {{
+      { "mode", {UnsignedInteger8Type, 42U }},
+      { "description", "this field does not need conversion"}
+    }};
+    AnyValue expected = {{
+      { "mode", {UnsignedInteger32Type, 42U }},
+      { "description", "this field does not need conversion"}
+    }};
+    auto result = TryNarrowingConvert(value, anytype);
+    EXPECT_TRUE(result.first);
+    EXPECT_EQ(result.second, expected);
+  }
+  {
+    // Struct with superset of fields will just drop those fields in conversion
+    AnyType anytype{{
+      { "mode", UnsignedInteger32Type },
+      { "description", StringType }
+    }};
+    AnyValue value = {{
+      { "mode", {UnsignedInteger8Type, 42U }},
+      { "description", "this field does not need conversion"},
+      { "not_relevant", true }
+    }};
+    AnyValue expected = {{
+      { "mode", {UnsignedInteger32Type, 42U }},
+      { "description", "this field does not need conversion"}
+    }};
+    auto result = TryNarrowingConvert(value, anytype);
+    EXPECT_TRUE(result.first);
+    EXPECT_EQ(result.second, expected);
+  }
+  {
+    // Struct with subset of fields will not convert and return empty
+    AnyType anytype{{
+      { "mode", UnsignedInteger32Type },
+      { "description", StringType }
+    }};
+    AnyValue value = {{
+      { "mode", {UnsignedInteger8Type, 42U }}
+    }};
+    AnyValue expected{};
+    auto result = TryNarrowingConvert(value, anytype);
+    EXPECT_FALSE(result.first);
+    EXPECT_EQ(result.second, expected);
+  }
+}
+
+TEST(AnyValueHelperTest, NarrowingConvertToArrayTargetType)
+{
+  {
+    // Scalar will not convert to array
+    AnyType anytype{2, UnsignedInteger16Type};
+    AnyValue value{UnsignedInteger8Type, 42U};
+    AnyValue expected{};
+    auto result = TryNarrowingConvert(value, anytype);
+    EXPECT_FALSE(result.first);
+    EXPECT_EQ(result.second, expected);
+  }
+  {
+    // Struct will not convert to array
+    AnyType anytype{2, UnsignedInteger16Type};
+    AnyValue value = {{
+      { "0", {UnsignedInteger8Type, 42U }},
+      { "1", {UnsignedInteger8Type, 42U }}
+    }};
+    AnyValue expected{};
+    auto result = TryNarrowingConvert(value, anytype);
+    EXPECT_FALSE(result.first);
+    EXPECT_EQ(result.second, expected);
+  }
+  {
+    // Array of right size will convert
+    AnyType anytype{2, UnsignedInteger16Type};
+    AnyValue value = ArrayValue({ {UnsignedInteger8Type, 42U }, 43U});
+    AnyValue expected =
+      ArrayValue({ {UnsignedInteger16Type, 42U }, 43U});
+    auto result = TryNarrowingConvert(value, anytype);
+    EXPECT_TRUE(result.first);
+    EXPECT_EQ(result.second, expected);
+  }
+  {
+    // Array of larger size will not convert and return empty
+    AnyType anytype{2, UnsignedInteger16Type};
+    AnyValue value =
+      ArrayValue({ {UnsignedInteger8Type, 42U }, 43U, 44U});
+    AnyValue expected{};
+    auto result = TryNarrowingConvert(value, anytype);
+    EXPECT_FALSE(result.first);
+    EXPECT_EQ(result.second, expected);
+  }
+  {
+    // Array of smaller size will not convert and return empty
+    AnyType anytype{3, UnsignedInteger16Type};
+    AnyValue value =
+      ArrayValue({ {UnsignedInteger8Type, 42U }, 43U});
+    AnyValue expected{};
+    auto result = TryNarrowingConvert(value, anytype);
+    EXPECT_FALSE(result.first);
+    EXPECT_EQ(result.second, expected);
+  }
+}
