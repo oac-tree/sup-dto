@@ -29,9 +29,9 @@ namespace dto
 {
 namespace
 {
-// Is both types are structs, return an empty struct with the same typename as the super_type.
-// Otherwise, just return super_type.
-AnyType ShallowCopy(const AnyType& src_type, const AnyType& super_type);
+// Is both types are structs, return an empty struct with the same typename as the target_type.
+// Otherwise, just return target_type.
+AnyType ShallowCopy(const AnyType& src_type, const AnyType& target_type);
 }  // unnamed namespace
 
 SubtypeCopyNode::SubtypeCopyNode(const AnyType* src_type, const AnyType* target_type)
@@ -79,13 +79,13 @@ AnyType SubtypeCopyNode::MoveResult()
 
 namespace
 {
-AnyType ShallowCopy(const AnyType& src_type, const AnyType& super_type)
+AnyType ShallowCopy(const AnyType& src_type, const AnyType& target_type)
 {
-  if (IsStructType(src_type) && IsStructType(super_type))
+  if (IsStructType(src_type) && IsStructType(target_type))
   {
-    return EmptyStructType(super_type.GetTypeName());
+    return EmptyStructType(target_type.GetTypeName());
   }
-  return super_type;
+  return target_type;
 }
 
 }  // unnamed namespace
