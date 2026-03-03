@@ -246,6 +246,21 @@ TEST(AnyValueHelperTest, ConvertAllowExtraSourceFieldsToStructTargetType)
     EXPECT_EQ(result.second, expected);
   }
   {
+    // Structs with mismatching fields will fail and return empty
+    AnyType anytype{{
+      { "mode", UnsignedInteger32Type },
+      { "flag", BooleanType }
+    }};
+    AnyValue value = {{
+      { "mode", {UnsignedInteger8Type, 42U }},
+      { "no_flag", true }
+    }};
+    AnyValue expected{};
+    auto result = TryConvertAllowExtraSourceFields(value, anytype);
+    EXPECT_FALSE(result.first);
+    EXPECT_EQ(result.second, expected);
+  }
+  {
     // Struct with subset of fields will not convert and return empty
     AnyType anytype{{
       { "mode", UnsignedInteger32Type },
@@ -450,6 +465,21 @@ TEST(AnyValueHelperTest, ConvertAllowExtraTargetFieldsToStructTargetType)
     }};
     auto result = TryConvertAllowExtraTargetFields(value, anytype);
     EXPECT_TRUE(result.first);
+    EXPECT_EQ(result.second, expected);
+  }
+  {
+    // Structs with mismatching fields will fail and return empty
+    AnyType anytype{{
+      { "mode", UnsignedInteger32Type },
+      { "flag", BooleanType }
+    }};
+    AnyValue value = {{
+      { "mode", {UnsignedInteger8Type, 42U }},
+      { "no_flag", true }
+    }};
+    AnyValue expected{};
+    auto result = TryConvertAllowExtraTargetFields(value, anytype);
+    EXPECT_FALSE(result.first);
     EXPECT_EQ(result.second, expected);
   }
   {
