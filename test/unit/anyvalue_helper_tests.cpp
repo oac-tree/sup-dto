@@ -115,7 +115,7 @@ TEST(AnyValueHelperTest, NarrowingConvertToEmptyTargetType)
     // Emtpy value succeeds
     AnyType anytype{};
     AnyValue value{};
-    auto result = TryNarrowingConvert(value, anytype);
+    auto result = TryConvertAllowSourceExtraFields(value, anytype);
     EXPECT_TRUE(result.first);
     EXPECT_EQ(result.second, value);
   }
@@ -124,7 +124,7 @@ TEST(AnyValueHelperTest, NarrowingConvertToEmptyTargetType)
     AnyType anytype{};
     AnyValue value{UnsignedInteger64Type, 42U};
     AnyValue expected{};
-    auto result = TryNarrowingConvert(value, anytype);
+    auto result = TryConvertAllowSourceExtraFields(value, anytype);
     EXPECT_FALSE(result.first);
     EXPECT_EQ(result.second, expected);
   }
@@ -136,7 +136,7 @@ TEST(AnyValueHelperTest, NarrowingConvertToEmptyTargetType)
       { "setpoint", {Float64Type, 3.14 }}
     }};
     AnyValue expected{};
-    auto result = TryNarrowingConvert(value, anytype);
+    auto result = TryConvertAllowSourceExtraFields(value, anytype);
     EXPECT_FALSE(result.first);
     EXPECT_EQ(result.second, expected);
   }
@@ -145,7 +145,7 @@ TEST(AnyValueHelperTest, NarrowingConvertToEmptyTargetType)
     AnyType anytype{};
     AnyValue value = ArrayValue({0, 1, 2, 3, 4});
     AnyValue expected{};
-    auto result = TryNarrowingConvert(value, anytype);
+    auto result = TryConvertAllowSourceExtraFields(value, anytype);
     EXPECT_FALSE(result.first);
     EXPECT_EQ(result.second, expected);
   }
@@ -158,7 +158,7 @@ TEST(AnyValueHelperTest, NarrowingConvertToScalarTargetType)
     AnyType anytype{UnsignedInteger32Type};
     AnyValue value{UnsignedInteger8Type, 42U};
     AnyValue expected{UnsignedInteger32Type, 42U};
-    auto result = TryNarrowingConvert(value, anytype);
+    auto result = TryConvertAllowSourceExtraFields(value, anytype);
     EXPECT_TRUE(result.first);
     EXPECT_EQ(result.second, expected);
   }
@@ -167,7 +167,7 @@ TEST(AnyValueHelperTest, NarrowingConvertToScalarTargetType)
     AnyType anytype{UnsignedInteger8Type};
     AnyValue value{UnsignedInteger32Type, 1729U};
     AnyValue expected{};
-    auto result = TryNarrowingConvert(value, anytype);
+    auto result = TryConvertAllowSourceExtraFields(value, anytype);
     EXPECT_FALSE(result.first);
     EXPECT_EQ(result.second, expected);
   }
@@ -179,7 +179,7 @@ TEST(AnyValueHelperTest, NarrowingConvertToScalarTargetType)
       { "ignored", "this field will not be considered"}
     }};
     AnyValue expected{};
-    auto result = TryNarrowingConvert(value, anytype);
+    auto result = TryConvertAllowSourceExtraFields(value, anytype);
     EXPECT_FALSE(result.first);
     EXPECT_EQ(result.second, expected);
   }
@@ -188,7 +188,7 @@ TEST(AnyValueHelperTest, NarrowingConvertToScalarTargetType)
     AnyType anytype{UnsignedInteger32Type};
     AnyValue value = ArrayValue({0, 1, 2, 3, 4});
     AnyValue expected{};
-    auto result = TryNarrowingConvert(value, anytype);
+    auto result = TryConvertAllowSourceExtraFields(value, anytype);
     EXPECT_FALSE(result.first);
     EXPECT_EQ(result.second, expected);
   }
@@ -204,7 +204,7 @@ TEST(AnyValueHelperTest, NarrowingConvertToStructTargetType)
     }};
     AnyValue value{UnsignedInteger8Type, 42U};
     AnyValue expected{};
-    auto result = TryNarrowingConvert(value, anytype);
+    auto result = TryConvertAllowSourceExtraFields(value, anytype);
     EXPECT_FALSE(result.first);
     EXPECT_EQ(result.second, expected);
   }
@@ -222,7 +222,7 @@ TEST(AnyValueHelperTest, NarrowingConvertToStructTargetType)
       { "mode", {UnsignedInteger32Type, 42U }},
       { "description", "this field does not need conversion"}
     }};
-    auto result = TryNarrowingConvert(value, anytype);
+    auto result = TryConvertAllowSourceExtraFields(value, anytype);
     EXPECT_TRUE(result.first);
     EXPECT_EQ(result.second, expected);
   }
@@ -241,7 +241,7 @@ TEST(AnyValueHelperTest, NarrowingConvertToStructTargetType)
       { "mode", {UnsignedInteger32Type, 42U }},
       { "description", "this field does not need conversion"}
     }};
-    auto result = TryNarrowingConvert(value, anytype);
+    auto result = TryConvertAllowSourceExtraFields(value, anytype);
     EXPECT_TRUE(result.first);
     EXPECT_EQ(result.second, expected);
   }
@@ -255,7 +255,7 @@ TEST(AnyValueHelperTest, NarrowingConvertToStructTargetType)
       { "mode", {UnsignedInteger8Type, 42U }}
     }};
     AnyValue expected{};
-    auto result = TryNarrowingConvert(value, anytype);
+    auto result = TryConvertAllowSourceExtraFields(value, anytype);
     EXPECT_FALSE(result.first);
     EXPECT_EQ(result.second, expected);
   }
@@ -268,7 +268,7 @@ TEST(AnyValueHelperTest, NarrowingConvertToArrayTargetType)
     AnyType anytype{2, UnsignedInteger16Type};
     AnyValue value{UnsignedInteger8Type, 42U};
     AnyValue expected{};
-    auto result = TryNarrowingConvert(value, anytype);
+    auto result = TryConvertAllowSourceExtraFields(value, anytype);
     EXPECT_FALSE(result.first);
     EXPECT_EQ(result.second, expected);
   }
@@ -280,7 +280,7 @@ TEST(AnyValueHelperTest, NarrowingConvertToArrayTargetType)
       { "1", {UnsignedInteger8Type, 42U }}
     }};
     AnyValue expected{};
-    auto result = TryNarrowingConvert(value, anytype);
+    auto result = TryConvertAllowSourceExtraFields(value, anytype);
     EXPECT_FALSE(result.first);
     EXPECT_EQ(result.second, expected);
   }
@@ -290,7 +290,7 @@ TEST(AnyValueHelperTest, NarrowingConvertToArrayTargetType)
     AnyValue value = ArrayValue({ {UnsignedInteger8Type, 42U }, 43U});
     AnyValue expected =
       ArrayValue({ {UnsignedInteger16Type, 42U }, 43U});
-    auto result = TryNarrowingConvert(value, anytype);
+    auto result = TryConvertAllowSourceExtraFields(value, anytype);
     EXPECT_TRUE(result.first);
     EXPECT_EQ(result.second, expected);
   }
@@ -300,7 +300,7 @@ TEST(AnyValueHelperTest, NarrowingConvertToArrayTargetType)
     AnyValue value =
       ArrayValue({ {UnsignedInteger8Type, 42U }, 43U, 44U});
     AnyValue expected{};
-    auto result = TryNarrowingConvert(value, anytype);
+    auto result = TryConvertAllowSourceExtraFields(value, anytype);
     EXPECT_FALSE(result.first);
     EXPECT_EQ(result.second, expected);
   }
@@ -310,7 +310,7 @@ TEST(AnyValueHelperTest, NarrowingConvertToArrayTargetType)
     AnyValue value =
       ArrayValue({ {UnsignedInteger8Type, 42U }, 43U});
     AnyValue expected{};
-    auto result = TryNarrowingConvert(value, anytype);
+    auto result = TryConvertAllowSourceExtraFields(value, anytype);
     EXPECT_FALSE(result.first);
     EXPECT_EQ(result.second, expected);
   }

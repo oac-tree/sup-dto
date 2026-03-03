@@ -28,6 +28,7 @@ target_sources(sup-dto-obj
     scalar_value_data_base.cpp
     struct_type_data.cpp
     struct_value_data.cpp
+    subtype_copy_node.cpp
 )
 
 target_include_directories(sup-dto-obj

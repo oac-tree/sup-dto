@@ -75,13 +75,33 @@ bool TryAssignIfEmptyOrConvert(AnyValue& dest, const AnyValue& src);
  * @note If the destination type is empty, the value needs to be empty too for the conversion
  * to succeed.
  *
- * @param src AnyValue object to assign/convert from.
- * @param dest_type Requested AnyType for the result.
+ * @note Structures inside arrays do not support narrowing, i.e. they must contain the same
+ * fields in both the source AnyValue and the destination AnyType.
+ *
+ * @param src AnyValue object to convert from.
+ * @param target_type Requested AnyType for the result.
  *
  * @return Boolean indicating success of the conversion and the resulting AnyValue in case of
  * success.
  */
-std::pair<bool, AnyValue> TryNarrowingConvert(const AnyValue& src, const AnyType& dest_type);
+std::pair<bool, AnyValue> TryConvertAllowSourceExtraFields(const AnyValue& src,
+                                                           const AnyType& target_type);
+
+/**
+ * @brief Try to convert an AnyValue to a value of the given type, where the type may contain
+ * a superset of the original value's fields.
+ *
+ * @note Structures inside arrays must contain the exact same fields in both the source AnyValue
+ * and the destination AnyType, so no superset is allowed here for the type.
+ *
+ * @param src AnyValue object to convert from.
+ * @param target_type Superset of the AnyType for the result.
+ *
+ * @return Boolean indicating success of the conversion and the resulting AnyValue in case of
+ * success.
+ */
+std::pair<bool, AnyValue> TryConvertAllowTargetExtraFields(const AnyValue& src,
+                                                           const AnyType& target_type);
 
 /**
  * @brief Serialize an AnyValue using the given generic serializer.

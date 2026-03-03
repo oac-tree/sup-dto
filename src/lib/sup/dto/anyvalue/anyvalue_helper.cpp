@@ -24,6 +24,7 @@
 
 #include <sup/dto/anytype_helper.h>
 
+#include <sup/dto/anyvalue/subtype_copy_node.h>
 #include <sup/dto/json/json_reader.h>
 #include <sup/dto/json/json_writer.h>
 #include <sup/dto/parse/binary_parser.h>
@@ -35,22 +36,32 @@
 #include <sup/dto/anytype_registry.h>
 #include <sup/dto/anyvalue.h>
 
+#include <deque>
 #include <fstream>
+#include <optional>
 #include <sstream>
 
 namespace
 {
 using sup::dto::AnyValue;
+using sup::dto::AnyType;
 void PrintAnyValueToStream(std::ostream& os, const AnyValue& anyvalue, const std::string& indent);
 void PrintStructValueToStream(std::ostream& os, const AnyValue& anyvalue, const std::string& indent);
 void PrintArrayValueToStream(std::ostream& os, const AnyValue& anyvalue, const std::string& indent);
 
-struct PartialConvertNode
+struct NarrowingConvertNode
 {
   AnyValue* m_dest;
   const AnyValue* m_src;
 };
 
+// Try to create a new type that has the same tree structure as the source type, but with leaf
+// types from the corresponding target type. The target type is allowed to contain
+// unused structure members. If at some node location, the target is not a structure, it
+// will be used directly into the result, even when the corresponding source type has an
+// incompatible type at this node. This simplifies the code and since it is used only to do
+// conversions of AnyValues, such incompatibilities will be caught there.
+std::optional<AnyType> TrySubtypeCopy(const AnyType& src_type, const AnyType& target_type);
 }  // unnamed namespace
 
 namespace sup
@@ -103,12 +114,13 @@ bool TryAssignIfEmptyOrConvert(AnyValue& dest, const AnyValue& src)
   return true;
 }
 
-std::pair<bool, AnyValue> TryNarrowingConvert(const AnyValue& src, const AnyType& dest_type)
+std::pair<bool, AnyValue> TryConvertAllowSourceExtraFields(const AnyValue& src,
+                                                           const AnyType& target_type)
 {
   const std::pair<bool, AnyValue> failure{ false, {} };
-  AnyValue result{dest_type};
-  std::deque<PartialConvertNode> stack{};
-  stack.push_back(PartialConvertNode{std::addressof(result), std::addressof(src)});
+  AnyValue result{target_type};
+  std::deque<NarrowingConvertNode> stack{};
+  stack.push_back(NarrowingConvertNode{std::addressof(result), std::addressof(src)});
   while (!stack.empty())
   {
     auto& front = stack.front();
@@ -125,7 +137,7 @@ std::pair<bool, AnyValue> TryNarrowingConvert(const AnyValue& src, const AnyType
         }
         auto* dest_mem = std::addressof((*current_dest)[mem_name]);
         auto* src_mem = std::addressof((*current_src)[mem_name]);
-        stack.push_back(PartialConvertNode{dest_mem, src_mem});
+        stack.push_back(NarrowingConvertNode{dest_mem, src_mem});
       }
     }
     else
@@ -136,6 +148,23 @@ std::pair<bool, AnyValue> TryNarrowingConvert(const AnyValue& src, const AnyType
       }
     }
     stack.pop_front();
+  }
+  return { true, result };
+}
+
+std::pair<bool, AnyValue> TryConvertAllowTargetExtraFields(const AnyValue& src,
+                                                           const AnyType& target_type)
+{
+  std::pair<bool, AnyValue> failure{ false, {} };
+  auto required_type = TrySubtypeCopy(src.GetType(), target_type);
+  if (!required_type)
+  {
+    return failure;
+  }
+  AnyValue result{required_type.value()};
+  if (!TryConvert(result, src))
+  {
+    return failure;
   }
   return { true, result };
 }
@@ -251,8 +280,7 @@ AnyValue AnyValueFromBinary(const std::vector<uint8>& representation)
 
 namespace
 {
-using sup::dto::TypeCode;
-using sup::dto::ValuesToJSONString;
+using namespace sup::dto;
 
 const std::string kBasicPrintIndent = "    ";
 
@@ -295,4 +323,35 @@ void PrintArrayValueToStream(std::ostream& os, const AnyValue& anyvalue, const s
   }
 }
 
+std::optional<AnyType> TrySubtypeCopy(const AnyType& src, const AnyType& target_type)
+{
+  std::deque<SubtypeCopyNode> stack{};
+  stack.emplace_back(std::addressof(src), std::addressof(target_type));
+  while (true)
+  {
+    auto& top = stack.back();
+    if (top.HasNextChild())
+    {
+      auto next_child_node = top.GetNextChildNode();
+      if (!next_child_node)
+      {
+        return {};
+      }
+      stack.push_back(std::move(next_child_node.value()));
+    }
+    else
+    {
+      auto current_node = std::move(top);
+      stack.pop_back();
+      if (!stack.empty())
+      {
+        stack.back().AddChildNode(current_node);
+      }
+      else
+      {
+        return current_node.MoveResult();
+      }
+    }
+  }
+}
 }  // unnamed namespace
