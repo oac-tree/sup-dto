@@ -323,10 +323,10 @@ void PrintArrayValueToStream(std::ostream& os, const AnyValue& anyvalue, const s
   }
 }
 
-std::optional<AnyType> TrySubtypeCopy(const AnyType& src, const AnyType& target_type)
+std::optional<AnyType> TrySubtypeCopy(const AnyType& src_type, const AnyType& target_type)
 {
   std::deque<SubtypeCopyNode> stack{};
-  stack.emplace_back(std::addressof(src), std::addressof(target_type));
+  (void)stack.emplace_back(std::addressof(src_type), std::addressof(target_type));
   while (true)
   {
     auto& top = stack.back();

@@ -44,6 +44,10 @@ SubtypeCopyNode::SubtypeCopyNode(const AnyType* src_type, const AnyType* target_
 
 SubtypeCopyNode::~SubtypeCopyNode() = default;
 
+SubtypeCopyNode::SubtypeCopyNode(SubtypeCopyNode&&) = default;
+
+SubtypeCopyNode& SubtypeCopyNode::operator=(SubtypeCopyNode&&) = default;
+
 bool SubtypeCopyNode::HasNextChild() const
 {
   return m_current_child_idx < m_mem_names.size();
@@ -65,7 +69,7 @@ void SubtypeCopyNode::AddChildNode(SubtypeCopyNode& child_node)
 {
   const auto& mem_name = m_mem_names[m_current_child_idx];
   ++m_current_child_idx;
-  m_result.AddMember(mem_name, child_node.MoveResult());
+  (void)m_result.AddMember(mem_name, child_node.MoveResult());
 }
 
 AnyType SubtypeCopyNode::MoveResult()

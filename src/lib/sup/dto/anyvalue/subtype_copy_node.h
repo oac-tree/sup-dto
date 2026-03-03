@@ -41,8 +41,8 @@ public:
 
   SubtypeCopyNode(const SubtypeCopyNode&) = delete;
   SubtypeCopyNode& operator=(const SubtypeCopyNode&) = delete;
-  SubtypeCopyNode(SubtypeCopyNode&&) = default;
-  SubtypeCopyNode& operator=(SubtypeCopyNode&&) = default;
+  SubtypeCopyNode(SubtypeCopyNode&&);
+  SubtypeCopyNode& operator=(SubtypeCopyNode&&);
 
   bool HasNextChild() const;
 
