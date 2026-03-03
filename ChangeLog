@@ -1,6 +1,6 @@
 Changes for 1.10.0:
 
-- Add TryConvertAllowSourceExtraFields and TryConvertAllowTargetExtraFields helper functions
+- Add TryConvertAllowExtraSourceFields and TryConvertAllowExtraTargetFields helper functions
 
 Changes for 1.9.0:
 

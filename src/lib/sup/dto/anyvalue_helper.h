@@ -84,7 +84,7 @@ bool TryAssignIfEmptyOrConvert(AnyValue& dest, const AnyValue& src);
  * @return Boolean indicating success of the conversion and the resulting AnyValue in case of
  * success.
  */
-std::pair<bool, AnyValue> TryConvertAllowSourceExtraFields(const AnyValue& src,
+std::pair<bool, AnyValue> TryConvertAllowExtraSourceFields(const AnyValue& src,
                                                            const AnyType& target_type);
 
 /**
@@ -100,7 +100,7 @@ std::pair<bool, AnyValue> TryConvertAllowSourceExtraFields(const AnyValue& src,
  * @return Boolean indicating success of the conversion and the resulting AnyValue in case of
  * success.
  */
-std::pair<bool, AnyValue> TryConvertAllowTargetExtraFields(const AnyValue& src,
+std::pair<bool, AnyValue> TryConvertAllowExtraTargetFields(const AnyValue& src,
                                                            const AnyType& target_type);
 
 /**
