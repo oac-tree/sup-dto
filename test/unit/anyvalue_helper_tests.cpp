@@ -498,6 +498,37 @@ TEST(AnyValueHelperTest, ConvertAllowExtraTargetFieldsToStructTargetType)
   }
 }
 
+TEST(AnyValueHelperTest, ConvertAllowExtraTargetFieldsToStructTargetType_Complex)
+{
+  {
+    // Struct of two similar structs
+    AnyType anytype{{
+      { "sys1", {{
+        { "setpoint", { sup::dto::Float64Type }},
+        { "mode",{ sup::dto::UnsignedInteger16Type }}
+      }}},
+      { "sys2", {{
+        { "setpoint", { sup::dto::Float64Type }},
+        { "mode",{ sup::dto::UnsignedInteger16Type }}
+      }}},
+    }};
+    AnyValue value{{
+      { "sys2", {{
+        { "setpoint", { sup::dto::Float32Type, 10.0 }}
+      }}},
+    }};
+    AnyValue expected{{
+      { "sys2", {{
+        { "setpoint", { sup::dto::Float64Type, 10.0 }}
+      }}},
+    }};
+    auto result = TryConvertAllowExtraTargetFields(value, anytype);
+    EXPECT_TRUE(result.first);
+    EXPECT_EQ(result.second, expected);
+    EXPECT_EQ(result.second.GetType(), expected.GetType());
+  }
+}
+
 TEST(AnyValueHelperTest, ConvertAllowExtraTargetFieldsToArrayTargetType)
 {
   {
