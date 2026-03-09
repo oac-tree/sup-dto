@@ -29,7 +29,7 @@ namespace dto
 {
 namespace
 {
-// Is both types are structs, return an empty struct with the same typename as the target_type.
+// If both types are structs, return an empty struct with the same typename as the target_type.
 // Otherwise, just return target_type.
 AnyType ShallowCopy(const AnyType& src_type, const AnyType& target_type);
 }  // unnamed namespace

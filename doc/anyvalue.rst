@@ -473,7 +473,7 @@ functions:
    :return: ``true`` on successful assignment.
 
    Try to assign an AnyValue to another AnyValue. If the destination AnyValue is empty, simply do
-   an assignmet, which always succeeds. Otherwise, the bahvior is exactly as in
+   an assignment, which always succeeds. Otherwise, the bahvior is exactly as in
    :func:`bool TryAssign(AnyValue& dest, const AnyValue& src)`.
 
 .. function:: std::pair<bool, AnyValue> TryConvertAllowExtraSourceFields(AnyValue& src, const AnyType& target_type)
