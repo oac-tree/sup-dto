@@ -58,7 +58,7 @@ std::string PrintAnyType(const AnyType& anytype);
  * @param anytype AnyType object to serialize.
  * @param pretty Use pretty printing.
  *
- * @return JSON string if successfull, empty otherwise.
+ * @return JSON string.
  */
 std::string AnyTypeToJSONString(const AnyType& anytype, bool pretty);
 
@@ -67,7 +67,7 @@ std::string AnyTypeToJSONString(const AnyType& anytype, bool pretty);
  *
  * @param anytype AnyType object to serialize.
  *
- * @return JSON string if successfull, empty otherwise.
+ * @return JSON string.
  */
 std::string AnyTypeToJSONString(const AnyType& anytype);
 

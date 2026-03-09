@@ -466,6 +466,44 @@ functions:
    destination is left unchanged and false is returned. This is basically a non-throwing version of
    :func:`AnyValue& AnyValue::operator=(const AnyValue&)`.
 
+.. function:: bool TryAssignIfEmptyOrConvert(AnyValue& dest, const AnyValue& src)
+
+   :param dest: ``AnyValue`` object to assign to.
+   :param src: ``AnyValue`` object to assign from.
+   :return: ``true`` on successful assignment.
+
+   Try to assign an AnyValue to another AnyValue. If the destination AnyValue is empty, simply do
+   an assignmet, which always succeeds. Otherwise, the bahvior is exactly as in
+   :func:`bool TryAssign(AnyValue& dest, const AnyValue& src)`.
+
+.. function:: std::pair<bool, AnyValue> TryConvertAllowExtraSourceFields(AnyValue& src, const AnyType& target_type)
+
+   :param src: ``AnyValue`` source AnyValue.
+   :param target_type: ``AnyType`` type to use as the prototype.
+   :return: Pair of the success status and its optional value.
+
+   Try to convert a source AnyValue to the given target type, where the source value is allowed
+   to contain more structure members, at any depth, as the target type. Extra member fields in
+   the source AnyValue will be ignored and not converted to the result.
+
+.. function:: std::pair<bool, AnyValue> TryConvertAllowExtraTargetFields(AnyValue& src, const AnyType& target_type)
+
+   :param src: ``AnyValue`` source AnyValue.
+   :param target_type: ``AnyType`` type to use as the prototype.
+   :return: Pair of the success status and its optional value.
+
+   Try to convert a source AnyValue to the given target type, where the target type is allowed
+   to contain more structure members, at any depth, as the source value. Extra member fields in
+   the target type will be ignored and will not be present in the result.
+
+.. function:: std::string PrintAnyValue(const AnyValue& anyvalue)
+
+   :param value: ``AnyValue`` object to serialize.
+   :return: string representation of AnyValue for printing.
+
+   Serialize the AnyValue to a string that is human readable. This function is mostly used for
+   debugging purposes or for logging AnyValues in a human readable way.
+
 .. function:: bool Increment(AnyValue& value)
 
    :param value: ``AnyValue`` object to increment.
