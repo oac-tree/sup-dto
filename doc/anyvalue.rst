@@ -555,3 +555,76 @@ functions:
    Try to decrement (subtract 1) an AnyValue. This is only supported for arithmetic types (excluding
    'bool', 'char8' and 'string'). In case of integer types, the behavior is defined to wrap around
    the minimum value to the maximum value (also for signed types).
+
+.. function:: AnyValue EmptyStruct(const std::string& type_name)
+
+   :param type_name: Name for the underlying structured type.
+   :return: ``AnyValue`` with empty structure type.
+
+   Constructs an empty structure with the given type name.
+
+.. function:: AnyValue EmptyStruct()
+
+   :return: ``AnyValue`` with empty structure type.
+
+   Constructs an empty structure with an empty type name.
+
+.. function:: AnyValue ArrayValue(std::initializer_list<AnyValue> elements, const std::string& type_name)
+
+   :param elements: List of element values.
+   :param type_name: Name for the underlying structured type.
+   :return: Constructed array value.
+
+   Constructs a bounded array value with the given type name. The type of the first element in
+   the list determines the element type of the array.
+
+.. function:: AnyValue ArrayValue(std::initializer_list<AnyValue> elements)
+
+   :param elements: List of element values.
+   :return: Constructed array value.
+
+   Constructs a bounded array value with an empty type name. The type of the first element in
+   the list determines the element type of the array.
+
+.. function:: bool IsEmptyValue(const AnyValue& anyvalue)
+
+   :param anyvalue: ``AnyValue`` object to check.
+   :return: ``true`` if the given object is an empty value.
+
+   Check whether the given ``AnyValue`` object is an empty value.
+
+.. function:: bool IsStructValue(const AnyValue& anyvalue)
+
+   :param anyvalue: ``AnyValue`` object to check.
+   :return: ``true`` if the given object is a structured value.
+
+   Check whether the given ``AnyValue`` object is a structured value.
+
+.. function:: bool IsArrayValue(const AnyValue& anyvalue)
+
+   :param anyvalue: ``AnyValue`` object to check.
+   :return: ``true`` if the given object is an array value.
+
+   Check whether the given ``AnyValue`` object is an array value.
+
+.. function:: bool IsScalarValue(const AnyValue& anyvalue)
+
+   :param anyvalue: ``AnyValue`` object to check.
+   :return: ``true`` if the given object is a scalar value.
+
+   Check whether the given ``AnyValue`` object is a scalar value.
+
+.. function:: std::deque<std::string> SplitAnyValueFieldname(const std::string& fieldname)
+
+   :param fieldname: Full fieldname to split.
+   :return: List of component names.
+   :throws InvalidOperationException: When the fieldname cannot be properly parsed.
+
+   Splits a possibly nested fieldname for an ``AnyValue`` into its component names.
+   Optional dots after square brackets will be removed too.
+
+   Example::
+
+      auto names_1 = SplitAnyValueFieldname("[2]subfieldname");   // returns {"[2]", "subfieldname"}
+      auto names_2 = SplitAnyValueFieldname("[2].subfieldname");  // idem
+      auto names_3 = SplitAnyValueFieldname("[oops]");            // throws InvalidOperationException
