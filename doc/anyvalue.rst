@@ -315,7 +315,7 @@ current ``AnyValue``:
 
    :param other: ``AnyValue`` object to convert from.
    :throws InvalidConversionException: If this operation could not successfully convert between
-   the different types.
+      the different types.
 
 
 Element access
@@ -431,7 +431,7 @@ A custom comparison function is also provided that handles arithmetic types (exc
    :param lhs: ``AnyValue`` object on the left hand side.
    :param rhs: ``AnyValue`` object on the right hand side.
    :return: Enumerator indicating if lhs is less, greater, equivalent to rhs or if they are
-   unordered.
+      unordered.
 
    If one of the types is floating point, the comparison will use the largest floating point type
    among the given types as the common type ('float64' if there is one, 'float32' otherwise).

@@ -174,6 +174,7 @@ void AnyValueComposer::EndField()
 }
 
 //! Adds member with given name to the structure.
+//! @param name Member name to use.
 //! @param anyvalue Scalar anyvalue, completed structure or array.
 //! @note Equivalent of calls StartField/AddValue/EndField.
 
