@@ -87,21 +87,6 @@ The library contains the following global functions for serialization and parsin
    Same as :func:`void AnyTypeToJSONFile(const AnyType& anytype, const std::string& filename, bool pretty)`. with
    'pretty' set to false.
 
-.. function:: std::vector<uint8> AnyTypeToBinary(const AnyType& anytype)
-
-   :param anytype: AnyType object to serialize.
-   :return: Binary representation of the AnyType.
-
-   Serialize an AnyType to a binary representation.
-
-.. function:: AnyType AnyTypeFromBinary(const std::vector<uint8>& representation)
-
-   :param representation: Binary representation of an AnyType object.
-   :return: AnyType.
-   :throws ParseException: When the binary representation could not be correctly parsed.
-
-   Parse an AnyType from a binary representation.
-
 AnyValue
 ^^^^^^^^
 
@@ -224,24 +209,8 @@ The library contains the following global functions for serialization and parsin
    Same as :func:`void AnyValueToJSONFile(const AnyValue& anyvalue, const std::string& filename, bool pretty)`. with
    'pretty' set to false.
 
-.. function:: std::vector<uint8> AnyValueToBinary(const AnyValue& anyvalue)
-
-   :param anyvalue: AnyValue object to serialize.
-   :return: Binary representation of the AnyValue.
-
-   Serialize an AnyValue to a binary representation.
-
-.. function:: AnyValue AnyValueFromBinary(const std::vector<uint8>& representation)
-
-   :param representation: Binary representation of an AnyValue object.
-   :return: AnyValue.
-   :throws ParseException: When the binary representation could not be correctly parsed.
-
-   Parse an AnyValue from a binary representation.
-
 JSON parsing
 ------------
-
 
 The library provides dedicated parser classes for parsing ``AnyType`` and ``AnyValue`` objects from
 JSON. These classes allow incremental parsing and optionally accept an ``AnyTypeRegistry`` for
@@ -361,3 +330,113 @@ parse, the result can be retrieved using ``MoveAnyValue()``.
       :return: Parsed ``AnyValue``, or empty value if nothing was parsed.
 
       Return the parsed ``AnyValue`` with move semantics.
+
+Binary Serialization and parsing
+--------------------------------
+
+The library also provides a binary format for both ``AnyType`` and ``AnyValue``. While it is not
+designed to be human-readable, its format is more compact and serialization/parsing is faster.
+
+AnyType
+^^^^^^^
+
+.. function:: std::vector<uint8> AnyTypeToBinary(const AnyType& anytype)
+
+   :param anytype: AnyType object to serialize.
+   :return: Binary representation of the AnyType.
+
+   Serialize an AnyType to a binary representation.
+
+.. function:: AnyType AnyTypeFromBinary(const std::vector<uint8>& representation)
+
+   :param representation: Binary representation of an AnyType object.
+   :return: AnyType.
+   :throws ParseException: When the binary representation could not be correctly parsed.
+
+   Parse an AnyType from a binary representation.
+
+AnyValue
+^^^^^^^^
+
+.. function:: std::vector<uint8> AnyValueToBinary(const AnyValue& anyvalue)
+
+   :param anyvalue: AnyValue object to serialize.
+   :return: Binary representation of the AnyValue.
+
+   Serialize an AnyValue to a binary representation.
+
+.. function:: AnyValue AnyValueFromBinary(const std::vector<uint8>& representation)
+
+   :param representation: Binary representation of an AnyValue object.
+   :return: AnyValue.
+   :throws ParseException: When the binary representation could not be correctly parsed.
+
+   Parse an AnyValue from a binary representation.
+
+Casting to/from plain C types
+-----------------------------
+
+The library provides functions for converting ``AnyValue`` objects to and from plain C-type
+structures via byte arrays. These are mainly useful for interfacing with C-style APIs.
+
+.. note::
+
+   The non-member functions are marked deprecated to indicate that these should not be used for
+   generic binary serialization/parsing. The C-type conversions have a severe limitation in that
+   all string leaves will be assumed to be represented by zero-terminated char arrays with fixed
+   length (64).
+
+.. function:: std::vector<uint8> ToBytes(const AnyValue& anyvalue)
+
+   :param anyvalue: ``AnyValue`` object to serialize.
+   :return: Byte array representation of the value.
+   :throws SerializeException: When the ``AnyValue`` cannot be correctly serialized into a byte
+      array (e.g. string field too long or unknown scalar type).
+
+   Serialize an ``AnyValue`` to an array of bytes. This serialization is only used to cast to
+   C-type structures.
+
+.. function:: void FromBytes(AnyValue& anyvalue, const uint8* bytes, std::size_t total_size)
+
+   :param anyvalue: ``AnyValue`` object to assign to.
+   :param bytes: Array of bytes.
+   :param total_size: Size of the array of bytes.
+   :throws ParseException: When the byte array cannot be correctly parsed (e.g. sizes don't
+      match, absence of null terminator in C-style string or unknown scalar type).
+
+   Parse ``AnyValue`` content from an array of bytes. This method is only used to cast from
+   C-type structures.
+
+.. function:: template <typename T> T AnyValue::ToCType() const
+
+   :return: This value as a ``T`` value when successful.
+   :throws SerializeException: When this value could not be serialized to ``T``.
+
+   Cast this ``AnyValue`` to a given plain C-type structure. Internally serializes the value
+   to bytes and copies the result into the target type. Requires that the byte size of ``T``
+   matches the serialized size exactly.
+
+.. function:: template <typename T> bool AnyValue::ToCType(T& value) const
+
+   :param value: Reference to value to copy into.
+   :return: ``true`` on success, ``false`` otherwise.
+
+   Non-throwing version of :func:`template \<typename T\> T AnyValue::ToCType() const`.
+
+.. function:: template <typename T> void AssignFromCType(AnyValue& anyvalue, const T& object)
+
+   :param anyvalue: ``AnyValue`` to assign to.
+   :param object: C-type source object.
+   :throws ParseException: When the source object cannot be correctly parsed into the
+      existing structure of the ``AnyValue``.
+
+   Assigns to an ``AnyValue`` using a plain C-type structure. The source object must be a
+   packed structure of values that corresponds to the structure of the ``AnyValue`` object.
+
+.. function:: template <typename T> bool SafeAssignFromCType(AnyValue& anyvalue, const T& object)
+
+   :param anyvalue: ``AnyValue`` to assign to.
+   :param object: C-type source object.
+   :return: ``true`` on success, ``false`` otherwise.
+
+   Non-throwing version of :func:`template \<typename T\> void AssignFromCType(AnyValue& anyvalue, const T& object)`.

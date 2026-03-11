@@ -533,7 +533,7 @@ std::deque<std::string> SplitAnyValueFieldname(const std::string& fieldname);
  * @throws SerializeException Thrown when the AnyValue cannot be correctly serialized into a byte
  * array (e.g. string field too long or unknown scalar type).
  *
- * @note This serialization was used to cast to C-type structures.
+ * @note This serialization is only used to cast to C-type structures.
  */
 std::vector<uint8> ToBytes(const AnyValue& anyvalue);
 
@@ -548,7 +548,7 @@ std::vector<uint8> ToBytes(const AnyValue& anyvalue);
  * @throws ParseException Thrown when the byte array cannot be correctly parsed (e.g. sizes
  * don't match, absence of null terminator in C-style string or unknown scalar type).
  *
- * @note This method was used to cast from C-type structures.
+ * @note This method is only used to cast from C-type structures.
  */
 void FromBytes(AnyValue& anyvalue, const uint8* bytes, std::size_t total_size);
 
@@ -644,7 +644,7 @@ bool AnyValue::ToCType(T& value) const
  * @throws ParseException Thrown when the source object cannot be correctly parsed into the
  * existing structure of the AnyValue.
  *
- * @note The source object needs be a packed structure of values that correspond to the structure
+ * @note The source object needs be a packed structure of values that corresponds to the structure
  * of the AnyValue object.
  */
 template <typename T>
