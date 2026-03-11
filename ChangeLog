@@ -1,6 +1,7 @@
 Changes for 1.10.0:
 
 - Add TryConvertAllowExtraSourceFields and TryConvertAllowExtraTargetFields helper functions
+- Document serialization/parsing, visitor and builder classes
 
 Changes for 1.9.0:
 
