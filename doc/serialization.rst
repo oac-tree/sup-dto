@@ -223,6 +223,11 @@ The ``JSONAnyTypeParser`` class parses JSON representations into ``AnyType`` obj
 non-copyable and non-movable. After a successful parse, the result can be retrieved using
 ``MoveAnyType()``.
 
+Some of the parse functions have a parameter that points to an ``AnyTypeRegistry``. In such cases,
+the JSON representation that is to be parsed can refer directly to the name of a type, which will
+be retrieved from the registry. This avoids repeating the same type definitions in the JSON
+representation. See :class:`AnyTypeRegistry` for more information.
+
 .. class:: JSONAnyTypeParser
 
    .. function:: JSONAnyTypeParser()
@@ -440,3 +445,63 @@ structures via byte arrays. These are mainly useful for interfacing with C-style
    :return: ``true`` on success, ``false`` otherwise.
 
    Non-throwing version of :func:`template \<typename T\> void AssignFromCType(AnyValue& anyvalue, const T& object)`.
+
+AnyTypeRegistry
+---------------
+
+The ``AnyTypeRegistry`` class allows registering ``AnyType`` instances by name, so they can be
+looked up during parsing. The default constructor creates a registry pre-populated with all scalar
+and empty types.
+
+The class is copyable and movable.
+
+.. class:: AnyTypeRegistry
+
+   .. function:: AnyTypeRegistry()
+
+      Construct a new registry pre-populated with scalar and empty types.
+
+   .. function:: void RegisterType(AnyType anytype)
+
+      :param anytype: ``AnyType`` instance to register.
+      :throws InvalidOperationException: When the type's own name was already used to register
+         a different type. Re-registering the same name and type is allowed.
+
+      Register an ``AnyType`` instance under its own name.
+
+   .. function:: void RegisterType(const std::string& name, AnyType anytype)
+
+      :param name: Name under which to register the ``AnyType``.
+      :param anytype: ``AnyType`` instance to register.
+      :throws InvalidOperationException: When the given name was already used to register
+         a different type. Re-registering the same name and type is allowed.
+
+      Register an ``AnyType`` instance under the given name.
+
+   .. function:: bool HasType(const std::string& name) const
+
+      :param name: Name to look up.
+      :return: ``true`` if an ``AnyType`` instance is registered under the given name.
+
+      Query the existence of a registered ``AnyType`` instance under the given name.
+
+   .. function:: std::vector<std::string> RegisteredAnyTypeNames() const
+
+      :return: List of all names under which ``AnyType`` instances are registered.
+
+      Retrieve all registered type names.
+
+   .. function:: AnyType GetType(const std::string& name) const
+
+      :param name: Name under which the ``AnyType`` was registered.
+      :return: The registered ``AnyType`` instance.
+      :throws InvalidOperationException: When the given name does not correspond to a registered
+         ``AnyType`` instance.
+
+      Retrieve a registered ``AnyType`` instance by name.
+
+.. function:: std::map<std::string, AnyType> NameToAnyTypeLeafMap()
+
+   :return: Map of type names to their corresponding scalar and empty ``AnyType`` instances.
+
+   Retrieve a map of all leaf (scalar and empty) type names to their ``AnyType`` instances.
