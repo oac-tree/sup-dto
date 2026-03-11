@@ -45,6 +45,20 @@ TEST(StructuredValueTest, StructValue)
   EXPECT_EQ(my_struct["coordinates.x"], 23);
 }
 
+TEST(StructuredValueTest, EmptyMember)
+{
+  AnyValue my_struct{{
+    {"member", {}},
+    {"flag", true}
+  }};
+  ASSERT_TRUE(my_struct.HasField("member"));
+  EXPECT_TRUE(IsEmptyValue(my_struct["member"]));
+  ASSERT_TRUE(my_struct.HasField("flag"));
+  bool flag{};
+  EXPECT_TRUE(my_struct["flag"].As(flag));
+  EXPECT_TRUE(flag);
+}
+
 TEST(StructuredValueTest, InvalidMemberFieldName)
 {
   AnyValue two_scalars{{

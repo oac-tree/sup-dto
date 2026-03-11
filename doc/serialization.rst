@@ -1,15 +1,17 @@
-JSON Serialization
-==================
+Serialization and parsing
+=========================
 
-Both the ``AnyType`` and ``AnyValue`` objects can be (de)serialized to and from a JSON
-representation. This section provides documentation on the public API and some details on this
-representation.
+Both the ``AnyType`` and ``AnyValue`` objects can be serialized to, and parsed from, different
+formats.This section provides documentation on the public API for serialiation and parsing.
 
 .. contents::
    :local:
 
+JSON
+----
+
 AnyType
--------
+^^^^^^^
 
 ``AnyType`` objects can be serialized to JSON format.
 
@@ -101,7 +103,7 @@ The library contains the following global functions for serialization and parsin
    Parse an AnyType from a binary representation.
 
 AnyValue
---------
+^^^^^^^^
 
 ``AnyValue`` objects can be serialized to JSON format.
 

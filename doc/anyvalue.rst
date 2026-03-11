@@ -132,12 +132,18 @@ function can be used that accepts a list of ``AnyValue`` elements::
       {10, 20, 30},
       "ThreeIntegers");
 
+.. Note::
+
+   When using a list of values for the construction of an array value, the first element will be
+   used to fix the array's element type. All subsequent elements will be converted to this type. If
+   this conversion fails, an exception of type ``InvalidConversionException`` will be thrown.
+
 Structured values
 ^^^^^^^^^^^^^^^^^
 
 Structured values correspond to the structured types (see :ref:`structured-types`). They are very
 similar to those type structures, but contain specific values in each of the leaf nodes, which are
-always scalar.
+always scalar or empty.
 
 As for the structured types, structured values can be constructed by adding subvalues to an existing
 structured value using the :func:`AnyValue::AddMember` method.
@@ -154,7 +160,7 @@ The following example shows how this method can be used to populate a structured
    account_val.AddMember("Activated", true);
 
 As can be seen in the previous example, the value argument for the ``AddMember`` method can omit
-the preferred type if the automatically deduced type is correct (``Boolean`` in the last call).
+the preferred type if the automatically deduced type is correct (``BooleanType`` in the last call).
 
 Again, one can create structures of structures, structures of arrays, arrays of structures, etc.
 
@@ -248,6 +254,12 @@ These are listed here.
 
    Retrieve the type name.
 
+.. function:: bool IsScalar() const
+
+   :return: True when this value is scalar.
+
+   Query if this value is scalar (not empty, struct or array).
+
 .. function:: std::vector<std::string> AnyValue::MemberNames() const
 
    :return: List of member names.
@@ -267,12 +279,26 @@ These are listed here.
    Retrieve the number of elements in the array. Returns zero when the current value is not an
    array value.
 
+.. function:: AnyType ElementType() const
+
+   :return: AnyType of the array's elements.
+   :throws InvalidOperationException: When current type AnyValue is not an array.
+
+   Return the type of the elements of an array.
+
 .. function:: bool AnyValue::HasField(const std::string& fieldname) const
 
    :param fieldname: Name of the subvalue to search for.
    :return: ``true`` when a subvalue with the given fieldname exists.
 
    Check the presence of a subvalue with the given name. Composite fieldnames are supported.
+
+.. function:: std::size_t NumberOfChildren() const
+
+   :return: Number of child values.
+
+   Get number of child values. This is mostly used to be able to visit an AnyValue array or
+   structure.
 
 .. _conversion-methods:
 
@@ -307,6 +333,13 @@ The following examples show the usage of this conversion method::
    AnyValue val{UnsignedInteger32Type, 19};
    bool is_non_zero = val.as<boolean>();  // is_non_zero is true
    int16 signed_val = val.as<int16>();  // signed_val is also 19
+
+A non-throwing version of function template is also available:
+
+.. function:: template<typename T> bool AnyValue::As(T& value) const
+
+   :param value: Reference to value to copy this value into.
+   :return: ``true`` on successful conversion.
 
 There is also a member function that tries to convert another ``AnyValue`` to the type of the
 current ``AnyValue``:
@@ -379,17 +412,19 @@ descendents.
    :throws InvalidOperationException: If this operation is not supported
       (e.g. not a structured value or a structured array element).
 
-   Add a member value for this structured value with the given name and value. Empty values are
-   not allowed as member values.
+   Add a member value for this structured value with the given name and value. All types are
+   allowed for the member values, including empty.
 
 .. function:: AnyValue& AnyValue::AddElement(const AnyValue& value)
 
    :param value: ``AnyValue`` object to add as an element.
    :return: Reference to ``this`` to allow chaining such calls.
    :throws InvalidOperationException: If this operation is not supported
-      (not an array value or an element of an array of arrays).
+      (e.g. not an array value or an element of an array of arrays).
 
-   Add an element to the end of this array value with the given value.
+   Add an element to the end of this array value with the given value. Since all elements in an
+   array value are required to have the same type, this function may throw when the conversion
+   fails.
 
 Comparison operators
 --------------------
@@ -435,10 +470,9 @@ A custom comparison function is also provided that handles arithmetic types (exc
 
    If one of the types is floating point, the comparison will use the largest floating point type
    among the given types as the common type ('float64' if there is one, 'float32' otherwise).
-   Integral comparisons are only supported between types that are both signed or both unsigned. In
-   these cases, the widest signed or unsigned integral type is used ('int64' or 'uint64').
-   For all comparisons that are not supported (for example 'string', structures, signed with
-   unsigned, etc.), the function returns 'Unordered'.
+   Integral comparisons are supported between all integral types (signed and unsigned).
+   For all comparisons that are not supported (for example 'string', structures, etc.), the function
+   returns 'Unordered'.
 
 Global functions
 ----------------
