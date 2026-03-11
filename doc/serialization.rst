@@ -7,8 +7,8 @@ formats.This section provides documentation on the public API for serialiation a
 .. contents::
    :local:
 
-JSON
-----
+JSON Serialization
+------------------
 
 AnyType
 ^^^^^^^
@@ -238,3 +238,126 @@ The library contains the following global functions for serialization and parsin
    :throws ParseException: When the binary representation could not be correctly parsed.
 
    Parse an AnyValue from a binary representation.
+
+JSON parsing
+------------
+
+
+The library provides dedicated parser classes for parsing ``AnyType`` and ``AnyValue`` objects from
+JSON. These classes allow incremental parsing and optionally accept an ``AnyTypeRegistry`` for
+resolving type references during parsing.
+
+JSONAnyTypeParser
+^^^^^^^^^^^^^^^^^
+
+The ``JSONAnyTypeParser`` class parses JSON representations into ``AnyType`` objects. It is
+non-copyable and non-movable. After a successful parse, the result can be retrieved using
+``MoveAnyType()``.
+
+.. class:: JSONAnyTypeParser
+
+   .. function:: JSONAnyTypeParser()
+
+      Construct a new parser instance.
+
+   .. function:: bool ParseString(const std::string& json_str, const AnyTypeRegistry* type_registry)
+
+      :param json_str: JSON string to parse.
+      :param type_registry: ``AnyTypeRegistry`` to use during parsing.
+      :return: ``true`` on successful parsing, ``false`` otherwise.
+
+      Parse an ``AnyType`` from a JSON string using a type registry for resolving type references.
+
+   .. function:: bool ParseString(const std::string& json_str)
+
+      :param json_str: JSON string to parse.
+      :return: ``true`` on successful parsing, ``false`` otherwise.
+
+      Parse an ``AnyType`` from a JSON string without use of a type registry.
+
+   .. function:: bool ParseFile(const std::string& filename, const AnyTypeRegistry* type_registry)
+
+      :param filename: Name of the file containing the JSON representation.
+      :param type_registry: ``AnyTypeRegistry`` to use during parsing.
+      :return: ``true`` on successful parsing, ``false`` otherwise.
+
+      Parse an ``AnyType`` from a JSON file using a type registry for resolving type references.
+
+   .. function:: bool ParseFile(const std::string& filename)
+
+      :param filename: Name of the file containing the JSON representation.
+      :return: ``true`` on successful parsing, ``false`` otherwise.
+
+      Parse an ``AnyType`` from a JSON file without use of a type registry.
+
+   .. function:: AnyType MoveAnyType()
+
+      :return: Parsed ``AnyType``, or empty type if nothing was parsed.
+
+      Return the parsed ``AnyType`` with move semantics.
+
+JSONAnyValueParser
+^^^^^^^^^^^^^^^^^^
+
+The ``JSONAnyValueParser`` class parses JSON representations into ``AnyValue`` objects. It is
+non-copyable and non-movable. In addition to the standard parse methods, it provides typed
+parsing methods that accept an ``AnyType`` to use for the resulting value. After a successful
+parse, the result can be retrieved using ``MoveAnyValue()``.
+
+.. class:: JSONAnyValueParser
+
+   .. function:: JSONAnyValueParser()
+
+      Construct a new parser instance.
+
+   .. function:: bool ParseString(const std::string& json_str, const AnyTypeRegistry* type_registry)
+
+      :param json_str: JSON string to parse.
+      :param type_registry: ``AnyTypeRegistry`` to use during parsing.
+      :return: ``true`` on successful parsing, ``false`` otherwise.
+
+      Parse an ``AnyValue`` from a JSON string using a type registry for resolving type references.
+
+   .. function:: bool ParseString(const std::string& json_str)
+
+      :param json_str: JSON string to parse.
+      :return: ``true`` on successful parsing, ``false`` otherwise.
+
+      Parse an ``AnyValue`` from a JSON string without use of a type registry.
+
+   .. function:: bool ParseFile(const std::string& filename, const AnyTypeRegistry* type_registry)
+
+      :param filename: Name of the file containing the JSON representation.
+      :param type_registry: ``AnyTypeRegistry`` to use during parsing.
+      :return: ``true`` on successful parsing, ``false`` otherwise.
+
+      Parse an ``AnyValue`` from a JSON file using a type registry for resolving type references.
+
+   .. function:: bool ParseFile(const std::string& filename)
+
+      :param filename: Name of the file containing the JSON representation.
+      :return: ``true`` on successful parsing, ``false`` otherwise.
+
+      Parse an ``AnyValue`` from a JSON file without use of a type registry.
+
+   .. function:: bool TypedParseString(const AnyType& anytype, const std::string& json_str)
+
+      :param anytype: Type to use for the resulting value.
+      :param json_str: JSON string to parse.
+      :return: ``true`` on successful parsing, ``false`` otherwise.
+
+      Parse an ``AnyValue`` with a given type from a JSON string.
+
+   .. function:: bool TypedParseFile(const AnyType& anytype, const std::string& filename)
+
+      :param anytype: Type to use for the resulting value.
+      :param filename: Name of the file containing the JSON representation.
+      :return: ``true`` on successful parsing, ``false`` otherwise.
+
+      Parse an ``AnyValue`` with a given type from a JSON file.
+
+   .. function:: AnyValue MoveAnyValue()
+
+      :return: Parsed ``AnyValue``, or empty value if nothing was parsed.
+
+      Return the parsed ``AnyValue`` with move semantics.
