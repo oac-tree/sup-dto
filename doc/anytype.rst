@@ -116,7 +116,8 @@ The following scalar type enumerators are supported:
 
 .. enumerator:: TypeCode::String
 
-   Type representing character strings.
+   Type representing character strings. Values of this type encapsulate a ``std::string`` and
+   hence support a variable size (no fixed length constraints).
 
 Array types
 ^^^^^^^^^^^
@@ -130,8 +131,8 @@ dedicated constructor::
 The last argument of this constructor is optional and if not provided, the typename will be an empty
 string.
 
-Array types with zero size are allowed, since elements can be added later. However, this implicitly
-changes the type, since its size if part of the type.
+Array types with zero size are allowed, since elements can be added later to values of this type.
+However, this implicitly changes their type, since the size is part of the type.
 
 .. _structured-types:
 
@@ -228,7 +229,8 @@ These are listed here.
 
    :return: Type name.
 
-   Retrieve the type name.
+   Retrieve the type name. These names are fixed for scalar and empty types and can be
+   customized for array and struct types.
 
 .. function:: bool AnyType::HasField(const std::string& fieldname) const
 
@@ -241,7 +243,8 @@ These are listed here.
 
    :return: List of member names.
 
-   Return an ordered list of all direct member names.
+   Return an ordered list of all direct member names. This will return an empty list for
+   non-structured types.
 
 .. function:: std::size_t AnyType::NumberOfMembers() const
 
@@ -263,12 +266,33 @@ These are listed here.
    Retrieve the number of elements in the array. Returns zero when the current type is not an
    array type.
 
+.. function:: std::size_t NumberOfChildren() const
+
+   :return: Number of child types for this type and zero otherwise.
+
+   Get number of child types. This is mostly used to be able to visit an AnyType tree structure.
+   Note that for array types, it will return one, as an array type has only one child type, even
+   though its size may be bigger of smaller than one.
+
+.. function:: AnyType* GetChildType(std::size_t idx)
+
+   :return: Child type for the given index.
+   :throws InvalidOperationException: If no child type for the given index exists.
+
+   Get the child type for the given index. This is mostly used to be able to visit an AnyType tree.
+
+.. function:: const AnyType* GetChildType(std::size_t idx) const
+
+   :return: Child type for the given index.
+   :throws InvalidOperationException: If no child type for the given index exists.
+
+   Const version of :func:`AnyType* GetChildType(std::size_t idx)`.
+
 Element access
 --------------
 
 The ``AnyType`` class overloads the index operators to provide a natural way to access element types
-of a structured type. Since array types have only one single type associated to their elements, no
-dedicated overload exists (see :func:`AnyType::ElementType()`).
+of a structured type. For array types, the fieldname ``[]`` is used to access its element type.
 
 The overloaded operators are:
 
@@ -332,3 +356,96 @@ inequality operator:
      and types. The order of members is also taken into account.
    * Array types are only equal to other array types with the same type name, same element type and
      number of elements.
+
+Global functions
+----------------
+
+.. function:: AnyType EmptyStructType(const std::string& name)
+
+   :param name: Name for the underlying structured type.
+   :return: ``AnyType`` with structure type.
+
+   Constructs an empty structured type with the given name.
+
+.. function:: AnyType EmptyStructType()
+
+   :return: ``AnyType`` with structure type.
+
+   Constructs an empty structured type with an empty name.
+
+.. function:: bool IsEmptyTypeCode(TypeCode type_code)
+
+   :param type_code: ``TypeCode`` enumerator to check.
+   :return: ``true`` if the type code represents an empty type.
+
+   Check whether the given type code corresponds to the empty type.
+
+.. function:: bool IsStructTypeCode(TypeCode type_code)
+
+   :param type_code: ``TypeCode`` enumerator to check.
+   :return: ``true`` if the type code represents a structured type.
+
+   Check whether the given type code corresponds to a structured type.
+
+.. function:: bool IsArrayTypeCode(TypeCode type_code)
+
+   :param type_code: ``TypeCode`` enumerator to check.
+   :return: ``true`` if the type code represents an array type.
+
+   Check whether the given type code corresponds to an array type.
+
+.. function:: bool IsScalarTypeCode(TypeCode type_code)
+
+   :param type_code: ``TypeCode`` enumerator to check.
+   :return: ``true`` if the type code represents a scalar type.
+
+   Check whether the given type code corresponds to a scalar type.
+
+.. function:: bool IsEmptyType(const AnyType& anytype)
+
+   :param anytype: ``AnyType`` object to check.
+   :return: ``true`` if the given object is an empty type.
+
+   Check whether the given ``AnyType`` object is an empty type.
+
+.. function:: bool IsStructType(const AnyType& anytype)
+
+   :param anytype: ``AnyType`` object to check.
+   :return: ``true`` if the given object is a structured type.
+
+   Check whether the given ``AnyType`` object is a structured type.
+
+.. function:: bool IsArrayType(const AnyType& anytype)
+
+   :param anytype: ``AnyType`` object to check.
+   :return: ``true`` if the given object is an array type.
+
+   Check whether the given ``AnyType`` object is an array type.
+
+.. function:: bool IsScalarType(const AnyType& anytype)
+
+   :param anytype: ``AnyType`` object to check.
+   :return: ``true`` if the given object is a scalar type.
+
+   Check whether the given ``AnyType`` object is a scalar type.
+
+.. function:: const std::vector<std::pair<TypeCode, std::string>>& ScalarTypeDefinitions()
+
+   :return: Reference to a vector of pairs mapping each scalar ``TypeCode`` to its string name.
+
+   Retrieve the list of all scalar type definitions.
+
+.. function:: std::deque<std::string> SplitAnyTypeFieldname(const std::string& fieldname)
+
+   :param fieldname: Full fieldname to split.
+   :return: List of component names.
+   :throws InvalidOperationException: When the fieldname cannot be properly parsed.
+
+   Splits a possibly nested fieldname for an ``AnyType`` into its component names.
+   Optional dots after square brackets will be removed too.
+
+   Example::
+
+      auto names_1 = SplitAnyTypeFieldname("[]subfieldname");   // returns {"[]", "subfieldname"}
+      auto names_2 = SplitAnyTypeFieldname("[].subfieldname");  // idem
+      auto names_3 = SplitAnyTypeFieldname("[oops]");           // throws InvalidOperationException
