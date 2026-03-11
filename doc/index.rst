@@ -27,6 +27,7 @@ with respect to reference semantics:
    anytype
    anyvalue
    serialization
+   builders
    visit
 
 Indices and tables
