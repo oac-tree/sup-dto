@@ -31,9 +31,10 @@ namespace sup
 namespace dto
 {
 
-CTypeSerializer::CTypeSerializer()
+CTypeSerializer::CTypeSerializer(bool to_network_order)
   : IAnyVisitor<const AnyValue>{}
   , m_representation{}
+  , m_to_network_order{to_network_order}
 {}
 CTypeSerializer::~CTypeSerializer() = default;
 
@@ -74,7 +75,8 @@ void CTypeSerializer::ArrayEpilog(const AnyValue*)
 
 void CTypeSerializer::ScalarProlog(const AnyValue* anyvalue)
 {
-  auto byte_val = ScalarToHostOrder(*anyvalue);
+  auto byte_val = m_to_network_order ? ScalarToNetwokOrder(*anyvalue)
+                                     : ScalarToHostOrder(*anyvalue);
   (void)m_representation.insert(m_representation.cend(), byte_val.begin(), byte_val.end());
 }
 

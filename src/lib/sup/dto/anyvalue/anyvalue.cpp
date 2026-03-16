@@ -731,7 +731,14 @@ std::deque<std::string> SplitAnyValueFieldname(const std::string& fieldname)
 
 std::vector<uint8> ToBytes(const AnyValue& anyvalue)
 {
-  CTypeSerializer serializer;
+  CTypeSerializer serializer{false};
+  Visit(anyvalue, serializer);
+  return serializer.GetRepresentation();
+}
+
+std::vector<uint8> ToNetworkOrderBytes(const AnyValue& anyvalue)
+{
+  CTypeSerializer serializer{true};
   Visit(anyvalue, serializer);
   return serializer.GetRepresentation();
 }

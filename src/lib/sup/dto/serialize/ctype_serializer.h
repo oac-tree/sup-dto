@@ -37,7 +37,7 @@ class AnyValue;
 class CTypeSerializer : public IAnyVisitor<const AnyValue>
 {
 public:
-  CTypeSerializer();
+  CTypeSerializer(bool to_network_order);
   ~CTypeSerializer() override;
 
   CTypeSerializer(const CTypeSerializer& other) = delete;
@@ -66,6 +66,7 @@ public:
 
 private:
   std::vector<uint8> m_representation;
+  bool m_to_network_order;
 };
 
 }  // namespace dto

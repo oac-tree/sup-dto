@@ -525,17 +525,28 @@ bool IsScalarValue(const AnyValue& anyvalue);
 std::deque<std::string> SplitAnyValueFieldname(const std::string& fieldname);
 
 /**
- * @brief Serialize an AnyValue to an array of bytes.
- * @deprecated Use `AnyValueToBinary` instead.
+ * @brief Serialize an AnyValue to an array of bytes in host byte order.
+ * @note Use `AnyValueToBinary` instead, unless when used for applications where fixed size
+ * scalar nodes are required, e.g. for casting to C types.
  *
  * @param anyvalue AnyValue object to serialize.
  *
  * @throws SerializeException Thrown when the AnyValue cannot be correctly serialized into a byte
  * array (e.g. string field too long or unknown scalar type).
- *
- * @note This serialization is only used to cast to C-type structures.
  */
 std::vector<uint8> ToBytes(const AnyValue& anyvalue);
+
+/**
+ * @brief Serialize an AnyValue to an array of bytes in network byte order.
+ * @note Use `AnyValueToBinary` instead, unless when used for applications where fixed size
+ * scalar nodes are required, e.g. for casting to C types.
+ *
+ * @param anyvalue AnyValue object to serialize.
+ *
+ * @throws SerializeException Thrown when the AnyValue cannot be correctly serialized into a byte
+ * array (e.g. string field too long or unknown scalar type).
+ */
+std::vector<uint8> ToNetworkOrderBytes(const AnyValue& anyvalue);
 
 /**
  * @brief Parse AnyValue content from an array of bytes.

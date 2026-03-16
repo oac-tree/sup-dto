@@ -384,12 +384,9 @@ Casting to/from plain C types
 The library provides functions for converting ``AnyValue`` objects to and from plain C-type
 structures via byte arrays. These are mainly useful for interfacing with C-style APIs.
 
-.. note::
-
-   The non-member functions are marked deprecated to indicate that these should not be used for
-   generic binary serialization/parsing. The C-type conversions have a severe limitation in that
-   all string leaves will be assumed to be represented by zero-terminated char arrays with fixed
-   length (64).
+They can also be used in applications where it is required that all scalar types are represented
+by fixed size byte arrays, e.g. for low-level network libraries. Note that all strings will be
+represented by zero-terminated char arrays with fixed length (64).
 
 .. function:: std::vector<uint8> ToBytes(const AnyValue& anyvalue)
 
@@ -398,8 +395,16 @@ structures via byte arrays. These are mainly useful for interfacing with C-style
    :throws SerializeException: When the ``AnyValue`` cannot be correctly serialized into a byte
       array (e.g. string field too long or unknown scalar type).
 
-   Serialize an ``AnyValue`` to an array of bytes. This serialization is only used to cast to
-   C-type structures.
+   Serialize an ``AnyValue`` to an array of bytes in host byte order.
+
+.. function:: std::vector<uint8> ToNetworkOrderBytes(const AnyValue& anyvalue)
+
+   :param anyvalue: ``AnyValue`` object to serialize.
+   :return: Byte array representation of the value.
+   :throws SerializeException: When the ``AnyValue`` cannot be correctly serialized into a byte
+      array (e.g. string field too long or unknown scalar type).
+
+   Serialize an ``AnyValue`` to an array of bytes in network byte order.
 
 .. function:: void FromBytes(AnyValue& anyvalue, const uint8* bytes, std::size_t total_size)
 
@@ -409,8 +414,7 @@ structures via byte arrays. These are mainly useful for interfacing with C-style
    :throws ParseException: When the byte array cannot be correctly parsed (e.g. sizes don't
       match, absence of null terminator in C-style string or unknown scalar type).
 
-   Parse ``AnyValue`` content from an array of bytes. This method is only used to cast from
-   C-type structures.
+   Parse ``AnyValue`` content from an array of bytes in host byte order.
 
 .. function:: template <typename T> T AnyValue::ToCType() const
 
