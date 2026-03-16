@@ -27,7 +27,6 @@
 
 #include <cstring>
 #include <vector>
-#include <array>
 
 namespace BitConstants
 {
@@ -70,48 +69,28 @@ struct UnsignedRepresentation<8u>
 template <sup::dto::uint64 Size>
 using UnsignedRepresentationType = typename UnsignedRepresentation<Size>::type;
 
-// Specialization for integers with sizeof(T) > 1
-// The passed value is converted to an unsigned integral type and then serialized in little
-// endian format (regardless of system endianness)
-// The choice for little endian encoding is motivated by the fact that most common systems use this
-// format, which would allow a more performant implementation (if required) on these systems.
-template <typename T,
-          typename std::enable_if<std::is_integral<T>::value && (sizeof(T) > 1), bool>::type = true>
-std::vector<uint8> ArithmeticToBytesT(const T& val)
+// Convert a basic arithmetic type to a vector of bytes in host byte order.
+template <typename T, typename std::enable_if_t<std::is_arithmetic_v<T>, bool> = true>
+std::vector<uint8> ToHostOrderT(const T& val)
 {
-  auto u_val = static_cast<UnsignedRepresentationType<sizeof(T)>>(val);
   std::vector<uint8> result(sizeof(T), 0);
-  for (std::size_t i = 0; i < sizeof(T); ++i)
-  {
-    result[i] = static_cast<uint8>(u_val & BitConstants::kLSBMask);
-    u_val >>= BitConstants::kBitsPerByte;
-  }
+  (void)std::memcpy(result.data(), std::addressof(val), sizeof(T));
   return result;
 }
 
-// Specialization for integers with sizeof(T) == 1
-template <typename T,
-          typename std::enable_if<std::is_integral<T>::value && (sizeof(T) == 1), bool>::type = true>
-std::vector<uint8> ArithmeticToBytesT(const T &val)
-{
-  auto u_val = static_cast<UnsignedRepresentationType<sizeof(T)>>(val);
-  std::vector<uint8> result{};
-  result.push_back(u_val);
-  return result;
-}
-
-// Specialization for floating points
+// Convert a basic arithmetic type to a vector of bytes in network byte order.
 // This implementation assumes that the same endianness is used for floating point values as
 // for integral values.
-template <typename T, typename std::enable_if<std::is_floating_point<T>::value, bool>::type = true>
-std::vector<uint8> ArithmeticToBytesT(const T& val)
+template <typename T, typename std::enable_if_t<std::is_arithmetic_v<T>, bool> = true>
+std::vector<uint8> ToNetworkOrder(const T& val)
 {
   UnsignedRepresentationType<sizeof(T)> u_val{};
   (void)std::memcpy(&u_val, std::addressof(val), sizeof(T));
   std::vector<uint8> result(sizeof(T), 0);
   for (std::size_t i = 0; i < sizeof(T); ++i)
   {
-    result[i] = static_cast<uint8>(u_val & BitConstants::kLSBMask);
+    auto idx = sizeof(T) - i - 1;
+    result[idx] = static_cast<uint8>(u_val & BitConstants::kLSBMask);
     u_val >>= BitConstants::kBitsPerByte;
   }
   return result;
@@ -121,7 +100,7 @@ std::vector<uint8> ArithmeticToBytesT(const T& val)
 template <typename T>
 void AppendScalarBytesT(std::vector<uint8>& representation, const T& val)
 {
-  auto val_rep = ArithmeticToBytesT(val);
+  auto val_rep = ToHostOrderT(val);
   (void)representation.insert(representation.cend(), val_rep.cbegin(), val_rep.cend());
 }
 
