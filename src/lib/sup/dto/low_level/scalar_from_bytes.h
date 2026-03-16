@@ -42,9 +42,8 @@ std::size_t AssignBytes(AnyValue& anyvalue, const uint8* bytes, std::size_t size
   {
     throw ParseException("Trying to parse beyond size of byte array");
   }
-  std::vector<uint8> byte_vector(bytes + position, bytes + position + sizeof(T));
-  auto begin_it = byte_vector.cbegin();
-  auto val = ParseBinaryScalarT<T>(begin_it, byte_vector.cend());
+  auto begin_it = bytes + position;
+  auto val = ParseFromHostOrderT<T>(begin_it, bytes + position + sizeof(T));
   anyvalue = val;
   return position + sizeof(T);
 }
