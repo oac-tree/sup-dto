@@ -2,6 +2,7 @@ target_sources(sup-dto-obj
   PRIVATE
     binary_parser_functions.cpp
     binary_serialization_functions.cpp
+    scalar_from_bytes.cpp
     scalar_to_bytes.cpp
 )
 

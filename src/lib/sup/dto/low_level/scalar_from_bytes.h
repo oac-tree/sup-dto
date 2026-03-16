@@ -34,38 +34,8 @@ namespace sup
 namespace dto
 {
 
-template <typename T>
-std::size_t AssignBytes(AnyValue& anyvalue, const uint8* bytes, std::size_t size,
-                        std::size_t position)
-{
-  if ((position + sizeof(T)) > size)
-  {
-    throw ParseException("Trying to parse beyond size of byte array");
-  }
-  auto begin_it = bytes + position;
-  auto val = ParseFromHostOrderT<T>(begin_it, bytes + position + sizeof(T));
-  anyvalue = val;
-  return position + sizeof(T);
-}
-
-template <>
-std::size_t AssignBytes<std::string>(AnyValue& anyvalue, const uint8* bytes, std::size_t size,
-                                     std::size_t position)
-{
-  auto end_position = position + kStringMaxLength;
-  if (end_position > size)
-  {
-    throw ParseException("Trying to parse beyond size of byte array");
-  }
-  auto null_pos = std::find(&bytes[position], &bytes[end_position], '\0');
-  if (null_pos == &bytes[end_position])
-  {
-    throw ParseException("C-type string is not null-terminated");
-  }
-  std::string val = reinterpret_cast<const char*>(&bytes[position]);
-  anyvalue = val;
-  return end_position;
-}
+std::size_t AssignFromHostOrder(AnyValue& anyvalue, const uint8* bytes, std::size_t size,
+                                std::size_t position);
 
 }  // namespace dto
 
