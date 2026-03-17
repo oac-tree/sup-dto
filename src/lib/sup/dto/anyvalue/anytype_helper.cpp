@@ -49,7 +49,7 @@ namespace dto
 
 void SerializeAnyType(const AnyType& anytype, IAnyVisitor<const AnyType>& serializer)
 {
-  return Visit(anytype, serializer);
+  Visit(anytype, serializer);
 }
 
 std::string PrintAnyType(const AnyType& anytype)
@@ -84,7 +84,7 @@ void AnyTypeToJSONFile(const AnyType& anytype, const std::string& filename, bool
 
 void AnyTypeToJSONFile(const AnyType& anytype, const std::string& filename)
 {
-  return AnyTypeToJSONFile(anytype, filename, false);
+  AnyTypeToJSONFile(anytype, filename, false);
 }
 
 std::vector<uint8> AnyTypeToBinary(const AnyType& anytype)

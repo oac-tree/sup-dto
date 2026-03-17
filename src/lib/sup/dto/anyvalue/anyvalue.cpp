@@ -670,7 +670,7 @@ bool AnyValue::ShallowEquals(const AnyValue& other) const
 
 void AnyValue::ShallowConvertFrom(const AnyValue& other)
 {
-  return m_data->ShallowConvertFrom(other);
+  m_data->ShallowConvertFrom(other);
 }
 
 AnyValue EmptyStruct(const std::string& type_name)

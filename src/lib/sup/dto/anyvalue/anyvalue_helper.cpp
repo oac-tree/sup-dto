@@ -171,7 +171,7 @@ std::pair<bool, AnyValue> TryConvertAllowExtraTargetFields(const AnyValue& src,
 
 void SerializeAnyValue(const AnyValue& anyvalue, IAnyVisitor<const AnyValue>& serializer)
 {
-  return Visit(anyvalue, serializer);
+  Visit(anyvalue, serializer);
 }
 
 std::string PrintAnyValue(const AnyValue& anyvalue)
@@ -217,7 +217,7 @@ void ValuesToJSONFile(const AnyValue& anyvalue, const std::string& filename, boo
 
 void ValuesToJSONFile(const AnyValue& anyvalue, const std::string& filename)
 {
-  return ValuesToJSONFile(anyvalue, filename, false);
+  ValuesToJSONFile(anyvalue, filename, false);
 }
 
 void AnyValueToJSONFile(const AnyValue& anyvalue, const std::string& filename, bool pretty)
@@ -228,12 +228,11 @@ void AnyValueToJSONFile(const AnyValue& anyvalue, const std::string& filename, b
     throw SerializeException("AnyValueToJSONFile could not open the file for writing");
   }
   JSONSerializeAnyValue(ofs, anyvalue, pretty);
-  return;
 }
 
 void AnyValueToJSONFile(const AnyValue& anyvalue, const std::string& filename)
 {
-  return AnyValueToJSONFile(anyvalue, filename, false);
+  AnyValueToJSONFile(anyvalue, filename, false);
 }
 
 std::vector<uint8> AnyValueToBinary(const AnyValue& anyvalue)

@@ -80,7 +80,8 @@ void EmptyValueData::ShallowConvertFrom(const AnyValue& value)
 {
   if (!IsEmptyValue(value))
   {
-    return IValueData::ShallowConvertFrom(value);
+    IValueData::ShallowConvertFrom(value);
+    return;
   }
 }
 

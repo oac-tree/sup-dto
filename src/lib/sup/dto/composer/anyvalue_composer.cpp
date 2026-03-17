@@ -155,7 +155,7 @@ void AnyValueComposer::StartStruct(const std::string &struct_name)
 
 void AnyValueComposer::StartStruct()
 {
-  return StartStruct({});
+  StartStruct({});
 }
 
 void AnyValueComposer::EndStruct()
@@ -192,7 +192,7 @@ void AnyValueComposer::StartArray(const std::string &array_name)
 
 void AnyValueComposer::StartArray()
 {
-  return StartArray({});
+  StartArray({});
 }
 
 void AnyValueComposer::StartArrayElement()

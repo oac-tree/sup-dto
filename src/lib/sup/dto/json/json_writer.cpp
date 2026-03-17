@@ -59,7 +59,7 @@ void JSONSerializeAnyType(std::ostream& json_stream, const AnyType& anytype, boo
 
 void JSONSerializeAnyType(std::ostream& json_stream, const AnyType& anytype)
 {
-  return JSONSerializeAnyType(json_stream, anytype, false);
+  JSONSerializeAnyType(json_stream, anytype, false);
 }
 
 void JSONSerializeAnyValue(std::ostream& json_stream, const AnyValue& anyvalue, bool pretty)
@@ -71,7 +71,7 @@ void JSONSerializeAnyValue(std::ostream& json_stream, const AnyValue& anyvalue, 
 
 void JSONSerializeAnyValue(std::ostream& json_stream, const AnyValue& anyvalue)
 {
-  return JSONSerializeAnyValue(json_stream, anyvalue, false);
+  JSONSerializeAnyValue(json_stream, anyvalue, false);
 }
 
 void JSONSerializeAnyValueValues(std::ostream& json_stream, const AnyValue& anyvalue, bool pretty)
@@ -84,7 +84,7 @@ void JSONSerializeAnyValueValues(std::ostream& json_stream, const AnyValue& anyv
 
 void JSONSerializeAnyValueValues(std::ostream& json_stream, const AnyValue& anyvalue)
 {
-  return JSONSerializeAnyValueValues(json_stream, anyvalue, false);
+  JSONSerializeAnyValueValues(json_stream, anyvalue, false);
 }
 
 namespace
