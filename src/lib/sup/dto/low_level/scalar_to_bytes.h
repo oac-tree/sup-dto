@@ -37,7 +37,7 @@ std::vector<uint8> ScalarToHostOrder(const AnyValue& anyvalue);
 
 std::vector<uint8> ScalarToLittleEndianOrder(const AnyValue& anyvalue);
 
-std::vector<uint8> ScalarToNetwokOrder(const AnyValue& anyvalue);
+std::vector<uint8> ScalarToNetworkOrder(const AnyValue& anyvalue);
 
 }  // namespace dto
 

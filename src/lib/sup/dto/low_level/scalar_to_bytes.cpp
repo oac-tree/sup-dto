@@ -161,7 +161,7 @@ std::vector<uint8> ScalarToLittleEndianOrder(const AnyValue& anyvalue)
   return it->second(anyvalue);
 }
 
-std::vector<uint8> ScalarToNetwokOrder(const AnyValue& anyvalue)
+std::vector<uint8> ScalarToNetworkOrder(const AnyValue& anyvalue)
 {
   static const auto& conversion_map = IsLittleEndian() ? GetToNetworkOrderMap()
                                                        : GetToHostOrderMap();

@@ -51,9 +51,9 @@ TEST_F(ScalarBytesTest, CheckToHostOrder)
 {
   std::function<std::vector<uint8>(const AnyValue&)> SameAsHostOrder =
     IsLittleEndian() ? ScalarToLittleEndianOrder
-                     : ScalarToNetwokOrder;
+                     : ScalarToNetworkOrder;
   std::function<std::vector<uint8>(const AnyValue&)> DifferentAsHostOrder =
-    IsLittleEndian() ? ScalarToNetwokOrder
+    IsLittleEndian() ? ScalarToNetworkOrder
                      : ScalarToLittleEndianOrder;
   {
     // boolean
@@ -242,7 +242,7 @@ TEST_F(ScalarBytesTest, CheckToSpecificByteOrders)
     // bool
     AnyValue val{BooleanType, true};
     const auto le_order_bytes = ScalarToLittleEndianOrder(val);
-    const auto nw_order_bytes = ScalarToNetwokOrder(val);
+    const auto nw_order_bytes = ScalarToNetworkOrder(val);
     ASSERT_EQ(le_order_bytes.size(), 1U);
     ASSERT_EQ(le_order_bytes.size(), nw_order_bytes.size());
 
@@ -254,7 +254,7 @@ TEST_F(ScalarBytesTest, CheckToSpecificByteOrders)
     // char8
     AnyValue val{Character8Type, 0x12};
     const auto le_order_bytes = ScalarToLittleEndianOrder(val);
-    const auto nw_order_bytes = ScalarToNetwokOrder(val);
+    const auto nw_order_bytes = ScalarToNetworkOrder(val);
     ASSERT_EQ(le_order_bytes.size(), 1U);
     ASSERT_EQ(le_order_bytes.size(), nw_order_bytes.size());
 
@@ -266,7 +266,7 @@ TEST_F(ScalarBytesTest, CheckToSpecificByteOrders)
     // int8
     AnyValue val{SignedInteger8Type, 0x12};
     const auto le_order_bytes = ScalarToLittleEndianOrder(val);
-    const auto nw_order_bytes = ScalarToNetwokOrder(val);
+    const auto nw_order_bytes = ScalarToNetworkOrder(val);
     ASSERT_EQ(le_order_bytes.size(), 1U);
     ASSERT_EQ(le_order_bytes.size(), nw_order_bytes.size());
 
@@ -278,7 +278,7 @@ TEST_F(ScalarBytesTest, CheckToSpecificByteOrders)
     // uint8
     AnyValue val{UnsignedInteger8Type, 0x12};
     const auto le_order_bytes = ScalarToLittleEndianOrder(val);
-    const auto nw_order_bytes = ScalarToNetwokOrder(val);
+    const auto nw_order_bytes = ScalarToNetworkOrder(val);
     ASSERT_EQ(le_order_bytes.size(), 1U);
     ASSERT_EQ(le_order_bytes.size(), nw_order_bytes.size());
 
@@ -290,7 +290,7 @@ TEST_F(ScalarBytesTest, CheckToSpecificByteOrders)
     // int16
     AnyValue val{SignedInteger16Type, 0x1234};
     const auto le_order_bytes = ScalarToLittleEndianOrder(val);
-    const auto nw_order_bytes = ScalarToNetwokOrder(val);
+    const auto nw_order_bytes = ScalarToNetworkOrder(val);
     ASSERT_EQ(le_order_bytes.size(), 2U);
     ASSERT_EQ(le_order_bytes.size(), nw_order_bytes.size());
 
@@ -304,7 +304,7 @@ TEST_F(ScalarBytesTest, CheckToSpecificByteOrders)
     // uint16
     AnyValue val{UnsignedInteger16Type, 0x1234};
     const auto le_order_bytes = ScalarToLittleEndianOrder(val);
-    const auto nw_order_bytes = ScalarToNetwokOrder(val);
+    const auto nw_order_bytes = ScalarToNetworkOrder(val);
     ASSERT_EQ(le_order_bytes.size(), 2U);
     ASSERT_EQ(le_order_bytes.size(), nw_order_bytes.size());
 
@@ -318,7 +318,7 @@ TEST_F(ScalarBytesTest, CheckToSpecificByteOrders)
     // int32
     AnyValue val{SignedInteger32Type, 0x12345678};
     const auto le_order_bytes = ScalarToLittleEndianOrder(val);
-    const auto nw_order_bytes = ScalarToNetwokOrder(val);
+    const auto nw_order_bytes = ScalarToNetworkOrder(val);
     ASSERT_EQ(le_order_bytes.size(), 4U);
     ASSERT_EQ(le_order_bytes.size(), nw_order_bytes.size());
 
@@ -336,7 +336,7 @@ TEST_F(ScalarBytesTest, CheckToSpecificByteOrders)
     // uint32
     AnyValue val{UnsignedInteger32Type, 0x12345678};
     const auto le_order_bytes = ScalarToLittleEndianOrder(val);
-    const auto nw_order_bytes = ScalarToNetwokOrder(val);
+    const auto nw_order_bytes = ScalarToNetworkOrder(val);
     ASSERT_EQ(le_order_bytes.size(), 4U);
     ASSERT_EQ(le_order_bytes.size(), nw_order_bytes.size());
 
@@ -354,7 +354,7 @@ TEST_F(ScalarBytesTest, CheckToSpecificByteOrders)
     // int64
     AnyValue val{SignedInteger64Type, 0x1234567890ABCDEF};
     const auto le_order_bytes = ScalarToLittleEndianOrder(val);
-    const auto nw_order_bytes = ScalarToNetwokOrder(val);
+    const auto nw_order_bytes = ScalarToNetworkOrder(val);
     ASSERT_EQ(le_order_bytes.size(), 8U);
     ASSERT_EQ(le_order_bytes.size(), nw_order_bytes.size());
 
@@ -380,7 +380,7 @@ TEST_F(ScalarBytesTest, CheckToSpecificByteOrders)
     // uint64
     AnyValue val{UnsignedInteger64Type, 0x1234567890ABCDEF};
     const auto le_order_bytes = ScalarToLittleEndianOrder(val);
-    const auto nw_order_bytes = ScalarToNetwokOrder(val);
+    const auto nw_order_bytes = ScalarToNetworkOrder(val);
     ASSERT_EQ(le_order_bytes.size(), 8U);
     ASSERT_EQ(le_order_bytes.size(), nw_order_bytes.size());
 
@@ -406,7 +406,7 @@ TEST_F(ScalarBytesTest, CheckToSpecificByteOrders)
     // float32
     AnyValue val{Float32Type, 4.136e-15};
     const auto le_order_bytes = ScalarToLittleEndianOrder(val);
-    auto nw_order_bytes = ScalarToNetwokOrder(val);
+    auto nw_order_bytes = ScalarToNetworkOrder(val);
     ASSERT_EQ(le_order_bytes.size(), 4U);
     ASSERT_EQ(le_order_bytes.size(), nw_order_bytes.size());
 
@@ -418,7 +418,7 @@ TEST_F(ScalarBytesTest, CheckToSpecificByteOrders)
     // float64
     AnyValue val{Float64Type, 6.626e-34};
     const auto le_order_bytes = ScalarToLittleEndianOrder(val);
-    auto nw_order_bytes = ScalarToNetwokOrder(val);
+    auto nw_order_bytes = ScalarToNetworkOrder(val);
     ASSERT_EQ(le_order_bytes.size(), 8U);
     ASSERT_EQ(le_order_bytes.size(), nw_order_bytes.size());
 
@@ -430,7 +430,7 @@ TEST_F(ScalarBytesTest, CheckToSpecificByteOrders)
     // string
     AnyValue val{StringType, "Hello world!"};
     const auto le_order_bytes = ScalarToLittleEndianOrder(val);
-    auto nw_order_bytes = ScalarToNetwokOrder(val);
+    auto nw_order_bytes = ScalarToNetworkOrder(val);
     ASSERT_EQ(le_order_bytes.size(), 64U);
     ASSERT_EQ(le_order_bytes.size(), nw_order_bytes.size());
 
@@ -440,7 +440,7 @@ TEST_F(ScalarBytesTest, CheckToSpecificByteOrders)
     // string too long
     AnyValue val{StringType, "The maximum allowed size for fixed-length strings is 64 characters"};
     EXPECT_THROW(ScalarToLittleEndianOrder(val), SerializeException);
-    EXPECT_THROW(ScalarToNetwokOrder(val), SerializeException);
+    EXPECT_THROW(ScalarToNetworkOrder(val), SerializeException);
   }
 }
 
@@ -451,7 +451,7 @@ TEST_F(ScalarBytesTest, UnsupportedTypes)
     AnyValue val{};
     EXPECT_THROW(ScalarToHostOrder(val), SerializeException);
     EXPECT_THROW(ScalarToLittleEndianOrder(val), SerializeException);
-    EXPECT_THROW(ScalarToNetwokOrder(val), SerializeException);
+    EXPECT_THROW(ScalarToNetworkOrder(val), SerializeException);
   }
   {
     // Struct value
@@ -461,14 +461,14 @@ TEST_F(ScalarBytesTest, UnsupportedTypes)
     }};
     EXPECT_THROW(ScalarToHostOrder(val), SerializeException);
     EXPECT_THROW(ScalarToLittleEndianOrder(val), SerializeException);
-    EXPECT_THROW(ScalarToNetwokOrder(val), SerializeException);
+    EXPECT_THROW(ScalarToNetworkOrder(val), SerializeException);
   }
   {
     // Array value
     AnyValue val = ArrayValue({ 0, 1, 2, 4});
     EXPECT_THROW(ScalarToHostOrder(val), SerializeException);
     EXPECT_THROW(ScalarToLittleEndianOrder(val), SerializeException);
-    EXPECT_THROW(ScalarToNetwokOrder(val), SerializeException);
+    EXPECT_THROW(ScalarToNetworkOrder(val), SerializeException);
   }
 }
 
@@ -780,7 +780,7 @@ TEST_F(ScalarBytesTest, SerializeParse)
     // Network order
     for (const auto& test_scalar : test_scalars)
     {
-      const auto bytes = ScalarToNetwokOrder(test_scalar);
+      const auto bytes = ScalarToNetworkOrder(test_scalar);
       AnyValue parsed{test_scalar.GetType()};
       EXPECT_EQ(AssignFromNetworkOrder(parsed, bytes.data(), bytes.size(), 0), bytes.size());
       EXPECT_EQ(parsed, test_scalar);

@@ -76,7 +76,7 @@ void CTypeSerializer::ArrayEpilog(const AnyValue*)
 void CTypeSerializer::ScalarProlog(const AnyValue* anyvalue)
 {
   auto byte_val = (m_byte_order == ByteOrder::Host) ? ScalarToHostOrder(*anyvalue)
-                                                    : ScalarToNetwokOrder(*anyvalue);
+                                                    : ScalarToNetworkOrder(*anyvalue);
   (void)m_representation.insert(m_representation.cend(), byte_val.begin(), byte_val.end());
 }
 
