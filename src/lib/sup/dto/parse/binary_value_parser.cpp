@@ -23,50 +23,9 @@
 #include "binary_value_parser.h"
 
 #include <sup/dto/low_level/binary_parser_functions.h>
-#include <sup/dto/low_level/arithmetic_from_bytes_t.h>
 
 #include <sup/dto/anyvalue.h>
 #include <sup/dto/anyvalue_helper.h>
-#include <sup/dto/anyvalue_exceptions.h>
-
-#include <array>
-#include <functional>
-
-namespace
-{
-using sup::dto::AnyValue;
-using sup::dto::ByteIterator;
-using sup::dto::TypeCode;
-
-template <typename T>
-void AssignBinaryScalarFromLittleEndianOrderT(AnyValue& anyvalue, ByteIterator& it, ByteIterator end)
-{
-  anyvalue.ConvertFrom(AnyValue{sup::dto::ParseFromLittleEndianOrderT<T>(it, end)});
-}
-
-template <typename T>
-void AssignBinaryScalarFromHostOrderT(AnyValue& anyvalue, ByteIterator& it, ByteIterator end)
-{
-  anyvalue.ConvertFrom(AnyValue{sup::dto::ParseFromHostOrderT<T>(it, end)});
-}
-
-using ScalarParserFunction = std::function<void(AnyValue&, ByteIterator&, ByteIterator)>;
-
-template <typename T>
-ScalarParserFunction GetScalarParserFunction()
-{
-  return IsLittleEndian() ? AssignBinaryScalarFromHostOrderT<T>
-                          : AssignBinaryScalarFromLittleEndianOrderT<T>;
-}
-
-void AssignBinaryString(AnyValue& anyvalue, ByteIterator& it, ByteIterator end)
-{
-  anyvalue.ConvertFrom(sup::dto::ParseBinaryString(it, end));
-}
-
-const sup::dto::uint32 kMaxScalarCode = 13u;
-std::array<ScalarParserFunction, kMaxScalarCode + 1> CreateScalarParserFunctionArray();
-}  // unnamed namespace
 
 namespace sup
 {
@@ -129,37 +88,3 @@ void BinaryValueParser::ScalarEpilog(AnyValue*)
 }  // namespace dto
 
 }  // namespace sup
-
-namespace
-{
-using sup::dto::AnyValue;
-using sup::dto::ByteIterator;
-using sup::dto::TypeCode;
-using sup::dto::uint32;
-
-void InvalidAssignFunction(AnyValue&, ByteIterator&, ByteIterator)
-{
-  const std::string error = "BinaryValueParser::ScalarProlog() called on an empty AnyValue";
-  throw sup::dto::ParseException(error);
-}
-
-std::array<ScalarParserFunction, kMaxScalarCode + 1> CreateScalarParserFunctionArray()
-{
-  std::array<ScalarParserFunction, kMaxScalarCode + 1> result;
-  result.at(static_cast<uint32>(TypeCode::Empty)) = InvalidAssignFunction;
-  result.at(static_cast<uint32>(TypeCode::Bool)) = GetScalarParserFunction<sup::dto::boolean>();
-  result.at(static_cast<uint32>(TypeCode::Char8)) = GetScalarParserFunction<sup::dto::char8>();
-  result.at(static_cast<uint32>(TypeCode::Int8)) = GetScalarParserFunction<sup::dto::int8>();
-  result.at(static_cast<uint32>(TypeCode::UInt8)) = GetScalarParserFunction<sup::dto::uint8>();
-  result.at(static_cast<uint32>(TypeCode::Int16)) = GetScalarParserFunction<sup::dto::int16>();
-  result.at(static_cast<uint32>(TypeCode::UInt16)) = GetScalarParserFunction<sup::dto::uint16>();
-  result.at(static_cast<uint32>(TypeCode::Int32)) = GetScalarParserFunction<sup::dto::int32>();
-  result.at(static_cast<uint32>(TypeCode::UInt32)) = GetScalarParserFunction<sup::dto::uint32>();
-  result.at(static_cast<uint32>(TypeCode::Int64)) = GetScalarParserFunction<sup::dto::int64>();
-  result.at(static_cast<uint32>(TypeCode::UInt64)) = GetScalarParserFunction<sup::dto::uint64>();
-  result.at(static_cast<uint32>(TypeCode::Float32)) = GetScalarParserFunction<sup::dto::float32>();
-  result.at(static_cast<uint32>(TypeCode::Float64)) = GetScalarParserFunction<sup::dto::float64>();
-  result.at(static_cast<uint32>(TypeCode::String)) = AssignBinaryString;
-  return result;
-}
-}  // unnamed namespace

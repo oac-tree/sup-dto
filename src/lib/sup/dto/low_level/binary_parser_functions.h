@@ -25,6 +25,9 @@
 
 #include <sup/dto/parse/binary_parser.h>
 
+#include <array>
+#include <functional>
+
 namespace sup
 {
 namespace dto
@@ -35,6 +38,11 @@ sup::dto::uint8 FetchToken(ByteIterator& it);
 std::string ParseBinaryString(ByteIterator& it, ByteIterator end);
 
 sup::dto::uint64 ParseSize(ByteIterator& it, ByteIterator end);
+
+const sup::dto::uint32 kMaxScalarCode = 13u;
+using ScalarParserFunction = std::function<void(AnyValue&, ByteIterator&, ByteIterator)>;
+
+std::array<ScalarParserFunction, kMaxScalarCode + 1> CreateScalarParserFunctionArray();
 
 }  // namespace dto
 
