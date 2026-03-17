@@ -549,8 +549,9 @@ std::vector<uint8> ToBytes(const AnyValue& anyvalue);
 std::vector<uint8> ToNetworkOrderBytes(const AnyValue& anyvalue);
 
 /**
- * @brief Parse AnyValue content from an array of bytes.
- * @deprecated Use `AnyValueFromBinary` instead.
+ * @brief Parse AnyValue content from an array of bytes that is encoded in host byte order.
+ * @note Use `AnyValueFromBinary` instead, unless when used for applications where fixed size
+ * scalar nodes are required, e.g. for casting to C types.
  *
  * @param anyvalue AnyValue object to assign to.
  * @param bytes Array of bytes.
@@ -562,6 +563,22 @@ std::vector<uint8> ToNetworkOrderBytes(const AnyValue& anyvalue);
  * @note This method is only used to cast from C-type structures.
  */
 void FromBytes(AnyValue& anyvalue, const uint8* bytes, std::size_t total_size);
+
+/**
+ * @brief Parse AnyValue content from an array of bytes that is encoded in network byte order.
+ * @note Use `AnyValueFromBinary` instead, unless when used for applications where fixed size
+ * scalar nodes are required, e.g. for casting to C types.
+ *
+ * @param anyvalue AnyValue object to assign to.
+ * @param bytes Array of bytes.
+ * @param total_size Size of the array of bytes.
+ *
+ * @throws ParseException Thrown when the byte array cannot be correctly parsed (e.g. sizes
+ * don't match, absence of null terminator in C-style string or unknown scalar type).
+ *
+ * @note This method is only used to cast from C-type structures.
+ */
+void FromNetworkOrderBytes(AnyValue& anyvalue, const uint8* bytes, std::size_t total_size);
 
 template <typename T>
 T AnyValue::ToCType() const

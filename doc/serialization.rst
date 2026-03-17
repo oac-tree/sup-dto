@@ -418,6 +418,16 @@ represented by zero-terminated char arrays with fixed length (64).
 
    Parse ``AnyValue`` content from an array of bytes in host byte order.
 
+.. function:: void FromNetworkOrderBytes(AnyValue& anyvalue, const uint8* bytes, std::size_t total_size)
+
+   :param anyvalue: ``AnyValue`` object to assign to.
+   :param bytes: Array of bytes.
+   :param total_size: Size of the array of bytes.
+   :throws ParseException: When the byte array cannot be correctly parsed (e.g. sizes don't
+      match, absence of null terminator in C-style string or unknown scalar type).
+
+   Parse ``AnyValue`` content from an array of bytes in network byte order.
+
 .. function:: template <typename T> T AnyValue::ToCType() const
 
    :return: This value as a ``T`` value when successful.

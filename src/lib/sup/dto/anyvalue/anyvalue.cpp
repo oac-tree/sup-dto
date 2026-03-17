@@ -753,6 +753,16 @@ void FromBytes(AnyValue& anyvalue, const uint8* bytes, std::size_t total_size)
   }
 }
 
+void FromNetworkOrderBytes(AnyValue& anyvalue, const uint8* bytes, std::size_t total_size)
+{
+  CTypeParser byte_parser{bytes, total_size, true};
+  Visit(anyvalue, byte_parser);
+  if (!byte_parser.IsFinished())
+  {
+    throw ParseException("FromNetworkOrderBytes ended before parsing all input bytes");
+  }
+}
+
 }  // namespace dto
 
 }  // namespace sup
