@@ -41,7 +41,7 @@ using sup::dto::TypeCode;
 template <typename T>
 void AssignBinaryScalarT(AnyValue& anyvalue, ByteIterator& it, ByteIterator end)
 {
-  anyvalue.ConvertFrom(AnyValue{sup::dto::ParseFromHostOrderT<T>(it, end)});
+  anyvalue.ConvertFrom(AnyValue{sup::dto::ParseFromLittleEndianOrderT<T>(it, end)});
 }
 
 void AssignBinaryString(AnyValue& anyvalue, ByteIterator& it, ByteIterator end)

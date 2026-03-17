@@ -34,11 +34,12 @@ namespace sup
 namespace dto
 {
 
-CTypeParser::CTypeParser(const uint8* bytes, std::size_t total_size)
+CTypeParser::CTypeParser(const uint8* bytes, std::size_t total_size, bool from_network_order)
   : IAnyVisitor<AnyValue>{}
   , m_bytes{bytes}
   , m_total_size{total_size}
   , m_current_position{0}
+  , m_from_network_order{from_network_order}
 {}
 
 CTypeParser::~CTypeParser() = default;

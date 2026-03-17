@@ -68,7 +68,7 @@ sup::dto::uint64 ParseSize(ByteIterator& it, ByteIterator end)
   }
   // No test is done to check that the current token is LONG_SIZE_TOKEN, since the
   // current value of the limit is 0xFF.
-  return ParseFromHostOrderT<sup::dto::uint64>(it, end);
+  return ParseFromLittleEndianOrderT<sup::dto::uint64>(it, end);
 }
 
 }  // namespace dto

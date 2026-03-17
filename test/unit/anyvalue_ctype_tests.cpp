@@ -263,7 +263,7 @@ TEST(AnyValueCTypeTest, CTypeParser)
   // Empty value
   AnyValue empty_value;
   uint8 a;
-  CTypeParser parser(&a, 1);
+  CTypeParser parser(&a, 1, false);
   EXPECT_THROW(parser.ScalarProlog(&empty_value), ParseException);
 
   // Value too large for number of bytes

@@ -745,7 +745,7 @@ std::vector<uint8> ToNetworkOrderBytes(const AnyValue& anyvalue)
 
 void FromBytes(AnyValue& anyvalue, const uint8* bytes, std::size_t total_size)
 {
-  CTypeParser byte_parser(bytes, total_size);
+  CTypeParser byte_parser{bytes, total_size, false};
   Visit(anyvalue, byte_parser);
   if (!byte_parser.IsFinished())
   {
