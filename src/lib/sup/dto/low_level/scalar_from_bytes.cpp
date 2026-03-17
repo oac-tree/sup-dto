@@ -24,6 +24,8 @@
 
 #include "arithmetic_from_bytes_t.h"
 
+#include <sup/dto/anyvalue_exceptions.h>
+
 #include <map>
 
 namespace

@@ -24,8 +24,8 @@
 #include "arithmetic_to_bytes_t.h"
 
 #include <sup/dto/anyvalue.h>
+#include <sup/dto/anyvalue_exceptions.h>
 
-#include <cstring>
 #include <functional>
 #include <map>
 

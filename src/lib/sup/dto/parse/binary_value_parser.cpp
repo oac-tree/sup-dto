@@ -25,7 +25,6 @@
 #include <sup/dto/low_level/binary_parser_functions.h>
 
 #include <sup/dto/anyvalue.h>
-#include <sup/dto/anyvalue_helper.h>
 
 namespace sup
 {
