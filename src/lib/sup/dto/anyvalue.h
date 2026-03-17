@@ -526,8 +526,12 @@ std::deque<std::string> SplitAnyValueFieldname(const std::string& fieldname);
 
 /**
  * @brief Serialize an AnyValue to an array of bytes in host byte order.
- * @note Use `AnyValueToBinary` instead, unless when used for applications where fixed size
- * scalar nodes are required, e.g. for casting to C types.
+ * @note This function only serializes the value nodes of the given AnyValue. No type information
+ * is serialized, so users need to know the AnyType when parsing these bytes back to a value.
+ * Furthermore, all scalar leaves are serialized as fixed size byte arrays. This puts a limit on
+ * the size of supported string leaves (64 characters, including terminating zero). Use
+ * `AnyValueToBinary` when fully reversible binary serialization with variable size strings is
+ * required.
  *
  * @param anyvalue AnyValue object to serialize.
  *
@@ -538,8 +542,12 @@ std::vector<uint8> ToBytes(const AnyValue& anyvalue);
 
 /**
  * @brief Serialize an AnyValue to an array of bytes in network byte order.
- * @note Use `AnyValueToBinary` instead, unless when used for applications where fixed size
- * scalar nodes are required, e.g. for casting to C types.
+ * @note This function only serializes the value nodes of the given AnyValue. No type information
+ * is serialized, so users need to know the AnyType when parsing these bytes back to a value.
+ * Furthermore, all scalar leaves are serialized as fixed size byte arrays. This puts a limit on
+ * the size of supported string leaves (64 characters, including terminating zero). Use
+ * `AnyValueToBinary` when fully reversible binary serialization with variable size strings is
+ * required.
  *
  * @param anyvalue AnyValue object to serialize.
  *
@@ -550,8 +558,7 @@ std::vector<uint8> ToNetworkOrderBytes(const AnyValue& anyvalue);
 
 /**
  * @brief Parse AnyValue content from an array of bytes that is encoded in host byte order.
- * @note Use `AnyValueFromBinary` instead, unless when used for applications where fixed size
- * scalar nodes are required, e.g. for casting to C types.
+ * @note See `ToBytes` for comments on the byte representation.
  *
  * @param anyvalue AnyValue object to assign to.
  * @param bytes Array of bytes.
@@ -559,15 +566,12 @@ std::vector<uint8> ToNetworkOrderBytes(const AnyValue& anyvalue);
  *
  * @throws ParseException Thrown when the byte array cannot be correctly parsed (e.g. sizes
  * don't match, absence of null terminator in C-style string or unknown scalar type).
- *
- * @note This method is only used to cast from C-type structures.
  */
 void FromBytes(AnyValue& anyvalue, const uint8* bytes, std::size_t total_size);
 
 /**
  * @brief Parse AnyValue content from an array of bytes that is encoded in network byte order.
- * @note Use `AnyValueFromBinary` instead, unless when used for applications where fixed size
- * scalar nodes are required, e.g. for casting to C types.
+ * @note See `ToNetworkOrderBytes` for comments on the byte representation.
  *
  * @param anyvalue AnyValue object to assign to.
  * @param bytes Array of bytes.
@@ -575,8 +579,6 @@ void FromBytes(AnyValue& anyvalue, const uint8* bytes, std::size_t total_size);
  *
  * @throws ParseException Thrown when the byte array cannot be correctly parsed (e.g. sizes
  * don't match, absence of null terminator in C-style string or unknown scalar type).
- *
- * @note This method is only used to cast from C-type structures.
  */
 void FromNetworkOrderBytes(AnyValue& anyvalue, const uint8* bytes, std::size_t total_size);
 

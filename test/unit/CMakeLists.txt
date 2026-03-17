@@ -58,6 +58,7 @@ target_sources(${unit-tests}
     json_type_parser_tests.cpp
     json_typed_value_parser_tests.cpp
     json_value_parser_tests.cpp
+    scalar_bytes_tests.cpp
     scalar_conversion_tests.cpp
     scalartype_tests.cpp
     scalarvalue_tests.cpp

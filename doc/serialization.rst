@@ -387,8 +387,14 @@ The library provides functions for converting ``AnyValue`` objects to and from p
 structures via byte arrays. These are mainly useful for interfacing with C-style APIs.
 
 They can also be used in applications where it is required that all scalar types are represented
-by fixed size byte arrays, e.g. for low-level network libraries. Note that all strings will be
+by fixed-size byte arrays, e.g. for low-level network libraries. Note that all strings will be
 represented by zero-terminated char arrays with fixed length (64).
+
+The functions that serialize to, or parse from byte vectors, only use the byte representation of
+the scalar nodes. This means that no type information is encoded in the byte vector and users
+need to know the correct ``AnyType`` to be able to parse them back to an ``AnyValue``. Use
+`AnyValueToBinary` and `AnyValueFromBinary` when fully reversible binary serialization/parsing
+with variable-sized strings is required.
 
 .. function:: std::vector<uint8> ToBytes(const AnyValue& anyvalue)
 
