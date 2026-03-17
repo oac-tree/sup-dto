@@ -28,7 +28,7 @@ using namespace sup::dto;
 
 TEST(AnyValueExceptions, GetMessage)
 {
-  std::string message = "Custom message";
+  const std::string message = "Custom message";
   auto exception1 = InvalidConversionException(message);
   auto exception2 = InvalidOperationException(message);
   auto exception3 = SerializeException(message);

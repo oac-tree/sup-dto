@@ -56,7 +56,7 @@ public:
 TEST_F(AnyValueComposerHelperTests, CanAddValueComponent)
 {
   {  // it is possible to add value node to empty stack
-    std::stack<AbstractValueComposerComponent::component_t> stack;
+    const std::stack<AbstractValueComposerComponent::component_t> stack;
     EXPECT_TRUE(CanAddValueComponent(stack));
   }
 
@@ -78,7 +78,7 @@ TEST_F(AnyValueComposerHelperTests, CanAddValueComponent)
 TEST_F(AnyValueComposerHelperTests, ValidateAddValueComponent)
 {
   {  // it is possible to add value node to empty stack
-    std::stack<AbstractValueComposerComponent::component_t> stack;
+    const std::stack<AbstractValueComposerComponent::component_t> stack;
     EXPECT_NO_THROW(ValidateAddValueComponent(stack));
   }
 
@@ -109,7 +109,7 @@ TEST_F(AnyValueComposerHelperTests, ValidateLastComponent)
 
 TEST_F(AnyValueComposerHelperTests, ValidateIfValueComponentIsComplete)
 {
-  std::stack<AbstractValueComposerComponent::component_t> stack;
+  const std::stack<AbstractValueComposerComponent::component_t> stack;
   EXPECT_THROW(ValidateIfValueComponentIsComplete(stack), sup::dto::ParseException);
 
   EXPECT_NO_THROW(CheckAddValueComponent<EndStructValueComposerComponent>());

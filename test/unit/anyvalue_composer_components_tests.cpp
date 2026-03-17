@@ -52,7 +52,7 @@ TEST_F(AnyValueComposerComponentsTests, ValueComposerComponentProcess)
   EXPECT_TRUE(node.Process(stack));
 
   // expected value
-  sup::dto::AnyValue expected{sup::dto::SignedInteger32Type, 42};
+  const sup::dto::AnyValue expected{sup::dto::SignedInteger32Type, 42};
   auto result = node.MoveAnyValue();
   EXPECT_EQ(result, expected);
 }
@@ -89,7 +89,7 @@ TEST_F(AnyValueComposerComponentsTests, StartStructBuildNodeProcessAddMember)
       node.AddMember("field_name", sup::dto::AnyValue{sup::dto::SignedInteger32Type, 42}));
 
   // expected value
-  sup::dto::AnyValue expected_anyvalue = {{{"field_name", {sup::dto::SignedInteger32Type, 42}}},
+  const sup::dto::AnyValue expected_anyvalue = {{{"field_name", {sup::dto::SignedInteger32Type, 42}}},
                                           "struct_name"};
   auto result = node.MoveAnyValue();
   EXPECT_EQ(result, expected_anyvalue);
@@ -136,7 +136,7 @@ TEST_F(AnyValueComposerComponentsTests, EndFieldComposerComponentProcess)
 
     EXPECT_EQ(stack.size(), 1);
 
-    sup::dto::AnyValue expected_anyvalue = {{{"field_name", {sup::dto::SignedInteger32Type, 42}}},
+    const sup::dto::AnyValue expected_anyvalue = {{{"field_name", {sup::dto::SignedInteger32Type, 42}}},
                                             "struct_name"};
     auto result = stack.top()->MoveAnyValue();
     EXPECT_EQ(result, expected_anyvalue);

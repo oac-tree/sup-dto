@@ -51,29 +51,29 @@ protected:
 
 TEST_F(AnyTypeSerializeTest, EmptyType)
 {
-  AnyType empty = EmptyType;
+  const AnyType empty = EmptyType;
   SerializeAnyType(empty, serializer);
-  std::string expected = "E()E";
+  const std::string expected = "E()E";
   EXPECT_EQ(serializer.GetRepresentation(), expected);
 }
 
 TEST_F(AnyTypeSerializeTest, BooleanType)
 {
-  AnyType bool_type = BooleanType;
+  const AnyType bool_type = BooleanType;
   SerializeAnyType(bool_type, serializer);
-  std::string expected = kBooleanTypeName;
+  const std::string expected = kBooleanTypeName;
   EXPECT_EQ(serializer.GetRepresentation(), expected);
 }
 
 TEST_F(AnyTypeSerializeTest, SimpleStructType)
 {
-  AnyType simple_struct_type({
+  const AnyType simple_struct_type({
     {"id", StringType},
     {"number", SignedInteger32Type},
     {"weight", Float64Type}
   });
   SerializeAnyType(simple_struct_type, serializer);
-  std::string expected = "S{M(id:" + kStringTypeName + ")M,"
+  const std::string expected = "S{M(id:" + kStringTypeName + ")M,"
                        + "M(number:" + kInt32TypeName + ")M,"
                        + "M(weight:" + kFloat64TypeName + ")M}S";
   EXPECT_EQ(serializer.GetRepresentation(), expected);
@@ -81,28 +81,28 @@ TEST_F(AnyTypeSerializeTest, SimpleStructType)
 
 TEST_F(AnyTypeSerializeTest, SimpleArrayType)
 {
-  AnyType simple_array_type(5, Character8Type);
+  const AnyType simple_array_type(5, Character8Type);
   SerializeAnyType(simple_array_type, serializer);
-  std::string expected = "A[5|" + kChar8TypeName + "]A";
+  const std::string expected = "A[5|" + kChar8TypeName + "]A";
   EXPECT_EQ(serializer.GetRepresentation(), expected);
 }
 
 TEST_F(AnyTypeSerializeTest, ComplexStructType)
 {
-  AnyType simple_struct_type({
+  const AnyType simple_struct_type({
     {"id", StringType},
     {"number", UnsignedInteger64Type}
   });
-  AnyType array_of_struct_type(4, simple_struct_type);
-  AnyType complex_struct_type({
+  const AnyType array_of_struct_type(4, simple_struct_type);
+  const AnyType complex_struct_type({
     {"array", array_of_struct_type},
     {"nested", simple_struct_type},
     {"validated", BooleanType}
   });
   SerializeAnyType(complex_struct_type, serializer);
-  std::string simple_expected = "S{M(id:" + kStringTypeName + ")M,"
+  const std::string simple_expected = "S{M(id:" + kStringTypeName + ")M,"
                               + "M(number:" + kUInt64TypeName + ")M}S";
-  std::string expected = "S{M(array:A[4|" + simple_expected + "]A)M,"
+  const std::string expected = "S{M(array:A[4|" + simple_expected + "]A)M,"
                        + "M(nested:" + simple_expected + ")M,"
                        + "M(validated:" + kBooleanTypeName + ")M}S";
   EXPECT_EQ(serializer.GetRepresentation(), expected);
@@ -110,12 +110,12 @@ TEST_F(AnyTypeSerializeTest, ComplexStructType)
 
 TEST_F(AnyTypeSerializeTest, PrintComplexStructType)
 {
-  AnyType simple_struct_type({
+  const AnyType simple_struct_type({
     {"id", StringType},
     {"number", UnsignedInteger64Type}
   }, "Id_t");
-  AnyType array_of_struct_type(4, simple_struct_type, "IdArray_t");
-  AnyType complex_struct_type({
+  const AnyType array_of_struct_type(4, simple_struct_type, "IdArray_t");
+  const AnyType complex_struct_type({
     {"array", array_of_struct_type},
     {"nested", simple_struct_type},
     {"validated", BooleanType}

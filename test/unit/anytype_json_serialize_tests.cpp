@@ -100,21 +100,21 @@ protected:
 
 TEST_F(AnyTypeJSONSerializeTest, EmptyType)
 {
-  AnyType empty = EmptyType;
+  const AnyType empty = EmptyType;
   auto json_string = AnyTypeToJSONString(empty);
   EXPECT_EQ(json_string, ScalarTypeRepresentation(kEmptyTypeName));
 }
 
 TEST_F(AnyTypeJSONSerializeTest, BooleanType)
 {
-  AnyType bool_type = BooleanType;
+  const AnyType bool_type = BooleanType;
   auto json_string = AnyTypeToJSONString(bool_type);
   EXPECT_EQ(json_string, ScalarTypeRepresentation(kBooleanTypeName));
 }
 
 TEST_F(AnyTypeJSONSerializeTest, SimpleStructType)
 {
-  AnyType simple_struct_type({
+  const AnyType simple_struct_type({
     {"id", StringType},
     {"number", SignedInteger32Type},
     {"weight", Float64Type}
@@ -125,14 +125,14 @@ TEST_F(AnyTypeJSONSerializeTest, SimpleStructType)
 
 TEST_F(AnyTypeJSONSerializeTest, SimpleArrayType)
 {
-  AnyType simple_array_type(5, Character8Type);
+  const AnyType simple_array_type(5, Character8Type);
   auto json_string = AnyTypeToJSONString(simple_array_type);
   EXPECT_EQ(json_string, json_simple_array);
 }
 
 TEST_F(AnyTypeJSONSerializeTest, DynamicArrayType)
 {
-  AnyType dynamic_array_type(0, UnsignedInteger16Type);
+  const AnyType dynamic_array_type(0, UnsignedInteger16Type);
   auto json_string = AnyTypeToJSONString(dynamic_array_type);
   EXPECT_EQ(json_string, json_dynamic_array);
 }
@@ -155,12 +155,12 @@ TEST_F(AnyTypeJSONSerializeTest, ComplexStructType)
 
 TEST_F(AnyTypeJSONSerializeTest, PrettyPrinting)
 {
-  AnyType simple_struct_type({
+  const AnyType simple_struct_type({
     {"id", StringType},
     {"number", UnsignedInteger64Type}
   });
-  AnyType array_of_struct_type(4, simple_struct_type);
-  AnyType complex_struct_type({
+  const AnyType array_of_struct_type(4, simple_struct_type);
+  const AnyType complex_struct_type({
     {"array", array_of_struct_type},
     {"nested", simple_struct_type},
     {"validated", BooleanType}

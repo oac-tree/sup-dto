@@ -43,7 +43,7 @@ protected:
 
 TEST_F(AnyTypeBuilderTest, AnyTypeBuilderMethods)
 {
-  AnyTypeRegistry anytype_registry;
+  const AnyTypeRegistry anytype_registry;
   AnyTypeBuilder builder{&anytype_registry};
 
   // Most methods throw when the current node contained is still an AnyTypeRootBuildNode:
@@ -71,7 +71,7 @@ TEST_F(AnyTypeBuilderTest, AnyTypeBuilderMethods)
 
 TEST_F(AnyTypeBuilderTest, AnyTypeBuildNodeMethods)
 {
-  AnyTypeRegistry anytype_registry;
+  const AnyTypeRegistry anytype_registry;
   AnyTypeBuildNode node(&anytype_registry, nullptr);
   EXPECT_THROW(node.Int32(-1), ParseException);
   EXPECT_THROW(node.Int32(1), ParseException);
@@ -84,7 +84,7 @@ TEST_F(AnyTypeBuilderTest, AnyTypeBuildNodeMethods)
 
 TEST_F(AnyTypeBuilderTest, AnyTypeRootBuildNodeMethods)
 {
-  AnyTypeRegistry anytype_registry;
+  const AnyTypeRegistry anytype_registry;
   AnyTypeRootBuildNode node(&anytype_registry, nullptr);
   EXPECT_THROW(node.PopStructureNode(), ParseException);
   auto child = node.GetStructureNode();
@@ -94,7 +94,7 @@ TEST_F(AnyTypeBuilderTest, AnyTypeRootBuildNodeMethods)
 
 TEST_F(AnyTypeBuilderTest, MemberTypeBuildNodeMethods)
 {
-  AnyTypeRegistry anytype_registry;
+  const AnyTypeRegistry anytype_registry;
   MemberTypeBuildNode node(&anytype_registry, nullptr);
   EXPECT_TRUE(node.Member("membername"));
   EXPECT_THROW(node.Member("othermembername"), ParseException);

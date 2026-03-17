@@ -61,7 +61,7 @@ TEST_F(AbstractTypeComposerComponentTests, MoveAnyType)
 
   auto result = node.MoveAnyType();
 
-  sup::dto::AnyType expected{sup::dto::SignedInteger32Type};
+  const sup::dto::AnyType expected{sup::dto::SignedInteger32Type};
   EXPECT_EQ(result, expected);
 }
 

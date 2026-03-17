@@ -96,7 +96,7 @@ TEST(AnyValueCTypeTest, FromStringFields)
   std::strcpy(address_c.street, "Fortune Road");
   address_c.number = 812;
 
-  AnyType address_t = {{
+  const AnyType address_t = {{
     {"street", StringType},
     {"number", UnsignedInteger16Type}
   }};
@@ -129,7 +129,7 @@ TEST(AnyValueCTypeTest, FromStringFields)
 TEST(AnyValueCTypeTest, ToEmpty)
 {
   // Empty AnyValue has empty byte array representation
-  AnyValue empty{};
+  const AnyValue empty{};
   auto byte_array = ToBytes(empty);
   EXPECT_EQ(byte_array.size(), 0);
 }
@@ -233,12 +233,12 @@ TEST(AnyValueCTypeTest, FromDynamicArray)
 
 TEST(AnyValueCTypeTest, RoundTrip)
 {
-  AnyType simple_struct_type({
+  const AnyType simple_struct_type({
     {"id", StringType},
     {"number", UnsignedInteger64Type}
   });
-  AnyType array_of_struct_type(2, simple_struct_type);
-  AnyType complex_struct_type({
+  const AnyType array_of_struct_type(2, simple_struct_type);
+  const AnyType complex_struct_type({
     {"array", array_of_struct_type},
     {"nested", simple_struct_type},
     {"validated", BooleanType}
@@ -262,7 +262,7 @@ TEST(AnyValueCTypeTest, CTypeParser)
 {
   // Empty value
   AnyValue empty_value;
-  uint8 a;
+  uint8 a{};
   CTypeParser parser(&a, 1, CTypeParser::ByteOrder::Host);
   EXPECT_THROW(parser.ScalarProlog(&empty_value), ParseException);
 

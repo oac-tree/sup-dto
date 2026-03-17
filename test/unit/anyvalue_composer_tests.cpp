@@ -197,7 +197,7 @@ TEST_F(AnyValueComposerTests, ScalarViaAddValue)
 {
   AnyValueComposer builder;
 
-  AnyValue expected_anyvalue{StringType, std::string("abc")};
+  const AnyValue expected_anyvalue{StringType, std::string("abc")};
 
   // By passing an empty member name we tell the builder that this will be the scalar.
   builder.AddValue(expected_anyvalue);
@@ -225,7 +225,7 @@ TEST_F(AnyValueComposerTests, EmptyStruct)
 
 TEST_F(AnyValueComposerTests, StructWithSingleField)
 {
-  AnyType expected_anytype = {{"signed", {SignedInteger32Type}}};
+  const AnyType expected_anytype = {{"signed", {SignedInteger32Type}}};
 
   AnyValueComposer builder;
 
@@ -247,7 +247,7 @@ TEST_F(AnyValueComposerTests, StructWithSingleField)
 
 TEST_F(AnyValueComposerTests, StructWithTwoFields)
 {
-  AnyType expected_anytype = {{"signed", {SignedInteger32Type}}, {"bool", {BooleanType}}};
+  const AnyType expected_anytype = {{"signed", {SignedInteger32Type}}, {"bool", {BooleanType}}};
 
   AnyValueComposer builder;
 
@@ -274,7 +274,7 @@ TEST_F(AnyValueComposerTests, StructWithTwoFields)
 
 TEST_F(AnyValueComposerTests, StructWithTwoFieldsViaAddValue)
 {
-  AnyType expected_anytype = {{"signed", {SignedInteger32Type}}, {"bool", {BooleanType}}};
+  const AnyType expected_anytype = {{"signed", {SignedInteger32Type}}, {"bool", {BooleanType}}};
 
   AnyValueComposer builder;
 
@@ -304,7 +304,7 @@ TEST_F(AnyValueComposerTests, StructWithTwoFieldsViaAddValue)
 
 TEST_F(AnyValueComposerTests, StructWithTwoFieldsViaAddMember)
 {
-  AnyType expected_anytype = {{"signed", {SignedInteger32Type}}, {"bool", {BooleanType}}};
+  const AnyType expected_anytype = {{"signed", {SignedInteger32Type}}, {"bool", {BooleanType}}};
 
   AnyValueComposer builder;
 
@@ -327,8 +327,8 @@ TEST_F(AnyValueComposerTests, StructWithTwoFieldsViaAddMember)
 
 TEST_F(AnyValueComposerTests, StructWithNestedStructWithField)
 {
-  AnyType two_scalars = {{"signed", {SignedInteger32Type}}, {"bool", {BooleanType}}};
-  AnyType expected_anytype = {{"scalars", two_scalars}};
+  const AnyType two_scalars = {{"signed", {SignedInteger32Type}}, {"bool", {BooleanType}}};
+  const AnyType expected_anytype = {{"scalars", two_scalars}};
 
   AnyValueComposer builder;
 
@@ -362,10 +362,10 @@ TEST_F(AnyValueComposerTests, StructWithNestedStructWithField)
 TEST_F(AnyValueComposerTests, StructWithTwoNestedStructs)
 {
   const std::string struct_name = "struct_name";
-  AnyType two_scalars = {{{"signed", {SignedInteger32Type}}, {"bool", {BooleanType}}},
+  const AnyType two_scalars = {{{"signed", {SignedInteger32Type}}, {"bool", {BooleanType}}},
                          "internal_struct"};
 
-  AnyType expected_anytype{
+  const AnyType expected_anytype{
       {{"struct1", two_scalars},
        {"struct2", {{"first", {SignedInteger8Type}}, {"second", {UnsignedInteger8Type}}}}},
       struct_name};
@@ -416,18 +416,18 @@ TEST_F(AnyValueComposerTests, StructWithTwoNestedStructs)
 TEST_F(AnyValueComposerTests, StructWithTwoNestedStructsViaAddValue)
 {
   const std::string struct_name = "struct_name";
-  AnyType two_scalars = {{{"signed", {SignedInteger32Type}}, {"bool", {BooleanType}}},
+  const AnyType two_scalars = {{{"signed", {SignedInteger32Type}}, {"bool", {BooleanType}}},
                          "internal_struct"};
 
-  AnyType expected_anytype{
+  const AnyType expected_anytype{
       {{"struct1", two_scalars},
        {"struct2", {{"first", {SignedInteger8Type}}, {"second", {UnsignedInteger8Type}}}}},
       struct_name};
 
-  AnyValue struct1 = {{{"signed", {SignedInteger32Type, 42}}, {"bool", {BooleanType, true}}},
+  const AnyValue struct1 = {{{"signed", {SignedInteger32Type, 42}}, {"bool", {BooleanType, true}}},
                       "internal_struct"};
 
-  AnyValue struct2 = {{"first", {SignedInteger8Type, -43}}, {"second", {UnsignedInteger8Type, 44}}};
+  const AnyValue struct2 = {{"first", {SignedInteger8Type, -43}}, {"second", {UnsignedInteger8Type, 44}}};
 
   AnyValueComposer builder;
 
@@ -458,18 +458,18 @@ TEST_F(AnyValueComposerTests, StructWithTwoNestedStructsViaAddValue)
 TEST_F(AnyValueComposerTests, StructWithTwoNestedStructsViaAddMember)
 {
   const std::string struct_name = "struct_name";
-  AnyType two_scalars = {{{"signed", {SignedInteger32Type}}, {"bool", {BooleanType}}},
+  const AnyType two_scalars = {{{"signed", {SignedInteger32Type}}, {"bool", {BooleanType}}},
                          "internal_struct"};
 
-  AnyType expected_anytype{
+  const AnyType expected_anytype{
       {{"struct1", two_scalars},
        {"struct2", {{"first", {SignedInteger8Type}}, {"second", {UnsignedInteger8Type}}}}},
       struct_name};
 
-  AnyValue struct1 = {{{"signed", {SignedInteger32Type, 42}}, {"bool", {BooleanType, true}}},
+  const AnyValue struct1 = {{{"signed", {SignedInteger32Type, 42}}, {"bool", {BooleanType, true}}},
                       "internal_struct"};
 
-  AnyValue struct2 = {{"first", {SignedInteger8Type, -43}}, {"second", {UnsignedInteger8Type, 44}}};
+  const AnyValue struct2 = {{"first", {SignedInteger8Type, -43}}, {"second", {UnsignedInteger8Type, 44}}};
 
   AnyValueComposer builder;
 
@@ -506,7 +506,7 @@ TEST_F(AnyValueComposerTests, EmptyArray)
 
 TEST_F(AnyValueComposerTests, ScalarArray)
 {
-  auto expected = ArrayValue({{SignedInteger32Type, 42}, 43}, "array_name");
+  const auto expected = ArrayValue({{SignedInteger32Type, 42}, 43}, "array_name");
 
   AnyValueComposer builder;
 
@@ -528,7 +528,7 @@ TEST_F(AnyValueComposerTests, ScalarArray)
 
 TEST_F(AnyValueComposerTests, ScalarArrayViaAddArrayElement)
 {
-  auto expected = ArrayValue({{SignedInteger32Type, 42}, 43}, "array_name");
+  const auto expected = ArrayValue({{SignedInteger32Type, 42}, 43}, "array_name");
 
   AnyValueComposer builder;
 
@@ -545,8 +545,8 @@ TEST_F(AnyValueComposerTests, ScalarArrayViaAddArrayElement)
 
 TEST_F(AnyValueComposerTests, StructWithScalarArrayAsField)
 {
-  auto array_value = ArrayValue({{SignedInteger32Type, 42}, 43}, "array_name");
-  AnyValue expected_struct_value = {{{"array_field", array_value}}, "struct_name"};
+  const auto array_value = ArrayValue({{SignedInteger32Type, 42}, 43}, "array_name");
+  const AnyValue expected_struct_value = {{{"array_field", array_value}}, "struct_name"};
 
   AnyValueComposer builder;
 
@@ -571,9 +571,9 @@ TEST_F(AnyValueComposerTests, StructWithScalarArrayAsField)
 
 TEST_F(AnyValueComposerTests, StructWithTwoScalarArrayAsField)
 {
-  auto array1 = ArrayValue({{SignedInteger32Type, 42}, 43}, "array_name1");
-  auto array2 = ArrayValue({{SignedInteger32Type, 44}, 45, 46}, "array_name2");
-  AnyValue expected_struct_value = {{{"field1", array1}, {"field2", array2}}, "struct_name"};
+  const auto array1 = ArrayValue({{SignedInteger32Type, 42}, 43}, "array_name1");
+  const auto array2 = ArrayValue({{SignedInteger32Type, 44}, 45, 46}, "array_name2");
+  const AnyValue expected_struct_value = {{{"field1", array1}, {"field2", array2}}, "struct_name"};
 
   AnyValueComposer builder;
 
@@ -604,13 +604,13 @@ TEST_F(AnyValueComposerTests, StructWithTwoScalarArrayAsField)
 
 TEST_F(AnyValueComposerTests, ArrayWithTwoStructureElements)
 {
-  AnyValue struct1 = {
+  const AnyValue struct1 = {
       {{"first", {SignedInteger8Type, -43}}, {"second", {UnsignedInteger8Type, 44}}},
       "struct_name"};
-  AnyValue struct2 = {{{"first", {SignedInteger8Type, 42}}, {"second", {UnsignedInteger8Type, 43}}},
+  const AnyValue struct2 = {{{"first", {SignedInteger8Type, 42}}, {"second", {UnsignedInteger8Type, 43}}},
                       "struct_name"};
 
-  auto expected_array_value = ArrayValue({struct1, struct2}, "array_name");
+  const auto expected_array_value = ArrayValue({struct1, struct2}, "array_name");
 
   AnyValueComposer builder;
 
@@ -644,15 +644,15 @@ TEST_F(AnyValueComposerTests, ArrayWithTwoStructureElements)
 
 TEST_F(AnyValueComposerTests, StructureWithArrayWithStructure)
 {
-  AnyValue struct1 = {
+  const AnyValue struct1 = {
       {{"first", {SignedInteger8Type, -43}}, {"second", {UnsignedInteger8Type, 44}}},
       "struct_name"};
-  AnyValue struct2 = {{{"first", {SignedInteger8Type, 42}}, {"second", {UnsignedInteger8Type, 43}}},
+  const AnyValue struct2 = {{{"first", {SignedInteger8Type, 42}}, {"second", {UnsignedInteger8Type, 43}}},
                       "struct_name"};
 
-  auto array_value = ArrayValue({{struct1}, struct2}, "array_name");
+  const auto array_value = ArrayValue({{struct1}, struct2}, "array_name");
 
-  AnyValue expected_struct_value = {{{"field", array_value}}, "struct_name2"};
+  const AnyValue expected_struct_value = {{{"field", array_value}}, "struct_name2"};
 
   AnyValueComposer builder;
 

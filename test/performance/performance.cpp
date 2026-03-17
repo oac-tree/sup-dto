@@ -40,23 +40,23 @@ namespace performance
 void RunTestFunction(TestFunction func)
 {
   {
-    AnyType anytype = CreateScalarMix_Type();
+    const AnyType anytype = CreateScalarMix_Type();
     func(anytype);
   }
   {
-    AnyType anytype = CreateScalarMixArray_Type();
+    const AnyType anytype = CreateScalarMixArray_Type();
     func(anytype);
   }
   {
-    AnyType anytype = CreateSystemConfigs_Type();
+    const AnyType anytype = CreateSystemConfigs_Type();
     func(anytype);
   }
   {
-    AnyType anytype = CreateFullConfig_Type();
+    const AnyType anytype = CreateFullConfig_Type();
     func(anytype);
   }
   {
-    AnyType anytype = CreateManyFullConfig_t_Type();
+    const AnyType anytype = CreateManyFullConfig_t_Type();
     func(anytype);
   }
 }

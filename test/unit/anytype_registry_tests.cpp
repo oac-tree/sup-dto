@@ -69,12 +69,12 @@ TEST(AnyTypeRegistryTest, RegisterSuccess)
   auto number_of_leaf_types = registered_typenames.size();
 
   // Register type with acceptable name or provide name explicitly
-  std::string one_scalar_name = "OneScalar";
-  AnyType one_scalar{{
+  const std::string one_scalar_name = "OneScalar";
+  const AnyType one_scalar{{
     {"value", Float64Type}
   }, one_scalar_name};
-  std::string two_scalars_name = "TwoScalars";
-  AnyType two_scalars{{
+  const std::string two_scalars_name = "TwoScalars";
+  const AnyType two_scalars{{
     {"signed", SignedInteger8Type},
     {"unsigned", UnsignedInteger8Type}
   }};
@@ -105,12 +105,12 @@ TEST(AnyTypeRegistryTest, RegisterFailure)
   auto number_of_leaf_types = registered_typenames.size();
 
   // Register type with empty name or provide empty name explicitly
-  std::string one_scalar_name = "OneScalar";
-  AnyType one_scalar{{
+  const std::string one_scalar_name = "OneScalar";
+  const AnyType one_scalar{{
     {"value", Float64Type}
   }, one_scalar_name};
-  std::string two_scalars_name = "TwoScalars";
-  AnyType two_scalars{{
+  const std::string two_scalars_name = "TwoScalars";
+  const AnyType two_scalars{{
     {"signed", SignedInteger8Type},
     {"unsigned", UnsignedInteger8Type}
   }};

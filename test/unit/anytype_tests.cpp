@@ -58,11 +58,11 @@ TEST(AnyTypeTest, TypeCodes)
 TEST(AnyTypeTest, CopyConstruction)
 {
   const std::string nested_name = "nested_struct";
-  AnyType two_scalars{{
+  const AnyType two_scalars{{
     {"signed", SignedInteger8Type},
     {"unsigned", UnsignedInteger8Type}
   }};
-  AnyType nested_type{{
+  const AnyType nested_type{{
     {"scalars", two_scalars},
     {"single", {
       {"first", SignedInteger8Type},

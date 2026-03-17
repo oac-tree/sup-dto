@@ -46,7 +46,7 @@ protected:
 
 TEST_F(AnyValueBuilderTest, AnyValueBuilderMethods)
 {
-  AnyTypeRegistry anytype_registry;
+  const AnyTypeRegistry anytype_registry;
   AnyValueBuilder builder{&anytype_registry};
 
     // Most methods throw when the current node contained is still an AnyValueRootBuildNode:
@@ -72,7 +72,7 @@ TEST_F(AnyValueBuilderTest, AnyValueBuilderMethods)
 TEST_F(AnyValueBuilderTest, AnyValueBuildNodeMethods)
 {
   // Exceptions:
-  AnyTypeRegistry anytype_registry;
+  const AnyTypeRegistry anytype_registry;
   AnyValue val;
   EXPECT_THROW(AnyValueBuildNode invalid_node(nullptr, nullptr, val), InvalidOperationException);
   AnyValueBuildNode node(&anytype_registry, nullptr, val);
@@ -119,7 +119,7 @@ TEST_F(AnyValueBuilderTest, AnyValueBuildNodeMethods)
 
 TEST_F(AnyValueBuilderTest, AnyValueRootBuildNodeMethods)
 {
-  AnyTypeRegistry anytype_registry;
+  const AnyTypeRegistry anytype_registry;
   EXPECT_THROW(AnyValueRootBuildNode invalid_node(nullptr, nullptr), InvalidOperationException);
   AnyValueRootBuildNode node(&anytype_registry, nullptr);
   EXPECT_THROW(node.PopArrayNode(), ParseException);
@@ -130,7 +130,7 @@ TEST_F(AnyValueBuilderTest, AnyValueRootBuildNodeMethods)
 
 TEST_F(AnyValueBuilderTest, AnyValueArrayBuildNodeMethods)
 {
-  AnyTypeRegistry anytype_registry;
+  const AnyTypeRegistry anytype_registry;
   EXPECT_THROW(AnyValueArrayBuildNode invalid_node(nullptr, nullptr), InvalidOperationException);
   AnyValueArrayBuildNode node(&anytype_registry, nullptr);
   EXPECT_THROW(node.Null(), ParseException);
@@ -183,7 +183,7 @@ TEST_F(AnyValueBuilderTest, AnyValueArrayBuildNodeMethods)
 
 TEST_F(AnyValueBuilderTest, AnyValueEncodingElementBuildNodeMethods)
 {
-  AnyTypeRegistry anytype_registry;
+  const AnyTypeRegistry anytype_registry;
   EXPECT_THROW(AnyValueEncodingElementBuildNode invalid_node(nullptr, nullptr),
                InvalidOperationException);
   AnyValueEncodingElementBuildNode node(&anytype_registry, nullptr);
@@ -204,7 +204,7 @@ TEST_F(AnyValueBuilderTest, AnyValueEncodingElementBuildNodeMethods)
 
 TEST_F(AnyValueBuilderTest, AnyValueTypeElementBuildNodeMethods)
 {
-  AnyTypeRegistry anytype_registry;
+  const AnyTypeRegistry anytype_registry;
   EXPECT_THROW(AnyValueTypeElementBuildNode invalid_node(nullptr, nullptr),
                InvalidOperationException);
   AnyValueTypeElementBuildNode node(&anytype_registry, nullptr);
@@ -226,7 +226,7 @@ TEST_F(AnyValueBuilderTest, AnyValueTypeElementBuildNodeMethods)
 
 TEST_F(AnyValueBuilderTest, AnyValueValueElementBuildNodeMethods)
 {
-  AnyTypeRegistry anytype_registry;
+  const AnyTypeRegistry anytype_registry;
   AnyValue empty{StringType};
   EXPECT_THROW(AnyValueValueElementBuildNode invalid_node(nullptr, nullptr, empty),
                InvalidOperationException);
@@ -254,7 +254,7 @@ TEST_F(AnyValueBuilderTest, ArrayValueBuildNodeMethods)
 {
 
   // Exceptions
-  AnyTypeRegistry anytype_registry;
+  const AnyTypeRegistry anytype_registry;
   AnyValue empty;
   EXPECT_THROW(ArrayValueBuildNode invalid_node(nullptr, nullptr, empty),
                InvalidOperationException);
@@ -318,7 +318,7 @@ TEST_F(AnyValueBuilderTest, ArrayValueBuildNodeMethods)
 
   // Double array
   {
-    AnyType array_t(2, Float32Type);
+    const AnyType array_t(2, Float32Type);
     AnyValue array_v(array_t);
     ArrayValueBuildNode node(&anytype_registry, nullptr, array_v);
     EXPECT_TRUE(node.Double(1.0));
@@ -330,7 +330,7 @@ TEST_F(AnyValueBuilderTest, ArrayValueBuildNodeMethods)
 
   // String array
   {
-    AnyType array_t(2, StringType);
+    const AnyType array_t(2, StringType);
     AnyValue array_v(array_t);
     ArrayValueBuildNode node(&anytype_registry, nullptr, array_v);
     EXPECT_TRUE(node.String("a"));
@@ -342,8 +342,8 @@ TEST_F(AnyValueBuilderTest, ArrayValueBuildNodeMethods)
 
   // Array array
   {
-    AnyType bool_array(2, BooleanType);
-    AnyType array_t(1, bool_array);
+    const AnyType bool_array(2, BooleanType);
+    const AnyType array_t(1, bool_array);
     AnyValue array_v(array_t);
     ArrayValueBuildNode node(&anytype_registry, nullptr, array_v);
     auto child = node.GetArrayNode();

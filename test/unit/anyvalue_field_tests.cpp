@@ -28,7 +28,7 @@ using namespace sup::dto;
 
 TEST(AnyValueFieldTest, SimpleStruct)
 {
-  AnyValue two_scalars = {{
+  const AnyValue two_scalars = {{
     {"signed", {SignedInteger8Type, 1}},
     {"unsigned", {UnsignedInteger8Type, 12}}
   }};
@@ -44,11 +44,11 @@ TEST(AnyValueFieldTest, SimpleStruct)
 TEST(AnyValueFieldTest, NestedStruct)
 {
   const std::string nested_name = "nested_struct";
-  AnyValue two_scalars = {{
+  const AnyValue two_scalars = {{
     {"signed", {SignedInteger8Type, 1}},
     {"unsigned", {UnsignedInteger8Type, 12}}
   }};
-  AnyValue nested_val{{
+  const AnyValue nested_val{{
     {"scalars", two_scalars},
     {"single", {
       {"first", {SignedInteger8Type, 0}},
@@ -73,7 +73,7 @@ TEST(AnyValueFieldTest, NestedStruct)
 
 TEST(AnyValueFieldTest, SimpleArray)
 {
-  AnyValue array_val = ArrayValue({{UnsignedInteger16Type, 0}, 10 ,20 ,30});
+  const AnyValue array_val = ArrayValue({{UnsignedInteger16Type, 0}, 10 ,20 ,30});
   EXPECT_TRUE(IsArrayValue(array_val));
   EXPECT_TRUE(array_val.HasField("[0]"));
   EXPECT_TRUE(array_val.HasField("[3]"));
@@ -85,11 +85,11 @@ TEST(AnyValueFieldTest, SimpleArray)
 
 TEST(AnyValueFieldTest, ArrayOfStruct)
 {
-  AnyValue two_scalars = {{
+  const AnyValue two_scalars = {{
     {"first", {UnsignedInteger16Type, 1}},
     {"second", {UnsignedInteger16Type, 2}}
   }};
-  AnyValue array_val = ArrayValue({ two_scalars, two_scalars, two_scalars }, "array_of_structs");
+  const AnyValue array_val = ArrayValue({ two_scalars, two_scalars, two_scalars }, "array_of_structs");
   EXPECT_TRUE(IsArrayValue(array_val));
   EXPECT_TRUE(array_val.HasField("[0]"));
   EXPECT_TRUE(array_val.HasField("[2]"));
@@ -103,7 +103,7 @@ TEST(AnyValueFieldTest, ArrayOfStruct)
 
 TEST(AnyValueFieldTest, ParseFailure)
 {
-  AnyValue array_val = ArrayValue({{UnsignedInteger16Type, 0}, 10 ,20 ,30});
+  const AnyValue array_val = ArrayValue({{UnsignedInteger16Type, 0}, 10 ,20 ,30});
   EXPECT_TRUE(IsArrayValue(array_val));
   EXPECT_TRUE(array_val.HasField("[0]"));
   EXPECT_TRUE(array_val.HasField("[3]"));

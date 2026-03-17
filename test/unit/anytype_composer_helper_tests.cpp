@@ -55,7 +55,7 @@ public:
 TEST_F(AnyTypeComposerHelperTests, CanAddTypeComponent)
 {
   {  // it is possible to add a type node to an empty stack
-    std::stack<AbstractTypeComposerComponent::component_t> stack;
+    const std::stack<AbstractTypeComposerComponent::component_t> stack;
     EXPECT_TRUE(CanAddTypeComponent(stack));
   }
 
@@ -76,7 +76,7 @@ TEST_F(AnyTypeComposerHelperTests, CanAddTypeComponent)
 TEST_F(AnyTypeComposerHelperTests, ValidateAddTypeComponent)
 {
   {  // it is possible to add value node to empty stack
-    std::stack<AbstractTypeComposerComponent::component_t> stack;
+    const std::stack<AbstractTypeComposerComponent::component_t> stack;
     EXPECT_NO_THROW(ValidateAddTypeComponent(stack));
   }
 

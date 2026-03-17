@@ -42,7 +42,7 @@ TEST_F(AnyValueComparisonTests, NonNumericTypes)
   const AnyValue ui32{50u};
   {
     // Empty types cannot be compared, not even with itself
-    AnyValue empty{};
+    const AnyValue empty{};
     EXPECT_EQ(Compare(empty, f32_av), CompareResult::Unordered);
     EXPECT_EQ(Compare(f32_av, empty), CompareResult::Unordered);
     EXPECT_EQ(Compare(empty, f64_av), CompareResult::Unordered);
@@ -55,7 +55,7 @@ TEST_F(AnyValueComparisonTests, NonNumericTypes)
   }
   {
     // Bool types cannot be compared, not even with itself
-    AnyValue bool_av{true};
+    const AnyValue bool_av{true};
     EXPECT_EQ(Compare(bool_av, f32_av), CompareResult::Unordered);
     EXPECT_EQ(Compare(f32_av, bool_av), CompareResult::Unordered);
     EXPECT_EQ(Compare(bool_av, f64_av), CompareResult::Unordered);
@@ -68,7 +68,7 @@ TEST_F(AnyValueComparisonTests, NonNumericTypes)
   }
   {
     // String types cannot be compared, not even with itself
-    AnyValue str_av{"some string"};
+    const AnyValue str_av{"some string"};
     EXPECT_EQ(Compare(str_av, f32_av), CompareResult::Unordered);
     EXPECT_EQ(Compare(f32_av, str_av), CompareResult::Unordered);
     EXPECT_EQ(Compare(str_av, f64_av), CompareResult::Unordered);
@@ -81,7 +81,7 @@ TEST_F(AnyValueComparisonTests, NonNumericTypes)
   }
   {
     // Structure types cannot be compared, not even with itself
-    AnyValue struct_av = {
+    const AnyValue struct_av = {
       {"fieldname", { UnsignedInteger16Type, 2}}};
     EXPECT_EQ(Compare(struct_av, f32_av), CompareResult::Unordered);
     EXPECT_EQ(Compare(f32_av, struct_av), CompareResult::Unordered);
@@ -95,7 +95,7 @@ TEST_F(AnyValueComparisonTests, NonNumericTypes)
   }
   {
     // Array types cannot be compared, not even with itself
-    AnyValue arr_av{2, StringType};
+    const AnyValue arr_av{2, StringType};
     EXPECT_EQ(Compare(arr_av, f32_av), CompareResult::Unordered);
     EXPECT_EQ(Compare(f32_av, arr_av), CompareResult::Unordered);
     EXPECT_EQ(Compare(arr_av, f64_av), CompareResult::Unordered);

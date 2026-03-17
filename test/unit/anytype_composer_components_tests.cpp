@@ -48,7 +48,7 @@ TEST_F(AnyTypeComposerComponentsTests, LeafTypeComposerComponent_Process)
   EXPECT_TRUE(node.Process(stack));
 
   // expected type
-  sup::dto::AnyType expected{sup::dto::SignedInteger32Type};
+  const sup::dto::AnyType expected{sup::dto::SignedInteger32Type};
   auto result = node.MoveAnyType();
   EXPECT_EQ(result, expected);
 }
@@ -84,7 +84,7 @@ TEST_F(AnyTypeComposerComponentsTests, StartStructTypeComposerComponent_AddMembe
   EXPECT_NO_THROW(node.AddMember("field_name", sup::dto::SignedInteger32Type));
 
   // expected type
-  sup::dto::AnyType expected = {{
+  const sup::dto::AnyType expected = {{
     {"field_name", sup::dto::SignedInteger32Type}
   }, "struct_name"};
   auto result = node.MoveAnyType();

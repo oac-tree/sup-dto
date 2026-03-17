@@ -57,7 +57,7 @@ TEST(AnyValueAssignTest, Structures)
 
 TEST(AnyValueAssignTest, Arrays)
 {
-  AnyValue two_scalars = {{
+  const AnyValue two_scalars = {{
     {"signed", {SignedInteger8Type, 1}},
     {"unsigned", {UnsignedInteger8Type, 12}}
   }};

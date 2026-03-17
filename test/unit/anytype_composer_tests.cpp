@@ -68,7 +68,7 @@ TEST_F(AnyTypeComposerTests, EmptyStruct)
 //! Creation of AnyType containing a struct with single field.
 TEST_F(AnyTypeComposerTests, StructWithSingleField)
 {
-  sup::dto::AnyType expected_anytype = {{"signed", {sup::dto::SignedInteger32Type}}};
+  const sup::dto::AnyType expected_anytype = {{"signed", {sup::dto::SignedInteger32Type}}};
 
   AnyTypeComposer builder;
 
@@ -87,7 +87,7 @@ TEST_F(AnyTypeComposerTests, StructWithSingleField)
 //! Creation of AnyType containing a struct with two fields.
 TEST_F(AnyTypeComposerTests, StructWithTwoFields)
 {
-  sup::dto::AnyType expected_anytype = {{"signed", {sup::dto::SignedInteger32Type}},
+  const sup::dto::AnyType expected_anytype = {{"signed", {sup::dto::SignedInteger32Type}},
                                         {"bool", {sup::dto::BooleanType}}};
 
   AnyTypeComposer builder;
@@ -110,9 +110,9 @@ TEST_F(AnyTypeComposerTests, StructWithTwoFields)
 //! Creation of AnyType containing a struct with another struct in it.
 TEST_F(AnyTypeComposerTests, StructWithNestedStructWithField)
 {
-  sup::dto::AnyType two_scalars = {{"signed", {sup::dto::SignedInteger32Type}},
+  const sup::dto::AnyType two_scalars = {{"signed", {sup::dto::SignedInteger32Type}},
                                    {"bool", {sup::dto::BooleanType}}};
-  sup::dto::AnyType expected_anytype = {{{"scalars", two_scalars}}, "my_struct"};
+  const sup::dto::AnyType expected_anytype = {{{"scalars", two_scalars}}, "my_struct"};
 
   AnyTypeComposer builder;
 
@@ -141,11 +141,11 @@ TEST_F(AnyTypeComposerTests, StructWithNestedStructWithField)
 TEST_F(AnyTypeComposerTests, StructWithTwoNestedStructs)
 {
   const std::string struct_name = "struct_name";
-  sup::dto::AnyType two_scalars = {
+  const sup::dto::AnyType two_scalars = {
       {{"signed", {sup::dto::SignedInteger32Type}}, {"bool", {sup::dto::BooleanType}}},
       "internal_struct"};
 
-  sup::dto::AnyType expected_anytype{
+  const sup::dto::AnyType expected_anytype{
       {{"struct1", two_scalars},
        {"struct2",
         {{"first", {sup::dto::SignedInteger8Type}}, {"second", {sup::dto::UnsignedInteger8Type}}}}},
@@ -248,7 +248,7 @@ TEST_F(AnyTypeComposerTests, ArrayTwoElementTypes)
 TEST_F(AnyTypeComposerTests, StructWithScalarArrayAsField)
 {
   auto array_anytype = sup::dto::AnyType(2, sup::dto::SignedInteger32Type, "array_name");
-  sup::dto::AnyType expected_struct_anytype = {{{"array_field", array_anytype}}, "struct_name"};
+  const sup::dto::AnyType expected_struct_anytype = {{{"array_field", array_anytype}}, "struct_name"};
 
   AnyTypeComposer builder;
 
@@ -272,7 +272,7 @@ TEST_F(AnyTypeComposerTests, StructWithTwoScalarArrayAsField)
 {
   auto array1 = sup::dto::AnyType(2, sup::dto::SignedInteger32Type, "array_name1");
   auto array2 = sup::dto::AnyType(3, sup::dto::SignedInteger32Type, "array_name2");
-  sup::dto::AnyType expected_struct_anytype = {{{"field1", array1}, {"field2", array2}},
+  const sup::dto::AnyType expected_struct_anytype = {{{"field1", array1}, {"field2", array2}},
                                               "struct_name"};
 
   AnyTypeComposer builder;
@@ -305,7 +305,7 @@ TEST_F(AnyTypeComposerTests, StructWithTwoScalarArrayAsField)
 
 TEST_F(AnyTypeComposerTests, ArrayWithTwoStructureElements)
 {
-  sup::dto::AnyType struct_type = {{{"first", sup::dto::SignedInteger8Type},
+  const sup::dto::AnyType struct_type = {{{"first", sup::dto::SignedInteger8Type},
                                  {"second", sup::dto::UnsignedInteger8Type}},
                                 "struct_name"};
 
@@ -335,11 +335,11 @@ TEST_F(AnyTypeComposerTests, ArrayWithTwoStructureElements)
 //! Building a structure with array as a field with two structures.
 TEST_F(AnyTypeComposerTests, StructureWithArrayWithStructure)
 {
-  sup::dto::AnyType struct_type = {{{"first", sup::dto::SignedInteger8Type},
+  const sup::dto::AnyType struct_type = {{{"first", sup::dto::SignedInteger8Type},
                                 {"second", sup::dto::UnsignedInteger8Type}},
                                 "struct_name"};
-  auto array_anytype = sup::dto::AnyType(2, struct_type, "array_name");
-  sup::dto::AnyType expected_struct_anytype = {{{"field", array_anytype}}, "struct_name_outer"};
+  const auto array_anytype = sup::dto::AnyType(2, struct_type, "array_name");
+  const sup::dto::AnyType expected_struct_anytype = {{{"field", array_anytype}}, "struct_name_outer"};
 
   AnyTypeComposer builder;
 

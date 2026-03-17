@@ -66,7 +66,7 @@ TEST_F(AbstractValueComposerComponentTests, MoveAnyValue)
 
   auto result = node.MoveAnyValue();
 
-  sup::dto::AnyValue expected{sup::dto::SignedInteger32Type, 42};
+  const sup::dto::AnyValue expected{sup::dto::SignedInteger32Type, 42};
   EXPECT_EQ(result, expected);
 }
 

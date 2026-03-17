@@ -161,7 +161,7 @@ AnyValue::AnyValue(std::size_t size, const AnyType& elem_type, const std::string
   : AnyValue{}
 {
   auto array_data = std::make_unique<ArrayValueData>(elem_type, name, Constraints::kNone);
-  AnyValue default_element{elem_type};
+  const AnyValue default_element{elem_type};
   for (std::size_t idx = 0; idx < size; ++idx)
   {
     auto copy = std::unique_ptr<AnyValue>{new AnyValue{default_element, Constraints::kLockedType}};

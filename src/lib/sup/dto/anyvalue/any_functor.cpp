@@ -40,7 +40,7 @@ ThreadsafeAnyFunctorDecorator::~ThreadsafeAnyFunctorDecorator() = default;
 
 sup::dto::AnyValue ThreadsafeAnyFunctorDecorator::operator()(const sup::dto::AnyValue& input)
 {
-  std::lock_guard<std::mutex> lk{m_mtx};
+  const std::lock_guard<std::mutex> lk{m_mtx};
   return m_functor(input);
 }
 
