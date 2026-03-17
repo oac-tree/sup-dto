@@ -22,6 +22,7 @@
 
 #include <gtest/gtest.h>
 
+#include <sup/dto/low_level/arithmetic_from_bytes_t.h>
 #include <sup/dto/low_level/binary_parser_functions.h>
 #include <sup/dto/low_level/binary_serialization_functions.h>
 #include <sup/dto/serialize/binary_tokens.h>

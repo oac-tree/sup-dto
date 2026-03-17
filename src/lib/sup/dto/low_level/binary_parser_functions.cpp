@@ -22,6 +22,8 @@
 
 #include "binary_parser_functions.h"
 
+#include "arithmetic_from_bytes_t.h"
+
 #include <sup/dto/serialize/binary_tokens.h>
 
 namespace sup

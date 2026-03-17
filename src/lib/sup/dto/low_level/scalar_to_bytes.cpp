@@ -137,7 +137,7 @@ GetToNetworkOrderMap()
   return map;
 }
 
-}  // namespace
+}  // unnamed namespace
 
 namespace sup
 {

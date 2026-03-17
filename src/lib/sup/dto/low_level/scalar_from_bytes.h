@@ -23,11 +23,7 @@
 #ifndef SUP_DTO_SCALAR_FROM_BYTES_H_
 #define SUP_DTO_SCALAR_FROM_BYTES_H_
 
-#include "binary_parser_functions.h"
-
 #include <sup/dto/anyvalue.h>
-
-#include <algorithm>
 
 namespace sup
 {

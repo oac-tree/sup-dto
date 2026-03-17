@@ -22,7 +22,15 @@
 
 #include "scalar_from_bytes.h"
 
+#include "arithmetic_from_bytes_t.h"
+
 #include <map>
+
+namespace
+{
+using namespace sup::dto;
+
+}  // unnamed namespace
 
 namespace sup
 {
