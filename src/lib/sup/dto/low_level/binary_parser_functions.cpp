@@ -32,7 +32,6 @@ namespace
 {
 using sup::dto::AnyValue;
 using sup::dto::ByteIterator;
-using sup::dto::ScalarParserFunction;
 
 template <typename T>
 void AssignBinaryScalarFromLittleEndianOrderT(AnyValue& anyvalue, ByteIterator& it, ByteIterator end)
@@ -45,6 +44,8 @@ void AssignBinaryScalarFromHostOrderT(AnyValue& anyvalue, ByteIterator& it, Byte
 {
   anyvalue.ConvertFrom(AnyValue{sup::dto::ParseFromHostOrderT<T>(it, end)});
 }
+
+using ScalarParserFunction = std::function<void(AnyValue&, ByteIterator&, ByteIterator)>;
 
 template <typename T>
 ScalarParserFunction GetScalarParserFunction()
@@ -59,6 +60,10 @@ void AssignBinaryString(AnyValue& anyvalue, ByteIterator& it, ByteIterator end)
 }
 
 void InvalidAssignFunction(AnyValue&, ByteIterator&, ByteIterator);
+
+const sup::dto::uint32 kMaxScalarCode = 13u;
+
+std::array<ScalarParserFunction, kMaxScalarCode + 1> CreateScalarParserFunctionArray();
 
 }  // unnamed namespace
 
@@ -107,6 +112,30 @@ sup::dto::uint64 ParseSize(ByteIterator& it, ByteIterator end)
   return ParseFromLittleEndianOrderT<sup::dto::uint64>(it, end);
 }
 
+void ParseBinaryScalar(AnyValue& anyvalue, ByteIterator& it, ByteIterator end)
+{
+  static const auto parser_functions = CreateScalarParserFunctionArray();
+  auto& parse_func = parser_functions[static_cast<size_t>(anyvalue.GetTypeCode())];
+  parse_func(anyvalue, it, end);
+}
+
+}  // namespace dto
+
+}  // namespace sup
+
+namespace
+{
+using sup::dto::AnyValue;
+using sup::dto::ByteIterator;
+using sup::dto::TypeCode;
+using sup::dto::uint32;
+
+void InvalidAssignFunction(AnyValue&, ByteIterator&, ByteIterator)
+{
+  const std::string error = "BinaryValueParser::ScalarProlog() called on an empty AnyValue";
+  throw sup::dto::ParseException(error);
+}
+
 std::array<ScalarParserFunction, kMaxScalarCode + 1> CreateScalarParserFunctionArray()
 {
   std::array<ScalarParserFunction, kMaxScalarCode + 1> result;
@@ -125,21 +154,6 @@ std::array<ScalarParserFunction, kMaxScalarCode + 1> CreateScalarParserFunctionA
   result.at(static_cast<uint32>(TypeCode::Float64)) = GetScalarParserFunction<sup::dto::float64>();
   result.at(static_cast<uint32>(TypeCode::String)) = AssignBinaryString;
   return result;
-}
-
-}  // namespace dto
-
-}  // namespace sup
-
-namespace
-{
-using sup::dto::AnyValue;
-using sup::dto::ByteIterator;
-
-void InvalidAssignFunction(AnyValue&, ByteIterator&, ByteIterator)
-{
-  const std::string error = "BinaryValueParser::ScalarProlog() called on an empty AnyValue";
-  throw sup::dto::ParseException(error);
 }
 
 }  // unnamed namespace

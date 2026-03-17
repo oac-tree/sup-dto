@@ -39,10 +39,7 @@ std::string ParseBinaryString(ByteIterator& it, ByteIterator end);
 
 sup::dto::uint64 ParseSize(ByteIterator& it, ByteIterator end);
 
-const sup::dto::uint32 kMaxScalarCode = 13u;
-using ScalarParserFunction = std::function<void(AnyValue&, ByteIterator&, ByteIterator)>;
-
-std::array<ScalarParserFunction, kMaxScalarCode + 1> CreateScalarParserFunctionArray();
+void ParseBinaryScalar(AnyValue& anyvalue, ByteIterator& it, ByteIterator end);
 
 }  // namespace dto
 
