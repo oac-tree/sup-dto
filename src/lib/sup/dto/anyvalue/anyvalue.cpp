@@ -731,21 +731,21 @@ std::deque<std::string> SplitAnyValueFieldname(const std::string& fieldname)
 
 std::vector<uint8> ToBytes(const AnyValue& anyvalue)
 {
-  CTypeSerializer serializer{false};
+  CTypeSerializer serializer{CTypeSerializer::ByteOrder::Host};
   Visit(anyvalue, serializer);
   return serializer.GetRepresentation();
 }
 
 std::vector<uint8> ToNetworkOrderBytes(const AnyValue& anyvalue)
 {
-  CTypeSerializer serializer{true};
+  CTypeSerializer serializer{CTypeSerializer::ByteOrder::Network};
   Visit(anyvalue, serializer);
   return serializer.GetRepresentation();
 }
 
 void FromBytes(AnyValue& anyvalue, const uint8* bytes, std::size_t total_size)
 {
-  CTypeParser byte_parser{bytes, total_size, false};
+  CTypeParser byte_parser{bytes, total_size, CTypeParser::ByteOrder::Host};
   Visit(anyvalue, byte_parser);
   if (!byte_parser.IsFinished())
   {
@@ -755,7 +755,7 @@ void FromBytes(AnyValue& anyvalue, const uint8* bytes, std::size_t total_size)
 
 void FromNetworkOrderBytes(AnyValue& anyvalue, const uint8* bytes, std::size_t total_size)
 {
-  CTypeParser byte_parser{bytes, total_size, true};
+  CTypeParser byte_parser{bytes, total_size, CTypeParser::ByteOrder::Network};
   Visit(anyvalue, byte_parser);
   if (!byte_parser.IsFinished())
   {

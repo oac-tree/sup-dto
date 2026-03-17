@@ -34,12 +34,12 @@ namespace sup
 namespace dto
 {
 
-CTypeParser::CTypeParser(const uint8* bytes, std::size_t total_size, bool from_network_order)
+CTypeParser::CTypeParser(const uint8* bytes, std::size_t total_size, ByteOrder byte_order)
   : IAnyVisitor<AnyValue>{}
   , m_bytes{bytes}
   , m_total_size{total_size}
   , m_current_position{0}
-  , m_from_network_order{from_network_order}
+  , m_byte_order{byte_order}
 {}
 
 CTypeParser::~CTypeParser() = default;
@@ -81,9 +81,9 @@ void CTypeParser::ArrayEpilog(AnyValue*)
 
 void CTypeParser::ScalarProlog(AnyValue* anyvalue)
 {
-  m_current_position = m_from_network_order
-    ? AssignFromNetworkOrder(*anyvalue, m_bytes, m_total_size, m_current_position)
-    : AssignFromHostOrder(*anyvalue, m_bytes, m_total_size, m_current_position);
+  m_current_position = (m_byte_order == ByteOrder::Host)
+    ? AssignFromHostOrder(*anyvalue, m_bytes, m_total_size, m_current_position)
+    : AssignFromNetworkOrder(*anyvalue, m_bytes, m_total_size, m_current_position);
 }
 
 void CTypeParser::ScalarEpilog(AnyValue*)

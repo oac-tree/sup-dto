@@ -26,6 +26,7 @@
 
 #include <sup/dto/anyvalue_exceptions.h>
 
+#include <algorithm>
 #include <map>
 
 namespace

@@ -377,8 +377,8 @@ AnyValue
    :return: AnyValue.
    :throws ParseException: When the binary representation could not be correctly parsed.
 
-   Parse an AnyValue from a binary representation. Scalar nodes are serialized in little endian
-   byte order, which could incur a performance cost on big endian architectures.
+   Parse an AnyValue from a binary representation. Scalar node representations are expected to be in
+   little endian byte order.
 
 Casting to/from plain C types
 -----------------------------
