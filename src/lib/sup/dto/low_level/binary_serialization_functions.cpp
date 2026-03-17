@@ -32,6 +32,14 @@
 namespace
 {
 using namespace sup::dto;
+// Append the binary representation of an arithmetic value to the provided byte stream.
+template <typename T>
+void AppendScalarBytesT(std::vector<uint8>& representation, const T& val)
+{
+  auto val_rep = ToLittleEndianOrderT(val);
+  (void)representation.insert(representation.cend(), val_rep.cbegin(), val_rep.cend());
+}
+
 template <typename T>
 void AppendScalarAnyValueT(std::vector<uint8>& representation, const AnyValue& anyvalue)
 {

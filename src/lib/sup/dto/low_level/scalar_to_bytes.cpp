@@ -54,22 +54,23 @@ std::vector<uint8> ScalarToHostOrderT<std::string>(const AnyValue& anyvalue)
 }
 
 template <typename T>
+std::vector<uint8> ScalarToLittleEndianOrderT(const AnyValue& anyvalue)
+{
+  T val = anyvalue.As<T>();
+  return ToLittleEndianOrderT(val);
+}
+
+template <typename T>
 std::vector<uint8> ScalarToNetworkOrderT(const AnyValue& anyvalue)
 {
   T val = anyvalue.As<T>();
   return ToNetworkOrder(val);
 }
 
-}  // namespace
-
-namespace sup
+const std::map<TypeCode, std::function<std::vector<uint8>(const AnyValue&)>>&
+GetToHostOrderMap()
 {
-namespace dto
-{
-
-std::vector<uint8> ScalarToHostOrder(const AnyValue& anyvalue)
-{
-  static const std::map<TypeCode, std::function<std::vector<uint8>(const AnyValue&)>> conversion_map {
+  static const std::map<TypeCode, std::function<std::vector<uint8>(const AnyValue&)>> map {
     {TypeCode::Bool, ScalarToHostOrderT<boolean> },
     {TypeCode::Char8, ScalarToHostOrderT<char8> },
     {TypeCode::Int8, ScalarToHostOrderT<int8> },
@@ -84,17 +85,34 @@ std::vector<uint8> ScalarToHostOrder(const AnyValue& anyvalue)
     {TypeCode::Float64, ScalarToHostOrderT<float64> },
     {TypeCode::String, ScalarToHostOrderT<std::string> }
   };
-  const auto it = conversion_map.find(anyvalue.GetTypeCode());
-  if (it == conversion_map.end())
-  {
-    throw SerializeException("Not a known scalar type code");
-  }
-  return it->second(anyvalue);
+  return map;
 }
 
-std::vector<uint8> ScalarToNetwokOrder(const AnyValue& anyvalue)
+const std::map<TypeCode, std::function<std::vector<uint8>(const AnyValue&)>>&
+GetToLittleEndianOrderMap()
 {
-  static const std::map<TypeCode, std::function<std::vector<uint8>(const AnyValue&)>> conversion_map {
+  static const std::map<TypeCode, std::function<std::vector<uint8>(const AnyValue&)>> map {
+    {TypeCode::Bool, ScalarToLittleEndianOrderT<boolean> },
+    {TypeCode::Char8, ScalarToLittleEndianOrderT<char8> },
+    {TypeCode::Int8, ScalarToLittleEndianOrderT<int8> },
+    {TypeCode::UInt8, ScalarToLittleEndianOrderT<uint8> },
+    {TypeCode::Int16, ScalarToLittleEndianOrderT<int16> },
+    {TypeCode::UInt16, ScalarToLittleEndianOrderT<uint16> },
+    {TypeCode::Int32, ScalarToLittleEndianOrderT<int32> },
+    {TypeCode::UInt32, ScalarToLittleEndianOrderT<uint32> },
+    {TypeCode::Int64, ScalarToLittleEndianOrderT<int64> },
+    {TypeCode::UInt64, ScalarToLittleEndianOrderT<uint64> },
+    {TypeCode::Float32, ScalarToLittleEndianOrderT<float32> },
+    {TypeCode::Float64, ScalarToLittleEndianOrderT<float64> },
+    {TypeCode::String, ScalarToHostOrderT<std::string> }
+  };
+  return map;
+}
+
+const std::map<TypeCode, std::function<std::vector<uint8>(const AnyValue&)>>&
+GetToNetworkOrderMap()
+{
+  static const std::map<TypeCode, std::function<std::vector<uint8>(const AnyValue&)>> map {
     {TypeCode::Bool, ScalarToNetworkOrderT<boolean> },
     {TypeCode::Char8, ScalarToNetworkOrderT<char8> },
     {TypeCode::Int8, ScalarToNetworkOrderT<int8> },
@@ -109,6 +127,41 @@ std::vector<uint8> ScalarToNetwokOrder(const AnyValue& anyvalue)
     {TypeCode::Float64, ScalarToNetworkOrderT<float64> },
     {TypeCode::String, ScalarToHostOrderT<std::string> }
   };
+  return map;
+}
+
+}  // namespace
+
+namespace sup
+{
+namespace dto
+{
+
+std::vector<uint8> ScalarToHostOrder(const AnyValue& anyvalue)
+{
+  static const auto& conversion_map = GetToHostOrderMap();
+  const auto it = conversion_map.find(anyvalue.GetTypeCode());
+  if (it == conversion_map.end())
+  {
+    throw SerializeException("Not a known scalar type code");
+  }
+  return it->second(anyvalue);
+}
+
+std::vector<uint8> ScalarToLittleEndianOrder(const AnyValue& anyvalue)
+{
+  static const auto& conversion_map = GetToLittleEndianOrderMap();
+  const auto it = conversion_map.find(anyvalue.GetTypeCode());
+  if (it == conversion_map.end())
+  {
+    throw SerializeException("Not a known scalar type code");
+  }
+  return it->second(anyvalue);
+}
+
+std::vector<uint8> ScalarToNetwokOrder(const AnyValue& anyvalue)
+{
+  static const auto& conversion_map = GetToNetworkOrderMap();
   const auto it = conversion_map.find(anyvalue.GetTypeCode());
   if (it == conversion_map.end())
   {

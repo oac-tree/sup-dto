@@ -78,6 +78,23 @@ std::vector<uint8> ToHostOrderT(const T& val)
   return result;
 }
 
+// Convert a basic arithmetic type to a vector of bytes in little endian byte order.
+// This implementation assumes that the same endianness is used for floating point values as
+// for integral values.
+template <typename T, typename std::enable_if_t<std::is_arithmetic_v<T>, bool> = true>
+std::vector<uint8> ToLittleEndianOrderT(const T& val)
+{
+  UnsignedRepresentationType<sizeof(T)> u_val{};
+  (void)std::memcpy(&u_val, std::addressof(val), sizeof(T));
+  std::vector<uint8> result(sizeof(T), 0);
+  for (std::size_t i = 0; i < sizeof(T); ++i)
+  {
+    result[i] = static_cast<uint8>(u_val & BitConstants::kLSBMask);
+    u_val >>= BitConstants::kBitsPerByte;
+  }
+  return result;
+}
+
 // Convert a basic arithmetic type to a vector of bytes in network byte order.
 // This implementation assumes that the same endianness is used for floating point values as
 // for integral values.
@@ -94,14 +111,6 @@ std::vector<uint8> ToNetworkOrder(const T& val)
     u_val >>= BitConstants::kBitsPerByte;
   }
   return result;
-}
-
-// Append the binary representation of an arithmetic value to the provided byte stream.
-template <typename T>
-void AppendScalarBytesT(std::vector<uint8>& representation, const T& val)
-{
-  auto val_rep = ToHostOrderT(val);
-  (void)representation.insert(representation.cend(), val_rep.cbegin(), val_rep.cend());
 }
 
 }  // namespace dto

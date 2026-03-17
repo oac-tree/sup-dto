@@ -34,6 +34,14 @@ namespace dto
 {
 class AnyValue;
 
+/**
+ * @brief Serializer class that uses fixed size representations for its scalar leafs. Strings are
+ * represented by 64 bytes. This serializer is meant for use in low-level libraries. Use
+ * 'BinaryValueSerializer' for binary serialization that supports variable length strings.
+ *
+ * @note The serializer can either use network byte order or host byte order.
+ *
+ */
 class CTypeSerializer : public IAnyVisitor<const AnyValue>
 {
 public:
