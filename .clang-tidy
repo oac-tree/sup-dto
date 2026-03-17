@@ -1,0 +1,32 @@
+---
+Checks: '-*,
+bugprone-*,
+cppcoreguidelines-*,
+misc-*,
+modernize-*,
+performance-*,
+readability-*,
+cppcoreguidelines-*,
+hicpp-*,
+google-*,
+cert-*,
+-readability-qualified-auto,
+-modernize-use-trailing-return-type,
+-modernize-use-nodiscard,
+-cppcoreguidelines-pro-type-const-cast,
+-cppcoreguidelines-owning-memory,
+-google-readability-todo,
+-cert-err58-cpp,
+-readability-identifier-length,
+-misc-include-cleaner,
+-bugprone-easily-swappable-parameters,
+-modernize-concat-nested-namespaces
+'
+CheckOptions:
+  - key:             misc-non-private-member-variables-in-classes.IgnoreClassesWithAllMemberVariablesBeingPublic
+    value:           '1'
+  - key:             cppcoreguidelines-non-private-member-variables-in-classes.IgnoreClassesWithAllMemberVariablesBeingPublic
+    value:           '1'
+---
+
+
