@@ -39,11 +39,9 @@ void AppendScalarToken(std::vector<sup::dto::uint8>& representation, const TypeC
 
 void AppendSize(std::vector<sup::dto::uint8>& representation, sup::dto::uint64 size);
 
-void AppendBinaryScalar(std::vector<sup::dto::uint8>& representation, const AnyValue& anyvalue);
-
 void AppendBinaryString(std::vector<sup::dto::uint8>& representation, const std::string& str);
 
-void AppendBinaryStringValue(std::vector<sup::dto::uint8>& representation, const std::string& str);
+void AppendBinaryScalar(std::vector<sup::dto::uint8>& representation, const AnyValue& anyvalue);
 
 }  // namespace dto
 

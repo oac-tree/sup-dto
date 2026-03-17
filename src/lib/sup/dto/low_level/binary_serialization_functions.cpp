@@ -33,6 +33,13 @@ namespace
 {
 using namespace sup::dto;
 
+void AppendBinaryStringValue(std::vector<uint8>& representation, const std::string& str)
+{
+  const auto str_size = str.size();
+  AppendSize(representation, str_size);
+  (void)representation.insert(representation.cend(), std::begin(str), std::end(str));
+}
+
 void AppendBinaryStringAnyValue(std::vector<uint8>& representation, const AnyValue& anyvalue)
 {
   const std::string str = anyvalue.As<std::string>();
@@ -102,13 +109,6 @@ void AppendBinaryString(std::vector<uint8>& representation, const std::string& s
 {
   representation.push_back(STRING_TOKEN);
   AppendBinaryStringValue(representation, str);
-}
-
-void AppendBinaryStringValue(std::vector<uint8>& representation, const std::string& str)
-{
-  const auto str_size = str.size();
-  AppendSize(representation, str_size);
-  (void)representation.insert(representation.cend(), std::begin(str), std::end(str));
 }
 
 }  // namespace dto

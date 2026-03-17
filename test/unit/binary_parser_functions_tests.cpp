@@ -22,7 +22,6 @@
 
 #include <gtest/gtest.h>
 
-#include <sup/dto/low_level/arithmetic_from_bytes_t.h>
 #include <sup/dto/low_level/binary_parser_functions.h>
 #include <sup/dto/low_level/binary_serialization_functions.h>
 #include <sup/dto/serialize/binary_tokens.h>
@@ -47,20 +46,22 @@ TEST_F(BinaryParserFunctionsTest, Booleans)
     EXPECT_NO_THROW(AppendBinaryScalar(representation, val));
     ASSERT_EQ(representation.size(), 1);
     auto it = representation.cbegin();
-    auto read_back = ParseFromHostOrderT<sup::dto::boolean>(it, representation.cend());
-    EXPECT_EQ(read_back, false);
-    EXPECT_EQ(it, representation.end());
+    AnyValue parsed{val.GetType()};
+    EXPECT_NO_THROW(ParseBinaryScalar(parsed, it, representation.cend()));
+    EXPECT_EQ(parsed, val);
+    EXPECT_EQ(it, representation.cend());
   }
   {
-    // false
+    // true
     AnyValue val = true;
     std::vector<uint8> representation;
     EXPECT_NO_THROW(AppendBinaryScalar(representation, val));
     ASSERT_EQ(representation.size(), 1);
     auto it = representation.cbegin();
-    auto read_back = ParseFromHostOrderT<sup::dto::boolean>(it, representation.cend());
-    EXPECT_EQ(read_back, true);
-    EXPECT_EQ(it, representation.end());
+    AnyValue parsed{val.GetType()};
+    EXPECT_NO_THROW(ParseBinaryScalar(parsed, it, representation.cend()));
+    EXPECT_EQ(parsed, val);
+    EXPECT_EQ(it, representation.cend());
   }
 }
 
@@ -73,9 +74,10 @@ TEST_F(BinaryParserFunctionsTest, Integers)
     EXPECT_NO_THROW(AppendBinaryScalar(representation, val));
     ASSERT_EQ(representation.size(), 1);
     auto it = representation.cbegin();
-    auto read_back = ParseFromHostOrderT<sup::dto::int8>(it, representation.cend());
-    EXPECT_EQ(read_back, -1);
-    EXPECT_EQ(it, representation.end());
+    AnyValue parsed{val.GetType()};
+    EXPECT_NO_THROW(ParseBinaryScalar(parsed, it, representation.cend()));
+    EXPECT_EQ(parsed, val);
+    EXPECT_EQ(it, representation.cend());
   }
   {
     // UInt16
@@ -85,9 +87,10 @@ TEST_F(BinaryParserFunctionsTest, Integers)
     EXPECT_NO_THROW(AppendBinaryScalar(representation, val));
     ASSERT_EQ(representation.size(), 2);
     auto it = representation.cbegin();
-    auto read_back = ParseFromHostOrderT<sup::dto::uint16>(it, representation.cend());
-    EXPECT_EQ(read_back, int_value);
-    EXPECT_EQ(it, representation.end());
+    AnyValue parsed{val.GetType()};
+    EXPECT_NO_THROW(ParseBinaryScalar(parsed, it, representation.cend()));
+    EXPECT_EQ(parsed, val);
+    EXPECT_EQ(it, representation.cend());
   }
   {
     // Int32
@@ -97,9 +100,10 @@ TEST_F(BinaryParserFunctionsTest, Integers)
     EXPECT_NO_THROW(AppendBinaryScalar(representation, val));
     ASSERT_EQ(representation.size(), 4);
     auto it = representation.cbegin();
-    auto read_back = ParseFromHostOrderT<sup::dto::int32>(it, representation.cend());
-    EXPECT_EQ(read_back, int_value);
-    EXPECT_EQ(it, representation.end());
+    AnyValue parsed{val.GetType()};
+    EXPECT_NO_THROW(ParseBinaryScalar(parsed, it, representation.cend()));
+    EXPECT_EQ(parsed, val);
+    EXPECT_EQ(it, representation.cend());
   }
   {
     // UInt64
@@ -109,9 +113,10 @@ TEST_F(BinaryParserFunctionsTest, Integers)
     EXPECT_NO_THROW(AppendBinaryScalar(representation, val));
     ASSERT_EQ(representation.size(), 8);
     auto it = representation.cbegin();
-    auto read_back = ParseFromHostOrderT<sup::dto::uint64>(it, representation.cend());
-    EXPECT_EQ(read_back, int_value);
-    EXPECT_EQ(it, representation.end());
+    AnyValue parsed{val.GetType()};
+    EXPECT_NO_THROW(ParseBinaryScalar(parsed, it, representation.cend()));
+    EXPECT_EQ(parsed, val);
+    EXPECT_EQ(it, representation.cend());
   }
 }
 
@@ -125,9 +130,10 @@ TEST_F(BinaryParserFunctionsTest, Floats)
     EXPECT_NO_THROW(AppendBinaryScalar(representation, val));
     ASSERT_EQ(representation.size(), 4);
     auto it = representation.cbegin();
-    auto read_back = ParseFromHostOrderT<sup::dto::float32>(it, representation.cend());
-    EXPECT_EQ(read_back, float_val);
-    EXPECT_EQ(it, representation.end());
+    AnyValue parsed{val.GetType()};
+    EXPECT_NO_THROW(ParseBinaryScalar(parsed, it, representation.cend()));
+    EXPECT_EQ(parsed, val);
+    EXPECT_EQ(it, representation.cend());
   }
   {
     // Float64
@@ -137,9 +143,10 @@ TEST_F(BinaryParserFunctionsTest, Floats)
     EXPECT_NO_THROW(AppendBinaryScalar(representation, val));
     ASSERT_EQ(representation.size(), 8);
     auto it = representation.cbegin();
-    auto read_back = ParseFromHostOrderT<sup::dto::float64>(it, representation.cend());
-    EXPECT_EQ(read_back, float_val);
-    EXPECT_EQ(it, representation.end());
+    AnyValue parsed{val.GetType()};
+    EXPECT_NO_THROW(ParseBinaryScalar(parsed, it, representation.cend()));
+    EXPECT_EQ(parsed, val);
+    EXPECT_EQ(it, representation.cend());
   }
 }
 
@@ -154,9 +161,10 @@ TEST_F(BinaryParserFunctionsTest, Strings)
     // string size byte make the total size larger by 1
     ASSERT_EQ(representation.size(), str.size() + 1);
     auto it = representation.cbegin();
-    auto read_back = ParseBinaryString(it, representation.end());
-    EXPECT_EQ(read_back, str);
-    EXPECT_EQ(it, representation.end());
+    AnyValue parsed{val.GetType()};
+    EXPECT_NO_THROW(ParseBinaryScalar(parsed, it, representation.cend()));
+    EXPECT_EQ(parsed, val);
+    EXPECT_EQ(it, representation.cend());
   }
   {
     // empty string anyvalue
@@ -167,9 +175,10 @@ TEST_F(BinaryParserFunctionsTest, Strings)
     // string size byte make the total size larger by 1
     ASSERT_EQ(representation.size(), 1);
     auto it = representation.cbegin();
-    auto read_back = ParseBinaryString(it, representation.end());
-    EXPECT_EQ(read_back, str);
-    EXPECT_EQ(it, representation.end());
+    AnyValue parsed{val.GetType()};
+    EXPECT_NO_THROW(ParseBinaryScalar(parsed, it, representation.cend()));
+    EXPECT_EQ(parsed, val);
+    EXPECT_EQ(it, representation.cend());
   }
   {
     // non empty string

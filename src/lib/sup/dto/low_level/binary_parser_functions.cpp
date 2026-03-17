@@ -25,8 +25,10 @@
 #include "arithmetic_from_bytes_t.h"
 
 #include <sup/dto/serialize/binary_tokens.h>
-
 #include <sup/dto/anyvalue_exceptions.h>
+
+#include <array>
+#include <functional>
 
 namespace
 {
