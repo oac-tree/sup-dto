@@ -81,7 +81,9 @@ void CTypeParser::ArrayEpilog(AnyValue*)
 
 void CTypeParser::ScalarProlog(AnyValue* anyvalue)
 {
-  m_current_position = AssignFromHostOrder(*anyvalue, m_bytes, m_total_size, m_current_position);
+  m_current_position = m_from_network_order
+    ? AssignFromNetworkOrder(*anyvalue, m_bytes, m_total_size, m_current_position)
+    : AssignFromHostOrder(*anyvalue, m_bytes, m_total_size, m_current_position);
 }
 
 void CTypeParser::ScalarEpilog(AnyValue*)

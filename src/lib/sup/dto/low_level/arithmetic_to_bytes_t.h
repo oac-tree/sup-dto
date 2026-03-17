@@ -34,6 +34,15 @@ const sup::dto::uint32 kLSBMask = 0xFFu;
 const sup::dto::uint32 kBitsPerByte = 8u;
 }
 
+namespace
+{
+inline bool IsLittleEndian()
+{
+  sup::dto::uint32 val = 1U;
+  return *(sup::dto::uint8*)std::addressof(val) == 1U;
+}
+}  // unnamed namespace
+
 namespace sup
 {
 namespace dto

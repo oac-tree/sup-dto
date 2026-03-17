@@ -33,6 +33,12 @@ namespace dto
 std::size_t AssignFromHostOrder(AnyValue& anyvalue, const uint8* bytes, std::size_t size,
                                 std::size_t position);
 
+std::size_t AssignFromLittleEndianOrder(AnyValue& anyvalue, const uint8* bytes, std::size_t size,
+                                        std::size_t position);
+
+std::size_t AssignFromNetworkOrder(AnyValue& anyvalue, const uint8* bytes, std::size_t size,
+                                   std::size_t position);
+
 }  // namespace dto
 
 }  // namespace sup

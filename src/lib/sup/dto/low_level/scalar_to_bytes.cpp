@@ -33,12 +33,6 @@ namespace
 {
 using namespace sup::dto;
 
-bool IsLittleEndian()
-{
-  sup::dto::uint32 val = 1U;
-  return *(sup::dto::uint8*)std::addressof(val) == 1U;
-}
-
 template <typename T>
 std::vector<uint8> ScalarToHostOrderT(const AnyValue& anyvalue)
 {
