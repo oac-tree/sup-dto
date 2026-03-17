@@ -36,6 +36,8 @@ inline bool IsLittleEndian()
   sup::dto::uint32 val = 1U;
   return *(sup::dto::uint8*)std::addressof(val) == 1U;
 }
+
+std::vector<AnyValue> GetTestScalars();
 }  // unnamed namespace
 
 class ScalarBytesTest : public ::testing::Test
@@ -45,7 +47,7 @@ protected:
   virtual ~ScalarBytesTest();
 };
 
-TEST_F(ScalarBytesTest, CheckHostOrder)
+TEST_F(ScalarBytesTest, CheckToHostOrder)
 {
   std::function<std::vector<uint8>(const AnyValue&)> SameAsHostOrder =
     IsLittleEndian() ? ScalarToLittleEndianOrder
@@ -234,7 +236,7 @@ TEST_F(ScalarBytesTest, CheckHostOrder)
   }
 }
 
-TEST_F(ScalarBytesTest, CheckSpecificByteOrders)
+TEST_F(ScalarBytesTest, CheckToSpecificByteOrders)
 {
   {
     // bool
@@ -470,6 +472,345 @@ TEST_F(ScalarBytesTest, UnsupportedTypes)
   }
 }
 
+TEST_F(ScalarBytesTest, CheckFromHostOrder)
+{
+  std::function<std::size_t(AnyValue&, const uint8*, std::size_t,
+                            std::size_t)> SameAsHostOrder =
+    IsLittleEndian() ? AssignFromLittleEndianOrder
+                     : AssignFromNetworkOrder;
+  std::function<std::size_t(AnyValue&, const uint8*, std::size_t,
+                            std::size_t)> DifferentAsHostOrder =
+    IsLittleEndian() ? AssignFromNetworkOrder
+                     : AssignFromLittleEndianOrder;
+  {
+    // boolean
+    AnyType anytype{BooleanType};
+    AnyValue val{anytype, true};
+    const auto host_bytes = ScalarToHostOrder(val);
+
+    // Using the same byte order during parsing
+    AnyValue parsed{anytype};
+    EXPECT_EQ(SameAsHostOrder(parsed, host_bytes.data(), host_bytes.size(), 0),
+              host_bytes.size());
+    EXPECT_EQ(parsed, val);
+
+    // Using a different byte order during parsing
+    EXPECT_EQ(DifferentAsHostOrder(parsed, host_bytes.data(), host_bytes.size(), 0),
+              host_bytes.size());
+    EXPECT_EQ(parsed, val);
+  }
+  {
+    // char8
+    AnyType anytype{Character8Type};
+    AnyValue val{anytype, 42};
+    const auto host_bytes = ScalarToHostOrder(val);
+
+    // Using the same byte order during parsing
+    AnyValue parsed{anytype};
+    EXPECT_EQ(SameAsHostOrder(parsed, host_bytes.data(), host_bytes.size(), 0),
+              host_bytes.size());
+    EXPECT_EQ(parsed, val);
+
+    // Using a different byte order during parsing
+    EXPECT_EQ(DifferentAsHostOrder(parsed, host_bytes.data(), host_bytes.size(), 0),
+              host_bytes.size());
+    EXPECT_EQ(parsed, val);
+  }
+  {
+    // int8
+    AnyType anytype{SignedInteger8Type};
+    AnyValue val{anytype, 42};
+    const auto host_bytes = ScalarToHostOrder(val);
+
+    // Using the same byte order during parsing
+    AnyValue parsed{anytype};
+    EXPECT_EQ(SameAsHostOrder(parsed, host_bytes.data(), host_bytes.size(), 0),
+              host_bytes.size());
+    EXPECT_EQ(parsed, val);
+
+    // Using a different byte order during parsing
+    EXPECT_EQ(DifferentAsHostOrder(parsed, host_bytes.data(), host_bytes.size(), 0),
+              host_bytes.size());
+    EXPECT_EQ(parsed, val);
+  }
+  {
+    // uint8
+    AnyType anytype{UnsignedInteger8Type};
+    AnyValue val{anytype, 42};
+    const auto host_bytes = ScalarToHostOrder(val);
+
+    // Using the same byte order during parsing
+    AnyValue parsed{anytype};
+    EXPECT_EQ(SameAsHostOrder(parsed, host_bytes.data(), host_bytes.size(), 0),
+              host_bytes.size());
+    EXPECT_EQ(parsed, val);
+
+    // Using a different byte order during parsing
+    EXPECT_EQ(DifferentAsHostOrder(parsed, host_bytes.data(), host_bytes.size(), 0),
+              host_bytes.size());
+    EXPECT_EQ(parsed, val);
+  }
+  {
+    // int16
+    AnyType anytype{SignedInteger16Type};
+    AnyValue val{anytype, 0x1234};
+    auto host_bytes = ScalarToHostOrder(val);
+
+    // Using the same byte order during parsing
+    AnyValue parsed{anytype};
+    EXPECT_EQ(SameAsHostOrder(parsed, host_bytes.data(), host_bytes.size(), 0),
+              host_bytes.size());
+    EXPECT_EQ(parsed, val);
+
+    // Using a different byte order during parsing
+    EXPECT_EQ(DifferentAsHostOrder(parsed, host_bytes.data(), host_bytes.size(), 0),
+              host_bytes.size());
+    EXPECT_NE(parsed, val);
+
+    // Reverse bytes
+    std::reverse(host_bytes.begin(), host_bytes.end());
+    EXPECT_EQ(DifferentAsHostOrder(parsed, host_bytes.data(), host_bytes.size(), 0),
+              host_bytes.size());
+    EXPECT_EQ(parsed, val);
+  }
+  {
+    // uint16
+    AnyType anytype{UnsignedInteger16Type};
+    AnyValue val{anytype, 0x1234};
+    auto host_bytes = ScalarToHostOrder(val);
+
+    // Using the same byte order during parsing
+    AnyValue parsed{anytype};
+    EXPECT_EQ(SameAsHostOrder(parsed, host_bytes.data(), host_bytes.size(), 0),
+              host_bytes.size());
+    EXPECT_EQ(parsed, val);
+
+    // Using a different byte order during parsing
+    EXPECT_EQ(DifferentAsHostOrder(parsed, host_bytes.data(), host_bytes.size(), 0),
+              host_bytes.size());
+    EXPECT_NE(parsed, val);
+
+    // Reverse bytes
+    std::reverse(host_bytes.begin(), host_bytes.end());
+    EXPECT_EQ(DifferentAsHostOrder(parsed, host_bytes.data(), host_bytes.size(), 0),
+              host_bytes.size());
+    EXPECT_EQ(parsed, val);
+  }
+  {
+    // int32
+    AnyType anytype{SignedInteger32Type};
+    AnyValue val{anytype, 0x12345678};
+    auto host_bytes = ScalarToHostOrder(val);
+
+    // Using the same byte order during parsing
+    AnyValue parsed{anytype};
+    EXPECT_EQ(SameAsHostOrder(parsed, host_bytes.data(), host_bytes.size(), 0),
+              host_bytes.size());
+    EXPECT_EQ(parsed, val);
+
+    // Using a different byte order during parsing
+    EXPECT_EQ(DifferentAsHostOrder(parsed, host_bytes.data(), host_bytes.size(), 0),
+              host_bytes.size());
+    EXPECT_NE(parsed, val);
+
+    // Reverse bytes
+    std::reverse(host_bytes.begin(), host_bytes.end());
+    EXPECT_EQ(DifferentAsHostOrder(parsed, host_bytes.data(), host_bytes.size(), 0),
+              host_bytes.size());
+    EXPECT_EQ(parsed, val);
+  }
+  {
+    // uint32
+    AnyType anytype{UnsignedInteger32Type};
+    AnyValue val{anytype, 0x12345678};
+    auto host_bytes = ScalarToHostOrder(val);
+
+    // Using the same byte order during parsing
+    AnyValue parsed{anytype};
+    EXPECT_EQ(SameAsHostOrder(parsed, host_bytes.data(), host_bytes.size(), 0),
+              host_bytes.size());
+    EXPECT_EQ(parsed, val);
+
+    // Using a different byte order during parsing
+    EXPECT_EQ(DifferentAsHostOrder(parsed, host_bytes.data(), host_bytes.size(), 0),
+              host_bytes.size());
+    EXPECT_NE(parsed, val);
+
+    // Reverse bytes
+    std::reverse(host_bytes.begin(), host_bytes.end());
+    EXPECT_EQ(DifferentAsHostOrder(parsed, host_bytes.data(), host_bytes.size(), 0),
+              host_bytes.size());
+    EXPECT_EQ(parsed, val);
+  }
+  {
+    // int64
+    AnyType anytype{SignedInteger64Type};
+    AnyValue val{anytype, 0x1234567890ABCDEF};
+    auto host_bytes = ScalarToHostOrder(val);
+
+    // Using the same byte order during parsing
+    AnyValue parsed{anytype};
+    EXPECT_EQ(SameAsHostOrder(parsed, host_bytes.data(), host_bytes.size(), 0),
+              host_bytes.size());
+    EXPECT_EQ(parsed, val);
+
+    // Using a different byte order during parsing
+    EXPECT_EQ(DifferentAsHostOrder(parsed, host_bytes.data(), host_bytes.size(), 0),
+              host_bytes.size());
+    EXPECT_NE(parsed, val);
+
+    // Reverse bytes
+    std::reverse(host_bytes.begin(), host_bytes.end());
+    EXPECT_EQ(DifferentAsHostOrder(parsed, host_bytes.data(), host_bytes.size(), 0),
+              host_bytes.size());
+    EXPECT_EQ(parsed, val);
+  }
+  {
+    // uint64
+    AnyType anytype{UnsignedInteger64Type};
+    AnyValue val{anytype, 0x1234567890ABCDEF};
+    auto host_bytes = ScalarToHostOrder(val);
+
+    // Using the same byte order during parsing
+    AnyValue parsed{anytype};
+    EXPECT_EQ(SameAsHostOrder(parsed, host_bytes.data(), host_bytes.size(), 0),
+              host_bytes.size());
+    EXPECT_EQ(parsed, val);
+
+    // Using a different byte order during parsing
+    EXPECT_EQ(DifferentAsHostOrder(parsed, host_bytes.data(), host_bytes.size(), 0),
+              host_bytes.size());
+    EXPECT_NE(parsed, val);
+
+    // Reverse bytes
+    std::reverse(host_bytes.begin(), host_bytes.end());
+    EXPECT_EQ(DifferentAsHostOrder(parsed, host_bytes.data(), host_bytes.size(), 0),
+              host_bytes.size());
+    EXPECT_EQ(parsed, val);
+  }
+  {
+    // float32
+    AnyType anytype{Float32Type};
+    AnyValue val{anytype, 4.136e-15};
+    auto host_bytes = ScalarToHostOrder(val);
+
+    // Using the same byte order during parsing
+    AnyValue parsed{anytype};
+    EXPECT_EQ(SameAsHostOrder(parsed, host_bytes.data(), host_bytes.size(), 0),
+              host_bytes.size());
+    EXPECT_EQ(parsed, val);
+
+    // Using a different byte order during parsing
+    EXPECT_EQ(DifferentAsHostOrder(parsed, host_bytes.data(), host_bytes.size(), 0),
+              host_bytes.size());
+    EXPECT_NE(parsed, val);
+
+    // Reverse bytes
+    std::reverse(host_bytes.begin(), host_bytes.end());
+    EXPECT_EQ(DifferentAsHostOrder(parsed, host_bytes.data(), host_bytes.size(), 0),
+              host_bytes.size());
+    EXPECT_EQ(parsed, val);
+  }
+  {
+    // float64
+    AnyType anytype{Float64Type};
+    AnyValue val{anytype, 6.626e-34};
+    auto host_bytes = ScalarToHostOrder(val);
+
+    // Using the same byte order during parsing
+    AnyValue parsed{anytype};
+    EXPECT_EQ(SameAsHostOrder(parsed, host_bytes.data(), host_bytes.size(), 0),
+              host_bytes.size());
+    EXPECT_EQ(parsed, val);
+
+    // Using a different byte order during parsing
+    EXPECT_EQ(DifferentAsHostOrder(parsed, host_bytes.data(), host_bytes.size(), 0),
+              host_bytes.size());
+    EXPECT_NE(parsed, val);
+
+    // Reverse bytes
+    std::reverse(host_bytes.begin(), host_bytes.end());
+    EXPECT_EQ(DifferentAsHostOrder(parsed, host_bytes.data(), host_bytes.size(), 0),
+              host_bytes.size());
+    EXPECT_EQ(parsed, val);
+  }
+  {
+    // string
+    AnyType anytype{StringType};
+    AnyValue val{anytype, "Hello world!"};
+    auto host_bytes = ScalarToHostOrder(val);
+
+    // Using the same byte order during parsing
+    AnyValue parsed{anytype};
+    EXPECT_EQ(SameAsHostOrder(parsed, host_bytes.data(), host_bytes.size(), 0),
+              host_bytes.size());
+    EXPECT_EQ(parsed, val);
+
+    // Using a different byte order during parsing
+    EXPECT_EQ(DifferentAsHostOrder(parsed, host_bytes.data(), host_bytes.size(), 0),
+              host_bytes.size());
+    EXPECT_EQ(parsed, val);
+  }
+}
+
+TEST_F(ScalarBytesTest, SerializeParse)
+{
+  const auto test_scalars = GetTestScalars();
+  {
+    // Host order
+    for (const auto& test_scalar : test_scalars)
+    {
+      const auto bytes = ScalarToHostOrder(test_scalar);
+      AnyValue parsed{test_scalar.GetType()};
+      EXPECT_EQ(AssignFromHostOrder(parsed, bytes.data(), bytes.size(), 0), bytes.size());
+      EXPECT_EQ(parsed, test_scalar);
+    }
+  }
+  {
+    // Little endian order
+    for (const auto& test_scalar : test_scalars)
+    {
+      const auto bytes = ScalarToLittleEndianOrder(test_scalar);
+      AnyValue parsed{test_scalar.GetType()};
+      EXPECT_EQ(AssignFromLittleEndianOrder(parsed, bytes.data(), bytes.size(), 0), bytes.size());
+      EXPECT_EQ(parsed, test_scalar);
+    }
+  }
+  {
+    // Network order
+    for (const auto& test_scalar : test_scalars)
+    {
+      const auto bytes = ScalarToNetwokOrder(test_scalar);
+      AnyValue parsed{test_scalar.GetType()};
+      EXPECT_EQ(AssignFromNetworkOrder(parsed, bytes.data(), bytes.size(), 0), bytes.size());
+      EXPECT_EQ(parsed, test_scalar);
+    }
+  }
+}
+
 ScalarBytesTest::ScalarBytesTest() = default;
 
 ScalarBytesTest::~ScalarBytesTest() = default;
+
+namespace
+{
+std::vector<AnyValue> GetTestScalars()
+{
+  std::vector<AnyValue> result;
+  result.emplace_back(BooleanType, true);
+  result.emplace_back(Character8Type, 42);
+  result.emplace_back(SignedInteger8Type, 42);
+  result.emplace_back(UnsignedInteger8Type, 42);
+  result.emplace_back(SignedInteger16Type, 0x1234);
+  result.emplace_back(UnsignedInteger16Type, 0x1234);
+  result.emplace_back(SignedInteger32Type, 0x12345678);
+  result.emplace_back(UnsignedInteger32Type, 0x12345678);
+  result.emplace_back(SignedInteger64Type, 0x1234567890ABCDEF);
+  result.emplace_back(UnsignedInteger64Type, 0x1234567890ABCDEF);
+  result.emplace_back(Float32Type, 4.136e-15);
+  result.emplace_back(Float64Type, 6.626e-34);
+  result.emplace_back(StringType, "Hello world!");
+  return result;
+}
+
+}  // unnamed namespace
