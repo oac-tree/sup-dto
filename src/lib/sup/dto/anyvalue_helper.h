@@ -238,7 +238,8 @@ void AnyValueToJSONFile(const AnyValue& anyvalue, const std::string& filename);
  * @param anyvalue AnyValue object to serialize.
  *
  * @note This serialization is reversible and, unlike the C type casting support in AnyValue, it
- * supports arbitrary length strings.
+ * supports arbitrary length strings. Scalar nodes are serialized in little endian byte order,
+ * which could incur a performance cost on big endian architectures.
  */
 std::vector<uint8> AnyValueToBinary(const AnyValue& anyvalue);
 
@@ -248,6 +249,9 @@ std::vector<uint8> AnyValueToBinary(const AnyValue& anyvalue);
  * @param representation Binary representation of an AnyValue object.
  *
  * @throws ParseException when the binary representation could not be correctly parsed.
+ *
+ * @note Scalar nodes are serialized in little endian byte order, which could incur a performance
+ * cost on big endian architectures.
  */
 AnyValue AnyValueFromBinary(const std::vector<uint8>& representation);
 

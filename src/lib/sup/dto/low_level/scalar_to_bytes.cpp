@@ -32,6 +32,13 @@
 namespace
 {
 using namespace sup::dto;
+
+bool IsLittleEndian()
+{
+  sup::dto::uint32 val = 1U;
+  return *(sup::dto::uint8*)std::addressof(val) == 1U;
+}
+
 template <typename T>
 std::vector<uint8> ScalarToHostOrderT(const AnyValue& anyvalue)
 {
@@ -150,7 +157,8 @@ std::vector<uint8> ScalarToHostOrder(const AnyValue& anyvalue)
 
 std::vector<uint8> ScalarToLittleEndianOrder(const AnyValue& anyvalue)
 {
-  static const auto& conversion_map = GetToLittleEndianOrderMap();
+  static const auto& conversion_map = IsLittleEndian() ? GetToHostOrderMap()
+                                                       : GetToLittleEndianOrderMap();
   const auto it = conversion_map.find(anyvalue.GetTypeCode());
   if (it == conversion_map.end())
   {
@@ -161,7 +169,8 @@ std::vector<uint8> ScalarToLittleEndianOrder(const AnyValue& anyvalue)
 
 std::vector<uint8> ScalarToNetwokOrder(const AnyValue& anyvalue)
 {
-  static const auto& conversion_map = GetToNetworkOrderMap();
+  static const auto& conversion_map = IsLittleEndian() ? GetToNetworkOrderMap()
+                                                       : GetToHostOrderMap();
   const auto it = conversion_map.find(anyvalue.GetTypeCode());
   if (it == conversion_map.end())
   {

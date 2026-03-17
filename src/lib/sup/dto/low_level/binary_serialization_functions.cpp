@@ -21,7 +21,7 @@
  ******************************************************************************/
 
 #include "binary_serialization_functions.h"
-#include "arithmetic_to_bytes_t.h"
+#include "scalar_to_bytes.h"
 
 #include <sup/dto/serialize/binary_tokens.h>
 
@@ -32,20 +32,6 @@
 namespace
 {
 using namespace sup::dto;
-// Append the binary representation of an arithmetic value to the provided byte stream.
-template <typename T>
-void AppendScalarBytesT(std::vector<uint8>& representation, const T& val)
-{
-  auto val_rep = ToLittleEndianOrderT(val);
-  (void)representation.insert(representation.cend(), val_rep.cbegin(), val_rep.cend());
-}
-
-template <typename T>
-void AppendScalarAnyValueT(std::vector<uint8>& representation, const AnyValue& anyvalue)
-{
-  T val = anyvalue.As<T>();
-  AppendScalarBytesT(representation, val);
-}
 
 void AppendBinaryStringAnyValue(std::vector<uint8>& representation, const AnyValue& anyvalue)
 {
@@ -93,34 +79,23 @@ void AppendSize(std::vector<sup::dto::uint8>& representation, sup::dto::uint64 s
   else
   {
     representation.push_back(LONG_SIZE_TOKEN);
-    AppendScalarBytesT(representation, size);
+    const sup::dto::AnyValue size_av{size};
+    AppendBinaryScalar(representation, size_av);
   }
 }
 
 void AppendBinaryScalar(std::vector<uint8>& representation, const AnyValue& anyvalue)
 {
-  using AppendFunction = std::function<void(std::vector<uint8>&, const AnyValue&)>;
-  static const std::map<TypeCode, AppendFunction> function_map {
-    {TypeCode::Bool, AppendScalarAnyValueT<boolean> },
-    {TypeCode::Char8, AppendScalarAnyValueT<char8> },
-    {TypeCode::Int8, AppendScalarAnyValueT<int8> },
-    {TypeCode::UInt8, AppendScalarAnyValueT<uint8> },
-    {TypeCode::Int16, AppendScalarAnyValueT<int16> },
-    {TypeCode::UInt16, AppendScalarAnyValueT<uint16> },
-    {TypeCode::Int32, AppendScalarAnyValueT<int32> },
-    {TypeCode::UInt32, AppendScalarAnyValueT<uint32> },
-    {TypeCode::Int64, AppendScalarAnyValueT<int64> },
-    {TypeCode::UInt64, AppendScalarAnyValueT<uint64> },
-    {TypeCode::Float32, AppendScalarAnyValueT<float32> },
-    {TypeCode::Float64, AppendScalarAnyValueT<float64> },
-    {TypeCode::String, AppendBinaryStringAnyValue }
-  };
-  const auto it = function_map.find(anyvalue.GetTypeCode());
-  if (it == function_map.end())
+  // It has to call AppendBinaryStringAnyValue if it's a string
+  if (anyvalue.GetTypeCode() == TypeCode::String)
   {
-    throw SerializeException("Not a known scalar type code");
+    AppendBinaryStringAnyValue(representation, anyvalue);
   }
-  return it->second(representation, anyvalue);
+  else
+  {
+    auto val_rep = ScalarToLittleEndianOrder(anyvalue);
+    (void)representation.insert(representation.cend(), val_rep.cbegin(), val_rep.cend());
+  }
 }
 
 void AppendBinaryString(std::vector<uint8>& representation, const std::string& str)

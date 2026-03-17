@@ -368,7 +368,8 @@ AnyValue
    :param anyvalue: AnyValue object to serialize.
    :return: Binary representation of the AnyValue.
 
-   Serialize an AnyValue to a binary representation.
+   Serialize an AnyValue to a binary representation. Scalar nodes are serialized in little endian
+   byte order, which could incur a performance cost on big endian architectures.
 
 .. function:: AnyValue AnyValueFromBinary(const std::vector<uint8>& representation)
 
@@ -376,7 +377,8 @@ AnyValue
    :return: AnyValue.
    :throws ParseException: When the binary representation could not be correctly parsed.
 
-   Parse an AnyValue from a binary representation.
+   Parse an AnyValue from a binary representation. Scalar nodes are serialized in little endian
+   byte order, which could incur a performance cost on big endian architectures.
 
 Casting to/from plain C types
 -----------------------------
