@@ -36,8 +36,8 @@ struct AnyValueConvertNode
 
   AnyValueConvertNode(const AnyValueConvertNode&) = delete;
   AnyValueConvertNode& operator=(const AnyValueConvertNode&) = delete;
-  AnyValueConvertNode(AnyValueConvertNode&&) = default;
-  AnyValueConvertNode& operator=(AnyValueConvertNode&&) = default;
+  AnyValueConvertNode(AnyValueConvertNode&&) noexcept = default;
+  AnyValueConvertNode& operator=(AnyValueConvertNode&&) & noexcept = default;
 
   AnyValue* m_left;
   const AnyValue* m_right;

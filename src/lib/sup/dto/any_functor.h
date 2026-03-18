@@ -50,9 +50,9 @@ protected:
   AnyFunctor() = default;
 
   AnyFunctor(const AnyFunctor&) = default;
-  AnyFunctor& operator=(const AnyFunctor&) = default;
-  AnyFunctor(AnyFunctor&&) = default;
-  AnyFunctor& operator=(AnyFunctor&&) = default;
+  AnyFunctor& operator=(const AnyFunctor&) & = default;
+  AnyFunctor(AnyFunctor&&) noexcept = default;
+  AnyFunctor& operator=(AnyFunctor&&) & noexcept = default;
 };
 
 /**
@@ -66,8 +66,8 @@ public:
 
   ThreadsafeAnyFunctorDecorator(const ThreadsafeAnyFunctorDecorator&) = delete;
   ThreadsafeAnyFunctorDecorator& operator=(const ThreadsafeAnyFunctorDecorator&) = delete;
-  ThreadsafeAnyFunctorDecorator(ThreadsafeAnyFunctorDecorator&&) = default;
-  ThreadsafeAnyFunctorDecorator& operator=(ThreadsafeAnyFunctorDecorator&&) = default;
+  ThreadsafeAnyFunctorDecorator(ThreadsafeAnyFunctorDecorator&&) noexcept = default;
+  ThreadsafeAnyFunctorDecorator& operator=(ThreadsafeAnyFunctorDecorator&&) & noexcept = default;
 
   /**
    * @brief Call the underlying functor while holding a lock.

@@ -39,8 +39,8 @@ public:
 
   AnyValueCopyNode(const AnyValueCopyNode&) = delete;
   AnyValueCopyNode& operator=(const AnyValueCopyNode&) = delete;
-  AnyValueCopyNode(AnyValueCopyNode&&) = default;
-  AnyValueCopyNode& operator=(AnyValueCopyNode&&) = default;
+  AnyValueCopyNode(AnyValueCopyNode&&) noexcept = default;
+  AnyValueCopyNode& operator=(AnyValueCopyNode&&) & noexcept = default;
 
   const AnyValue* GetSource() const;
   Constraints GetConstraints() const;

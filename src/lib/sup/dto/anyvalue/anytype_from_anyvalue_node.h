@@ -36,8 +36,8 @@ struct AnyTypeFromAnyValueNode
 
   AnyTypeFromAnyValueNode(const AnyTypeFromAnyValueNode&) = delete;
   AnyTypeFromAnyValueNode& operator=(const AnyTypeFromAnyValueNode&) = delete;
-  AnyTypeFromAnyValueNode(AnyTypeFromAnyValueNode&&) = default;
-  AnyTypeFromAnyValueNode& operator=(AnyTypeFromAnyValueNode&&) = default;
+  AnyTypeFromAnyValueNode(AnyTypeFromAnyValueNode&&) noexcept = default;
+  AnyTypeFromAnyValueNode& operator=(AnyTypeFromAnyValueNode&&) & noexcept = default;
 
   const AnyValue* GetSource() const;
   std::size_t NextIndex();

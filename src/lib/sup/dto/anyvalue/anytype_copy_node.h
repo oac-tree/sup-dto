@@ -37,8 +37,8 @@ public:
 
   AnyTypeCopyNode(const AnyTypeCopyNode&) = delete;
   AnyTypeCopyNode& operator=(const AnyTypeCopyNode&) = delete;
-  AnyTypeCopyNode(AnyTypeCopyNode&&) = default;
-  AnyTypeCopyNode& operator=(AnyTypeCopyNode&&) = default;
+  AnyTypeCopyNode(AnyTypeCopyNode&&) noexcept = default;
+  AnyTypeCopyNode& operator=(AnyTypeCopyNode&&) & noexcept = default;
 
   const AnyType* GetSource() const;
   std::size_t NextIndex();

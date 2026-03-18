@@ -38,8 +38,8 @@ struct AnyValueFromAnyTypeNode
 
   AnyValueFromAnyTypeNode(const AnyValueFromAnyTypeNode&) = delete;
   AnyValueFromAnyTypeNode& operator=(const AnyValueFromAnyTypeNode&) = delete;
-  AnyValueFromAnyTypeNode(AnyValueFromAnyTypeNode&&) = default;
-  AnyValueFromAnyTypeNode& operator=(AnyValueFromAnyTypeNode&&) = default;
+  AnyValueFromAnyTypeNode(AnyValueFromAnyTypeNode&&) noexcept = default;
+  AnyValueFromAnyTypeNode& operator=(AnyValueFromAnyTypeNode&&) & noexcept = default;
 
   const AnyType* GetSource() const;
   Constraints GetConstraints() const;

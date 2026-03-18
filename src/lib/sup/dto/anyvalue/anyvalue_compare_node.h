@@ -36,8 +36,8 @@ struct AnyValueCompareNode
 
   AnyValueCompareNode(const AnyValueCompareNode&) = delete;
   AnyValueCompareNode& operator=(const AnyValueCompareNode&) = delete;
-  AnyValueCompareNode(AnyValueCompareNode&&) = default;
-  AnyValueCompareNode& operator=(AnyValueCompareNode&&) = default;
+  AnyValueCompareNode(AnyValueCompareNode&&) noexcept = default;
+  AnyValueCompareNode& operator=(AnyValueCompareNode&&) & noexcept = default;
 
   const AnyValue* m_left;
   const AnyValue* m_right;

@@ -79,8 +79,8 @@ public:
   explicit AnyVisitorNode(std::unique_ptr<IAnyVisitorNode<T>> node);
   ~AnyVisitorNode();
 
-  AnyVisitorNode(AnyVisitorNode&& other) = default;
-  AnyVisitorNode& operator=(AnyVisitorNode&& other) & noexcept;
+  AnyVisitorNode(AnyVisitorNode&& other) noexcept = default;
+  AnyVisitorNode& operator=(AnyVisitorNode&& other) & noexcept = default;
 
   AnyVisitorNode(const AnyVisitorNode&) = delete;
   AnyVisitorNode& operator=(const AnyVisitorNode& other) = delete;
@@ -114,17 +114,6 @@ AnyVisitorNode<T>::AnyVisitorNode(std::unique_ptr<IAnyVisitorNode<T>> node)
 
 template <typename T>
 AnyVisitorNode<T>::~AnyVisitorNode() = default;
-
-template <typename T>
-AnyVisitorNode<T>& AnyVisitorNode<T>::operator=(AnyVisitorNode<T>&& other) & noexcept
-{
-  if (this != &other)
-  {
-    AnyVisitorNode moved{std::move(other)};
-    std::swap(this->m_node, moved.m_node);
-  }
-  return *this;
-}
 
 template <typename T>
 AnyVisitorNode<T> AnyVisitorNode<T>::NextChild()

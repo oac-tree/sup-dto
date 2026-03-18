@@ -36,8 +36,8 @@ struct AnyTypeCompareNode
 
   AnyTypeCompareNode(const AnyTypeCompareNode&) = delete;
   AnyTypeCompareNode& operator=(const AnyTypeCompareNode&) = delete;
-  AnyTypeCompareNode(AnyTypeCompareNode&&) = default;
-  AnyTypeCompareNode& operator=(AnyTypeCompareNode&&) = default;
+  AnyTypeCompareNode(AnyTypeCompareNode&&) noexcept = default;
+  AnyTypeCompareNode& operator=(AnyTypeCompareNode&&) & noexcept = default;
 
   const AnyType* m_left;
   const AnyType* m_right;
