@@ -30,6 +30,7 @@ target_sources(${unit-tests}
     anytype_tests.cpp
     anyvalue_assign_tests.cpp
     anyvalue_builder_tests.cpp
+    anyvalue_bytes_tests.cpp
     anyvalue_comparison_tests.cpp
     anyvalue_composer_components_tests.cpp
     anyvalue_composer_helper_tests.cpp
