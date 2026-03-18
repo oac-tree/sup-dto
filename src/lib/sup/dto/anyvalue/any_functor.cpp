@@ -32,7 +32,8 @@ namespace dto
 AnyFunctor::~AnyFunctor() = default;
 
 ThreadsafeAnyFunctorDecorator::ThreadsafeAnyFunctorDecorator(AnyFunctor& functor)
-  : m_functor{functor}
+  : AnyFunctor{}
+  , m_functor{functor}
   , m_mtx{}
 {}
 

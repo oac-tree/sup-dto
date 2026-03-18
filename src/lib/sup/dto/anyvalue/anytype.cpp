@@ -498,9 +498,9 @@ namespace
 std::unordered_set<TypeCode> ScalarTypes()
 {
   std::unordered_set<TypeCode> result;
-  for (auto& [type_code, _] : ScalarTypeDefinitions())
+  for (auto& type_def : ScalarTypeDefinitions())
   {
-    (void)result.insert(type_code);
+    (void)result.insert(type_def.first);
   }
   return result;
 }
