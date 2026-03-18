@@ -113,7 +113,7 @@ bool AnyValueValueBuilder::Key(const char* str, std::size_t length, bool)
 
 bool AnyValueValueBuilder::EndObject(std::size_t)
 {
-  if (!m_current->GetParent())
+  if (m_current->GetParent() == nullptr)
   {
     throw ParseException("AnyValueValueBuilder::EndObject current node is null");
   }
@@ -129,7 +129,7 @@ bool AnyValueValueBuilder::StartArray()
 
 bool AnyValueValueBuilder::EndArray(std::size_t)
 {
-  if (!m_current->GetParent())
+  if (m_current->GetParent() == nullptr)
   {
     throw ParseException("AnyValueValueBuilder::EndArray current node is null");
   }

@@ -108,7 +108,7 @@ bool AnyTypeBuilder::Key(const char* str, std::size_t length, bool)
 
 bool AnyTypeBuilder::EndObject(std::size_t)
 {
-  if (!m_current->GetParent())
+  if (m_current->GetParent() == nullptr)
   {
     throw ParseException("AnyTypeBuilder::EndObject current parent node is null");
   }
@@ -124,7 +124,7 @@ bool AnyTypeBuilder::StartArray()
 
 bool AnyTypeBuilder::EndArray(std::size_t)
 {
-  if (!m_current->GetParent())
+  if (m_current->GetParent() == nullptr)
   {
     throw ParseException("AnyTypeBuilder::EndArray current parent node is null");
   }
