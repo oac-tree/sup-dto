@@ -25,8 +25,6 @@
 
 #include <sup/dto/visit/any_visitornode.h>
 
-#include <string>
-
 namespace sup
 {
 namespace dto

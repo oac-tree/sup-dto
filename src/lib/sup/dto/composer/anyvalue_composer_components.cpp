@@ -25,8 +25,6 @@
 #include <sup/dto/anyvalue_exceptions.h>
 #include <sup/dto/composer/anyvalue_composer_helper.h>
 
-#include <iostream>
-
 namespace
 {
 const bool kKeepInStackRequest{true};

@@ -27,8 +27,6 @@
 #include <sup/dto/anyvalue.h>
 #include <sup/dto/anyvalue_operations.h>
 
-#include <map>
-
 namespace sup
 {
 namespace dto

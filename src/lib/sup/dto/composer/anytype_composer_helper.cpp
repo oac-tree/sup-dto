@@ -25,7 +25,6 @@
 #include <sup/dto/anyvalue_exceptions.h>
 
 #include <algorithm>
-#include <sstream>
 #include <vector>
 
 namespace sup

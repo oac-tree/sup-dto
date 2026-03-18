@@ -25,8 +25,6 @@
 
 #include <sup/dto/anytype.h>
 
-#include <map>
-
 namespace
 {
 

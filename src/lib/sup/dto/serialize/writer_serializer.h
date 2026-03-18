@@ -27,8 +27,6 @@
 
 #include <sup/dto/i_any_visitor.h>
 
-#include <memory>
-
 namespace sup
 {
 namespace dto

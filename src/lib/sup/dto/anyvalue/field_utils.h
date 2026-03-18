@@ -24,7 +24,6 @@
 #define SUP_DTO_FIELD_UTILS_H_
 
 #include <string>
-#include <utility>
 
 namespace sup
 {

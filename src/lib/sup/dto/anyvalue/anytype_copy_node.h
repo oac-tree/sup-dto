@@ -25,8 +25,6 @@
 
 #include <sup/dto/anytype.h>
 
-#include <limits>
-
 namespace sup
 {
 namespace dto

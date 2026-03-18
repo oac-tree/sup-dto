@@ -25,8 +25,6 @@
 
 #include <sup/dto/anyvalue.h>
 
-#include <memory>
-
 namespace sup
 {
 namespace dto

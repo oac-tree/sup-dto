@@ -26,7 +26,6 @@
 #include <sup/dto/anyvalue/i_value_data.h>
 #include <sup/dto/anyvalue/struct_data_t.h>
 
-#include <utility>
 #include <vector>
 
 namespace sup
