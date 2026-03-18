@@ -46,7 +46,7 @@ SubtypeCopyNode::~SubtypeCopyNode() = default;
 
 SubtypeCopyNode::SubtypeCopyNode(SubtypeCopyNode&&) noexcept = default;
 
-SubtypeCopyNode& SubtypeCopyNode::operator=(SubtypeCopyNode&&) noexcept = default;
+SubtypeCopyNode& SubtypeCopyNode::operator=(SubtypeCopyNode&&) & noexcept = default;
 
 bool SubtypeCopyNode::HasNextChild() const
 {
