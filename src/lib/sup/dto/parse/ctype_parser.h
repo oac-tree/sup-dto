@@ -35,7 +35,7 @@ class AnyValue;
 class CTypeParser : public IAnyVisitor<AnyValue>
 {
 public:
-  enum class ByteOrder
+  enum class ByteOrder : sup::dto::uint32
   {
     Host = 0,
     Network

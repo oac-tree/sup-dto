@@ -45,12 +45,12 @@ class AnyValue;
 class CTypeSerializer : public IAnyVisitor<const AnyValue>
 {
 public:
-  enum class ByteOrder
+  enum class ByteOrder : sup::dto::uint32
   {
     Host = 0,
     Network
   };
-  CTypeSerializer(ByteOrder byte_order);
+  explicit CTypeSerializer(ByteOrder byte_order);
   ~CTypeSerializer() override;
 
   CTypeSerializer(const CTypeSerializer& other) = delete;
