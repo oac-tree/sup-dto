@@ -79,7 +79,6 @@ void AnyTypeToJSONFile(const AnyType& anytype, const std::string& filename, bool
     throw SerializeException("AnyTypeToJSONFile could not open the file for writing");
   }
   JSONSerializeAnyType(ofs, anytype, pretty);
-  return;
 }
 
 void AnyTypeToJSONFile(const AnyType& anytype, const std::string& filename)
