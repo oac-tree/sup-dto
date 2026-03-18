@@ -114,7 +114,7 @@ bool JSONStringWriterT<WriterImpl>::Bool(boolean b)
 template <typename WriterImpl>
 bool JSONStringWriterT<WriterImpl>::Char(char8 c)
 {
-  return m_json_writer.Int(static_cast<int32>(c));
+  return m_json_writer.Int(static_cast<int>(c));
 }
 
 template <typename WriterImpl>
