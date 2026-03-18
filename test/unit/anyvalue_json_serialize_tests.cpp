@@ -91,7 +91,7 @@ class AnyValueJSONSerializeTest : public ::testing::Test
 {
 protected:
   AnyValueJSONSerializeTest();
-  virtual ~AnyValueJSONSerializeTest();
+  ~AnyValueJSONSerializeTest() override;
 };
 
 // TODO: all these tests are better performed in conjunction with json parsing, so as not to depend

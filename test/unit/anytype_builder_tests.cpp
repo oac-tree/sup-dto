@@ -38,7 +38,7 @@ class AnyTypeBuilderTest : public ::testing::Test
 {
 protected:
   AnyTypeBuilderTest();
-  virtual ~AnyTypeBuilderTest();
+  ~AnyTypeBuilderTest() override;
 };
 
 TEST_F(AnyTypeBuilderTest, AnyTypeBuilderMethods)

@@ -95,7 +95,7 @@ class AnyTypeJSONSerializeTest : public ::testing::Test
 {
 protected:
   AnyTypeJSONSerializeTest();
-  virtual ~AnyTypeJSONSerializeTest();
+  ~AnyTypeJSONSerializeTest() override;
 };
 
 TEST_F(AnyTypeJSONSerializeTest, EmptyType)

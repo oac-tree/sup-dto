@@ -31,7 +31,7 @@ class AnyValueComparisonTests : public ::testing::Test
 {
 protected:
   AnyValueComparisonTests();
-  ~AnyValueComparisonTests();
+  ~AnyValueComparisonTests() override;
 };
 
 TEST_F(AnyValueComparisonTests, NonNumericTypes)

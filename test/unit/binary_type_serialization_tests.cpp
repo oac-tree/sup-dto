@@ -32,7 +32,7 @@ class BinaryTypeSerializationTest : public ::testing::Test
 {
 protected:
   BinaryTypeSerializationTest();
-  virtual ~BinaryTypeSerializationTest();
+  ~BinaryTypeSerializationTest() override;
 };
 
 TEST_F(BinaryTypeSerializationTest, Booleans)

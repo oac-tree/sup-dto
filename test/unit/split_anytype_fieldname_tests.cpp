@@ -31,7 +31,7 @@ class SplitAnyTypeFieldnameTest : public ::testing::Test
 {
 protected:
   SplitAnyTypeFieldnameTest() = default;
-  ~SplitAnyTypeFieldnameTest() = default;
+  ~SplitAnyTypeFieldnameTest() override = default;
 };
 
 TEST_F(SplitAnyTypeFieldnameTest, SingleField)

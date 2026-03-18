@@ -44,7 +44,7 @@ class AnyTypeSerializeTest : public ::testing::Test
 {
 protected:
   AnyTypeSerializeTest();
-  virtual ~AnyTypeSerializeTest();
+  ~AnyTypeSerializeTest() override;
 
   SimpleAnyTypeSerializer serializer;
 };

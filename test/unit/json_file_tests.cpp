@@ -41,7 +41,7 @@ class JSONFileTest : public ::testing::Test
 {
 protected:
   JSONFileTest();
-  virtual ~JSONFileTest();
+  ~JSONFileTest() override;
 };
 
 TEST_F(JSONFileTest, AnyTypeToFromFile)

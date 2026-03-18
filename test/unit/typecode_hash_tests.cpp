@@ -32,7 +32,7 @@ class TypeCodeHashTest : public ::testing::Test
 {
 protected:
   TypeCodeHashTest() = default;
-  ~TypeCodeHashTest() = default;
+  ~TypeCodeHashTest() override = default;
 };
 
 TEST_F(TypeCodeHashTest, CheckUniqueness)

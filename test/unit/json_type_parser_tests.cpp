@@ -102,7 +102,7 @@ class JSONTypeParserTest : public ::testing::Test
 {
 protected:
   JSONTypeParserTest();
-  virtual ~JSONTypeParserTest();
+  ~JSONTypeParserTest() override;
 
   JSONAnyTypeParser m_parser;
 };

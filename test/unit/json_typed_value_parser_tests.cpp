@@ -33,7 +33,7 @@ class JSONTypedValueParserTest : public ::testing::Test
 {
 protected:
   JSONTypedValueParserTest();
-  virtual ~JSONTypedValueParserTest();
+  ~JSONTypedValueParserTest() override;
 
   JSONAnyValueParser m_parser;
 };

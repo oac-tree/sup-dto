@@ -35,7 +35,7 @@ public:
   {
   public:
     TestComponent() = default;
-    TestComponent(sup::dto::AnyType&& anytype) : AbstractTypeComposerComponent(std::move(anytype)) {}
+    explicit TestComponent(sup::dto::AnyType&& anytype) : AbstractTypeComposerComponent(std::move(anytype)) {}
 
     Type GetComponentType() const override { return Type::kLeafType; }
     bool Process(std::stack<component_t>&) override { return false; }

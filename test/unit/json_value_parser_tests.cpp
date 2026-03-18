@@ -190,7 +190,7 @@ class JSONValueParserTest : public ::testing::Test
 {
 protected:
   JSONValueParserTest();
-  virtual ~JSONValueParserTest();
+  ~JSONValueParserTest() override;
 
   JSONAnyValueParser m_parser;
 };

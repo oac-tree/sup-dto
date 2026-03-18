@@ -30,7 +30,7 @@ class ScalarConversionTest : public ::testing::Test
 {
 protected:
   ScalarConversionTest();
-  virtual ~ScalarConversionTest();
+  ~ScalarConversionTest() override;
 };
 
 TEST_F(ScalarConversionTest, Traits)

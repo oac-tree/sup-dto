@@ -41,7 +41,7 @@ class AnyValueBuilderTest : public ::testing::Test
 {
 protected:
   AnyValueBuilderTest();
-  virtual ~AnyValueBuilderTest();
+  ~AnyValueBuilderTest() override;
 };
 
 TEST_F(AnyValueBuilderTest, AnyValueBuilderMethods)

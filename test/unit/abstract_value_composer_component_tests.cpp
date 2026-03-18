@@ -39,7 +39,7 @@ public:
   {
   public:
     TestComponent() = default;
-    TestComponent(sup::dto::AnyValue&& value) : AbstractValueComposerComponent(std::move(value)) {}
+    explicit TestComponent(sup::dto::AnyValue&& value) : AbstractValueComposerComponent(std::move(value)) {}
 
     Type GetComponentType() const override { return Type::kValue; }
     bool Process(std::stack<component_t>&) override { return false; }

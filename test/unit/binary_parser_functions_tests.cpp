@@ -34,7 +34,7 @@ class BinaryParserFunctionsTest : public ::testing::Test
 {
 protected:
   BinaryParserFunctionsTest();
-  virtual ~BinaryParserFunctionsTest();
+  ~BinaryParserFunctionsTest() override;
 };
 
 TEST_F(BinaryParserFunctionsTest, Booleans)

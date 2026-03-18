@@ -53,7 +53,7 @@ class AnyValueSerializeTest : public ::testing::Test
 {
 protected:
   AnyValueSerializeTest();
-  virtual ~AnyValueSerializeTest();
+  ~AnyValueSerializeTest() override;
 
   SimpleAnyValueSerializer serializer;
 };

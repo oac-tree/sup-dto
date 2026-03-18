@@ -44,7 +44,7 @@ class ScalarBytesTest : public ::testing::Test
 {
 protected:
   ScalarBytesTest();
-  virtual ~ScalarBytesTest();
+  ~ScalarBytesTest() override;
 };
 
 TEST_F(ScalarBytesTest, CheckToHostOrder)

@@ -33,7 +33,7 @@ class AnyValueIncrementTests : public ::testing::Test
 {
 protected:
   AnyValueIncrementTests();
-  ~AnyValueIncrementTests();
+  ~AnyValueIncrementTests() override;
 };
 
 TEST_F(AnyValueIncrementTests, NonNumericTypes)
