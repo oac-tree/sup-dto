@@ -178,7 +178,7 @@ void AnyValueComposer::EndField()
 //! @param anyvalue Scalar anyvalue, completed structure or array.
 //! @note Equivalent of calls StartField/AddValue/EndField.
 
-void AnyValueComposer::AddMember(const std::string &name, sup::dto::AnyValue anyvalue)
+void AnyValueComposer::AddMember(const std::string &name, const sup::dto::AnyValue& anyvalue)
 {
   StartField(name);
   AddValue(anyvalue);

@@ -76,7 +76,7 @@ public:
 
   void EndField();
 
-  void AddMember(const std::string& name, sup::dto::AnyValue anyvalue);
+  void AddMember(const std::string& name, const AnyValue &anyvalue);
 
   void StartArray(const std::string& array_name);
   void StartArray();
