@@ -1,3 +1,7 @@
+Changes for 1.11.0:
+
+- Add unit tests verifying typed JSON value parsing resolves struct members by name (independent of JSON key order)
+
 Changes for 1.10.0:
 
 - Add TryConvertAllowExtraSourceFields and TryConvertAllowExtraTargetFields helper functions
