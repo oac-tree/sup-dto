@@ -1,0 +1,184 @@
+--------------------------------------------------------------------------------
+Performance tests on system:
+sysname: Linux
+nodename: codacDevel
+release: 7.0.0-30-generic
+version: #30-Ubuntu SMP PREEMPT_DYNAMIC Fri Jul 31 18:22:54 UTC 2026
+machine: x86_64
+--------------------------------------------------------------------------------
+2026-08-27T15:44:43+00:00
+Running /tmp/claude-1100/-home-codac-dev-packages/1f64adca-2e7d-42cf-925f-907e299ae73a/scratchpad/sup-dto-build/test_bin/benchmark-tests
+Run on (20 X 4600 MHz CPU s)
+CPU Caches:
+  L1 Data 48 KiB (x10)
+  L1 Instruction 32 KiB (x10)
+  L2 Unified 1280 KiB (x10)
+  L3 Unified 24576 KiB (x1)
+Load Average: 1.39, 2.13, 1.53
+***WARNING*** CPU scaling is enabled, the benchmark real time measurements may be noisy and will incur extra overhead.
+-----------------------------------------------------------------------------------
+Benchmark                                         Time             CPU   Iterations
+-----------------------------------------------------------------------------------
+BM_CopyAnyType/ScalarMix_mean                  1.10 us         1.10 us            5
+BM_CopyAnyType/ScalarMix_median                1.10 us         1.10 us            5
+BM_CopyAnyType/ScalarMix_stddev               0.023 us        0.023 us            5
+BM_CopyAnyType/ScalarMix_cv                    2.13 %          2.13 %             5
+BM_CopyAnyType/ScalarMixArray_mean             1.15 us         1.15 us            5
+BM_CopyAnyType/ScalarMixArray_median           1.14 us         1.14 us            5
+BM_CopyAnyType/ScalarMixArray_stddev          0.018 us        0.018 us            5
+BM_CopyAnyType/ScalarMixArray_cv               1.54 %          1.54 %             5
+BM_CopyAnyType/SystemConfigs_mean              7.49 us         7.49 us            5
+BM_CopyAnyType/SystemConfigs_median            7.13 us         7.13 us            5
+BM_CopyAnyType/SystemConfigs_stddev           0.514 us        0.514 us            5
+BM_CopyAnyType/SystemConfigs_cv                6.86 %          6.86 %             5
+BM_CopyAnyType/FullConfig_mean                 7.34 us         7.34 us            5
+BM_CopyAnyType/FullConfig_median               7.30 us         7.30 us            5
+BM_CopyAnyType/FullConfig_stddev              0.166 us        0.166 us            5
+BM_CopyAnyType/FullConfig_cv                   2.26 %          2.26 %             5
+BM_CopyAnyType/ManyFullConfig_mean             7.45 us         7.44 us            5
+BM_CopyAnyType/ManyFullConfig_median           7.45 us         7.45 us            5
+BM_CopyAnyType/ManyFullConfig_stddev          0.101 us        0.101 us            5
+BM_CopyAnyType/ManyFullConfig_cv               1.36 %          1.36 %             5
+BM_CompareAnyType/ScalarMix_mean              0.332 us        0.332 us            5
+BM_CompareAnyType/ScalarMix_median            0.330 us        0.330 us            5
+BM_CompareAnyType/ScalarMix_stddev            0.009 us        0.009 us            5
+BM_CompareAnyType/ScalarMix_cv                 2.56 %          2.56 %             5
+BM_CompareAnyType/ScalarMixArray_mean         0.373 us        0.372 us            5
+BM_CompareAnyType/ScalarMixArray_median       0.372 us        0.372 us            5
+BM_CompareAnyType/ScalarMixArray_stddev       0.003 us        0.003 us            5
+BM_CompareAnyType/ScalarMixArray_cv            0.83 %          0.83 %             5
+BM_CompareAnyType/SystemConfigs_mean           2.42 us         2.42 us            5
+BM_CompareAnyType/SystemConfigs_median         2.42 us         2.42 us            5
+BM_CompareAnyType/SystemConfigs_stddev        0.043 us        0.043 us            5
+BM_CompareAnyType/SystemConfigs_cv             1.78 %          1.79 %             5
+BM_CompareAnyType/FullConfig_mean              2.64 us         2.64 us            5
+BM_CompareAnyType/FullConfig_median            2.53 us         2.53 us            5
+BM_CompareAnyType/FullConfig_stddev           0.180 us        0.180 us            5
+BM_CompareAnyType/FullConfig_cv                6.84 %          6.83 %             5
+BM_CompareAnyType/ManyFullConfig_mean          2.65 us         2.65 us            5
+BM_CompareAnyType/ManyFullConfig_median        2.60 us         2.60 us            5
+BM_CompareAnyType/ManyFullConfig_stddev       0.117 us        0.117 us            5
+BM_CompareAnyType/ManyFullConfig_cv            4.40 %          4.40 %             5
+BM_CopyAnyValue/ScalarMix_mean                 1.16 us         1.16 us            5
+BM_CopyAnyValue/ScalarMix_median               1.16 us         1.16 us            5
+BM_CopyAnyValue/ScalarMix_stddev              0.011 us        0.011 us            5
+BM_CopyAnyValue/ScalarMix_cv                   0.93 %          0.94 %             5
+BM_CopyAnyValue/ScalarMixArray_mean             140 us          140 us            5
+BM_CopyAnyValue/ScalarMixArray_median           140 us          140 us            5
+BM_CopyAnyValue/ScalarMixArray_stddev          2.22 us         2.22 us            5
+BM_CopyAnyValue/ScalarMixArray_cv              1.58 %          1.58 %             5
+BM_CopyAnyValue/SystemConfigs_mean              852 us          851 us            5
+BM_CopyAnyValue/SystemConfigs_median            852 us          852 us            5
+BM_CopyAnyValue/SystemConfigs_stddev           3.85 us         3.89 us            5
+BM_CopyAnyValue/SystemConfigs_cv               0.45 %          0.46 %             5
+BM_CopyAnyValue/FullConfig_mean               17616 us        17611 us            5
+BM_CopyAnyValue/FullConfig_median             17343 us        17337 us            5
+BM_CopyAnyValue/FullConfig_stddev               571 us          572 us            5
+BM_CopyAnyValue/FullConfig_cv                  3.24 %          3.25 %             5
+BM_CopyAnyValue/ManyFullConfig_mean          354406 us       354311 us            5
+BM_CopyAnyValue/ManyFullConfig_median        364687 us       364599 us            5
+BM_CopyAnyValue/ManyFullConfig_stddev         18349 us        18337 us            5
+BM_CopyAnyValue/ManyFullConfig_cv              5.18 %          5.18 %             5
+BM_CompareAnyValue/ScalarMix_mean             0.400 us        0.400 us            5
+BM_CompareAnyValue/ScalarMix_median           0.399 us        0.399 us            5
+BM_CompareAnyValue/ScalarMix_stddev           0.001 us        0.001 us            5
+BM_CompareAnyValue/ScalarMix_cv                0.20 %          0.21 %             5
+BM_CompareAnyValue/ScalarMixArray_mean         51.2 us         51.2 us            5
+BM_CompareAnyValue/ScalarMixArray_median       49.1 us         49.1 us            5
+BM_CompareAnyValue/ScalarMixArray_stddev       4.91 us         4.91 us            5
+BM_CompareAnyValue/ScalarMixArray_cv           9.59 %          9.59 %             5
+BM_CompareAnyValue/SystemConfigs_mean           342 us          342 us            5
+BM_CompareAnyValue/SystemConfigs_median         343 us          343 us            5
+BM_CompareAnyValue/SystemConfigs_stddev        2.13 us         2.12 us            5
+BM_CompareAnyValue/SystemConfigs_cv            0.62 %          0.62 %             5
+BM_CompareAnyValue/FullConfig_mean             6516 us         6514 us            5
+BM_CompareAnyValue/FullConfig_median           6546 us         6545 us            5
+BM_CompareAnyValue/FullConfig_stddev           53.9 us         54.0 us            5
+BM_CompareAnyValue/FullConfig_cv               0.83 %          0.83 %             5
+BM_CompareAnyValue/ManyFullConfig_mean       135877 us       135847 us            5
+BM_CompareAnyValue/ManyFullConfig_median     135359 us       135339 us            5
+BM_CompareAnyValue/ManyFullConfig_stddev       1758 us         1763 us            5
+BM_CompareAnyValue/ManyFullConfig_cv           1.29 %          1.30 %             5
+----------------------------------------------------------------------------------------------------
+Benchmark                                         Time             CPU   Iterations bytes_per_second
+----------------------------------------------------------------------------------------------------
+BM_SerializeBinary/ScalarMix_mean             0.005 ms        0.005 ms            5      21.5973Mi/s
+BM_SerializeBinary/ScalarMix_median           0.005 ms        0.005 ms            5      21.6462Mi/s
+BM_SerializeBinary/ScalarMix_stddev           0.000 ms        0.000 ms            5      127.094Ki/s
+BM_SerializeBinary/ScalarMix_cv                0.57 %          0.58 %             5            0.57%
+BM_SerializeBinary/ScalarMixArray_mean        0.169 ms        0.169 ms            5      31.4688Mi/s
+BM_SerializeBinary/ScalarMixArray_median      0.153 ms        0.153 ms            5      34.1429Mi/s
+BM_SerializeBinary/ScalarMixArray_stddev      0.022 ms        0.022 ms            5      3.87891Mi/s
+BM_SerializeBinary/ScalarMixArray_cv          13.09 %         13.09 %             5           12.33%
+BM_SerializeBinary/SystemConfigs_mean         0.974 ms        0.974 ms            5      32.4142Mi/s
+BM_SerializeBinary/SystemConfigs_median       0.964 ms        0.964 ms            5      32.7098Mi/s
+BM_SerializeBinary/SystemConfigs_stddev       0.041 ms        0.041 ms            5      1.30924Mi/s
+BM_SerializeBinary/SystemConfigs_cv            4.16 %          4.16 %             5            4.04%
+BM_SerializeBinary/FullConfig_mean             14.8 ms         14.8 ms            5       33.383Mi/s
+BM_SerializeBinary/FullConfig_median           14.8 ms         14.8 ms            5      33.4754Mi/s
+BM_SerializeBinary/FullConfig_stddev          0.164 ms        0.163 ms            5      374.574Ki/s
+BM_SerializeBinary/FullConfig_cv               1.11 %          1.10 %             5            1.10%
+BM_SerializeBinary/ManyFullConfig_mean          363 ms          363 ms            5      27.4695Mi/s
+BM_SerializeBinary/ManyFullConfig_median        356 ms          356 ms            5      27.7763Mi/s
+BM_SerializeBinary/ManyFullConfig_stddev       39.7 ms         39.7 ms            5      2.69125Mi/s
+BM_SerializeBinary/ManyFullConfig_cv          10.92 %         10.93 %             5            9.80%
+BM_ParseBinary/ScalarMix_mean                 0.020 ms        0.020 ms            5        5.574Mi/s
+BM_ParseBinary/ScalarMix_median               0.020 ms        0.020 ms            5       5.6182Mi/s
+BM_ParseBinary/ScalarMix_stddev               0.003 ms        0.003 ms            5       887.49Ki/s
+BM_ParseBinary/ScalarMix_cv                   15.84 %         15.84 %             5           15.55%
+BM_ParseBinary/ScalarMixArray_mean            0.445 ms        0.445 ms            5      11.7728Mi/s
+BM_ParseBinary/ScalarMixArray_median          0.446 ms        0.446 ms            5      11.7426Mi/s
+BM_ParseBinary/ScalarMixArray_stddev          0.005 ms        0.005 ms            5      146.074Ki/s
+BM_ParseBinary/ScalarMixArray_cv               1.21 %          1.21 %             5            1.21%
+BM_ParseBinary/SystemConfigs_mean              2.69 ms         2.69 ms            5      11.7109Mi/s
+BM_ParseBinary/SystemConfigs_median            2.67 ms         2.67 ms            5       11.816Mi/s
+BM_ParseBinary/SystemConfigs_stddev           0.071 ms        0.071 ms            5      313.788Ki/s
+BM_ParseBinary/SystemConfigs_cv                2.63 %          2.64 %             5            2.62%
+BM_ParseBinary/FullConfig_mean                 47.8 ms         47.8 ms            5      10.3715Mi/s
+BM_ParseBinary/FullConfig_median               46.8 ms         46.8 ms            5      10.5844Mi/s
+BM_ParseBinary/FullConfig_stddev               2.36 ms         2.36 ms            5      514.844Ki/s
+BM_ParseBinary/FullConfig_cv                   4.94 %          4.93 %             5            4.85%
+BM_ParseBinary/ManyFullConfig_mean              868 ms          868 ms            5      11.4236Mi/s
+BM_ParseBinary/ManyFullConfig_median            863 ms          862 ms            5      11.4692Mi/s
+BM_ParseBinary/ManyFullConfig_stddev           53.1 ms         53.1 ms            5       712.23Ki/s
+BM_ParseBinary/ManyFullConfig_cv               6.12 %          6.12 %             5            6.09%
+BM_SerializeJSON/ScalarMix_mean               0.009 ms        0.009 ms            5      50.9576Mi/s
+BM_SerializeJSON/ScalarMix_median             0.009 ms        0.009 ms            5      51.5344Mi/s
+BM_SerializeJSON/ScalarMix_stddev             0.000 ms        0.000 ms            5      1.62057Mi/s
+BM_SerializeJSON/ScalarMix_cv                  3.31 %          3.32 %             5            3.18%
+BM_SerializeJSON/ScalarMixArray_mean          0.210 ms        0.210 ms            5      50.5533Mi/s
+BM_SerializeJSON/ScalarMixArray_median        0.211 ms        0.211 ms            5      50.4344Mi/s
+BM_SerializeJSON/ScalarMixArray_stddev        0.002 ms        0.002 ms            5      424.396Ki/s
+BM_SerializeJSON/ScalarMixArray_cv             0.81 %          0.81 %             5            0.82%
+BM_SerializeJSON/SystemConfigs_mean            1.27 ms         1.27 ms            5      50.0805Mi/s
+BM_SerializeJSON/SystemConfigs_median          1.27 ms         1.27 ms            5      50.0828Mi/s
+BM_SerializeJSON/SystemConfigs_stddev         0.013 ms        0.013 ms            5      539.138Ki/s
+BM_SerializeJSON/SystemConfigs_cv              1.06 %          1.06 %             5            1.05%
+BM_SerializeJSON/FullConfig_mean               20.6 ms         20.6 ms            5      47.8131Mi/s
+BM_SerializeJSON/FullConfig_median             20.5 ms         20.4 ms            5      48.0437Mi/s
+BM_SerializeJSON/FullConfig_stddev            0.489 ms        0.489 ms            5       1.1211Mi/s
+BM_SerializeJSON/FullConfig_cv                 2.38 %          2.38 %             5            2.34%
+BM_SerializeJSON/ManyFullConfig_mean            406 ms          406 ms            5      48.2349Mi/s
+BM_SerializeJSON/ManyFullConfig_median          405 ms          405 ms            5      48.4363Mi/s
+BM_SerializeJSON/ManyFullConfig_stddev         5.35 ms         5.31 ms            5      641.489Ki/s
+BM_SerializeJSON/ManyFullConfig_cv             1.32 %          1.31 %             5            1.30%
+BM_ParseJSON/ScalarMix_mean                   0.022 ms        0.022 ms            5       21.531Mi/s
+BM_ParseJSON/ScalarMix_median                 0.022 ms        0.022 ms            5      21.5691Mi/s
+BM_ParseJSON/ScalarMix_stddev                 0.000 ms        0.000 ms            5      303.863Ki/s
+BM_ParseJSON/ScalarMix_cv                      1.38 %          1.38 %             5            1.38%
+BM_ParseJSON/ScalarMixArray_mean              0.708 ms        0.707 ms            5      15.0235Mi/s
+BM_ParseJSON/ScalarMixArray_median            0.705 ms        0.705 ms            5      15.0755Mi/s
+BM_ParseJSON/ScalarMixArray_stddev            0.005 ms        0.005 ms            5      108.656Ki/s
+BM_ParseJSON/ScalarMixArray_cv                 0.72 %          0.71 %             5            0.71%
+BM_ParseJSON/SystemConfigs_mean                4.43 ms         4.43 ms            5      14.4173Mi/s
+BM_ParseJSON/SystemConfigs_median              4.45 ms         4.45 ms            5       14.328Mi/s
+BM_ParseJSON/SystemConfigs_stddev             0.122 ms        0.121 ms            5       400.67Ki/s
+BM_ParseJSON/SystemConfigs_cv                  2.75 %          2.74 %             5            2.71%
+BM_ParseJSON/FullConfig_mean                   69.3 ms         69.3 ms            5      14.1752Mi/s
+BM_ParseJSON/FullConfig_median                 70.0 ms         70.0 ms            5      14.0331Mi/s
+BM_ParseJSON/FullConfig_stddev                 1.01 ms         1.02 ms            5      214.321Ki/s
+BM_ParseJSON/FullConfig_cv                     1.46 %          1.47 %             5            1.48%
+BM_ParseJSON/ManyFullConfig_mean               1422 ms         1421 ms            5      13.8049Mi/s
+BM_ParseJSON/ManyFullConfig_median             1421 ms         1421 ms            5      13.7915Mi/s
+BM_ParseJSON/ManyFullConfig_stddev             56.9 ms         56.8 ms            5       563.13Ki/s
+BM_ParseJSON/ManyFullConfig_cv                 4.00 %          4.00 %             5            3.98%
