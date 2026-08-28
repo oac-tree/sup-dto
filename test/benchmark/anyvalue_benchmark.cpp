@@ -36,8 +36,7 @@ namespace test
 namespace
 {
 
-// Copy construction of an AnyValue. As for AnyType, the timed region also covers destruction of
-// the copy.
+// Copy constructor. Measures creating and destroying the copy.
 void BM_CopyAnyValue(benchmark::State& state, Shape shape)
 {
   const auto& anyvalue = GetValue(shape);
@@ -49,7 +48,7 @@ void BM_CopyAnyValue(benchmark::State& state, Shape shape)
   }
 }
 
-// Inequality of two equal AnyValue instances, i.e. the worst case of a full tree walk.
+// Compares equal instances on purpose: the worst case, since operator!= walks the whole tree.
 void BM_CompareAnyValue(benchmark::State& state, Shape shape)
 {
   const auto& anyvalue = GetValue(shape);

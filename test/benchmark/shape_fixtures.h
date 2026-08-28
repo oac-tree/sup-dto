@@ -41,8 +41,7 @@ namespace test
  * @brief Nesting ladder of AnyType shapes measured by the benchmarks.
  *
  * Each shape contains the previous one, so the number of leaf nodes grows by roughly two orders
- * of magnitude per rung: 13, 1560, 9362, 149792, 2995840. The shapes are identical to those of
- * the hand-made harness in test/performance, so that both sets of numbers stay comparable.
+ * of magnitude per rung: 13, 1560, 9362, 149792, 2995840.
  */
 enum class Shape
 {
@@ -59,8 +58,8 @@ enum class Shape
  * @param shape the shape to build
  * @return reference to the cached AnyType
  *
- * @note The value is built on first use and cached for the lifetime of the process: building it
- * must never be part of a timed region, nor be repeated for each benchmark repetition.
+ * @note Built on first use and cached for the lifetime of the process, so that building it is
+ * never timed and never repeated per benchmark repetition.
  */
 const AnyType& GetType(Shape shape);
 

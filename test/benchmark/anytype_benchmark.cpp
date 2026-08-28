@@ -36,8 +36,7 @@ namespace test
 namespace
 {
 
-// Copy construction of an AnyType. Unlike the hand-made harness, the timed region also covers
-// destruction of the copy, which the old loop stamped out of both of its buckets.
+// Copy constructor. Measures creating and destroying the copy.
 void BM_CopyAnyType(benchmark::State& state, Shape shape)
 {
   const auto& anytype = GetType(shape);
@@ -49,8 +48,7 @@ void BM_CopyAnyType(benchmark::State& state, Shape shape)
   }
 }
 
-// Inequality of two equal AnyType instances, which is the worst case: the comparison has to walk
-// the whole tree before it can conclude.
+// Compares equal instances on purpose: the worst case, since operator!= walks the whole tree.
 void BM_CompareAnyType(benchmark::State& state, Shape shape)
 {
   const auto& anytype = GetType(shape);

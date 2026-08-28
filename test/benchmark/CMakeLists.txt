@@ -1,3 +1,16 @@
+find_package(benchmark QUIET)
+# Print the benchmark found message
+set(BENCHMARK_MESSAGE "Could NOT find Google Benchmark, skipping benchmark tests")
+if(benchmark_FOUND)
+  set(BENCHMARK_MESSAGE "Found Google Benchmark: ${benchmark_DIR} (found version \"${benchmark_VERSION}\")")
+endif()
+find_package_message(benchmark "${BENCHMARK_MESSAGE}" "[${BENCHMARK_MESSAGE}]")
+
+if(NOT benchmark_FOUND)
+  message(DEBUG "Google Benchmark not found, skipping benchmark tests")
+  return()
+endif()
+
 set(benchmark-tests sup-dto-benchmark-tests)
 
 add_executable(${benchmark-tests})

@@ -30,8 +30,7 @@
 namespace
 {
 
-// Google Benchmark reports the CPU and its caches, but not the host, so the committed output
-// cannot otherwise be attributed to a machine.
+// Google Benchmark reports the CPU, but not the host. Committed logs are compared across machines.
 void PrintMachineSpecs()
 {
   utsname sys_info{};

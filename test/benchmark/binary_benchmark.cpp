@@ -38,7 +38,7 @@ namespace test
 namespace
 {
 
-// Serialization to the binary representation, as measured by BinaryEncoder::Encode.
+// Serialization into a byte vector, allocated anew on every iteration.
 void BM_SerializeBinary(benchmark::State& state, Shape shape)
 {
   const auto& anyvalue = GetValue(shape);
@@ -51,9 +51,8 @@ void BM_SerializeBinary(benchmark::State& state, Shape shape)
   state.SetBytesProcessed(bytes * state.iterations());
 }
 
-// Parsing of the binary representation. The decoded value is materialised and destroyed inside the
-// timed region, as measured by BinaryEncoder::Decode. Note that this is a wider envelope than the
-// JSON parse benchmark, which leaves its result in the parser.
+// Parsing. AnyValueFromBinary returns the decoded value, so creating and destroying it is measured
+// too. BM_ParseJSON does not do that, so the two parse figures are not directly comparable.
 void BM_ParseBinary(benchmark::State& state, Shape shape)
 {
   const auto& representation = GetBinary(shape);

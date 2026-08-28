@@ -39,7 +39,7 @@ namespace test
 namespace
 {
 
-// Serialization to a JSON string, non pretty printed, as measured by JSONEncoder::Encode.
+// Serialization, using the overload that does not pretty print.
 void BM_SerializeJSON(benchmark::State& state, Shape shape)
 {
   const auto& anyvalue = GetValue(shape);
@@ -52,8 +52,7 @@ void BM_SerializeJSON(benchmark::State& state, Shape shape)
   state.SetBytesProcessed(bytes * state.iterations());
 }
 
-// Parsing of a JSON string. The parser is constructed inside the timed region and the parsed value
-// is left in it, exactly as measured by JSONEncoder::Decode: the result is never moved out.
+// Parsing only: MoveAnyValue() is deliberately not called, so the value stays in the parser.
 void BM_ParseJSON(benchmark::State& state, Shape shape)
 {
   const auto& json = GetJSON(shape);

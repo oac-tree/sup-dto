@@ -36,10 +36,6 @@ namespace test
 namespace
 {
 
-// The five factories below are copied from test/performance/performance.cpp on purpose: the
-// benchmarks are only comparable to the numbers in test/performance/performance.log as long as
-// the measured shapes stay identical.
-
 AnyType CreateScalarMixType()
 {
   return AnyType({{"a", BooleanType},
@@ -105,8 +101,8 @@ AnyType CreateType(Shape shape)
   return {};
 }
 
-// Caching is lazy per shape so that a filtered run over the small shapes does not pay for building
-// the largest one. Google Benchmark runs these single threaded, so no synchronisation is needed.
+// Lazy per shape, so a filtered run over the small shapes never builds the largest one. Google
+// Benchmark runs these single threaded, hence no synchronisation.
 template <typename T, typename Factory>
 const T& GetCached(Shape shape, Factory factory)
 {
