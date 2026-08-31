@@ -26,6 +26,8 @@
 #include <sup/dto/anyvalue_helper.h>
 #include <sup/dto/json_value_parser.h>
 
+#include <limits>
+
 using namespace sup::dto;
 
 const std::string json_simple_struct_full =
@@ -375,6 +377,113 @@ TEST_F(JSONValueParserTest, Float64Value)
   EXPECT_TRUE(m_parser.TypedParseString(Float64Type, json_value_string));
   auto parsed_from_type = m_parser.MoveAnyValue();
   EXPECT_EQ(float64_val, parsed_from_type);
+}
+
+TEST_F(JSONValueParserTest, NaN64ValueDoesNotRoundTrip)
+{
+  // Known issue: NaN silently serializes to an empty string (see
+  // AnyValueJSONSerializeTest.NaN64Value), so it cannot be parsed back at all.
+  AnyValue nan_val = {Float64Type, std::numeric_limits<float64>::quiet_NaN()};
+  auto json_value_string = ValuesToJSONString(nan_val);
+  EXPECT_FALSE(m_parser.TypedParseString(Float64Type, json_value_string));
+}
+
+TEST_F(JSONValueParserTest, Float64MaxValueRoundTrip)
+{
+  AnyValue max_val = {Float64Type, std::numeric_limits<float64>::max()};
+  auto json_value_string = ValuesToJSONString(max_val);
+  EXPECT_TRUE(m_parser.TypedParseString(Float64Type, json_value_string));
+  auto parsed_from_type = m_parser.MoveAnyValue();
+  EXPECT_EQ(max_val, parsed_from_type);
+}
+
+TEST_F(JSONValueParserTest, Float64MinValueRoundTrip)
+{
+  AnyValue min_val = {Float64Type, std::numeric_limits<float64>::min()};
+  auto json_value_string = ValuesToJSONString(min_val);
+  EXPECT_TRUE(m_parser.TypedParseString(Float64Type, json_value_string));
+  auto parsed_from_type = m_parser.MoveAnyValue();
+  EXPECT_EQ(min_val, parsed_from_type);
+}
+
+TEST_F(JSONValueParserTest, Float64DenormMinValueRoundTrip)
+{
+  AnyValue denorm_min_val = {Float64Type, std::numeric_limits<float64>::denorm_min()};
+  auto json_value_string = ValuesToJSONString(denorm_min_val);
+  EXPECT_TRUE(m_parser.TypedParseString(Float64Type, json_value_string));
+  auto parsed_from_type = m_parser.MoveAnyValue();
+  EXPECT_EQ(denorm_min_val, parsed_from_type);
+}
+
+TEST_F(JSONValueParserTest, NegativeZeroFloat64ValueRoundTrip)
+{
+  AnyValue negzero_val = {Float64Type, -0.0};
+  auto json_value_string = ValuesToJSONString(negzero_val);
+  EXPECT_TRUE(m_parser.TypedParseString(Float64Type, json_value_string));
+  auto parsed_from_type = m_parser.MoveAnyValue();
+  EXPECT_EQ(negzero_val, parsed_from_type);
+}
+
+TEST_F(JSONValueParserTest, Float64LargeExponentRoundTrip)
+{
+  AnyValue large_val = {Float64Type, 1e300};
+  auto json_value_string = ValuesToJSONString(large_val);
+  EXPECT_TRUE(m_parser.TypedParseString(Float64Type, json_value_string));
+  auto parsed_from_type = m_parser.MoveAnyValue();
+  EXPECT_EQ(large_val, parsed_from_type);
+}
+
+TEST_F(JSONValueParserTest, Float64SmallExponentRoundTripPrecisionLoss)
+{
+  // Known issue: the vendored RapidJSON (1.1) uses the plain Grisu2 double-to-string
+  // algorithm without a Dragon4/correctness fallback. Grisu2 has a documented small but
+  // nonzero rate of producing output that does not round-trip to the exact original
+  // double. This value is a concrete example: it comes back one ULP off.
+  AnyValue small_val = {Float64Type, 1.5e-300};
+  auto json_value_string = ValuesToJSONString(small_val);
+  EXPECT_TRUE(m_parser.TypedParseString(Float64Type, json_value_string));
+  auto parsed_from_type = m_parser.MoveAnyValue();
+  EXPECT_NE(small_val, parsed_from_type);
+}
+
+TEST_F(JSONValueParserTest, Float64HighPrecisionRoundTripPrecisionLoss)
+{
+  // Same Grisu2 round-trip limitation as Float64SmallExponentRoundTripPrecisionLoss,
+  // triggered here by a value that needs the full 17 significant digits.
+  AnyValue precise_val = {Float64Type, 123456789.123456789};
+  auto json_value_string = ValuesToJSONString(precise_val);
+  EXPECT_TRUE(m_parser.TypedParseString(Float64Type, json_value_string));
+  auto parsed_from_type = m_parser.MoveAnyValue();
+  EXPECT_NE(precise_val, parsed_from_type);
+}
+
+TEST_F(JSONValueParserTest, Float32MinValueRoundTrip)
+{
+  AnyValue min_val = {Float32Type, std::numeric_limits<float32>::min()};
+  auto json_value_string = ValuesToJSONString(min_val);
+  EXPECT_TRUE(m_parser.TypedParseString(Float32Type, json_value_string));
+  auto parsed_from_type = m_parser.MoveAnyValue();
+  EXPECT_EQ(min_val, parsed_from_type);
+}
+
+TEST_F(JSONValueParserTest, Float32MaxValueRoundTripFails)
+{
+  // Known issue: Float32 values are written by promoting to double (see
+  // AnyValueJSONSerializeTest.Float32MaxValue) before applying the same Grisu2
+  // algorithm. For the float32 maximum, the imprecise round-trip of the promoted
+  // double produces a JSON number that overflows float32 range on reparse, so parsing
+  // fails outright instead of losing precision.
+  AnyValue max_val = {Float32Type, std::numeric_limits<float32>::max()};
+  auto json_value_string = ValuesToJSONString(max_val);
+  EXPECT_FALSE(m_parser.TypedParseString(Float32Type, json_value_string));
+}
+
+TEST_F(JSONValueParserTest, Float64ParseScientificNotationString)
+{
+  EXPECT_TRUE(m_parser.TypedParseString(Float64Type, "1.5e10"));
+  auto parsed_val = m_parser.MoveAnyValue();
+  AnyValue expected = {Float64Type, 1.5e10};
+  EXPECT_EQ(expected, parsed_val);
 }
 
 TEST_F(JSONValueParserTest, SimpleStructValue)
