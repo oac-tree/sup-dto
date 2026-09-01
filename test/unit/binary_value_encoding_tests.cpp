@@ -23,9 +23,14 @@
 #include <gtest/gtest.h>
 
 #include <sup/dto/anyvalue.h>
+#include <sup/dto/anyvalue_exceptions.h>
 #include <sup/dto/anyvalue_helper.h>
 
 #include <sup/dto/serialize/binary_tokens.h>
+
+#include <cmath>
+#include <cstring>
+#include <limits>
 
 using namespace sup::dto;
 
@@ -199,6 +204,128 @@ TEST_F(BinaryValueEncodingTests, Scalars)
     auto read_back = AnyValueFromBinary(representation);
     EXPECT_EQ(read_back, val);
   }
+}
+
+//! Round trips of float/double edge cases that are known to lose precision or fail
+//! outright through the JSON path (see doc/floating_point_json_notes.md and
+//! anyvalue_json_serialize_tests.cpp / json_value_parser_tests.cpp). Unlike JSON, the
+//! binary format copies the underlying IEEE-754 bytes directly with no decimal string
+//! conversion involved, so none of the same issues are expected here.
+
+//! NaN's bit pattern (including payload) survives the binary round trip exactly. This is
+//! checked via a direct bit-pattern comparison rather than AnyValue equality, since NaN
+//! != NaN by IEEE-754 definition even when the bit patterns are identical -- unlike
+//! AnyValueJSONSerializeTest.NaN64Value, where NaN does not even survive serialization.
+TEST_F(BinaryValueEncodingTests, NaN64ValueBitPatternRoundTrip)
+{
+  uint64_t bits = 0x7ff8000000000001ULL;  // quiet NaN with a non-default payload
+  float64 nan_val;
+  std::memcpy(&nan_val, &bits, sizeof(bits));
+  AnyValue val{Float64Type, nan_val};
+  auto representation = AnyValueToBinary(val);
+  auto read_back = AnyValueFromBinary(representation);
+  auto readback_val = read_back.As<float64>();
+  EXPECT_TRUE(std::isnan(readback_val));
+  uint64_t readback_bits;
+  std::memcpy(&readback_bits, &readback_val, sizeof(readback_bits));
+  EXPECT_EQ(readback_bits, bits);
+}
+
+TEST_F(BinaryValueEncodingTests, NaN32ValueBitPatternRoundTrip)
+{
+  uint32_t bits = 0x7fc00001U;  // quiet NaN with a non-default payload
+  float32 nan_val;
+  std::memcpy(&nan_val, &bits, sizeof(bits));
+  AnyValue val{Float32Type, nan_val};
+  auto representation = AnyValueToBinary(val);
+  auto read_back = AnyValueFromBinary(representation);
+  auto readback_val = read_back.As<float32>();
+  EXPECT_TRUE(std::isnan(readback_val));
+  uint32_t readback_bits;
+  std::memcpy(&readback_bits, &readback_val, sizeof(readback_bits));
+  EXPECT_EQ(readback_bits, bits);
+}
+
+//! Infinity is rejected already when constructing the AnyValue (see
+//! AnyValueJSONSerializeTest.PositiveInfinityConstructionThrows), so it never reaches
+//! binary serialization either -- this is a format-independent restriction.
+TEST_F(BinaryValueEncodingTests, InfinityConstructionThrows)
+{
+  EXPECT_THROW(AnyValue(Float64Type, std::numeric_limits<float64>::infinity()),
+               InvalidConversionException);
+}
+
+TEST_F(BinaryValueEncodingTests, NegativeZeroFloat64RoundTrip)
+{
+  AnyValue val{Float64Type, -0.0};
+  auto representation = AnyValueToBinary(val);
+  auto read_back = AnyValueFromBinary(representation);
+  EXPECT_EQ(read_back, val);
+  EXPECT_TRUE(std::signbit(read_back.As<float64>()));
+}
+
+TEST_F(BinaryValueEncodingTests, Float64MaxValueRoundTrip)
+{
+  AnyValue val{Float64Type, std::numeric_limits<float64>::max()};
+  auto representation = AnyValueToBinary(val);
+  auto read_back = AnyValueFromBinary(representation);
+  EXPECT_EQ(read_back, val);
+}
+
+TEST_F(BinaryValueEncodingTests, Float64MinValueRoundTrip)
+{
+  AnyValue val{Float64Type, std::numeric_limits<float64>::min()};
+  auto representation = AnyValueToBinary(val);
+  auto read_back = AnyValueFromBinary(representation);
+  EXPECT_EQ(read_back, val);
+}
+
+TEST_F(BinaryValueEncodingTests, Float64DenormMinValueRoundTrip)
+{
+  AnyValue val{Float64Type, std::numeric_limits<float64>::denorm_min()};
+  auto representation = AnyValueToBinary(val);
+  auto read_back = AnyValueFromBinary(representation);
+  EXPECT_EQ(read_back, val);
+}
+
+//! Unlike JSON (see JSONValueParserTest.Float32MaxValueRoundTripFails and
+//! Float32CorrectlyRoundedMaxLiteralRejected), Float32Type's maximum round trips fine in
+//! binary: there is no float32-to-double promotion involved, so no overflow on the way
+//! back.
+TEST_F(BinaryValueEncodingTests, Float32MaxValueRoundTrip)
+{
+  AnyValue val{Float32Type, std::numeric_limits<float32>::max()};
+  auto representation = AnyValueToBinary(val);
+  auto read_back = AnyValueFromBinary(representation);
+  EXPECT_EQ(read_back, val);
+}
+
+TEST_F(BinaryValueEncodingTests, Float32MinValueRoundTrip)
+{
+  AnyValue val{Float32Type, std::numeric_limits<float32>::min()};
+  auto representation = AnyValueToBinary(val);
+  auto read_back = AnyValueFromBinary(representation);
+  EXPECT_EQ(read_back, val);
+}
+
+//! Unlike JSON (see JSONValueParserTest.Float64SmallExponentRoundTripPrecisionLoss),
+//! this value round trips exactly in binary: no Grisu2 decimal formatting is involved.
+TEST_F(BinaryValueEncodingTests, Float64SmallExponentRoundTrip)
+{
+  AnyValue val{Float64Type, 1.5e-300};
+  auto representation = AnyValueToBinary(val);
+  auto read_back = AnyValueFromBinary(representation);
+  EXPECT_EQ(read_back, val);
+}
+
+//! Unlike JSON (see JSONValueParserTest.Float64HighPrecisionRoundTripPrecisionLoss),
+//! this value round trips exactly in binary.
+TEST_F(BinaryValueEncodingTests, Float64HighPrecisionRoundTrip)
+{
+  AnyValue val{Float64Type, 123456789.123456789};
+  auto representation = AnyValueToBinary(val);
+  auto read_back = AnyValueFromBinary(representation);
+  EXPECT_EQ(read_back, val);
 }
 
 //! Empty structure.

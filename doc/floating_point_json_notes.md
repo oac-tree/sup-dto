@@ -1,9 +1,11 @@
-# Floating-point JSON representation: known behavior
+# Floating-point serialization: known behavior
 
 Summary of how `AnyValue`'s `float32`/`float64` scalars behave through JSON
 serialization (`ValuesToJSONString`/`AnyValueToJSONString`) and parsing
 (`JSONAnyValueParser`), based on the vendored RapidJSON 1.1. Pinned by
-`anyvalue_json_serialize_tests.cpp` and `json_value_parser_tests.cpp`.
+`anyvalue_json_serialize_tests.cpp` and `json_value_parser_tests.cpp`. The
+[Binary serialization](#binary-serialization-contrast) section below contrasts
+this with the binary format, which does not share these issues.
 
 ## NaN
 
@@ -74,10 +76,15 @@ mostly the same picture, plus one distinct bug:
   JSON encoding of `FLT_MAX` (not one produced by this library's own buggy
   writer) fails to parse.
 
+## Binary serialization (contrast)
+
+None of the above apply to the binary format: it copies the underlying
+IEEE-754 bytes directly with no decimal string involved, so all of these
+cases (including NaN's bit pattern) round-trip exactly — pinned by
+`binary_value_encoding_tests.cpp`.
+
 ## Not yet investigated
 
-- Whether `binary_serializer`/`ctype_serializer` share any of these issues
-  (this note only covers the JSON path).
 - Whether upgrading the vendored RapidJSON (or patching in a Ryu/Grisu3-style
   fallback) would be in scope — RapidJSON is vendored in-tree and the project
   convention is not to modify it.
