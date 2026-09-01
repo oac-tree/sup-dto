@@ -486,6 +486,96 @@ TEST_F(JSONValueParserTest, Float64ParseScientificNotationString)
   EXPECT_EQ(expected, parsed_val);
 }
 
+// The following tests start from a hand-written JSON number literal, rather than from a
+// C++ float/double value that is first serialized. This exercises the JSON->AnyValue parsing
+// path directly and complements the value->JSON->value round trips above.
+
+TEST_F(JSONValueParserTest, Float64OverflowLiteralRejected)
+{
+  // A decimal literal outside double range is gracefully rejected (the reader's
+  // overflow-to-infinity is caught by the same conversion check that rejects
+  // std::numeric_limits<float64>::infinity(), see
+  // AnyValueJSONSerializeTest.PositiveInfinityConstructionThrows).
+  EXPECT_FALSE(m_parser.TypedParseString(Float64Type, "1e400"));
+  EXPECT_FALSE(m_parser.TypedParseString(Float64Type, "-1e400"));
+}
+
+TEST_F(JSONValueParserTest, Float64UnderflowLiteralParsesToZero)
+{
+  EXPECT_TRUE(m_parser.TypedParseString(Float64Type, "1e-400"));
+  auto parsed_val = m_parser.MoveAnyValue();
+  AnyValue expected = {Float64Type, 0.0};
+  EXPECT_EQ(expected, parsed_val);
+}
+
+TEST_F(JSONValueParserTest, Float64LeadingZeroLiteralRejected)
+{
+  // "00.1" is not a valid JSON number (leading zeros are disallowed by the grammar).
+  EXPECT_FALSE(m_parser.TypedParseString(Float64Type, "00.1"));
+}
+
+TEST_F(JSONValueParserTest, Float64NaNLiteralRejected)
+{
+  // Unlike a NaN AnyValue constructed in C++ (which silently serializes to an empty
+  // string, see AnyValueJSONSerializeTest.NaN64Value), the literal token "NaN" is not
+  // valid JSON syntax and is cleanly rejected while parsing.
+  EXPECT_FALSE(m_parser.TypedParseString(Float64Type, "NaN"));
+}
+
+TEST_F(JSONValueParserTest, Float64InfinityLiteralRejected)
+{
+  EXPECT_FALSE(m_parser.TypedParseString(Float64Type, "Infinity"));
+  EXPECT_FALSE(m_parser.TypedParseString(Float64Type, "-Infinity"));
+}
+
+TEST_F(JSONValueParserTest, Float64IntegerLiteralParsesAsFloat)
+{
+  EXPECT_TRUE(m_parser.TypedParseString(Float64Type, "42"));
+  auto parsed_val = m_parser.MoveAnyValue();
+  AnyValue expected = {Float64Type, 42.0};
+  EXPECT_EQ(expected, parsed_val);
+}
+
+TEST_F(JSONValueParserTest, Float64HighPrecisionLiteralRoundTripPrecisionLoss)
+{
+  // Same Grisu2 limitation as the value->JSON->value tests above (see
+  // Float64SmallExponentRoundTripPrecisionLoss), now demonstrated starting from a JSON
+  // literal instead of a C++ double. "1.0000000000000002220446049250313080847263336181640625"
+  // is the exact decimal expansion of the double just above 1.0 and parses to it correctly,
+  // but reserializing that double and reparsing it lands on a different double one ULP away.
+  ASSERT_TRUE(m_parser.TypedParseString(
+      Float64Type, "1.0000000000000002220446049250313080847263336181640625"));
+  auto parsed_val = m_parser.MoveAnyValue();
+  auto json_value_string = ValuesToJSONString(parsed_val);
+  ASSERT_TRUE(m_parser.TypedParseString(Float64Type, json_value_string));
+  auto reparsed_val = m_parser.MoveAnyValue();
+  EXPECT_NE(parsed_val, reparsed_val);
+}
+
+TEST_F(JSONValueParserTest, Float64ThreeTenthsLiteralRoundTripPrecisionLoss)
+{
+  // Same known issue as Float64HighPrecisionLiteralRoundTripPrecisionLoss, triggered by
+  // the classic 0.1+0.2 double artifact.
+  ASSERT_TRUE(m_parser.TypedParseString(Float64Type, "0.30000000000000004"));
+  auto parsed_val = m_parser.MoveAnyValue();
+  auto json_value_string = ValuesToJSONString(parsed_val);
+  ASSERT_TRUE(m_parser.TypedParseString(Float64Type, json_value_string));
+  auto reparsed_val = m_parser.MoveAnyValue();
+  EXPECT_NE(parsed_val, reparsed_val);
+}
+
+TEST_F(JSONValueParserTest, Float32CorrectlyRoundedMaxLiteralRejected)
+{
+  // Known issue, distinct from Float32MaxValueRoundTripFails: "3.4028235e38" is the
+  // textbook correctly-rounded decimal representation of std::numeric_limits<float32>::max()
+  // (verified against strtof, which resolves it to exactly FLT_MAX). But the JSON reader
+  // parses every floating-point literal as a float64 first and then narrows to the target
+  // type; that intermediate float64 (3.4028235e38) is numerically larger than
+  // static_cast<float64>(FLT_MAX), so the narrowing conversion's range check rejects it
+  // outright instead of correctly rounding it down to FLT_MAX like strtof does.
+  EXPECT_FALSE(m_parser.TypedParseString(Float32Type, "3.4028235e38"));
+}
+
 TEST_F(JSONValueParserTest, SimpleStructValue)
 {
   AnyValue simple_struct_val({

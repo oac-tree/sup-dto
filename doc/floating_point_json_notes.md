@@ -43,6 +43,37 @@ Grisu2 output overflows back to `+Infinity` when narrowed to `float32` on
 reparse, so `TypedParseString(Float32Type, ...)` **fails outright** instead of
 losing precision gracefully.
 
+## Parsing behavior for hand-written JSON literals
+
+The tests above all start from a C++ `float`/`double` value, serialize it, then
+parse the result back (value -> JSON -> value). Starting instead from a
+hand-written JSON number literal (JSON -> value [-> JSON -> value]) surfaces
+mostly the same picture, plus one distinct bug:
+
+- Out-of-range literals (`1e400`, `1e309`) are rejected cleanly (`false`), via
+  the same conversion check that rejects C++ `Infinity` at construction.
+- Underflow (`1e-400`) parses to `0.0`, as expected.
+- Invalid JSON number syntax (leading zeros, e.g. `00.1`) is rejected, as is
+  the literal text `NaN`/`Infinity`/`-Infinity` (none of these are valid JSON
+  tokens, unlike a NaN `AnyValue` built in C++, which parses fine and only
+  breaks at serialization time — see above).
+- A literal parsed correctly, then re-serialized, then re-parsed can still
+  land on a different double than the first parse (e.g. the literal
+  `1.0000000000000002220446049250313080847263336181640625`, or
+  `0.30000000000000004`) — the same Grisu2 imprecision as above, just
+  triggered from the JSON side instead of the C++ side.
+- **New, distinct bug**: `Float32Type` literals are parsed by reading every
+  JSON float as a `float64` first, then narrowing. The literal `3.4028235e38`
+  is the textbook correctly-rounded decimal form of
+  `std::numeric_limits<float32>::max()` (confirmed against `strtof`, which
+  resolves it to exactly `FLT_MAX`), but the library's parser **rejects it
+  outright** instead of rounding it down to `FLT_MAX`: the intermediate
+  `float64` value is numerically larger than `static_cast<float64>(FLT_MAX)`,
+  and the narrowing range check does not account for `float32`'s own
+  round-to-nearest tolerance up to halfway to infinity. So even a *correct*
+  JSON encoding of `FLT_MAX` (not one produced by this library's own buggy
+  writer) fails to parse.
+
 ## Not yet investigated
 
 - Whether `binary_serializer`/`ctype_serializer` share any of these issues
@@ -50,3 +81,7 @@ losing precision gracefully.
 - Whether upgrading the vendored RapidJSON (or patching in a Ryu/Grisu3-style
   fallback) would be in scope — RapidJSON is vendored in-tree and the project
   convention is not to modify it.
+- Whether the `float32` narrowing range check (used both when parsing JSON
+  literals and when constructing an `AnyValue` directly from a `double`) could
+  be fixed independently of RapidJSON, by rounding to nearest `float32` instead
+  of doing a strict "fits in double-cast range" comparison.
