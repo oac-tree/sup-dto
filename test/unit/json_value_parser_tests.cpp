@@ -441,11 +441,29 @@ TEST_F(JSONValueParserTest, Float64HighPrecisionRoundTripPrecisionLoss)
 {
   // Same Grisu2 round-trip limitation as Float64SmallExponentRoundTripPrecisionLoss,
   // triggered here by a value that needs the full 17 significant digits.
-  AnyValue precise_val = {Float64Type, 123456789.123456789};
+  AnyValue precise_val = {Float64Type, 123456789.12345679};
   auto json_value_string = ValuesToJSONString(precise_val);
   EXPECT_TRUE(m_parser.TypedParseString(Float64Type, json_value_string));
   auto parsed_from_type = m_parser.MoveAnyValue();
   EXPECT_NE(precise_val, parsed_from_type);
+}
+
+TEST_F(JSONValueParserTest, Float64RoundTripNonConvergentCycle)
+{
+  // Distinct from the two precision-loss cases above, which each drift once and then
+  // settle at a fixed point: this value drifts to its immediate neighbor and then cycles
+  // back to the exact original on the next round trip, forever, rather than converging.
+  AnyValue original = {Float64Type, 3.6268083521793005e-184};
+
+  auto json_after_zero = ValuesToJSONString(original);
+  ASSERT_TRUE(m_parser.TypedParseString(Float64Type, json_after_zero));
+  auto after_one_trip = m_parser.MoveAnyValue();
+  EXPECT_NE(after_one_trip, original);
+
+  auto json_after_one = ValuesToJSONString(after_one_trip);
+  ASSERT_TRUE(m_parser.TypedParseString(Float64Type, json_after_one));
+  auto after_two_trips = m_parser.MoveAnyValue();
+  EXPECT_EQ(after_two_trips, original);
 }
 
 TEST_F(JSONValueParserTest, Float32MinValueRoundTrip)

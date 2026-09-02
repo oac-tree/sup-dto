@@ -281,7 +281,7 @@ TEST_F(BinaryValueEncodingTests, Float64SmallExponentRoundTrip)
 //! this value round trips exactly in binary.
 TEST_F(BinaryValueEncodingTests, Float64HighPrecisionRoundTrip)
 {
-  AnyValue val{Float64Type, 123456789.123456789};
+  AnyValue val{Float64Type, 123456789.12345679};
   auto representation = AnyValueToBinary(val);
   auto read_back = AnyValueFromBinary(representation);
   EXPECT_EQ(read_back, val);

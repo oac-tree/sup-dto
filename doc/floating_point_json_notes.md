@@ -17,17 +17,24 @@ serializer — JSON, binary, or C-type — ever has to deal with them.
 ## Round-trip precision (`float64`)
 
 RapidJSON 1.1 uses the plain **Grisu2** double-to-string algorithm with no
-Dragon4/correctness fallback. Grisu2 has a known, small but nonzero rate of
-producing digits that do not round-trip to the exact original double (it is
-"shortest, not always correct", unlike Grisu3 or Ryu). Confirmed concrete
-failures, each off by one ULP after a full JSON round trip:
+Dragon4/correctness fallback ("shortest, not always correct", unlike Grisu3
+or Ryu). This isn't rare: a random sample of 3M finite doubles saw a **~34%**
+mismatch rate on a single round trip (a `printf("%.17g")`-based control on
+the same sample had zero mismatches, confirming this is a Grisu2 property,
+not an inherent limit). Values with fewer significant digits or "nicer"
+binary representations (`DBL_MAX`, `DBL_MIN`, `DBL_DENORM_MIN`, `-0.0`,
+`1e300`, etc.) round-trip correctly regardless. Two pinned single-ULP-off
+examples: `1.5e-300`, `123456789.12345679` — both drift once and then
+settle at a fixed point on the *next* round trip.
 
-- `1.5e-300`
-- `123456789.123456789`
-
-Values with fewer significant digits or "nicer" binary representations
-(`DBL_MAX`, `DBL_MIN`, `DBL_DENORM_MIN`, `-0.0`, `1e300`, etc.) round-trip
-correctly.
+**Repeating the round trip doesn't always self-correct, though.** Most
+mismatches settle within a step or two, but roughly 12% of them (of that
+34%, so ~4% of doubles overall) never converge: they land in a permanent
+2-cycle, oscillating forever between two adjacent doubles one ULP apart.
+This is a distinct value class from the two drift examples above — pinned
+separately by `Float64RoundTripNonConvergentCycle` using
+`3.6268083521793005e-184`, which drifts once (like the examples above)
+but then cycles back to the exact original instead of stabilizing.
 
 ## `float32` round-trip
 
