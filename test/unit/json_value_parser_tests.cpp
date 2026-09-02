@@ -457,16 +457,31 @@ TEST_F(JSONValueParserTest, Float32MinValueRoundTrip)
   EXPECT_EQ(min_val, parsed_from_type);
 }
 
-TEST_F(JSONValueParserTest, Float32MaxValueRoundTripFails)
+TEST_F(JSONValueParserTest, Float32MaxValueRoundTrip)
 {
-  // Known issue: Float32 values are written by promoting to double (see
+  // Float32 values are written by promoting to double (see
   // AnyValueJSONSerializeTest.Float32MaxValue) before applying the same Grisu2
-  // algorithm. For the float32 maximum, the imprecise round-trip of the promoted
-  // double produces a JSON number that overflows float32 range on reparse, so parsing
-  // fails outright instead of losing precision.
+  // algorithm, which can produce a JSON number that numerically exceeds
+  // static_cast<float64>(FLT_MAX). This still round-trips correctly: the narrowing
+  // conversion back to float32 (see low_level/scalar_conversion.h) rounds to nearest
+  // instead of rejecting anything past the exact bound, so it correctly rounds back down
+  // to FLT_MAX instead of overflowing.
   AnyValue max_val = {Float32Type, std::numeric_limits<float32>::max()};
   auto json_value_string = ValuesToJSONString(max_val);
-  EXPECT_FALSE(m_parser.TypedParseString(Float32Type, json_value_string));
+  EXPECT_TRUE(m_parser.TypedParseString(Float32Type, json_value_string));
+  auto parsed_from_type = m_parser.MoveAnyValue();
+  EXPECT_EQ(max_val, parsed_from_type);
+}
+
+TEST_F(JSONValueParserTest, Float32MinValueNegatedRoundTrip)
+{
+  // Same as Float32MaxValueRoundTrip, mirrored to the negative side (the destination
+  // range's lower bound rather than its upper one).
+  AnyValue min_val = {Float32Type, -std::numeric_limits<float32>::max()};
+  auto json_value_string = ValuesToJSONString(min_val);
+  EXPECT_TRUE(m_parser.TypedParseString(Float32Type, json_value_string));
+  auto parsed_from_type = m_parser.MoveAnyValue();
+  EXPECT_EQ(min_val, parsed_from_type);
 }
 
 TEST_F(JSONValueParserTest, Float64ParseScientificNotationString)
@@ -555,16 +570,38 @@ TEST_F(JSONValueParserTest, Float64ThreeTenthsLiteralRoundTripPrecisionLoss)
   EXPECT_NE(parsed_val, reparsed_val);
 }
 
-TEST_F(JSONValueParserTest, Float32CorrectlyRoundedMaxLiteralRejected)
+TEST_F(JSONValueParserTest, Float32CorrectlyRoundedMaxLiteralAccepted)
 {
-  // Known issue, distinct from Float32MaxValueRoundTripFails: "3.4028235e38" is the
-  // textbook correctly-rounded decimal representation of std::numeric_limits<float32>::max()
-  // (verified against strtof, which resolves it to exactly FLT_MAX). But the JSON reader
-  // parses every floating-point literal as a float64 first and then narrows to the target
-  // type; that intermediate float64 (3.4028235e38) is numerically larger than
-  // static_cast<float64>(FLT_MAX), so the narrowing conversion's range check rejects it
-  // outright instead of correctly rounding it down to FLT_MAX like strtof does.
-  EXPECT_FALSE(m_parser.TypedParseString(Float32Type, "3.4028235e38"));
+  // "3.4028235e38" is the textbook correctly-rounded decimal representation of
+  // std::numeric_limits<float32>::max() (verified against strtof, which resolves it to
+  // exactly FLT_MAX). The JSON reader parses every floating-point literal as a float64
+  // first and then narrows to the target type; that intermediate float64 (3.4028235e38)
+  // is numerically larger than static_cast<float64>(FLT_MAX), but the narrowing
+  // conversion rounds to nearest instead of rejecting anything past the exact bound (see
+  // low_level/scalar_conversion.h), so it correctly rounds down to FLT_MAX, same as
+  // strtof.
+  ASSERT_TRUE(m_parser.TypedParseString(Float32Type, "3.4028235e38"));
+  auto parsed_val = m_parser.MoveAnyValue();
+  AnyValue expected = {Float32Type, std::numeric_limits<float32>::max()};
+  EXPECT_EQ(expected, parsed_val);
+}
+
+TEST_F(JSONValueParserTest, Float32CorrectlyRoundedNegatedMaxLiteralAccepted)
+{
+  // Mirrors Float32CorrectlyRoundedMaxLiteralAccepted on the negative side.
+  ASSERT_TRUE(m_parser.TypedParseString(Float32Type, "-3.4028235e38"));
+  auto parsed_val = m_parser.MoveAnyValue();
+  AnyValue expected = {Float32Type, -std::numeric_limits<float32>::max()};
+  EXPECT_EQ(expected, parsed_val);
+}
+
+TEST_F(JSONValueParserTest, Float32GenuineOverflowLiteralRejected)
+{
+  // Past the correct-rounding threshold, values are still rejected rather than silently
+  // clamped -- both this one and Float32CorrectlyRoundedMaxLiteralAccepted's
+  // "3.4028235e38" bracket the true halfway point to infinity.
+  EXPECT_FALSE(m_parser.TypedParseString(Float32Type, "3.4028236e38"));
+  EXPECT_FALSE(m_parser.TypedParseString(Float32Type, "-3.4028236e38"));
 }
 
 TEST_F(JSONValueParserTest, SimpleStructValue)

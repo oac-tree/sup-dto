@@ -247,10 +247,10 @@ TEST_F(BinaryValueEncodingTests, Float64DenormMinValueRoundTrip)
   EXPECT_EQ(read_back, val);
 }
 
-//! Unlike JSON (see JSONValueParserTest.Float32MaxValueRoundTripFails and
-//! Float32CorrectlyRoundedMaxLiteralRejected), Float32Type's maximum round trips fine in
-//! binary: there is no float32-to-double promotion involved, so no overflow on the way
-//! back.
+//! Float32Type's maximum round trips fine in binary: there is no float32-to-double
+//! promotion involved at all (see JSONValueParserTest.Float32MaxValueRoundTrip for the
+//! JSON equivalent, which round-trips too, but via a narrowing conversion that has to
+//! correctly round back down to FLT_MAX).
 TEST_F(BinaryValueEncodingTests, Float32MaxValueRoundTrip)
 {
   AnyValue val{Float32Type, std::numeric_limits<float32>::max()};

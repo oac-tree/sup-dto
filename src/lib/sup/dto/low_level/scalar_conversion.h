@@ -153,9 +153,30 @@ To ConvertScalar(const From& value)
   return static_cast<To>(value);
 }
 
-// Conversion from floating type to strictly arithmetic type
+// Conversion from floating type to another floating type. The narrowing cast itself
+// performs correct IEEE-754 rounding (including round-to-nearest at the top of the
+// destination range), so the result is checked for finiteness after the cast instead of
+// pre-checking the source against the destination's exact bounds: a source value just
+// above std::numeric_limits<To>::max() can still round down to it and is valid, whereas
+// pre-checking against the exact bound would reject it even though it fits.
 template <typename To, typename From,
-  typename std::enable_if<IsStrictlyArithmetic<To>::value &&
+  typename std::enable_if<std::is_floating_point<To>::value &&
+    std::is_floating_point<From>::value, bool>::type = true>
+To ConvertScalar(const From& value)
+{
+  auto converted = static_cast<To>(value);
+  if (!std::isfinite(converted))
+  {
+    throw InvalidConversionException("Source value doesn't fit in destination type");
+  }
+  return converted;
+}
+
+// Conversion from floating type to strictly integer type. Unlike the floating-to-floating
+// case above, an out-of-range floating-to-integer cast is undefined behavior, so the
+// source must be range-checked before casting rather than after.
+template <typename To, typename From,
+  typename std::enable_if<IsStrictlyInteger<To>::value &&
     std::is_floating_point<From>::value, bool>::type = true>
 To ConvertScalar(const From& value)
 {

@@ -31,20 +31,22 @@ correctly.
 
 ## `float32` round-trip
 
-`Float()` in `json_writer_t.h` writes a `float32` by implicitly promoting it
-to `double` and reusing the same `Double()`/Grisu2 path — there is no
-float32-specific shortest-round-trip formatting. For most values this is
-harmless, but for `std::numeric_limits<float32>::max()` the promoted double's
-Grisu2 output overflows back to `+Infinity` when narrowed to `float32` on
-reparse, so `TypedParseString(Float32Type, ...)` **fails outright** instead of
-losing precision gracefully.
+`Float()` in `json_writer_t.h` writes a `float32` by promoting it to `double`
+and reusing the `Double()`/Grisu2 path, which for
+`std::numeric_limits<float32>::max()` (and its negative) can produce a JSON
+number past `static_cast<float64>(FLT_MAX)`. This still round-trips
+correctly: the `float32` narrowing conversion (`ConvertScalar` in
+`low_level/scalar_conversion.h`) rounds to nearest and only rejects a
+genuinely non-finite result, rather than rejecting anything past the exact
+bound. Pinned by `JSONValueParserTest.Float32MaxValueRoundTrip` and
+`Float32MinValueNegatedRoundTrip`.
 
 ## Parsing behavior for hand-written JSON literals
 
 The tests above all start from a C++ `float`/`double` value, serialize it, then
 parse the result back (value -> JSON -> value). Starting instead from a
 hand-written JSON number literal (JSON -> value [-> JSON -> value]) surfaces
-mostly the same picture, plus one distinct bug:
+mostly the same picture:
 
 - Out-of-range literals (`1e400`, `1e309`) are rejected cleanly (`false`), via
   the same conversion check that rejects C++ `Infinity` at construction.
@@ -58,17 +60,16 @@ mostly the same picture, plus one distinct bug:
   `1.0000000000000002220446049250313080847263336181640625`, or
   `0.30000000000000004`) — the same Grisu2 imprecision as above, just
   triggered from the JSON side instead of the C++ side.
-- **New, distinct bug**: `Float32Type` literals are parsed by reading every
-  JSON float as a `float64` first, then narrowing. The literal `3.4028235e38`
-  is the textbook correctly-rounded decimal form of
-  `std::numeric_limits<float32>::max()` (confirmed against `strtof`, which
-  resolves it to exactly `FLT_MAX`), but the library's parser **rejects it
-  outright** instead of rounding it down to `FLT_MAX`: the intermediate
-  `float64` value is numerically larger than `static_cast<float64>(FLT_MAX)`,
-  and the narrowing range check does not account for `float32`'s own
-  round-to-nearest tolerance up to halfway to infinity. So even a *correct*
-  JSON encoding of `FLT_MAX` (not one produced by this library's own buggy
-  writer) fails to parse.
+- `Float32Type` literals are parsed by reading every JSON float as a
+  `float64` first, then narrowing. The literal `3.4028235e38` — the textbook
+  correctly-rounded decimal form of `std::numeric_limits<float32>::max()`
+  (confirmed against `strtof`, which resolves it to exactly `FLT_MAX`) —
+  correctly rounds down to `FLT_MAX` on narrowing, same as the value ->
+  JSON -> value case above. A literal past the true halfway point to
+  infinity (e.g. `3.4028236e38`) is still correctly rejected. Pinned by
+  `Float32CorrectlyRoundedMaxLiteralAccepted`,
+  `Float32CorrectlyRoundedNegatedMaxLiteralAccepted`, and
+  `Float32GenuineOverflowLiteralRejected`.
 
 ## Binary serialization (contrast)
 
@@ -82,8 +83,6 @@ Infinity are rejected the same way as for JSON, since that happens at
 
 - Whether upgrading the vendored RapidJSON (or patching in a Ryu/Grisu3-style
   fallback) would be in scope — RapidJSON is vendored in-tree and the project
-  convention is not to modify it.
-- Whether the `float32` narrowing range check (used both when parsing JSON
-  literals and when constructing an `AnyValue` directly from a `double`) could
-  be fixed independently of RapidJSON, by rounding to nearest `float32` instead
-  of doing a strict "fits in double-cast range" comparison.
+  convention is not to modify it. This would only help the `float64`
+  round-trip precision cases above; the `float32` narrowing issue is already
+  fixed independently of RapidJSON (see `float32` round-trip above).
