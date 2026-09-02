@@ -83,6 +83,7 @@ public:
   AnyValue(long val);
   AnyValue(unsigned long val);
 #endif
+  // NaN and +-Infinity are rejected (throw InvalidConversionException).
   AnyValue(float32 val);
   AnyValue(float64 val);
   AnyValue(const std::string& val);

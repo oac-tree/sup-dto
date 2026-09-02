@@ -26,6 +26,7 @@
 #include <sup/dto/basic_scalar_types.h>
 #include <sup/dto/anyvalue_exceptions.h>
 
+#include <cmath>
 #include <limits>
 #include <type_traits>
 
@@ -158,7 +159,8 @@ template <typename To, typename From,
     std::is_floating_point<From>::value, bool>::type = true>
 To ConvertScalar(const From& value)
 {
-  if ((value < static_cast<To>(std::numeric_limits<To>::lowest())) ||
+  if (std::isnan(value) ||
+      (value < static_cast<To>(std::numeric_limits<To>::lowest())) ||
       (value > static_cast<To>(std::numeric_limits<To>::max())))
   {
     throw InvalidConversionException("Source value doesn't fit in destination type");

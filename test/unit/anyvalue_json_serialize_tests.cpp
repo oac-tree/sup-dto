@@ -22,7 +22,6 @@
 
 #include <gtest/gtest.h>
 
-#include <sup/dto/anyvalue_exceptions.h>
 #include <sup/dto/anyvalue_helper.h>
 #include <sup/dto/anyvalue.h>
 
@@ -199,37 +198,6 @@ TEST_F(AnyValueJSONSerializeTest, Float64Value)
   auto json_string = ValuesToJSONString(float64_val);
   std::string expected = "-777.125";
   EXPECT_EQ(json_string, expected);
-}
-
-TEST_F(AnyValueJSONSerializeTest, NaN64Value)
-{
-  // Known issue: the underlying JSON writer (RapidJSON) is not configured with
-  // kWriteNanAndInfFlag, so writing NaN silently fails and its failure is not
-  // propagated, yielding an empty string instead of valid JSON or an exception.
-  AnyValue nan_val = {Float64Type, std::numeric_limits<float64>::quiet_NaN()};
-  auto json_string = ValuesToJSONString(nan_val);
-  EXPECT_EQ(json_string, "");
-}
-
-TEST_F(AnyValueJSONSerializeTest, NaN32Value)
-{
-  AnyValue nan_val = {Float32Type, std::numeric_limits<float32>::quiet_NaN()};
-  auto json_string = ValuesToJSONString(nan_val);
-  EXPECT_EQ(json_string, "");
-}
-
-TEST_F(AnyValueJSONSerializeTest, PositiveInfinityConstructionThrows)
-{
-  // Unlike NaN, infinity is rejected already when constructing the AnyValue, so it
-  // never reaches JSON serialization at all.
-  EXPECT_THROW(AnyValue(Float64Type, std::numeric_limits<float64>::infinity()),
-               InvalidConversionException);
-}
-
-TEST_F(AnyValueJSONSerializeTest, NegativeInfinityConstructionThrows)
-{
-  EXPECT_THROW(AnyValue(Float64Type, -std::numeric_limits<float64>::infinity()),
-               InvalidConversionException);
 }
 
 TEST_F(AnyValueJSONSerializeTest, NegativeZeroFloat64Value)

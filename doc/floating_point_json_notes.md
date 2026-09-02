@@ -7,18 +7,12 @@ serialization (`ValuesToJSONString`/`AnyValueToJSONString`) and parsing
 [Binary serialization](#binary-serialization-contrast) section below contrasts
 this with the binary format, which does not share these issues.
 
-## NaN
+## NaN and Infinity
 
-Silently serializes to an **empty string** instead of valid JSON or an error.
-RapidJSON's `Writer::Double()` is not built with `kWriteNanAndInfFlag`, so it
-fails internally, but that failure is not propagated by the writer wrapper in
-`json_writer_t.h`. The empty string then fails to parse back at all.
-
-## Infinity
-
-`AnyValue{Float64Type, inf}` (and `-inf`) **throws `InvalidConversionException`
-at construction time**, before any JSON serialization is attempted. So unlike
-NaN, `±Infinity` can never end up in an `AnyValue` in the first place.
+An `AnyValue` can never hold `NaN` or `±Infinity`: both are rejected with
+`InvalidConversionException` at construction time (checked in
+`low_level/scalar_conversion.h` and `anyvalue/anyvalue.cpp`), so no
+serializer — JSON, binary, or C-type — ever has to deal with them.
 
 ## Round-trip precision (`float64`)
 
@@ -56,9 +50,9 @@ mostly the same picture, plus one distinct bug:
   the same conversion check that rejects C++ `Infinity` at construction.
 - Underflow (`1e-400`) parses to `0.0`, as expected.
 - Invalid JSON number syntax (leading zeros, e.g. `00.1`) is rejected, as is
-  the literal text `NaN`/`Infinity`/`-Infinity` (none of these are valid JSON
-  tokens, unlike a NaN `AnyValue` built in C++, which parses fine and only
-  breaks at serialization time — see above).
+  the literal text `NaN`/`Infinity`/`-Infinity` — none of these are valid JSON
+  tokens, so they are rejected by the JSON grammar itself, independently of
+  the `AnyValue`-level rejection described above.
 - A literal parsed correctly, then re-serialized, then re-parsed can still
   land on a different double than the first parse (e.g. the literal
   `1.0000000000000002220446049250313080847263336181640625`, or
@@ -79,9 +73,10 @@ mostly the same picture, plus one distinct bug:
 ## Binary serialization (contrast)
 
 None of the above apply to the binary format: it copies the underlying
-IEEE-754 bytes directly with no decimal string involved, so all of these
-cases (including NaN's bit pattern) round-trip exactly — pinned by
-`binary_value_encoding_tests.cpp`.
+IEEE-754 bytes directly with no decimal string involved, so every case above
+round-trips exactly — pinned by `binary_value_encoding_tests.cpp`. NaN and
+Infinity are rejected the same way as for JSON, since that happens at
+`AnyValue` construction, before either serializer ever sees the value.
 
 ## Not yet investigated
 

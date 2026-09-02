@@ -25,6 +25,8 @@
 #include <sup/dto/anyvalue.h>
 #include <sup/dto/anyvalue_exceptions.h>
 
+#include <limits>
+
 using namespace sup::dto;
 
 TEST(ScalarValueTest, EmptyValue)
@@ -416,6 +418,30 @@ TEST(ScalarValueTest, Float64Value)
   EXPECT_EQ(float64_from_typed_literal.As<boolean>(), false);
   EXPECT_DOUBLE_EQ(float64_from_typed_literal.As<float64>(), 0);
   EXPECT_EQ(float64_from_typed_literal.As<int32>(), 0);
+}
+
+//! Neither NaN nor +-Infinity can be encapsulated in an AnyValue: construction throws
+//! before the value ever exists (see low_level/scalar_conversion.h and
+//! anyvalue/anyvalue.cpp), so no consumer -- serializer or otherwise -- ever has to
+//! handle either case.
+TEST(ScalarValueTest, Float32InvalidValues)
+{
+  EXPECT_THROW(AnyValue(Float32Type, std::numeric_limits<float32>::quiet_NaN()),
+               InvalidConversionException);
+  EXPECT_THROW(AnyValue(Float32Type, std::numeric_limits<float32>::infinity()),
+               InvalidConversionException);
+  EXPECT_THROW(AnyValue(Float32Type, -std::numeric_limits<float32>::infinity()),
+               InvalidConversionException);
+}
+
+TEST(ScalarValueTest, Float64InvalidValues)
+{
+  EXPECT_THROW(AnyValue(Float64Type, std::numeric_limits<float64>::quiet_NaN()),
+               InvalidConversionException);
+  EXPECT_THROW(AnyValue(Float64Type, std::numeric_limits<float64>::infinity()),
+               InvalidConversionException);
+  EXPECT_THROW(AnyValue(Float64Type, -std::numeric_limits<float64>::infinity()),
+               InvalidConversionException);
 }
 
 TEST(ScalarValueTest, StringValue)

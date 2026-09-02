@@ -379,15 +379,6 @@ TEST_F(JSONValueParserTest, Float64Value)
   EXPECT_EQ(float64_val, parsed_from_type);
 }
 
-TEST_F(JSONValueParserTest, NaN64ValueDoesNotRoundTrip)
-{
-  // Known issue: NaN silently serializes to an empty string (see
-  // AnyValueJSONSerializeTest.NaN64Value), so it cannot be parsed back at all.
-  AnyValue nan_val = {Float64Type, std::numeric_limits<float64>::quiet_NaN()};
-  auto json_value_string = ValuesToJSONString(nan_val);
-  EXPECT_FALSE(m_parser.TypedParseString(Float64Type, json_value_string));
-}
-
 TEST_F(JSONValueParserTest, Float64MaxValueRoundTrip)
 {
   AnyValue max_val = {Float64Type, std::numeric_limits<float64>::max()};
@@ -516,9 +507,9 @@ TEST_F(JSONValueParserTest, Float64LeadingZeroLiteralRejected)
 
 TEST_F(JSONValueParserTest, Float64NaNLiteralRejected)
 {
-  // Unlike a NaN AnyValue constructed in C++ (which silently serializes to an empty
-  // string, see AnyValueJSONSerializeTest.NaN64Value), the literal token "NaN" is not
-  // valid JSON syntax and is cleanly rejected while parsing.
+  // The literal token "NaN" is not valid JSON syntax and is cleanly rejected while
+  // parsing -- independently of ScalarValueTest.Float64InvalidValues, which rejects NaN
+  // at the AnyValue level regardless of where the value comes from.
   EXPECT_FALSE(m_parser.TypedParseString(Float64Type, "NaN"));
 }
 

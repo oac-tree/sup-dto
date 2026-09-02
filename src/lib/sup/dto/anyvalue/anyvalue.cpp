@@ -35,7 +35,9 @@
 #include <sup/dto/serialize/ctype_serializer.h>
 #include <sup/dto/visit/visit_t.h>
 
+#include <cmath>
 #include <stdexcept>
+#include <type_traits>
 
 namespace
 {
@@ -43,6 +45,13 @@ using namespace sup::dto;
 template <typename T>
 std::unique_ptr<IValueData> CreateUnconstrainedScalarData(const T& val)
 {
+  if constexpr (std::is_floating_point<T>::value)
+  {
+    if (std::isnan(val))
+    {
+      throw InvalidConversionException("NaN is not allowed as a scalar value");
+    }
+  }
   return std::make_unique<ScalarValueDataT<T>>(val, Constraints::kNone);
 }
 
