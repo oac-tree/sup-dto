@@ -35,6 +35,7 @@
 
 namespace sup
 {
+//! @brief Namespace for sup-dto (comment added to satisfy Doxygen)
 namespace dto
 {
 /**

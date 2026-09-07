@@ -254,7 +254,7 @@ These are listed here.
 
    Retrieve the type name.
 
-.. function:: bool IsScalar() const
+.. function:: bool AnyValue::IsScalar() const
 
    :return: True when this value is scalar.
 
@@ -279,7 +279,7 @@ These are listed here.
    Retrieve the number of elements in the array. Returns zero when the current value is not an
    array value.
 
-.. function:: AnyType ElementType() const
+.. function:: AnyType AnyValue::ElementType() const
 
    :return: AnyType of the array's elements.
    :throws InvalidOperationException: When current type AnyValue is not an array.
@@ -293,7 +293,7 @@ These are listed here.
 
    Check the presence of a subvalue with the given name. Composite fieldnames are supported.
 
-.. function:: std::size_t NumberOfChildren() const
+.. function:: std::size_t AnyValue::NumberOfChildren() const
 
    :return: Number of child values.
 

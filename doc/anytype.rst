@@ -266,7 +266,7 @@ These are listed here.
    Retrieve the number of elements in the array. Returns zero when the current type is not an
    array type.
 
-.. function:: std::size_t NumberOfChildren() const
+.. function:: std::size_t AnyType::NumberOfChildren() const
 
    :return: Number of child types for this type and zero otherwise.
 
@@ -274,19 +274,19 @@ These are listed here.
    Note that for array types, it will return one, as an array type has only one child type, even
    though its size may be bigger of smaller than one.
 
-.. function:: AnyType* GetChildType(std::size_t idx)
+.. function:: AnyType* AnyType::GetChildType(std::size_t idx)
 
    :return: Child type for the given index.
    :throws InvalidOperationException: If no child type for the given index exists.
 
    Get the child type for the given index. This is mostly used to be able to visit an AnyType tree.
 
-.. function:: const AnyType* GetChildType(std::size_t idx) const
+.. function:: const AnyType* AnyType::GetChildType(std::size_t idx) const
 
    :return: Child type for the given index.
    :throws InvalidOperationException: If no child type for the given index exists.
 
-   Const version of :func:`AnyType* GetChildType(std::size_t idx)`.
+   Const version of :func:`AnyType* AnyType::GetChildType(std::size_t idx)`.
 
 Element access
 --------------
