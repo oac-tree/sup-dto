@@ -125,6 +125,10 @@ dedicated constructor::
 The last argument of this constructor is optional and if not provided, the typename will be an empty
 string.
 
+While empty types are allowed as element type of an `AnyType` array, construction of an
+``AnyValue`` array with empty element type will throw an exception of type
+``InvalidOperationException``.
+
 To construct an array value with specific element values in a single statement, a convenience
 function can be used that accepts a list of ``AnyValue`` elements::
 
