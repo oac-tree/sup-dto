@@ -66,6 +66,8 @@ public:
 
 private:
   std::string m_name;
+  // Storing unique_ptrs here to guarantee reallocation of the vector doesn't cause invalidation
+  // of previously retrieved T* by GetChild
   std::vector<std::pair<std::string, std::unique_ptr<T>>> m_members;
 };
 
