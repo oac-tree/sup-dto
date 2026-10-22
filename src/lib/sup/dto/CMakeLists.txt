@@ -78,5 +78,6 @@ install(FILES
   i_any_visitor.h
   json_type_parser.h
   json_value_parser.h
+  type_code_helper.h
   DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/sup/dto
 )

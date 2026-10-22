@@ -68,6 +68,7 @@ target_sources(${unit-tests}
     structuredtype_tests.cpp
     structuredvalue_tests.cpp
     test_serializers.cpp
+    type_code_helper_tests.cpp
     typecode_hash_tests.cpp
 )
 
